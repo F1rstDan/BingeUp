@@ -42,9 +42,17 @@ function isVisibleAndMeaningful(el: Element): boolean {
 }
 
 /**
- * Bilibili 专属适配器（M5-01）。
- * 第一条纵向切片只覆盖普通视频页的刷新触发；SPA 路由切换、竖屏、直播
- * 在后续 Issue 中完善，但 identity 提取已支持这几种 URL。
+ * 判断是否为背景视频（页面装饰性视频，非主播放器）。
+ * 背景视频通常静音且循环播放，用于横幅或页面氛围而非用户主要观看内容。
+ */
+function isBackgroundVideo(video: HTMLVideoElement): boolean {
+  return video.muted && video.loop;
+}
+
+/**
+ * Bilibili 专属适配器（Issue #3）。
+ * 覆盖普通视频、竖屏视频、站内 SPA 切换、直播的身份识别与触发控制；
+ * 过滤广告、预览、缩略图、背景视频与非主播放器。
  */
 export class BilibiliAdapter implements VideoSiteAdapter {
   readonly id = 'bilibili';
@@ -60,6 +68,9 @@ export class BilibiliAdapter implements VideoSiteAdapter {
     let bestArea = 0;
     for (const video of candidates) {
       if (!isVisibleAndMeaningful(video)) {
+        continue;
+      }
+      if (isBackgroundVideo(video)) {
         continue;
       }
       const rect = video.getBoundingClientRect();
@@ -135,13 +146,33 @@ export class BilibiliAdapter implements VideoSiteAdapter {
     }
 
     // 播放器 DOM 异步加载（刷新后 video 元素可能在 document_idle 之后才出现）。
-    // 去重由 identity 保证。SPA 路由切换在后续 Issue 中处理。
+    // 去重由 identity 保证。
     const observer = new MutationObserver(() => detect());
     observer.observe(document.body, { childList: true, subtree: true });
+
+    // SPA 路由切换：pushState/replaceState 不触发 popstate，必须包装原方法
+    // 才能可靠捕获 URL 变化（即便视频元素复用、无 DOM 变更）。
+    const originalPushState = history.pushState.bind(history);
+    const originalReplaceState = history.replaceState.bind(history);
+    history.pushState = (...args: Parameters<typeof history.pushState>) => {
+      originalPushState(...args);
+      detect();
+    };
+    history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
+      originalReplaceState(...args);
+      detect();
+    };
+    const onPopState = () => detect();
+    window.addEventListener('popstate', onPopState);
+    window.addEventListener('hashchange', onPopState);
 
     return () => {
       stopped = true;
       observer.disconnect();
+      history.pushState = originalPushState;
+      history.replaceState = originalReplaceState;
+      window.removeEventListener('popstate', onPopState);
+      window.removeEventListener('hashchange', onPopState);
     };
   }
 }
