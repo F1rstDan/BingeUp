@@ -1,4 +1,4 @@
-# 「刷刷升级」(BingeLevel)浏览器插件 Beta 版执行计划书
+# 「刷刷升级」(BingeUp)浏览器插件 Beta 版执行计划书
 
 **版本：** Beta v0.1
 **首发平台：** Chrome、Edge

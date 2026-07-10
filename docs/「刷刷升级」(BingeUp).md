@@ -1,7 +1,9 @@
-《刷刷升级》(BingeLevel)
-「刷刷升级」(BingeLevel)
+《刷刷升级》(BingeUp)
+「刷刷升级」(BingeUp)
+BingeUp, Binge Up
+BingeLevel 改成 BingeUp
 
-刷刷升级 BingeLevel｜刷视频顺手背单词
+刷刷升级 BingeUp｜刷视频顺手背单词
 
 边刷边学，独自升级。
 
