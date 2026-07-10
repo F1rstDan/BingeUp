@@ -1,6 +1,6 @@
 - type: folder_skills
   output_path: './.agents/skills/'
-- type: local_symlink
+- type: local_copy
   source: skills://matt超好用SKILLS
   output_path: './.agents/skills/'
   skills_list:
