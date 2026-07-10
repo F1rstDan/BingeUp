@@ -1,0 +1,25 @@
+- type: folder_skills
+  output_path: './.agents/skills/'
+- type: local_symlink
+  source: skills://matt超好用SKILLS
+  output_path: './.agents/skills/'
+  skills_list:
+  - skills://mattpocock.skills/ask-matt
+  - skills://mattpocock.skills/code-review
+  - skills://mattpocock.skills/codebase-design
+  - skills://mattpocock.skills/domain-modeling
+  - skills://mattpocock.skills/grill-with-docs
+  - skills://mattpocock.skills/grilling
+  - skills://mattpocock.skills/handoff
+  - skills://mattpocock.skills/implement
+  - skills://mattpocock.skills/improve-codebase-architecture
+  - skills://mattpocock.skills/loop-me
+  - skills://mattpocock.skills/prototype
+  - skills://mattpocock.skills/research
+  - skills://mattpocock.skills/setup-matt-pocock-skills
+  - skills://mattpocock.skills/tdd
+  - skills://mattpocock.skills/teach
+  - skills://mattpocock.skills/to-spec
+  - skills://mattpocock.skills/to-tickets
+  - skills://mattpocock.skills/wayfinder
+  - skills://mattpocock.skills/writing-great-skills
