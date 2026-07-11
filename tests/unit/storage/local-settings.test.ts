@@ -95,6 +95,36 @@ describe('LocalSettingsStore — 重启持久化', () => {
     });
   });
 
+  it('不允许把未知网站持久化为启用状态', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.setSite('unknown.host', {
+      enabled: true,
+      mode: 'full-adaptation',
+      firstQuestionPending: true,
+    });
+
+    const reader = new LocalSettingsStore();
+
+    await expect(reader.getSite('unknown.host')).resolves.toEqual({
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
+    });
+  });
+
+  it('不能通过启用操作绕过未知网站限制', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.enableSite('unknown.host');
+
+    const reader = new LocalSettingsStore();
+
+    await expect(reader.getSite('unknown.host')).resolves.toEqual({
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
+    });
+  });
+
   it('已持久化的暂停状态不会被默认启用覆盖', async () => {
     const writer = new LocalSettingsStore();
     await writer.setSite('www.youtube.com', {

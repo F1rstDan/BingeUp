@@ -14,11 +14,17 @@ const DEFAULT_STATE: PersistedState = {
   sites: {},
 };
 
+function unsupportedSiteSettings(): SiteSettings {
+  return { enabled: false, mode: 'unsupported', firstQuestionPending: false };
+}
+
 function defaultSiteSettings(hostname: string): SiteSettings {
-  if (!isSupportedHostname(hostname)) {
-    return { enabled: false, mode: 'unsupported', firstQuestionPending: false };
-  }
+  if (!isSupportedHostname(hostname)) return unsupportedSiteSettings();
   return { enabled: true, mode: 'full-adaptation', firstQuestionPending: true };
+}
+
+function normalizeSiteSettings(hostname: string, settings: SiteSettings): SiteSettings {
+  return isSupportedHostname(hostname) ? settings : unsupportedSiteSettings();
 }
 
 /**
@@ -54,18 +60,22 @@ export class LocalSettingsStore {
 
   async getSite(hostname: string): Promise<SiteSettings> {
     const state = await this.read();
-    return state.sites[hostname] ?? defaultSiteSettings(hostname);
+    const stored = state.sites[hostname];
+    return stored ? normalizeSiteSettings(hostname, stored) : defaultSiteSettings(hostname);
   }
 
   async setSite(hostname: string, settings: SiteSettings): Promise<void> {
     const state = await this.read();
-    state.sites[hostname] = settings;
+    state.sites[hostname] = normalizeSiteSettings(hostname, settings);
     await this.write(state);
   }
 
   async markFirstQuestionHandled(hostname: string): Promise<void> {
     const state = await this.read();
-    const site = state.sites[hostname] ?? defaultSiteSettings(hostname);
+    const site = normalizeSiteSettings(
+      hostname,
+      state.sites[hostname] ?? defaultSiteSettings(hostname),
+    );
     if (site.firstQuestionPending) {
       site.firstQuestionPending = false;
       state.sites[hostname] = site;

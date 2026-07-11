@@ -58,9 +58,9 @@ describe('bootstrapContent — 启动诊断', () => {
     vi.stubGlobal('location', { hostname: 'music.youtube.com' });
     getSiteState.mockResolvedValue({
       hostname: 'music.youtube.com',
-      enabled: true,
-      mode: 'full-adaptation',
-      firstQuestionPending: true,
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
     });
     const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
     const { bootstrapContent } = await import('@/content/bootstrap');
