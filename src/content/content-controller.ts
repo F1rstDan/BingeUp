@@ -161,10 +161,15 @@ export class ContentController {
 
   start(): void {
     this.unsubscribe = this.deps.adapter.onVideoChange((event) => {
-      void this.handleVideoChange(event);
+      void this.handleVideoChange(event).catch((error) => {
+        this.triggerInProgress = false;
+        void this.recoverFromFailure(error);
+      });
     });
     this.deps.overlay.onAction((action) => {
-      void this.handleAction(action);
+      void this.handleAction(action).catch((error) => {
+        void this.recoverFromFailure(error);
+      });
     });
   }
 
@@ -293,6 +298,11 @@ export class ContentController {
     const active = this.active;
     // 没有进行中的交互：忽略，防止重复提交/恢复/冷却更新。
     if (active === null) {
+      return;
+    }
+
+    if (action.type === 'recover') {
+      await this.endInteraction(active, 'skipped');
       return;
     }
 
@@ -458,13 +468,25 @@ export class ContentController {
     this.sessionWordIds.clear();
     this.lastFeedback = null;
     this.lastQuestion = null;
-    this.deps.overlay.close();
-    if (active.playback !== null && active.snapshot !== null) {
-      await restore(active.playback, active.snapshot);
+    try {
+      this.deps.overlay.close();
+    } catch (error) {
+      console.error('[BingeUp] 关闭遮罩失败', error);
     }
-    await this.deps.cooldownStore.recordOutcome(outcome);
-    // 首次触发处理完后才进入全局冷却。
-    await this.deps.siteState.markFirstQuestionHandled();
+    if (active.playback !== null && active.snapshot !== null) {
+      try {
+        await restore(active.playback, active.snapshot);
+      } catch (error) {
+        console.error('[BingeUp] 恢复视频失败', error);
+      }
+    }
+    try {
+      await this.deps.cooldownStore.recordOutcome(outcome);
+      // 首次触发处理完后才进入全局冷却。
+      await this.deps.siteState.markFirstQuestionHandled();
+    } catch (error) {
+      console.error('[BingeUp] 记录学习结果失败', error);
+    }
     // 会话日志（Issue #12）：可选，未提供 sessionLogger 时跳过。
     if (this.deps.sessionLogger !== undefined) {
       try {
@@ -478,6 +500,32 @@ export class ContentController {
         });
       } catch (error) {
         console.error('[BingeUp] 会话日志写入失败', error);
+      }
+    }
+  }
+
+  /** 任何学习/界面异常都优先解除遮罩并恢复用户原有播放状态。 */
+  private async recoverFromFailure(error: unknown): Promise<void> {
+    console.error('[BingeUp] 学习交互失败，正在返回视频', error);
+    const active = this.active;
+    this.triggerInProgress = false;
+    if (active === null) return;
+
+    this.active = null;
+    this.hasSubmitted = false;
+    this.sessionWordIds.clear();
+    this.lastFeedback = null;
+    this.lastQuestion = null;
+    try {
+      this.deps.overlay.close();
+    } catch (closeError) {
+      console.error('[BingeUp] 故障恢复时关闭遮罩失败', closeError);
+    }
+    if (active.playback !== null && active.snapshot !== null) {
+      try {
+        await restore(active.playback, active.snapshot);
+      } catch (restoreError) {
+        console.error('[BingeUp] 故障恢复时视频恢复失败', restoreError);
       }
     }
   }

@@ -40,7 +40,9 @@ export default defineBackground(() => {
         }
       } catch (error) {
         console.error('[BingeUp] background message error', error);
-        sendResponse(undefined);
+        sendResponse({
+          __bingeupError: error instanceof Error ? error.message : String(error),
+        });
       }
     })();
     return true; // 异步响应

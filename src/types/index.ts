@@ -359,6 +359,7 @@ export interface CorrectionResult {
  * - `accept-new-word` / `self-report`：单题模式接受/自报；
  * - `skip`：跳过（未提交为真跳过，已提交为完成）；
  * - `exit-learning`：结束连续学习，不提交当前题，不算跳过，应用默认冷却（Issue #8 验收标准 4）。
+ * - `recover`：发生界面或提交错误时，明确返回视频（Issue #13）。
  */
 export type OverlayAction =
   | { type: 'accept-new-word'; wordId: string }
@@ -395,7 +396,8 @@ export type OverlayAction =
     }
   | { type: 'accept-new-word-and-continue'; wordId: string }
   | { type: 'self-report-and-continue'; wordId: string }
-  | { type: 'exit-learning' };
+  | { type: 'exit-learning' }
+  | { type: 'recover' };
 
 // ─── 本地学习统计（Issue #12） ───────────────────────────────────
 

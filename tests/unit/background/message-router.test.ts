@@ -474,6 +474,20 @@ describe('message-router — Issue #10 新增消息', () => {
   });
 });
 
+describe('message-router — Issue #13 数据库不可用', () => {
+  it('数据操作明确失败，不把不可用数据库伪装成成功', async () => {
+    installChromeStorageMock();
+    const store = new LocalSettingsStore();
+    const router = createMessageRouter(store, null);
+
+    await expect(
+      router.handle({ type: 'EXPORT_DATA' }, {} as chrome.runtime.MessageSender),
+    ).rejects.toThrow('数据库不可用');
+
+    delete (globalThis as { chrome?: unknown }).chrome;
+  });
+});
+
 // ─── Issue #11：自定义网站兼容模式 ───────────────────────────────
 
 describe('message-router — Issue #11 新增消息', () => {

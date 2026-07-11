@@ -1,5 +1,6 @@
 import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
+import { createPageObservationScheduler } from '@/adapters/observation';
 import { isYouTubeHostname } from '@/sites/supported-sites';
 
 /** 视频被视为"有意义主播放器"的最小可见尺寸（px）。 */
@@ -151,16 +152,17 @@ export class YouTubeAdapter implements VideoSiteAdapter {
         overlayMode: this.getOverlayMode(),
       });
     };
+    const scheduler = createPageObservationScheduler(detect);
 
     // 首次检测：页面刷新后立即尝试，并在 DOM 就绪后重试。
-    detect();
+    if (document.visibilityState !== 'hidden') detect();
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', detect, { once: true });
+      document.addEventListener('DOMContentLoaded', scheduler.schedule, { once: true });
     }
 
     // 播放器 DOM 异步加载（刷新后 video 元素可能在 document_idle 之后才出现）。
     // 去重由 identity 保证。
-    const observer = new MutationObserver(() => detect());
+    const observer = new MutationObserver(() => scheduler.schedule());
     observer.observe(document.body, { childList: true, subtree: true });
 
     // SPA 路由切换：YouTube 是 SPA，pushState/replaceState 不触发 popstate，必须包装原方法
@@ -169,13 +171,13 @@ export class YouTubeAdapter implements VideoSiteAdapter {
     const originalReplaceState = history.replaceState.bind(history);
     history.pushState = (...args: Parameters<typeof history.pushState>) => {
       originalPushState(...args);
-      detect();
+      scheduler.schedule();
     };
     history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
       originalReplaceState(...args);
-      detect();
+      scheduler.schedule();
     };
-    const onPopState = () => detect();
+    const onPopState = () => scheduler.schedule();
     window.addEventListener('popstate', onPopState);
     window.addEventListener('yt-navigate-finish', onPopState);
     window.addEventListener('hashchange', onPopState);
@@ -183,6 +185,7 @@ export class YouTubeAdapter implements VideoSiteAdapter {
     return () => {
       stopped = true;
       observer.disconnect();
+      scheduler.dispose();
       history.pushState = originalPushState;
       history.replaceState = originalReplaceState;
       window.removeEventListener('popstate', onPopState);

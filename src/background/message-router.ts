@@ -142,20 +142,20 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return { released };
       }
       case 'EXPORT_DATA': {
-        if (!db) return undefined;
+        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
         return exportLocalData(store, db);
       }
       case 'IMPORT_DATA': {
-        if (!db) return { ok: false, errors: ['数据库不可用'] };
+        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
         return importLocalData(store, db, message.payload);
       }
       case 'CLEAR_LEARNING_PROGRESS': {
-        if (!db) return undefined;
+        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
         await clearLearningProgress(db);
         return undefined;
       }
       case 'CLEAR_ALL_DATA': {
-        if (!db) return undefined;
+        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
         await clearAllLocalData(store, db);
         return undefined;
       }

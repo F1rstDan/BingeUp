@@ -1,3 +1,4 @@
+import { Component, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
@@ -228,7 +229,40 @@ const OVERLAY_CSS = `
     font-weight: 500;
     margin-bottom: 12px;
   }
+  .bingeup-error-card { text-align: center; }
+  .bingeup-error-card p { color: #d1d5db; line-height: 1.5; }
 `;
+
+class OverlayErrorBoundary extends Component<
+  { children: ReactNode; onRecover: () => void },
+  { hasError: boolean }
+> {
+  override state = { hasError: false };
+
+  static getDerivedStateFromError(): { hasError: boolean } {
+    return { hasError: true };
+  }
+
+  override componentDidCatch(error: Error): void {
+    console.error('[BingeUp] 遮罩渲染失败', error);
+  }
+
+  override render(): ReactNode {
+    if (this.state.hasError) {
+      return (
+        <div className="bingeup-overlay" role="alert">
+          <div className="bingeup-card bingeup-error-card">
+            <p>学习界面出现错误，视频仍可安全恢复。</p>
+            <button className="bingeup-submit" type="button" onClick={this.props.onRecover}>
+              返回视频
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 /**
  * 学习遮罩控制器（M6-01 / overlay-controller.ts）。在 Shadow DOM 中挂载 React，
@@ -243,7 +277,9 @@ export class OverlayController implements OverlayPort {
   private target: HTMLElement | DOMRect | null = null;
   private mode: OverlayMode = 'video-region';
   private resizeObserver: ResizeObserver | null = null;
+  private hostObserver: MutationObserver | null = null;
   private rafId: number | null = null;
+  private recoveryRequested = false;
 
   onAction(handler: (action: OverlayAction) => void): void {
     this.actionHandler = handler;
@@ -261,6 +297,7 @@ export class OverlayController implements OverlayPort {
     }
     this.target = target;
     this.mode = mode;
+    this.recoveryRequested = false;
 
     const host = document.createElement('div');
     host.id = OVERLAY_HOST_ID;
@@ -279,15 +316,24 @@ export class OverlayController implements OverlayPort {
 
     this.host = host;
     this.shadow = shadow;
+    this.hostObserver = new MutationObserver(() => {
+      if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
+        this.recoveryRequested = true;
+        this.actionHandler?.({ type: 'recover' });
+      }
+    });
+    this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
     this.root = createRoot(mountPoint);
     this.root.render(
-      <OverlayApp
-        item={item}
-        onAction={(action) => this.actionHandler?.(action)}
-        previousFeedback={options?.previousFeedback}
-        previousQuestion={options?.previousQuestion}
-        isContinuous={options?.isContinuous}
-      />,
+      <OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}>
+        <OverlayApp
+          item={item}
+          onAction={(action) => this.actionHandler?.(action)}
+          previousFeedback={options?.previousFeedback}
+          previousQuestion={options?.previousQuestion}
+          isContinuous={options?.isContinuous}
+        />
+      </OverlayErrorBoundary>,
     );
 
     this.updatePosition();
@@ -295,6 +341,9 @@ export class OverlayController implements OverlayPort {
   }
 
   close(): void {
+    this.hostObserver?.disconnect();
+    this.hostObserver = null;
+    this.recoveryRequested = false;
     this.stopTracking();
     if (this.root !== null) {
       this.root.unmount();
@@ -317,6 +366,7 @@ export class OverlayController implements OverlayPort {
     }
     window.addEventListener('scroll', this.scheduleUpdate, { passive: true, capture: true });
     window.addEventListener('resize', this.scheduleUpdate);
+    document.addEventListener('visibilitychange', this.scheduleUpdate);
   }
 
   private stopTracking(): void {
@@ -328,9 +378,11 @@ export class OverlayController implements OverlayPort {
     }
     window.removeEventListener('scroll', this.scheduleUpdate, { capture: true } as EventListenerOptions);
     window.removeEventListener('resize', this.scheduleUpdate);
+    document.removeEventListener('visibilitychange', this.scheduleUpdate);
   }
 
   private scheduleUpdate = (): void => {
+    if (document.visibilityState === 'hidden') return;
     if (this.rafId !== null) return;
     this.rafId = requestAnimationFrame(() => {
       this.rafId = null;

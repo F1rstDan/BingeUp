@@ -99,6 +99,15 @@ export const messageClient = {
   },
 };
 
-function send<T>(message: ExtensionMessage): Promise<T> {
-  return chrome.runtime.sendMessage(message) as Promise<T>;
+async function send<T>(message: ExtensionMessage): Promise<T> {
+  const response = await chrome.runtime.sendMessage(message);
+  if (
+    typeof response === 'object'
+    && response !== null
+    && '__bingeupError' in response
+    && typeof response.__bingeupError === 'string'
+  ) {
+    throw new Error(response.__bingeupError);
+  }
+  return response as T;
 }

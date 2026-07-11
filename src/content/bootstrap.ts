@@ -105,7 +105,33 @@ async function bootstrapOfficialSite(adapter: VideoSiteAdapter, hostname: string
     return;
   }
   console.info('[BingeUp] 内容脚本已启动，等待有效主视频', { hostname, adapter: adapter.id });
-  await startController(adapter, hostname);
+  try {
+    await startController(adapter, hostname);
+  } catch (error) {
+    // 专属规则失效时，不让单一页面把学习流程卡死：依次尝试通用视频和基础网页。
+    console.error('[BingeUp] 专属适配启动失败，正在降级', { hostname, adapter: adapter.id, error });
+    await startOfficialFallbackController(hostname, site);
+  }
+}
+
+/** 专属适配无法启动时的安全降级链：通用视频 → 基础网页。 */
+async function startOfficialFallbackController(hostname: string, site: SiteSettings): Promise<void> {
+  try {
+    if (detectSiteCapability() === 'generic-video') {
+      await startController(new GenericVideoAdapter(), hostname);
+      return;
+    }
+  } catch (error) {
+    console.error('[BingeUp] 通用视频降级失败，继续使用基础网页模式', { hostname, error });
+  }
+
+  await startController(
+    new BasicWebAdapter({
+      pageLoadTrigger: site.pageLoadTrigger ?? true,
+      scrollTrigger: site.scrollTrigger ?? true,
+    }),
+    hostname,
+  );
 }
 
 /**

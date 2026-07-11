@@ -1072,3 +1072,24 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
   });
 });
 
+describe('ContentController — 故障恢复（Issue #13）', () => {
+  it('提交失败时关闭遮罩并恢复原本播放的视频', async () => {
+    const { adapter, overlay, playback, learningService } = makeController();
+    learningService.submitAnswer = async () => {
+      throw new Error('模拟存储失败');
+    };
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({
+      type: 'submit-answer',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 1500,
+    });
+    await flush();
+
+    expect(overlay.closeCalls).toBe(1);
+    expect(playback.playCalls).toBe(1);
+  });
+});

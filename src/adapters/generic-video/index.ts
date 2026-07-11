@@ -1,5 +1,6 @@
 import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
+import { createPageObservationScheduler } from '@/adapters/observation';
 import {
   findPrimaryVideoGeneric,
   getGenericVideoIdentity,
@@ -76,15 +77,16 @@ export class GenericVideoAdapter implements VideoSiteAdapter {
         overlayMode: this.getOverlayMode(),
       });
     };
+    const scheduler = createPageObservationScheduler(detect);
 
     // 首次检测：页面刷新后立即尝试，并在 DOM 就绪后重试。
-    detect();
+    if (document.visibilityState !== 'hidden') detect();
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', detect, { once: true });
+      document.addEventListener('DOMContentLoaded', scheduler.schedule, { once: true });
     }
 
     // 播放器 DOM 异步加载时通过 MutationObserver 检测。
-    const observer = new MutationObserver(() => detect());
+    const observer = new MutationObserver(() => scheduler.schedule());
     observer.observe(document.body, { childList: true, subtree: true });
 
     // SPA 路由切换：URL 变化时重置身份，允许重新检测。
@@ -93,16 +95,16 @@ export class GenericVideoAdapter implements VideoSiteAdapter {
     history.pushState = (...args: Parameters<typeof history.pushState>) => {
       originalPushState(...args);
       lastIdentity = null;
-      detect();
+      scheduler.schedule();
     };
     history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
       originalReplaceState(...args);
       lastIdentity = null;
-      detect();
+      scheduler.schedule();
     };
     const onPopState = () => {
       lastIdentity = null;
-      detect();
+      scheduler.schedule();
     };
     window.addEventListener('popstate', onPopState);
     window.addEventListener('hashchange', onPopState);
@@ -110,6 +112,7 @@ export class GenericVideoAdapter implements VideoSiteAdapter {
     return () => {
       stopped = true;
       observer.disconnect();
+      scheduler.dispose();
       history.pushState = originalPushState;
       history.replaceState = originalReplaceState;
       window.removeEventListener('popstate', onPopState);
