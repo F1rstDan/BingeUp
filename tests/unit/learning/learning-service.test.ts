@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { LearningService, type WordBankPort } from '@/learning/learning-service';
 import type { CardRepositoryPort } from '@/storage/repositories/card-repository';
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
+import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import type {
   AnswerSubmission,
   CardRecord,
@@ -10,6 +11,9 @@ import type {
   MultipleChoiceQuestion,
   NewWordPresentation,
   ReviewLogRecord,
+  ReviewRating,
+  SchedulerState,
+  UserCorrection,
   WordRecord,
 } from '@/types';
 
@@ -116,6 +120,50 @@ class FakeWordBank implements WordBankPort {
 const MS_PER_MIN = 60_000;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
+/** 假调度器：记录调用并返回可控行为，便于测试调度集成（Issue #7 验收标准 4、5）。 */
+class FakeScheduler implements ReviewSchedulerPort {
+  initCalls: { rating: ReviewRating; now: number }[] = [];
+  scheduleCalls: { state: SchedulerState; rating: ReviewRating; now: number }[] = [];
+  /** init/schedule 返回的 nextReviewAt 偏移量（ms），按评分映射。 */
+  scheduleIntervalMs: Record<ReviewRating, number> = {
+    again: 60_000,
+    hard: 6 * 60 * 60 * 1000,
+    good: MS_PER_DAY,
+    easy: 4 * MS_PER_DAY,
+  };
+
+  init(rating: ReviewRating, now: number): { state: SchedulerState; nextReviewAt: number } {
+    this.initCalls.push({ rating, now });
+    const interval = this.scheduleIntervalMs[rating];
+    return {
+      state: {
+        stability: 1,
+        difficulty: 5,
+        reps: 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: Math.floor(interval / MS_PER_DAY),
+        learningSteps: 0,
+        lastReviewAt: now,
+      },
+      nextReviewAt: now + interval,
+    };
+  }
+
+  schedule(
+    state: SchedulerState,
+    rating: ReviewRating,
+    now: number,
+  ): { state: SchedulerState; nextReviewAt: number } {
+    this.scheduleCalls.push({ state, rating, now });
+    const interval = this.scheduleIntervalMs[rating];
+    return {
+      state: { ...state, reps: state.reps + 1, lastReviewAt: now },
+      nextReviewAt: now + interval,
+    };
+  }
+}
+
 function makeService(opts: {
   cards?: CardRepositoryPort;
   logs?: ReviewLogRepositoryPort;
@@ -123,10 +171,12 @@ function makeService(opts: {
   now?: number;
   dailyNewWordLimit?: number;
   random?: () => number;
+  scheduler?: ReviewSchedulerPort;
 } = {}) {
   const cards = opts.cards ?? new FakeCardRepository();
   const logs = opts.logs ?? new FakeReviewLogRepository();
   const words = opts.words ?? new FakeWordBank();
+  const scheduler = opts.scheduler ?? new FakeScheduler();
   let now = opts.now ?? 1_000_000;
   const clock = { now: () => now };
   const service = new LearningService({
@@ -134,6 +184,7 @@ function makeService(opts: {
     logs,
     words,
     clock,
+    scheduler,
     dailyNewWordLimit: opts.dailyNewWordLimit,
     random: opts.random,
   });
@@ -142,6 +193,7 @@ function makeService(opts: {
     cards,
     logs,
     words,
+    scheduler,
     clock,
     advance(ms: number) {
       now += ms;
@@ -588,5 +640,762 @@ describe('LearningService — 端到端持久化', () => {
     const allLogs = await service2['deps'].logs.getAll();
     expect(allLogs).toHaveLength(1);
     expect(allLogs[0]!.isCorrect).toBe(true);
+  });
+});
+
+// ─── Issue #7 验收标准 1：复习优先级（5 级） ─────────────────────
+
+describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () => {
+  /** 构造一张长期复习卡，可配置 lastWrongAt。 */
+  function makeLongTermCard(
+    wordId: string,
+    now: number,
+    opts: { lastWrongAt?: number; nextReviewAt?: number; reps?: number } = {},
+  ): CardRecord {
+    return {
+      id: `card-${wordId}`,
+      wordId,
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: opts.nextReviewAt ?? now - 1,
+      schedulerState: {
+        stability: 1,
+        difficulty: 5,
+        reps: opts.reps ?? 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 1,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+      lastWrongAt: opts.lastWrongAt,
+    };
+  }
+
+  it('优先级 1 > 2：近期答错的到期长期复习词优先于其他到期长期复习词', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    // 近期答错的长期复习词
+    await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: now - 100 }));
+    // 无答错记录的长期复习词
+    await cards.save(makeLongTermCard('w-benefit', now, {}));
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(item!.kind).toBe('question');
+    expect(questionOf(item).wordId).toBe('w-abandon');
+  });
+
+  it('优先级 2 > 3：其他到期长期复习词优先于自报认识验证词', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    // 无答错的长期复习词（到期）
+    await cards.save(makeLongTermCard('w-abandon', now, {}));
+    // 自报认识词（到期）
+    await cards.save({
+      id: 'card-self',
+      wordId: 'w-benefit',
+      deckId: DECK.id,
+      stage: 'self-reported-known',
+      origin: 'self-reported',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - 2 * MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(item!.kind).toBe('question');
+    expect(questionOf(item).wordId).toBe('w-abandon');
+  });
+
+  it('优先级 3 > 4：自报认识验证词优先于到期短期学习词', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    // 自报认识词（到期）
+    await cards.save({
+      id: 'card-self',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'self-reported-known',
+      origin: 'self-reported',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - 2 * MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+    // 短期学习词（到期）
+    await cards.save({
+      id: 'card-short',
+      wordId: 'w-benefit',
+      deckId: DECK.id,
+      stage: 'short-term',
+      origin: 'accepted-new',
+      createdAt: now - MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(item!.kind).toBe('question');
+    expect(questionOf(item).wordId).toBe('w-abandon');
+  });
+
+  it('优先级 4 > 5：到期短期学习词优先于候选新词', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    // 短期学习词（到期）
+    await cards.save({
+      id: 'card-short',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'short-term',
+      origin: 'accepted-new',
+      createdAt: now - MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(item!.kind).toBe('question');
+    expect(questionOf(item).wordId).toBe('w-abandon');
+  });
+
+  it('无到期复习时返回候选新词（优先级 5）', async () => {
+    const { service } = makeService({ now: 1_000_000 });
+    const item = await service.getNextItem();
+    expect(item!.kind).toBe('new-word-presentation');
+  });
+
+  it('完整 5 级优先级顺序验证', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    // 1. 近期答错的到期长期复习词
+    await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: now - 100 }));
+    // 2. 其他到期长期复习词
+    await cards.save(makeLongTermCard('w-benefit', now, {}));
+    // 3. 到期自报认识验证词
+    await cards.save({
+      id: 'card-self',
+      wordId: 'w-capable',
+      deckId: DECK.id,
+      stage: 'self-reported-known',
+      origin: 'self-reported',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - 2 * MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+    // 4. 到期短期学习词
+    await cards.save({
+      id: 'card-short',
+      wordId: 'w-deliberate',
+      deckId: DECK.id,
+      stage: 'short-term',
+      origin: 'accepted-new',
+      createdAt: now - MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+    });
+    // 5. 候选新词（词库中尚未有学习卡的 w-enhance 等）
+
+    const { service } = makeService({ cards, now });
+
+    // 第 1 次：近期答错的长期复习词
+    let item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-abandon');
+    // 清空该卡后
+    await cards.save(makeLongTermCard('w-abandon', now, { nextReviewAt: now + MS_PER_DAY, lastWrongAt: now - 100 }));
+
+    // 第 2 次：其他到期长期复习词
+    item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-benefit');
+    await cards.save(makeLongTermCard('w-benefit', now, { nextReviewAt: now + MS_PER_DAY }));
+
+    // 第 3 次：自报认识验证词
+    item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-capable');
+
+    // 第 4 次：短期学习词（清除自报认识词后）
+    await cards.save({
+      id: 'card-self',
+      wordId: 'w-capable',
+      deckId: DECK.id,
+      stage: 'self-reported-known',
+      origin: 'self-reported',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - 2 * MS_PER_DAY,
+      nextReviewAt: now + MS_PER_DAY,
+    });
+    item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-deliberate');
+
+    // 第 5 次：候选新词（清除短期词后）
+    await cards.save({
+      id: 'card-short',
+      wordId: 'w-deliberate',
+      deckId: DECK.id,
+      stage: 'short-term',
+      origin: 'accepted-new',
+      createdAt: now - MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now + MS_PER_DAY,
+    });
+    item = await service.getNextItem();
+    expect(item!.kind).toBe('new-word-presentation');
+  });
+
+  it('长期复习词答对后清除 lastWrongAt：以正确答案赎回后不再属于"近期答错"', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+    // 近期答错的长期复习词（reps=2，答对后仍为长期复习词）
+    await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: now - 100, reps: 2 }));
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+
+    // 提交 w-abandon 的题目并答对 → lastWrongAt 应被清除
+    const item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-abandon');
+    await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: questionOf(item).correctIndex,
+      responseTimeMs: 1000,
+    });
+
+    const card = await cards.getById('card-w-abandon');
+    expect(card!.lastWrongAt).toBeUndefined();
+  });
+
+  it('长期复习词答错后设置 lastWrongAt：属于"近期答错"', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+    await cards.save(makeLongTermCard('w-abandon', now, { reps: 2 }));
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+    const item = await service.getNextItem();
+    const wrongIndex = (questionOf(item).correctIndex + 1) % 4;
+    await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: wrongIndex,
+      responseTimeMs: 1000,
+    });
+
+    const card = await cards.getById('card-w-abandon');
+    expect(card!.lastWrongAt).toBe(now);
+  });
+});
+
+// ─── Issue #7 验收标准 3：短期学习词流转 ─────────────────────────
+
+describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）', () => {
+  async function prepareDueShortTerm() {
+    const env = makeService({ now: 1_000_000 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    expect(q!.kind).toBe('question');
+    return { env, question: questionOf(q) };
+  }
+
+  it('短期学习词答对后进入长期复习（通过调度器初始化）', async () => {
+    const { env, question } = await prepareDueShortTerm();
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 3000,
+    });
+
+    const card = await env.cards.getById(question.cardId);
+    expect(card!.stage).toBe('long-term');
+    expect(card!.schedulerState).toBeDefined();
+    expect(card!.schedulerState!.reps).toBe(1);
+    expect(card!.nextReviewAt).toBe(result.nextReviewAt);
+    expect(env.scheduler).toBeInstanceOf(FakeScheduler);
+    expect((env.scheduler as FakeScheduler).initCalls).toHaveLength(1);
+    expect((env.scheduler as FakeScheduler).initCalls[0]!.rating).toBe('good');
+  });
+
+  it('短期学习词答错后按短期规则重新安排（10 分钟后可再测）', async () => {
+    const { env, question } = await prepareDueShortTerm();
+    const before = env.clock.now();
+    const wrongIndex = (question.correctIndex + 1) % 4;
+    await env.service.submitAnswer({
+      question,
+      selectedIndex: wrongIndex,
+      responseTimeMs: 3000,
+    });
+
+    const card = await env.cards.getById(question.cardId);
+    expect(card!.stage).toBe('short-term');
+    expect(card!.nextReviewAt).toBe(before + 10 * MS_PER_MIN);
+    expect(card!.schedulerState).toBeUndefined();
+  });
+});
+
+// ─── Issue #7 验收标准 4：FSRS 调度持久化 ───────────────────────
+
+describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）', () => {
+  it('长期复习词提交后调度器状态与下次时间持久化', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+
+    // 直接构造一张已到期的长期复习卡
+    const card: CardRecord = {
+      id: 'card-lt',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+      schedulerState: {
+        stability: 1,
+        difficulty: 5,
+        reps: 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 1,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+    };
+    await cards.save(card);
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+    const item = await service.getNextItem();
+    expect(questionOf(item).wordId).toBe('w-abandon');
+
+    const result = await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: questionOf(item).correctIndex,
+      responseTimeMs: 3000,
+    });
+
+    // 调度器被调用
+    expect(scheduler.scheduleCalls).toHaveLength(1);
+    expect(scheduler.scheduleCalls[0]!.rating).toBe('good');
+
+    // 卡片状态更新
+    const updated = await cards.getById('card-lt');
+    expect(updated!.schedulerState!.reps).toBe(2);
+    expect(updated!.nextReviewAt).toBe(result.nextReviewAt);
+    expect(result.nextReviewAt).toBe(now + scheduler.scheduleIntervalMs.good);
+  });
+
+  it('长期复习词答错后记录 lastWrongAt 并通过调度器安排', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+
+    const card: CardRecord = {
+      id: 'card-lt',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+      schedulerState: {
+        stability: 1,
+        difficulty: 5,
+        reps: 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 1,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+    };
+    await cards.save(card);
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+    const item = await service.getNextItem();
+    const wrongIndex = (questionOf(item).correctIndex + 1) % 4;
+    await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: wrongIndex,
+      responseTimeMs: 3000,
+    });
+
+    const updated = await cards.getById('card-lt');
+    expect(updated!.lastWrongAt).toBe(now);
+    expect(scheduler.scheduleCalls[0]!.rating).toBe('again');
+  });
+
+  it('完整复习历史持久化：刷新后仍可读取', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+
+    // 构造到期长期复习卡
+    await cards.save({
+      id: 'card-lt',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+      schedulerState: {
+        stability: 1,
+        difficulty: 5,
+        reps: 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 1,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+    });
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+    const item = await service.getNextItem();
+    await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: questionOf(item).correctIndex,
+      responseTimeMs: 3000,
+    });
+
+    // 模拟重启：新实例共享同一仓库
+    const { service: service2 } = makeService({ cards, logs, scheduler, now });
+    const allLogs = await service2['deps'].logs.getAll();
+    expect(allLogs).toHaveLength(1);
+    expect(allLogs[0]!.rating).toBe('good');
+    expect(allLogs[0]!.isCorrect).toBe(true);
+
+    const card = await service2['deps'].cards.getById('card-lt');
+    expect(card!.schedulerState!.reps).toBe(2);
+    expect(card!.nextReviewAt).toBeGreaterThan(now);
+  });
+
+  it('调度器接口隔离：学习代码不直接依赖 ts-fsrs 类型', async () => {
+    // 此测试验证 ReviewSchedulerPort 是隔离边界：
+    // FakeScheduler 实现了端口，不引用 ts-fsrs，学习服务通过端口调用。
+    const scheduler = new FakeScheduler();
+    const { service } = makeService({ scheduler, now: 1_000_000 });
+
+    // 接受新词 → 短期 → 答对 → 进入长期复习（通过端口初始化）
+    const item = await service.getNextItem();
+    await service.acceptNewWord(presentationOf(item).word.id);
+    const env = makeService({
+      cards: service['deps'].cards as unknown as CardRepositoryPort,
+      logs: service['deps'].logs as unknown as ReviewLogRepositoryPort,
+      scheduler,
+      now: 1_000_000,
+    });
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    await env.service.submitAnswer({
+      question: questionOf(q),
+      selectedIndex: questionOf(q).correctIndex,
+      responseTimeMs: 3000,
+    });
+
+    expect(scheduler.initCalls).toHaveLength(1);
+    // 端口只暴露 domain 类型，不泄露 ts-fsrs Rating 枚举
+    expect(scheduler.initCalls[0]!.rating).toBe('good');
+  });
+});
+
+// ─── Issue #7 验收标准 5：自动评分 ───────────────────────────────
+
+describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => {
+  async function prepareDueQuestion(now = 1_000_000) {
+    const env = makeService({ now });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    expect(q!.kind).toBe('question');
+    return { env, question: questionOf(q) };
+  }
+
+  it('答错 → again', async () => {
+    const { env, question } = await prepareDueQuestion();
+    const wrongIndex = (question.correctIndex + 1) % 4;
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: wrongIndex,
+      responseTimeMs: 3000,
+    });
+    expect(result.rating).toBe('again');
+  });
+
+  it('答对 + 慢速（>10s）→ hard', async () => {
+    const { env, question } = await prepareDueQuestion();
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 15_000,
+    });
+    expect(result.rating).toBe('hard');
+  });
+
+  it('答对 + 多次切换（>2）→ hard', async () => {
+    const { env, question } = await prepareDueQuestion();
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 3000,
+      answerChanges: 3,
+    });
+    expect(result.rating).toBe('hard');
+  });
+
+  it('答对 + 正常速度 + 无切换 + 无历史 → good', async () => {
+    const { env, question } = await prepareDueQuestion();
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 5000,
+    });
+    expect(result.rating).toBe('good');
+  });
+
+  it('答对 + 快速（<2s）+ 有历史 → easy', async () => {
+    const { env, question } = await prepareDueQuestion();
+    // 先答对一次建立历史（短期词答对进入长期复习）
+    await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 5000,
+    });
+
+    // 长期复习词到期后再次答对：快速 + 有历史 → easy
+    env.advance(MS_PER_DAY);
+    const q2 = await env.service.getNextItem();
+    expect(q2!.kind).toBe('question');
+    const result = await env.service.submitAnswer({
+      question: questionOf(q2),
+      selectedIndex: questionOf(q2).correctIndex,
+      responseTimeMs: 1500,
+    });
+    expect(result.rating).toBe('easy');
+  });
+
+  it('复习日志记录评分与切换次数', async () => {
+    const { env, question } = await prepareDueQuestion();
+    await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 5000,
+      answerChanges: 1,
+    });
+
+    const allLogs = await env.logs.getAll();
+    expect(allLogs).toHaveLength(1);
+    expect(allLogs[0]!.rating).toBe('good');
+    expect(allLogs[0]!.answerChanges).toBe(1);
+  });
+});
+
+// ─── Issue #7 验收标准 5：用户纠正评分 ───────────────────────────
+
+describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', () => {
+  async function prepareSubmittedLongTerm(now = 1_000_000) {
+    const env = makeService({ now });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    // 答对进入长期复习
+    const result = await env.service.submitAnswer({
+      question: questionOf(q),
+      selectedIndex: questionOf(q).correctIndex,
+      responseTimeMs: 5000,
+    });
+    return { env, result };
+  }
+
+  it('“其实是蒙的”纠正：评分降为 again，重新调度', async () => {
+    const { env, result } = await prepareSubmittedLongTerm();
+    const beforeCard = await env.cards.getById(result.cardId);
+    const beforeNext = beforeCard!.nextReviewAt!;
+
+    const corrected = await env.service.correctRating(result.reviewLogId, 'guessed');
+
+    expect(corrected.rating).toBe('again');
+    expect(corrected.nextReviewAt).toBeDefined();
+    // again 的间隔（60s）小于 good 的间隔（1天），纠正后更早复习
+    expect(corrected.nextReviewAt!).toBeLessThan(beforeNext);
+
+    // 复习日志被更新
+    const log = await env.logs.getById(result.reviewLogId);
+    expect(log!.rating).toBe('again');
+    expect(log!.userCorrection).toBe('guessed');
+  });
+
+  it('“这个太简单”纠正：评分升为 easy，重新调度', async () => {
+    const { env, result } = await prepareSubmittedLongTerm();
+    const beforeCard = await env.cards.getById(result.cardId);
+    const beforeNext = beforeCard!.nextReviewAt!;
+
+    const corrected = await env.service.correctRating(result.reviewLogId, 'too-easy');
+
+    expect(corrected.rating).toBe('easy');
+    expect(corrected.nextReviewAt).toBeDefined();
+    // easy 的间隔（4天）大于 good 的间隔（1天），纠正后更晚复习
+    expect(corrected.nextReviewAt!).toBeGreaterThan(beforeNext);
+
+    const log = await env.logs.getById(result.reviewLogId);
+    expect(log!.rating).toBe('easy');
+    expect(log!.userCorrection).toBe('too-easy');
+  });
+
+  it('纠正后调度更新持久化：刷新后仍可读取新评分', async () => {
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+    const { service } = makeService({ cards, logs, scheduler, now: 1_000_000 });
+
+    const item = await service.getNextItem();
+    await service.acceptNewWord(presentationOf(item).word.id);
+    const env = makeService({ cards, logs, scheduler, now: 1_000_000 });
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    const result = await env.service.submitAnswer({
+      question: questionOf(q),
+      selectedIndex: questionOf(q).correctIndex,
+      responseTimeMs: 5000,
+    });
+
+    await env.service.correctRating(result.reviewLogId, 'too-easy');
+
+    // 模拟重启
+    const { service: service2 } = makeService({ cards, logs, scheduler, now: 1_000_000 });
+    const log = await service2['deps'].logs.getById(result.reviewLogId);
+    expect(log!.rating).toBe('easy');
+    expect(log!.userCorrection).toBe('too-easy');
+
+    const card = await service2['deps'].cards.getById(result.cardId);
+    expect(card!.nextReviewAt).toBeGreaterThan(1_000_000 + MS_PER_DAY);
+  });
+
+  it('纠正不存在的复习日志抛出错误', async () => {
+    const { service } = makeService({ now: 1_000_000 });
+    await expect(service.correctRating('nonexistent', 'guessed')).rejects.toThrow();
+  });
+
+  it('纠正二次复习的评分：回滚到评分前状态重放，不重复推进 reps', async () => {
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const scheduler = new FakeScheduler();
+    const env = makeService({ cards, logs, scheduler, now: 1_000_000 });
+
+    // 1. 短期词答对 → 长期复习（init，reps=1）
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q1 = await env.service.getNextItem();
+    await env.service.submitAnswer({
+      question: questionOf(q1),
+      selectedIndex: questionOf(q1).correctIndex,
+      responseTimeMs: 5000,
+    });
+    const cardAfterInit = await cards.getByWordId(presentationOf(item).word.id);
+    expect(cardAfterInit!.schedulerState!.reps).toBe(1);
+
+    // 2. 到期后再次答对（schedule，reps 1→2）
+    env.advance(MS_PER_DAY);
+    const q2 = await env.service.getNextItem();
+    const result2 = await env.service.submitAnswer({
+      question: questionOf(q2),
+      selectedIndex: questionOf(q2).correctIndex,
+      responseTimeMs: 5000,
+    });
+    const cardAfterSchedule = await cards.getByWordId(presentationOf(item).word.id);
+    expect(cardAfterSchedule!.schedulerState!.reps).toBe(2);
+
+    // 3. 纠正第二次评分：应从评分前状态（reps=1）重放，结果 reps=2，而非 3
+    await env.service.correctRating(result2.reviewLogId, 'too-easy');
+    const cardAfterCorrection = await cards.getByWordId(presentationOf(item).word.id);
+    expect(cardAfterCorrection!.schedulerState!.reps).toBe(2);
+  });
+});
+
+// ─── Issue #7：题型按学习阶段选择 ───────────────────────────────
+
+describe('LearningService — 题型按学习阶段选择（Issue #7 验收标准 2）', () => {
+  it('短期学习词出 en-to-zh 题', async () => {
+    const env = makeService({ now: 1_000_000 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    expect(q!.kind).toBe('question');
+    expect(questionOf(q).type).toBe('en-to-zh');
+  });
+
+  it('长期复习词 reps=1 出 zh-to-en 题', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    await cards.save({
+      id: 'card-lt',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 2 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+      schedulerState: {
+        stability: 1,
+        difficulty: 5,
+        reps: 1,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 1,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+    });
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(questionOf(item).type).toBe('zh-to-en');
+  });
+
+  it('长期复习词 reps>=2 出 context-choice 题', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    await cards.save({
+      id: 'card-lt',
+      wordId: 'w-abandon',
+      deckId: DECK.id,
+      stage: 'long-term',
+      origin: 'accepted-new',
+      createdAt: now - 5 * MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now - 1,
+      schedulerState: {
+        stability: 3,
+        difficulty: 5,
+        reps: 3,
+        lapses: 0,
+        state: 2,
+        scheduledDays: 3,
+        learningSteps: 0,
+        lastReviewAt: now - MS_PER_DAY,
+      },
+    });
+
+    const { service } = makeService({ cards, now });
+    const item = await service.getNextItem();
+    expect(questionOf(item).type).toBe('context-choice');
   });
 });

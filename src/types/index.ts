@@ -59,6 +59,49 @@ export type InteractionOutcome = 'submitted' | 'skipped';
 /** 题型：英文选中文 / 中文选英文 / 例句语境题 / 拼写题。 */
 export type QuestionType = 'en-to-zh' | 'zh-to-en' | 'context-choice' | 'spelling';
 
+// ─── 复习调度与评分（Issue #7） ───────────────────────────────────
+
+/**
+ * FSRS 评分等级（封装 ts-fsrs 的 Rating 枚举，学习代码不直接依赖 ts-fsrs）。
+ * - `again`：答错，重新学习；
+ * - `hard`：答对但费力/蒙对；
+ * - `good`：正常答对；
+ * - `easy`：轻松答对。
+ */
+export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
+
+/**
+ * 用户在反馈阶段的纠正评分（Issue #1 规格：其实是蒙的 / 这个太简单）。
+ * - `guessed`：用户声明其实是蒙对的，应降低评分；
+ * - `too-easy`：用户声明太简单，应提高评分。
+ */
+export type UserCorrection = 'guessed' | 'too-easy';
+
+/**
+ * 调度器状态：FSRS 内部记忆状态的领域投影（Issue #7 验收标准 4）。
+ *
+ * 学习代码通过 `ReviewSchedulerPort` 操作此状态，不直接引用 ts-fsrs 类型。
+ * 字段语义与 ts-fsrs 的 Card 对应，但作为领域数据持久化。
+ */
+export interface SchedulerState {
+  /** 记忆稳定性（FSRS stability）。 */
+  stability: number;
+  /** 难度（FSRS difficulty，范围 1-10）。 */
+  difficulty: number;
+  /** 已复习次数。 */
+  reps: number;
+  /** 遗忘次数（答错导致重新学习的次数）。 */
+  lapses: number;
+  /** FSRS 状态：0=New 1=Learning 2=Review 3=Relearning。 */
+  state: number;
+  /** 计划间隔天数。 */
+  scheduledDays: number;
+  /** 学习阶段步数。 */
+  learningSteps: number;
+  /** 上次复习时间戳（ms），首次为 undefined。 */
+  lastReviewAt?: number;
+}
+
 /**
  * 学习卡来源（Issue #6）。
  * - `accepted-new`：用户在候选新词展示中选择“知道了”接受的新词；
@@ -114,9 +157,20 @@ export interface CardRecord {
    * 下次可测试/复习的时间戳（ms）。
    * - 短期学习词：接受后 now + 10 分钟（CONTEXT.md：最早十分钟后才可测试）；
    * - 自报认识词：创建后 1–2 天，验证题到期时间；
-   * - 长期复习词：由 FSRS 调度（后续 Issue）。undefined 表示暂不自动出题。
+   * - 长期复习词：由 FSRS 调度（Issue #7）。undefined 表示暂不自动出题。
    */
   nextReviewAt?: number;
+  /**
+   * FSRS 调度器状态（Issue #7 验收标准 4）。
+   * 仅在 stage === 'long-term' 时存在；由 ReviewSchedulerPort 管理，
+   * 学习代码将其视为可持久化的不透明数据。
+   */
+  schedulerState?: SchedulerState;
+  /**
+   * 最近一次答错的时间戳（ms），用于优先级排序（Issue #7 验收标准 1）。
+   * undefined 表示该长期复习词从未答错。
+   */
+  lastWrongAt?: number;
 }
 
 /** 复习日志：一次完成题目的判定记录。 */
@@ -130,6 +184,21 @@ export interface ReviewLogRecord {
   isCorrect: boolean;
   responseTimeMs: number;
   reviewedAt: number;
+  /**
+   * 自动评分或用户纠正后的最终评分（Issue #7 验收标准 5）。
+   * 旧日志可能缺省；按 `good` 处理。
+   */
+  rating?: ReviewRating;
+  /** 用户纠正类型（Issue #7 验收标准 5）。未纠正时缺省。 */
+  userCorrection?: UserCorrection;
+  /** 提交前的选项切换次数（Issue #7 自动评分输入）。 */
+  answerChanges?: number;
+  /**
+   * 本次评分前该学习卡的调度器状态（Issue #7 验收标准 5）。
+   * 用于用户纠正评分时回滚到评分前状态并重新调度，避免重复推进。
+   * undefined 表示本次评分前该卡尚未进入长期复习（init 而非 schedule）。
+   */
+  previousSchedulerState?: SchedulerState;
 }
 
 /** 题目解释：提交后展示给用户的单词详情。 */
@@ -173,6 +242,8 @@ export interface AnswerSubmission {
   question: MultipleChoiceQuestion;
   selectedIndex: number;
   responseTimeMs: number;
+  /** 提交前的选项切换次数（Issue #7 自动评分输入，缺省 0）。 */
+  answerChanges?: number;
 }
 
 /** 提交后的判定结果（含可展开的学习信息，Issue #6 验收标准 5）。 */
@@ -183,12 +254,29 @@ export interface SubmissionResult {
   reviewLogId: string;
   /** 提交后展示给用户的单词详情（词形、词性、释义、例句等）。 */
   explanation: QuestionExplanation;
+  /** 自动评分结果（Issue #7 验收标准 5）。 */
+  rating?: ReviewRating;
+  /** 更新后的下次复习时间戳（ms）。 */
+  nextReviewAt?: number;
 }
 
 /**
- * 覆盖层发出的用户动作（Issue #6）。
+ * 用户纠正评分的结果（Issue #7 验收标准 5）。
+ * 纠正不是一次新的提交，因此不返回 correctIndex/explanation 等提交期字段。
+ */
+export interface CorrectionResult {
+  cardId: string;
+  reviewLogId: string;
+  /** 纠正后的最终评分。 */
+  rating: ReviewRating;
+  /** 纠正后重新调度得到的下次复习时间戳（ms）。 */
+  nextReviewAt?: number;
+}
+
+/**
+ * 覆盖层发出的用户动作（Issue #6 / #7）。
  * 控制器据此调用 LearningService 并决定冷却结果。
- * - `submit-answer` 是"软"动作：不关闭遮罩，进入反馈阶段；
+ * - `submit-answer` 与 `correct-rating` 是"软"动作：不关闭遮罩，进入/保持在反馈阶段；
  * - 其余为"终态"动作：关闭遮罩、恢复视频、记录冷却。
  */
 export type OverlayAction =
@@ -199,5 +287,7 @@ export type OverlayAction =
       question: MultipleChoiceQuestion;
       selectedIndex: number;
       responseTimeMs: number;
+      answerChanges?: number;
     }
+  | { type: 'correct-rating'; reviewLogId: string; correction: UserCorrection }
   | { type: 'skip' };

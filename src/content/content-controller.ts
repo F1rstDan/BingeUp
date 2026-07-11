@@ -6,6 +6,7 @@ import type {
   OverlayAction,
   OverlayMode,
   PlaybackSnapshot,
+  UserCorrection,
   VideoChangeEvent,
 } from '@/types';
 import { isReady } from '@/cooldown/cooldown-rules';
@@ -32,6 +33,8 @@ export interface LearningServicePort {
   acceptNewWord(wordId: string): Promise<void>;
   selfReportKnown(wordId: string): Promise<void>;
   submitAnswer(submission: AnswerSubmission): Promise<unknown>;
+  /** 用户在反馈阶段纠正评分（Issue #7）。 */
+  correctRating(reviewLogId: string, correction: UserCorrection): Promise<unknown>;
 }
 
 /**
@@ -168,8 +171,15 @@ export class ContentController {
         question: action.question,
         selectedIndex: action.selectedIndex,
         responseTimeMs: action.responseTimeMs,
+        answerChanges: action.answerChanges,
       });
       this.hasSubmitted = true;
+      return;
+    }
+
+    // correct-rating 也是"软"动作：用户在反馈阶段纠正评分，不关闭遮罩（Issue #7）。
+    if (action.type === 'correct-rating') {
+      await this.deps.learningService.correctRating(action.reviewLogId, action.correction);
       return;
     }
 

@@ -157,6 +157,7 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     acceptCalls: [] as string[],
     selfReportCalls: [] as string[],
     submitCalls: 0,
+    correctRatingCalls: 0,
     item,
     async getNextItem() {
       svc.nextItemCalls += 1;
@@ -170,6 +171,10 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     },
     async submitAnswer() {
       svc.submitCalls += 1;
+      return { isCorrect: true, correctIndex: 0, cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+    },
+    async correctRating() {
+      svc.correctRatingCalls += 1;
       return { isCorrect: true, correctIndex: 0, cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
     },
   };
