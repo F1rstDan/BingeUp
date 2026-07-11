@@ -61,13 +61,16 @@ export async function bootstrapContent(): Promise<void> {
   const hostname = location.hostname;
   const site = await messageClient.getSiteState(hostname);
   if (!site.enabled) {
+    console.info('[BingeUp] 内容脚本未启动：网站已暂停', hostname);
     return;
   }
 
   const adapter = OFFICIAL_ADAPTERS.find((a) => a.matches(location));
   if (!adapter) {
+    console.info('[BingeUp] 内容脚本未启动：当前页面不受支持', hostname);
     return;
   }
+  console.info('[BingeUp] 内容脚本已启动，等待有效主视频', { hostname, adapter: adapter.id });
   // 把完整 VideoSiteAdapter 适配为控制器需要的窄端口。
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>

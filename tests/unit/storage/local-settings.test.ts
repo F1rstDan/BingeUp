@@ -76,12 +76,29 @@ describe('LocalSettingsStore — 重启持久化', () => {
     expect(site.firstQuestionPending).toBe(false);
   });
 
-  it('未存储任何数据时，新实例返回默认空状态', async () => {
+  it('未存储任何数据时，受支持站点默认启用并保留首次触发', async () => {
     const reader = new LocalSettingsStore();
     const cooldown = await reader.getCooldown();
     const site = await reader.getSite('unknown.host');
 
     expect(cooldown).toEqual({ nextAllowedAt: 0, consecutiveSkipCount: 0 });
-    expect(site).toEqual({ enabled: false, mode: 'full-adaptation', firstQuestionPending: false });
+    expect(site).toEqual({ enabled: true, mode: 'full-adaptation', firstQuestionPending: true });
+  });
+
+  it('已持久化的暂停状态不会被默认启用覆盖', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.setSite('www.youtube.com', {
+      enabled: false,
+      mode: 'full-adaptation',
+      firstQuestionPending: false,
+    });
+
+    const reader = new LocalSettingsStore();
+
+    await expect(reader.getSite('www.youtube.com')).resolves.toEqual({
+      enabled: false,
+      mode: 'full-adaptation',
+      firstQuestionPending: false,
+    });
   });
 });

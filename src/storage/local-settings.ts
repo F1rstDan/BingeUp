@@ -14,7 +14,7 @@ const DEFAULT_STATE: PersistedState = {
 };
 
 function defaultSiteSettings(): SiteSettings {
-  return { enabled: false, mode: 'full-adaptation', firstQuestionPending: false };
+  return { enabled: true, mode: 'full-adaptation', firstQuestionPending: true };
 }
 
 /**
