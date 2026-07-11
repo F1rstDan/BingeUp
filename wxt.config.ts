@@ -8,6 +8,9 @@ export default defineConfig({
     version: '0.1.0',
     permissions: ['storage'],
     host_permissions: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
+    action: {
+      default_title: '刷刷升级 — 点击查看状态与控制',
+    },
   },
   srcDir: 'src',
 });

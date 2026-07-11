@@ -68,6 +68,7 @@ function fakePlayback(opts: { playing?: boolean } = {}): VideoPlaybackPort & {
 /** 假站点适配器：测试通过 emit 触发视频变化事件。 */
 function fakeAdapter() {
   let handler: ((e: VideoChangeEvent) => void) | null = null;
+  let currentEvent: VideoChangeEvent | null = null;
   return {
     onVideoChange(h: (e: VideoChangeEvent) => void) {
       handler = h;
@@ -76,12 +77,25 @@ function fakeAdapter() {
       };
     },
     emit(identity: string, video: unknown, overlayTarget: unknown = {}, overlayMode: OverlayMode = 'video-region') {
-      handler?.({
+      currentEvent = {
         identity,
         video: video as HTMLVideoElement | null,
         overlayTarget: overlayTarget as HTMLElement | DOMRect | null,
         overlayMode,
-      });
+      };
+      handler?.(currentEvent);
+    },
+    /** 设置当前主视频事件（用于主动触发连续学习测试）。 */
+    setCurrentEvent(identity: string, video: unknown, overlayTarget: unknown = {}, overlayMode: OverlayMode = 'video-region') {
+      currentEvent = {
+        identity,
+        video: video as HTMLVideoElement | null,
+        overlayTarget: overlayTarget as HTMLElement | DOMRect | null,
+        overlayMode,
+      };
+    },
+    getCurrentVideoEvent() {
+      return currentEvent;
     },
   };
 }
@@ -808,6 +822,77 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(learningService.submitCalls).toBe(1); // 只提交一次
       expect(overlay.openCalls).toBe(2); // 加载了下一题
     });
+  });
+});
+
+describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () => {
+  it('startContinuousLearning：有主视频时直接进入连续模式，绕过冷却', async () => {
+    const { controller, adapter, overlay, playback, learningService } = makeController({
+      cooldown: { nextAllowedAt: NOW + 10_000, consecutiveSkipCount: 0 },
+    });
+    adapter.setCurrentEvent('bv-1', {});
+
+    const ok = await controller.startContinuousLearning();
+    await flush();
+
+    expect(ok).toBe(true);
+    expect(playback.pauseCalls).toBe(1);
+    expect(overlay.openCalls).toBe(1);
+    // 连续模式请求允许拼写题
+    expect(learningService.nextItemOptions[0]).toMatchObject({ allowSpelling: true });
+    // options 标记为连续模式
+    expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
+  });
+
+  it('startContinuousLearning：无主视频时返回 false，不打开遮罩', async () => {
+    const { controller, overlay, playback } = makeController();
+    // 未 setCurrentEvent → getCurrentVideoEvent 返回 null
+    const ok = await controller.startContinuousLearning();
+    await flush();
+
+    expect(ok).toBe(false);
+    expect(playback.pauseCalls).toBe(0);
+    expect(overlay.openCalls).toBe(0);
+  });
+
+  it('已有进行中的交互时 startContinuousLearning 返回 false', async () => {
+    const { controller, adapter, overlay } = makeController();
+    adapter.emit('bv-1', {});
+    await flush();
+    expect(overlay.openCalls).toBe(1);
+
+    const ok = await controller.startContinuousLearning();
+    await flush();
+
+    expect(ok).toBe(false);
+    expect(overlay.openCalls).toBe(1); // 没有再次打开
+  });
+
+  it('无学习内容时返回 false，不暂停视频', async () => {
+    const { controller, adapter, overlay, playback } = makeController({ item: null });
+    adapter.setCurrentEvent('bv-1', {});
+
+    const ok = await controller.startContinuousLearning();
+    await flush();
+
+    expect(ok).toBe(false);
+    expect(playback.pauseCalls).toBe(0);
+    expect(overlay.openCalls).toBe(0);
+  });
+
+  it('主动连续学习后 exit-learning 应用默认冷却并恢复视频', async () => {
+    const { controller, adapter, overlay, playback, cooldownStore } = makeController();
+    adapter.setCurrentEvent('bv-1', {});
+
+    await controller.startContinuousLearning();
+    await flush();
+
+    overlay.fireAction({ type: 'exit-learning' });
+    await flush();
+
+    expect(overlay.closeCalls).toBe(1);
+    expect(playback.playCalls).toBe(1);
+    expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
   });
 });
 

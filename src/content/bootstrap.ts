@@ -3,6 +3,8 @@ import { YouTubeAdapter } from '@/adapters/youtube';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { OverlayController } from '@/content/overlay-controller';
 import { ContentController, type CooldownStore, type SiteStatePort } from '@/content/content-controller';
+import { showEnablePrompt } from '@/content/enable-prompt';
+import { shouldShowEnablePrompt } from '@/onboarding/onboarding-service';
 import { adaptHtmlVideo } from '@/video/playback-controller';
 import { messageClient } from '@/messaging/message-client';
 import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent } from '@/types';
@@ -75,14 +77,43 @@ export async function bootstrapContent(): Promise<void> {
   const site = await messageClient.getSiteState(hostname);
   if (!site.enabled) {
     console.info('[BingeUp] 内容脚本未启动：网站已暂停', hostname);
+    // AC2：跳过引导后，在受支持但未启用的网站上显示有限启用提示。
+    // 引导未完成或拒绝次数已达上限时不显示，避免干扰首次安装体验。
+    const data = await messageClient.getPopupData(hostname);
+    if (shouldShowEnablePrompt(site, data.onboardingCompleted)) {
+      showEnablePrompt(hostname, {
+        onEnable: async () => {
+          // 启用站点；host_permissions 已在 manifest 中声明，无需额外请求权限。
+          // 启用后不立即启动控制器，需刷新或新开页面（AC2）。
+          await messageClient.enableSite(hostname);
+        },
+        onDismiss: async () => {
+          await messageClient.recordPromptDecline(hostname);
+        },
+      });
+    }
     return;
   }
   console.info('[BingeUp] 内容脚本已启动，等待有效主视频', { hostname, adapter: adapter.id });
 
   // 把完整 VideoSiteAdapter 适配为控制器需要的窄端口。
+  // getCurrentVideoEvent 复用适配器的主视频检测逻辑，供主动连续学习入口查询当前视频（AC4）。
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
       adapter.observePageChanges(handler),
+    getCurrentVideoEvent(): VideoChangeEvent | null {
+      const video = adapter.findPrimaryVideo();
+      if (!video) return null;
+      if (adapter.isAdvertisement(video) || adapter.isPreview(video)) return null;
+      const identity = adapter.getVideoIdentity(video);
+      if (!identity) return null;
+      return {
+        identity,
+        video,
+        overlayTarget: adapter.getOverlayTarget(video),
+        overlayMode: adapter.getOverlayMode(),
+      };
+    },
   };
 
   // 初始化学习服务（IDB 仓库 + 内置词库）。
@@ -105,4 +136,16 @@ export async function bootstrapContent(): Promise<void> {
     learningService,
   });
   controller.start();
+
+  // Popup → Content 消息：主动触发连续学习（AC4）。
+  // 通过 chrome.tabs.sendMessage 发送，在内容侧用 chrome.runtime.onMessage 接收。
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message?.type === 'START_CONTINUOUS_LEARNING') {
+      void controller.startContinuousLearning().then((ok) => {
+        sendResponse({ ok });
+      });
+      return true; // 异步响应
+    }
+    return false;
+  });
 }

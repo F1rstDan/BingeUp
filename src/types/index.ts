@@ -25,6 +25,11 @@ export interface SiteSettings {
   mode: SiteMode;
   /** 首次触发是否仍待处理。 */
   firstQuestionPending: boolean;
+  /**
+   * 跳过引导后的有限启用提示拒绝次数（Issue #9 AC2）。
+   * 达到 MAX_PROMPT_DECLINES（2）后不再主动提示。undefined 视为 0。
+   */
+  promptDeclineCount?: number;
 }
 
 /** 应用设置（第一条纵向切片只用到冷却相关字段；其余字段由后续 Issue 引入）。 */

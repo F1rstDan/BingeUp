@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  color: #e5e7eb;
+  background: #0f172a;
+  min-height: 100vh;
+}
+.bingeup-onboarding {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bingeup-onboarding h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+.bingeup-onboarding h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 8px;
+}
+.bingeup-onboarding p {
+  line-height: 1.6;
+  color: #9ca3af;
+}
+.bingeup-site-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #1e293b;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+.bingeup-site-option:hover {
+  border-color: #334155;
+}
+.bingeup-site-option.checked {
+  border-color: #3b82f6;
+}
+.bingeup-site-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+.bingeup-site-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bingeup-site-name {
+  font-weight: 600;
+  color: #e5e7eb;
+}
+.bingeup-site-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+.bingeup-onboarding button {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.bingeup-onboarding button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.bingeup-btn-primary {
+  background: #3b82f6;
+  color: #fff;
+}
+.bingeup-btn-primary:hover:not(:disabled) {
+  background: #2563eb;
+}
+.bingeup-btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+.bingeup-btn-secondary:hover:not(:disabled) {
+  background: #4b5563;
+}
+.bingeup-success {
+  text-align: center;
+  padding: 32px 0;
+}
+.bingeup-success h2 {
+  color: #34d399;
+}
+.bingeup-error {
+  color: #f87171;
+  font-size: 13px;
+}

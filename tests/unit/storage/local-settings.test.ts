@@ -76,13 +76,13 @@ describe('LocalSettingsStore — 重启持久化', () => {
     expect(site.firstQuestionPending).toBe(false);
   });
 
-  it('未存储任何数据时，受支持站点默认启用并保留首次触发', async () => {
+  it('未存储任何数据时，受支持站点默认未启用（等待引导，Issue #9）', async () => {
     const reader = new LocalSettingsStore();
     const cooldown = await reader.getCooldown();
     const site = await reader.getSite('www.bilibili.com');
 
     expect(cooldown).toEqual({ nextAllowedAt: 0, consecutiveSkipCount: 0 });
-    expect(site).toEqual({ enabled: true, mode: 'full-adaptation', firstQuestionPending: true });
+    expect(site).toEqual({ enabled: false, mode: 'full-adaptation', firstQuestionPending: false });
   });
 
   it('未存储任何数据时，未知网站保持未启用', async () => {
@@ -140,5 +140,147 @@ describe('LocalSettingsStore — 重启持久化', () => {
       mode: 'full-adaptation',
       firstQuestionPending: false,
     });
+  });
+});
+
+describe('LocalSettingsStore — 规范站点键（Issue #9）', () => {
+  let cleanup: (() => void) | null = null;
+
+  beforeEach(() => {
+    const mock = installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    void mock;
+  });
+
+  afterEach(() => {
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('启用 bilibili.com 后，任意子域名读取到相同启用状态', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.enableSite('bilibili.com');
+
+    const reader = new LocalSettingsStore();
+    await expect(reader.getSite('www.bilibili.com')).resolves.toMatchObject({
+      enabled: true,
+      firstQuestionPending: true,
+    });
+    await expect(reader.getSite('m.bilibili.com')).resolves.toMatchObject({
+      enabled: true,
+      firstQuestionPending: true,
+    });
+    await expect(reader.getSite('bilibili.com')).resolves.toMatchObject({
+      enabled: true,
+    });
+  });
+
+  it('暂停当前网站（disableSite）后，子域名同样读取到未启用', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.enableSite('youtube.com');
+    await writer.disableSite('www.youtube.com');
+
+    const reader = new LocalSettingsStore();
+    const site = await reader.getSite('m.youtube.com');
+    expect(site.enabled).toBe(false);
+  });
+});
+
+describe('LocalSettingsStore — 引导状态（Issue #9 AC1）', () => {
+  let cleanup: (() => void) | null = null;
+
+  beforeEach(() => {
+    const mock = installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    void mock;
+  });
+
+  afterEach(() => {
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('初始状态引导未完成', async () => {
+    const reader = new LocalSettingsStore();
+    await expect(reader.isOnboardingCompleted()).resolves.toBe(false);
+  });
+
+  it('标记引导完成后持久化', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.markOnboardingCompleted();
+
+    const reader = new LocalSettingsStore();
+    await expect(reader.isOnboardingCompleted()).resolves.toBe(true);
+  });
+});
+
+describe('LocalSettingsStore — 全局暂停（Issue #9 AC4）', () => {
+  let cleanup: (() => void) | null = null;
+
+  beforeEach(() => {
+    const mock = installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    void mock;
+  });
+
+  afterEach(() => {
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('初始 globalPausedUntil=0', async () => {
+    const reader = new LocalSettingsStore();
+    await expect(reader.getGlobalPausedUntil()).resolves.toBe(0);
+  });
+
+  it('设置全局暂停后持久化', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.setGlobalPausedUntil(5_000_000);
+
+    const reader = new LocalSettingsStore();
+    await expect(reader.getGlobalPausedUntil()).resolves.toBe(5_000_000);
+  });
+});
+
+describe('LocalSettingsStore — 启用提示拒绝计数（Issue #9 AC2）', () => {
+  let cleanup: (() => void) | null = null;
+
+  beforeEach(() => {
+    const mock = installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    void mock;
+  });
+
+  afterEach(() => {
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('记录一次拒绝后 promptDeclineCount=1，跨子域名一致', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.recordPromptDecline('www.bilibili.com');
+
+    const reader = new LocalSettingsStore();
+    const site = await reader.getSite('m.bilibili.com');
+    expect(site.promptDeclineCount).toBe(1);
+    expect(site.enabled).toBe(false);
+  });
+
+  it('多次拒绝累计计数', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.recordPromptDecline('bilibili.com');
+    await writer.recordPromptDecline('www.bilibili.com');
+
+    const reader = new LocalSettingsStore();
+    const site = await reader.getSite('bilibili.com');
+    expect(site.promptDeclineCount).toBe(2);
   });
 });
