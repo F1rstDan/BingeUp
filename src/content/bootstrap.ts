@@ -6,6 +6,14 @@ import { ContentController, type CooldownStore, type SiteStatePort } from '@/con
 import { adaptHtmlVideo } from '@/video/playback-controller';
 import { messageClient } from '@/messaging/message-client';
 import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent } from '@/types';
+import { LearningService } from '@/learning/learning-service';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
+import { CardRepository } from '@/storage/repositories/card-repository';
+import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
+import { openDatabase } from '@/storage/database';
+import { MIGRATIONS } from '@/storage/migrations';
+
+const DB_NAME = 'bingeup';
 
 /**
  * 消息驱动的冷却存储：Content 通过 background 读写共享冷却状态。
@@ -54,7 +62,7 @@ export class MessageSiteState implements SiteStatePort {
 const OFFICIAL_ADAPTERS: VideoSiteAdapter[] = [new BilibiliAdapter(), new YouTubeAdapter()];
 
 /**
- * 启动内容侧核心闭环（M0/M4/M6 串联）。
+ * 启动内容侧核心闭环（M0/M4/M6 串联 + Issue #6 学习服务）。
  * 仅在站点已启用且存在匹配的专属适配器时挂载控制器；否则什么都不做。
  */
 export async function bootstrapContent(): Promise<void> {
@@ -70,11 +78,21 @@ export async function bootstrapContent(): Promise<void> {
     return;
   }
   console.info('[BingeUp] 内容脚本已启动，等待有效主视频', { hostname, adapter: adapter.id });
+
   // 把完整 VideoSiteAdapter 适配为控制器需要的窄端口。
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
       adapter.observePageChanges(handler),
   };
+
+  // 初始化学习服务（IDB 仓库 + 内置词库）。
+  const db = await openDatabase(DB_NAME, MIGRATIONS);
+  const learningService = new LearningService({
+    cards: new CardRepository(db),
+    logs: new ReviewLogRepository(db),
+    words: new BuiltInWordBank(),
+    clock: { now: () => Date.now() },
+  });
 
   const overlay = new OverlayController();
   const controller = new ContentController({
@@ -84,6 +102,7 @@ export async function bootstrapContent(): Promise<void> {
     siteState: new MessageSiteState(hostname),
     clock: { now: () => Date.now() },
     videoPortFor: (video) => adaptHtmlVideo(video),
+    learningService,
   });
   controller.start();
 }

@@ -31,6 +31,8 @@ export interface SiteSettings {
 export interface AppSettings {
   defaultCooldownMinutes: number;
   consecutiveSkipCooldowns: number[];
+  /** 每日新词上限：一个本地自然日内通过“知道了”接受的新词数量上限（CONTEXT.md）。 */
+  dailyNewWordLimit: number;
 }
 
 /** 视频播放快照：用于在交互后恢复正确播放状态。 */
@@ -56,6 +58,14 @@ export type InteractionOutcome = 'submitted' | 'skipped';
 
 /** 题型：英文选中文 / 中文选英文 / 例句语境题 / 拼写题。 */
 export type QuestionType = 'en-to-zh' | 'zh-to-en' | 'context-choice' | 'spelling';
+
+/**
+ * 学习卡来源（Issue #6）。
+ * - `accepted-new`：用户在候选新词展示中选择“知道了”接受的新词；
+ * - `self-reported`：用户选择“我认识，换一个”创建的自报认识词。
+ * 旧记录可能缺少该字段，按 `accepted-new` 处理。
+ */
+export type CardOrigin = 'accepted-new' | 'self-reported';
 
 /** 学习卡阶段：新词 / 短期学习词 / 长期复习词 / 自报认识词（术语见 CONTEXT.md）。 */
 export type CardStage = 'new' | 'short-term' | 'long-term' | 'self-reported-known';
@@ -96,8 +106,17 @@ export interface CardRecord {
   wordId: string;
   deckId: string;
   stage: CardStage;
+  /** 该卡的来源（Issue #6）。旧记录缺省时按 `accepted-new` 处理。 */
+  origin?: CardOrigin;
   createdAt: number;
   updatedAt: number;
+  /**
+   * 下次可测试/复习的时间戳（ms）。
+   * - 短期学习词：接受后 now + 10 分钟（CONTEXT.md：最早十分钟后才可测试）；
+   * - 自报认识词：创建后 1–2 天，验证题到期时间；
+   * - 长期复习词：由 FSRS 调度（后续 Issue）。undefined 表示暂不自动出题。
+   */
+  nextReviewAt?: number;
 }
 
 /** 复习日志：一次完成题目的判定记录。 */
@@ -135,6 +154,20 @@ export interface MultipleChoiceQuestion {
   explanation: QuestionExplanation;
 }
 
+/** 新词展示：呈现候选新词的词形、释义和例句，不测试也不判分（CONTEXT.md：新词展示）。 */
+export interface NewWordPresentation {
+  word: WordRecord;
+}
+
+/**
+ * 学习项目：一个自然触发点要呈现的内容（Issue #6，单题模式）。
+ * - `new-word-presentation`：候选新词展示，不创建学习卡；
+ * - `question`：针对已有学习卡的题目（含验证题）。
+ */
+export type LearningItem =
+  | { kind: 'new-word-presentation'; presentation: NewWordPresentation }
+  | { kind: 'question'; question: MultipleChoiceQuestion };
+
 /** 提交答案的结果。 */
 export interface AnswerSubmission {
   question: MultipleChoiceQuestion;
@@ -142,10 +175,29 @@ export interface AnswerSubmission {
   responseTimeMs: number;
 }
 
-/** 提交后的判定结果。 */
+/** 提交后的判定结果（含可展开的学习信息，Issue #6 验收标准 5）。 */
 export interface SubmissionResult {
   isCorrect: boolean;
   correctIndex: number;
   cardId: string;
   reviewLogId: string;
+  /** 提交后展示给用户的单词详情（词形、词性、释义、例句等）。 */
+  explanation: QuestionExplanation;
 }
+
+/**
+ * 覆盖层发出的用户动作（Issue #6）。
+ * 控制器据此调用 LearningService 并决定冷却结果。
+ * - `submit-answer` 是"软"动作：不关闭遮罩，进入反馈阶段；
+ * - 其余为"终态"动作：关闭遮罩、恢复视频、记录冷却。
+ */
+export type OverlayAction =
+  | { type: 'accept-new-word'; wordId: string }
+  | { type: 'self-report'; wordId: string }
+  | {
+      type: 'submit-answer';
+      question: MultipleChoiceQuestion;
+      selectedIndex: number;
+      responseTimeMs: number;
+    }
+  | { type: 'skip' };

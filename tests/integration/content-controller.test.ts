@@ -3,7 +3,8 @@ import { ContentController } from '@/content/content-controller';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import type {
   CooldownState,
-  InteractionOutcome,
+  LearningItem,
+  OverlayAction,
   OverlayMode,
   VideoChangeEvent,
 } from '@/types';
@@ -12,15 +13,33 @@ import type { VideoPlaybackPort } from '@/video/playback-controller';
 const NOW = 1_000_000;
 const MS_PER_MIN = 60_000;
 
-/** 刷新待处理的异步工作（控制器内部有多层 await）。 */
-function flush(): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, 0));
-}
-
 const CONFIG: CooldownConfig = {
   defaultCooldownMinutes: 2,
   consecutiveSkipCooldowns: [5, 15, 60],
 };
+
+const LEARNING_ITEM: LearningItem = {
+  kind: 'question',
+  question: {
+    id: 'q-1',
+    type: 'en-to-zh',
+    cardId: 'card-1',
+    wordId: 'w-1',
+    prompt: 'abandon',
+    options: ['放弃', '建造', '聚集', '转移'],
+    correctIndex: 0,
+    explanation: {
+      word: 'abandon',
+      partOfSpeech: ['v.'],
+      meanings: ['放弃'],
+    },
+  },
+};
+
+/** 刷新待处理的异步工作（控制器内部有多层 await）。 */
+function flush(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
 
 /** 假视频播放端口，记录 pause/play。 */
 function fakePlayback(opts: { playing?: boolean } = {}): VideoPlaybackPort & {
@@ -67,27 +86,29 @@ function fakeAdapter() {
   };
 }
 
-/** 假遮罩：记录 open/close，测试通过 fireOutcome 模拟用户。 */
+/** 假遮罩：记录 open/close，测试通过 fireAction 模拟用户。 */
 function fakeOverlay() {
-  let outcomeHandler: ((o: InteractionOutcome) => void) | null = null;
+  let actionHandler: ((a: OverlayAction) => void) | null = null;
   const state = {
     openCalls: 0,
     closeCalls: 0,
+    lastItem: null as LearningItem | null,
     lastTarget: null as unknown,
     lastMode: null as OverlayMode | null,
-    onOutcome(h: (o: InteractionOutcome) => void) {
-      outcomeHandler = h;
+    onAction(h: (a: OverlayAction) => void) {
+      actionHandler = h;
     },
-    open(target: HTMLElement | DOMRect, mode: OverlayMode) {
+    open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode) {
       state.openCalls += 1;
+      state.lastItem = item;
       state.lastTarget = target;
       state.lastMode = mode;
     },
     close() {
       state.closeCalls += 1;
     },
-    fireOutcome(o: InteractionOutcome) {
-      outcomeHandler?.(o);
+    fireAction(a: OverlayAction) {
+      actionHandler?.(a);
     },
   };
   return state;
@@ -101,7 +122,7 @@ function fakeCooldownStore(initial: CooldownState = { nextAllowedAt: 0, consecut
     async get() {
       return { ...store.current };
     },
-    async recordOutcome(outcome: InteractionOutcome) {
+    async recordOutcome(outcome: 'submitted' | 'skipped') {
       store.recordCalls += 1;
       const now = NOW;
       store.current =
@@ -129,10 +150,37 @@ function fakeSiteState(firstPending: boolean) {
   return s;
 }
 
+/** 假学习服务：可配置返回的学习项目和追踪调用。 */
+function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
+  const svc = {
+    nextItemCalls: 0,
+    acceptCalls: [] as string[],
+    selfReportCalls: [] as string[],
+    submitCalls: 0,
+    item,
+    async getNextItem() {
+      svc.nextItemCalls += 1;
+      return svc.item;
+    },
+    async acceptNewWord(wordId: string) {
+      svc.acceptCalls.push(wordId);
+    },
+    async selfReportKnown(wordId: string) {
+      svc.selfReportCalls.push(wordId);
+    },
+    async submitAnswer() {
+      svc.submitCalls += 1;
+      return { isCorrect: true, correctIndex: 0, cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+    },
+  };
+  return svc;
+}
+
 function makeController(opts: {
   cooldown?: CooldownState;
   firstPending?: boolean;
   playback?: VideoPlaybackPort & { pauseCalls: number; playCalls: number };
+  item?: LearningItem | null;
 } = {}) {
   const adapter = fakeAdapter();
   const overlay = fakeOverlay();
@@ -141,6 +189,7 @@ function makeController(opts: {
   const playback = opts.playback ?? fakePlayback({ playing: true });
   const clock = { now: () => NOW };
   const videoPortFor = vi.fn(() => playback);
+  const learningService = fakeLearningService(opts.item);
 
   const controller = new ContentController({
     adapter,
@@ -149,10 +198,11 @@ function makeController(opts: {
     clock,
     videoPortFor,
     siteState,
+    learningService,
   });
   controller.start();
 
-  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor };
+  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService };
 }
 
 describe('ContentController — 核心闭环编排', () => {
@@ -210,21 +260,60 @@ describe('ContentController — 核心闭环编排', () => {
 
       expect(overlay.openCalls).toBe(0);
     });
+
+    it('学习服务无内容（getNextItem 返回 null）→ 不暂停不打开遮罩', async () => {
+      const { adapter, overlay, playback } = makeController({ item: null });
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      expect(overlay.openCalls).toBe(0);
+      expect(playback.pauseCalls).toBe(0);
+    });
   });
 
   describe('提交后恢复与冷却', () => {
-    it('提交 → 关闭遮罩、恢复播放、应用默认冷却、清零跳过计数', async () => {
-      const { adapter, overlay, playback, cooldownStore, siteState } = makeController({
+    it('提交答案 → 不关闭遮罩（进入反馈阶段）', async () => {
+      const { adapter, overlay, learningService } = makeController({
         playback: fakePlayback({ playing: true }),
       });
 
       adapter.emit('bv-1', {});
       await flush();
-      overlay.fireOutcome('submitted');
+
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(learningService.submitCalls).toBe(1);
+      // submit-answer 是软动作：不关闭遮罩
+      expect(overlay.closeCalls).toBe(0);
+    });
+
+    it('提交后继续 → 关闭遮罩、恢复播放、应用默认冷却', async () => {
+      const { adapter, overlay, playback, cooldownStore } = makeController({
+        playback: fakePlayback({ playing: true }),
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+      overlay.fireAction({ type: 'skip' });
       await flush();
 
       expect(overlay.closeCalls).toBe(1);
       expect(playback.playCalls).toBe(1);
+      // 提交后继续 → 'submitted' 冷却
       expect(cooldownStore.current).toEqual({
         nextAllowedAt: NOW + 2 * MS_PER_MIN,
         consecutiveSkipCount: 0,
@@ -236,7 +325,14 @@ describe('ContentController — 核心闭环编排', () => {
 
       adapter.emit('bv-1', {});
       await flush();
-      overlay.fireOutcome('submitted');
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+      overlay.fireAction({ type: 'skip' });
       await flush();
 
       expect(siteState.handledCalls).toBe(1);
@@ -245,14 +341,14 @@ describe('ContentController — 核心闭环编排', () => {
   });
 
   describe('跳过后恢复与冷却', () => {
-    it('跳过 → 关闭遮罩、恢复播放、进入 5 分钟冷却', async () => {
+    it('直接跳过（未提交）→ 关闭遮罩、恢复播放、进入 5 分钟冷却', async () => {
       const { adapter, overlay, playback, cooldownStore } = makeController({
         playback: fakePlayback({ playing: true }),
       });
 
       adapter.emit('bv-1', {});
       await flush();
-      overlay.fireOutcome('skipped');
+      overlay.fireAction({ type: 'skip' });
       await flush();
 
       expect(overlay.closeCalls).toBe(1);
@@ -264,6 +360,43 @@ describe('ContentController — 核心闭环编排', () => {
     });
   });
 
+  describe('新词展示动作', () => {
+    it('知道了 → 调用 acceptNewWord、关闭遮罩、恢复播放、默认冷却', async () => {
+      const { adapter, overlay, playback, cooldownStore, learningService } = makeController({
+        playback: fakePlayback({ playing: true }),
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+      overlay.fireAction({ type: 'accept-new-word', wordId: 'w-new' });
+      await flush();
+
+      expect(learningService.acceptCalls).toEqual(['w-new']);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(cooldownStore.current).toEqual({
+        nextAllowedAt: NOW + 2 * MS_PER_MIN,
+        consecutiveSkipCount: 0,
+      });
+    });
+
+    it('我认识换一个 → 调用 selfReportKnown、关闭遮罩、默认冷却', async () => {
+      const { adapter, overlay, playback, cooldownStore, learningService } = makeController({
+        playback: fakePlayback({ playing: true }),
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+      overlay.fireAction({ type: 'self-report', wordId: 'w-known' });
+      await flush();
+
+      expect(learningService.selfReportCalls).toEqual(['w-known']);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+    });
+  });
+
   describe('原本暂停的视频', () => {
     it('交互结束后不恢复播放（保持暂停）', async () => {
       const { adapter, overlay, playback } = makeController({
@@ -272,7 +405,7 @@ describe('ContentController — 核心闭环编排', () => {
 
       adapter.emit('bv-1', {});
       await flush();
-      overlay.fireOutcome('submitted');
+      overlay.fireAction({ type: 'skip' });
       await flush();
 
       expect(playback.playCalls).toBe(0);
@@ -280,14 +413,14 @@ describe('ContentController — 核心闭环编排', () => {
   });
 
   describe('防重复', () => {
-    it('重复提交只执行一次关闭、一次恢复、一次冷却更新', async () => {
+    it('重复终态动作只执行一次关闭、一次恢复、一次冷却更新', async () => {
       const { adapter, overlay, playback, cooldownStore } = makeController();
 
       adapter.emit('bv-1', {});
       await flush();
-      overlay.fireOutcome('submitted');
+      overlay.fireAction({ type: 'skip' });
       await flush();
-      overlay.fireOutcome('submitted');
+      overlay.fireAction({ type: 'skip' });
       await flush();
 
       expect(overlay.closeCalls).toBe(1);

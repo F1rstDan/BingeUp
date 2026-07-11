@@ -1,6 +1,6 @@
 import { createRoot, type Root } from 'react-dom/client';
-import { OverlayApp, HARDCODED_QUESTION } from '@/ui/overlay/OverlayApp';
-import type { OverlayMode, InteractionOutcome } from '@/types';
+import { OverlayApp } from '@/ui/overlay/OverlayApp';
+import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayPort } from '@/content/content-controller';
 
 const OVERLAY_HOST_ID = 'bingeup-overlay-host';
@@ -33,6 +33,30 @@ const OVERLAY_CSS = `
     margin-bottom: 18px;
     letter-spacing: 0.5px;
   }
+  .bingeup-phonetic {
+    font-size: 15px;
+    color: #9ca3af;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .bingeup-meaning {
+    font-size: 17px;
+    color: #e5e7eb;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .bingeup-example {
+    font-size: 14px;
+    color: #9ca3af;
+    font-style: italic;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+  .bingeup-example-translation {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 18px;
+  }
   .bingeup-options { display: grid; gap: 10px; margin-bottom: 18px; }
   .bingeup-option {
     display: flex; align-items: center; gap: 12px;
@@ -48,6 +72,8 @@ const OVERLAY_CSS = `
     transition: border-color 0.12s, background 0.12s;
   }
   .bingeup-option.selected { border-color: #60a5fa; background: #1e3a8a; }
+  .bingeup-option.correct { border-color: #34d399; background: #064e3b; }
+  .bingeup-option.wrong { border-color: #f87171; background: #7f1d1d; }
   .bingeup-option:disabled { cursor: default; opacity: 0.7; }
   .bingeup-option-key {
     display: inline-flex; align-items: center; justify-content: center;
@@ -59,7 +85,8 @@ const OVERLAY_CSS = `
   }
   .bingeup-option.selected .bingeup-option-key { background: #60a5fa; color: #0b1220; }
   .bingeup-actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .bingeup-submit, .bingeup-skip {
+  .bingeup-actions-new-word { flex-direction: column; gap: 8px; }
+  .bingeup-submit, .bingeup-skip, .bingeup-accept, .bingeup-self-report, .bingeup-continue {
     padding: 9px 18px;
     border-radius: 9px;
     border: none;
@@ -67,10 +94,53 @@ const OVERLAY_CSS = `
     cursor: pointer;
     font-weight: 500;
   }
-  .bingeup-submit { background: #3b82f6; color: #fff; }
-  .bingeup-submit:disabled { background: #1e40af; opacity: 0.6; cursor: default; }
-  .bingeup-skip { background: #374151; color: #d1d5db; }
-  .bingeup-skip:disabled { opacity: 0.6; cursor: default; }
+  .bingeup-submit, .bingeup-accept, .bingeup-continue { background: #3b82f6; color: #fff; }
+  .bingeup-submit:disabled, .bingeup-accept:disabled, .bingeup-continue:disabled { background: #1e40af; opacity: 0.6; cursor: default; }
+  .bingeup-skip, .bingeup-self-report { background: #374151; color: #d1d5db; }
+  .bingeup-skip:disabled, .bingeup-self-report:disabled { opacity: 0.6; cursor: default; }
+  .bingeup-key-hint {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.15);
+    font-size: 11px;
+    font-weight: 400;
+  }
+  .bingeup-feedback { margin-top: 14px; }
+  .bingeup-feedback-result {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .bingeup-feedback-result.correct { color: #34d399; }
+  .bingeup-feedback-result.wrong { color: #f87171; }
+  .bingeup-explanation-toggle {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .bingeup-explanation {
+    padding: 12px 14px;
+    background: #111827;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .bingeup-explanation-phonetic { color: #9ca3af; margin-bottom: 4px; }
+  .bingeup-explanation-pos { color: #60a5fa; font-size: 13px; margin-bottom: 4px; }
+  .bingeup-explanation-meanings { color: #e5e7eb; margin-bottom: 8px; }
+  .bingeup-explanation-example { color: #9ca3af; font-style: italic; margin-bottom: 2px; }
+  .bingeup-explanation-example-translation { color: #6b7280; font-size: 13px; }
 `;
 
 /**
@@ -82,17 +152,17 @@ export class OverlayController implements OverlayPort {
   private host: HTMLElement | null = null;
   private shadow: ShadowRoot | null = null;
   private root: Root | null = null;
-  private outcomeHandler: ((outcome: InteractionOutcome) => void) | null = null;
+  private actionHandler: ((action: OverlayAction) => void) | null = null;
   private target: HTMLElement | DOMRect | null = null;
   private mode: OverlayMode = 'video-region';
   private resizeObserver: ResizeObserver | null = null;
   private rafId: number | null = null;
 
-  onOutcome(handler: (outcome: InteractionOutcome) => void): void {
-    this.outcomeHandler = handler;
+  onAction(handler: (action: OverlayAction) => void): void {
+    this.actionHandler = handler;
   }
 
-  open(target: HTMLElement | DOMRect, mode: OverlayMode): void {
+  open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode): void {
     // 防止重复挂载（不应出现，但保证不会产生重复 React root）。
     if (this.host !== null) {
       this.close();
@@ -120,8 +190,8 @@ export class OverlayController implements OverlayPort {
     this.root = createRoot(mountPoint);
     this.root.render(
       <OverlayApp
-        question={HARDCODED_QUESTION}
-        onOutcome={(outcome) => this.outcomeHandler?.(outcome)}
+        item={item}
+        onAction={(action) => this.actionHandler?.(action)}
       />,
     );
 
