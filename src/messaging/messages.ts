@@ -1,8 +1,10 @@
-import type { CooldownState, SiteSettings } from '@/types';
+import type { AppSettings, CooldownState, SiteSettings } from '@/types';
+import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
 
 /**
- * Background ↔ Content Script / Popup 消息协议（M1-02 / Issue #9）。
- * Background 负责共享全局冷却、站点权限/状态、引导状态、全局暂停与消息分发。
+ * Background ↔ Content Script / Popup 消息协议（M1-02 / Issue #9 / #10）。
+ * Background 负责共享全局冷却、站点权限/状态、引导状态、全局暂停、
+ * 应用设置与本地数据管理，以及消息分发。
  */
 
 export type ExtensionMessage =
@@ -27,7 +29,26 @@ export type ExtensionMessage =
   /** 记录一次启用提示拒绝（AC2）。 */
   | { type: 'PROMPT_DECLINE'; hostname: string }
   /** 查询 Popup 需要的站点/引导/暂停数据（AC3）。 */
-  | { type: 'GET_POPUP_DATA'; hostname: string };
+  | { type: 'GET_POPUP_DATA'; hostname: string }
+  // ─── Issue #10：设置页与本地数据管理 ──────────────────────
+  /** 读取应用设置（AC1）。 */
+  | { type: 'GET_APP_SETTINGS' }
+  /** 保存应用设置（先校验自动修正再持久化，AC3）。 */
+  | { type: 'SET_APP_SETTINGS'; settings: AppSettings }
+  /** 恢复默认应用设置。 */
+  | { type: 'RESET_APP_SETTINGS' }
+  /** 列出所有已持久化的站点设置（AC2 站点管理）。 */
+  | { type: 'LIST_SITES' }
+  /** 删除自定义网站并释放可选权限（AC5）。 */
+  | { type: 'REMOVE_SITE'; hostname: string }
+  /** 导出本地全部数据（AC4）。 */
+  | { type: 'EXPORT_DATA' }
+  /** 导入本地数据：先校验再写入（AC4）。 */
+  | { type: 'IMPORT_DATA'; payload: unknown }
+  /** 清除学习进度：只清空 cards/reviewLogs（AC4）。 */
+  | { type: 'CLEAR_LEARNING_PROGRESS' }
+  /** 清除全部本地数据（AC4）。 */
+  | { type: 'CLEAR_ALL_DATA' };
 
 /** Background 返回给 Content 的冷却状态。 */
 export interface CooldownStatusResponse extends CooldownState {}
@@ -48,6 +69,24 @@ export interface PopupDataResponse {
 export interface PauseResponse {
   globalPausedUntil: number;
 }
+
+// ─── Issue #10 响应类型 ───────────────────────────────────────
+
+/** 站点列表响应（AC2）。 */
+export interface SiteListResponse {
+  sites: { hostname: string; settings: SiteSettings }[];
+}
+
+/** 删除站点响应：released 表示是否成功释放了可选权限（AC5）。 */
+export interface RemoveSiteResponse {
+  released: boolean;
+}
+
+/** 导出数据响应：直接返回 ExportPayload（AC4）。 */
+export type ExportDataResponse = ExportPayload;
+
+/** 导入数据响应（AC4）。 */
+export type ImportDataResponse = ImportResult;
 
 /**
  * Popup → Content Script 消息（通过 chrome.tabs.sendMessage 发送）。

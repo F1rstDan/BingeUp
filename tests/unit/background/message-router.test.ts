@@ -1,8 +1,14 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import 'fake-indexeddb/auto';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
+import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
+import { MIGRATIONS } from '@/storage/migrations';
+import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import type { AppSettings, CardRecord, ReviewLogRecord } from '@/types';
+import type { ExportPayload } from '@/storage/data-transfer';
 
-/** 内存态 chrome.storage.local，模拟浏览器持久化。 */
+/** 内存态 chrome.storage.local + permissions，模拟浏览器持久化。 */
 function installChromeStorageMock() {
   const store: Record<string, unknown> = {};
   const chromeStub = {
@@ -15,6 +21,9 @@ function installChromeStorageMock() {
           }
         },
       },
+    },
+    permissions: {
+      remove: vi.fn().mockResolvedValue(true),
     },
   };
   (globalThis as unknown as { chrome: typeof chromeStub }).chrome = chromeStub;
@@ -151,5 +160,316 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(res.site.hostname).toBe('www.bilibili.com');
     expect(res.onboardingCompleted).toBe(true);
     expect(res.globalPausedUntil).toBe(7_000_000);
+  });
+});
+
+// ─── Issue #10：设置页与本地数据管理 ─────────────────────────────
+
+const TEST_DB = 'test-router-issue10';
+
+async function deleteDatabase(name: string): Promise<void> {
+  return new Promise((resolve) => {
+    const req = indexedDB.deleteDatabase(name);
+    req.onsuccess = () => resolve();
+    req.onerror = () => resolve();
+    req.onblocked = () => resolve();
+  });
+}
+
+describe('message-router — Issue #10 新增消息', () => {
+  let cleanup: (() => void) | null = null;
+  let store: LocalSettingsStore;
+  let router: ReturnType<typeof createMessageRouter>;
+  let db: IDBDatabase;
+  let permissionsRemove: ReturnType<typeof vi.fn>;
+
+  beforeEach(async () => {
+    installChromeStorageMock();
+    permissionsRemove = (globalThis as unknown as { chrome: { permissions: { remove: ReturnType<typeof vi.fn> } } }).chrome.permissions.remove;
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    store = new LocalSettingsStore();
+    db = await openDatabase(TEST_DB, MIGRATIONS);
+    router = createMessageRouter(store, db);
+  });
+
+  afterEach(async () => {
+    db?.close();
+    await deleteDatabase(TEST_DB);
+    cleanup?.();
+    cleanup = null;
+  });
+
+  // ── AC1：应用设置读写 ──────────────────────────────────
+
+  it('GET_APP_SETTINGS：无持久化设置时返回默认值', async () => {
+    const res = (await router.handle(
+      { type: 'GET_APP_SETTINGS' },
+      {} as chrome.runtime.MessageSender,
+    )) as AppSettings;
+
+    expect(res).toEqual(DEFAULT_SETTINGS);
+  });
+
+  it('SET_APP_SETTINGS：持久化并返回自动修正后的设置', async () => {
+    const input: AppSettings = {
+      ...DEFAULT_SETTINGS,
+      defaultCooldownMinutes: 7,
+      dailyNewWordLimit: 20,
+    };
+    const res = (await router.handle(
+      { type: 'SET_APP_SETTINGS', settings: input },
+      {} as chrome.runtime.MessageSender,
+    )) as AppSettings;
+
+    expect(res.defaultCooldownMinutes).toBe(7);
+    expect(res.dailyNewWordLimit).toBe(20);
+
+    // 验证已持久化
+    const persisted = await store.getAppSettings();
+    expect(persisted.defaultCooldownMinutes).toBe(7);
+  });
+
+  it('SET_APP_SETTINGS：非法值被自动修正（AC3）', async () => {
+    const input = {
+      ...DEFAULT_SETTINGS,
+      dailyNewWordLimit: -5,
+      defaultCooldownMinutes: 'not-a-number' as unknown as number,
+    };
+    const res = (await router.handle(
+      { type: 'SET_APP_SETTINGS', settings: input as AppSettings },
+      {} as chrome.runtime.MessageSender,
+    )) as AppSettings;
+
+    expect(res.dailyNewWordLimit).toBe(0);
+    expect(res.defaultCooldownMinutes).toBe(DEFAULT_SETTINGS.defaultCooldownMinutes);
+  });
+
+  it('RESET_APP_SETTINGS：恢复默认值', async () => {
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, defaultCooldownMinutes: 99 });
+    const res = (await router.handle(
+      { type: 'RESET_APP_SETTINGS' },
+      {} as chrome.runtime.MessageSender,
+    )) as AppSettings;
+
+    expect(res).toEqual(DEFAULT_SETTINGS);
+  });
+
+  // ── AC3：冷却配置实时读取 ────────────────────────────────
+
+  it('COOLDOWN_COMPLETE_QUESTION：使用持久化的应用设置实时计算冷却（AC3）', async () => {
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, defaultCooldownMinutes: 10 });
+
+    const before = Date.now();
+    const res = (await router.handle(
+      { type: 'COOLDOWN_COMPLETE_QUESTION' },
+      {} as chrome.runtime.MessageSender,
+    )) as { nextAllowedAt: number; consecutiveSkipCount: number };
+    const after = Date.now();
+
+    // 10 分钟冷却：nextAllowedAt ≈ now + 10 * 60_000
+    expect(res.nextAllowedAt).toBeGreaterThanOrEqual(before + 10 * 60_000);
+    expect(res.nextAllowedAt).toBeLessThanOrEqual(after + 10 * 60_000);
+    expect(res.consecutiveSkipCount).toBe(0);
+  });
+
+  it('COOLDOWN_SKIP_QUESTION：使用持久化的降频冷却实时计算（AC3）', async () => {
+    await store.setAppSettings({
+      ...DEFAULT_SETTINGS,
+      consecutiveSkipCooldowns: [3, 9, 30],
+    });
+
+    const before = Date.now();
+    const res = (await router.handle(
+      { type: 'COOLDOWN_SKIP_QUESTION' },
+      {} as chrome.runtime.MessageSender,
+    )) as { nextAllowedAt: number; consecutiveSkipCount: number };
+    const after = Date.now();
+
+    // 第一次跳过：3 分钟冷却
+    expect(res.nextAllowedAt).toBeGreaterThanOrEqual(before + 3 * 60_000);
+    expect(res.nextAllowedAt).toBeLessThanOrEqual(after + 3 * 60_000);
+    expect(res.consecutiveSkipCount).toBe(1);
+  });
+
+  // ── AC2：站点管理 ────────────────────────────────────────
+
+  it('LIST_SITES：返回所有已持久化的站点', async () => {
+    await store.enableSite('bilibili.com');
+    await store.enableSite('youtube.com');
+
+    const res = (await router.handle(
+      { type: 'LIST_SITES' },
+      {} as chrome.runtime.MessageSender,
+    )) as { sites: { hostname: string; settings: { enabled: boolean } }[] };
+
+    expect(res.sites).toHaveLength(2);
+    const hostnames = res.sites.map((s) => s.hostname).sort();
+    expect(hostnames).toEqual(['bilibili.com', 'youtube.com']);
+    expect(res.sites.every((s) => s.settings.enabled)).toBe(true);
+  });
+
+  it('REMOVE_SITE：从存储中删除站点（AC5）', async () => {
+    await store.enableSite('bilibili.com');
+
+    await router.handle(
+      { type: 'REMOVE_SITE', hostname: 'bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    const sites = await store.listSites();
+    expect(sites.find((s) => s.hostname === 'bilibili.com')).toBeUndefined();
+  });
+
+  it('REMOVE_SITE：受支持站点不尝试释放权限（AC5）', async () => {
+    await store.enableSite('bilibili.com');
+
+    const res = (await router.handle(
+      { type: 'REMOVE_SITE', hostname: 'bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { released: boolean };
+
+    expect(res.released).toBe(false);
+    expect(permissionsRemove).not.toHaveBeenCalled();
+  });
+
+  it('REMOVE_SITE：自定义站点尝试释放可选权限（AC5）', async () => {
+    // 直接写入一个自定义站点（绕过 enableSite 的受支持检查）
+    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
+
+    const res = (await router.handle(
+      { type: 'REMOVE_SITE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { released: boolean };
+
+    expect(res.released).toBe(true);
+    expect(permissionsRemove).toHaveBeenCalledWith({
+      origins: ['*://example.com/*', '*://*.example.com/*'],
+    });
+  });
+
+  // ── AC4：数据导出/导入/清除 ──────────────────────────────
+
+  it('EXPORT_DATA：返回包含设置与全部 IDB 数据的 payload', async () => {
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 15 });
+    await store.enableSite('bilibili.com');
+    await idbPut(db, STORES.cards, {
+      id: 'card-1',
+      wordId: 'w-1',
+      deckId: 'd-1',
+      stage: 'short-term',
+      createdAt: 1000,
+      updatedAt: 1000,
+    } satisfies CardRecord);
+    await idbPut(db, STORES.reviewLogs, {
+      id: 'log-1',
+      cardId: 'card-1',
+      wordId: 'w-1',
+      questionType: 'en-to-zh',
+      selectedAnswer: 'a',
+      correctAnswer: 'b',
+      isCorrect: false,
+      responseTimeMs: 500,
+      reviewedAt: 2000,
+    } satisfies ReviewLogRecord);
+
+    const res = (await router.handle(
+      { type: 'EXPORT_DATA' },
+      {} as chrome.runtime.MessageSender,
+    )) as ExportPayload;
+
+    expect(res.version).toBe(1);
+    expect(res.settings.appSettings.dailyNewWordLimit).toBe(15);
+    expect(res.data.cards).toHaveLength(1);
+    expect(res.data.reviewLogs).toHaveLength(1);
+    expect(res.data.words).toEqual([]);
+    expect(res.data.decks).toEqual([]);
+  });
+
+  it('IMPORT_DATA：校验通过后写入数据（AC4）', async () => {
+    const payload: ExportPayload = {
+      version: 1,
+      exportedAt: 9000,
+      settings: {
+        appSettings: { ...DEFAULT_SETTINGS, dailyNewWordLimit: 42 },
+        sites: { 'bilibili.com': { enabled: true, mode: 'full-adaptation', firstQuestionPending: false } },
+        cooldown: { nextAllowedAt: 0, consecutiveSkipCount: 0 },
+        onboardingCompleted: true,
+        globalPausedUntil: 0,
+      },
+      data: {
+        cards: [{ id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 } satisfies CardRecord],
+        reviewLogs: [],
+        words: [],
+        decks: [],
+      },
+    };
+
+    const res = (await router.handle(
+      { type: 'IMPORT_DATA', payload },
+      {} as chrome.runtime.MessageSender,
+    )) as { ok: boolean; errors: string[] };
+
+    expect(res.ok).toBe(true);
+    expect(res.errors).toEqual([]);
+
+    // 验证写入
+    const appSettings = await store.getAppSettings();
+    expect(appSettings.dailyNewWordLimit).toBe(42);
+    const cards = await idbGetAll<CardRecord>(db, STORES.cards);
+    expect(cards).toHaveLength(1);
+    expect(cards[0]!.id).toBe('c1');
+  });
+
+  it('IMPORT_DATA：非法 payload 被拒绝，不写入（AC4 先校验再写入）', async () => {
+    const beforeCards = await idbGetAll<CardRecord>(db, STORES.cards);
+    expect(beforeCards).toHaveLength(0);
+
+    const res = (await router.handle(
+      { type: 'IMPORT_DATA', payload: { version: 999 } },
+      {} as chrome.runtime.MessageSender,
+    )) as { ok: boolean; errors: string[] };
+
+    expect(res.ok).toBe(false);
+    expect(res.errors.length).toBeGreaterThan(0);
+    // 确保未写入
+    const afterCards = await idbGetAll<CardRecord>(db, STORES.cards);
+    expect(afterCards).toHaveLength(0);
+  });
+
+  it('CLEAR_LEARNING_PROGRESS：只清空 cards 和 reviewLogs（AC4）', async () => {
+    await idbPut(db, STORES.cards, { id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 });
+    await idbPut(db, STORES.reviewLogs, { id: 'l1', cardId: 'c1', wordId: 'w1', questionType: 'en-to-zh', selectedAnswer: '', correctAnswer: '', isCorrect: true, responseTimeMs: 0, reviewedAt: 0 });
+    await idbPut(db, STORES.words, { id: 'w1', word: 'test', lemma: 'test', partOfSpeech: ['n.'], coreMeaningZh: ['测试'], exampleSentence: '', exampleTranslation: '', difficulty: 1, source: '', license: '' });
+    await idbPut(db, STORES.decks, { id: 'd1', name: 'deck', source: '', license: '', wordIds: [] });
+
+    await router.handle(
+      { type: 'CLEAR_LEARNING_PROGRESS' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect(await idbGetAll(db, STORES.cards)).toHaveLength(0);
+    expect(await idbGetAll(db, STORES.reviewLogs)).toHaveLength(0);
+    // 词库与单词保留
+    expect(await idbGetAll(db, STORES.words)).toHaveLength(1);
+    expect(await idbGetAll(db, STORES.decks)).toHaveLength(1);
+  });
+
+  it('CLEAR_ALL_DATA：清空全部 IDB 仓库与持久化状态（AC4）', async () => {
+    await idbPut(db, STORES.cards, { id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 });
+    await idbPut(db, STORES.words, { id: 'w1', word: 'test', lemma: 'test', partOfSpeech: ['n.'], coreMeaningZh: ['测试'], exampleSentence: '', exampleTranslation: '', difficulty: 1, source: '', license: '' });
+    await store.enableSite('bilibili.com');
+    await store.markOnboardingCompleted();
+
+    await router.handle(
+      { type: 'CLEAR_ALL_DATA' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect(await idbGetAll(db, STORES.cards)).toHaveLength(0);
+    expect(await idbGetAll(db, STORES.words)).toHaveLength(0);
+    expect(await store.isOnboardingCompleted()).toBe(false);
+    expect(await store.listSites()).toHaveLength(0);
   });
 });

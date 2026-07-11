@@ -6,6 +6,7 @@ import type {
   LearningItem,
   OverlayAction,
   OverlayMode,
+  SessionLogRecord,
   VideoChangeEvent,
 } from '@/types';
 import type { VideoPlaybackPort } from '@/video/playback-controller';
@@ -211,11 +212,23 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
   return svc;
 }
 
+/** 假会话日志端口：记录所有写入的会话日志（Issue #12）。 */
+function fakeSessionLogger() {
+  const logs: SessionLogRecord[] = [];
+  return {
+    logs,
+    async save(log: SessionLogRecord) {
+      logs.push(log);
+    },
+  };
+}
+
 function makeController(opts: {
   cooldown?: CooldownState;
   firstPending?: boolean;
   playback?: VideoPlaybackPort & { pauseCalls: number; playCalls: number };
   item?: LearningItem | null;
+  withSessionLogger?: boolean;
 } = {}) {
   const adapter = fakeAdapter();
   const overlay = fakeOverlay();
@@ -225,6 +238,7 @@ function makeController(opts: {
   const clock = { now: () => NOW };
   const videoPortFor = vi.fn(() => playback);
   const learningService = fakeLearningService(opts.item);
+  const sessionLogger = opts.withSessionLogger ? fakeSessionLogger() : undefined;
 
   const controller = new ContentController({
     adapter,
@@ -234,10 +248,63 @@ function makeController(opts: {
     videoPortFor,
     siteState,
     learningService,
+    sessionLogger,
   });
   controller.start();
 
-  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService };
+  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService, sessionLogger };
+}
+
+/** 连续学习用的第二道题（拼写题）。 */
+const SPELLING_ITEM: LearningItem = {
+  kind: 'spelling-question',
+  question: {
+    id: 'q-spelling-1',
+    type: 'spelling',
+    cardId: 'card-2',
+    wordId: 'w-2',
+    prompt: '吸收',
+    correctAnswer: 'absorb',
+    explanation: {
+      word: 'absorb',
+      partOfSpeech: ['v.'],
+      meanings: ['吸收'],
+    },
+  },
+};
+
+/** 构造可返回多项目的控制器（用于连续模式测试）。 */
+function makeContinuousController(opts: {
+  items: LearningItem[];
+  cooldown?: CooldownState;
+  firstPending?: boolean;
+  withSessionLogger?: boolean;
+} = { items: [LEARNING_ITEM, SPELLING_ITEM] }) {
+  const adapter = fakeAdapter();
+  const overlay = fakeOverlay();
+  const cooldownStore = fakeCooldownStore(opts.cooldown);
+  const siteState = fakeSiteState(opts.firstPending ?? false);
+  const playback = fakePlayback({ playing: true });
+  const clock = { now: () => NOW };
+  const videoPortFor = vi.fn(() => playback);
+  const learningService = fakeLearningService();
+  learningService.items = opts.items;
+  learningService.itemIndex = 0;
+  const sessionLogger = opts.withSessionLogger ? fakeSessionLogger() : undefined;
+
+  const controller = new ContentController({
+    adapter,
+    overlay,
+    cooldownStore,
+    clock,
+    videoPortFor,
+    siteState,
+    learningService,
+    sessionLogger,
+  });
+  controller.start();
+
+  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService, sessionLogger };
 }
 
 describe('ContentController — 核心闭环编排', () => {
@@ -287,13 +354,13 @@ describe('ContentController — 核心闭环编排', () => {
       expect(overlay.openCalls).toBe(1);
     });
 
-    it('视频为 null 的事件 → 不打开遮罩', async () => {
+    it('视频为 null 的事件 → 基础网页模式下仍打开遮罩（Issue #11）', async () => {
       const { adapter, overlay } = makeController();
 
       adapter.emit('bv-1', null);
       await flush();
 
-      expect(overlay.openCalls).toBe(0);
+      expect(overlay.openCalls).toBe(1);
     });
 
     it('学习服务无内容（getNextItem 返回 null）→ 不暂停不打开遮罩', async () => {
@@ -468,55 +535,6 @@ describe('ContentController — 核心闭环编排', () => {
 // ─── Issue #8：连续学习模式 ──────────────────────────────────────
 
 describe('ContentController — 连续学习模式（Issue #8）', () => {
-  /** 连续学习用的第二道题（拼写题）。 */
-  const SPELLING_ITEM: LearningItem = {
-    kind: 'spelling-question',
-    question: {
-      id: 'q-spelling-1',
-      type: 'spelling',
-      cardId: 'card-2',
-      wordId: 'w-2',
-      prompt: '吸收',
-      correctAnswer: 'absorb',
-      explanation: {
-        word: 'absorb',
-        partOfSpeech: ['v.'],
-        meanings: ['吸收'],
-      },
-    },
-  };
-
-  /** 构造可返回多项目的控制器（用于连续模式测试）。 */
-  function makeContinuousController(opts: {
-    items: LearningItem[];
-    cooldown?: CooldownState;
-    firstPending?: boolean;
-  } = { items: [LEARNING_ITEM, SPELLING_ITEM] }) {
-    const adapter = fakeAdapter();
-    const overlay = fakeOverlay();
-    const cooldownStore = fakeCooldownStore(opts.cooldown);
-    const siteState = fakeSiteState(opts.firstPending ?? false);
-    const playback = fakePlayback({ playing: true });
-    const clock = { now: () => NOW };
-    const videoPortFor = vi.fn(() => playback);
-    const learningService = fakeLearningService();
-    learningService.items = opts.items;
-    learningService.itemIndex = 0;
-
-    const controller = new ContentController({
-      adapter,
-      overlay,
-      cooldownStore,
-      clock,
-      videoPortFor,
-      siteState,
-      learningService,
-    });
-    controller.start();
-
-    return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService };
-  }
-
   describe('验收标准 1：提交并继续', () => {
     it('submit-and-continue 提交选择题并加载下一题（不关闭遮罩）', async () => {
       const { adapter, overlay, learningService } = makeContinuousController();
@@ -893,6 +911,164 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.closeCalls).toBe(1);
     expect(playback.playCalls).toBe(1);
     expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+  });
+});
+
+// ─── Issue #12：会话日志记录 ──────────────────────────────────────
+
+describe('ContentController — 会话日志记录（Issue #12）', () => {
+  it('单题模式：提交后跳过 → 记录 mode=single, outcome=submitted, questionsAnswered=1', async () => {
+    const { adapter, overlay, sessionLogger } = makeController({ withSessionLogger: true });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({
+      type: 'submit-answer',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 1500,
+    });
+    await flush();
+    overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(sessionLogger).toBeDefined();
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'single',
+      outcome: 'submitted',
+      questionsAnswered: 1,
+      startedAt: NOW,
+      endedAt: NOW,
+    });
+  });
+
+  it('单题模式：未提交直接跳过 → 记录 mode=single, outcome=skipped, questionsAnswered=0', async () => {
+    const { adapter, overlay, sessionLogger } = makeController({ withSessionLogger: true });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'single',
+      outcome: 'skipped',
+      questionsAnswered: 0,
+    });
+  });
+
+  it('单题模式：accept-new-word → 记录 mode=single, outcome=submitted, questionsAnswered=0', async () => {
+    const { adapter, overlay, sessionLogger } = makeController({ withSessionLogger: true });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'accept-new-word', wordId: 'w-new' });
+    await flush();
+
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'single',
+      outcome: 'submitted',
+      questionsAnswered: 0,
+    });
+  });
+
+  it('连续模式：提交并继续后 exit-learning → 记录 mode=continuous, outcome=exit', async () => {
+    const { adapter, overlay, sessionLogger } = makeContinuousController({
+      items: [LEARNING_ITEM, SPELLING_ITEM],
+      withSessionLogger: true,
+    });
+
+    adapter.emit('bv-1', {});
+    await flush();
+
+    // 提交第一题并继续
+    overlay.fireAction({
+      type: 'submit-and-continue',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 1500,
+    });
+    await flush();
+
+    // 第二题不提交，直接结束
+    overlay.fireAction({ type: 'exit-learning' });
+    await flush();
+
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'continuous',
+      outcome: 'exit',
+      questionsAnswered: 1,
+    });
+  });
+
+  it('连续模式：提交两题后无更多内容自动结束 → 记录 mode=continuous, outcome=submitted, questionsAnswered=2', async () => {
+    const { adapter, overlay, sessionLogger } = makeContinuousController({
+      items: [LEARNING_ITEM, SPELLING_ITEM],
+      withSessionLogger: true,
+    });
+
+    adapter.emit('bv-1', {});
+    await flush();
+
+    // 提交第一题并继续
+    overlay.fireAction({
+      type: 'submit-and-continue',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 1500,
+    });
+    await flush();
+
+    // 提交第二题（拼写题）并继续 → 无更多内容 → 自动结束
+    overlay.fireAction({
+      type: 'submit-spelling-and-continue',
+      question: SPELLING_ITEM.question,
+      spelledAnswer: 'absorb',
+      responseTimeMs: 2000,
+    });
+    await flush();
+
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'continuous',
+      outcome: 'submitted',
+      questionsAnswered: 2,
+    });
+  });
+
+  it('主动连续学习后 exit-learning → 记录 mode=continuous, outcome=exit', async () => {
+    const { controller, adapter, overlay, sessionLogger } = makeController({ withSessionLogger: true });
+    adapter.setCurrentEvent('bv-1', {});
+
+    await controller.startContinuousLearning();
+    await flush();
+
+    overlay.fireAction({ type: 'exit-learning' });
+    await flush();
+
+    expect(sessionLogger!.logs).toHaveLength(1);
+    expect(sessionLogger!.logs[0]).toMatchObject({
+      mode: 'continuous',
+      outcome: 'exit',
+      questionsAnswered: 0,
+    });
+  });
+
+  it('未提供 sessionLogger 时不报错', async () => {
+    const { adapter, overlay, sessionLogger } = makeController();
+    expect(sessionLogger).toBeUndefined();
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    // 无 sessionLogger：不报错，正常结束
+    expect(overlay.closeCalls).toBe(1);
   });
 });
 

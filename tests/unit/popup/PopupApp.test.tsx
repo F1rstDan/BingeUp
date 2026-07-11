@@ -41,6 +41,7 @@ function installChromeStub(tab: TabStub | null, hasPermission = true) {
     },
     runtime: {
       getURL: vi.fn((p: string) => `chrome-extension://test-id${p}`),
+      openOptionsPage: vi.fn(async () => undefined),
     },
   };
   vi.stubGlobal('chrome', stub);

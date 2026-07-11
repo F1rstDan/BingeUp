@@ -12,6 +12,7 @@ import { LearningService } from '@/learning/learning-service';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
+import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import { openDatabase } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
 
@@ -118,11 +119,14 @@ export async function bootstrapContent(): Promise<void> {
 
   // 初始化学习服务（IDB 仓库 + 内置词库）。
   const db = await openDatabase(DB_NAME, MIGRATIONS);
+  // Issue #10：读取应用设置，接入学习服务与控制器。
+  const appSettings = await messageClient.getAppSettings();
   const learningService = new LearningService({
     cards: new CardRepository(db),
     logs: new ReviewLogRepository(db),
     words: new BuiltInWordBank(),
     clock: { now: () => Date.now() },
+    dailyNewWordLimit: appSettings.dailyNewWordLimit,
   });
 
   const overlay = new OverlayController();
@@ -134,6 +138,8 @@ export async function bootstrapContent(): Promise<void> {
     clock: { now: () => Date.now() },
     videoPortFor: (video) => adaptHtmlVideo(video),
     learningService,
+    sessionLogger: new SessionLogRepository(db),
+    spellingEnabled: appSettings.spellingEnabled,
   });
   controller.start();
 

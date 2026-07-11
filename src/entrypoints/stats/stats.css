@@ -1,0 +1,152 @@
+/* 统计页样式。独立于 Tailwind preflight（已禁用），保证扩展页自包含。 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  color: #e5e7eb;
+  background: #0f172a;
+  min-height: 100vh;
+}
+.bingeup-stats {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.bingeup-stats h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+.bingeup-stats h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+.bingeup-stats-loading {
+  color: #9ca3af;
+  padding: 40px 0;
+  text-align: center;
+}
+.bingeup-stats-error {
+  color: #f87171;
+  padding: 40px 0;
+  text-align: center;
+}
+
+/* 统计卡片网格 */
+.bingeup-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bingeup-stat-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bingeup-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+.bingeup-stat-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* 今日统计明细 */
+.bingeup-stats-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bingeup-stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bingeup-stats-row-label {
+  color: #9ca3af;
+}
+.bingeup-stats-row-value {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+/* 学习卡状态条 */
+.bingeup-stats-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #374151;
+}
+.bingeup-stats-bar-segment {
+  height: 100%;
+}
+.bingeup-stats-bar-short {
+  background: #60a5fa;
+}
+.bingeup-stats-bar-long {
+  background: #34d399;
+}
+.bingeup-stats-bar-self {
+  background: #a78bfa;
+}
+.bingeup-stats-bar-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+.bingeup-stats-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.bingeup-stats-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* 周对比 */
+.bingeup-stats-comparison {
+  display: flex;
+  gap: 16px;
+}
+.bingeup-stats-comparison-col {
+  flex: 1;
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bingeup-stats-comparison-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+.bingeup-stats-comparison-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+.bingeup-stats-comparison-sub {
+  font-size: 12px;
+  color: #9ca3af;
+}

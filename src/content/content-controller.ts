@@ -7,6 +7,7 @@ import type {
   OverlayMode,
   PlaybackSnapshot,
   Question,
+  SessionLogRecord,
   SpellingSubmission,
   SubmissionResult,
   UserCorrection,
@@ -78,6 +79,14 @@ export interface SiteStatePort {
   markFirstQuestionHandled(): Promise<void>;
 }
 
+/**
+ * 学习会话日志端口（Issue #12）。
+ * 控制器在结束交互时写入会话日志，用于统计跳过、连续学习会话数和连续题数。
+ */
+export interface SessionLoggerPort {
+  save(log: SessionLogRecord): Promise<void>;
+}
+
 /** 时钟端口，便于测试注入。 */
 export interface Clock {
   now(): number;
@@ -93,16 +102,31 @@ export interface ContentControllerDeps {
   siteState: SiteStatePort;
   /** 学习服务：获取学习项目并处理用户动作（Issue #6）。 */
   learningService: LearningServicePort;
+  /** 学习会话日志（Issue #12）。可选：未提供时不记录会话日志。 */
+  sessionLogger?: SessionLoggerPort;
+  /** 拼写题开关（Issue #10 AC1）：仅连续学习模式出现拼写题。缺省 true。 */
+  spellingEnabled?: boolean;
 }
 
 interface ActiveInteraction {
   identity: string;
-  playback: VideoPlaybackPort;
-  snapshot: PlaybackSnapshot;
+  /**
+   * 视频播放端口；基础网页模式（无视频）下为 null（Issue #11）。
+   * null 时跳过暂停与恢复。
+   */
+  playback: VideoPlaybackPort | null;
+  /** 播放快照；基础网页模式下为 null。 */
+  snapshot: PlaybackSnapshot | null;
   /** 当前遮罩目标区域。 */
   target: HTMLElement | DOMRect;
   /** 当前遮罩模式。 */
   overlayMode: OverlayMode;
+  /** 会话开始时间戳（Issue #12）。 */
+  startedAt: number;
+  /** 学习模式：单题 / 连续（Issue #12）。 */
+  mode: 'single' | 'continuous';
+  /** 会话中已提交的题目数（Issue #12）。 */
+  questionsAnswered: number;
 }
 
 /**
@@ -168,8 +192,10 @@ export class ContentController {
     if (event === null || event.video === null) {
       return false;
     }
-    // 连续模式允许拼写题；不传 excludedWordIds（会话刚开始，无已展示单词）。
-    const item = await this.deps.learningService.getNextItem({ allowSpelling: true });
+    // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
+    // 不传 excludedWordIds（会话刚开始，无已展示单词）。
+    const allowSpelling = this.deps.spellingEnabled ?? true;
+    const item = await this.deps.learningService.getNextItem({ allowSpelling });
     if (item === null) {
       return false;
     }
@@ -189,6 +215,9 @@ export class ContentController {
       snapshot,
       target,
       overlayMode: event.overlayMode,
+      startedAt: this.deps.clock.now(),
+      mode: 'continuous',
+      questionsAnswered: 0,
     };
     this.handledIdentities.add(event.identity);
     this.hasSubmitted = false;
@@ -197,12 +226,13 @@ export class ContentController {
   }
 
   private async handleVideoChange(event: VideoChangeEvent): Promise<void> {
-    // 没有视频或正在交互中：忽略。triggerInProgress 同步保证一次只处理一个触发，
+    // 正在交互中或并发触发：忽略。triggerInProgress 同步保证一次只处理一个触发，
     // 避免并发事件在 await 之间双双重入。
-    if (event.video === null || this.active !== null || this.triggerInProgress) {
+    // 注意：基础网页模式（Issue #11）允许 event.video === null，不在此处拦截。
+    if (this.active !== null || this.triggerInProgress) {
       return;
     }
-    // 同一视频 identity 已经处理过：去重，避免 DOM 更新触发重复弹题。
+    // 同一 identity 已经处理过：去重，避免 DOM 更新触发重复弹题。
     if (this.handledIdentities.has(event.identity)) {
       return;
     }
@@ -224,23 +254,35 @@ export class ContentController {
       return;
     }
 
-    // 允许触发：暂停视频并打开遮罩。若遮罩打开失败，恢复视频并清理，
-    // 避免留下永久暂停的视频。
-    const playback = this.deps.videoPortFor(event.video);
-    const snapshot = pauseForInteraction(playback);
+    // 视频模式：暂停视频。基础网页模式（video === null）：跳过暂停。
+    const hasVideo = event.video !== null;
+    const playback = hasVideo ? this.deps.videoPortFor(event.video!) : null;
+    const snapshot = playback !== null ? pauseForInteraction(playback) : null;
+
+    // 遮罩目标：有视频时用视频区域；基础网页模式用文档根元素（全网页遮罩）。
+    const target = event.overlayTarget
+      ?? (event.video !== null ? event.video.getBoundingClientRect() : document.documentElement);
+
     try {
-      this.deps.overlay.open(
-        item,
-        event.overlayTarget ?? event.video.getBoundingClientRect(),
-        event.overlayMode,
-      );
+      this.deps.overlay.open(item, target, event.overlayMode);
     } catch (error) {
       console.error('[BingeUp] 打开遮罩失败，恢复视频', error);
-      await restore(playback, snapshot);
+      if (playback !== null && snapshot !== null) {
+        await restore(playback, snapshot);
+      }
       this.triggerInProgress = false;
       return;
     }
-    this.active = { identity: event.identity, playback, snapshot, target: event.overlayTarget ?? event.video.getBoundingClientRect(), overlayMode: event.overlayMode };
+    this.active = {
+      identity: event.identity,
+      playback,
+      snapshot,
+      target,
+      overlayMode: event.overlayMode,
+      startedAt: this.deps.clock.now(),
+      mode: 'single',
+      questionsAnswered: 0,
+    };
     this.handledIdentities.add(event.identity);
     this.hasSubmitted = false;
     this.trackWordId(item);
@@ -263,6 +305,7 @@ export class ContentController {
         answerChanges: action.answerChanges,
       });
       this.hasSubmitted = true;
+      active.questionsAnswered += 1;
       this.lastFeedback = result;
       this.lastQuestion = action.question;
       return;
@@ -276,6 +319,7 @@ export class ContentController {
         answerChanges: action.answerChanges,
       });
       this.hasSubmitted = true;
+      active.questionsAnswered += 1;
       this.lastFeedback = result;
       this.lastQuestion = action.question;
       return;
@@ -295,6 +339,7 @@ export class ContentController {
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
         });
+        active.questionsAnswered += 1;
         this.lastFeedback = result;
         this.lastQuestion = action.question;
       }
@@ -310,6 +355,7 @@ export class ContentController {
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
         });
+        active.questionsAnswered += 1;
         this.lastFeedback = result;
         this.lastQuestion = action.question;
       }
@@ -336,9 +382,9 @@ export class ContentController {
     // ─── 终态动作：关闭遮罩、恢复视频、记录冷却 ──────────────
 
     // exit-learning：结束连续学习，不提交当前题，不算跳过，应用默认冷却
-    // （Issue #8 验收标准 4）。
+    // （Issue #8 验收标准 4）。会话日志记为 'exit'（Issue #12）。
     if (action.type === 'exit-learning') {
-      await this.endInteraction(active, 'submitted');
+      await this.endInteraction(active, 'submitted', 'exit');
       return;
     }
 
@@ -368,9 +414,10 @@ export class ContentController {
    * 若无更多内容，自动结束连续学习。
    */
   private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
+    const allowSpelling = this.deps.spellingEnabled ?? true;
     const nextItem = await this.deps.learningService.getNextItem({
       excludedWordIds: this.sessionWordIds,
-      allowSpelling: true,
+      allowSpelling,
     });
 
     if (nextItem === null) {
@@ -378,6 +425,9 @@ export class ContentController {
       await this.endInteraction(active, 'submitted');
       return;
     }
+
+    // 进入连续学习模式（Issue #12：会话日志需正确记录 mode）。
+    active.mode = 'continuous';
 
     this.trackWordId(nextItem);
     this.hasSubmitted = false;
@@ -390,19 +440,46 @@ export class ContentController {
   }
 
   /**
-   * 结束当前交互：关闭遮罩、恢复视频、记录冷却、清理状态。
+   * 结束当前交互：关闭遮罩、恢复视频、记录冷却、清理状态、写入会话日志。
+   * 基础网页模式下 playback/snapshot 为 null，跳过恢复。
+   *
+   * @param outcome 冷却结果（'submitted' | 'skipped'），决定下次触发冷却时长。
+   * @param sessionOutcome 会话日志结果（'submitted' | 'skipped' | 'exit'）；
+   *   默认与 outcome 一致。exit-learning 传 'exit'：用户主动结束连续学习，
+   *   不算提交也不算跳过，但仍应用默认冷却（outcome='submitted'）。
    */
-  private async endInteraction(active: ActiveInteraction, outcome: InteractionOutcome): Promise<void> {
+  private async endInteraction(
+    active: ActiveInteraction,
+    outcome: InteractionOutcome,
+    sessionOutcome: 'submitted' | 'skipped' | 'exit' = outcome,
+  ): Promise<void> {
     this.active = null;
     this.hasSubmitted = false;
     this.sessionWordIds.clear();
     this.lastFeedback = null;
     this.lastQuestion = null;
     this.deps.overlay.close();
-    await restore(active.playback, active.snapshot);
+    if (active.playback !== null && active.snapshot !== null) {
+      await restore(active.playback, active.snapshot);
+    }
     await this.deps.cooldownStore.recordOutcome(outcome);
     // 首次触发处理完后才进入全局冷却。
     await this.deps.siteState.markFirstQuestionHandled();
+    // 会话日志（Issue #12）：可选，未提供 sessionLogger 时跳过。
+    if (this.deps.sessionLogger !== undefined) {
+      try {
+        await this.deps.sessionLogger.save({
+          id: `session-${active.startedAt}-${active.identity}`,
+          startedAt: active.startedAt,
+          endedAt: this.deps.clock.now(),
+          mode: active.mode,
+          outcome: sessionOutcome,
+          questionsAnswered: active.questionsAnswered,
+        });
+      } catch (error) {
+        console.error('[BingeUp] 会话日志写入失败', error);
+      }
+    }
   }
 
   /** 追踪学习项目中涉及的单词 ID（用于连续模式排除重复）。 */

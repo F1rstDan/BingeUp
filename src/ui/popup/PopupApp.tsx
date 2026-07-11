@@ -283,15 +283,13 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
         </button>
         <button
           className="bingeup-btn-secondary"
-          disabled
-          title="即将推出"
+          onClick={() => void chrome.runtime.openOptionsPage()}
         >
           设置
         </button>
         <button
           className="bingeup-btn-secondary"
-          disabled
-          title="即将推出"
+          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
         >
           统计
         </button>

@@ -5,10 +5,11 @@ const getSiteState = vi.fn();
 const getPopupData = vi.fn();
 const enableSite = vi.fn();
 const recordPromptDecline = vi.fn();
+const getAppSettings = vi.fn();
 const showEnablePrompt = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
-  messageClient: { getSiteState, getPopupData, enableSite, recordPromptDecline },
+  messageClient: { getSiteState, getPopupData, enableSite, recordPromptDecline, getAppSettings },
 }));
 
 vi.mock('@/content/enable-prompt', () => ({
@@ -22,6 +23,17 @@ describe('bootstrapContent — 启动诊断', () => {
     getPopupData.mockReset();
     enableSite.mockReset();
     recordPromptDecline.mockReset();
+    getAppSettings.mockReset();
+    getAppSettings.mockResolvedValue({
+      defaultCooldownMinutes: 2,
+      consecutiveSkipCooldowns: [5, 15, 60],
+      dailyNewWordLimit: 5,
+      selectedDeckId: 'deck-default',
+      selfRatedLevel: 'intermediate',
+      spellingEnabled: true,
+      longVideoTimedLearningEnabled: false,
+      longVideoIntervalMinutes: 10,
+    });
     showEnablePrompt.mockReset();
     vi.stubGlobal('chrome', {
       runtime: { onMessage: { addListener: vi.fn() } },
@@ -106,6 +118,17 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     getPopupData.mockReset();
     enableSite.mockReset();
     recordPromptDecline.mockReset();
+    getAppSettings.mockReset();
+    getAppSettings.mockResolvedValue({
+      defaultCooldownMinutes: 2,
+      consecutiveSkipCooldowns: [5, 15, 60],
+      dailyNewWordLimit: 5,
+      selectedDeckId: 'deck-default',
+      selfRatedLevel: 'intermediate',
+      spellingEnabled: true,
+      longVideoTimedLearningEnabled: false,
+      longVideoIntervalMinutes: 10,
+    });
     showEnablePrompt.mockReset();
     vi.stubGlobal('chrome', {
       runtime: { onMessage: { addListener: vi.fn() } },

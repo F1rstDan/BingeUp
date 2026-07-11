@@ -1,8 +1,15 @@
 import type {
+  AppSettings,
+} from '@/types';
+import type {
   CooldownStatusResponse,
+  ExportDataResponse,
   ExtensionMessage,
+  ImportDataResponse,
   PauseResponse,
   PopupDataResponse,
+  RemoveSiteResponse,
+  SiteListResponse,
   SiteStateResponse,
 } from '@/messaging/messages';
 
@@ -51,6 +58,35 @@ export const messageClient = {
   },
   async getPopupData(hostname: string): Promise<PopupDataResponse> {
     return send({ type: 'GET_POPUP_DATA', hostname });
+  },
+
+  // ─── Issue #10：设置页与本地数据管理 ─────────────────────
+  async getAppSettings(): Promise<AppSettings> {
+    return send({ type: 'GET_APP_SETTINGS' });
+  },
+  async setAppSettings(settings: AppSettings): Promise<AppSettings> {
+    return send({ type: 'SET_APP_SETTINGS', settings });
+  },
+  async resetAppSettings(): Promise<AppSettings> {
+    return send({ type: 'RESET_APP_SETTINGS' });
+  },
+  async listSites(): Promise<SiteListResponse> {
+    return send({ type: 'LIST_SITES' });
+  },
+  async removeSite(hostname: string): Promise<RemoveSiteResponse> {
+    return send({ type: 'REMOVE_SITE', hostname });
+  },
+  async exportData(): Promise<ExportDataResponse> {
+    return send({ type: 'EXPORT_DATA' });
+  },
+  async importData(payload: unknown): Promise<ImportDataResponse> {
+    return send({ type: 'IMPORT_DATA', payload });
+  },
+  async clearLearningProgress(): Promise<void> {
+    await send({ type: 'CLEAR_LEARNING_PROGRESS' });
+  },
+  async clearAllData(): Promise<void> {
+    await send({ type: 'CLEAR_ALL_DATA' });
   },
 };
 

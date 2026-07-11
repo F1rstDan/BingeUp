@@ -13,6 +13,7 @@ export const STORES = {
   reviewLogs: 'reviewLogs',
   words: 'words',
   decks: 'decks',
+  sessionLogs: 'sessionLogs',
 } as const;
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
@@ -115,6 +116,13 @@ export async function idbCount(db: IDBDatabase, store: StoreName): Promise<numbe
   const tx = db.transaction(store, 'readonly');
   const result = await awaitRequest<number>(tx.objectStore(store).count());
   return result;
+}
+
+/** 清空指定仓库内的所有记录（Issue #10 AC4 数据清除）。 */
+export async function idbClear(db: IDBDatabase, store: StoreName): Promise<void> {
+  const tx = db.transaction(store, 'readwrite');
+  tx.objectStore(store).clear();
+  await awaitTransaction(tx);
 }
 
 /** 按索引查询，返回第一条匹配记录。 */

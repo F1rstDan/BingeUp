@@ -95,7 +95,7 @@ describe('LocalSettingsStore — 重启持久化', () => {
     });
   });
 
-  it('不允许把未知网站持久化为启用状态', async () => {
+  it('自定义站点 full-adaptation 降级为 generic-video（Issue #11）', async () => {
     const writer = new LocalSettingsStore();
     await writer.setSite('unknown.host', {
       enabled: true,
@@ -106,22 +106,22 @@ describe('LocalSettingsStore — 重启持久化', () => {
     const reader = new LocalSettingsStore();
 
     await expect(reader.getSite('unknown.host')).resolves.toEqual({
-      enabled: false,
-      mode: 'unsupported',
-      firstQuestionPending: false,
+      enabled: true,
+      mode: 'generic-video',
+      firstQuestionPending: true,
     });
   });
 
-  it('不能通过启用操作绕过未知网站限制', async () => {
+  it('enableSite 对自定义站点降级为 generic-video（Issue #11）', async () => {
     const writer = new LocalSettingsStore();
     await writer.enableSite('unknown.host');
 
     const reader = new LocalSettingsStore();
 
     await expect(reader.getSite('unknown.host')).resolves.toEqual({
-      enabled: false,
-      mode: 'unsupported',
-      firstQuestionPending: false,
+      enabled: true,
+      mode: 'generic-video',
+      firstQuestionPending: true,
     });
   });
 

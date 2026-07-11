@@ -30,14 +30,42 @@ export interface SiteSettings {
    * 达到 MAX_PROMPT_DECLINES（2）后不再主动提示。undefined 视为 0。
    */
   promptDeclineCount?: number;
+  /**
+   * 基础网页模式下的页面加载触发开关（Issue #10 AC2）。
+   * 仅 mode === 'basic-web' 时有意义；缺省视为 true。
+   */
+  pageLoadTrigger?: boolean;
+  /**
+   * 基础网页模式下的明显滚动触发开关（Issue #10 AC2）。
+   * 仅 mode === 'basic-web' 时有意义；缺省视为 true。
+   */
+  scrollTrigger?: boolean;
 }
 
-/** 应用设置（第一条纵向切片只用到冷却相关字段；其余字段由后续 Issue 引入）。 */
+/** 用户自评学习水平（执行计划书第四节）。 */
+export type SelfRatedLevel = 'beginner' | 'intermediate' | 'advanced';
+
+/**
+ * 应用设置（Issue #10 扩展为完整设置模型）。
+ * 默认值只有一个来源：src/settings/defaults.ts。
+ */
 export interface AppSettings {
+  /** 默认全局冷却分钟数（CONTEXT.md：全局冷却）。 */
   defaultCooldownMinutes: number;
+  /** 连续跳过降频冷却分钟数，例如 [5, 15, 60]。 */
   consecutiveSkipCooldowns: number[];
   /** 每日新词上限：一个本地自然日内通过“知道了”接受的新词数量上限（CONTEXT.md）。 */
   dailyNewWordLimit: number;
+  /** 当前词库 ID（执行计划书：学习设置）。 */
+  selectedDeckId: string;
+  /** 自评学习水平（执行计划书：学习设置）。 */
+  selfRatedLevel: SelfRatedLevel;
+  /** 拼写题开关：仅连续学习模式出现拼写题（执行计划书：学习设置）。 */
+  spellingEnabled: boolean;
+  /** 长视频定时学习开关（CONTEXT.md：长视频定时学习）。 */
+  longVideoTimedLearningEnabled: boolean;
+  /** 长视频定时学习间隔（分钟）。 */
+  longVideoIntervalMinutes: number;
 }
 
 /** 视频播放快照：用于在交互后恢复正确播放状态。 */
@@ -368,3 +396,89 @@ export type OverlayAction =
   | { type: 'accept-new-word-and-continue'; wordId: string }
   | { type: 'self-report-and-continue'; wordId: string }
   | { type: 'exit-learning' };
+
+// ─── 本地学习统计（Issue #12） ───────────────────────────────────
+
+/**
+ * 学习会话日志：记录一次学习交互（从打开遮罩到关闭）的元数据。
+ *
+ * 用于统计跳过次数、连续学习会话数和连续题数——这些指标无法从复习日志
+ * 或学习卡状态派生（跳过不产生复习日志）。
+ *
+ * 统计完全派生自源数据（复习日志 + 学习卡 + 会话日志），不存储聚合结果，
+ * 因此评分纠正、日期切换、清除数据和导入数据不会造成重复或过期统计（AC3）。
+ */
+export interface SessionLogRecord {
+  id: string;
+  /** 会话开始时间戳（ms）。 */
+  startedAt: number;
+  /** 会话结束时间戳（ms）。 */
+  endedAt: number;
+  /** 学习模式：单题 / 连续。 */
+  mode: LearningMode;
+  /**
+   * 会话结果：
+   * - `submitted`：正常完成题目或接受新词后返回视频；
+   * - `skipped`：未提交直接跳过；
+   * - `exit`：连续学习模式中结束学习（不算跳过，Issue #8 验收标准 4）。
+   */
+  outcome: 'submitted' | 'skipped' | 'exit';
+  /** 会话中提交的题目数（含连续模式多题）。 */
+  questionsAnswered: number;
+}
+
+/** 今日学习统计（AC1）。 */
+export interface TodayStats {
+  /** 完成题目数（今日复习日志数）。 */
+  completedQuestions: number;
+  /** 正确题数（今日复习日志中 isCorrect=true）。 */
+  correctAnswers: number;
+  /** 跳过次数（今日会话日志中 outcome='skipped'）。 */
+  skipped: number;
+  /** 复习词数（今日有复习日志、且学习卡在今日之前创建的不同单词数）。 */
+  reviewedWords: number;
+  /** 新词数（今日通过"知道了"接受的学习卡数）。 */
+  newWords: number;
+  /** 连续学习会话数（今日会话日志中 mode='continuous'）。 */
+  continuousSessions: number;
+  /** 连续题数（今日连续学习会话中提交的题目总数）。 */
+  continuousQuestions: number;
+}
+
+/** 学习卡状态统计（AC2）。 */
+export interface CardStatusStats {
+  /** 短期学习词数。 */
+  shortTerm: number;
+  /** 长期复习词数。 */
+  longTerm: number;
+  /** 自报认识词数（待验证）。 */
+  selfReported: number;
+}
+
+/** 周对比（AC2）。 */
+export interface WeekComparison {
+  /** 本周完成题数。 */
+  thisWeekCompleted: number;
+  /** 上周完成题数。 */
+  lastWeekCompleted: number;
+  /** 本周正确率（0-1）。 */
+  thisWeekAccuracy: number;
+  /** 上周正确率（0-1）。 */
+  lastWeekAccuracy: number;
+}
+
+/** 本地学习统计汇总（AC1 / AC2）。 */
+export interface LearningStats {
+  /** 今日统计。 */
+  today: TodayStats;
+  /** 本周学习天数（本地自然日，本周内有复习日志或会话日志的不同日期数）。 */
+  weekLearningDays: number;
+  /** 学习卡状态分布。 */
+  cardStatus: CardStatusStats;
+  /** 待复习词数（nextReviewAt <= now 的学习卡数）。 */
+  dueReviewCount: number;
+  /** 延迟复习正确率（长期复习词的复习日志正确率，0-1）。 */
+  delayedReviewAccuracy: number;
+  /** 周对比。 */
+  weekComparison: WeekComparison;
+}
