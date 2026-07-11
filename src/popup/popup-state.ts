@@ -1,6 +1,7 @@
 import type { OverlayMode, SiteMode, SiteSettings } from '@/types';
 import { isGloballyPaused } from '@/pause/pause-rules';
 import { MAX_PROMPT_DECLINES } from '@/onboarding/onboarding-service';
+import { isSupportedHostname } from '@/sites/supported-sites';
 
 /**
  * Popup 显示状态派生（Issue #9 AC3 / AC5）。纯函数。
@@ -39,6 +40,8 @@ export interface PopupDisplayState {
   canControlVideo: boolean;
   /** 是否应在 Popup 显示"开启当前网站"提示（AC2）。 */
   showEnablePrompt: boolean;
+  /** 是否可加入当前网站为自定义站点（Issue #11 AC1）。 */
+  canAddCustomSite: boolean;
 }
 
 export interface DerivePopupStateInput {
@@ -97,6 +100,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       overlayMode: null,
       canControlVideo: false,
       showEnablePrompt: false,
+      canAddCustomSite: false,
     };
   }
 
@@ -112,6 +116,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       overlayMode: null,
       canControlVideo: false,
       showEnablePrompt: false,
+      canAddCustomSite: false,
     };
   }
 
@@ -127,10 +132,16 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       overlayMode: null,
       canControlVideo: false,
       showEnablePrompt: false,
+      canAddCustomSite: false,
     };
   }
 
   const level: PopupCompatibilityLevel = input.site.mode;
+  // Issue #11 AC1：非专属适配站点且未加入（unsupported）时，允许用户主动加入。
+  // 规范要求 HTTPS：内容脚本仅匹配 https://*/*，HTTP 站点加入后无法注入。
+  const isHttps = input.url.startsWith('https://');
+  const canAddCustomSite =
+    isHttps && !isSupportedHostname(input.hostname) && input.site.mode === 'unsupported';
   return {
     hostname: input.hostname,
     isProtectedPage: false,
@@ -142,5 +153,6 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     canControlVideo: canControlVideoFor(level),
     showEnablePrompt:
       !input.site.enabled && (input.site.promptDeclineCount ?? 0) < MAX_PROMPT_DECLINES,
+    canAddCustomSite,
   };
 }

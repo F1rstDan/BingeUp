@@ -104,7 +104,7 @@ describe('bootstrapContent — 启动诊断', () => {
     await bootstrapContent();
 
     expect(info).toHaveBeenCalledWith(
-      '[BingeUp] 内容脚本未启动：当前页面不受支持',
+      '[BingeUp] 内容脚本未启动：自定义站点未启用或不支持',
       'music.youtube.com',
     );
     info.mockRestore();

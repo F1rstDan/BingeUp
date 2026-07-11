@@ -1,5 +1,6 @@
 import type {
   AppSettings,
+  SiteMode,
 } from '@/types';
 import type {
   CooldownStatusResponse,
@@ -87,6 +88,14 @@ export const messageClient = {
   },
   async clearAllData(): Promise<void> {
     await send({ type: 'CLEAR_ALL_DATA' });
+  },
+
+  // ─── Issue #11：自定义网站兼容模式 ─────────────────────
+  async addCustomSite(hostname: string): Promise<SiteStateResponse> {
+    return send({ type: 'ADD_CUSTOM_SITE', hostname });
+  },
+  async updateSiteMode(hostname: string, mode: SiteMode): Promise<void> {
+    await send({ type: 'UPDATE_SITE_MODE', hostname, mode });
   },
 };
 

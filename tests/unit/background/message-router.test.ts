@@ -473,3 +473,76 @@ describe('message-router — Issue #10 新增消息', () => {
     expect(await store.listSites()).toHaveLength(0);
   });
 });
+
+// ─── Issue #11：自定义网站兼容模式 ───────────────────────────────
+
+describe('message-router — Issue #11 新增消息', () => {
+  let cleanup: (() => void) | null = null;
+  let store: LocalSettingsStore;
+  let router: ReturnType<typeof createMessageRouter>;
+
+  beforeEach(() => {
+    installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    store = new LocalSettingsStore();
+    router = createMessageRouter(store);
+  });
+
+  afterEach(() => {
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('ADD_CUSTOM_SITE：以 basic-web 模式启用自定义站点', async () => {
+    const res = (await router.handle(
+      { type: 'ADD_CUSTOM_SITE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { enabled: boolean; mode: string; hostname: string; firstQuestionPending: boolean };
+
+    expect(res.enabled).toBe(true);
+    expect(res.mode).toBe('basic-web');
+    expect(res.hostname).toBe('example.com');
+    expect(res.firstQuestionPending).toBe(true);
+
+    // 验证持久化
+    const site = await store.getSite('example.com');
+    expect(site.enabled).toBe(true);
+    expect(site.mode).toBe('basic-web');
+  });
+
+  it('ADD_CUSTOM_SITE：full-adaptation 被降级为 generic-video（保护官方适配器边界）', async () => {
+    // 先手动设置 full-adaptation，验证 normalize 逻辑
+    await store.enableSite('example.com', 'full-adaptation');
+    const site = await store.getSite('example.com');
+    // enableSite 直接写入，getSite 会通过 normalizeSiteSettings 规范化
+    expect(site.mode).toBe('generic-video');
+  });
+
+  it('UPDATE_SITE_MODE：更新站点兼容模式（AC4 能力检测回写）', async () => {
+    // 先加入站点（默认 basic-web）
+    await store.enableSite('example.com', 'basic-web');
+
+    // 内容脚本检测到视频后回写为 generic-video
+    await router.handle(
+      { type: 'UPDATE_SITE_MODE', hostname: 'example.com', mode: 'generic-video' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    const site = await store.getSite('example.com');
+    expect(site.mode).toBe('generic-video');
+    // enabled 等其他字段保留
+    expect(site.enabled).toBe(true);
+  });
+
+  it('UPDATE_SITE_MODE：basic-web → basic-web（无变化也正常）', async () => {
+    await store.enableSite('example.com', 'basic-web');
+    await router.handle(
+      { type: 'UPDATE_SITE_MODE', hostname: 'example.com', mode: 'basic-web' },
+      {} as chrome.runtime.MessageSender,
+    );
+    const site = await store.getSite('example.com');
+    expect(site.mode).toBe('basic-web');
+  });
+});

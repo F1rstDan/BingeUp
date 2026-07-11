@@ -48,7 +48,12 @@ export type ExtensionMessage =
   /** 清除学习进度：只清空 cards/reviewLogs（AC4）。 */
   | { type: 'CLEAR_LEARNING_PROGRESS' }
   /** 清除全部本地数据（AC4）。 */
-  | { type: 'CLEAR_ALL_DATA' };
+  | { type: 'CLEAR_ALL_DATA' }
+  // ─── Issue #11：自定义网站兼容模式 ─────────────────────
+  /** 加入当前网站：启用站点并写入默认模式，用户需刷新页面激活。 */
+  | { type: 'ADD_CUSTOM_SITE'; hostname: string }
+  /** 更新站点兼容模式（内容脚本能力检测后回写，AC4）。 */
+  | { type: 'UPDATE_SITE_MODE'; hostname: string; mode: SiteSettings['mode'] };
 
 /** Background 返回给 Content 的冷却状态。 */
 export interface CooldownStatusResponse extends CooldownState {}

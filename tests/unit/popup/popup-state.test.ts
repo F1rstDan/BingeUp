@@ -252,3 +252,109 @@ describe('popup-state — 启用提示（AC2）', () => {
     expect(state.showEnablePrompt).toBe(false);
   });
 });
+
+describe('popup-state — 自定义网站加入（Issue #11 AC1）', () => {
+  it('非官方站点 + unsupported → canAddCustomSite=true', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'https://example.com/',
+      site: site({ enabled: false, mode: 'unsupported' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: false,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(true);
+  });
+
+  it('官方站点（Bilibili）→ canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: 'www.bilibili.com',
+      url: 'https://www.bilibili.com/',
+      site: site({ enabled: false, mode: 'unsupported' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('官方站点（YouTube）→ canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: 'www.youtube.com',
+      url: 'https://www.youtube.com/',
+      site: site({ enabled: false, mode: 'unsupported' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('已加入的自定义站点（basic-web）→ canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'https://example.com/',
+      site: site({ enabled: true, mode: 'basic-web' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('已加入的自定义站点（generic-video）→ canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'https://example.com/',
+      site: site({ enabled: true, mode: 'generic-video' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('受保护页面 → canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: '',
+      url: 'chrome://extensions/',
+      site: site({ mode: 'unsupported' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: false,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('引导未完成 → canAddCustomSite=false', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'https://example.com/',
+      site: site({ mode: 'unsupported' }),
+      onboardingCompleted: false,
+      globalPausedUntil: 0,
+      hasHostPermission: false,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+
+  it('HTTP 页面 → canAddCustomSite=false（规范要求 HTTPS）', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'http://example.com/',
+      site: site({ enabled: false, mode: 'unsupported' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: false,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(false);
+  });
+});

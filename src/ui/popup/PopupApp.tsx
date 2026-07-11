@@ -217,9 +217,16 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
 
       <div className="bingeup-divider" />
 
-      {/* AC4：暂停控制 */}
+      {/* AC4：暂停控制 / Issue #11：加入当前网站 */}
       <div className="bingeup-actions">
-        {state.enabled ? (
+        {state.canAddCustomSite ? (
+          <button
+            className="bingeup-btn-primary bingeup-btn-full"
+            onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
+          >
+            加入当前网站
+          </button>
+        ) : state.enabled ? (
           <button
             className="bingeup-btn-danger"
             onClick={() => void handleDisable(ctx.hostname, onReload)}
@@ -299,6 +306,28 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
 }
 
 // ─── 动作处理 ──────────────────────────────────────────────
+
+async function handleAddCustomSite(
+  hostname: string,
+  onReload: () => Promise<void>,
+  onNotice: (msg: string | null) => void,
+): Promise<void> {
+  // Issue #11 AC1：用户主动加入当前网站。先请求可选主机权限，再启用站点。
+  try {
+    const granted = await chrome.permissions.request({
+      origins: [`*://${hostname}/*`, `*://*.${hostname}/*`],
+    });
+    if (!granted) {
+      onNotice('未授予访问权限，无法加入当前网站。');
+      return;
+    }
+    await messageClient.addCustomSite(hostname);
+    onNotice('已加入当前网站，请刷新页面以启用学习。');
+    await onReload();
+  } catch (e) {
+    onNotice(`加入失败：${e instanceof Error ? e.message : String(e)}`);
+  }
+}
 
 async function handleDisable(hostname: string, onReload: () => Promise<void>): Promise<void> {
   await messageClient.disableSite(hostname);

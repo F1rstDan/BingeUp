@@ -159,6 +159,18 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         await clearAllLocalData(store, db);
         return undefined;
       }
+
+      // ─── Issue #11：自定义网站兼容模式 ───────────────────
+      case 'ADD_CUSTOM_SITE': {
+        // 加入自定义站点：以基础网页模式启用，内容脚本加载后按能力检测更新。
+        await store.enableSite(message.hostname, 'basic-web');
+        const site = await store.getSite(message.hostname);
+        return { ...site, hostname: message.hostname };
+      }
+      case 'UPDATE_SITE_MODE': {
+        await store.updateSiteMode(message.hostname, message.mode);
+        return undefined;
+      }
       default: {
         return undefined;
       }
