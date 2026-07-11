@@ -1,4 +1,6 @@
 import { BilibiliAdapter } from '@/adapters/bilibili';
+import { YouTubeAdapter } from '@/adapters/youtube';
+import type { VideoSiteAdapter } from '@/adapters/types';
 import { OverlayController } from '@/content/overlay-controller';
 import { ContentController, type CooldownStore, type SiteStatePort } from '@/content/content-controller';
 import { adaptHtmlVideo } from '@/video/playback-controller';
@@ -46,8 +48,14 @@ export class MessageSiteState implements SiteStatePort {
 }
 
 /**
+ * 专属网站适配器注册表：按顺序匹配，首个匹配者生效。
+ * 通用视频与基础网页适配器在后续 Issue 引入后追加到末尾。
+ */
+const OFFICIAL_ADAPTERS: VideoSiteAdapter[] = [new BilibiliAdapter(), new YouTubeAdapter()];
+
+/**
  * 启动内容侧核心闭环（M0/M4/M6 串联）。
- * 仅在站点已启用且适配器匹配时挂载控制器；否则什么都不做。
+ * 仅在站点已启用且存在匹配的专属适配器时挂载控制器；否则什么都不做。
  */
 export async function bootstrapContent(): Promise<void> {
   const hostname = location.hostname;
@@ -56,19 +64,19 @@ export async function bootstrapContent(): Promise<void> {
     return;
   }
 
-  const bilibili = new BilibiliAdapter();
-  if (!bilibili.matches(location)) {
+  const adapter = OFFICIAL_ADAPTERS.find((a) => a.matches(location));
+  if (!adapter) {
     return;
   }
   // 把完整 VideoSiteAdapter 适配为控制器需要的窄端口。
-  const adapter = {
+  const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
-      bilibili.observePageChanges(handler),
+      adapter.observePageChanges(handler),
   };
 
   const overlay = new OverlayController();
   const controller = new ContentController({
-    adapter,
+    adapter: adapterPort,
     overlay,
     cooldownStore: new MessageCooldownStore(),
     siteState: new MessageSiteState(hostname),
