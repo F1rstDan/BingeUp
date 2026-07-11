@@ -1,5 +1,6 @@
 import type { CooldownState, SiteSettings } from '@/types';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import { isSupportedHostname } from '@/sites/supported-sites';
 
 const STORAGE_KEY = 'bingeup:state';
 
@@ -13,7 +14,10 @@ const DEFAULT_STATE: PersistedState = {
   sites: {},
 };
 
-function defaultSiteSettings(): SiteSettings {
+function defaultSiteSettings(hostname: string): SiteSettings {
+  if (!isSupportedHostname(hostname)) {
+    return { enabled: false, mode: 'unsupported', firstQuestionPending: false };
+  }
   return { enabled: true, mode: 'full-adaptation', firstQuestionPending: true };
 }
 
@@ -26,7 +30,7 @@ export class LocalSettingsStore {
     const result = await chrome.storage.local.get(STORAGE_KEY);
     const stored = result[STORAGE_KEY] as PersistedState | undefined;
     if (!stored) {
-      return { ...DEFAULT_STATE };
+      return { cooldown: { ...DEFAULT_STATE.cooldown }, sites: { ...DEFAULT_STATE.sites } };
     }
     return {
       cooldown: { ...DEFAULT_STATE.cooldown, ...stored.cooldown },
@@ -50,7 +54,7 @@ export class LocalSettingsStore {
 
   async getSite(hostname: string): Promise<SiteSettings> {
     const state = await this.read();
-    return state.sites[hostname] ?? defaultSiteSettings();
+    return state.sites[hostname] ?? defaultSiteSettings(hostname);
   }
 
   async setSite(hostname: string, settings: SiteSettings): Promise<void> {
@@ -61,7 +65,7 @@ export class LocalSettingsStore {
 
   async markFirstQuestionHandled(hostname: string): Promise<void> {
     const state = await this.read();
-    const site = state.sites[hostname] ?? defaultSiteSettings();
+    const site = state.sites[hostname] ?? defaultSiteSettings(hostname);
     if (site.firstQuestionPending) {
       site.firstQuestionPending = false;
       state.sites[hostname] = site;

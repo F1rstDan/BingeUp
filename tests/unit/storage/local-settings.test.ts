@@ -79,10 +79,20 @@ describe('LocalSettingsStore — 重启持久化', () => {
   it('未存储任何数据时，受支持站点默认启用并保留首次触发', async () => {
     const reader = new LocalSettingsStore();
     const cooldown = await reader.getCooldown();
-    const site = await reader.getSite('unknown.host');
+    const site = await reader.getSite('www.bilibili.com');
 
     expect(cooldown).toEqual({ nextAllowedAt: 0, consecutiveSkipCount: 0 });
     expect(site).toEqual({ enabled: true, mode: 'full-adaptation', firstQuestionPending: true });
+  });
+
+  it('未存储任何数据时，未知网站保持未启用', async () => {
+    const reader = new LocalSettingsStore();
+
+    await expect(reader.getSite('unknown.host')).resolves.toEqual({
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
+    });
   });
 
   it('已持久化的暂停状态不会被默认启用覆盖', async () => {

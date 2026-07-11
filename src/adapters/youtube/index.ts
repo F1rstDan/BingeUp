@@ -1,5 +1,6 @@
 import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
+import { isYouTubeHostname } from '@/sites/supported-sites';
 
 /** 视频被视为"有意义主播放器"的最小可见尺寸（px）。 */
 const MIN_VIDEO_WIDTH = 200;
@@ -59,12 +60,7 @@ export class YouTubeAdapter implements VideoSiteAdapter {
   readonly id = 'youtube';
 
   matches(location: Location): boolean {
-    // Beta 仅支持 YouTube 普通视频与 Shorts（见 #1 规格）。YouTube Music 是独立产品，
-    // 其 watch 页会产生视频身份，故显式排除，避免在 music.youtube.com 误触发。
-    if (location.hostname === 'music.youtube.com') {
-      return false;
-    }
-    return location.hostname.endsWith('youtube.com');
+    return isYouTubeHostname(location.hostname);
   }
 
   findPrimaryVideo(): HTMLVideoElement | null {

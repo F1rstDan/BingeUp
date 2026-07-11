@@ -1,5 +1,6 @@
 import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
+import { isBilibiliHostname } from '@/sites/supported-sites';
 
 /** 视频被视为"有意义主播放器"的最小可见尺寸（px）。 */
 const MIN_VIDEO_WIDTH = 200;
@@ -58,7 +59,7 @@ export class BilibiliAdapter implements VideoSiteAdapter {
   readonly id = 'bilibili';
 
   matches(location: Location): boolean {
-    return location.hostname.endsWith('bilibili.com');
+    return isBilibiliHostname(location.hostname);
   }
 
   findPrimaryVideo(): HTMLVideoElement | null {
