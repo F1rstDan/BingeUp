@@ -3,6 +3,7 @@ import {
   chooseQuestionType,
   generateContextChoiceQuestion,
   generateEnToZhQuestion,
+  generateSpellingQuestion,
   generateZhToEnQuestion,
   meaningText,
   pickDistractors,
@@ -403,3 +404,67 @@ describe('chooseQuestionType — 按学习阶段选择题型（Issue #7 验收�
     expect(chooseQuestionType('long-term')).toBe('zh-to-en');
   });
 });
+
+// ─── 拼写题生成（Issue #8 验收标准 3） ─────────────────────────
+
+describe('generateSpellingQuestion — 拼写题生成（Issue #8 验收标准 3）', () => {
+  it('生成拼写题，type 为 spelling', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: DISTRACTORS,
+      cardId: 'card-1',
+    });
+    expect(q.type).toBe('spelling');
+  });
+
+  it('题干是目标词的核心中文释义', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: DISTRACTORS,
+      cardId: 'card-1',
+    });
+    expect(q.prompt).toBe(meaningText(TARGET));
+  });
+
+  it('正确答案是目标词的词形', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: DISTRACTORS,
+      cardId: 'card-1',
+    });
+    expect(q.correctAnswer).toBe('abandon');
+  });
+
+  it('解释信息包含词形、词性、释义和例句', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: DISTRACTORS,
+      cardId: 'card-1',
+    });
+    expect(q.explanation.word).toBe('abandon');
+    expect(q.explanation.partOfSpeech).toEqual(['v.']);
+    expect(q.explanation.meanings).toEqual(['放弃；遗弃']);
+    expect(q.explanation.exampleSentence).toBe('He abandoned his car.');
+  });
+
+  it('cardId 和 wordId 正确传递', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: DISTRACTORS,
+      cardId: 'card-spelling-1',
+    });
+    expect(q.cardId).toBe('card-spelling-1');
+    expect(q.wordId).toBe('w-abandon');
+  });
+
+  it('不使用干扰词（拼写题无需选项）', () => {
+    const q = generateSpellingQuestion({
+      targetWord: TARGET,
+      distractors: [],
+      cardId: 'card-1',
+    });
+    expect(q.correctAnswer).toBe('abandon');
+    expect(q).not.toHaveProperty('options');
+  });
+});
+

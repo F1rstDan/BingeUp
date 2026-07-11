@@ -1,7 +1,7 @@
 import { createRoot, type Root } from 'react-dom/client';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
-import type { OverlayPort } from '@/content/content-controller';
+import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
 
 const OVERLAY_HOST_ID = 'bingeup-overlay-host';
 
@@ -113,9 +113,25 @@ const OVERLAY_CSS = `
     font-weight: 600;
     text-align: center;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .bingeup-feedback-result.correct { color: #34d399; }
   .bingeup-feedback-result.wrong { color: #f87171; }
+  .bingeup-feedback-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .bingeup-feedback-icon.correct { background: #34d399; color: #064e3b; }
+  .bingeup-feedback-icon.wrong { background: #f87171; color: #7f1d1d; }
   .bingeup-explanation-toggle {
     display: block;
     width: 100%;
@@ -141,6 +157,77 @@ const OVERLAY_CSS = `
   .bingeup-explanation-meanings { color: #e5e7eb; margin-bottom: 8px; }
   .bingeup-explanation-example { color: #9ca3af; font-style: italic; margin-bottom: 2px; }
   .bingeup-explanation-example-translation { color: #6b7280; font-size: 13px; }
+  .bingeup-previous-feedback {
+    padding: 12px 14px;
+    background: #111827;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border-left: 3px solid #374151;
+  }
+  .bingeup-previous-feedback.correct { border-left-color: #34d399; }
+  .bingeup-previous-feedback.wrong { border-left-color: #f87171; }
+  .bingeup-previous-feedback-title {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .bingeup-previous-feedback-prompt {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+  .bingeup-previous-feedback-result {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .bingeup-previous-feedback-result.correct { color: #34d399; }
+  .bingeup-previous-feedback-result.wrong { color: #f87171; }
+  .bingeup-previous-feedback-answer {
+    font-size: 13px;
+    color: #9ca3af;
+  }
+  .bingeup-previous-feedback-answer .correct-answer {
+    color: #e5e7eb;
+    font-weight: 500;
+  }
+  .bingeup-spelling-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #374151;
+    background: #111827;
+    color: #e5e7eb;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 18px;
+    outline: none;
+    transition: border-color 0.12s;
+    font-family: inherit;
+  }
+  .bingeup-spelling-input:focus { border-color: #60a5fa; }
+  .bingeup-spelling-input::placeholder { color: #6b7280; }
+  .bingeup-exit {
+    background: #4b5563;
+    color: #d1d5db;
+  }
+  .bingeup-exit:disabled { opacity: 0.6; cursor: default; }
+  .bingeup-continuous-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
 `;
 
 /**
@@ -162,7 +249,12 @@ export class OverlayController implements OverlayPort {
     this.actionHandler = handler;
   }
 
-  open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode): void {
+  open(
+    item: LearningItem,
+    target: HTMLElement | DOMRect,
+    mode: OverlayMode,
+    options?: OverlayOpenOptions,
+  ): void {
     // 防止重复挂载（不应出现，但保证不会产生重复 React root）。
     if (this.host !== null) {
       this.close();
@@ -192,6 +284,9 @@ export class OverlayController implements OverlayPort {
       <OverlayApp
         item={item}
         onAction={(action) => this.actionHandler?.(action)}
+        previousFeedback={options?.previousFeedback}
+        previousQuestion={options?.previousQuestion}
+        isContinuous={options?.isContinuous}
       />,
     );
 

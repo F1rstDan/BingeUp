@@ -223,21 +223,44 @@ export interface MultipleChoiceQuestion {
   explanation: QuestionExplanation;
 }
 
+/**
+ * 拼写题：用户根据中文释义输入英文词形（Issue #8 验收标准 3）。
+ * 仅用于连续学习模式；普通自然触发的单题模式不会出现拼写题。
+ */
+export interface SpellingQuestion {
+  id: string;
+  type: 'spelling';
+  cardId: string;
+  wordId: string;
+  /** 题干：中文释义（用户据此拼写英文词）。 */
+  prompt: string;
+  /** 正确答案（英文词形）。 */
+  correctAnswer: string;
+  /** 可接受的其他正确形式（如词形变化），可选。 */
+  acceptableAnswers?: string[];
+  explanation: QuestionExplanation;
+}
+
+/** 统一题目类型：选择题或拼写题。 */
+export type Question = MultipleChoiceQuestion | SpellingQuestion;
+
 /** 新词展示：呈现候选新词的词形、释义和例句，不测试也不判分（CONTEXT.md：新词展示）。 */
 export interface NewWordPresentation {
   word: WordRecord;
 }
 
 /**
- * 学习项目：一个自然触发点要呈现的内容（Issue #6，单题模式）。
+ * 学习项目：一个自然触发点或连续学习一帧要呈现的内容。
  * - `new-word-presentation`：候选新词展示，不创建学习卡；
- * - `question`：针对已有学习卡的题目（含验证题）。
+ * - `question`：针对已有学习卡的选择题（含验证题）；
+ * - `spelling-question`：拼写题，仅连续学习模式（Issue #8 验收标准 3）。
  */
 export type LearningItem =
   | { kind: 'new-word-presentation'; presentation: NewWordPresentation }
-  | { kind: 'question'; question: MultipleChoiceQuestion };
+  | { kind: 'question'; question: MultipleChoiceQuestion }
+  | { kind: 'spelling-question'; question: SpellingQuestion };
 
-/** 提交答案的结果。 */
+/** 提交选择题答案的内容。 */
 export interface AnswerSubmission {
   question: MultipleChoiceQuestion;
   selectedIndex: number;
@@ -246,10 +269,21 @@ export interface AnswerSubmission {
   answerChanges?: number;
 }
 
+/** 提交拼写题答案的内容（Issue #8 验收标准 3）。 */
+export interface SpellingSubmission {
+  question: SpellingQuestion;
+  spelledAnswer: string;
+  responseTimeMs: number;
+  answerChanges?: number;
+}
+
 /** 提交后的判定结果（含可展开的学习信息，Issue #6 验收标准 5）。 */
 export interface SubmissionResult {
   isCorrect: boolean;
-  correctIndex: number;
+  /** 选择题的正确选项索引；拼写题缺省。 */
+  correctIndex?: number;
+  /** 正确答案文本（选择题为选项文本，拼写题为英文词形）。 */
+  correctAnswer: string;
   cardId: string;
   reviewLogId: string;
   /** 提交后展示给用户的单词详情（词形、词性、释义、例句等）。 */
@@ -274,10 +308,24 @@ export interface CorrectionResult {
 }
 
 /**
- * 覆盖层发出的用户动作（Issue #6 / #7）。
+ * 覆盖层发出的用户动作（Issue #6 / #7 / #8）。
  * 控制器据此调用 LearningService 并决定冷却结果。
- * - `submit-answer` 与 `correct-rating` 是"软"动作：不关闭遮罩，进入/保持在反馈阶段；
- * - 其余为"终态"动作：关闭遮罩、恢复视频、记录冷却。
+ *
+ * 软动作（不关闭遮罩）：
+ * - `submit-answer`：提交选择题答案，进入反馈阶段；
+ * - `submit-spelling`：提交拼写题答案，进入反馈阶段（Issue #8）；
+ * - `correct-rating`：用户纠正评分，保持在反馈阶段。
+ *
+ * 连续学习动作（Issue #8 验收标准 1）：
+ * - `submit-and-continue`：提交选择题并加载下一题，保留暂停状态；
+ * - `submit-spelling-and-continue`：提交拼写题并加载下一题；
+ * - `accept-new-word-and-continue`：接受新词并加载下一题；
+ * - `self-report-and-continue`：自报认识并加载下一题。
+ *
+ * 终态动作（关闭遮罩、恢复视频、记录冷却）：
+ * - `accept-new-word` / `self-report`：单题模式接受/自报；
+ * - `skip`：跳过（未提交为真跳过，已提交为完成）；
+ * - `exit-learning`：结束连续学习，不提交当前题，不算跳过，应用默认冷却（Issue #8 验收标准 4）。
  */
 export type OverlayAction =
   | { type: 'accept-new-word'; wordId: string }
@@ -289,5 +337,29 @@ export type OverlayAction =
       responseTimeMs: number;
       answerChanges?: number;
     }
+  | {
+      type: 'submit-spelling';
+      question: SpellingQuestion;
+      spelledAnswer: string;
+      responseTimeMs: number;
+      answerChanges?: number;
+    }
   | { type: 'correct-rating'; reviewLogId: string; correction: UserCorrection }
-  | { type: 'skip' };
+  | { type: 'skip' }
+  | {
+      type: 'submit-and-continue';
+      question: MultipleChoiceQuestion;
+      selectedIndex: number;
+      responseTimeMs: number;
+      answerChanges?: number;
+    }
+  | {
+      type: 'submit-spelling-and-continue';
+      question: SpellingQuestion;
+      spelledAnswer: string;
+      responseTimeMs: number;
+      answerChanges?: number;
+    }
+  | { type: 'accept-new-word-and-continue'; wordId: string }
+  | { type: 'self-report-and-continue'; wordId: string }
+  | { type: 'exit-learning' };

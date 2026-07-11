@@ -95,14 +95,16 @@ function fakeOverlay() {
     lastItem: null as LearningItem | null,
     lastTarget: null as unknown,
     lastMode: null as OverlayMode | null,
+    lastOptions: undefined as unknown,
     onAction(h: (a: OverlayAction) => void) {
       actionHandler = h;
     },
-    open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode) {
+    open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode, options?: unknown) {
       state.openCalls += 1;
       state.lastItem = item;
       state.lastTarget = target;
       state.lastMode = mode;
+      state.lastOptions = options;
     },
     close() {
       state.closeCalls += 1;
@@ -154,13 +156,23 @@ function fakeSiteState(firstPending: boolean) {
 function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
   const svc = {
     nextItemCalls: 0,
+    nextItemOptions: [] as Array<{ excludedWordIds?: Set<string>; allowSpelling?: boolean } | undefined>,
     acceptCalls: [] as string[],
     selfReportCalls: [] as string[],
     submitCalls: 0,
+    submitSpellingCalls: 0,
     correctRatingCalls: 0,
     item,
-    async getNextItem() {
+    items: null as LearningItem[] | null,
+    itemIndex: 0,
+    async getNextItem(options?: { excludedWordIds?: Set<string>; allowSpelling?: boolean }) {
       svc.nextItemCalls += 1;
+      svc.nextItemOptions.push(options);
+      // 如果配置了多项目序列（用于连续模式测试），按序返回
+      if (svc.items !== null) {
+        if (svc.itemIndex >= svc.items.length) return null;
+        return svc.items[svc.itemIndex++] ?? null;
+      }
       return svc.item;
     },
     async acceptNewWord(wordId: string) {
@@ -171,11 +183,15 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     },
     async submitAnswer() {
       svc.submitCalls += 1;
-      return { isCorrect: true, correctIndex: 0, cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+      return { isCorrect: true, correctIndex: 0, correctAnswer: '放弃', cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+    },
+    async submitSpellingAnswer() {
+      svc.submitSpellingCalls += 1;
+      return { isCorrect: true, correctAnswer: 'abandon', cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
     },
     async correctRating() {
       svc.correctRatingCalls += 1;
-      return { isCorrect: true, correctIndex: 0, cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+      return { cardId: 'card-1', reviewLogId: 'log-1', rating: 'good' as const };
     },
   };
   return svc;
@@ -434,3 +450,364 @@ describe('ContentController — 核心闭环编排', () => {
     });
   });
 });
+
+// ─── Issue #8：连续学习模式 ──────────────────────────────────────
+
+describe('ContentController — 连续学习模式（Issue #8）', () => {
+  /** 连续学习用的第二道题（拼写题）。 */
+  const SPELLING_ITEM: LearningItem = {
+    kind: 'spelling-question',
+    question: {
+      id: 'q-spelling-1',
+      type: 'spelling',
+      cardId: 'card-2',
+      wordId: 'w-2',
+      prompt: '吸收',
+      correctAnswer: 'absorb',
+      explanation: {
+        word: 'absorb',
+        partOfSpeech: ['v.'],
+        meanings: ['吸收'],
+      },
+    },
+  };
+
+  /** 构造可返回多项目的控制器（用于连续模式测试）。 */
+  function makeContinuousController(opts: {
+    items: LearningItem[];
+    cooldown?: CooldownState;
+    firstPending?: boolean;
+  } = { items: [LEARNING_ITEM, SPELLING_ITEM] }) {
+    const adapter = fakeAdapter();
+    const overlay = fakeOverlay();
+    const cooldownStore = fakeCooldownStore(opts.cooldown);
+    const siteState = fakeSiteState(opts.firstPending ?? false);
+    const playback = fakePlayback({ playing: true });
+    const clock = { now: () => NOW };
+    const videoPortFor = vi.fn(() => playback);
+    const learningService = fakeLearningService();
+    learningService.items = opts.items;
+    learningService.itemIndex = 0;
+
+    const controller = new ContentController({
+      adapter,
+      overlay,
+      cooldownStore,
+      clock,
+      videoPortFor,
+      siteState,
+      learningService,
+    });
+    controller.start();
+
+    return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService };
+  }
+
+  describe('验收标准 1：提交并继续', () => {
+    it('submit-and-continue 提交选择题并加载下一题（不关闭遮罩）', async () => {
+      const { adapter, overlay, learningService } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(learningService.submitCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2); // 初始 + 连续下一题
+    });
+
+    it('submit-and-continue 保持视频暂停', async () => {
+      const { adapter, overlay, playback } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(playback.playCalls).toBe(0); // 未恢复播放
+    });
+
+    it('submit-and-continue 传入 excludedWordIds 和 allowSpelling', async () => {
+      const { adapter, overlay, learningService } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      // 第二次 getNextItem 调用应包含 options
+      expect(learningService.nextItemOptions[1]).toBeDefined();
+      expect(learningService.nextItemOptions[1]!.allowSpelling).toBe(true);
+      expect(learningService.nextItemOptions[1]!.excludedWordIds).toBeDefined();
+      expect(learningService.nextItemOptions[1]!.excludedWordIds!.has('w-1')).toBe(true);
+    });
+
+    it('submit-and-continue 传入 previousFeedback 和 isContinuous', async () => {
+      const { adapter, overlay } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      const options = overlay.lastOptions as { previousFeedback?: unknown; isContinuous?: boolean };
+      expect(options).toBeDefined();
+      expect(options.isContinuous).toBe(true);
+      expect(options.previousFeedback).toBeDefined();
+    });
+
+    it('从单题反馈进入连续模式：submit-answer 后 submit-and-continue 不重复提交', async () => {
+      const { adapter, overlay, learningService } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      // 单题模式：先提交答案（软动作，进入反馈阶段）
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+      expect(learningService.submitCalls).toBe(1);
+
+      // 反馈阶段选择"提交并继续"进入连续模式
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      // 不应重复提交
+      expect(learningService.submitCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
+      const options = overlay.lastOptions as { isContinuous?: boolean };
+      expect(options?.isContinuous).toBe(true);
+    });
+  });
+
+  describe('验收标准 1：提交拼写题并继续', () => {
+    it('submit-spelling-and-continue 提交拼写题并加载下一题', async () => {
+      const { adapter, overlay, learningService } = makeContinuousController({
+        items: [SPELLING_ITEM, LEARNING_ITEM],
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-spelling-and-continue',
+        question: SPELLING_ITEM.question,
+        spelledAnswer: 'absorb',
+        responseTimeMs: 2000,
+      });
+      await flush();
+
+      expect(learningService.submitSpellingCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
+    });
+  });
+
+  describe('验收标准 1：新词展示并继续', () => {
+    it('accept-new-word-and-continue 接受新词并加载下一题', async () => {
+      const newWordItem: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            id: 'w-new',
+            word: 'newword',
+            lemma: 'newword',
+            partOfSpeech: ['n.'],
+            coreMeaningZh: ['新词'],
+            exampleSentence: 'This is a new word.',
+            exampleTranslation: '这是一个新词。',
+            difficulty: 1,
+            source: 'test',
+            license: 'CC0',
+          },
+        },
+      };
+
+      const { adapter, overlay, learningService } = makeContinuousController({
+        items: [newWordItem, LEARNING_ITEM],
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'accept-new-word-and-continue',
+        wordId: 'w-new',
+      });
+      await flush();
+
+      expect(learningService.acceptCalls).toEqual(['w-new']);
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
+    });
+
+    it('self-report-and-continue 自报认识并加载下一题', async () => {
+      const newWordItem: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            id: 'w-known',
+            word: 'knownword',
+            lemma: 'knownword',
+            partOfSpeech: ['n.'],
+            coreMeaningZh: ['已知词'],
+            exampleSentence: 'I know this word.',
+            exampleTranslation: '我认识这个词。',
+            difficulty: 1,
+            source: 'test',
+            license: 'CC0',
+          },
+        },
+      };
+
+      const { adapter, overlay, learningService } = makeContinuousController({
+        items: [newWordItem, LEARNING_ITEM],
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({
+        type: 'self-report-and-continue',
+        wordId: 'w-known',
+      });
+      await flush();
+
+      expect(learningService.selfReportCalls).toEqual(['w-known']);
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
+    });
+  });
+
+  describe('验收标准 4：结束学习', () => {
+    it('exit-learning 不提交当前题、不算跳过、应用默认冷却', async () => {
+      const { adapter, overlay, playback, cooldownStore, learningService } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      // 提交第一题并继续
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      // 第二题不提交，直接结束学习
+      overlay.fireAction({ type: 'exit-learning' });
+      await flush();
+
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      // 默认冷却（submitted），不是跳过
+      expect(cooldownStore.current).toEqual({
+        nextAllowedAt: NOW + 2 * MS_PER_MIN,
+        consecutiveSkipCount: 0,
+      });
+    });
+
+    it('exit-learning 在第一题就结束也应用默认冷却', async () => {
+      const { adapter, overlay, cooldownStore } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({ type: 'exit-learning' });
+      await flush();
+
+      expect(overlay.closeCalls).toBe(1);
+      expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+    });
+  });
+
+  describe('验收标准 5：无更多内容时自动结束', () => {
+    it('连续模式中 getNextItem 返回 null → 自动结束，应用默认冷却', async () => {
+      const { adapter, overlay, cooldownStore } = makeContinuousController({
+        items: [LEARNING_ITEM], // 只有一个项目
+      });
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      // 提交第一题并继续 → 无更多内容 → 自动结束
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(overlay.closeCalls).toBe(1);
+      expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+    });
+  });
+
+  describe('已提交后 submit-and-continue 不重复提交', () => {
+    it('先 submit-answer 再 submit-and-continue 只提交一次', async () => {
+      const { adapter, overlay, learningService } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      // 先提交（软动作）
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      // 再提交并继续
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(learningService.submitCalls).toBe(1); // 只提交一次
+      expect(overlay.openCalls).toBe(2); // 加载了下一题
+    });
+  });
+});
+

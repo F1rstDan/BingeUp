@@ -5,8 +5,11 @@ import type {
   DeckRecord,
   LearningItem,
   MultipleChoiceQuestion,
+  Question,
   ReviewLogRecord,
   ReviewRating,
+  SpellingQuestion,
+  SpellingSubmission,
   SubmissionResult,
   UserCorrection,
   WordRecord,
@@ -19,6 +22,7 @@ import {
   chooseQuestionType,
   generateContextChoiceQuestion,
   generateEnToZhQuestion,
+  generateSpellingQuestion,
   generateZhToEnQuestion,
 } from '@/learning/question-generator';
 
@@ -111,7 +115,7 @@ export class LearningService {
   private readonly defaultScheduler: ReviewSchedulerPort = new FsrsReviewScheduler();
 
   /**
-   * 获取下一个学习项目（单题模式）。
+   * 获取下一个学习项目。
    *
    * 出词优先级（Issue #7 验收标准 1）：
    * 1. 近期答错的到期长期复习词；
@@ -119,37 +123,46 @@ export class LearningService {
    * 3. 到期自报认识词验证题；
    * 4. 到期短期学习词；
    * 5. 候选新词（受每日上限约束）。
+   *
+   * 连续学习模式（Issue #8 验收标准 3、5）：
+   * - `allowSpelling` 为 true 时，长期复习词有概率出现拼写题；
+   * - `excludedWordIds` 中的单词不会被选为候选新词，避免连续模式中重复展示。
    */
-  async getNextItem(): Promise<LearningItem | null> {
+  async getNextItem(options?: {
+    excludedWordIds?: Set<string>;
+    allowSpelling?: boolean;
+  }): Promise<LearningItem | null> {
     const now = this.deps.clock.now();
     const allCards = await this.deps.cards.getAll();
+    const allowSpelling = options?.allowSpelling ?? false;
+    const excludedWordIds = options?.excludedWordIds;
 
     // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
     const dueWrongLongTerm = this.findDueLongTermWithRecentError(allCards, now);
     if (dueWrongLongTerm) {
-      const question = await this.makeQuestionForCard(dueWrongLongTerm);
-      if (question) return { kind: 'question', question };
+      const question = await this.makeQuestionForCard(dueWrongLongTerm, allowSpelling);
+      if (question) return this.wrapQuestion(question);
     }
 
     // 2. 其他到期长期复习词（无近期答错记录）
     const dueLongTerm = this.findDueLongTermWithoutRecentError(allCards, now);
     if (dueLongTerm) {
-      const question = await this.makeQuestionForCard(dueLongTerm);
-      if (question) return { kind: 'question', question };
+      const question = await this.makeQuestionForCard(dueLongTerm, allowSpelling);
+      if (question) return this.wrapQuestion(question);
     }
 
     // 3. 到期自报认识词验证题
     const dueVerification = this.findDueCard(allCards, 'self-reported-known', now);
     if (dueVerification) {
-      const question = await this.makeQuestionForCard(dueVerification);
-      if (question) return { kind: 'question', question };
+      const question = await this.makeQuestionForCard(dueVerification, allowSpelling);
+      if (question) return this.wrapQuestion(question);
     }
 
     // 4. 到期短期学习词
     const dueShortTerm = this.findDueCard(allCards, 'short-term', now);
     if (dueShortTerm) {
-      const question = await this.makeQuestionForCard(dueShortTerm);
-      if (question) return { kind: 'question', question };
+      const question = await this.makeQuestionForCard(dueShortTerm, allowSpelling);
+      if (question) return this.wrapQuestion(question);
     }
 
     // 5. 无到期复习：候选新词（受每日上限约束）
@@ -157,12 +170,20 @@ export class LearningService {
       return null;
     }
 
-    const candidate = this.pickCandidateNewWord(allCards);
+    const candidate = this.pickCandidateNewWord(allCards, excludedWordIds);
     if (candidate) {
       return { kind: 'new-word-presentation', presentation: { word: candidate } };
     }
 
     return null;
+  }
+
+  /** 将 Question 包装为对应的 LearningItem。 */
+  private wrapQuestion(question: Question): LearningItem {
+    if (question.type === 'spelling') {
+      return { kind: 'spelling-question', question: question as SpellingQuestion };
+    }
+    return { kind: 'question', question: question as MultipleChoiceQuestion };
   }
 
   /**
@@ -213,7 +234,7 @@ export class LearningService {
   }
 
   /**
-   * 提交答案并持久化结果（Issue #7 验收标准 3、4、5）。
+   * 提交选择题答案并持久化结果（Issue #7 验收标准 3、4、5）。
    *
    * - 判定正误并写入复习日志（含自动评分）；
    * - 短期学习词答对 → 进入长期复习（通过调度器初始化）；答错 → 10 分钟后重测；
@@ -223,21 +244,68 @@ export class LearningService {
    */
   async submitAnswer(submission: AnswerSubmission): Promise<SubmissionResult> {
     const { question } = submission;
-    const { cards, logs, clock } = this.deps;
-    const now = clock.now();
-
     const isCorrect = submission.selectedIndex === question.correctIndex;
     const correctAnswer = question.options[question.correctIndex]!;
     const selectedAnswer = question.options[submission.selectedIndex]!;
-    const answerChanges = submission.answerChanges ?? 0;
+
+    return this.processSubmission({
+      question,
+      isCorrect,
+      selectedAnswer,
+      correctAnswer,
+      responseTimeMs: submission.responseTimeMs,
+      answerChanges: submission.answerChanges ?? 0,
+      correctIndex: question.correctIndex,
+    });
+  }
+
+  /**
+   * 提交拼写题答案并持久化结果（Issue #8 验收标准 3）。
+   *
+   * 判定逻辑：忽略大小写和首尾空格后与正确答案比较，
+   * 或匹配可接受的其他形式。
+   */
+  async submitSpellingAnswer(submission: SpellingSubmission): Promise<SubmissionResult> {
+    const { question } = submission;
+    const normalized = submission.spelledAnswer.trim().toLowerCase();
+    const correct = question.correctAnswer.trim().toLowerCase();
+    const acceptable = (question.acceptableAnswers ?? []).map((a) => a.trim().toLowerCase());
+    const isCorrect = normalized === correct || acceptable.includes(normalized);
+
+    return this.processSubmission({
+      question,
+      isCorrect,
+      selectedAnswer: submission.spelledAnswer,
+      correctAnswer: question.correctAnswer,
+      responseTimeMs: submission.responseTimeMs,
+      answerChanges: submission.answerChanges ?? 0,
+    });
+  }
+
+  /**
+   * 提交判定的通用逻辑：写入复习日志、更新学习卡、调度下次复习。
+   * 选择题和拼写题共用此方法（Issue #8）。
+   */
+  private async processSubmission(input: {
+    question: Question;
+    isCorrect: boolean;
+    selectedAnswer: string;
+    correctAnswer: string;
+    responseTimeMs: number;
+    answerChanges: number;
+    correctIndex?: number;
+  }): Promise<SubmissionResult> {
+    const { question, isCorrect, selectedAnswer, correctAnswer } = input;
+    const { cards, logs, clock } = this.deps;
+    const now = clock.now();
 
     // 自动评分（Issue #7 验收标准 5）
     const card = await cards.getById(question.cardId);
     const recentLogs = card ? await logs.getByCardId(card.id) : [];
     const rating = this.autoRate({
       isCorrect,
-      responseTimeMs: submission.responseTimeMs,
-      answerChanges,
+      responseTimeMs: input.responseTimeMs,
+      answerChanges: input.answerChanges,
       recentLogs,
     });
 
@@ -249,10 +317,10 @@ export class LearningService {
       selectedAnswer,
       correctAnswer,
       isCorrect,
-      responseTimeMs: submission.responseTimeMs,
+      responseTimeMs: input.responseTimeMs,
       reviewedAt: now,
       rating,
-      answerChanges,
+      answerChanges: input.answerChanges,
     };
 
     let nextReviewAt: number | undefined;
@@ -313,7 +381,8 @@ export class LearningService {
 
     return {
       isCorrect,
-      correctIndex: question.correctIndex,
+      correctIndex: input.correctIndex,
+      correctAnswer,
       cardId: question.cardId,
       reviewLogId: reviewLog.id,
       explanation: question.explanation,
@@ -465,15 +534,29 @@ export class LearningService {
       .sort((a, b) => (a.nextReviewAt! - b.nextReviewAt!))[0];
   }
 
-  /** 为已有学习卡生成题目（根据阶段选择题型，四选一）。 */
-  private async makeQuestionForCard(card: CardRecord): Promise<MultipleChoiceQuestion | null> {
+  /**
+   * 为已有学习卡生成题目（根据阶段选择题型，四选一）。
+   *
+   * 连续学习模式（Issue #8 验收标准 3）：`allowSpelling` 为 true 时，
+   * 长期复习词（reps >= 2）有 50% 概率出现拼写题替代语境选择题。
+   */
+  private async makeQuestionForCard(
+    card: CardRecord,
+    allowSpelling: boolean = false,
+  ): Promise<Question | null> {
     const targetWord = this.deps.words.getWord(card.wordId);
     if (!targetWord) return null;
     const allWords = this.deps.words.listWords();
     const distractors = allWords.filter((w) => w.id !== card.wordId);
     if (distractors.length < 3) return null;
 
-    const questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
+    let questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
+
+    // 连续学习模式：长期复习词有概率出现拼写题（Issue #8 验收标准 3）
+    if (allowSpelling && questionType === 'context-choice' && this.random() < 0.5) {
+      questionType = 'spelling';
+    }
+
     const baseInput = {
       targetWord,
       distractors,
@@ -489,16 +572,25 @@ export class LearningService {
       case 'context-choice':
         return generateContextChoiceQuestion(baseInput);
       case 'spelling':
-        // 拼写题仅用于连续学习模式，此处回退到 en-to-zh
-        return generateEnToZhQuestion(baseInput);
+        return generateSpellingQuestion(baseInput);
     }
   }
 
-  /** 选取尚无学习卡的候选新词（取第一个）。 */
-  private pickCandidateNewWord(existingCards: CardRecord[]): WordRecord | null {
+  /**
+   * 选取尚无学习卡的候选新词（取第一个）。
+   * 连续学习模式排除已展示过的单词（Issue #8 验收标准 5）。
+   */
+  private pickCandidateNewWord(
+    existingCards: CardRecord[],
+    excludedWordIds?: Set<string>,
+  ): WordRecord | null {
     const allWords = this.deps.words.listWords();
     const cardWordIds = new Set(existingCards.map((c) => c.wordId));
-    return allWords.find((w) => !cardWordIds.has(w.id)) ?? null;
+    return (
+      allWords.find(
+        (w) => !cardWordIds.has(w.id) && !(excludedWordIds?.has(w.id) ?? false),
+      ) ?? null
+    );
   }
 
   /** 统计本地自然日内通过“知道了”接受的新词数量。 */

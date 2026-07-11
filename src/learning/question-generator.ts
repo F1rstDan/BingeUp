@@ -1,4 +1,4 @@
-import type { CardStage, QuestionType, WordRecord, MultipleChoiceQuestion } from '@/types';
+import type { CardStage, QuestionType, WordRecord, MultipleChoiceQuestion, SpellingQuestion } from '@/types';
 
 /** 将单词的核心中文释义连接为选项文本。 */
 export function meaningText(word: WordRecord): string {
@@ -290,13 +290,36 @@ export function generateContextChoiceQuestion(input: GenerateQuestionInput): Mul
 }
 
 /**
+ * 生成拼写题（Issue #8 验收标准 3）。
+ *
+ * 规则：
+ * - 题干是目标词的核心中文释义；
+ * - 用户需输入英文词形；
+ * - 正确答案为目标词的词形；
+ * - 拼写题仅用于连续学习模式。
+ */
+export function generateSpellingQuestion(input: GenerateQuestionInput): SpellingQuestion {
+  const { targetWord, cardId } = input;
+
+  return {
+    id: crypto.randomUUID(),
+    type: 'spelling',
+    cardId,
+    wordId: targetWord.id,
+    prompt: meaningText(targetWord),
+    correctAnswer: targetWord.word,
+    explanation: buildExplanation(targetWord),
+  };
+}
+
+/**
  * 根据学习阶段选择题型（Issue #7 验收标准 2 / Issue #1 用户故事 32）。
  *
  * - short-term / self-reported-known：en-to-zh（首次接触，英文→中文最易）；
  * - long-term（reps 0-1）：zh-to-en（中文→英文，难度提升）；
  * - long-term（reps >= 2）：context-choice（例句语境，难度最高）。
  *
- * 返回的题型用于调用对应的生成器。
+ * 返回的题型用于调用对应的生成器。拼写题由连续学习模式单独处理，不由此函数返回。
  */
 export function chooseQuestionType(stage: CardStage, schedulerReps?: number): QuestionType {
   if (stage !== 'long-term') {
