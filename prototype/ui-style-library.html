@@ -145,6 +145,67 @@
       .btn-disabled { background: #e9edf0; color: #a9b4bd; cursor: not-allowed; }
       .button-note { margin-top: 15px; color: var(--muted); font-size: 10px; }
 
+      .control-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 16px; }
+      .control-demo { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: #fbfdff; }
+      .control-demo-head { display: flex; align-items: start; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+      .control-demo-head h3 { margin: 4px 0 0; font-size: 16px; letter-spacing: -.05em; }
+      .control-kicker { color: var(--blue); font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+      .control-state-badge { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; background: var(--blue-soft); color: var(--blue-dark); font-size: 8px; font-weight: 900; letter-spacing: .06em; }
+      .field-label { display: block; color: #435568; font-size: 11px; font-weight: 900; }
+      .field-help { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+      .dropdown-stage { min-height: 245px; }
+      .dropdown { position: relative; margin-top: 10px; }
+      .dropdown-trigger { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 8px 10px 8px 13px; border: 1.5px solid #dce6ed; border-radius: 13px; background: #fff; box-shadow: 0 3px 0 #e5ebf0; color: var(--ink); text-align: left; transition: 140ms ease; }
+      .dropdown-trigger:hover { border-color: #9bd4f8; background: #f8fcff; }
+      .dropdown-trigger:active { transform: translateY(1px); box-shadow: 0 2px 0 #e5ebf0; }
+      .dropdown-value { display: grid; gap: 2px; }
+      .dropdown-value small { color: #9aa8b5; font-size: 8px; font-weight: 800; }
+      .dropdown-value strong { color: #435568; font-size: 11px; }
+      .dropdown-chevron { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: #f0f6fa; color: var(--blue); font-size: 15px; font-weight: 900; transition: 160ms ease; }
+      .dropdown.is-open .dropdown-trigger { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(10,134,230,.12), 0 3px 0 #b9def6; }
+      .dropdown.is-open .dropdown-chevron { background: var(--blue-soft); transform: rotate(180deg); }
+      .dropdown-menu { position: absolute; z-index: 20; top: calc(100% + 8px); left: 0; width: 100%; padding: 6px; border: 1px solid #dce6ed; border-radius: 14px; background: #fff; box-shadow: 0 18px 38px rgba(35,75,112,.16); animation: dropdown-in 140ms ease-out; }
+      .dropdown-menu[hidden] { display: none; }
+      .dropdown-option { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; width: 100%; min-height: 45px; padding: 8px 10px; border-radius: 10px; background: transparent; color: #526476; text-align: left; transition: 120ms ease; }
+      .dropdown-option:hover { background: #f4f9fd; color: var(--blue-dark); }
+      .dropdown-option:focus-visible { outline: 2px solid rgba(10,134,230,.32); outline-offset: -2px; background: #f4f9fd; color: var(--blue-dark); }
+      .dropdown-option[aria-checked="true"] { background: var(--blue-soft); color: var(--blue-dark); }
+      .dropdown-option-copy { display: grid; gap: 2px; }
+      .dropdown-option-copy strong { font-size: 10px; }
+      .dropdown-option-copy small { color: #96a4b2; font-size: 8px; }
+      .dropdown-option[aria-checked="true"] .dropdown-option-copy small { color: #5b9dcc; }
+      .dropdown-check { display: grid; place-items: center; width: 20px; height: 20px; border: 1px solid #dce6ed; border-radius: 7px; color: transparent; font-size: 10px; font-weight: 900; }
+      .dropdown-option[aria-checked="true"] .dropdown-check { border-color: var(--blue); background: var(--blue); color: #fff; }
+
+      .switch-list { display: grid; gap: 9px; }
+      .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; padding: 11px 12px; border: 1px solid #e7edf2; border-radius: 13px; background: #fff; transition: 140ms ease; }
+      .switch-row:has(.switch-input:not(:disabled)):hover { border-color: #c9e6f8; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(35,75,112,.06); }
+      .switch-copy { display: grid; gap: 3px; min-width: 0; }
+      .switch-copy strong { color: #435568; font-size: 10px; }
+      .switch-copy small { color: var(--muted); font-size: 8px; line-height: 1.45; }
+      .switch-action { display: grid; justify-items: end; gap: 5px; flex: 0 0 auto; }
+      .switch-state { color: #96a4b2; font-size: 8px; font-weight: 900; }
+      .switch-row.is-on .switch-state { color: var(--blue); }
+      .switch { position: relative; display: inline-flex; cursor: pointer; }
+      .switch-input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+      .switch-track { position: relative; display: block; width: 44px; height: 27px; border-radius: 999px; background: #d9e2e9; box-shadow: inset 0 -3px 0 rgba(82,100,118,.12); transition: 160ms ease; }
+      .switch-thumb { position: absolute; top: 4px; left: 4px; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(31,41,55,.2); transition: 160ms cubic-bezier(.2,.8,.2,1); }
+      .switch:hover .switch-input:not(:disabled) + .switch-track { background: #cbd7df; }
+      .switch-input:checked + .switch-track { background: var(--blue); box-shadow: inset 0 -3px 0 var(--blue-dark); }
+      .switch:hover .switch-input:checked:not(:disabled) + .switch-track { background: #2198ee; }
+      .switch-input:checked + .switch-track .switch-thumb { left: 21px; }
+      .switch-input:focus-visible + .switch-track { outline: 3px solid rgba(10,134,230,.28); outline-offset: 3px; }
+      .switch-input:active:not(:disabled) + .switch-track .switch-thumb { width: 22px; }
+      .switch-input:checked:active:not(:disabled) + .switch-track .switch-thumb { left: 18px; }
+      .switch-input:disabled + .switch-track { background: #edf1f4; box-shadow: none; cursor: not-allowed; opacity: .75; }
+      .switch-input:disabled + .switch-track .switch-thumb { background: #f8fafb; box-shadow: 0 1px 3px rgba(31,41,55,.10); }
+      .control-note { margin: 13px 0 0; color: var(--muted); font-size: 9px; line-height: 1.6; }
+
+      @keyframes dropdown-in {
+        from { opacity: 0; transform: translateY(-5px) scale(.985); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
       .showcase-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 16px; align-items: start; }
       .question-card { overflow: hidden; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow); }
       .question-card h3 { margin: 4px 0 16px; font-size: 21px; letter-spacing: -.06em; }
@@ -271,10 +332,6 @@
       .settings-row strong { font-size: 11px; }
       .settings-row small { color: var(--muted); font-size: 9px; }
       .settings-select { min-width: 71px; padding: 7px 8px; border: 1px solid #dce6ed; border-radius: 8px; color: #526476; font-size: 10px; text-align: center; }
-      .settings-toggle { position: relative; width: 34px; height: 20px; border-radius: 99px; background: #d9e2e9; }
-      .settings-toggle::after { position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; content: ""; transition: 140ms ease; }
-      .settings-toggle.on { background: var(--blue); }
-      .settings-toggle.on::after { left: 17px; }
 
       .stats-preview { grid-column: 1 / -1; }
       .stats-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
@@ -334,7 +391,7 @@
         .section-card { padding: 17px; }
         .section-heading { align-items: start; flex-direction: column; }
         .token-grid { grid-template-columns: repeat(2, 1fr); }
-        .type-grid, .showcase-grid, .popup-row, .nav-demo, .surface-grid { grid-template-columns: 1fr; }
+        .type-grid, .control-grid, .showcase-grid, .popup-row, .nav-demo, .surface-grid { grid-template-columns: 1fr; }
         .question-card { padding: 16px; }
         .question-actions { grid-template-columns: 1fr; }
         .popup { width: 100%; }
@@ -409,7 +466,51 @@
         </section>
 
         <section class="section">
-          <div class="section-heading"><div><div class="eyebrow">Components / 02</div><h2>学习卡片与反馈</h2></div><p>点击答案可预览：待选择 → 已选择 → 回答正确。</p></div>
+          <div class="section-heading"><div><div class="eyebrow">Components / 02</div><h2>下拉菜单与开关</h2></div><p>下拉负责单选，开关负责即时生效的二元状态。</p></div>
+          <div class="section-card control-grid">
+            <article class="control-demo">
+              <div class="control-demo-head"><div><span class="control-kicker">Dropdown menu</span><h3>单选下拉菜单</h3></div><span class="control-state-badge">OPEN / CLOSED</span></div>
+              <div class="dropdown-stage">
+                <label class="field-label" id="daily-limit-label">每日新词上限</label>
+                <span class="field-help">控制每天加入学习队列的新单词数量。</span>
+                <div class="dropdown is-open" data-dropdown>
+                  <button class="dropdown-trigger" type="button" aria-haspopup="menu" aria-expanded="true" aria-controls="daily-limit-menu" aria-labelledby="daily-limit-label daily-limit-value" data-dropdown-trigger>
+                    <span class="dropdown-value"><small>当前选择</small><strong id="daily-limit-value" data-dropdown-value>10 个</strong></span>
+                    <span class="dropdown-chevron" aria-hidden="true">⌄</span>
+                  </button>
+                  <div class="dropdown-menu" id="daily-limit-menu" role="menu" aria-labelledby="daily-limit-label" data-dropdown-menu>
+                    <button class="dropdown-option" type="button" role="menuitemradio" aria-checked="false" data-dropdown-option data-value="5 个"><span class="dropdown-option-copy"><strong>5 个</strong><small>轻量 · 约 3 分钟</small></span><span class="dropdown-check" aria-hidden="true">✓</span></button>
+                    <button class="dropdown-option" type="button" role="menuitemradio" aria-checked="true" data-dropdown-option data-value="10 个"><span class="dropdown-option-copy"><strong>10 个</strong><small>推荐 · 约 6 分钟</small></span><span class="dropdown-check" aria-hidden="true">✓</span></button>
+                    <button class="dropdown-option" type="button" role="menuitemradio" aria-checked="false" data-dropdown-option data-value="20 个"><span class="dropdown-option-copy"><strong>20 个</strong><small>进阶 · 约 12 分钟</small></span><span class="dropdown-check" aria-hidden="true">✓</span></button>
+                  </div>
+                </div>
+              </div>
+              <p class="control-note">展开时用主蓝描边确认焦点；选中项保留浅蓝底与明确的勾选反馈。</p>
+            </article>
+
+            <article class="control-demo">
+              <div class="control-demo-head"><div><span class="control-kicker">Switch</span><h3>二元状态开关</h3></div><span class="control-state-badge">ON / OFF</span></div>
+              <div class="switch-list">
+                <div class="switch-row is-on" data-switch-row>
+                  <div class="switch-copy"><strong>学习反馈声音</strong><small>答对或答错时播放轻提示音</small></div>
+                  <div class="switch-action"><span class="switch-state" data-switch-state>已开启</span><label class="switch"><input class="switch-input" type="checkbox" checked aria-label="学习反馈声音" data-switch-input data-on-label="已开启" data-off-label="已关闭" /><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span></label></div>
+                </div>
+                <div class="switch-row" data-switch-row>
+                  <div class="switch-copy"><strong>每日学习提醒</strong><small>每天 20:00 提醒完成学习</small></div>
+                  <div class="switch-action"><span class="switch-state" data-switch-state>已关闭</span><label class="switch"><input class="switch-input" type="checkbox" aria-label="每日学习提醒" data-switch-input data-on-label="已开启" data-off-label="已关闭" /><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span></label></div>
+                </div>
+                <div class="switch-row" data-switch-row>
+                  <div class="switch-copy"><strong>云端同步</strong><small>登录后才可同步学习记录</small></div>
+                  <div class="switch-action"><span class="switch-state" data-switch-state>不可用</span><label class="switch"><input class="switch-input" type="checkbox" disabled aria-label="云端同步，不可用" data-switch-input data-on-label="已开启" data-off-label="已关闭" /><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span></label></div>
+                </div>
+              </div>
+              <p class="control-note">开关只用于无需确认、立即生效的设置；禁用状态同时降低轨道和滑块对比度。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Components / 03</div><h2>学习卡片与反馈</h2></div><p>点击答案可预览：待选择 → 已选择 → 回答正确。</p></div>
           <div class="showcase-grid">
             <article class="question-card">
               <h3><em>abandon</em> 最接近哪个意思？</h3>
@@ -438,7 +539,7 @@
         </section>
 
         <section class="section">
-          <div class="section-heading"><div><div class="eyebrow">Components / 03</div><h2>Popup 与数据概览</h2></div><p>信息密度低一点，操作入口只留最重要的。</p></div>
+          <div class="section-heading"><div><div class="eyebrow">Components / 04</div><h2>Popup 与数据概览</h2></div><p>信息密度低一点，操作入口只留最重要的。</p></div>
           <div class="section-card popup-row">
             <div class="popup">
               <div class="popup-header"><div class="popup-brand"><span class="brand-mark" aria-hidden="true"><i class="brand-eye left"></i><i class="brand-eye right"></i><i class="brand-mouth"></i></span><strong>刷刷升级</strong></div><button class="popup-settings" aria-label="设置">⚙</button></div>
@@ -479,7 +580,7 @@
           <div class="section-heading"><div><div class="eyebrow">Product surface / 02</div><h2>设置页面</h2></div><p>左侧导航，右侧只展示当前设置。</p></div>
           <div class="surface-card settings-preview">
             <aside class="settings-sidebar"><div class="settings-brand">刷刷升级</div><nav class="settings-nav"><span class="active">⌂　通用</span><span>▣　网站管理</span><span>◈　学习设置</span><span>⚙　外观设置</span><span>▤　数据管理</span></nav></aside>
-            <div class="settings-main"><div class="surface-top"><strong>通用设置</strong><span>设置会自动保存</span></div><h3>学习节奏</h3><div class="settings-row"><div><strong>每日新词上限</strong><small>每天最多加入学习的单词数量</small></div><span class="settings-select">5 个⌄</span></div><div class="settings-row"><div><strong>连续模式首次跳过</strong><small>遇到不想学的题目时可以先跳过</small></div><span class="settings-select">5 分钟⌄</span></div><div class="settings-row"><div><strong>学习反馈声音</strong><small>答对或答错时播放轻提示音</small></div><span class="settings-toggle on"></span></div><div class="settings-row"><div><strong>每日学习提醒</strong><small>每天 20:00 提醒完成学习</small></div><span class="settings-toggle"></span></div></div>
+            <div class="settings-main"><div class="surface-top"><strong>通用设置</strong><span>设置会自动保存</span></div><h3>学习节奏</h3><div class="settings-row"><div><strong>每日新词上限</strong><small>每天最多加入学习的单词数量</small></div><span class="settings-select">5 个⌄</span></div><div class="settings-row"><div><strong>连续模式首次跳过</strong><small>遇到不想学的题目时可以先跳过</small></div><span class="settings-select">5 分钟⌄</span></div><div class="settings-row"><div><strong>学习反馈声音</strong><small>答对或答错时播放轻提示音</small></div><label class="switch"><input class="switch-input" type="checkbox" checked aria-label="设置预览：学习反馈声音" /><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span></label></div><div class="settings-row"><div><strong>每日学习提醒</strong><small>每天 20:00 提醒完成学习</small></div><label class="switch"><input class="switch-input" type="checkbox" aria-label="设置预览：每日学习提醒" /><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span></label></div></div>
           </div>
         </section>
 
@@ -494,7 +595,7 @@
         </section>
 
         <section class="section">
-          <div class="section-heading"><div><div class="eyebrow">Components / 04</div><h2>底部导航</h2></div><p>当前页面用蓝色，核心动作放到中心。</p></div>
+          <div class="section-heading"><div><div class="eyebrow">Components / 05</div><h2>底部导航</h2></div><p>当前页面用蓝色，核心动作放到中心。</p></div>
           <div class="section-card nav-demo">
             <nav class="bottom-nav" aria-label="底部导航"><span class="nav-item active">⌂<b>学习</b></span><span class="nav-item">◒<b>统计</b></span><span class="nav-center">＋</span><span class="nav-item">▤<b>词库</b></span><span class="nav-item">⚙<b>设置</b></span></nav>
             <div class="nav-copy"><h3>这一版的核心感觉</h3><p>用蓝色建立“现在可以做什么”的方向感，用粉色告诉用户“你刚刚做得不错”。</p><span>Duolingo energy / Bilibili color</span></div>
@@ -528,6 +629,105 @@
             button.appendChild(mark);
           }
         });
+      });
+
+      const dropdowns = [...document.querySelectorAll('[data-dropdown]')];
+
+      const setDropdownOpen = (dropdown, isOpen, focusTarget) => {
+        const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+        const menu = dropdown.querySelector('[data-dropdown-menu]');
+        dropdown.classList.toggle('is-open', isOpen);
+        trigger.setAttribute('aria-expanded', String(isOpen));
+        menu.hidden = !isOpen;
+        if (isOpen && focusTarget) focusTarget.focus();
+      };
+
+      const closeDropdowns = (except) => {
+        dropdowns.forEach((dropdown) => {
+          if (dropdown !== except) setDropdownOpen(dropdown, false);
+        });
+      };
+
+      dropdowns.forEach((dropdown) => {
+        const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+        const menu = dropdown.querySelector('[data-dropdown-menu]');
+        const value = dropdown.querySelector('[data-dropdown-value]');
+        const options = [...dropdown.querySelectorAll('[data-dropdown-option]')];
+
+        trigger.addEventListener('click', () => {
+          const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+          closeDropdowns(dropdown);
+          setDropdownOpen(dropdown, willOpen);
+        });
+
+        trigger.addEventListener('keydown', (event) => {
+          if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+          event.preventDefault();
+          closeDropdowns(dropdown);
+          const selected = options.find((option) => option.getAttribute('aria-checked') === 'true');
+          const target = event.key === 'ArrowUp' ? options.at(-1) : selected || options[0];
+          setDropdownOpen(dropdown, true, target);
+        });
+
+        menu.addEventListener('keydown', (event) => {
+          const currentIndex = options.indexOf(document.activeElement);
+          let nextIndex = currentIndex;
+
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            setDropdownOpen(dropdown, false);
+            trigger.focus();
+            return;
+          }
+
+          if (event.key === 'Home') nextIndex = 0;
+          if (event.key === 'End') nextIndex = options.length - 1;
+          if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1 + options.length) % options.length;
+          if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + options.length) % options.length;
+          if (nextIndex === currentIndex) return;
+
+          event.preventDefault();
+          options[nextIndex].focus();
+        });
+
+        options.forEach((option) => {
+          option.addEventListener('click', () => {
+            options.forEach((item) => item.setAttribute('aria-checked', String(item === option)));
+            value.textContent = option.dataset.value;
+            setDropdownOpen(dropdown, false);
+            trigger.focus();
+          });
+        });
+
+        dropdown.addEventListener('focusout', () => {
+          requestAnimationFrame(() => {
+            if (!dropdown.contains(document.activeElement)) setDropdownOpen(dropdown, false);
+          });
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        dropdowns.forEach((dropdown) => {
+          if (!dropdown.contains(event.target)) setDropdownOpen(dropdown, false);
+        });
+      });
+
+      document.querySelectorAll('[data-switch-input]').forEach((input) => {
+        const row = input.closest('[data-switch-row]');
+        const state = row.querySelector('[data-switch-state]');
+        state.setAttribute('aria-live', 'polite');
+
+        const syncSwitchState = () => {
+          row.classList.toggle('is-on', input.checked && !input.disabled);
+          if (input.disabled) {
+            state.textContent = '不可用';
+            return;
+          }
+          state.textContent = input.checked ? input.dataset.onLabel : input.dataset.offLabel;
+        };
+
+        input.addEventListener('change', syncSwitchState);
+        syncSwitchState();
       });
     </script>
   </body>
