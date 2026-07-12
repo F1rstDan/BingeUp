@@ -154,14 +154,18 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     vi.restoreAllMocks();
   });
 
-  it('点击"暂停 10 分钟"调用 pauseTenMinutes', async () => {
+  it('点击"暂停 10 分钟"后在原按钮显示倒计时', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
       site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
-    pauseTenMinutes.mockResolvedValue({ globalPausedUntil: Date.now() + 10 * 60 * 1000 });
+    pauseTenMinutes.mockImplementation(async () => {
+      const globalPausedUntil = Date.now() + 10 * 60 * 1000;
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      return { globalPausedUntil };
+    });
 
     render(<PopupApp />);
 
@@ -170,7 +174,15 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     await waitFor(() => {
       expect(pauseTenMinutes).toHaveBeenCalled();
+      const countdownButton = screen.getByRole('button', { name: /恢复 \d+:\d\d/ });
+      expect(countdownButton).toBeInTheDocument();
+      expect(countdownButton).toBe(btn);
     });
+
+    const initialLabel = btn.textContent;
+    await waitFor(() => {
+      expect(btn.textContent).not.toBe(initialLabel);
+    }, { timeout: 2500 });
   });
 
   it('点击"暂停今天"调用 pauseToday', async () => {

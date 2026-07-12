@@ -124,6 +124,16 @@ export function PopupApp(): JSX.Element {
     }
   }, []);
 
+  const updatePauseState = useCallback((globalPausedUntil: number) => {
+    setState((current) => current === null
+      ? current
+      : {
+        ...current,
+        globalPausedUntil,
+        globallyPaused: globalPausedUntil > Date.now(),
+      });
+  }, []);
+
   useEffect(() => {
     void load();
   }, [load]);
@@ -157,6 +167,7 @@ export function PopupApp(): JSX.Element {
       stats={stats}
       notice={notice}
       onReload={load}
+      onPauseStateChange={updatePauseState}
       onNotice={setNotice}
     />
   );
@@ -179,12 +190,26 @@ interface PopupViewProps {
   stats: PopupLearningStats | undefined;
   notice: string | null;
   onReload: () => Promise<void>;
+  onPauseStateChange: (globalPausedUntil: number) => void;
   onNotice: (msg: string | null) => void;
 }
 
-function PopupView({ state, ctx, stats, notice, onReload, onNotice }: PopupViewProps): JSX.Element {
+function PopupView({
+  state,
+  ctx,
+  stats,
+  notice,
+  onReload,
+  onPauseStateChange,
+  onNotice,
+}: PopupViewProps): JSX.Element {
   const [clockNow, setClockNow] = useState(() => Date.now());
   const pauseMode = popupPauseMode(state.globalPausedUntil, clockNow);
+  const applyPauseStateChange = useCallback((globalPausedUntil: number) => {
+    // 暂停截止时间在后台响应时生成；同步刷新基准时间，避免几毫秒误差被判成无限期暂停。
+    setClockNow(Date.now());
+    onPauseStateChange(globalPausedUntil);
+  }, [onPauseStateChange]);
 
   useEffect(() => {
     if (pauseMode !== 'ten-minutes' && pauseMode !== 'today') return undefined;
@@ -337,7 +362,7 @@ function PopupView({ state, ctx, stats, notice, onReload, onNotice }: PopupViewP
         {pauseMode === 'indefinite' ? (
           <button
             className="bingeup-btn-secondary bingeup-btn-full"
-            onClick={() => void handleResumeAll(onReload)}
+            onClick={() => void handleResumeAll(applyPauseStateChange)}
           >
             恢复全部
           </button>
@@ -345,7 +370,7 @@ function PopupView({ state, ctx, stats, notice, onReload, onNotice }: PopupViewP
           <div className="bingeup-pause-row">
             <button
               className="bingeup-btn-secondary"
-              onClick={() => void handlePauseTenMinutes(pauseMode === 'ten-minutes', onReload)}
+              onClick={() => void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)}
             >
               {pauseMode === 'ten-minutes'
                 ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
@@ -353,7 +378,7 @@ function PopupView({ state, ctx, stats, notice, onReload, onNotice }: PopupViewP
             </button>
             <button
               className="bingeup-btn-secondary"
-              onClick={() => void handlePauseToday(pauseMode === 'today', onReload)}
+              onClick={() => void handlePauseToday(pauseMode === 'today', applyPauseStateChange)}
             >
               {pauseMode === 'today' ? '今天恢复' : '暂停今天'}
             </button>
@@ -404,31 +429,29 @@ async function handleEnable(hostname: string, onReload: () => Promise<void>): Pr
 
 async function handlePauseTenMinutes(
   isPaused: boolean,
-  onReload: () => Promise<void>,
+  onPauseStateChange: (globalPausedUntil: number) => void,
 ): Promise<void> {
-  if (isPaused) {
-    await handleResumeAll(onReload);
-    return;
-  }
-  await messageClient.pauseTenMinutes();
-  await onReload();
+  const response = isPaused
+    ? await messageClient.resumeAll()
+    : await messageClient.pauseTenMinutes();
+  onPauseStateChange(response.globalPausedUntil);
 }
 
 async function handlePauseToday(
   isPaused: boolean,
-  onReload: () => Promise<void>,
+  onPauseStateChange: (globalPausedUntil: number) => void,
 ): Promise<void> {
-  if (isPaused) {
-    await handleResumeAll(onReload);
-    return;
-  }
-  await messageClient.pauseToday(Date.now());
-  await onReload();
+  const response = isPaused
+    ? await messageClient.resumeAll()
+    : await messageClient.pauseToday(Date.now());
+  onPauseStateChange(response.globalPausedUntil);
 }
 
-async function handleResumeAll(onReload: () => Promise<void>): Promise<void> {
-  await messageClient.resumeAll();
-  await onReload();
+async function handleResumeAll(
+  onPauseStateChange: (globalPausedUntil: number) => void,
+): Promise<void> {
+  const response = await messageClient.resumeAll();
+  onPauseStateChange(response.globalPausedUntil);
 }
 
 async function handleStartContinuousLearning(
