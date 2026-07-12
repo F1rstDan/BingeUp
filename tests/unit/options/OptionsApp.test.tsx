@@ -141,9 +141,9 @@ describe('OptionsApp — Issue #10', () => {
     });
 
     // 词库选择
-    expect(screen.getByDisplayValue('日常高频')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '当前词库：日常高频' })).toBeInTheDocument();
     // 学习水平
-    expect(screen.getByDisplayValue('一般')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '学习水平：一般' })).toBeInTheDocument();
     // 每日新词上限
     expect(screen.getByDisplayValue('5')).toBeInTheDocument();
     // 默认冷却

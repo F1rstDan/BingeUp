@@ -3,6 +3,7 @@ import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
+import { DropdownSelect } from '@/ui/options/DropdownSelect';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
@@ -93,31 +94,30 @@ export function OptionsApp(): JSX.Element {
       {/* AC1：学习设置 */}
       <SettingsSection title="学习设置">
         <Field label="当前词库">
-          <select
+          <DropdownSelect
+            id="bingeup-deck-select"
+            ariaLabel="当前词库"
             value={settings.selectedDeckId}
-            onChange={(e) => setSettings({ ...settings, selectedDeckId: e.target.value })}
-          >
-            {BUILT_IN_DECKS.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
+            options={BUILT_IN_DECKS.map((deck) => ({
+              value: deck.id,
+              label: deck.name,
+              description: deck.description,
+            }))}
+            onChange={(selectedDeckId) => setSettings({ ...settings, selectedDeckId })}
+          />
         </Field>
 
         <Field label="学习水平">
-          <select
+          <DropdownSelect
+            id="bingeup-level-select"
+            ariaLabel="学习水平"
             value={settings.selfRatedLevel}
-            onChange={(e) =>
-              setSettings({ ...settings, selfRatedLevel: e.target.value as SelfRatedLevel })
-            }
-          >
-            {(Object.keys(LEVEL_LABELS) as SelfRatedLevel[]).map((lvl) => (
-              <option key={lvl} value={lvl}>
-                {LEVEL_LABELS[lvl]}
-              </option>
-            ))}
-          </select>
+            options={(Object.keys(LEVEL_LABELS) as SelfRatedLevel[]).map((level) => ({
+              value: level,
+              label: LEVEL_LABELS[level],
+            }))}
+            onChange={(selfRatedLevel) => setSettings({ ...settings, selfRatedLevel })}
+          />
         </Field>
 
         <Field label="每日新词上限">
@@ -135,6 +135,8 @@ export function OptionsApp(): JSX.Element {
         <Field label="拼写题（连续学习模式）">
           <input
             type="checkbox"
+            role="switch"
+            aria-label="拼写题（连续学习模式）"
             checked={settings.spellingEnabled}
             onChange={(e) => setSettings({ ...settings, spellingEnabled: e.target.checked })}
           />
@@ -170,6 +172,8 @@ export function OptionsApp(): JSX.Element {
         <Field label="长视频定时学习">
           <input
             type="checkbox"
+            role="switch"
+            aria-label="长视频定时学习"
             checked={settings.longVideoTimedLearningEnabled}
             onChange={(e) =>
               setSettings({ ...settings, longVideoTimedLearningEnabled: e.target.checked })
