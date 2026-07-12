@@ -10,7 +10,7 @@ const OVERLAY_HOST_ID = 'bingeup-overlay-host';
 const OVERLAY_CSS = `
   ${SHADOW_DESIGN_TOKENS}
   .bingeup-overlay {
-    display: grid; width: 100%; height: 100%; place-items: center; overflow: visible;
+    position: absolute; inset: 0; display: grid; width: 100%; height: 100%; place-items: center; overflow: visible;
     color: var(--bingeup-ink); background: rgba(31, 41, 55, .72); font-family: var(--bingeup-font);
   }
   .bingeup-card {
@@ -115,7 +115,12 @@ export class OverlayController implements OverlayPort {
     if (this.host !== null) this.close();
     this.target = target; this.mode = mode; this.recoveryRequested = false;
     const host = document.createElement('div');
-    host.id = OVERLAY_HOST_ID; host.style.position = 'fixed'; host.style.zIndex = '2147483647'; host.style.pointerEvents = 'auto';
+    host.id = OVERLAY_HOST_ID;
+    host.style.position = 'fixed';
+    host.style.display = 'block';
+    host.style.boxSizing = 'border-box';
+    host.style.zIndex = '2147483647';
+    host.style.pointerEvents = 'auto';
     document.documentElement.appendChild(host);
     const shadow = host.attachShadow({ mode: 'open' });
     const style = document.createElement('style'); style.textContent = OVERLAY_CSS; shadow.appendChild(style);
