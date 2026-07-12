@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   pauseAll,
+  pauseForTenMinutes,
   pauseToday,
   resumeAll,
   isGloballyPaused,
@@ -20,6 +21,14 @@ describe('pause-rules — 暂停全部', () => {
     const until = resumeAll();
     expect(until).toBe(0);
     expect(isGloballyPaused(until, NOW)).toBe(false);
+  });
+});
+
+describe('pause-rules — 暂停 10 分钟', () => {
+  it('返回输入时间戳之后 10 分钟，判定为已暂停', () => {
+    const until = pauseForTenMinutes(NOW);
+    expect(until).toBe(NOW + 10 * 60 * 1000);
+    expect(isGloballyPaused(until, NOW)).toBe(true);
   });
 });
 

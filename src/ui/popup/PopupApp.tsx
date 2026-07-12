@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
+import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
   derivePopupState,
   type PopupCompatibilityLevel,
   type PopupDisplayState,
 } from '@/popup/popup-state';
-import type { ContentMessage } from '@/messaging/messages';
+import { endOfToday, PAUSE_TEN_MINUTES_MS } from '@/pause/pause-rules';
+import type { ContentMessage, PopupLearningStats } from '@/messaging/messages';
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5）。
  *
- * AC3：显示当前域名、启用状态、兼容等级、覆盖方式、是否能控制视频。
- * AC4：暂停当前网站 / 暂停全部 / 暂停今天 / 恢复全部 / 开始连续学习 / 设置 / 统计。
+ * AC3：显示当前域名、启用状态与兼容等级。
+ * AC4：暂停 10 分钟 / 暂停今天 / 恢复全部 / 开始连续学习 / 设置 / 统计。
  * AC5：受保护页面、未完成引导、缺少权限时提供可理解状态而非静默失败。
  */
 
@@ -25,11 +27,6 @@ const COMPATIBILITY_LABELS: Record<PopupCompatibilityLevel, string> = {
   'not-onboarding': '未完成引导',
 };
 
-const OVERLAY_MODE_LABELS: Record<string, string> = {
-  'video-region': '视频区域',
-  'full-page': '全屏覆盖',
-};
-
 interface PopupContext {
   hostname: string;
   url: string;
@@ -37,17 +34,13 @@ interface PopupContext {
 }
 
 type PopupSiteStatusTone = 'ready' | 'paused' | 'warning' | 'inactive';
-type PopupRuntimeTone = 'ready' | 'paused' | 'limited' | 'inactive';
+type PopupPauseMode = 'none' | 'ten-minutes' | 'today' | 'indefinite';
 
 function PopupHeader(): JSX.Element {
   return (
     <header className="bingeup-header">
       <div className="bingeup-brand" aria-label="刷刷升级">
-        <span className="bingeup-brand-mark" aria-hidden="true">
-          <i className="bingeup-brand-eye left" />
-          <i className="bingeup-brand-eye right" />
-          <i className="bingeup-brand-mouth" />
-        </span>
+        <img className="bingeup-brand-mascot" src={mascotUrl} alt="" aria-hidden="true" />
         <strong>刷刷升级</strong>
       </div>
       <button
@@ -78,47 +71,23 @@ function popupSiteBadge(state: PopupDisplayState): string {
   return '待启用';
 }
 
-function popupRuntimeStatus(state: PopupDisplayState): {
-  tone: PopupRuntimeTone;
-  label: string;
-  description: string;
-  badge: string;
-} {
-  if (state.globallyPaused) {
-    return {
-      tone: 'paused',
-      label: '全局暂停中',
-      description: '恢复全部后，才会继续出现学习界面。',
-      badge: '暂停',
-    };
-  }
-  if (!state.enabled) {
-    return {
-      tone: 'inactive',
-      label: '网站未启用',
-      description: '启用当前网站后即可在视频间隙学习。',
-      badge: '待处理',
-    };
-  }
-  if (state.canControlVideo) {
-    return {
-      tone: 'ready',
-      label: '可以开始学习',
-      description: '当前页面已准备好连续学习。',
-      badge: '就绪',
-    };
-  }
-  return {
-    tone: 'limited',
-    label: '基础网页模式',
-    description: '学习界面可用，但插件不会控制视频。',
-    badge: '有限支持',
-  };
+function popupPauseMode(until: number, now: number): PopupPauseMode {
+  if (until <= now) return 'none';
+  if (until === endOfToday(now)) return 'today';
+  if (until - now <= PAUSE_TEN_MINUTES_MS) return 'ten-minutes';
+  return 'indefinite';
+}
+
+function formatCountdown(until: number, now: number): string {
+  const seconds = Math.max(0, Math.ceil((until - now) / 1000));
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
 export function PopupApp(): JSX.Element {
   const [state, setState] = useState<PopupDisplayState | null>(null);
   const [ctx, setCtx] = useState<PopupContext | null>(null);
+  const [stats, setStats] = useState<PopupLearningStats | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -148,6 +117,7 @@ export function PopupApp(): JSX.Element {
       });
       setState(display);
       setCtx({ hostname, url: tab.url, tabId: tab.id ?? null });
+      setStats(data.stats);
       setError(null);
     } catch (e) {
       setError(`加载失败：${e instanceof Error ? e.message : String(e)}`);
@@ -180,7 +150,16 @@ export function PopupApp(): JSX.Element {
     );
   }
 
-  return <PopupView state={state} ctx={ctx} notice={notice} onReload={load} onNotice={setNotice} />;
+  return (
+    <PopupView
+      state={state}
+      ctx={ctx}
+      stats={stats}
+      notice={notice}
+      onReload={load}
+      onNotice={setNotice}
+    />
+  );
 }
 
 /** 检查当前站点是否已获得浏览器主机权限。 */
@@ -197,12 +176,30 @@ async function chromePermissionsContains(hostname: string): Promise<boolean> {
 interface PopupViewProps {
   state: PopupDisplayState;
   ctx: PopupContext;
+  stats: PopupLearningStats | undefined;
   notice: string | null;
   onReload: () => Promise<void>;
   onNotice: (msg: string | null) => void;
 }
 
-function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): JSX.Element {
+function PopupView({ state, ctx, stats, notice, onReload, onNotice }: PopupViewProps): JSX.Element {
+  const [clockNow, setClockNow] = useState(() => Date.now());
+  const pauseMode = popupPauseMode(state.globalPausedUntil, clockNow);
+
+  useEffect(() => {
+    if (pauseMode !== 'ten-minutes' && pauseMode !== 'today') return undefined;
+    let reloadRequested = false;
+    const timer = window.setInterval(() => {
+      const nextNow = Date.now();
+      setClockNow(nextNow);
+      if (nextNow >= state.globalPausedUntil && !reloadRequested) {
+        reloadRequested = true;
+        void onReload();
+      }
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [onReload, pauseMode, state.globalPausedUntil]);
+
   // AC5：受保护页面
   if (state.isProtectedPage) {
     return (
@@ -263,8 +260,11 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
     );
   }
 
-  const siteStatusTone = popupSiteStatusTone(state);
-  const runtimeStatus = popupRuntimeStatus(state);
+  const isPaused = pauseMode !== 'none';
+  const displayState = state.globallyPaused === isPaused
+    ? state
+    : { ...state, globallyPaused: isPaused };
+  const siteStatusTone = popupSiteStatusTone(displayState);
 
   return (
     <div className="bingeup-popup">
@@ -274,19 +274,19 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
       <section className={`bingeup-site-status bingeup-site-status-${siteStatusTone}`} aria-label="当前网站状态">
         <i className="bingeup-site-dot" />
         <div className="bingeup-site-copy">
-          <strong>{state.hostname || '当前页面'}</strong>
+          <strong>{displayState.hostname || '当前页面'}</strong>
           <span>
-            <b>{state.globallyPaused ? '已暂停' : state.enabled ? '已启用' : '未启用'}</b>
+            <b>{displayState.globallyPaused ? '已暂停' : displayState.enabled ? '已启用' : '未启用'}</b>
             {' · '}
-            <span>{COMPATIBILITY_LABELS[state.compatibilityLevel]}</span>
+            <span>{COMPATIBILITY_LABELS[displayState.compatibilityLevel]}</span>
           </span>
         </div>
-        <span className="bingeup-site-badge">{popupSiteBadge(state)}</span>
+        <span className="bingeup-site-badge">{popupSiteBadge(displayState)}</span>
       </section>
 
-      <section className="bingeup-block" aria-labelledby="bingeup-capability-title">
+      <section className="bingeup-block" aria-labelledby="bingeup-today-title">
         <div className="bingeup-block-head">
-          <strong id="bingeup-capability-title">网站能力</strong>
+          <strong id="bingeup-today-title">今日学习</strong>
           <button
             className="bingeup-text-button"
             aria-label="查看统计"
@@ -297,39 +297,17 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
         </div>
         <div className="bingeup-metrics">
           <div className="bingeup-metric">
-            <strong>
-              {Array.from(COMPATIBILITY_LABELS[state.compatibilityLevel]).map((character, index) => (
-                <span className="bingeup-metric-value-part" key={`${character}-${index}`}>
-                  {character}
-                </span>
-              ))}
-            </strong>
-            <span>兼容等级</span>
+            <strong>{stats?.today.completedQuestions ?? '—'}</strong>
+            <span>本次学习</span>
           </div>
           <div className="bingeup-metric bingeup-metric-green">
-            <strong>{state.overlayMode ? OVERLAY_MODE_LABELS[state.overlayMode] ?? '—' : '—'}</strong>
-            <span>覆盖方式</span>
+            <strong>{stats?.cardStatus.longTerm ?? '—'}</strong>
+            <span>长期复习</span>
           </div>
           <div className="bingeup-metric bingeup-metric-pink">
-            <strong>{state.canControlVideo ? '是' : '否'}</strong>
-            <span>视频控制</span>
+            <strong>{stats?.dueReviewCount ?? '—'}</strong>
+            <span>待复习</span>
           </div>
-        </div>
-      </section>
-
-      <section className="bingeup-block" aria-labelledby="bingeup-runtime-title">
-        <div className="bingeup-block-head">
-          <strong id="bingeup-runtime-title">当前状态</strong>
-          <span className="bingeup-block-meta">{state.enabled ? '网站已加入' : '等待操作'}</span>
-        </div>
-        <div className="bingeup-runtime-row">
-          <div>
-            <strong>{runtimeStatus.label}</strong>
-            <span>{runtimeStatus.description}</span>
-          </div>
-          <span className={`bingeup-runtime-pill bingeup-runtime-pill-${runtimeStatus.tone}`}>
-            {runtimeStatus.badge}
-          </span>
         </div>
       </section>
 
@@ -338,37 +316,25 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
         {notice !== null && (
           <p className="bingeup-hint bingeup-notice" role="status">{notice}</p>
         )}
-        {state.canAddCustomSite ? (
-          <button
-            className="bingeup-btn-primary bingeup-btn-full"
-            onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
-          >
-            加入当前网站
-          </button>
-        ) : state.enabled ? (
-          <button
-            className="bingeup-btn-danger bingeup-btn-full"
-            onClick={() => void handleDisable(ctx.hostname, onReload)}
-          >
-            暂停当前网站
-          </button>
-        ) : state.showEnablePrompt ? (
-          <button
-            className="bingeup-btn-primary bingeup-btn-full"
-            onClick={() => void handleEnable(ctx.hostname, onReload)}
-          >
-            开启当前网站
-          </button>
-        ) : (
-          <button
-            className="bingeup-btn-primary bingeup-btn-full"
-            onClick={() => void handleEnable(ctx.hostname, onReload)}
-          >
-            启用当前网站
-          </button>
+        {(!displayState.enabled || displayState.canAddCustomSite) && (
+          displayState.canAddCustomSite ? (
+            <button
+              className="bingeup-btn-primary bingeup-btn-full"
+              onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
+            >
+              加入当前网站
+            </button>
+          ) : (
+            <button
+              className="bingeup-btn-primary bingeup-btn-full"
+              onClick={() => void handleEnable(ctx.hostname, onReload)}
+            >
+              {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
+            </button>
+          )
         )}
 
-        {state.globallyPaused ? (
+        {pauseMode === 'indefinite' ? (
           <button
             className="bingeup-btn-secondary bingeup-btn-full"
             onClick={() => void handleResumeAll(onReload)}
@@ -379,15 +345,17 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
           <div className="bingeup-pause-row">
             <button
               className="bingeup-btn-secondary"
-              onClick={() => void handlePauseAll(onReload)}
+              onClick={() => void handlePauseTenMinutes(pauseMode === 'ten-minutes', onReload)}
             >
-              暂停全部
+              {pauseMode === 'ten-minutes'
+                ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
+                : '暂停 10 分钟'}
             </button>
             <button
               className="bingeup-btn-secondary"
-              onClick={() => void handlePauseToday(onReload)}
+              onClick={() => void handlePauseToday(pauseMode === 'today', onReload)}
             >
-              暂停今天
+              {pauseMode === 'today' ? '今天恢复' : '暂停今天'}
             </button>
           </div>
         )}
@@ -395,7 +363,7 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
         {/* AC4：入口按钮 */}
         <button
           className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
-          disabled={!state.canControlVideo || state.globallyPaused}
+          disabled={!displayState.canControlVideo || isPaused}
           onClick={() => void handleStartContinuousLearning(ctx.tabId, onNotice)}
         >
           开始连续学习
@@ -429,22 +397,31 @@ async function handleAddCustomSite(
   }
 }
 
-async function handleDisable(hostname: string, onReload: () => Promise<void>): Promise<void> {
-  await messageClient.disableSite(hostname);
-  await onReload();
-}
-
 async function handleEnable(hostname: string, onReload: () => Promise<void>): Promise<void> {
   await messageClient.enableSite(hostname);
   await onReload();
 }
 
-async function handlePauseAll(onReload: () => Promise<void>): Promise<void> {
-  await messageClient.pauseAll();
+async function handlePauseTenMinutes(
+  isPaused: boolean,
+  onReload: () => Promise<void>,
+): Promise<void> {
+  if (isPaused) {
+    await handleResumeAll(onReload);
+    return;
+  }
+  await messageClient.pauseTenMinutes();
   await onReload();
 }
 
-async function handlePauseToday(onReload: () => Promise<void>): Promise<void> {
+async function handlePauseToday(
+  isPaused: boolean,
+  onReload: () => Promise<void>,
+): Promise<void> {
+  if (isPaused) {
+    await handleResumeAll(onReload);
+    return;
+  }
   await messageClient.pauseToday(Date.now());
   await onReload();
 }

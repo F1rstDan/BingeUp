@@ -28,6 +28,7 @@ export default defineBackground(() => {
           'IMPORT_DATA',
           'CLEAR_LEARNING_PROGRESS',
           'CLEAR_ALL_DATA',
+          'GET_POPUP_DATA',
         ]);
         if (dataOpTypes.has(message?.type)) {
           const db = await dbPromise;

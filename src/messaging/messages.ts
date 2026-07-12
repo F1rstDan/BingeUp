@@ -22,6 +22,8 @@ export type ExtensionMessage =
   | { type: 'SITE_DISABLE'; hostname: string }
   /** 暂停全部网站（AC4）。 */
   | { type: 'PAUSE_ALL' }
+  /** 暂停 10 分钟，Popup 用倒计时显示剩余时间。 */
+  | { type: 'PAUSE_TEN_MINUTES' }
   /** 暂停今天（AC4）。 */
   | { type: 'PAUSE_TODAY'; now: number }
   /** 恢复全部网站。 */
@@ -68,6 +70,18 @@ export interface PopupDataResponse {
   site: SiteStateResponse;
   onboardingCompleted: boolean;
   globalPausedUntil: number;
+  /** 本地学习统计；数据库不可用时缺省，不能阻塞面板状态显示。 */
+  stats?: PopupLearningStats;
+}
+
+export interface PopupLearningStats {
+  today: {
+    completedQuestions: number;
+  };
+  cardStatus: {
+    longTerm: number;
+  };
+  dueReviewCount: number;
 }
 
 /** 暂停操作返回新的全局暂停到期时间戳。 */

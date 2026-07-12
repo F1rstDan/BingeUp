@@ -9,10 +9,18 @@
  * 判定使用开区间右端：`now < pausedUntil` 视为已暂停，`now === pausedUntil` 视为已恢复。
  */
 
+/** 十分钟暂停的持续时间。 */
+export const PAUSE_TEN_MINUTES_MS = 10 * 60 * 1000;
+
 /** 暂停全部网站：返回远期时间戳（约 100 年后），等同于无限期暂停。 */
 export function pauseAll(now: number): number {
   // Number.MAX_SAFE_INTEGER 会让 Date 构造失败，使用 100 年后的时间戳更稳妥。
   return now + 100 * 365 * 24 * 60 * 60 * 1000;
+}
+
+/** 暂停 10 分钟：返回十分钟后的时间戳，供 Popup 显示倒计时。 */
+export function pauseForTenMinutes(now: number): number {
+  return now + PAUSE_TEN_MINUTES_MS;
 }
 
 /** 恢复全部网站：返回 0，表示未暂停。 */

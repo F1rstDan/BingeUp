@@ -1,6 +1,10 @@
 import { applyComplete, applySkip } from '@/cooldown/cooldown-rules';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { pauseAll, pauseToday, resumeAll } from '@/pause/pause-rules';
+import { pauseAll, pauseForTenMinutes, pauseToday, resumeAll } from '@/pause/pause-rules';
+import { StatsService } from '@/stats/stats-service';
+import { CardRepository } from '@/storage/repositories/card-repository';
+import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
+import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import {
   clearAllLocalData,
   clearLearningProgress,
@@ -12,7 +16,25 @@ import {
   ONBOARDING_HOSTNAMES,
   selectedOnboardingHostnames,
 } from '@/onboarding/onboarding-service';
-import type { ExtensionMessage } from '@/messaging/messages';
+import type { ExtensionMessage, PopupLearningStats } from '@/messaging/messages';
+
+async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
+  const [cards, logs, sessions] = await Promise.all([
+    new CardRepository(db).getAll(),
+    new ReviewLogRepository(db).getAll(),
+    new SessionLogRepository(db).getAll(),
+  ]);
+  const stats = new StatsService({ clock: { now: () => Date.now() } }).computeStats(
+    cards,
+    logs,
+    sessions,
+  );
+  return {
+    today: { completedQuestions: stats.today.completedQuestions },
+    cardStatus: { longTerm: stats.cardStatus.longTerm },
+    dueReviewCount: stats.dueReviewCount,
+  };
+}
 
 /**
  * Background 消息路由（M1-02 / Issue #9 / #10 / #11）。只负责共享全局冷却、站点权限/状态、
@@ -92,6 +114,11 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         await store.setGlobalPausedUntil(until);
         return { globalPausedUntil: until };
       }
+      case 'PAUSE_TEN_MINUTES': {
+        const until = pauseForTenMinutes(Date.now());
+        await store.setGlobalPausedUntil(until);
+        return { globalPausedUntil: until };
+      }
       case 'PAUSE_TODAY': {
         const until = pauseToday(message.now);
         await store.setGlobalPausedUntil(until);
@@ -112,10 +139,20 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           store.isOnboardingCompleted(),
           store.getGlobalPausedUntil(),
         ]);
+        let stats: PopupLearningStats | undefined;
+        if (db) {
+          try {
+            stats = await computePopupStats(db);
+          } catch (error) {
+            // 统计是面板的补充信息；读取失败不应遮蔽站点状态与暂停控制。
+            console.error('[BingeUp] Popup 学习统计读取失败', error);
+          }
+        }
         return {
           site: { ...site, hostname: message.hostname },
           onboardingCompleted,
           globalPausedUntil,
+          stats,
         };
       }
 

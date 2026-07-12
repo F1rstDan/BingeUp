@@ -129,6 +129,17 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(await store.getGlobalPausedUntil()).toBe(res.globalPausedUntil);
   });
 
+  it('PAUSE_TEN_MINUTES：设置十分钟全局暂停（Popup 倒计时）', async () => {
+    const before = Date.now();
+    const res = (await router.handle(
+      { type: 'PAUSE_TEN_MINUTES' },
+      {} as chrome.runtime.MessageSender,
+    )) as { globalPausedUntil: number };
+
+    expect(res.globalPausedUntil).toBeGreaterThanOrEqual(before + 10 * 60 * 1000);
+    expect(res.globalPausedUntil).toBeLessThanOrEqual(Date.now() + 10 * 60 * 1000);
+  });
+
   it('PAUSE_TODAY：设置当日结束时间戳（AC4）', async () => {
     const res = (await router.handle(
       { type: 'PAUSE_TODAY', now: NOW },
@@ -219,6 +230,41 @@ describe('message-router — Issue #10 新增消息', () => {
     await deleteDatabase(TEST_DB);
     cleanup?.();
     cleanup = null;
+  });
+
+  it('GET_POPUP_DATA：数据库可用时附带今日学习统计', async () => {
+    const now = Date.now();
+    await idbPut(db, STORES.cards, {
+      id: 'card-long',
+      wordId: 'word-long',
+      deckId: 'deck-1',
+      stage: 'long-term',
+      createdAt: now - 86_400_000,
+      updatedAt: now,
+      nextReviewAt: now - 1,
+    } satisfies CardRecord);
+    await idbPut(db, STORES.reviewLogs, {
+      id: 'review-today',
+      cardId: 'card-long',
+      wordId: 'word-long',
+      questionType: 'en-to-zh',
+      selectedAnswer: 'a',
+      correctAnswer: 'a',
+      isCorrect: true,
+      responseTimeMs: 500,
+      reviewedAt: now,
+    } satisfies ReviewLogRecord);
+
+    const res = (await router.handle(
+      { type: 'GET_POPUP_DATA', hostname: 'www.bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { stats?: { today: { completedQuestions: number }; cardStatus: { longTerm: number }; dueReviewCount: number } };
+
+    expect(res.stats).toEqual({
+      today: { completedQuestions: 1 },
+      cardStatus: { longTerm: 1 },
+      dueReviewCount: 1,
+    });
   });
 
   // ── AC1：应用设置读写 ──────────────────────────────────

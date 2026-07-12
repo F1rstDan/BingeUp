@@ -48,6 +48,9 @@ export const messageClient = {
   async pauseAll(): Promise<PauseResponse> {
     return send({ type: 'PAUSE_ALL' });
   },
+  async pauseTenMinutes(): Promise<PauseResponse> {
+    return send({ type: 'PAUSE_TEN_MINUTES' });
+  },
   async pauseToday(now: number): Promise<PauseResponse> {
     return send({ type: 'PAUSE_TODAY', now });
   },

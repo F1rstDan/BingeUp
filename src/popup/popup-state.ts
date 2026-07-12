@@ -32,6 +32,8 @@ export interface PopupDisplayState {
   enabled: boolean;
   /** 是否处于全局暂停。 */
   globallyPaused: boolean;
+  /** 全局暂停到期时间戳；用于 Popup 显示十分钟倒计时或“今天恢复”。 */
+  globalPausedUntil: number;
   /** 兼容等级。 */
   compatibilityLevel: PopupCompatibilityLevel;
   /** 覆盖方式；受保护/无权限/不支持时为 null。 */
@@ -96,6 +98,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       onboardingCompleted: input.onboardingCompleted,
       enabled: false,
       globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
+      globalPausedUntil: input.globalPausedUntil,
       compatibilityLevel: 'protected',
       overlayMode: null,
       canControlVideo: false,
@@ -112,6 +115,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       onboardingCompleted: false,
       enabled: false,
       globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
+      globalPausedUntil: input.globalPausedUntil,
       compatibilityLevel: 'not-onboarding',
       overlayMode: null,
       canControlVideo: false,
@@ -128,6 +132,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
       onboardingCompleted: true,
       enabled: input.site.enabled,
       globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
+      globalPausedUntil: input.globalPausedUntil,
       compatibilityLevel: 'needs-permission',
       overlayMode: null,
       canControlVideo: false,
@@ -148,6 +153,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     onboardingCompleted: true,
     enabled: input.site.enabled,
     globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
+    globalPausedUntil: input.globalPausedUntil,
     compatibilityLevel: level,
     overlayMode: overlayModeFor(level),
     canControlVideo: canControlVideoFor(level),
