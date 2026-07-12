@@ -12,6 +12,7 @@ import {
   importLocalData,
 } from '@/storage/data-transfer';
 import { isSupportedHostname } from '@/sites/supported-sites';
+import { exactHttpsOriginPattern, legacyBroadOriginPatterns } from '@/sites/site-origin';
 import {
   ONBOARDING_HOSTNAMES,
   selectedOnboardingHostnames,
@@ -181,13 +182,23 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         // 自定义站点使用可选权限，尝试释放。
         let released = false;
         if (!isSupportedHostname(message.hostname) && chrome.permissions?.remove) {
+          let exactReleased = false;
+          let legacyReleased = false;
           try {
-            released = await chrome.permissions.remove({
-              origins: [`https://${message.hostname}/*`],
+            exactReleased = await chrome.permissions.remove({
+              origins: [exactHttpsOriginPattern(message.hostname)],
             });
           } catch {
-            released = false;
+            // 继续尝试清理旧版权限，避免单次 API 失败阻断迁移。
           }
+          try {
+            legacyReleased = await chrome.permissions.remove({
+              origins: legacyBroadOriginPatterns(message.hostname),
+            });
+          } catch {
+            // 删除站点本身已完成；权限释放失败通过 released=false 返回。
+          }
+          released = exactReleased || legacyReleased;
         }
         return { released };
       }

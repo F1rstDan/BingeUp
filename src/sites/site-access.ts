@@ -1,5 +1,6 @@
 import { messageClient } from '@/messaging/message-client';
 import { isSupportedHostname } from '@/sites/supported-sites';
+import { exactHttpsOriginPattern } from '@/sites/site-origin';
 
 export type AddWebsiteResult =
   | {
@@ -51,7 +52,7 @@ export async function addWebsite(input: string): Promise<AddWebsiteResult> {
     };
   }
 
-  const origins = [`https://${hostname}/*`];
+  const origins = [exactHttpsOriginPattern(hostname)];
   let alreadyGranted = false;
   let grantedByThisCall = false;
 

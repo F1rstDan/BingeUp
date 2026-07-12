@@ -82,6 +82,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/受保护页面/)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
     });
   });
 
@@ -98,7 +99,22 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     await waitFor(() => {
       expect(screen.getByText('尚未完成安装引导。')).toBeInTheDocument();
       expect(screen.getByText('开始引导')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
     });
+  });
+
+  it('缺少主机权限时保留禁用的开始学习入口', async () => {
+    installChromeStub({ url: 'https://example.com/', id: 1 }, false);
+    getPopupData.mockResolvedValue({
+      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    expect(await screen.findByText(/缺少主机权限/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
   });
 
   it('已启用站点显示域名、启用状态、兼容等级与今日学习统计（AC3）', async () => {

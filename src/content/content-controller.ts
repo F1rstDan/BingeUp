@@ -203,64 +203,71 @@ export class ContentController {
    * 返回可判别结果，供插件面板只在真正打开学习界面后关闭，并显示具体失败原因。
    */
   async startContinuousLearning(): Promise<StartLearningResponse> {
-    // 已有进行中的交互：避免覆盖当前学习会话。
-    if (this.active !== null) {
+    // 已有交互或另一次触发仍在异步准备：避免并发覆盖学习会话。
+    if (this.active !== null || this.triggerInProgress) {
       return { ok: false, reason: 'interaction-active' };
     }
-    try {
-      if (await this.deps.pauseState.isGloballyPaused()) {
-        return { ok: false, reason: 'globally-paused' };
-      }
-    } catch (error) {
-      console.error('[BingeUp] 读取全局暂停状态失败', error);
-      return { ok: false, reason: 'failed' };
-    }
-    const event = this.deps.adapter.getCurrentLearningContext?.() ?? null;
-    if (event === null) {
-      return { ok: false, reason: 'context-unavailable' };
-    }
-    const playback = event.video === null ? null : this.deps.videoPortFor(event.video);
-    const snapshot = playback === null ? null : pauseForInteraction(playback);
+    this.triggerInProgress = true;
 
-    // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
-    // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
-    const allowSpelling = this.deps.spellingEnabled ?? true;
-    let item: LearningItem | null;
     try {
-      item = await this.deps.learningService.getNextItem({ allowSpelling });
-    } catch (error) {
-      console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
-      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
-      return { ok: false, reason: 'failed' };
+      try {
+        if (await this.deps.pauseState.isGloballyPaused()) {
+          return { ok: false, reason: 'globally-paused' };
+        }
+      } catch (error) {
+        console.error('[BingeUp] 读取全局暂停状态失败', error);
+        return { ok: false, reason: 'failed' };
+      }
+
+      const event = this.deps.adapter.getCurrentLearningContext?.() ?? null;
+      if (event === null) {
+        return { ok: false, reason: 'context-unavailable' };
+      }
+      const playback = event.video === null ? null : this.deps.videoPortFor(event.video);
+      const snapshot = playback === null ? null : pauseForInteraction(playback);
+
+      // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
+      // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
+      const allowSpelling = this.deps.spellingEnabled ?? true;
+      let item: LearningItem | null;
+      try {
+        item = await this.deps.learningService.getNextItem({ allowSpelling });
+      } catch (error) {
+        console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
+        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        return { ok: false, reason: 'failed' };
+      }
+      if (item === null) {
+        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        return { ok: false, reason: 'no-learning-content' };
+      }
+      const target = event.overlayTarget
+        ?? (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
+      try {
+        pauseIfPlaying(playback);
+        this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
+      } catch (error) {
+        console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
+        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        return { ok: false, reason: 'failed' };
+      }
+      this.active = {
+        identity: event.identity,
+        playback,
+        snapshot,
+        target,
+        overlayMode: event.overlayMode,
+        startedAt: this.deps.clock.now(),
+        mode: 'continuous',
+        questionsAnswered: 0,
+      };
+      this.handledIdentities.add(event.identity);
+      this.hasSubmitted = false;
+      this.trackWordId(item);
+      return { ok: true };
+    } finally {
+      this.triggerInProgress = false;
     }
-    if (item === null) {
-      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
-      return { ok: false, reason: 'no-learning-content' };
-    }
-    const target = event.overlayTarget
-      ?? (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
-    try {
-      pauseIfPlaying(playback);
-      this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
-    } catch (error) {
-      console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
-      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
-      return { ok: false, reason: 'failed' };
-    }
-    this.active = {
-      identity: event.identity,
-      playback,
-      snapshot,
-      target,
-      overlayMode: event.overlayMode,
-      startedAt: this.deps.clock.now(),
-      mode: 'continuous',
-      questionsAnswered: 0,
-    };
-    this.handledIdentities.add(event.identity);
-    this.hasSubmitted = false;
-    this.trackWordId(item);
-    return { ok: true };
   }
 
   private async handleVideoChange(event: VideoChangeEvent): Promise<void> {

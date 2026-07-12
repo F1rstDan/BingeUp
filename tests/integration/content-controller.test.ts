@@ -1017,7 +1017,7 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.openCalls).toBe(0);
   });
 
-  it('startContinuousLearning：无主视频时返回 false，不打开遮罩', async () => {
+  it('startContinuousLearning：无当前学习上下文时返回 context-unavailable', async () => {
     const { controller, overlay, playback } = makeController();
     // 未 setCurrentEvent → getCurrentLearningContext 返回 null
     const result = await controller.startContinuousLearning();
@@ -1028,7 +1028,7 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.openCalls).toBe(0);
   });
 
-  it('已有进行中的交互时 startContinuousLearning 返回 false', async () => {
+  it('已有进行中的交互时返回 interaction-active', async () => {
     const { controller, adapter, overlay } = makeController();
     adapter.emit('bv-1', {});
     await flush();
@@ -1041,7 +1041,19 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.openCalls).toBe(1); // 没有再次打开
   });
 
-  it('无学习内容时返回 false，并恢复原播放状态', async () => {
+  it('并发启动时只允许第一个请求打开学习界面', async () => {
+    const { controller, adapter, overlay } = makeController();
+    adapter.setCurrentEvent('bv-1', {});
+
+    const first = controller.startContinuousLearning();
+    const second = await controller.startContinuousLearning();
+
+    expect(second).toEqual({ ok: false, reason: 'interaction-active' });
+    expect(await first).toEqual({ ok: true });
+    expect(overlay.openCalls).toBe(1);
+  });
+
+  it('无学习内容时返回 no-learning-content，并恢复原播放状态', async () => {
     const { controller, adapter, overlay, playback } = makeController({ item: null });
     adapter.setCurrentEvent('bv-1', {});
 

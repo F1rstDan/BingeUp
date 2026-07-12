@@ -14,6 +14,7 @@ import type {
   StartLearningResponse,
 } from '@/messaging/messages';
 import { addWebsite } from '@/sites/site-access';
+import { exactHttpsOriginPattern } from '@/sites/site-origin';
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5）。
@@ -86,6 +87,21 @@ function startLearningUnavailableReason(
   if (!state.enabled) return '请先启用当前网站。';
   if (isPaused) return '全局暂停期间无法开始学习。';
   return null;
+}
+
+function DisabledStartLearning({ reason }: { reason: string }): JSX.Element {
+  return (
+    <div className="bingeup-actions">
+      <button
+        className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
+        disabled
+        aria-describedby="bingeup-start-reason"
+      >
+        开始学习
+      </button>
+      <p id="bingeup-start-reason" className="bingeup-hint">{reason}</p>
+    </div>
+  );
 }
 
 function popupPauseMode(until: number, now: number): PopupPauseMode {
@@ -194,7 +210,7 @@ export function PopupApp(): JSX.Element {
 async function chromePermissionsContains(hostname: string): Promise<boolean> {
   if (!hostname) return false;
   try {
-    return await chrome.permissions.contains({ origins: [`https://${hostname}/*`] });
+    return await chrome.permissions.contains({ origins: [exactHttpsOriginPattern(hostname)] });
   } catch {
     // 权限 API 不可用时 fail-open：假定已有权限，避免阻塞用户操作。
     return true;
@@ -253,6 +269,7 @@ function PopupView({
             当前为浏览器受保护页面（{ctx.url}），刷刷升级无法在此运行。
           </p>
         </div>
+        <DisabledStartLearning reason="当前页面不支持学习。" />
       </div>
     );
   }
@@ -272,6 +289,7 @@ function PopupView({
         >
           开始引导
         </button>
+        <DisabledStartLearning reason="请先完成安装引导。" />
       </div>
     );
   }
@@ -298,6 +316,7 @@ function PopupView({
             当前网站缺少主机权限，请在扩展管理页授予访问权限后刷新页面。
           </p>
         </div>
+        <DisabledStartLearning reason="请先授予当前网站访问权限。" />
       </div>
     );
   }

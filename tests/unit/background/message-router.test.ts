@@ -411,7 +411,7 @@ describe('message-router — Issue #10 新增消息', () => {
     expect(permissionsRemove).not.toHaveBeenCalled();
   });
 
-  it('REMOVE_SITE：自定义站点尝试释放可选权限（AC5）', async () => {
+  it('REMOVE_SITE：自定义站点尝试释放当前与旧版可选权限（AC5）', async () => {
     // 直接写入一个自定义站点（绕过 enableSite 的受支持检查）
     await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
 
@@ -421,8 +421,29 @@ describe('message-router — Issue #10 新增消息', () => {
     )) as { released: boolean };
 
     expect(res.released).toBe(true);
-    expect(permissionsRemove).toHaveBeenCalledWith({
+    expect(permissionsRemove).toHaveBeenNthCalledWith(1, {
       origins: ['https://example.com/*'],
+    });
+    expect(permissionsRemove).toHaveBeenNthCalledWith(2, {
+      origins: ['*://example.com/*', '*://*.example.com/*'],
+    });
+  });
+
+  it('REMOVE_SITE：仅存在旧版宽泛权限时仍报告已释放', async () => {
+    permissionsRemove.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
+    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
+
+    const res = (await router.handle(
+      { type: 'REMOVE_SITE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { released: boolean };
+
+    expect(res.released).toBe(true);
+    expect(permissionsRemove).toHaveBeenNthCalledWith(1, {
+      origins: ['https://example.com/*'],
+    });
+    expect(permissionsRemove).toHaveBeenNthCalledWith(2, {
+      origins: ['*://example.com/*', '*://*.example.com/*'],
     });
   });
 
