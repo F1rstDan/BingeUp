@@ -1081,6 +1081,26 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.openCalls).toBe(0);
   });
 
+  it('主动启动时遮罩打开失败会恢复视频并返回 failed', async () => {
+    const { controller, adapter, overlay, playback } = makeController();
+    adapter.setCurrentEvent('bv-1', {});
+    overlay.open = () => {
+      throw new Error('模拟遮罩失败');
+    };
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    try {
+      const result = await controller.startContinuousLearning();
+
+      expect(result).toEqual({ ok: false, reason: 'failed' });
+      expect(playback.pauseCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(playback.paused).toBe(false);
+    } finally {
+      errorSpy.mockRestore();
+    }
+  });
+
   it('主动连续学习后 exit-learning 应用默认冷却并恢复视频', async () => {
     const { controller, adapter, overlay, playback, cooldownStore } = makeController();
     adapter.setCurrentEvent('bv-1', {});

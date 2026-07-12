@@ -298,6 +298,46 @@ describe('OptionsApp — Issue #10', () => {
     expect(permissionsRequest).not.toHaveBeenCalled();
   });
 
+  it('非法地址显示校验原因且不读取或写入站点', async () => {
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'not a valid host /' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    expect(await screen.findByText('请输入有效的网站地址。')).toBeInTheDocument();
+    expect(mocks.getSiteState).not.toHaveBeenCalled();
+    expect(mocks.addCustomSite).not.toHaveBeenCalled();
+  });
+
+  it('重复添加已有权限的自定义网站时提示已启用且不重复授权或写入', async () => {
+    mocks.getSiteState.mockResolvedValue({
+      hostname: 'example.com',
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+    });
+    mocks.listSites.mockResolvedValue({
+      sites: [{
+        hostname: 'example.com',
+        settings: {
+          enabled: true,
+          mode: 'basic-web' as const,
+          firstQuestionPending: false,
+        },
+      }],
+    });
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'example.com' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    expect(await screen.findByText('网站 example.com 已启用')).toBeInTheDocument();
+    expect(permissionsRequest).not.toHaveBeenCalled();
+    expect(mocks.addCustomSite).not.toHaveBeenCalled();
+  });
+
   it('拒绝网站权限时显示失败原因且不写入站点', async () => {
     permissionsContains.mockResolvedValue(false);
     permissionsRequest.mockResolvedValue(false);
