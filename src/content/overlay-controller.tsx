@@ -16,7 +16,8 @@ const OVERLAY_CSS = `
   .bingeup-card {
     box-sizing: border-box; width: min(470px, calc(100% - 30px));
     padding: 24px 22px 20px; border: 1px solid var(--bingeup-line);
-    border-radius: var(--bingeup-radius-lg); background: rgba(255, 255, 255, .9); box-shadow: var(--bingeup-shadow);
+    border-radius: var(--bingeup-radius-lg); background: rgba(255, 255, 255, .86); box-shadow: var(--bingeup-shadow);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   }
   .bingeup-prompt { margin-bottom: 18px; color: var(--bingeup-ink); font-size: 27px; font-weight: 900; text-align: center; letter-spacing: -.06em; }
   .bingeup-phonetic { margin-bottom: 12px; color: var(--bingeup-muted); font-size: 15px; text-align: center; }

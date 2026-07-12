@@ -90,8 +90,17 @@ export class BilibiliAdapter implements VideoSiteAdapter {
   }
 
   getOverlayTarget(video: HTMLVideoElement): HTMLElement | DOMRect | null {
-    // 优先用播放器容器，便于跟随布局变化；回退到视频本身矩形。
-    const playerWrap = video.closest('.bpx-player-container, .bpx-player-video-wrap, #bilibili-player');
+    // 优先用完整的播放器容器。不能把多个选择器放进一次 closest：
+    // video-wrap 往往比 bpx-player-container 更近，但它可能只覆盖画面上半段。
+    const playerContainer = video.closest('.bpx-player-container');
+    if (playerContainer instanceof HTMLElement) {
+      return playerContainer;
+    }
+    const playerRoot = video.closest('#bilibili-player');
+    if (playerRoot instanceof HTMLElement) {
+      return playerRoot;
+    }
+    const playerWrap = video.closest('.bpx-player-video-wrap');
     if (playerWrap instanceof HTMLElement) {
       return playerWrap;
     }

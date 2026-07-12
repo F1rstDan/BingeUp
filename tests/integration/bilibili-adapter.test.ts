@@ -69,6 +69,20 @@ function mountInContainer(video: HTMLVideoElement, containerClass: string): HTML
   return container;
 }
 
+function mockElementRect(element: HTMLElement, width: number, height: number): void {
+  element.getBoundingClientRect = () => ({
+    width,
+    height,
+    top: 0,
+    left: 0,
+    right: width,
+    bottom: height,
+    x: 0,
+    y: 0,
+    toJSON: () => ({}),
+  });
+}
+
 describe('getBilibiliVideoIdentity — 身份提取', () => {
   it('普通视频 /video/BVxxx → BV 大写', () => {
     expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/video/BV1abc12345`)).toBe('BV1ABC12345');
@@ -446,6 +460,22 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       const adapter = new BilibiliAdapter();
 
       expect(adapter.getOverlayTarget(video)).toBe(container);
+    });
+
+    it('视频包在多个播放器容器内 → getOverlayTarget 返回完整可见区域', () => {
+      const video = createVideo();
+      const videoWrap = document.createElement('div');
+      videoWrap.className = 'bpx-player-video-wrap';
+      const playerContainer = document.createElement('div');
+      playerContainer.className = 'bpx-player-container';
+      mockElementRect(videoWrap, 800, 450);
+      mockElementRect(playerContainer, 1200, 800);
+      videoWrap.appendChild(video);
+      playerContainer.appendChild(videoWrap);
+      document.body.appendChild(playerContainer);
+      const adapter = new BilibiliAdapter();
+
+      expect(adapter.getOverlayTarget(video)).toBe(playerContainer);
     });
 
     it('视频无播放器容器 → getOverlayTarget 回退到视频矩形', () => {
