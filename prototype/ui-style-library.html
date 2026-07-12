@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>刷刷升级 · UI Style Library</title>
+    <style>
+      /* PROTOTYPE — standalone HTML style library. Open this file directly; no build required. */
+      :root {
+        --blue: #0a86e6;
+        --blue-dark: #0768b5;
+        --blue-soft: #e8f5ff;
+        --pink: #ff7e99;
+        --pink-dark: #e75e7b;
+        --pink-soft: #fff0f3;
+        --green: #10c26b;
+        --green-dark: #079451;
+        --green-soft: #eafff3;
+        --yellow: #ffc947;
+        --yellow-soft: #fff8df;
+        --purple: #8b5cf6;
+        --purple-soft: #f1edff;
+        --ink: #1f2937;
+        --muted: #7d8b9d;
+        --line: #e5edf4;
+        --canvas: #f5f8fb;
+        --white: #fff;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --shadow: 0 18px 48px rgba(35, 75, 112, .10);
+        --font: "Nunito", "Trebuchet MS", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: var(--font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button { border: 0; cursor: pointer; font: inherit; }
+      button:focus-visible { outline: 3px solid rgba(10, 134, 230, .28); outline-offset: 3px; }
+
+      .page { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding-bottom: 80px; }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 76px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand { display: inline-flex; align-items: center; gap: 10px; }
+      .brand-mark {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 32px;
+        border: 3px solid var(--blue);
+        border-radius: 11px 11px 12px 12px;
+        background: linear-gradient(145deg, #dff4ff, #fff);
+        box-shadow: 0 4px 0 #b8e3fb;
+      }
+      .brand-mark::before,
+      .brand-mark::after { position: absolute; top: -9px; width: 3px; height: 10px; border-radius: 3px; background: var(--blue); content: ""; }
+      .brand-mark::before { left: 8px; transform: rotate(-27deg); }
+      .brand-mark::after { right: 8px; transform: rotate(27deg); }
+      .brand-eye { position: absolute; top: 12px; width: 4px; height: 5px; border-radius: 50%; background: var(--ink); }
+      .brand-eye.left { left: 9px; }
+      .brand-eye.right { right: 9px; }
+      .brand-mouth { position: absolute; bottom: 6px; left: 50%; width: 9px; height: 4px; border-bottom: 2px solid var(--pink); border-radius: 0 0 8px 8px; transform: translateX(-50%); }
+      .brand-copy { display: flex; flex-direction: column; line-height: 1.05; }
+      .brand-copy strong { font-size: 18px; font-weight: 900; letter-spacing: -.07em; }
+      .brand-copy small { margin-top: 4px; color: var(--blue); font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+
+      .topbar-note { color: var(--muted); font-size: 11px; font-weight: 700; }
+      .static-badge { padding: 6px 10px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 9px; font-weight: 900; letter-spacing: .12em; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.05fr .95fr;
+        align-items: center;
+        gap: 30px;
+        margin: 34px 0 24px;
+        padding: 42px 48px;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(120deg, #e6f5ff 0%, #fafdff 54%, #fff0f4 100%);
+      }
+
+      .eyebrow { color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+      h1, h2, h3, p { margin-top: 0; }
+      .hero h1 { max-width: 560px; margin: 14px 0 13px; font-size: clamp(32px, 5vw, 54px); line-height: 1.03; letter-spacing: -.09em; }
+      .hero h1 span { color: var(--blue); }
+      .hero p { max-width: 520px; margin-bottom: 20px; color: #718295; font-size: 13px; line-height: 1.75; }
+      .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+      .hero-link { color: var(--blue); font-size: 11px; font-weight: 900; text-decoration: none; }
+
+      .mini-lesson {
+        position: relative;
+        max-width: 340px;
+        margin-left: auto;
+        padding: 18px;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 20px;
+        background: rgba(255,255,255,.74);
+        box-shadow: 0 18px 36px rgba(38, 104, 151, .10);
+      }
+      .mini-lesson::before { position: absolute; top: 28px; right: -22px; width: 86px; height: 86px; border-radius: 50%; background: rgba(255,255,255,.58); content: ""; }
+      .mini-lesson-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 10px; font-weight: 800; }
+      .mini-progress { overflow: hidden; height: 7px; margin: 14px 0 18px; border-radius: 999px; background: #eaf0f5; }
+      .mini-progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #45bcff); }
+      .mini-word { position: relative; z-index: 1; text-align: center; }
+      .mini-word strong { display: block; color: var(--blue); font-size: 27px; letter-spacing: -.06em; }
+      .mini-word small { color: var(--muted); font-size: 10px; }
+      .mini-options { display: grid; gap: 7px; margin-top: 17px; }
+      .mini-option { padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: #536476; font-size: 11px; font-weight: 800; text-align: left; }
+      .mini-option.active { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-dark); }
+
+      .section { margin-top: 32px; }
+      .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 13px; }
+      .section-heading h2 { margin: 6px 0 0; font-size: 21px; letter-spacing: -.07em; }
+      .section-heading p { margin: 0; color: var(--muted); font-size: 11px; }
+      .section-card { padding: 23px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); box-shadow: 0 8px 28px rgba(35,75,112,.045); }
+
+      .token-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+      .token { display: grid; grid-template-columns: 34px 1fr; align-items: center; column-gap: 9px; }
+      .swatch { grid-row: 1 / span 2; width: 34px; height: 34px; border-radius: 10px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.08); }
+      .swatch.blue { background: var(--blue); }
+      .swatch.pink { background: var(--pink); }
+      .swatch.green { background: var(--green); }
+      .swatch.yellow { background: var(--yellow); }
+      .swatch.purple { background: var(--purple); }
+      .swatch.ink { background: var(--ink); }
+      .token strong { color: #4e6072; font-size: 11px; }
+      .token small { color: #9baab7; font-size: 9px; }
+      .token-note { display: flex; align-items: center; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid #eff3f6; color: #8b9aa8; font-size: 10px; }
+      .token-note i { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); }
+
+      .type-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; align-items: end; }
+      .type-display { margin-bottom: 3px; font-size: 35px; font-weight: 900; letter-spacing: -.08em; }
+      .type-display span { color: var(--blue); }
+      .type-body { color: #637589; font-size: 13px; line-height: 1.7; }
+      .type-meta { display: grid; gap: 7px; }
+      .type-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 7px; border-bottom: 1px dashed #e7edf2; color: var(--muted); font-size: 10px; }
+      .type-row b { color: var(--ink); font-size: 11px; }
+
+      .button-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+      .button-cell { display: grid; gap: 9px; }
+      .button-cell label { color: #96a4b2; font-size: 10px; font-weight: 800; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; border-radius: 13px; font-size: 12px; font-weight: 900; transition: 140ms ease; }
+      .btn:hover { transform: translateY(-2px); }
+      .btn:active { transform: translateY(1px); }
+      .btn small { opacity: .58; font-size: 9px; }
+      .btn-primary { background: var(--blue); box-shadow: 0 4px 0 var(--blue-dark); color: #fff; }
+      .btn-primary:hover { background: #2198ee; }
+      .btn-pink { background: var(--pink); box-shadow: 0 4px 0 var(--pink-dark); color: #fff; }
+      .btn-secondary { background: #eef2f5; box-shadow: 0 3px 0 #dbe2e8; color: #536476; }
+      .btn-outline { border: 1px solid #dce5ec; background: #fff; color: #738394; }
+      .btn-disabled { background: #e9edf0; color: #a9b4bd; cursor: not-allowed; }
+      .button-note { margin-top: 15px; color: var(--muted); font-size: 10px; }
+
+      .showcase-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 16px; align-items: start; }
+      .question-card { overflow: hidden; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow); }
+      .question-top { display: grid; grid-template-columns: 38px 1fr 40px; align-items: center; gap: 12px; color: var(--muted); font-size: 10px; font-weight: 900; }
+      .question-top .progress { overflow: hidden; height: 8px; border-radius: 999px; background: #edf1f5; }
+      .question-top .progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: var(--blue); }
+      .hearts { color: var(--pink); font-size: 17px; text-align: right; }
+      .question-card h3 { margin: 25px 0 16px; font-size: 21px; letter-spacing: -.06em; }
+      .question-card h3 em { color: var(--blue); font-style: normal; }
+      .answers { display: grid; gap: 8px; }
+      .answer { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; padding: 8px 10px; border: 1.5px solid #e4ebf1; border-radius: 12px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 800; text-align: left; transition: 140ms ease; }
+      .answer:hover { border-color: #9bd4f8; background: #f8fcff; transform: translateX(2px); }
+      .answer-letter { display: grid; place-items: center; flex: 0 0 auto; width: 28px; height: 28px; border-radius: 8px; background: #f0f3f6; color: #526274; font-size: 11px; font-weight: 900; }
+      .answer-mark { margin-left: auto; color: var(--blue); }
+      .answer.selected { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 3px 0 #b9def6; }
+      .answer.selected .answer-letter { background: var(--blue); color: #fff; }
+      .answer.correct { border-color: var(--green); background: var(--green-soft); box-shadow: 0 3px 0 #b4edcf; }
+      .answer.correct .answer-letter { background: var(--green); color: #fff; }
+      .answer.correct .answer-mark { color: var(--green-dark); }
+      .question-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 17px; }
+      .question-actions .btn:last-child { grid-column: 1 / -1; }
+
+      .feedback-stack { display: grid; gap: 12px; }
+      .feedback { padding: 17px; border: 1px solid #d9f3e5; border-left: 4px solid var(--green); border-radius: 16px; background: linear-gradient(125deg, #f1fff7, #fff); }
+      .feedback.wrong { border-color: #ffe1e8; border-left-color: var(--pink); background: linear-gradient(125deg, #fff4f6, #fff); }
+      .feedback-title { display: flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: 14px; font-weight: 900; }
+      .feedback.wrong .feedback-title { color: var(--pink-dark); }
+      .feedback-icon { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; background: var(--green); color: #fff; font-size: 14px; }
+      .feedback.wrong .feedback-icon { background: var(--pink); }
+      .feedback-body { display: flex; align-items: end; justify-content: space-between; gap: 10px; margin-top: 14px; }
+      .feedback-body strong { font-size: 14px; }
+      .feedback-body p { margin: 4px 0 0; color: #344456; font-size: 12px; font-weight: 800; }
+      .feedback-body small { display: block; max-width: 230px; margin-top: 7px; color: #82909e; font-size: 10px; line-height: 1.5; }
+      .feedback-link { display: inline-block; margin-top: 12px; color: var(--green-dark); font-size: 10px; font-weight: 900; }
+      .feedback.wrong .feedback-link { color: var(--pink-dark); }
+
+      .mascot { position: relative; width: 92px; height: 110px; flex: 0 0 auto; }
+      .mascot::before, .mascot::after { position: absolute; top: 0; width: 5px; height: 25px; border-radius: 10px; background: var(--blue); content: ""; }
+      .mascot::before { left: 27px; transform: rotate(-24deg); }
+      .mascot::after { right: 27px; transform: rotate(24deg); }
+      .mascot-head { position: absolute; z-index: 2; top: 18px; left: 7px; width: 78px; height: 57px; border: 3px solid #0876c8; border-radius: 19px 19px 15px 15px; background: linear-gradient(145deg, #fff, #d8f2ff); }
+      .mascot-head::before, .mascot-head::after { position: absolute; top: 20px; width: 6px; height: 9px; border-radius: 50%; background: var(--ink); content: ""; }
+      .mascot-head::before { left: 20px; }
+      .mascot-head::after { right: 20px; }
+      .mascot-mouth { position: absolute; bottom: 12px; left: 50%; width: 15px; height: 7px; border-bottom: 3px solid var(--pink); border-radius: 0 0 15px 15px; transform: translateX(-50%); }
+      .mascot-body { position: absolute; bottom: 10px; left: 27px; width: 44px; height: 40px; border-radius: 13px; background: linear-gradient(145deg, #20a2f4, #0876c8); box-shadow: 0 5px 0 #075c9d; }
+      .mascot-arm { position: absolute; z-index: 1; bottom: 25px; width: 15px; height: 32px; border-radius: 999px; background: var(--blue); }
+      .mascot-arm.left { left: 17px; transform: rotate(30deg); }
+      .mascot-arm.right { right: 17px; transform: rotate(-45deg); }
+      .mascot-shadow { position: absolute; bottom: 0; left: 5px; width: 82px; height: 9px; border-radius: 50%; background: rgba(80,124,157,.17); }
+
+      .popup-row { display: grid; grid-template-columns: .75fr 1.25fr; gap: 16px; align-items: start; }
+      .popup { width: min(100%, 330px); padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: var(--shadow); }
+      .popup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+      .popup-header strong { font-size: 16px; letter-spacing: -.05em; }
+      .popup-header span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: var(--blue-soft); color: var(--blue); font-size: 15px; }
+      .site-status { display: flex; align-items: center; gap: 10px; padding: 13px; border-radius: 14px; background: #f7fafc; }
+      .site-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px var(--green-soft); }
+      .site-status div { display: flex; flex-direction: column; gap: 3px; }
+      .site-status strong { font-size: 12px; }
+      .site-status small { color: var(--muted); font-size: 10px; }
+      .popup-actions { display: grid; gap: 8px; margin-top: 13px; }
+      .popup-actions .btn { width: 100%; }
+      .stats-card { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+      .stat { padding: 16px 11px; border-radius: 15px; background: #f8fbfe; text-align: center; }
+      .stat strong { display: block; color: var(--blue); font-size: 22px; letter-spacing: -.05em; }
+      .stat:nth-child(2) strong { color: var(--green); }
+      .stat:nth-child(3) strong { color: var(--pink); }
+      .stat:nth-child(4) strong { color: var(--purple); }
+      .stat span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+
+      .nav-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .bottom-nav { display: flex; align-items: center; justify-content: space-around; min-height: 74px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 8px 24px rgba(35,75,112,.06); }
+      .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 56px; color: #a2afbb; font-size: 19px; }
+      .nav-item b { font-size: 10px; }
+      .nav-item.active { color: var(--blue); }
+      .nav-center { display: grid; place-items: center; width: 48px; height: 48px; margin-top: -22px; border: 4px solid var(--canvas); border-radius: 50%; background: var(--blue); color: #fff; box-shadow: 0 5px 0 var(--blue-dark); }
+      .nav-copy { padding: 18px; border-radius: 18px; background: var(--ink); color: #fff; }
+      .nav-copy h3 { margin-bottom: 7px; font-size: 15px; letter-spacing: -.05em; }
+      .nav-copy p { margin: 0; color: #a7bacb; font-size: 11px; line-height: 1.6; }
+      .nav-copy span { display: inline-block; margin-top: 13px; padding: 5px 8px; border-radius: 7px; background: rgba(10,134,230,.18); color: #71c9ff; font-size: 9px; font-weight: 900; }
+
+      .footer-note { margin-top: 32px; padding: 15px 18px; border-radius: 14px; background: #edf6fc; color: #6d8293; font-size: 11px; line-height: 1.6; }
+      .footer-note strong { color: var(--blue-dark); }
+
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; padding: 32px; }
+        .mini-lesson { margin: 0; }
+        .token-grid { grid-template-columns: repeat(3, 1fr); }
+        .button-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (max-width: 650px) {
+        .page { width: min(100% - 24px, 560px); }
+        .topbar-note { display: none; }
+        .hero { margin-top: 20px; padding: 26px 20px; }
+        .hero h1 { font-size: 36px; }
+        .section-card { padding: 17px; }
+        .section-heading { align-items: start; flex-direction: column; }
+        .token-grid { grid-template-columns: repeat(2, 1fr); }
+        .type-grid, .showcase-grid, .popup-row, .nav-demo { grid-template-columns: 1fr; }
+        .question-card { padding: 16px; }
+        .stats-card { grid-template-columns: repeat(2, 1fr); }
+        .popup { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand" aria-label="刷刷升级 UI 样式库">
+          <span class="brand-mark" aria-hidden="true"><i class="brand-eye left"></i><i class="brand-eye right"></i><i class="brand-mouth"></i></span>
+          <span class="brand-copy"><strong>刷刷升级</strong><small>BingeLevel · UI LAB</small></span>
+        </div>
+        <span class="topbar-note">多邻国式反馈 × 哔哩哔哩蓝粉</span>
+        <span class="static-badge">STATIC HTML</span>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div>
+            <div class="eyebrow">Style direction / 01</div>
+            <h1>让每一次点击，<span>都有升级感。</span></h1>
+            <p>这是一个不用编译、直接打开就能看的样式库。先确认颜色、圆角、按钮和学习反馈，再决定如何迁移到浏览器插件。</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#components">查看组件 ↓</a>
+              <a class="hero-link" href="#tokens">先看颜色 token</a>
+            </div>
+          </div>
+          <div class="mini-lesson" aria-label="学习卡片预览">
+            <div class="mini-lesson-top"><span>单词挑战</span><span>♥ 3</span></div>
+            <div class="mini-progress"><span></span></div>
+            <div class="mini-word"><strong>abandon</strong><small>最接近哪个意思？</small></div>
+            <div class="mini-options"><div class="mini-option active">A　放弃；遗弃</div><div class="mini-option">B　建造</div></div>
+          </div>
+        </section>
+
+        <section class="section" id="tokens">
+          <div class="section-heading"><div><div class="eyebrow">Foundations / 01</div><h2>颜色 token</h2></div><p>蓝色负责行动，粉色负责情绪。</p></div>
+          <div class="section-card">
+            <div class="token-grid">
+              <div class="token"><i class="swatch blue"></i><strong>主蓝</strong><small>#0A86E6</small></div>
+              <div class="token"><i class="swatch pink"></i><strong>哔粉</strong><small>#FF7E99</small></div>
+              <div class="token"><i class="swatch green"></i><strong>成功绿</strong><small>#10C26B</small></div>
+              <div class="token"><i class="swatch yellow"></i><strong>活力黄</strong><small>#FFC947</small></div>
+              <div class="token"><i class="swatch purple"></i><strong>梦紫</strong><small>#8B5CF6</small></div>
+              <div class="token"><i class="swatch ink"></i><strong>墨色</strong><small>#1F2937</small></div>
+            </div>
+            <div class="token-note"><i></i><span>整体用白底和浅灰分区，鲜艳色只用于行动、奖励和状态。</span></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Foundations / 02</div><h2>文字与层次</h2></div><p>标题有劲，说明文字保持轻。</p></div>
+          <div class="section-card type-grid">
+            <div><div class="type-display">今天也来<span>刷一组</span></div><div class="type-body">在视频间隙轻量学习英语单词。短句、清楚的状态和一点点奖励，让学习不打断观看节奏。</div></div>
+            <div class="type-meta"><div class="type-row"><span>Display</span><b>36 / 900 / -8%</b></div><div class="type-row"><span>Body</span><b>13 / 400 / 1.7</b></div><div class="type-row"><span>Radius</span><b>24 / 16 / 12</b></div></div>
+          </div>
+        </section>
+
+        <section class="section" id="components">
+          <div class="section-heading"><div><div class="eyebrow">Components / 01</div><h2>按钮层级</h2></div><p>厚实、圆润、按下有回弹。</p></div>
+          <div class="section-card">
+            <div class="button-grid">
+              <div class="button-cell"><label>Primary / action</label><button class="btn btn-primary">开始学习 <span>→</span></button></div>
+              <div class="button-cell"><label>Reward / continue</label><button class="btn btn-pink">提交并继续 <span>↗</span></button></div>
+              <div class="button-cell"><label>Secondary / quiet</label><button class="btn btn-secondary">稍后再说</button></div>
+              <div class="button-cell"><label>Disabled / unavailable</label><button class="btn btn-disabled" disabled>暂不可用</button></div>
+            </div>
+            <div class="button-note">按钮阴影不是装饰：它让点击动作更像“按下去”，更接近学习产品的游戏感。</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Components / 02</div><h2>学习卡片与反馈</h2></div><p>点击答案可预览：待选择 → 已选择 → 回答正确。</p></div>
+          <div class="showcase-grid">
+            <article class="question-card">
+              <div class="question-top"><span>1 / 20</span><div class="progress"><span></span></div><span class="hearts">♥ 3</span></div>
+              <h3><em>abandon</em> 最接近哪个意思？</h3>
+              <div class="answers" data-answer-group>
+                <button class="answer selected" data-answer="selected"><span class="answer-letter">A</span><span>放弃；遗弃</span><span class="answer-mark">●</span></button>
+                <button class="answer" data-answer="idle"><span class="answer-letter">B</span><span>建造</span></button>
+                <button class="answer" data-answer="idle"><span class="answer-letter">C</span><span>修复</span></button>
+                <button class="answer" data-answer="idle"><span class="answer-letter">D</span><span>同意</span></button>
+              </div>
+              <div class="question-actions"><button class="btn btn-secondary">跳过 <small>Esc</small></button><button class="btn btn-secondary">提交 <small>Enter</small></button><button class="btn btn-pink">提交并继续 <span>→</span></button></div>
+            </article>
+
+            <div class="feedback-stack">
+              <article class="feedback">
+                <div class="feedback-title"><span class="feedback-icon">✓</span><span>回答正确！</span></div>
+                <div class="feedback-body"><div><strong>abandon</strong><p>放弃；遗弃</p><small>They abandoned the original plan.</small></div><div class="mascot" aria-hidden="true"><span class="mascot-head"><i class="mascot-mouth"></i></span><span class="mascot-body"></span><span class="mascot-arm left"></span><span class="mascot-arm right"></span><span class="mascot-shadow"></span></div></div>
+                <span class="feedback-link">点击查看详情　›</span>
+              </article>
+              <article class="feedback wrong">
+                <div class="feedback-title"><span class="feedback-icon">×</span><span>再想一下</span></div>
+                <div class="feedback-body"><div><strong>abandon</strong><p>你的答案：建造</p><small>正确答案：放弃；遗弃</small></div><div class="mascot" aria-hidden="true"><span class="mascot-head"><i class="mascot-mouth"></i></span><span class="mascot-body"></span><span class="mascot-arm left"></span><span class="mascot-arm right"></span><span class="mascot-shadow"></span></div></div>
+                <span class="feedback-link">再看一眼例句　›</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Components / 03</div><h2>Popup 与数据概览</h2></div><p>信息密度低一点，操作入口只留最重要的。</p></div>
+          <div class="section-card popup-row">
+            <div class="popup">
+              <div class="popup-header"><strong>刷刷升级</strong><span>⚙</span></div>
+              <div class="site-status"><i class="site-dot"></i><div><strong>bilibili.com</strong><small>已启用 · 完整适配</small></div></div>
+              <div class="popup-actions"><button class="btn btn-primary">开始连续学习</button><button class="btn btn-secondary">暂停今天</button></div>
+            </div>
+            <div class="stats-card">
+              <div class="stat"><strong>86</strong><span>刷词总数</span></div><div class="stat"><strong>76%</strong><span>正确率</span></div><div class="stat"><strong>23</strong><span>待复习</span></div><div class="stat"><strong>6</strong><span>学习天数</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Components / 04</div><h2>底部导航</h2></div><p>当前页面用蓝色，核心动作放到中心。</p></div>
+          <div class="section-card nav-demo">
+            <nav class="bottom-nav" aria-label="底部导航"><span class="nav-item active">⌂<b>学习</b></span><span class="nav-item">◒<b>统计</b></span><span class="nav-center">＋</span><span class="nav-item">▤<b>词库</b></span><span class="nav-item">⚙<b>设置</b></span></nav>
+            <div class="nav-copy"><h3>这一版的核心感觉</h3><p>用蓝色建立“现在可以做什么”的方向感，用粉色告诉用户“你刚刚做得不错”。</p><span>Duolingo energy / Bilibili color</span></div>
+          </div>
+        </section>
+
+        <div class="footer-note"><strong>静态预览：</strong>这个文件可以直接双击打开，不依赖项目编译。确认方向后，再把其中的颜色、圆角、按钮和状态迁移到正式插件页面。</div>
+      </main>
+    </div>
+
+    <script>
+      const answerGroup = document.querySelector('[data-answer-group]');
+      const answerButtons = answerGroup ? [...answerGroup.querySelectorAll('[data-answer]')] : [];
+      let stateIndex = 0;
+      const states = ['selected', 'correct', 'idle'];
+
+      answerButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          stateIndex = (stateIndex + 1) % states.length;
+          const state = states[stateIndex];
+          answerButtons.forEach((item) => {
+            item.classList.remove('selected', 'correct');
+            const mark = item.querySelector('.answer-mark');
+            if (mark) mark.remove();
+          });
+          button.classList.add(state);
+          if (state !== 'idle') {
+            const mark = document.createElement('span');
+            mark.className = 'answer-mark';
+            mark.textContent = state === 'correct' ? '✓' : '●';
+            button.appendChild(mark);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
