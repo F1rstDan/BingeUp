@@ -99,7 +99,7 @@ function fakeAdapter() {
         overlayMode,
       };
     },
-    getCurrentVideoEvent() {
+    getCurrentLearningContext() {
       return currentEvent;
     },
   };
@@ -233,6 +233,7 @@ function makeController(opts: {
   playback?: VideoPlaybackPort & { pauseCalls: number; playCalls: number };
   item?: LearningItem | null;
   withSessionLogger?: boolean;
+  globallyPaused?: boolean;
 } = {}) {
   const adapter = fakeAdapter();
   const overlay = fakeOverlay();
@@ -243,8 +244,13 @@ function makeController(opts: {
   const videoPortFor = vi.fn(() => playback);
   const learningService = fakeLearningService(opts.item);
   const sessionLogger = opts.withSessionLogger ? fakeSessionLogger() : undefined;
+  const pauseState = {
+    async isGloballyPaused() {
+      return opts.globallyPaused ?? false;
+    },
+  };
 
-  const controller = new ContentController({
+  const controllerDeps = {
     adapter,
     overlay,
     cooldownStore,
@@ -253,7 +259,9 @@ function makeController(opts: {
     siteState,
     learningService,
     sessionLogger,
-  });
+    pauseState,
+  };
+  const controller = new ContentController(controllerDeps);
   controller.start();
 
   return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService, sessionLogger };
@@ -300,6 +308,7 @@ function makeContinuousController(opts: {
     adapter,
     overlay,
     cooldownStore,
+    pauseState: { async isGloballyPaused() { return false; } },
     clock,
     videoPortFor,
     siteState,
@@ -968,10 +977,10 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     });
     adapter.setCurrentEvent('bv-1', {});
 
-    const ok = await controller.startContinuousLearning();
+    const result = await controller.startContinuousLearning();
     await flush();
 
-    expect(ok).toBe(true);
+    expect(result).toEqual({ ok: true });
     expect(playback.pauseCalls).toBe(1);
     expect(overlay.openCalls).toBe(1);
     // 连续模式请求允许拼写题
@@ -980,13 +989,41 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
   });
 
-  it('startContinuousLearning：无主视频时返回 false，不打开遮罩', async () => {
-    const { controller, overlay, playback } = makeController();
-    // 未 setCurrentEvent → getCurrentVideoEvent 返回 null
-    const ok = await controller.startContinuousLearning();
+  it('startContinuousLearning：基础网页上下文以全网页遮罩启动且不调用播放控制', async () => {
+    const { controller, adapter, overlay, videoPortFor } = makeController({
+      cooldown: { nextAllowedAt: NOW + 10_000, consecutiveSkipCount: 0 },
+    });
+    adapter.setCurrentEvent('basic-manual-1', null, document.documentElement, 'full-page');
+
+    const result = await controller.startContinuousLearning();
     await flush();
 
-    expect(ok).toBe(false);
+    expect(result).toEqual({ ok: true });
+    expect(videoPortFor).not.toHaveBeenCalled();
+    expect(overlay.openCalls).toBe(1);
+    expect(overlay.lastTarget).toBe(document.documentElement);
+    expect(overlay.lastMode).toBe('full-page');
+    expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
+  });
+
+  it('startContinuousLearning：全局暂停时拒绝启动', async () => {
+    const { controller, adapter, overlay, playback } = makeController({ globallyPaused: true });
+    adapter.setCurrentEvent('bv-1', {});
+
+    const result = await controller.startContinuousLearning();
+
+    expect(result).toEqual({ ok: false, reason: 'globally-paused' });
+    expect(playback.pauseCalls).toBe(0);
+    expect(overlay.openCalls).toBe(0);
+  });
+
+  it('startContinuousLearning：无主视频时返回 false，不打开遮罩', async () => {
+    const { controller, overlay, playback } = makeController();
+    // 未 setCurrentEvent → getCurrentLearningContext 返回 null
+    const result = await controller.startContinuousLearning();
+    await flush();
+
+    expect(result).toEqual({ ok: false, reason: 'context-unavailable' });
     expect(playback.pauseCalls).toBe(0);
     expect(overlay.openCalls).toBe(0);
   });
@@ -997,10 +1034,10 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     await flush();
     expect(overlay.openCalls).toBe(1);
 
-    const ok = await controller.startContinuousLearning();
+    const result = await controller.startContinuousLearning();
     await flush();
 
-    expect(ok).toBe(false);
+    expect(result).toEqual({ ok: false, reason: 'interaction-active' });
     expect(overlay.openCalls).toBe(1); // 没有再次打开
   });
 
@@ -1008,10 +1045,10 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     const { controller, adapter, overlay, playback } = makeController({ item: null });
     adapter.setCurrentEvent('bv-1', {});
 
-    const ok = await controller.startContinuousLearning();
+    const result = await controller.startContinuousLearning();
     await flush();
 
-    expect(ok).toBe(false);
+    expect(result).toEqual({ ok: false, reason: 'no-learning-content' });
     expect(playback.pauseCalls).toBe(1);
     expect(playback.playCalls).toBe(1);
     expect(playback.paused).toBe(false);

@@ -57,6 +57,9 @@ export const messageClient = {
   async resumeAll(): Promise<PauseResponse> {
     return send({ type: 'RESUME_ALL' });
   },
+  async getGlobalPauseStatus(): Promise<PauseResponse> {
+    return send({ type: 'GET_GLOBAL_PAUSE_STATUS' });
+  },
   async recordPromptDecline(hostname: string): Promise<void> {
     await send({ type: 'PROMPT_DECLINE', hostname });
   },

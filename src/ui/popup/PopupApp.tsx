@@ -7,7 +7,13 @@ import {
   type PopupDisplayState,
 } from '@/popup/popup-state';
 import { endOfToday, PAUSE_TEN_MINUTES_MS } from '@/pause/pause-rules';
-import type { ContentMessage, PopupLearningStats } from '@/messaging/messages';
+import type {
+  ContentMessage,
+  PopupLearningStats,
+  StartLearningFailureReason,
+  StartLearningResponse,
+} from '@/messaging/messages';
+import { addWebsite } from '@/sites/site-access';
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5）。
@@ -66,9 +72,20 @@ function popupSiteStatusTone(state: PopupDisplayState): PopupSiteStatusTone {
 function popupSiteBadge(state: PopupDisplayState): string {
   if (state.globallyPaused) return '已暂停';
   if (state.enabled) return '可学习';
-  if (state.canAddCustomSite) return '可加入';
+  if (state.compatibilityLevel === 'unsupported') return '不可用';
   if (state.compatibilityLevel === 'needs-permission') return '需权限';
   return '待启用';
+}
+
+function startLearningUnavailableReason(
+  state: PopupDisplayState,
+  isPaused: boolean,
+): string | null {
+  if (state.canAddCustomSite) return '请先加入当前网站。';
+  if (state.compatibilityLevel === 'unsupported') return '当前网站不支持学习。';
+  if (!state.enabled) return '请先启用当前网站。';
+  if (isPaused) return '全局暂停期间无法开始学习。';
+  return null;
 }
 
 function popupPauseMode(until: number, now: number): PopupPauseMode {
@@ -177,7 +194,7 @@ export function PopupApp(): JSX.Element {
 async function chromePermissionsContains(hostname: string): Promise<boolean> {
   if (!hostname) return false;
   try {
-    return await chrome.permissions.contains({ origins: [`*://${hostname}/*`] });
+    return await chrome.permissions.contains({ origins: [`https://${hostname}/*`] });
   } catch {
     // 权限 API 不可用时 fail-open：假定已有权限，避免阻塞用户操作。
     return true;
@@ -290,6 +307,7 @@ function PopupView({
     ? state
     : { ...state, globallyPaused: isPaused };
   const siteStatusTone = popupSiteStatusTone(displayState);
+  const startUnavailableReason = startLearningUnavailableReason(displayState, isPaused);
 
   return (
     <div className="bingeup-popup">
@@ -306,7 +324,16 @@ function PopupView({
             <span>{COMPATIBILITY_LABELS[displayState.compatibilityLevel]}</span>
           </span>
         </div>
-        <span className="bingeup-site-badge">{popupSiteBadge(displayState)}</span>
+        {displayState.canAddCustomSite ? (
+          <button
+            className="bingeup-site-badge bingeup-site-join"
+            onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
+          >
+            加入当前网站
+          </button>
+        ) : (
+          <span className="bingeup-site-badge">{popupSiteBadge(displayState)}</span>
+        )}
       </section>
 
       <section className="bingeup-block" aria-labelledby="bingeup-today-title">
@@ -341,22 +368,16 @@ function PopupView({
         {notice !== null && (
           <p className="bingeup-hint bingeup-notice" role="status">{notice}</p>
         )}
-        {(!displayState.enabled || displayState.canAddCustomSite) && (
-          displayState.canAddCustomSite ? (
-            <button
-              className="bingeup-btn-primary bingeup-btn-full"
-              onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
-            >
-              加入当前网站
-            </button>
-          ) : (
-            <button
-              className="bingeup-btn-primary bingeup-btn-full"
-              onClick={() => void handleEnable(ctx.hostname, onReload)}
-            >
-              {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
-            </button>
-          )
+        {!displayState.enabled
+          && !displayState.canAddCustomSite
+          && displayState.compatibilityLevel !== 'unsupported'
+          && (
+          <button
+            className="bingeup-btn-primary bingeup-btn-full"
+            onClick={() => void handleEnable(ctx.hostname, onReload)}
+          >
+            {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
+          </button>
         )}
 
         {pauseMode === 'indefinite' ? (
@@ -388,11 +409,15 @@ function PopupView({
         {/* AC4：入口按钮 */}
         <button
           className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
-          disabled={!displayState.canControlVideo || isPaused}
+          disabled={startUnavailableReason !== null}
+          aria-describedby={startUnavailableReason === null ? undefined : 'bingeup-start-reason'}
           onClick={() => void handleStartContinuousLearning(ctx.tabId, onNotice)}
         >
-          开始连续学习
+          开始学习
         </button>
+        {startUnavailableReason !== null && (
+          <p id="bingeup-start-reason" className="bingeup-hint">{startUnavailableReason}</p>
+        )}
       </div>
     </div>
   );
@@ -405,21 +430,15 @@ async function handleAddCustomSite(
   onReload: () => Promise<void>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  // Issue #11 AC1：用户主动加入当前网站。先请求可选主机权限，再启用站点。
-  try {
-    const granted = await chrome.permissions.request({
-      origins: [`*://${hostname}/*`, `*://*.${hostname}/*`],
-    });
-    if (!granted) {
-      onNotice('未授予访问权限，无法加入当前网站。');
-      return;
-    }
-    await messageClient.addCustomSite(hostname);
-    onNotice('已加入当前网站，请刷新页面以启用学习。');
-    await onReload();
-  } catch (e) {
-    onNotice(`加入失败：${e instanceof Error ? e.message : String(e)}`);
+  const result = await addWebsite(hostname);
+  if (!result.ok) {
+    onNotice(result.message);
+    return;
   }
+  onNotice(result.status === 'already-enabled'
+    ? '当前网站已启用。'
+    : '已加入当前网站，请刷新页面以启用学习。');
+  await onReload();
 }
 
 async function handleEnable(hostname: string, onReload: () => Promise<void>): Promise<void> {
@@ -461,10 +480,25 @@ async function handleStartContinuousLearning(
   if (tabId === null) return;
   const message: ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
   try {
-    await chrome.tabs.sendMessage(tabId, message);
-    window.close();
+    const response = await chrome.tabs.sendMessage(tabId, message) as StartLearningResponse | undefined;
+    if (response?.ok) {
+      window.close();
+      return;
+    }
+    onNotice(startLearningFailureMessage(response?.reason));
   } catch {
     // AC5：内容脚本未注入（如未刷新或不受支持页面）时提供可理解状态，而非静默失败。
-    onNotice('无法开始连续学习，请刷新当前页面后重试。');
+    onNotice('无法开始学习：页面尚未就绪，请刷新当前页面后重试。');
+  }
+}
+
+function startLearningFailureMessage(reason?: StartLearningFailureReason): string {
+  switch (reason) {
+    case 'globally-paused': return '全局暂停期间无法开始学习。';
+    case 'interaction-active': return '当前已有学习界面。';
+    case 'context-unavailable': return '当前页面尚未准备好学习上下文。';
+    case 'no-learning-content': return '暂无可学习内容。';
+    case 'failed': return '无法开始学习，请稍后重试。';
+    default: return '无法开始学习：页面尚未就绪，请刷新当前页面后重试。';
   }
 }

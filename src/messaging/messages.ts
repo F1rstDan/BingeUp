@@ -28,6 +28,8 @@ export type ExtensionMessage =
   | { type: 'PAUSE_TODAY'; now: number }
   /** 恢复全部网站。 */
   | { type: 'RESUME_ALL' }
+  /** 查询全局暂停状态，供内容侧主动学习入口做最终状态检查。 */
+  | { type: 'GET_GLOBAL_PAUSE_STATUS' }
   /** 记录一次启用提示拒绝（AC2）。 */
   | { type: 'PROMPT_DECLINE'; hostname: string }
   /** 查询 Popup 需要的站点/引导/暂停数据（AC3）。 */
@@ -113,3 +115,14 @@ export type ImportDataResponse = ImportResult;
  */
 export type ContentMessage =
   | { type: 'START_CONTINUOUS_LEARNING' };
+
+export type StartLearningFailureReason =
+  | 'globally-paused'
+  | 'interaction-active'
+  | 'context-unavailable'
+  | 'no-learning-content'
+  | 'failed';
+
+export type StartLearningResponse =
+  | { ok: true }
+  | { ok: false; reason: StartLearningFailureReason };

@@ -163,6 +163,17 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(await store.getGlobalPausedUntil()).toBe(0);
   });
 
+  it('GET_GLOBAL_PAUSE_STATUS：返回当前全局暂停状态', async () => {
+    await store.setGlobalPausedUntil(7_000_000);
+
+    const res = (await router.handle(
+      { type: 'GET_GLOBAL_PAUSE_STATUS' },
+      {} as chrome.runtime.MessageSender,
+    )) as { globalPausedUntil: number };
+
+    expect(res).toEqual({ globalPausedUntil: 7_000_000 });
+  });
+
   it('PROMPT_DECLINE：记录一次拒绝（AC2）', async () => {
     await router.handle(
       { type: 'PROMPT_DECLINE', hostname: 'www.bilibili.com' },
@@ -411,7 +422,7 @@ describe('message-router — Issue #10 新增消息', () => {
 
     expect(res.released).toBe(true);
     expect(permissionsRemove).toHaveBeenCalledWith({
-      origins: ['*://example.com/*', '*://*.example.com/*'],
+      origins: ['https://example.com/*'],
     });
   });
 

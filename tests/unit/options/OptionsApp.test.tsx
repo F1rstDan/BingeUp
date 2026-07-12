@@ -5,10 +5,15 @@ import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import type { AppSettings } from '@/types';
 import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
 
+const NativeURL = globalThis.URL;
+
 const mocks = vi.hoisted(() => ({
   getAppSettings: vi.fn(),
   setAppSettings: vi.fn(),
   resetAppSettings: vi.fn(),
+  getSiteState: vi.fn(),
+  enableSite: vi.fn(),
+  addCustomSite: vi.fn(),
   listSites: vi.fn(),
   removeSite: vi.fn(),
   exportData: vi.fn(),
@@ -22,6 +27,9 @@ vi.mock('@/messaging/message-client', () => ({
     getAppSettings: mocks.getAppSettings,
     setAppSettings: mocks.setAppSettings,
     resetAppSettings: mocks.resetAppSettings,
+    getSiteState: mocks.getSiteState,
+    enableSite: mocks.enableSite,
+    addCustomSite: mocks.addCustomSite,
     listSites: mocks.listSites,
     removeSite: mocks.removeSite,
     exportData: mocks.exportData,
@@ -56,6 +64,9 @@ describe('OptionsApp — Issue #10', () => {
     mocks.getAppSettings.mockReset();
     mocks.setAppSettings.mockReset();
     mocks.resetAppSettings.mockReset();
+    mocks.getSiteState.mockReset();
+    mocks.enableSite.mockReset();
+    mocks.addCustomSite.mockReset();
     mocks.listSites.mockReset();
     mocks.removeSite.mockReset();
     mocks.exportData.mockReset();
@@ -65,6 +76,14 @@ describe('OptionsApp — Issue #10', () => {
 
     mocks.getAppSettings.mockResolvedValue({ ...SAMPLE_SETTINGS });
     mocks.listSites.mockResolvedValue({ sites: [] });
+    mocks.getSiteState.mockResolvedValue({
+      hostname: 'example.com',
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
+    });
+    mocks.enableSite.mockResolvedValue(undefined);
+    mocks.addCustomSite.mockResolvedValue(undefined);
     mocks.setAppSettings.mockImplementation(async (s: AppSettings) => s);
     mocks.resetAppSettings.mockResolvedValue({ ...DEFAULT_SETTINGS });
     mocks.removeSite.mockResolvedValue({ released: false });
@@ -72,10 +91,19 @@ describe('OptionsApp — Issue #10', () => {
     mocks.clearAllData.mockResolvedValue(undefined);
 
     // 模拟 URL.createObjectURL / revokeObjectURL
-    vi.stubGlobal('URL', {
-      ...URL,
-      createObjectURL: vi.fn(() => 'blob:test'),
-      revokeObjectURL: vi.fn(),
+    class TestURL extends NativeURL {}
+    Object.defineProperties(TestURL, {
+      createObjectURL: { value: vi.fn(() => 'blob:test') },
+      revokeObjectURL: { value: vi.fn() },
+    });
+    vi.stubGlobal('URL', TestURL);
+
+    vi.stubGlobal('chrome', {
+      permissions: {
+        contains: vi.fn(async () => false),
+        request: vi.fn(async () => true),
+        remove: vi.fn(async () => true),
+      },
     });
 
     // jsdom 未实现 File.prototype.text()，用 FileReader polyfill
@@ -165,6 +193,37 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   // ── AC2：网站管理 ────────────────────────────────────────
+
+  it('手动添加 HTTPS 网站后申请精确 hostname 权限并刷新列表（Issue #16）', async () => {
+    mocks.listSites
+      .mockResolvedValueOnce({ sites: [] })
+      .mockResolvedValueOnce({
+        sites: [
+          {
+            hostname: 'example.com',
+            settings: {
+              enabled: true,
+              mode: 'basic-web' as const,
+              firstQuestionPending: true,
+            },
+          },
+        ],
+      });
+
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: ' https://Example.COM/learn?q=1 ' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    await waitFor(() => {
+      expect(chrome.permissions.request).toHaveBeenCalledWith({
+        origins: ['https://example.com/*'],
+      });
+      expect(mocks.addCustomSite).toHaveBeenCalledWith('example.com');
+      expect(screen.getByText('example.com')).toBeInTheDocument();
+    });
+  });
 
   it('显示已配置的网站列表与兼容模式（AC2）', async () => {
     mocks.listSites.mockResolvedValue(SAMPLE_SITES);

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
+import { addWebsite } from '@/sites/site-access';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
@@ -35,6 +36,8 @@ interface SiteEntry {
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
+  const [siteInput, setSiteInput] = useState('');
+  const [siteAdding, setSiteAdding] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -79,7 +82,7 @@ export function OptionsApp(): JSX.Element {
     <div className="bingeup-options">
       <h1>刷刷升级 — 设置</h1>
 
-      {notice && <p className="bingeup-notice">{notice}</p>}
+      {notice && <p className="bingeup-notice" role="status">{notice}</p>}
 
       {/* AC1：学习设置 */}
       <SettingsSection title="学习设置">
@@ -198,6 +201,33 @@ export function OptionsApp(): JSX.Element {
 
       {/* AC2：网站管理 */}
       <SettingsSection title="网站管理">
+        <form
+          className="bingeup-site-add"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void handleAddWebsite(
+              siteInput,
+              load,
+              setSiteInput,
+              setSiteAdding,
+              setNotice,
+            );
+          }}
+        >
+          <label htmlFor="bingeup-site-address">网站地址</label>
+          <div className="bingeup-site-add-controls">
+            <input
+              id="bingeup-site-address"
+              type="text"
+              value={siteInput}
+              placeholder="example.com 或 https://example.com"
+              onChange={(event) => setSiteInput(event.target.value)}
+            />
+            <button className="bingeup-btn-primary" type="submit" disabled={siteAdding}>
+              {siteAdding ? '正在添加…' : '添加网站'}
+            </button>
+          </div>
+        </form>
         {sites.length === 0 ? (
           <p className="bingeup-hint">暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。</p>
         ) : (
@@ -363,6 +393,34 @@ async function handleRemoveSite(
     onNotice(`已删除网站 ${hostname}`);
   } catch (e) {
     onNotice(`删除失败：${e instanceof Error ? e.message : String(e)}`);
+  }
+}
+
+async function handleAddWebsite(
+  input: string,
+  onReload: () => Promise<void>,
+  onInputChange: (value: string) => void,
+  onAddingChange: (adding: boolean) => void,
+  onNotice: (msg: string | null) => void,
+): Promise<void> {
+  onAddingChange(true);
+  try {
+    const result = await addWebsite(input);
+    if (!result.ok) {
+      onNotice(result.message);
+      return;
+    }
+    onInputChange('');
+    await onReload();
+    if (result.status === 'already-enabled') {
+      onNotice(`网站 ${result.hostname} 已启用`);
+    } else if (result.status === 'permission-restored') {
+      onNotice(`已恢复网站 ${result.hostname} 的访问权限`);
+    } else {
+      onNotice(`已添加网站 ${result.hostname}`);
+    }
+  } finally {
+    onAddingChange(false);
   }
 }
 

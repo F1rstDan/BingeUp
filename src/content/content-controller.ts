@@ -15,15 +15,16 @@ import type {
 } from '@/types';
 import { isReady } from '@/cooldown/cooldown-rules';
 import { pauseForInteraction, restore, type VideoPlaybackPort } from '@/video/playback-controller';
+import type { StartLearningResponse } from '@/messaging/messages';
 
 /** 站点适配器端口：内容控制器只通过它接收视频变化事件。 */
 export interface SiteAdapterPort {
   onVideoChange(handler: (event: VideoChangeEvent) => void): () => void;
   /**
-   * 获取当前主视频事件（Issue #9 AC4）。用于 Popup 主动触发连续学习；
-   * 无当前视频时返回 null。基础网页模式可不实现。
+   * 获取当前学习上下文（Issue #16）。视频模式返回主视频上下文；
+   * 基础网页模式返回 video=null 的全网页上下文。
    */
-  getCurrentVideoEvent?(): VideoChangeEvent | null;
+  getCurrentLearningContext?(): VideoChangeEvent | null;
 }
 
 /**
@@ -73,6 +74,11 @@ export interface CooldownStore {
   recordOutcome(outcome: InteractionOutcome): Promise<void>;
 }
 
+/** 全局暂停状态端口；主动学习不得绕过用户的总暂停。 */
+export interface PauseStatePort {
+  isGloballyPaused(): Promise<boolean>;
+}
+
 /** 站点首次触发状态端口。 */
 export interface SiteStatePort {
   isFirstQuestionPending(): Promise<boolean>;
@@ -96,6 +102,7 @@ export interface ContentControllerDeps {
   adapter: SiteAdapterPort;
   overlay: OverlayPort;
   cooldownStore: CooldownStore;
+  pauseState: PauseStatePort;
   clock: Clock;
   /** 从视频元素构造播放控制端口。 */
   videoPortFor: (video: HTMLVideoElement) => VideoPlaybackPort;
@@ -193,19 +200,27 @@ export class ContentController {
    * - 直接以连续模式打开遮罩（isContinuous: true），并请求允许拼写题；
    * - 视频暂停、恢复、冷却更新等终态行为与连续学习模式一致。
    *
-   * 返回 false 的情况：已有进行中的交互、无当前主视频、无学习内容、遮罩打开失败。
+   * 返回可判别结果，供插件面板只在真正打开学习界面后关闭，并显示具体失败原因。
    */
-  async startContinuousLearning(): Promise<boolean> {
+  async startContinuousLearning(): Promise<StartLearningResponse> {
     // 已有进行中的交互：避免覆盖当前学习会话。
     if (this.active !== null) {
-      return false;
+      return { ok: false, reason: 'interaction-active' };
     }
-    const event = this.deps.adapter.getCurrentVideoEvent?.() ?? null;
-    if (event === null || event.video === null) {
-      return false;
+    try {
+      if (await this.deps.pauseState.isGloballyPaused()) {
+        return { ok: false, reason: 'globally-paused' };
+      }
+    } catch (error) {
+      console.error('[BingeUp] 读取全局暂停状态失败', error);
+      return { ok: false, reason: 'failed' };
     }
-    const playback = this.deps.videoPortFor(event.video);
-    const snapshot = pauseForInteraction(playback);
+    const event = this.deps.adapter.getCurrentLearningContext?.() ?? null;
+    if (event === null) {
+      return { ok: false, reason: 'context-unavailable' };
+    }
+    const playback = event.video === null ? null : this.deps.videoPortFor(event.video);
+    const snapshot = playback === null ? null : pauseForInteraction(playback);
 
     // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
     // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
@@ -215,21 +230,22 @@ export class ContentController {
       item = await this.deps.learningService.getNextItem({ allowSpelling });
     } catch (error) {
       console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
-      await restore(playback, snapshot);
-      return false;
+      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+      return { ok: false, reason: 'failed' };
     }
     if (item === null) {
-      await restore(playback, snapshot);
-      return false;
+      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+      return { ok: false, reason: 'no-learning-content' };
     }
-    const target = event.overlayTarget ?? event.video.getBoundingClientRect();
+    const target = event.overlayTarget
+      ?? (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
     try {
       pauseIfPlaying(playback);
       this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
     } catch (error) {
       console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
-      await restore(playback, snapshot);
-      return false;
+      if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+      return { ok: false, reason: 'failed' };
     }
     this.active = {
       identity: event.identity,
@@ -244,7 +260,7 @@ export class ContentController {
     this.handledIdentities.add(event.identity);
     this.hasSubmitted = false;
     this.trackWordId(item);
-    return true;
+    return { ok: true };
   }
 
   private async handleVideoChange(event: VideoChangeEvent): Promise<void> {

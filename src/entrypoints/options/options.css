@@ -58,6 +58,10 @@ body {
 .bingeup-hint { margin: 0; color: var(--bingeup-muted); line-height: 1.55; }
 .bingeup-notice { margin: 0; padding: 11px 13px; border-left: 4px solid var(--bingeup-green); border-radius: 12px; color: var(--bingeup-green-dark); background: var(--bingeup-green-soft); font-weight: 800; }
 .bingeup-error { margin: 0; color: var(--bingeup-pink-dark); font-weight: 800; }
+.bingeup-site-add { display: grid; gap: 7px; padding-bottom: 13px; border-bottom: 1px dashed #e7edf2; }
+.bingeup-site-add > label { color: #4e6072; font-weight: 800; }
+.bingeup-site-add-controls { display: flex; align-items: center; gap: 9px; }
+.bingeup-site-add-controls input { flex: 1; width: auto !important; }
 .bingeup-site-list { display: flex; flex-direction: column; gap: 10px; }
 .bingeup-site-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px; border: 1px solid var(--bingeup-line); border-radius: var(--bingeup-radius-md); background: #fbfdff; flex-wrap: wrap; }
 .bingeup-site-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -71,5 +75,6 @@ body {
 @media (max-width: 540px) {
   .bingeup-options { width: min(100% - 28px, 760px); padding-top: 28px; }
   .bingeup-field { align-items: flex-start; flex-direction: column; }
+  .bingeup-site-add-controls { align-items: stretch; flex-direction: column; }
   .bingeup-options input[type="number"], .bingeup-options input[type="text"], .bingeup-options select { width: 100%; }
 }

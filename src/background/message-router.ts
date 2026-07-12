@@ -129,6 +129,9 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         await store.setGlobalPausedUntil(until);
         return { globalPausedUntil: until };
       }
+      case 'GET_GLOBAL_PAUSE_STATUS': {
+        return { globalPausedUntil: await store.getGlobalPausedUntil() };
+      }
       case 'PROMPT_DECLINE': {
         await store.recordPromptDecline(message.hostname);
         return undefined;
@@ -180,7 +183,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         if (!isSupportedHostname(message.hostname) && chrome.permissions?.remove) {
           try {
             released = await chrome.permissions.remove({
-              origins: [`*://${message.hostname}/*`, `*://*.${message.hostname}/*`],
+              origins: [`https://${message.hostname}/*`],
             });
           } catch {
             released = false;

@@ -1,10 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { PopupApp } from '@/ui/popup/PopupApp';
 import { endOfToday } from '@/pause/pause-rules';
 
 const mocks = vi.hoisted(() => ({
   getPopupData: vi.fn(),
+  getSiteState: vi.fn(),
   enableSite: vi.fn(),
   pauseTenMinutes: vi.fn(),
   pauseToday: vi.fn(),
@@ -17,6 +18,7 @@ const { getPopupData, enableSite, pauseTenMinutes, pauseToday, resumeAll, addCus
 vi.mock('@/messaging/message-client', () => ({
   messageClient: {
     getPopupData: mocks.getPopupData,
+    getSiteState: mocks.getSiteState,
     enableSite: mocks.enableSite,
     pauseTenMinutes: mocks.pauseTenMinutes,
     pauseToday: mocks.pauseToday,
@@ -34,12 +36,13 @@ function installChromeStub(tab: TabStub | null, hasPermission = true) {
   const stub = {
     tabs: {
       query: vi.fn(async () => (tab ? [tab] : [])),
-      sendMessage: vi.fn(async () => undefined),
+      sendMessage: vi.fn(async (_tabId: number, _message: unknown): Promise<unknown> => undefined),
       create: vi.fn(async () => undefined),
     },
     permissions: {
       contains: vi.fn(async () => hasPermission),
       request: vi.fn(async () => true),
+      remove: vi.fn(async () => true),
     },
     runtime: {
       getURL: vi.fn((p: string) => `chrome-extension://test-id${p}`),
@@ -54,6 +57,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   beforeEach(() => {
     vi.resetModules();
     getPopupData.mockReset();
+    mocks.getSiteState.mockReset();
     enableSite.mockReset();
     pauseTenMinutes.mockReset();
     pauseToday.mockReset();
@@ -98,7 +102,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   });
 
   it('已启用站点显示域名、启用状态、兼容等级与今日学习统计（AC3）', async () => {
-    installChromeStub({ url: 'https://www.bilibili.com/video/BV1', id: 1 });
+    const stub = installChromeStub({ url: 'https://www.bilibili.com/video/BV1', id: 1 });
     getPopupData.mockResolvedValue({
       site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
       onboardingCompleted: true,
@@ -119,6 +123,9 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
       expect(screen.getByText('12')).toBeInTheDocument();
       expect(screen.getByText('9')).toBeInTheDocument();
       expect(screen.getByText('5')).toBeInTheDocument();
+    });
+    expect(stub.permissions.contains).toHaveBeenCalledWith({
+      origins: ['https://www.bilibili.com/*'],
     });
   });
 
@@ -142,6 +149,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
   beforeEach(() => {
     vi.resetModules();
     getPopupData.mockReset();
+    mocks.getSiteState.mockReset();
     enableSite.mockReset();
     pauseTenMinutes.mockReset();
     pauseToday.mockReset();
@@ -262,8 +270,9 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     });
   });
 
-  it('点击"开始连续学习"向内容脚本发送消息', async () => {
+  it('点击"开始学习"向内容脚本发送消息', async () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
+    stub.tabs.sendMessage.mockResolvedValue({ ok: true });
     getPopupData.mockResolvedValue({
       site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
       onboardingCompleted: true,
@@ -272,15 +281,34 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('开始连续学习');
+    const btn = await screen.findByText('开始学习');
     fireEvent.click(btn);
 
     await waitFor(() => {
       expect(stub.tabs.sendMessage).toHaveBeenCalledWith(42, { type: 'START_CONTINUOUS_LEARNING' });
+      expect(window.close).toHaveBeenCalled();
     });
   });
 
-  it('连续学习发送失败时显示可理解提示而非静默失败（AC5）', async () => {
+  it('没有学习内容时保留面板并显示具体原因', async () => {
+    const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
+    stub.tabs.sendMessage.mockResolvedValue({ ok: false, reason: 'no-learning-content' });
+    getPopupData.mockResolvedValue({
+      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+    fireEvent.click(await screen.findByText('开始学习'));
+
+    await waitFor(() => {
+      expect(screen.getByText('暂无可学习内容。')).toBeInTheDocument();
+    });
+    expect(window.close).not.toHaveBeenCalled();
+  });
+
+  it('开始学习发送失败时显示可理解提示而非静默失败（AC5）', async () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
     stub.tabs.sendMessage.mockRejectedValue(new Error('Receiving end does not exist'));
     getPopupData.mockResolvedValue({
@@ -291,15 +319,15 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('开始连续学习');
+    const btn = await screen.findByText('开始学习');
     fireEvent.click(btn);
 
     await waitFor(() => {
-      expect(screen.getByText(/无法开始连续学习/)).toBeInTheDocument();
+      expect(screen.getByText(/无法开始学习/)).toBeInTheDocument();
     });
   });
 
-  it('全局暂停时"开始连续学习"按钮禁用', async () => {
+  it('全局暂停时"开始学习"按钮禁用', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     const farFuture = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
     getPopupData.mockResolvedValue({
@@ -310,8 +338,29 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('开始连续学习');
+    const btn = await screen.findByText('开始学习');
     expect(btn).toBeDisabled();
+  });
+
+  it('基础网页模式允许主动开始学习', async () => {
+    const stub = installChromeStub({ url: 'https://example.com/article', id: 7 });
+    stub.tabs.sendMessage.mockResolvedValue({ ok: true });
+    getPopupData.mockResolvedValue({
+      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    const button = await screen.findByRole('button', { name: '开始学习' });
+    expect(button).toBeEnabled();
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(stub.tabs.sendMessage).toHaveBeenCalledWith(7, {
+        type: 'START_CONTINUOUS_LEARNING',
+      });
+    });
   });
 });
 
@@ -319,6 +368,13 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
   beforeEach(() => {
     vi.resetModules();
     getPopupData.mockReset();
+    mocks.getSiteState.mockReset();
+    mocks.getSiteState.mockResolvedValue({
+      hostname: 'example.com',
+      enabled: false,
+      mode: 'unsupported',
+      firstQuestionPending: false,
+    });
     addCustomSite.mockReset();
     vi.spyOn(window, 'close').mockImplementation(() => undefined);
   });
@@ -328,7 +384,7 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     vi.restoreAllMocks();
   });
 
-  it('非专属适配站点 + unsupported → 显示"加入当前网站"按钮（AC1）', async () => {
+  it('未加入 HTTPS 网站在顶部状态区显示唯一加入按钮，并保留禁用的开始学习入口', async () => {
     installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     getPopupData.mockResolvedValue({
       site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
@@ -338,7 +394,11 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
 
     render(<PopupApp />);
 
-    await screen.findByText('加入当前网站');
+    const status = await screen.findByRole('region', { name: '当前网站状态' });
+    expect(within(status).getByRole('button', { name: '加入当前网站' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: '加入当前网站' })).toHaveLength(1);
+    expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
+    expect(screen.getByText('请先加入当前网站。')).toBeInTheDocument();
   });
 
   it('HTTP 页面不显示"加入当前网站"按钮（规范要求 HTTPS）', async () => {
@@ -353,6 +413,7 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
 
     await waitFor(() => {
       expect(screen.queryByText('加入当前网站')).not.toBeInTheDocument();
+      expect(screen.getByText('当前网站不支持学习。')).toBeInTheDocument();
     });
   });
 
@@ -397,6 +458,9 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     fireEvent.click(btn);
 
     await waitFor(() => {
+      expect(stub.permissions.request).toHaveBeenCalledWith({
+        origins: ['https://example.com/*'],
+      });
       expect(addCustomSite).toHaveBeenCalledWith('example.com');
       expect(screen.getByText(/已加入当前网站/)).toBeInTheDocument();
     });

@@ -5,7 +5,12 @@ import { BasicWebAdapter } from '@/adapters/basic-web';
 import { detectSiteCapability } from '@/adapters/generic-video/detection';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { OverlayController } from '@/content/overlay-controller';
-import { ContentController, type CooldownStore, type SiteStatePort } from '@/content/content-controller';
+import {
+  ContentController,
+  type CooldownStore,
+  type PauseStatePort,
+  type SiteStatePort,
+} from '@/content/content-controller';
 import { showEnablePrompt } from '@/content/enable-prompt';
 import { shouldShowEnablePrompt } from '@/onboarding/onboarding-service';
 import { adaptHtmlVideo } from '@/video/playback-controller';
@@ -18,6 +23,7 @@ import { ReviewLogRepository } from '@/storage/repositories/review-log-repositor
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import { openDatabase } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
+import { isGloballyPaused } from '@/pause/pause-rules';
 
 const DB_NAME = 'bingeup';
 
@@ -36,6 +42,14 @@ export class MessageCooldownStore implements CooldownStore {
     } else {
       await messageClient.skipQuestion();
     }
+  }
+}
+
+/** 内容侧主动学习的全局暂停检查。 */
+export class MessagePauseState implements PauseStatePort {
+  async isGloballyPaused(): Promise<boolean> {
+    const { globalPausedUntil } = await messageClient.getGlobalPauseStatus();
+    return isGloballyPaused(globalPausedUntil, Date.now());
   }
 }
 
@@ -182,16 +196,24 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
 /**
  * 把完整 VideoSiteAdapter 适配为控制器需要的窄端口，初始化学习服务并启动控制器。
  *
- * getCurrentVideoEvent 复用适配器的主视频检测逻辑，供主动连续学习入口查询当前视频（AC4）。
- * 基础网页模式下 findPrimaryVideo 返回 null，getCurrentVideoEvent 返回 null，连续学习按钮不可用。
+ * getCurrentLearningContext 复用适配器的主视频检测逻辑；基础网页模式则返回
+ * video=null 的文档根上下文，供插件面板主动启动全网页学习界面（Issue #16）。
  */
 async function startController(adapter: VideoSiteAdapter, hostname: string): Promise<void> {
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
       adapter.observePageChanges(handler),
-    getCurrentVideoEvent(): VideoChangeEvent | null {
+    getCurrentLearningContext(): VideoChangeEvent | null {
       const video = adapter.findPrimaryVideo();
-      if (!video) return null;
+      if (!video) {
+        if (adapter.id !== 'basic-web') return null;
+        return {
+          identity: `basic-web:manual:${location.href}:${Date.now()}`,
+          video: null,
+          overlayTarget: document.documentElement,
+          overlayMode: 'full-page',
+        };
+      }
       if (adapter.isAdvertisement(video) || adapter.isPreview(video)) return null;
       const identity = adapter.getVideoIdentity(video);
       if (!identity) return null;
@@ -220,6 +242,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     adapter: adapterPort,
     overlay,
     cooldownStore: new MessageCooldownStore(),
+    pauseState: new MessagePauseState(),
     siteState: new MessageSiteState(hostname),
     clock: { now: () => Date.now() },
     videoPortFor: (video) => adaptHtmlVideo(video),
@@ -232,8 +255,11 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
   // Popup → Content 消息：主动触发连续学习（AC4）。
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message?.type === 'START_CONTINUOUS_LEARNING') {
-      void controller.startContinuousLearning().then((ok) => {
-        sendResponse({ ok });
+      void controller.startContinuousLearning().then((result) => {
+        sendResponse(result);
+      }).catch((error) => {
+        console.error('[BingeUp] 主动学习启动失败', error);
+        sendResponse({ ok: false, reason: 'failed' });
       });
       return true; // 异步响应
     }

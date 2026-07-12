@@ -6,10 +6,20 @@ const getPopupData = vi.fn();
 const enableSite = vi.fn();
 const recordPromptDecline = vi.fn();
 const getAppSettings = vi.fn();
+const updateSiteMode = vi.fn();
+const getGlobalPauseStatus = vi.fn();
 const showEnablePrompt = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
-  messageClient: { getSiteState, getPopupData, enableSite, recordPromptDecline, getAppSettings },
+  messageClient: {
+    getSiteState,
+    getPopupData,
+    enableSite,
+    recordPromptDecline,
+    getAppSettings,
+    updateSiteMode,
+    getGlobalPauseStatus,
+  },
 }));
 
 vi.mock('@/content/enable-prompt', () => ({
@@ -24,6 +34,9 @@ describe('bootstrapContent — 启动诊断', () => {
     enableSite.mockReset();
     recordPromptDecline.mockReset();
     getAppSettings.mockReset();
+    updateSiteMode.mockReset();
+    getGlobalPauseStatus.mockReset();
+    getGlobalPauseStatus.mockResolvedValue({ globalPausedUntil: 0 });
     getAppSettings.mockResolvedValue({
       defaultCooldownMinutes: 2,
       consecutiveSkipCooldowns: [5, 15, 60],
@@ -109,6 +122,38 @@ describe('bootstrapContent — 启动诊断', () => {
     );
     info.mockRestore();
   });
+
+  it('基础网页收到主动学习消息后以全网页上下文启动', async () => {
+    vi.stubGlobal('location', {
+      hostname: 'example.com',
+      protocol: 'https:',
+      href: 'https://example.com/article',
+    });
+    getSiteState.mockResolvedValue({
+      hostname: 'example.com',
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+      pageLoadTrigger: false,
+      scrollTrigger: false,
+    });
+    const addListener = vi.fn();
+    vi.stubGlobal('chrome', { runtime: { onMessage: { addListener } } });
+    const { bootstrapContent } = await import('@/content/bootstrap');
+
+    await bootstrapContent();
+
+    const listener = addListener.mock.calls[0]?.[0] as (
+      message: unknown,
+      sender: unknown,
+      sendResponse: (response: unknown) => void,
+    ) => boolean;
+    const response = new Promise<unknown>((resolve) => {
+      expect(listener({ type: 'START_CONTINUOUS_LEARNING' }, {}, resolve)).toBe(true);
+    });
+
+    await expect(response).resolves.toEqual({ ok: true });
+  });
 });
 
 describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
@@ -119,6 +164,8 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     enableSite.mockReset();
     recordPromptDecline.mockReset();
     getAppSettings.mockReset();
+    getGlobalPauseStatus.mockReset();
+    getGlobalPauseStatus.mockResolvedValue({ globalPausedUntil: 0 });
     getAppSettings.mockResolvedValue({
       defaultCooldownMinutes: 2,
       consecutiveSkipCooldowns: [5, 15, 60],

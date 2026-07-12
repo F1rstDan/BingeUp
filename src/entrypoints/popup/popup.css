@@ -160,6 +160,16 @@ body {
   white-space: nowrap;
 }
 
+.bingeup-popup .bingeup-site-join {
+  min-height: 28px;
+  padding: 5px 8px;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  color: var(--bingeup-pink-dark);
+  background: var(--bingeup-white);
+  font-size: 9px;
+}
+
 .bingeup-site-status-warning .bingeup-site-badge,
 .bingeup-site-status-paused .bingeup-site-badge,
 .bingeup-site-badge-warning {
