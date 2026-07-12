@@ -19,6 +19,14 @@ import {
 } from '@/onboarding/onboarding-service';
 import type { ExtensionMessage, PopupLearningStats } from '@/messaging/messages';
 
+async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
+  try {
+    return await chrome.permissions.remove({ origins });
+  } catch {
+    return false;
+  }
+}
+
 async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
   const [cards, logs, sessions] = await Promise.all([
     new CardRepository(db).getAll(),
@@ -181,23 +189,17 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         // AC5：受支持站点（bilibili/youtube）使用必需 host_permissions，不可释放；
         // 自定义站点使用可选权限，尝试释放。
         let released = false;
-        if (!isSupportedHostname(message.hostname) && chrome.permissions?.remove) {
-          let exactReleased = false;
-          let legacyReleased = false;
-          try {
-            exactReleased = await chrome.permissions.remove({
-              origins: [exactHttpsOriginPattern(message.hostname)],
-            });
-          } catch {
-            // 继续尝试清理旧版权限，避免单次 API 失败阻断迁移。
-          }
-          try {
-            legacyReleased = await chrome.permissions.remove({
-              origins: legacyBroadOriginPatterns(message.hostname),
-            });
-          } catch {
-            // 删除站点本身已完成；权限释放失败通过 released=false 返回。
-          }
+        if (
+          !isSupportedHostname(message.hostname)
+          && typeof chrome.permissions?.remove === 'function'
+        ) {
+          const exactReleased = await tryRemoveOrigins([
+            exactHttpsOriginPattern(message.hostname),
+          ]);
+          // 即使当前精确权限释放失败，也继续清理 Issue #16 之前申请的宽泛权限。
+          const legacyReleased = await tryRemoveOrigins(
+            legacyBroadOriginPatterns(message.hostname),
+          );
           released = exactReleased || legacyReleased;
         }
         return { released };

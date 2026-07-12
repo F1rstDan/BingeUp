@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
+import { hasExactHttpsPermission } from '@/sites/site-permission';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
@@ -31,6 +32,7 @@ const MODE_LABELS: Record<SiteSettings['mode'], string> = {
 interface SiteEntry {
   hostname: string;
   settings: SiteSettings;
+  hasHostPermission: boolean;
 }
 
 export function OptionsApp(): JSX.Element {
@@ -48,8 +50,12 @@ export function OptionsApp(): JSX.Element {
         messageClient.getAppSettings(),
         messageClient.listSites(),
       ]);
+      const sitesWithPermissions = await Promise.all(siteList.sites.map(async (entry) => ({
+        ...entry,
+        hasHostPermission: await hasExactHttpsPermission(entry.hostname),
+      })));
       setSettings(appSettings);
-      setSites(siteList.sites);
+      setSites(sitesWithPermissions);
       setError(null);
     } catch (e) {
       setError(`加载失败：${e instanceof Error ? e.message : String(e)}`);
@@ -312,19 +318,23 @@ function SiteRow({
   entry: SiteEntry;
   onRemove: () => void;
 }): JSX.Element {
-  const { hostname, settings } = entry;
+  const { hostname, settings, hasHostPermission } = entry;
+  const needsPermission = settings.mode !== 'unsupported' && !hasHostPermission;
+  const effectivelyEnabled = settings.enabled && !needsPermission;
   return (
     <div className="bingeup-site-row">
       <div className="bingeup-site-info">
         <span className="bingeup-site-host">{hostname}</span>
         <span
           className={
-            'bingeup-badge ' + (settings.enabled ? 'bingeup-badge-ok' : 'bingeup-badge-off')
+            'bingeup-badge ' + (effectivelyEnabled ? 'bingeup-badge-ok' : 'bingeup-badge-off')
           }
         >
-          {settings.enabled ? '已启用' : '未启用'}
+          {effectivelyEnabled ? '已启用' : '未启用'}
         </span>
-        <span className="bingeup-badge">{MODE_LABELS[settings.mode]}</span>
+        <span className="bingeup-badge">
+          {needsPermission ? '需要权限' : MODE_LABELS[settings.mode]}
+        </span>
       </div>
       {settings.mode === 'basic-web' && (
         <div className="bingeup-site-triggers">

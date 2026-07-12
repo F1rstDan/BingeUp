@@ -76,6 +76,21 @@ describe('LocalSettingsStore — 重启持久化', () => {
     expect(site.firstQuestionPending).toBe(false);
   });
 
+  it('重复启用已启用网站时保留已处理的首次触发状态', async () => {
+    const writer = new LocalSettingsStore();
+    await writer.enableSite('www.bilibili.com');
+    await writer.markFirstQuestionHandled('www.bilibili.com');
+
+    await writer.enableSite('www.bilibili.com');
+
+    const site = await new LocalSettingsStore().getSite('www.bilibili.com');
+    expect(site).toMatchObject({
+      enabled: true,
+      mode: 'full-adaptation',
+      firstQuestionPending: false,
+    });
+  });
+
   it('未存储任何数据时，受支持站点默认启用', async () => {
     const reader = new LocalSettingsStore();
     const cooldown = await reader.getCooldown();

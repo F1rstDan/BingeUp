@@ -52,6 +52,25 @@ describe('网站加入边界（Issue #16）', () => {
     expect(chrome.permissions.request).not.toHaveBeenCalled();
   });
 
+  it('专属网站处于默认启用状态时仍物化站点记录供设置页列出', async () => {
+    mocks.getSiteState.mockResolvedValue({
+      hostname: 'www.youtube.com',
+      enabled: true,
+      mode: 'full-adaptation',
+      firstQuestionPending: true,
+    });
+
+    const result = await addWebsite('www.youtube.com');
+
+    expect(result).toEqual({
+      ok: true,
+      hostname: 'www.youtube.com',
+      status: 'already-enabled',
+    });
+    expect(mocks.enableSite).toHaveBeenCalledWith('www.youtube.com');
+    expect(chrome.permissions.request).not.toHaveBeenCalled();
+  });
+
   it('自定义网站状态已启用但权限被撤销时重新申请权限并保留兼容等级', async () => {
     mocks.getSiteState.mockResolvedValue({
       hostname: 'example.com',

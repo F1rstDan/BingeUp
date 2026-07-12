@@ -38,11 +38,12 @@ export async function addWebsite(input: string): Promise<AddWebsiteResult> {
   try {
     const current = await messageClient.getSiteState(hostname);
     if (isSupportedHostname(hostname)) {
-      if (current.enabled && current.mode !== 'unsupported') {
-        return { ok: true, hostname, status: 'already-enabled' };
-      }
+      const status = current.enabled && current.mode !== 'unsupported'
+        ? 'already-enabled'
+        : 'added';
+      // 默认启用的专属站点可能尚无持久化记录；幂等启用会物化它，供设置页列出。
       await messageClient.enableSite(hostname);
-      return { ok: true, hostname, status: 'added' };
+      return { ok: true, hostname, status };
     }
     alreadyEnabled = current.enabled && current.mode !== 'unsupported';
   } catch (error) {

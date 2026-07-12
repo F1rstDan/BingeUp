@@ -357,4 +357,21 @@ describe('popup-state — 自定义网站加入（Issue #11 AC1）', () => {
     });
     expect(state.canAddCustomSite).toBe(false);
   });
+
+  it('HTTP 页面即使 hostname 已启用也按不支持处理', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'http://example.com/',
+      site: site({ enabled: true, mode: 'basic-web' }),
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+
+    expect(state.enabled).toBe(false);
+    expect(state.compatibilityLevel).toBe('unsupported');
+    expect(state.overlayMode).toBeNull();
+    expect(state.canAddCustomSite).toBe(false);
+  });
 });

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import type { AppSettings } from '@/types';
@@ -21,6 +21,10 @@ const mocks = vi.hoisted(() => ({
   clearLearningProgress: vi.fn(),
   clearAllData: vi.fn(),
 }));
+
+const permissionsContains = vi.fn();
+const permissionsRequest = vi.fn();
+const permissionsRemove = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
   messageClient: {
@@ -89,6 +93,9 @@ describe('OptionsApp — Issue #10', () => {
     mocks.removeSite.mockResolvedValue({ released: false });
     mocks.clearLearningProgress.mockResolvedValue(undefined);
     mocks.clearAllData.mockResolvedValue(undefined);
+    permissionsContains.mockReset().mockResolvedValue(true);
+    permissionsRequest.mockReset().mockResolvedValue(true);
+    permissionsRemove.mockReset().mockResolvedValue(true);
 
     // 模拟 URL.createObjectURL / revokeObjectURL
     class TestURL extends NativeURL {}
@@ -100,9 +107,9 @@ describe('OptionsApp — Issue #10', () => {
 
     vi.stubGlobal('chrome', {
       permissions: {
-        contains: vi.fn(async () => false),
-        request: vi.fn(async () => true),
-        remove: vi.fn(async () => true),
+        contains: permissionsContains,
+        request: permissionsRequest,
+        remove: permissionsRemove,
       },
     });
 
@@ -195,6 +202,7 @@ describe('OptionsApp — Issue #10', () => {
   // ── AC2：网站管理 ────────────────────────────────────────
 
   it('手动添加 HTTPS 网站后申请精确 hostname 权限并刷新列表（Issue #16）', async () => {
+    permissionsContains.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
     mocks.listSites
       .mockResolvedValueOnce({ sites: [] })
       .mockResolvedValueOnce({
@@ -222,6 +230,99 @@ describe('OptionsApp — Issue #10', () => {
       });
       expect(mocks.addCustomSite).toHaveBeenCalledWith('example.com');
       expect(screen.getByText('example.com')).toBeInTheDocument();
+    });
+  });
+
+  it('添加默认已启用的专属网站时物化记录并刷新列表', async () => {
+    mocks.getSiteState.mockResolvedValue({
+      hostname: 'www.youtube.com',
+      enabled: true,
+      mode: 'full-adaptation',
+      firstQuestionPending: true,
+    });
+    mocks.listSites
+      .mockResolvedValueOnce({ sites: [] })
+      .mockResolvedValueOnce({
+        sites: [{
+          hostname: 'youtube.com',
+          settings: {
+            enabled: true,
+            mode: 'full-adaptation' as const,
+            firstQuestionPending: true,
+          },
+        }],
+      });
+
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'https://www.youtube.com/watch?v=x' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    await waitFor(() => {
+      expect(mocks.enableSite).toHaveBeenCalledWith('www.youtube.com');
+      expect(screen.getByText('youtube.com')).toBeInTheDocument();
+    });
+  });
+
+  it('权限被撤销时与 Popup 一致显示未启用和需要权限', async () => {
+    permissionsContains.mockResolvedValue(false);
+    mocks.listSites.mockResolvedValue({
+      sites: [{
+        hostname: 'example.com',
+        settings: {
+          enabled: true,
+          mode: 'basic-web' as const,
+          firstQuestionPending: false,
+        },
+      }],
+    });
+
+    renderOptions();
+
+    const hostname = await screen.findByText('example.com');
+    const row = hostname.closest('.bingeup-site-row');
+    expect(row).not.toBeNull();
+    expect(within(row as HTMLElement).getByText('未启用')).toBeInTheDocument();
+    expect(within(row as HTMLElement).getByText('需要权限')).toBeInTheDocument();
+  });
+
+  it('非 HTTPS 地址显示拒绝原因且不申请权限', async () => {
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'http://example.com/page' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    expect(await screen.findByText('仅支持普通 HTTPS 网站。')).toBeInTheDocument();
+    expect(permissionsRequest).not.toHaveBeenCalled();
+  });
+
+  it('拒绝网站权限时显示失败原因且不写入站点', async () => {
+    permissionsContains.mockResolvedValue(false);
+    permissionsRequest.mockResolvedValue(false);
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'example.com' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    expect(await screen.findByText('未授予访问权限，无法加入该网站。')).toBeInTheDocument();
+    expect(mocks.addCustomSite).not.toHaveBeenCalled();
+  });
+
+  it('站点写入失败时显示错误并撤销本次新授予的精确权限', async () => {
+    permissionsContains.mockResolvedValue(false);
+    mocks.addCustomSite.mockRejectedValue(new Error('storage 不可用'));
+    renderOptions();
+
+    const input = await screen.findByRole('textbox', { name: '网站地址' });
+    fireEvent.change(input, { target: { value: 'example.com' } });
+    fireEvent.click(screen.getByRole('button', { name: '添加网站' }));
+
+    expect(await screen.findByText('加入失败：storage 不可用')).toBeInTheDocument();
+    expect(permissionsRemove).toHaveBeenCalledWith({
+      origins: ['https://example.com/*'],
     });
   });
 

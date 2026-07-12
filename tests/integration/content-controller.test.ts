@@ -1006,6 +1006,20 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
   });
 
+  it('startContinuousLearning：通用视频上下文暂停视频并使用全网页遮罩', async () => {
+    const { controller, adapter, overlay, playback, videoPortFor } = makeController();
+    adapter.setCurrentEvent('generic-manual-1', {}, document.documentElement, 'full-page');
+
+    const result = await controller.startContinuousLearning();
+
+    expect(result).toEqual({ ok: true });
+    expect(videoPortFor).toHaveBeenCalledTimes(1);
+    expect(playback.pauseCalls).toBe(1);
+    expect(overlay.lastTarget).toBe(document.documentElement);
+    expect(overlay.lastMode).toBe('full-page');
+    expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
+  });
+
   it('startContinuousLearning：全局暂停时拒绝启动', async () => {
     const { controller, adapter, overlay, playback } = makeController({ globallyPaused: true });
     adapter.setCurrentEvent('bv-1', {});

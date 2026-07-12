@@ -117,6 +117,20 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
   });
 
+  it('HTTP 页面即使 hostname 已启用也禁用开始学习并说明不支持', async () => {
+    installChromeStub({ url: 'http://example.com/', id: 1 });
+    getPopupData.mockResolvedValue({
+      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    expect(await screen.findByText('当前网站不支持学习。')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
+  });
+
   it('已启用站点显示域名、启用状态、兼容等级与今日学习统计（AC3）', async () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/video/BV1', id: 1 });
     getPopupData.mockResolvedValue({

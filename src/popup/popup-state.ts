@@ -74,6 +74,14 @@ export function isProtectedUrl(url: string): boolean {
   }
 }
 
+function isHttpsUrl(url: string): boolean {
+  try {
+    return new URL(url).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 /** 根据兼容等级推导覆盖方式。 */
 function overlayModeFor(level: PopupCompatibilityLevel): OverlayMode | null {
   if (level === 'full-adaptation') return 'video-region';
@@ -124,6 +132,25 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     };
   }
 
+  // Issue #16：内容脚本只运行在 HTTPS 页面。即使相同 hostname 已持久化启用，
+  // HTTP 等页面也必须按不支持处理，不能向内容脚本发送主动学习请求。
+  const isHttps = isHttpsUrl(input.url);
+  if (!isHttps) {
+    return {
+      hostname: input.hostname,
+      isProtectedPage: false,
+      onboardingCompleted: true,
+      enabled: false,
+      globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
+      globalPausedUntil: input.globalPausedUntil,
+      compatibilityLevel: 'unsupported',
+      overlayMode: null,
+      canControlVideo: false,
+      showEnablePrompt: false,
+      canAddCustomSite: false,
+    };
+  }
+
   // AC5：支持站点缺少主机权限时显示"需要权限"状态。
   if (!input.hasHostPermission && input.site.mode !== 'unsupported') {
     return {
@@ -144,7 +171,6 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
   const level: PopupCompatibilityLevel = input.site.mode;
   // Issue #11 AC1：非专属适配站点且未加入（unsupported）时，允许用户主动加入。
   // 规范要求 HTTPS：内容脚本仅匹配 https://*/*，HTTP 站点加入后无法注入。
-  const isHttps = input.url.startsWith('https://');
   const canAddCustomSite =
     isHttps && !isSupportedHostname(input.hostname) && input.site.mode === 'unsupported';
   return {

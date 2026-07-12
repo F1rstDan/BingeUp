@@ -144,9 +144,26 @@ export class LocalSettingsStore {
     }
   }
 
-  /** 启用一个站点：默认进入首次触发待处理状态。 */
+  /**
+   * 启用一个站点：首次启用进入首次触发待处理状态；重复启用相同模式保持现有状态，
+   * 同时将受支持站点的虚拟默认值物化到持久化列表。
+   */
   async enableSite(hostname: string, mode: SiteSettings['mode'] = 'full-adaptation'): Promise<void> {
-    await this.setSite(hostname, { enabled: true, mode, firstQuestionPending: true });
+    const state = await this.read();
+    const key = canonicalSiteKey(hostname);
+    const current = normalizeSiteSettings(
+      hostname,
+      state.sites[key] ?? defaultSiteSettings(hostname),
+    );
+    const newlyEnabled = normalizeSiteSettings(hostname, {
+      enabled: true,
+      mode,
+      firstQuestionPending: true,
+    });
+    state.sites[key] = current.enabled && current.mode === newlyEnabled.mode
+      ? current
+      : newlyEnabled;
+    await this.write(state);
   }
 
   /** 暂停当前网站（AC4）：将 enabled 置为 false，保留其他字段。 */

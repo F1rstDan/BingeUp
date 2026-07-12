@@ -14,7 +14,7 @@ import type {
   StartLearningResponse,
 } from '@/messaging/messages';
 import { addWebsite } from '@/sites/site-access';
-import { exactHttpsOriginPattern } from '@/sites/site-origin';
+import { hasExactHttpsPermission } from '@/sites/site-permission';
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5）。
@@ -138,7 +138,7 @@ export function PopupApp(): JSX.Element {
         hostname = '';
       }
       const data = await messageClient.getPopupData(hostname);
-      const hasHostPermission = await chromePermissionsContains(hostname);
+      const hasHostPermission = await hasExactHttpsPermission(hostname);
       const display = derivePopupState({
         hostname,
         url: tab.url,
@@ -204,17 +204,6 @@ export function PopupApp(): JSX.Element {
       onNotice={setNotice}
     />
   );
-}
-
-/** 检查当前站点是否已获得浏览器主机权限。 */
-async function chromePermissionsContains(hostname: string): Promise<boolean> {
-  if (!hostname) return false;
-  try {
-    return await chrome.permissions.contains({ origins: [exactHttpsOriginPattern(hostname)] });
-  } catch {
-    // 权限 API 不可用时 fail-open：假定已有权限，避免阻塞用户操作。
-    return true;
-  }
 }
 
 interface PopupViewProps {
