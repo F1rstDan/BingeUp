@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wxt",
-    "dev:edge": "wxt -b edge",
+    "dev": "wxt build --mode development",
+    "dev:edge": "wxt build -b edge --mode development",
     "build": "wxt build",
     "build:edge": "wxt build -b edge",
     "zip": "wxt zip",
