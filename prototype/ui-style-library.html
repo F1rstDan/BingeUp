@@ -13,6 +13,8 @@
         --pink: #ff7e99;
         --pink-dark: #e75e7b;
         --pink-soft: #fff0f3;
+        --red: #ff5574;
+        --red-dark: #d9435f;
         --green: #10c26b;
         --green-dark: #079451;
         --green-soft: #eafff3;
@@ -84,10 +86,7 @@
       .static-badge { padding: 6px 10px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 9px; font-weight: 900; letter-spacing: .12em; }
 
       .hero {
-        display: grid;
-        grid-template-columns: 1.05fr .95fr;
-        align-items: center;
-        gap: 30px;
+        display: block;
         margin: 34px 0 24px;
         padding: 42px 48px;
         overflow: hidden;
@@ -101,28 +100,8 @@
       .hero h1 span { color: var(--blue); }
       .hero p { max-width: 520px; margin-bottom: 20px; color: #718295; font-size: 13px; line-height: 1.75; }
       .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+      .hero-actions .btn-primary { min-width: 160px; padding-right: 25px; padding-left: 25px; }
       .hero-link { color: var(--blue); font-size: 11px; font-weight: 900; text-decoration: none; }
-
-      .mini-lesson {
-        position: relative;
-        max-width: 340px;
-        margin-left: auto;
-        padding: 18px;
-        border: 1px solid rgba(255,255,255,.9);
-        border-radius: 20px;
-        background: rgba(255,255,255,.74);
-        box-shadow: 0 18px 36px rgba(38, 104, 151, .10);
-      }
-      .mini-lesson::before { position: absolute; top: 28px; right: -22px; width: 86px; height: 86px; border-radius: 50%; background: rgba(255,255,255,.58); content: ""; }
-      .mini-lesson-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 10px; font-weight: 800; }
-      .mini-progress { overflow: hidden; height: 7px; margin: 14px 0 18px; border-radius: 999px; background: #eaf0f5; }
-      .mini-progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #45bcff); }
-      .mini-word { position: relative; z-index: 1; text-align: center; }
-      .mini-word strong { display: block; color: var(--blue); font-size: 27px; letter-spacing: -.06em; }
-      .mini-word small { color: var(--muted); font-size: 10px; }
-      .mini-options { display: grid; gap: 7px; margin-top: 17px; }
-      .mini-option { padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: #536476; font-size: 11px; font-weight: 800; text-align: left; }
-      .mini-option.active { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-dark); }
 
       .section { margin-top: 32px; }
       .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 13px; }
@@ -162,6 +141,8 @@
       .btn-primary { background: var(--blue); box-shadow: 0 4px 0 var(--blue-dark); color: #fff; }
       .btn-primary:hover { background: #2198ee; }
       .btn-pink { background: var(--pink); box-shadow: 0 4px 0 var(--pink-dark); color: #fff; }
+      .btn-red { background: var(--red); box-shadow: 0 4px 0 var(--red-dark); color: #fff; }
+      .btn-red:hover { background: #ff6b87; }
       .btn-secondary { background: #eef2f5; box-shadow: 0 3px 0 #dbe2e8; color: #536476; }
       .btn-outline { border: 1px solid #dce5ec; background: #fff; color: #738394; }
       .btn-disabled { background: #e9edf0; color: #a9b4bd; cursor: not-allowed; }
@@ -169,11 +150,7 @@
 
       .showcase-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 16px; align-items: start; }
       .question-card { overflow: hidden; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow); }
-      .question-top { display: grid; grid-template-columns: 38px 1fr 40px; align-items: center; gap: 12px; color: var(--muted); font-size: 10px; font-weight: 900; }
-      .question-top .progress { overflow: hidden; height: 8px; border-radius: 999px; background: #edf1f5; }
-      .question-top .progress span { display: block; width: 42%; height: 100%; border-radius: inherit; background: var(--blue); }
-      .hearts { color: var(--pink); font-size: 17px; text-align: right; }
-      .question-card h3 { margin: 25px 0 16px; font-size: 21px; letter-spacing: -.06em; }
+      .question-card h3 { margin: 4px 0 16px; font-size: 21px; letter-spacing: -.06em; }
       .question-card h3 em { color: var(--blue); font-style: normal; }
       .answers { display: grid; gap: 8px; }
       .answer { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; padding: 8px 10px; border: 1.5px solid #e4ebf1; border-radius: 12px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 800; text-align: left; transition: 140ms ease; }
@@ -185,8 +162,7 @@
       .answer.correct { border-color: var(--green); background: var(--green-soft); box-shadow: 0 3px 0 #b4edcf; }
       .answer.correct .answer-letter { background: var(--green); color: #fff; }
       .answer.correct .answer-mark { color: var(--green-dark); }
-      .question-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 17px; }
-      .question-actions .btn:last-child { grid-column: 1 / -1; }
+      .question-actions { display: grid; grid-template-columns: .85fr 1.35fr 1.8fr; gap: 9px; margin-top: 17px; }
 
       .feedback-stack { display: grid; gap: 12px; }
       .feedback { padding: 17px; border: 1px solid #d9f3e5; border-left: 4px solid var(--green); border-radius: 16px; background: linear-gradient(125deg, #f1fff7, #fff); }
@@ -217,25 +193,115 @@
       .mascot-arm.right { right: 17px; transform: rotate(-45deg); }
       .mascot-shadow { position: absolute; bottom: 0; left: 5px; width: 82px; height: 9px; border-radius: 50%; background: rgba(80,124,157,.17); }
 
-      .popup-row { display: grid; grid-template-columns: .75fr 1.25fr; gap: 16px; align-items: start; }
-      .popup { width: min(100%, 330px); padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: var(--shadow); }
+      .popup-row { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 30px; align-items: start; }
+      .popup { width: 100%; padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: var(--shadow); }
       .popup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+      .popup-brand { display: flex; align-items: center; gap: 8px; }
+      .popup-brand .brand-mark { width: 30px; height: 27px; transform: scale(.82); transform-origin: left center; }
       .popup-header strong { font-size: 16px; letter-spacing: -.05em; }
-      .popup-header span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: var(--blue-soft); color: var(--blue); font-size: 15px; }
+      .popup-settings { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--blue-soft); color: var(--blue); font-size: 15px; }
       .site-status { display: flex; align-items: center; gap: 10px; padding: 13px; border-radius: 14px; background: #f7fafc; }
       .site-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px var(--green-soft); }
-      .site-status div { display: flex; flex-direction: column; gap: 3px; }
+      .site-status div { display: flex; flex: 1; flex-direction: column; gap: 3px; }
       .site-status strong { font-size: 12px; }
       .site-status small { color: var(--muted); font-size: 10px; }
+      .site-badge { padding: 4px 6px; border-radius: 6px; background: var(--green-soft); color: var(--green-dark); font-size: 9px; font-weight: 900; white-space: nowrap; }
+      .popup-block { margin-top: 15px; padding-top: 14px; border-top: 1px solid #edf1f5; }
+      .popup-block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+      .popup-block-head strong { font-size: 12px; }
+      .popup-block-head span { color: var(--blue); font-size: 9px; font-weight: 900; }
+      .popup-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+      .popup-metric { padding: 9px 5px; border-radius: 10px; background: #f8fbfe; text-align: center; }
+      .popup-metric strong { display: block; color: var(--blue); font-size: 18px; letter-spacing: -.05em; }
+      .popup-metric:nth-child(2) strong { color: var(--green); }
+      .popup-metric:nth-child(3) strong { color: var(--pink); }
+      .popup-metric span { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+      .popup-progress-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; }
+      .popup-progress-label b { color: var(--ink); }
+      .popup-progress { overflow: hidden; height: 8px; margin-top: 8px; border-radius: 999px; background: #edf1f5; }
+      .popup-progress span { display: block; width: 64%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #45bcff); }
       .popup-actions { display: grid; gap: 8px; margin-top: 13px; }
       .popup-actions .btn { width: 100%; }
-      .stats-card { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
-      .stat { padding: 16px 11px; border-radius: 15px; background: #f8fbfe; text-align: center; }
-      .stat strong { display: block; color: var(--blue); font-size: 22px; letter-spacing: -.05em; }
-      .stat:nth-child(2) strong { color: var(--green); }
-      .stat:nth-child(3) strong { color: var(--pink); }
-      .stat:nth-child(4) strong { color: var(--purple); }
-      .stat span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+      .popup-pause-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .popup-side-notes { display: grid; align-content: center; gap: 12px; min-height: 100%; }
+      .popup-side-notes h3 { margin: 0; font-size: 19px; letter-spacing: -.06em; }
+      .popup-side-notes > p { max-width: 440px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+      .popup-side-item { display: flex; align-items: center; gap: 10px; padding: 12px 13px; border: 1px solid var(--line); border-radius: 13px; background: #fbfcfe; color: #66798b; font-size: 11px; }
+      .popup-side-item b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--blue-soft); color: var(--blue); font-size: 10px; }
+
+      .surface-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 16px; }
+      .surface-card { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; box-shadow: 0 8px 28px rgba(35,75,112,.045); }
+      .surface-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 17px; color: var(--muted); font-size: 10px; font-weight: 800; }
+      .surface-top strong { color: var(--ink); font-size: 15px; letter-spacing: -.05em; }
+      .surface-label { color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+      .onboarding-preview { background: linear-gradient(145deg, #f3fbff, #fff7f9); }
+      .onboarding-dots { display: flex; gap: 7px; margin-bottom: 22px; }
+      .onboarding-dots i { flex: 1; height: 6px; border-radius: 99px; background: #e3e9ef; }
+      .onboarding-dots i.active { background: var(--blue); }
+      .onboarding-body { max-width: 290px; margin: 0 auto; text-align: center; }
+      .onboarding-body .mascot { margin: 2px auto 3px; transform: scale(.88); }
+      .onboarding-body h3 { margin: 0 0 6px; font-size: 18px; letter-spacing: -.06em; }
+      .onboarding-body p { margin: 0 auto 15px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+      .site-choice-list { display: grid; gap: 8px; text-align: left; }
+      .site-choice { display: flex; align-items: center; gap: 9px; padding: 10px; border: 1px solid var(--line); border-radius: 11px; background: #fff; color: #526476; font-size: 11px; font-weight: 800; }
+      .site-choice.active { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-dark); }
+      .site-choice-logo { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 7px; background: #e9f4fb; color: var(--blue); font-size: 11px; font-weight: 900; }
+      .site-choice-check { display: grid; place-items: center; width: 16px; height: 16px; margin-left: auto; border: 1px solid #d6e1e9; border-radius: 5px; color: transparent; font-size: 10px; }
+      .site-choice.active .site-choice-check { border-color: var(--blue); background: var(--blue); color: #fff; }
+      .onboarding-body > .btn { width: 100%; margin-top: 13px; }
+      .surface-note { display: grid; align-content: center; gap: 12px; padding: 20px; border-radius: var(--radius-lg); background: var(--ink); color: #fff; }
+      .surface-note h3 { margin: 0; font-size: 18px; letter-spacing: -.06em; }
+      .surface-note p { margin: 0; color: #a9bdcc; font-size: 11px; line-height: 1.7; }
+      .surface-note ul { display: grid; gap: 8px; margin: 0; padding: 0; color: #d7e6f0; font-size: 11px; list-style: none; }
+      .surface-note li::before { margin-right: 7px; color: var(--pink); content: "✦"; }
+
+      .settings-preview { display: grid; grid-template-columns: 145px minmax(0, 1fr); padding: 0; overflow: hidden; }
+      .settings-sidebar { padding: 20px 13px; border-right: 1px solid var(--line); background: #fbfcfe; }
+      .settings-brand { margin: 0 8px 20px; color: var(--ink); font-size: 13px; font-weight: 900; }
+      .settings-nav { display: grid; gap: 5px; }
+      .settings-nav span { padding: 9px 10px; border-radius: 9px; color: #8b9aa8; font-size: 10px; font-weight: 800; }
+      .settings-nav span.active { background: var(--blue-soft); color: var(--blue-dark); }
+      .settings-main { padding: 22px 24px; }
+      .settings-main h3 { margin: 0 0 16px; font-size: 19px; letter-spacing: -.06em; }
+      .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 13px 0; border-top: 1px solid #eff3f6; }
+      .settings-row div { display: grid; gap: 4px; }
+      .settings-row strong { font-size: 11px; }
+      .settings-row small { color: var(--muted); font-size: 9px; }
+      .settings-select { min-width: 71px; padding: 7px 8px; border: 1px solid #dce6ed; border-radius: 8px; color: #526476; font-size: 10px; text-align: center; }
+      .settings-toggle { position: relative; width: 34px; height: 20px; border-radius: 99px; background: #d9e2e9; }
+      .settings-toggle::after { position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; content: ""; transition: 140ms ease; }
+      .settings-toggle.on { background: var(--blue); }
+      .settings-toggle.on::after { left: 17px; }
+
+      .stats-preview { grid-column: 1 / -1; }
+      .stats-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+      .stats-tile { padding: 13px 10px; border-radius: 13px; background: #f8fbfe; }
+      .stats-tile strong { display: block; color: var(--blue); font-size: 22px; letter-spacing: -.06em; }
+      .stats-tile:nth-child(2) strong { color: var(--green); }
+      .stats-tile:nth-child(3) strong { color: var(--pink); }
+      .stats-tile:nth-child(4) strong { color: var(--purple); }
+      .stats-tile span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+      .stats-chart { margin-top: 16px; padding: 16px; border: 1px solid #edf1f5; border-radius: 15px; }
+      .stats-chart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .stats-chart-head strong { font-size: 12px; }
+      .chart-legend { display: flex; gap: 10px; color: var(--muted); font-size: 9px; }
+      .chart-legend i { display: inline-block; width: 14px; height: 3px; margin-right: 4px; vertical-align: middle; border-radius: 99px; background: var(--blue); }
+      .chart-legend i.pink-line { background: var(--pink); }
+      .stats-chart svg { display: block; width: 100%; height: 135px; overflow: visible; }
+      .stats-chart .grid-line { stroke: #eef2f5; stroke-width: 1; }
+      .stats-chart .trend-blue { fill: none; stroke: var(--blue); stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; }
+      .stats-chart .trend-pink { fill: none; stroke: var(--pink); stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; }
+      .stats-chart .dot-blue { fill: var(--blue); }
+      .stats-chart .dot-pink { fill: var(--pink); }
+      .stats-bottom { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: center; margin-top: 16px; }
+      .donut { display: grid; place-items: center; width: 112px; height: 112px; margin: 0 auto; border-radius: 50%; background: conic-gradient(var(--blue) 0 45%, var(--yellow) 45% 65%, var(--pink) 65% 82%, var(--purple) 82% 100%); }
+      .donut::after { display: grid; place-items: center; width: 68px; height: 68px; border-radius: 50%; background: #fff; color: var(--ink); content: "题型"; font-size: 10px; font-weight: 900; }
+      .stats-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+      .stats-legend span { color: #718295; font-size: 10px; }
+      .stats-legend i { display: inline-block; width: 9px; height: 9px; margin-right: 6px; border-radius: 3px; vertical-align: -1px; background: var(--blue); }
+      .stats-legend .yellow { background: var(--yellow); }
+      .stats-legend .pink { background: var(--pink); }
+      .stats-legend .purple { background: var(--purple); }
 
       .nav-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
       .bottom-nav { display: flex; align-items: center; justify-content: space-around; min-height: 74px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 8px 24px rgba(35,75,112,.06); }
@@ -253,7 +319,6 @@
 
       @media (max-width: 900px) {
         .hero { grid-template-columns: 1fr; padding: 32px; }
-        .mini-lesson { margin: 0; }
         .token-grid { grid-template-columns: repeat(3, 1fr); }
         .button-grid { grid-template-columns: repeat(2, 1fr); }
       }
@@ -266,10 +331,17 @@
         .section-card { padding: 17px; }
         .section-heading { align-items: start; flex-direction: column; }
         .token-grid { grid-template-columns: repeat(2, 1fr); }
-        .type-grid, .showcase-grid, .popup-row, .nav-demo { grid-template-columns: 1fr; }
+        .type-grid, .showcase-grid, .popup-row, .nav-demo, .surface-grid { grid-template-columns: 1fr; }
         .question-card { padding: 16px; }
-        .stats-card { grid-template-columns: repeat(2, 1fr); }
+        .question-actions { grid-template-columns: 1fr; }
         .popup { width: 100%; }
+        .settings-preview { grid-template-columns: 1fr; }
+        .settings-sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
+        .settings-nav { display: flex; overflow-x: auto; }
+        .settings-nav span { flex: 0 0 auto; }
+        .stats-preview { grid-column: auto; }
+        .stats-tiles { grid-template-columns: repeat(2, 1fr); }
+        .stats-bottom { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -278,7 +350,7 @@
       <header class="topbar">
         <div class="brand" aria-label="刷刷升级 UI 样式库">
           <span class="brand-mark" aria-hidden="true"><i class="brand-eye left"></i><i class="brand-eye right"></i><i class="brand-mouth"></i></span>
-          <span class="brand-copy"><strong>刷刷升级</strong><small>BingeLevel · UI LAB</small></span>
+          <span class="brand-copy"><strong>刷刷升级</strong><small>BingUp · UI LAB</small></span>
         </div>
         <span class="topbar-note">多邻国式反馈 × 哔哩哔哩蓝粉</span>
         <span class="static-badge">STATIC HTML</span>
@@ -295,12 +367,6 @@
               <a class="hero-link" href="#tokens">先看颜色 token</a>
             </div>
           </div>
-          <div class="mini-lesson" aria-label="学习卡片预览">
-            <div class="mini-lesson-top"><span>单词挑战</span><span>♥ 3</span></div>
-            <div class="mini-progress"><span></span></div>
-            <div class="mini-word"><strong>abandon</strong><small>最接近哪个意思？</small></div>
-            <div class="mini-options"><div class="mini-option active">A　放弃；遗弃</div><div class="mini-option">B　建造</div></div>
-          </div>
         </section>
 
         <section class="section" id="tokens">
@@ -308,7 +374,7 @@
           <div class="section-card">
             <div class="token-grid">
               <div class="token"><i class="swatch blue"></i><strong>主蓝</strong><small>#0A86E6</small></div>
-              <div class="token"><i class="swatch pink"></i><strong>哔粉</strong><small>#FF7E99</small></div>
+              <div class="token"><i class="swatch pink"></i><strong>活力粉</strong><small>#FF7E99</small></div>
               <div class="token"><i class="swatch green"></i><strong>成功绿</strong><small>#10C26B</small></div>
               <div class="token"><i class="swatch yellow"></i><strong>活力黄</strong><small>#FFC947</small></div>
               <div class="token"><i class="swatch purple"></i><strong>梦紫</strong><small>#8B5CF6</small></div>
@@ -343,7 +409,6 @@
           <div class="section-heading"><div><div class="eyebrow">Components / 02</div><h2>学习卡片与反馈</h2></div><p>点击答案可预览：待选择 → 已选择 → 回答正确。</p></div>
           <div class="showcase-grid">
             <article class="question-card">
-              <div class="question-top"><span>1 / 20</span><div class="progress"><span></span></div><span class="hearts">♥ 3</span></div>
               <h3><em>abandon</em> 最接近哪个意思？</h3>
               <div class="answers" data-answer-group>
                 <button class="answer selected" data-answer="selected"><span class="answer-letter">A</span><span>放弃；遗弃</span><span class="answer-mark">●</span></button>
@@ -351,7 +416,7 @@
                 <button class="answer" data-answer="idle"><span class="answer-letter">C</span><span>修复</span></button>
                 <button class="answer" data-answer="idle"><span class="answer-letter">D</span><span>同意</span></button>
               </div>
-              <div class="question-actions"><button class="btn btn-secondary">跳过 <small>Esc</small></button><button class="btn btn-secondary">提交 <small>Enter</small></button><button class="btn btn-pink">提交并继续 <span>→</span></button></div>
+              <div class="question-actions"><button class="btn btn-secondary">跳过</button><button class="btn btn-primary">提交并继续 <span>→</span></button><button class="btn btn-red">提交</button></div>
             </article>
 
             <div class="feedback-stack">
@@ -373,14 +438,56 @@
           <div class="section-heading"><div><div class="eyebrow">Components / 03</div><h2>Popup 与数据概览</h2></div><p>信息密度低一点，操作入口只留最重要的。</p></div>
           <div class="section-card popup-row">
             <div class="popup">
-              <div class="popup-header"><strong>刷刷升级</strong><span>⚙</span></div>
-              <div class="site-status"><i class="site-dot"></i><div><strong>bilibili.com</strong><small>已启用 · 完整适配</small></div></div>
-              <div class="popup-actions"><button class="btn btn-primary">开始连续学习</button><button class="btn btn-secondary">暂停今天</button></div>
+              <div class="popup-header"><div class="popup-brand"><span class="brand-mark" aria-hidden="true"><i class="brand-eye left"></i><i class="brand-eye right"></i><i class="brand-mouth"></i></span><strong>刷刷升级</strong></div><button class="popup-settings" aria-label="设置">⚙</button></div>
+              <div class="site-status"><i class="site-dot"></i><div><strong>bilibili.com</strong><small>已启用 · 完整适配</small></div><span class="site-badge">可学习</span></div>
+              <div class="popup-block"><div class="popup-block-head"><strong>今日学习</strong><span>查看统计　›</span></div><div class="popup-metrics"><div class="popup-metric"><strong>12</strong><span>本次学习</span></div><div class="popup-metric"><strong>9</strong><span>已掌握</span></div><div class="popup-metric"><strong>5</strong><span>待复习</span></div></div></div>
+              <div class="popup-block"><div class="popup-block-head"><strong>总体学习进度</strong><span>本周</span></div><div class="popup-progress-label"><b>32 / 50 词</b><span>64%</span></div><div class="popup-progress"><span></span></div></div>
+              <div class="popup-actions"><button class="btn btn-primary">开始连续学习 <span>→</span></button><div class="popup-pause-row"><button class="btn btn-secondary">暂停 10 分钟</button><button class="btn btn-secondary">暂停今天</button></div></div>
             </div>
-            <div class="stats-card">
-              <div class="stat"><strong>86</strong><span>刷词总数</span></div><div class="stat"><strong>76%</strong><span>正确率</span></div><div class="stat"><strong>23</strong><span>待复习</span></div><div class="stat"><strong>6</strong><span>学习天数</span></div>
+            <div class="popup-side-notes">
+              <h3>Popup 信息层级</h3>
+              <p>竖长条只保留用户打开插件后最想知道和最可能马上操作的内容。</p>
+              <div class="popup-side-item"><b>01</b><span>当前网站是否适配、是否可以开始学习</span></div>
+              <div class="popup-side-item"><b>02</b><span>今天学了多少、总体进度到哪里</span></div>
+              <div class="popup-side-item"><b>03</b><span>开始连续学习或快速暂停</span></div>
             </div>
           </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Product surface / 01</div><h2>安装引导页面</h2></div><p>先选择常用网站，再进入插件。</p></div>
+          <div class="surface-grid">
+            <article class="surface-card onboarding-preview">
+              <div class="surface-top"><span class="surface-label">Onboarding</span><span>步骤 1 / 3</span></div>
+              <div class="onboarding-dots"><i class="active"></i><i></i><i></i></div>
+              <div class="onboarding-body">
+                <div class="mascot" aria-hidden="true"><span class="mascot-head"><i class="mascot-mouth"></i></span><span class="mascot-body"></span><span class="mascot-arm left"></span><span class="mascot-arm right"></span><span class="mascot-shadow"></span></div>
+                <h3>欢迎使用刷刷升级！</h3>
+                <p>在视频间隙，轻松学习英语单词。</p>
+                <div class="site-choice-list"><div class="site-choice active"><span class="site-choice-logo">B</span><span>bilibili</span><span class="site-choice-check">✓</span></div><div class="site-choice"><span class="site-choice-logo">▶</span><span>YouTube</span><span class="site-choice-check">✓</span></div></div>
+                <button class="btn btn-primary">下一步 <span>→</span></button>
+              </div>
+            </article>
+            <aside class="surface-note"><h3>引导页的感觉</h3><p>这是第一次见面，要让用户快速理解“我选网站 → 刷视频 → 间隙学单词”。</p><ul><li>步骤进度简单可见</li><li>站点选择像可点击的卡片</li><li>按钮保持一条清晰的下一步路径</li></ul></aside>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Product surface / 02</div><h2>设置页面</h2></div><p>左侧导航，右侧只展示当前设置。</p></div>
+          <div class="surface-card settings-preview">
+            <aside class="settings-sidebar"><div class="settings-brand">刷刷升级</div><nav class="settings-nav"><span class="active">⌂　通用</span><span>▣　网站管理</span><span>◈　学习设置</span><span>⚙　外观设置</span><span>▤　数据管理</span></nav></aside>
+            <div class="settings-main"><div class="surface-top"><strong>通用设置</strong><span>设置会自动保存</span></div><h3>学习节奏</h3><div class="settings-row"><div><strong>每日新词上限</strong><small>每天最多加入学习的单词数量</small></div><span class="settings-select">5 个⌄</span></div><div class="settings-row"><div><strong>连续模式首次跳过</strong><small>遇到不想学的题目时可以先跳过</small></div><span class="settings-select">5 分钟⌄</span></div><div class="settings-row"><div><strong>学习反馈声音</strong><small>答对或答错时播放轻提示音</small></div><span class="settings-toggle on"></span></div><div class="settings-row"><div><strong>每日学习提醒</strong><small>每天 20:00 提醒完成学习</small></div><span class="settings-toggle"></span></div></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><div class="eyebrow">Product surface / 03</div><h2>学习统计页面</h2></div><p>让用户看到自己的连续、掌握和趋势。</p></div>
+          <article class="surface-card stats-preview">
+            <div class="surface-top"><strong>学习统计</strong><span class="settings-select">近 7 天⌄</span></div>
+            <div class="stats-tiles"><div class="stats-tile"><strong>86</strong><span>刷词总数</span></div><div class="stats-tile"><strong>76%</strong><span>正确率</span></div><div class="stats-tile"><strong>23</strong><span>待复习</span></div><div class="stats-tile"><strong>6</strong><span>学习天数</span></div></div>
+            <div class="stats-chart"><div class="stats-chart-head"><strong>学习趋势</strong><div class="chart-legend"><span><i></i>正确数</span><span><i class="pink-line"></i>错误数</span></div></div><svg viewBox="0 0 700 135" role="img" aria-label="近七日学习趋势"><path class="grid-line" d="M0 25H700 M0 68H700 M0 111H700"></path><polyline class="trend-blue" points="0,98 116,72 232,84 348,42 464,68 580,50 700,28"></polyline><polyline class="trend-pink" points="0,111 116,92 232,106 348,75 464,92 580,61 700,83"></polyline><circle class="dot-blue" cx="348" cy="42" r="4"></circle><circle class="dot-blue" cx="700" cy="28" r="4"></circle><circle class="dot-pink" cx="580" cy="61" r="4"></circle><circle class="dot-pink" cx="700" cy="83" r="4"></circle></svg></div>
+            <div class="stats-bottom"><div class="donut"></div><div class="stats-legend"><span><i></i>英文选中文 45%</span><span><i class="yellow"></i>中文选英文 30%</span><span><i class="pink"></i>单词听写 15%</span><span><i class="purple"></i>拼写题 10%</span></div></div>
+          </article>
         </section>
 
         <section class="section">
