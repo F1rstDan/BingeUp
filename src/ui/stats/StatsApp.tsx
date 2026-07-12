@@ -5,9 +5,8 @@ import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import { openDatabase } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
+import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 
-const DB_NAME = 'bingeup';
 
 /** 百分比格式化：0 → "—"，0.5 → "50%"。 */
 function pct(value: number): string {
@@ -23,7 +22,7 @@ export function StatsApp(): JSX.Element {
     let cancelled = false;
     (async () => {
       try {
-        const db = await openDatabase(DB_NAME, MIGRATIONS);
+        const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
         const [cards, logs, sessions] = await Promise.all([
           new CardRepository(db).getAll(),
           new ReviewLogRepository(db).getAll(),

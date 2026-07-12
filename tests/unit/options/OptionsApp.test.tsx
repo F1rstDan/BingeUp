@@ -20,6 +20,7 @@ const mocks = vi.hoisted(() => ({
   importData: vi.fn(),
   clearLearningProgress: vi.fn(),
   clearAllData: vi.fn(),
+  rebuildDatabase: vi.fn(),
 }));
 
 const permissionsContains = vi.fn();
@@ -40,6 +41,7 @@ vi.mock('@/messaging/message-client', () => ({
     importData: mocks.importData,
     clearLearningProgress: mocks.clearLearningProgress,
     clearAllData: mocks.clearAllData,
+    rebuildDatabase: mocks.rebuildDatabase,
   },
 }));
 
@@ -77,6 +79,7 @@ describe('OptionsApp — Issue #10', () => {
     mocks.importData.mockReset();
     mocks.clearLearningProgress.mockReset();
     mocks.clearAllData.mockReset();
+    mocks.rebuildDatabase.mockReset();
 
     mocks.getAppSettings.mockResolvedValue({ ...SAMPLE_SETTINGS });
     mocks.listSites.mockResolvedValue({ sites: [] });
@@ -92,7 +95,8 @@ describe('OptionsApp — Issue #10', () => {
     mocks.resetAppSettings.mockResolvedValue({ ...DEFAULT_SETTINGS });
     mocks.removeSite.mockResolvedValue({ released: false });
     mocks.clearLearningProgress.mockResolvedValue(undefined);
-    mocks.clearAllData.mockResolvedValue(undefined);
+    mocks.clearAllData.mockResolvedValue({ ok: true, errors: [], warnings: [] });
+    mocks.rebuildDatabase.mockResolvedValue({ ok: true, errors: [], warnings: [] });
     permissionsContains.mockReset().mockResolvedValue(true);
     permissionsRequest.mockReset().mockResolvedValue(true);
     permissionsRemove.mockReset().mockResolvedValue(true);
@@ -187,6 +191,23 @@ describe('OptionsApp — Issue #10', () => {
     await waitFor(() => {
       expect(mocks.resetAppSettings).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('恢复默认后重新读取失败时不把当前显示状态报告为成功', async () => {
+    mocks.getAppSettings
+      .mockResolvedValueOnce({ ...SAMPLE_SETTINGS })
+      .mockRejectedValueOnce(new Error('重新读取失败'))
+      .mockResolvedValue({ ...DEFAULT_SETTINGS });
+    renderOptions();
+    await screen.findByText('恢复默认');
+
+    fireEvent.click(screen.getByText('恢复默认'));
+    await screen.findByText(/加载失败：重新读取失败/);
+    expect(screen.getByText('默认设置已恢复，但重新读取失败；当前显示状态未确认')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('重试'));
+
+    await screen.findByText('默认设置已恢复，但重新读取失败；当前显示状态未确认');
+    expect(screen.queryByText('已恢复默认设置')).not.toBeInTheDocument();
   });
 
   it('长视频定时学习关闭时间隔输入框禁用', async () => {
@@ -413,7 +434,7 @@ describe('OptionsApp — Issue #10', () => {
   // ── AC4：数据管理 ────────────────────────────────────────
 
   it('点击导出数据调用 exportData（AC4）', async () => {
-    const payload: Partial<ExportPayload> = { version: 1, exportedAt: 0, settings: {} as never, data: {} as never };
+    const payload: Partial<ExportPayload> = { version: 1, exportedAt: 0, authoritativeState: {} as never, data: {} as never };
     mocks.exportData.mockResolvedValue(payload);
 
     renderOptions();
@@ -492,7 +513,7 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('导入数据先校验再写入：非法 payload 显示错误不调用 reload（AC4）', async () => {
-    const importResult: ImportResult = { ok: false, errors: ['版本不匹配：期望 1，实际 999'] };
+    const importResult: ImportResult = { ok: false, errors: ['不支持的备份版本：999'], warnings: [] };
     mocks.importData.mockResolvedValue(importResult);
 
     renderOptions();
@@ -515,7 +536,7 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('导入合法数据后显示成功通知（AC4）', async () => {
-    const importResult: ImportResult = { ok: true, errors: [] };
+    const importResult: ImportResult = { ok: true, errors: [], warnings: [] };
     mocks.importData.mockResolvedValue(importResult);
 
     renderOptions();
@@ -533,5 +554,26 @@ describe('OptionsApp — Issue #10', () => {
     await waitFor(() => {
       expect(screen.getByText('数据导入成功')).toBeInTheDocument();
     });
+  });
+
+  it('数据库加载失败时先提供重试，并仅在明确确认后执行重建', async () => {
+    mocks.getAppSettings.mockRejectedValueOnce(new Error('数据库打开失败'));
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+    renderOptions();
+    await screen.findByText(/加载失败：数据库打开失败/);
+
+    fireEvent.click(screen.getByText('清除本地数据并重建'));
+
+    await waitFor(() => expect(confirmSpy).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(mocks.rebuildDatabase).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getByText('本地数据已清除并重建')).toBeInTheDocument());
+  });
+
+  it('非数据库加载错误不提供破坏性重建入口', async () => {
+    mocks.getAppSettings.mockRejectedValueOnce(new Error('权限查询失败'));
+    renderOptions();
+    await screen.findByText(/加载失败：权限查询失败/);
+    expect(screen.queryByText('清除本地数据并重建')).not.toBeInTheDocument();
+    expect(screen.getByText('重试')).toBeInTheDocument();
   });
 });

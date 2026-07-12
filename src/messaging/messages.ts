@@ -53,6 +53,8 @@ export type ExtensionMessage =
   | { type: 'CLEAR_LEARNING_PROGRESS' }
   /** 清除全部本地数据（AC4）。 */
   | { type: 'CLEAR_ALL_DATA' }
+  /** 数据库无法打开时，由用户二次确认后删除并重建。 */
+  | { type: 'REBUILD_DATABASE' }
   // ─── Issue #11：自定义网站兼容模式 ─────────────────────
   /** 加入当前网站：启用站点并写入默认模式，用户需刷新页面激活。 */
   | { type: 'ADD_CUSTOM_SITE'; hostname: string }

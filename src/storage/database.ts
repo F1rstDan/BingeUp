@@ -14,6 +14,7 @@ export const STORES = {
   words: 'words',
   decks: 'decks',
   sessionLogs: 'sessionLogs',
+  authoritativeState: 'authoritativeState',
 } as const;
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
@@ -72,6 +73,18 @@ export function openDatabase(name: string, migrations: Migration[]): Promise<IDB
     };
     request.onblocked = () => {
       reject(new Error('数据库打开被阻塞，请关闭其他标签页后重试'));
+    };
+  });
+}
+
+/** 用户明确确认后的故障恢复：删除整个数据空间并按当前结构重建。 */
+export function rebuildDatabase(name: string, migrations: Migration[]): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.deleteDatabase(name);
+    request.onerror = () => reject(request.error ?? new Error('删除本地数据失败'));
+    request.onblocked = () => reject(new Error('重建被旧页面阻塞，请关闭其他刷刷升级页面后重试'));
+    request.onsuccess = () => {
+      openDatabase(name, migrations).then(resolve, reject);
     };
   });
 }
@@ -137,10 +150,16 @@ export async function idbReplaceAll(
 ): Promise<void> {
   const stores = Object.keys(records) as StoreName[];
   const tx = db.transaction(stores, 'readwrite');
-  for (const storeName of stores) {
-    const store = tx.objectStore(storeName);
-    store.clear();
-    for (const record of records[storeName] ?? []) store.put(record);
+  try {
+    for (const storeName of stores) {
+      const store = tx.objectStore(storeName);
+      store.clear();
+      for (const record of records[storeName] ?? []) store.put(record);
+    }
+  } catch (error) {
+    tx.abort();
+    try { await awaitTransaction(tx); } catch { /* 使用触发中止的原始错误。 */ }
+    throw error;
   }
   await awaitTransaction(tx);
 }

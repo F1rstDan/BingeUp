@@ -22,10 +22,9 @@ import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import { openDatabase } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
+import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { isGloballyPaused } from '@/pause/pause-rules';
 
-const DB_NAME = 'bingeup';
 
 /**
  * 消息驱动的冷却存储：Content 通过 background 读写共享冷却状态。
@@ -227,7 +226,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
   };
 
   // 初始化学习服务（IDB 仓库 + 内置词库）。
-  const db = await openDatabase(DB_NAME, MIGRATIONS);
+  const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
   const appSettings = await messageClient.getAppSettings();
   const learningService = new LearningService({
     cards: new CardRepository(db),

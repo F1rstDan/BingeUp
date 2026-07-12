@@ -1,202 +1,293 @@
 import type {
-  AppSettings, CardRecord, CooldownState, DeckRecord, ReviewLogRecord,
+  AppSettings, CardRecord, DeckRecord, ReviewLogRecord, SchedulerState,
   SessionLogRecord, SiteSettings, WordRecord,
 } from '@/types';
 import { STORES, idbGetAll, idbReplaceAll } from '@/storage/database';
-import type { LocalSettingsStore, PersistedState } from '@/storage/local-settings';
+import {
+  AUTHORITATIVE_STATE_ID,
+  DEFAULT_AUTHORITATIVE_STATE,
+  type AuthoritativeStateRecord,
+  type LocalSettingsStore,
+} from '@/storage/local-settings';
 import { validateAppSettings } from '@/settings/validator';
-import { DEFAULT_SETTINGS } from '@/settings/defaults';
-import { getBuiltInDeck, getBuiltInWord } from '@/dictionary/built-in/decks';
+import { BUILT_IN_DECKS, getBuiltInDeck, getBuiltInWord, listBuiltInWords } from '@/dictionary/built-in/decks';
 
-export const EXPORT_VERSION = 2;
-const SUPPORTED_VERSIONS = [1, EXPORT_VERSION] as const;
-
-export interface ExportedSettings {
-  appSettings: AppSettings;
-  sites: Record<string, SiteSettings>;
-  cooldown: CooldownState;
-  onboardingCompleted: boolean;
-  globalPausedUntil: number;
-}
+/** 首次公开备份格式；开发期格式不兼容。 */
+export const EXPORT_VERSION = 1;
 
 export interface ExportedData {
   cards: CardRecord[];
   reviewLogs: ReviewLogRecord[];
   sessionLogs: SessionLogRecord[];
+  /** 仅未来用户创建/导入的内容；内置内容不导出。 */
   words: WordRecord[];
   decks: DeckRecord[];
 }
 
 export interface ExportPayload {
-  version: number;
+  version: 1;
   exportedAt: number;
-  settings: ExportedSettings;
+  authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
   data: ExportedData;
 }
 
-export interface ImportResult { ok: boolean; errors: string[] }
+export interface DataOperationResult {
+  ok: boolean;
+  errors: string[];
+  warnings: string[];
+}
+export type ImportResult = DataOperationResult;
 
-export async function exportLocalData(store: LocalSettingsStore, db: IDBDatabase): Promise<ExportPayload> {
-  const state = await store.read();
-  const [cards, reviewLogs, sessionLogs, words, decks] = await Promise.all([
+export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
+  const db = store.database;
+  const [state, cards, reviewLogs, sessionLogs, words, decks] = await Promise.all([
+    store.getAuthoritativeState(),
     idbGetAll<CardRecord>(db, STORES.cards),
     idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
     idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
     idbGetAll<WordRecord>(db, STORES.words),
     idbGetAll<DeckRecord>(db, STORES.decks),
   ]);
+  const { id: _id, ...authoritativeState } = state;
+  const builtInWordIds = new Set(listBuiltInWords().map(({ id }) => id));
+  const builtInDeckIds = new Set(BUILT_IN_DECKS.map(({ id }) => id));
   return {
     version: EXPORT_VERSION,
     exportedAt: Date.now(),
-    settings: {
-      appSettings: state.appSettings ?? DEFAULT_SETTINGS,
-      sites: { ...state.sites }, cooldown: { ...state.cooldown },
-      onboardingCompleted: state.onboardingCompleted,
-      globalPausedUntil: state.globalPausedUntil,
+    authoritativeState,
+    data: {
+      cards, reviewLogs, sessionLogs,
+      words: words.filter(({ id }) => !builtInWordIds.has(id)),
+      decks: decks.filter(({ id }) => !builtInDeckIds.has(id)),
     },
-    data: { cards, reviewLogs, sessionLogs, words, decks },
   };
 }
 
-function isObject(value: unknown): value is Record<string, unknown> {
+function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
-function isString(value: unknown): value is string { return typeof value === 'string' && value.length > 0; }
-function isNumber(value: unknown): value is number { return typeof value === 'number' && Number.isFinite(value); }
-function isNonNegative(value: unknown): value is number { return isNumber(value) && value >= 0; }
-function fields(value: unknown, required: Record<string, (v: unknown) => boolean>): boolean {
-  return isObject(value) && Object.entries(required).every(([key, check]) => check(value[key]));
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+function isNonNegativeNumber(value: unknown): value is number {
+  return isFiniteNumber(value) && value >= 0;
+}
+function isOptional(value: unknown, validate: (candidate: unknown) => boolean): boolean {
+  return value === undefined || validate(value);
+}
+function hasFields(value: unknown, fields: Record<string, (candidate: unknown) => boolean>): boolean {
+  return isRecord(value) && Object.entries(fields).every(([name, validate]) => validate(value[name]));
 }
 
-function migratePayload(payload: unknown): { payload?: ExportPayload; errors: string[] } {
-  if (!isObject(payload)) return { errors: ['payload 不是对象'] };
-  if (!SUPPORTED_VERSIONS.includes(payload.version as 1 | 2)) {
-    return { errors: [`不支持的备份版本：${String(payload.version)}（支持版本：1、2）`] };
+const RATINGS = ['again', 'hard', 'good', 'easy'];
+function isSchedulerState(value: unknown): value is SchedulerState {
+  return hasFields(value, {
+    stability: (candidate) => isFiniteNumber(candidate) && candidate > 0,
+    difficulty: (candidate) => isFiniteNumber(candidate) && candidate >= 1 && candidate <= 10,
+    reps: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+    lapses: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+    state: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0 && Number(candidate) <= 3,
+    scheduledDays: isNonNegativeNumber,
+    learningSteps: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+    lastReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+  });
+}
+
+function isSiteSettings(value: unknown): value is SiteSettings {
+  return hasFields(value, {
+    enabled: (candidate) => typeof candidate === 'boolean',
+    mode: (candidate) => ['full-adaptation', 'generic-video', 'basic-web', 'unsupported'].includes(String(candidate)),
+    firstQuestionPending: (candidate) => typeof candidate === 'boolean',
+    promptDeclineCount: (candidate) => isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
+    pageLoadTrigger: (candidate) => isOptional(candidate, (flag) => typeof flag === 'boolean'),
+    scrollTrigger: (candidate) => isOptional(candidate, (flag) => typeof flag === 'boolean'),
+  });
+}
+
+const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean> = {
+  cards: (value) => hasFields(value, {
+    id: isNonEmptyString, wordId: isNonEmptyString, deckId: isNonEmptyString,
+    stage: (candidate) => ['new', 'short-term', 'long-term', 'self-reported-known'].includes(String(candidate)),
+    origin: (candidate) => isOptional(candidate, (origin) => origin === 'accepted-new' || origin === 'self-reported'),
+    createdAt: isNonNegativeNumber, updatedAt: isNonNegativeNumber,
+    nextReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+    schedulerState: (candidate) => isOptional(candidate, isSchedulerState),
+    lastWrongAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+  }),
+  reviewLogs: (value) => hasFields(value, {
+    id: isNonEmptyString, cardId: isNonEmptyString, wordId: isNonEmptyString,
+    questionType: (candidate) => ['en-to-zh', 'zh-to-en', 'context-choice', 'spelling'].includes(String(candidate)),
+    selectedAnswer: (candidate) => typeof candidate === 'string',
+    correctAnswer: (candidate) => typeof candidate === 'string',
+    isCorrect: (candidate) => typeof candidate === 'boolean',
+    responseTimeMs: isNonNegativeNumber, reviewedAt: isNonNegativeNumber,
+    rating: (candidate) => isOptional(candidate, (rating) => RATINGS.includes(String(rating))),
+    userCorrection: (candidate) => isOptional(candidate, (correction) => correction === 'guessed' || correction === 'too-easy'),
+    answerChanges: (candidate) => isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
+    previousSchedulerState: (candidate) => isOptional(candidate, isSchedulerState),
+  }),
+  sessionLogs: (value) => hasFields(value, {
+    id: isNonEmptyString, startedAt: isNonNegativeNumber, endedAt: isNonNegativeNumber,
+    mode: (candidate) => candidate === 'single' || candidate === 'continuous',
+    outcome: (candidate) => candidate === 'submitted' || candidate === 'skipped' || candidate === 'exit',
+    questionsAnswered: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+  }) && (value as SessionLogRecord).endedAt >= (value as SessionLogRecord).startedAt,
+  words: (value) => hasFields(value, {
+    id: isNonEmptyString, word: isNonEmptyString, lemma: isNonEmptyString,
+    phonetic: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
+    partOfSpeech: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+    coreMeaningZh: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+    exampleSentence: isNonEmptyString, exampleTranslation: isNonEmptyString,
+    difficulty: (candidate) => isFiniteNumber(candidate) && candidate > 0,
+    source: isNonEmptyString, license: isNonEmptyString,
+  }),
+  decks: (value) => hasFields(value, {
+    id: isNonEmptyString, name: isNonEmptyString,
+    description: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
+    source: isNonEmptyString, license: isNonEmptyString,
+    wordIds: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+  }),
+};
+
+function validateAuthoritativeState(value: unknown, errors: string[]): void {
+  if (!isRecord(value)) {
+    errors.push('缺少 authoritativeState 字段');
+    return;
   }
-  if (payload.version === 1 && isObject(payload.data)) {
-    return {
-      payload: { ...payload, version: EXPORT_VERSION, data: { ...payload.data, sessionLogs: [] } } as unknown as ExportPayload,
-      errors: [],
-    };
+  if (!isRecord(value.appSettings)) errors.push('authoritativeState.appSettings 结构非法');
+  else errors.push(...validateAppSettings(value.appSettings as Partial<AppSettings>).errors);
+  if (typeof value.onboardingCompleted !== 'boolean') {
+    errors.push('authoritativeState.onboardingCompleted 必须为布尔值');
   }
-  return { payload: payload as unknown as ExportPayload, errors: [] };
+  if (!isRecord(value.sites)) errors.push('authoritativeState.sites 结构非法');
+  else Object.entries(value.sites).forEach(([hostname, settings]) => {
+    if (!isNonEmptyString(hostname) || !isSiteSettings(settings)) {
+      errors.push(`authoritativeState.sites.${hostname} 结构非法`);
+    }
+  });
 }
 
 function validateEntities(data: ExportedData, errors: string[]): void {
-  const validators: Record<keyof ExportedData, (value: unknown) => boolean> = {
-    cards: (v) => fields(v, { id: isString, wordId: isString, deckId: isString, stage: (x) => ['new', 'short-term', 'long-term', 'self-reported-known'].includes(String(x)), createdAt: isNonNegative, updatedAt: isNonNegative }),
-    reviewLogs: (v) => fields(v, { id: isString, cardId: isString, wordId: isString, questionType: (x) => ['en-to-zh', 'zh-to-en', 'context-choice', 'spelling'].includes(String(x)), selectedAnswer: (x) => typeof x === 'string', correctAnswer: (x) => typeof x === 'string', isCorrect: (x) => typeof x === 'boolean', responseTimeMs: isNonNegative, reviewedAt: isNonNegative }),
-    sessionLogs: (v) => fields(v, { id: isString, startedAt: isNonNegative, endedAt: isNonNegative, mode: (x) => x === 'single' || x === 'continuous', outcome: (x) => x === 'submitted' || x === 'skipped' || x === 'exit', questionsAnswered: (x) => Number.isInteger(x) && Number(x) >= 0 }) && (v as SessionLogRecord).endedAt >= (v as SessionLogRecord).startedAt,
-    words: (v) => fields(v, { id: isString, word: isString, lemma: isString, partOfSpeech: (x) => Array.isArray(x) && x.length > 0 && x.every(isString), coreMeaningZh: (x) => Array.isArray(x) && x.length > 0 && x.every(isString), exampleSentence: isString, exampleTranslation: isString, difficulty: isNumber, source: isString, license: isString }),
-    decks: (v) => fields(v, { id: isString, name: isString, source: isString, license: isString, wordIds: (x) => Array.isArray(x) && x.every(isString) }),
-  };
-  for (const collection of Object.keys(validators) as (keyof ExportedData)[]) {
+  (Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]).forEach((collection) => {
     data[collection].forEach((entity, index) => {
-      if (!validators[collection](entity)) errors.push(`data.${collection}[${index}] 结构非法`);
+      if (!ENTITY_VALIDATORS[collection](entity)) errors.push(`data.${collection}[${index}] 结构非法`);
     });
-  }
+  });
 }
 
 function validateReferences(payload: ExportPayload, errors: string[]): void {
-  const { data, settings } = payload;
-  const wordIds = new Set(data.words.map((word) => word.id));
-  const deckIds = new Set(data.decks.map((deck) => deck.id));
-  const cardIds = new Set(data.cards.map((card) => card.id));
-  for (const [name, ids] of [
-    ['words', data.words.map((record) => record.id)],
-    ['decks', data.decks.map((record) => record.id)],
-    ['cards', data.cards.map((record) => record.id)],
-    ['reviewLogs', data.reviewLogs.map((record) => record.id)],
-    ['sessionLogs', data.sessionLogs.map((record) => record.id)],
+  const { data, authoritativeState } = payload;
+  const wordIds = new Set(data.words.map(({ id }) => id));
+  const deckIds = new Set(data.decks.map(({ id }) => id));
+  const cardsById = new Map(data.cards.map((card) => [card.id, card]));
+  data.words.forEach(({ id }, index) => {
+    if (getBuiltInWord(id)) errors.push(`data.words[${index}] 与内置单词 id 冲突：${id}`);
+  });
+  data.decks.forEach(({ id }, index) => {
+    if (getBuiltInDeck(id)) errors.push(`data.decks[${index}] 与内置词库 id 冲突：${id}`);
+  });
+  for (const [collection, ids] of [
+    ['words', data.words.map(({ id }) => id)], ['decks', data.decks.map(({ id }) => id)],
+    ['cards', data.cards.map(({ id }) => id)], ['reviewLogs', data.reviewLogs.map(({ id }) => id)],
+    ['sessionLogs', data.sessionLogs.map(({ id }) => id)],
   ] as const) {
-    if (new Set(ids).size !== ids.length) errors.push(`data.${name} 包含重复 id`);
+    if (new Set(ids).size !== ids.length) errors.push(`data.${collection} 包含重复 id`);
   }
-  if (new Set(data.cards.map((card) => card.wordId)).size !== data.cards.length) {
+  if (new Set(data.cards.map(({ wordId }) => wordId)).size !== data.cards.length) {
     errors.push('data.cards 中同一单词存在多张学习卡');
   }
-  data.decks.forEach((deck, i) => deck.wordIds.forEach((id) => {
-    if (!wordIds.has(id) && !getBuiltInWord(id)) errors.push(`data.decks[${i}] 引用不存在的单词：${id}`);
+  data.decks.forEach((deck, index) => deck.wordIds.forEach((wordId) => {
+    if (!wordIds.has(wordId) && !getBuiltInWord(wordId)) errors.push(`data.decks[${index}] 引用不存在的单词：${wordId}`);
   }));
-  data.cards.forEach((card, i) => {
-    if (!wordIds.has(card.wordId) && !getBuiltInWord(card.wordId)) errors.push(`data.cards[${i}] 引用不存在的单词：${card.wordId}`);
-    if (!deckIds.has(card.deckId) && !getBuiltInDeck(card.deckId)) errors.push(`data.cards[${i}] 引用不存在的词库：${card.deckId}`);
+  data.cards.forEach((card, index) => {
+    if (!wordIds.has(card.wordId) && !getBuiltInWord(card.wordId)) errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
+    if (!deckIds.has(card.deckId) && !getBuiltInDeck(card.deckId)) errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
+    const deck = data.decks.find(({ id }) => id === card.deckId) ?? getBuiltInDeck(card.deckId);
+    if (deck && !deck.wordIds.includes(card.wordId)) {
+      errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
+    }
   });
-  data.reviewLogs.forEach((log, i) => {
-    if (!cardIds.has(log.cardId)) errors.push(`data.reviewLogs[${i}] 引用不存在的学习卡：${log.cardId}`);
-    const card = data.cards.find((candidate) => candidate.id === log.cardId);
-    if (card && card.wordId !== log.wordId) errors.push(`data.reviewLogs[${i}] 的单词引用与学习卡不一致`);
-    if (!wordIds.has(log.wordId) && !getBuiltInWord(log.wordId)) errors.push(`data.reviewLogs[${i}] 引用不存在的单词：${log.wordId}`);
+  data.reviewLogs.forEach((log, index) => {
+    const card = cardsById.get(log.cardId);
+    if (!card) errors.push(`data.reviewLogs[${index}] 引用不存在的学习卡：${log.cardId}`);
+    else if (card.wordId !== log.wordId) errors.push(`data.reviewLogs[${index}] 的单词引用与学习卡不一致`);
+    if (!wordIds.has(log.wordId) && !getBuiltInWord(log.wordId)) errors.push(`data.reviewLogs[${index}] 引用不存在的单词：${log.wordId}`);
   });
-  if (!deckIds.has(settings.appSettings.selectedDeckId) && !getBuiltInDeck(settings.appSettings.selectedDeckId)) {
-    errors.push(`settings.appSettings.selectedDeckId 引用不存在的词库：${settings.appSettings.selectedDeckId}`);
+  const selectedDeckId = authoritativeState.appSettings.selectedDeckId;
+  if (!deckIds.has(selectedDeckId) && !getBuiltInDeck(selectedDeckId)) {
+    errors.push(`authoritativeState.appSettings.selectedDeckId 引用不存在的词库：${selectedDeckId}`);
   }
 }
 
-function validateMigratedPayload(payload: ExportPayload): string[] {
+export function validateExportPayload(input: unknown): string[] {
+  if (!isRecord(input)) return ['payload 不是对象'];
+  if (input.version !== EXPORT_VERSION) {
+    return [`不支持的备份版本：${String(input.version)}（当前支持版本：1）`];
+  }
   const errors: string[] = [];
-  if (!isNumber(payload.exportedAt)) errors.push('exportedAt 必须为数字');
-  const s = payload.settings;
-  if (!isObject(s)) return [...errors, '缺少 settings 字段'];
-  if (!isObject(s.appSettings)) errors.push('缺少 settings.appSettings');
-  else errors.push(...validateAppSettings(s.appSettings as unknown as Partial<AppSettings>).errors);
-  if (!isObject(s.sites)) errors.push('settings.sites 必须为对象');
-  else Object.entries(s.sites).forEach(([hostname, site]) => {
-    if (!isString(hostname) || !fields(site, { enabled: (x) => typeof x === 'boolean', mode: (x) => ['full-adaptation', 'generic-video', 'basic-web', 'unsupported'].includes(String(x)), firstQuestionPending: (x) => typeof x === 'boolean' })) errors.push(`settings.sites.${hostname} 结构非法`);
-  });
-  if (!fields(s.cooldown, { nextAllowedAt: isNonNegative, consecutiveSkipCount: (x) => Number.isInteger(x) && Number(x) >= 0 })) errors.push('settings.cooldown 结构非法');
-  if (typeof s.onboardingCompleted !== 'boolean') errors.push('settings.onboardingCompleted 必须为布尔值');
-  if (!isNonNegative(s.globalPausedUntil)) errors.push('settings.globalPausedUntil 必须为非负数字');
-  const d = payload.data;
-  if (!isObject(d)) return [...errors, '缺少 data 字段'];
-  for (const name of ['cards', 'reviewLogs', 'sessionLogs', 'words', 'decks'] as const) if (!Array.isArray(d[name])) errors.push(`data.${name} 必须为数组`);
-  if (errors.length === 0) validateEntities(d, errors);
-  if (errors.length === 0) validateReferences(payload, errors);
+  if (!isFiniteNumber(input.exportedAt)) errors.push('exportedAt 必须为数字');
+  validateAuthoritativeState(input.authoritativeState, errors);
+  if (!isRecord(input.data)) errors.push('缺少 data 字段');
+  else for (const collection of Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]) {
+    if (!Array.isArray(input.data[collection])) errors.push(`data.${collection} 必须为数组`);
+  }
+  if (errors.length === 0) validateEntities(input.data as unknown as ExportedData, errors);
+  if (errors.length === 0) validateReferences(input as unknown as ExportPayload, errors);
   return errors;
 }
 
-export function validateExportPayload(payload: unknown): string[] {
-  const migrated = migratePayload(payload);
-  return migrated.payload ? validateMigratedPayload(migrated.payload) : migrated.errors;
+function authoritativeRecord(payload: ExportPayload): AuthoritativeStateRecord {
+  return { id: AUTHORITATIVE_STATE_ID, ...payload.authoritativeState };
 }
 
-function asPersistedState(settings: ExportedSettings): PersistedState {
-  return { cooldown: { ...settings.cooldown }, sites: { ...settings.sites }, onboardingCompleted: settings.onboardingCompleted, globalPausedUntil: settings.globalPausedUntil, appSettings: { ...settings.appSettings } };
-}
-
-async function replaceData(db: IDBDatabase, data: ExportedData): Promise<void> {
-  await idbReplaceAll(db, {
-    [STORES.cards]: data.cards, [STORES.reviewLogs]: data.reviewLogs,
-    [STORES.sessionLogs]: data.sessionLogs, [STORES.words]: data.words, [STORES.decks]: data.decks,
-  });
-}
-
-export async function importLocalData(store: LocalSettingsStore, db: IDBDatabase, input: unknown): Promise<ImportResult> {
-  const migrated = migratePayload(input);
-  if (!migrated.payload) return { ok: false, errors: migrated.errors };
-  const errors = validateMigratedPayload(migrated.payload);
-  if (errors.length) return { ok: false, errors };
-  const previousSettings = await store.read();
+async function resetRuntimeState(store: LocalSettingsStore): Promise<string[]> {
   try {
-    await store.write(asPersistedState(migrated.payload.settings));
-    await replaceData(db, migrated.payload.data);
-    return { ok: true, errors: [] };
+    await store.resetRuntimeState();
+    return [];
   } catch (error) {
-    try { await store.write(previousSettings); } catch { /* 原始错误更能说明失败原因。 */ }
-    return { ok: false, errors: [`导入提交失败，原有数据未改变：${error instanceof Error ? error.message : String(error)}`] };
+    return [`权威数据已成功更新，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`];
   }
+}
+
+export async function importLocalData(store: LocalSettingsStore, input: unknown): Promise<ImportResult> {
+  const db = store.database;
+  const errors = validateExportPayload(input);
+  if (errors.length > 0) return { ok: false, errors, warnings: [] };
+  const payload = input as ExportPayload;
+  try {
+    await idbReplaceAll(db, {
+      [STORES.authoritativeState]: [authoritativeRecord(payload)],
+      [STORES.cards]: payload.data.cards,
+      [STORES.reviewLogs]: payload.data.reviewLogs,
+      [STORES.sessionLogs]: payload.data.sessionLogs,
+      [STORES.words]: payload.data.words,
+      [STORES.decks]: payload.data.decks,
+    });
+  } catch (error) {
+    return { ok: false, errors: [`恢复事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`], warnings: [] };
+  }
+  return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }
 
 export async function clearLearningProgress(db: IDBDatabase): Promise<void> {
-  await idbReplaceAll(db, { [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [] });
+  await idbReplaceAll(db, {
+    [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [],
+  });
 }
 
-export async function clearAllLocalData(store: LocalSettingsStore, db: IDBDatabase): Promise<void> {
-  const previousSettings = await store.read();
+export async function clearAllLocalData(store: LocalSettingsStore): Promise<DataOperationResult> {
+  const db = store.database;
   try {
-    await store.write({ cooldown: { nextAllowedAt: 0, consecutiveSkipCount: 0 }, sites: {}, onboardingCompleted: false, globalPausedUntil: 0 });
-    await idbReplaceAll(db, { [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [], [STORES.words]: [], [STORES.decks]: [] });
+    await idbReplaceAll(db, {
+      [STORES.authoritativeState]: [{ ...DEFAULT_AUTHORITATIVE_STATE }],
+      [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [],
+      [STORES.words]: [], [STORES.decks]: [],
+    });
   } catch (error) {
-    try { await store.write(previousSettings); } catch { /* 保留原始错误。 */ }
-    throw error;
+    return { ok: false, errors: [`清除事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`], warnings: [] };
   }
+  return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }

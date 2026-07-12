@@ -13,6 +13,7 @@ import type {
   SiteListResponse,
   SiteStateResponse,
 } from '@/messaging/messages';
+import type { DataOperationResult } from '@/storage/data-transfer';
 
 /**
  * Content / Popup → Background 消息客户端。封装 chrome.runtime.sendMessage，
@@ -92,8 +93,11 @@ export const messageClient = {
   async clearLearningProgress(): Promise<void> {
     await send({ type: 'CLEAR_LEARNING_PROGRESS' });
   },
-  async clearAllData(): Promise<void> {
-    await send({ type: 'CLEAR_ALL_DATA' });
+  async clearAllData(): Promise<DataOperationResult> {
+    return send({ type: 'CLEAR_ALL_DATA' });
+  },
+  async rebuildDatabase(): Promise<DataOperationResult> {
+    return send({ type: 'REBUILD_DATABASE' });
   },
 
   // ─── Issue #11：自定义网站兼容模式 ─────────────────────

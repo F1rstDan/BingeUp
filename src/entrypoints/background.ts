@@ -1,21 +1,25 @@
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { openDatabase } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
+import { openDatabase, rebuildDatabase } from '@/storage/database';
+import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 
 /**
  * Background service worker 入口（WXT）。
  * 窄职责：共享全局冷却、站点权限/状态、消息分发、应用设置与本地数据管理。无常驻计时器。
  */
 export default defineBackground(() => {
-  const store = new LocalSettingsStore();
-
   // Issue #10 AC4：打开 IDB 供导出/导入/清除操作使用。
   // 立即发起打开请求；数据操作消息到达时 await 该 Promise。
   let dbPromise: Promise<IDBDatabase> | null = null;
   const getDatabase = (): Promise<IDBDatabase> => {
     if (dbPromise === null) {
-      dbPromise = openDatabase('bingeup', MIGRATIONS).catch((error) => {
+      dbPromise = openDatabase(DATABASE_NAME, MIGRATIONS).then((db) => {
+        db.onversionchange = () => {
+          db.close();
+          dbPromise = null;
+        };
+        return db;
+      }).catch((error) => {
         // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
         dbPromise = null;
         throw new Error(
@@ -26,28 +30,28 @@ export default defineBackground(() => {
     return dbPromise;
   };
 
-  const router = createMessageRouter(store, null);
-
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     (async () => {
       try {
-        // 数据操作消息需要 IDB 句柄；其他消息不需要。
-        const dataOpTypes = new Set([
-          'EXPORT_DATA',
-          'IMPORT_DATA',
-          'CLEAR_LEARNING_PROGRESS',
-          'CLEAR_ALL_DATA',
-          'GET_POPUP_DATA',
-        ]);
-        if (dataOpTypes.has(message?.type)) {
-          const db = await getDatabase();
-          const dataRouter = createMessageRouter(store, db);
-          const response = await dataRouter.handle(message, sender);
-          sendResponse(response);
-        } else {
-          const response = await router.handle(message, sender);
-          sendResponse(response);
+        if (message?.type === 'REBUILD_DATABASE') {
+          const rebuilt = await rebuildDatabase(DATABASE_NAME, MIGRATIONS);
+          dbPromise = Promise.resolve(rebuilt);
+          const rebuiltStore = new LocalSettingsStore(rebuilt);
+          try {
+            await rebuiltStore.resetRuntimeState();
+            sendResponse({ ok: true, errors: [], warnings: [] });
+          } catch (error) {
+            sendResponse({
+              ok: true,
+              errors: [],
+              warnings: [`本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`],
+            });
+          }
+          return;
         }
+        const db = await getDatabase();
+        const router = createMessageRouter(new LocalSettingsStore(db), db);
+        sendResponse(await router.handle(message, sender));
       } catch (error) {
         console.error('[BingeUp] background message error', error);
         sendResponse({

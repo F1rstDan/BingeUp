@@ -36,13 +36,18 @@ interface SiteEntry {
   hasHostPermission: boolean;
 }
 
+interface LoadError {
+  message: string;
+  databaseUnavailable: boolean;
+}
+
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
   const [siteInput, setSiteInput] = useState('');
   const [siteAdding, setSiteAdding] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<LoadError | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
@@ -58,8 +63,14 @@ export function OptionsApp(): JSX.Element {
       setSettings(appSettings);
       setSites(sitesWithPermissions);
       setError(null);
+      return true;
     } catch (e) {
-      setError(`加载失败：${e instanceof Error ? e.message : String(e)}`);
+      const detail = e instanceof Error ? e.message : String(e);
+      setError({
+        message: `加载失败：${detail}`,
+        databaseUnavailable: detail.includes('数据库打开失败') || detail.includes('数据库不可用'),
+      });
+      return false;
     }
   }, []);
 
@@ -71,7 +82,16 @@ export function OptionsApp(): JSX.Element {
     return (
       <div className="bingeup-options">
         <h1>刷刷升级 — 设置</h1>
-        <p className="bingeup-error">{error}</p>
+        <p className="bingeup-error">{error.message}</p>
+        {notice && <p className="bingeup-notice" role="status">{notice}</p>}
+        <div className="bingeup-actions">
+          <button className="bingeup-btn-primary" onClick={() => void load()}>重试</button>
+          {error.databaseUnavailable && (
+            <button className="bingeup-btn-danger" onClick={() => void handleRebuildDatabase(load, setNotice, setError)}>
+              清除本地数据并重建
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -372,7 +392,7 @@ function SiteRow({
 
 async function handleSave(
   settings: AppSettings,
-  onReload: () => Promise<void>,
+  onReload: () => Promise<unknown>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
@@ -385,12 +405,15 @@ async function handleSave(
 }
 
 async function handleReset(
-  onReload: () => Promise<void>,
+  onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
     await messageClient.resetAppSettings();
-    await onReload();
+    if (!await onReload()) {
+      onNotice('默认设置已恢复，但重新读取失败；当前显示状态未确认');
+      return;
+    }
     onNotice('已恢复默认设置');
   } catch (e) {
     onNotice(`恢复失败：${e instanceof Error ? e.message : String(e)}`);
@@ -399,7 +422,7 @@ async function handleReset(
 
 async function handleRemoveSite(
   hostname: string,
-  onReload: () => Promise<void>,
+  onReload: () => Promise<unknown>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
@@ -413,7 +436,7 @@ async function handleRemoveSite(
 
 async function handleAddWebsite(
   input: string,
-  onReload: () => Promise<void>,
+  onReload: () => Promise<unknown>,
   onInputChange: (value: string) => void,
   onAddingChange: (adding: boolean) => void,
   onNotice: (msg: string | null) => void,
@@ -457,7 +480,7 @@ async function handleExport(onNotice: (msg: string | null) => void): Promise<voi
 
 async function handleImport(
   e: React.ChangeEvent<HTMLInputElement>,
-  onReload: () => Promise<void>,
+  onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   const file = e.target.files?.[0];
@@ -467,8 +490,11 @@ async function handleImport(
     const payload = JSON.parse(text);
     const result: ImportResult = await messageClient.importData(payload);
     if (result.ok) {
-      await onReload();
-      onNotice('数据导入成功');
+      if (!await onReload()) {
+        onNotice('权威数据已恢复，但重新读取失败；当前显示状态未确认');
+        return;
+      }
+      onNotice(result.warnings.length > 0 ? `数据已恢复；${result.warnings.join('；')}` : '数据导入成功');
     } else {
       onNotice(`导入失败：${result.errors.join('；')}`);
     }
@@ -480,7 +506,7 @@ async function handleImport(
 }
 
 async function handleClearProgress(
-  onReload: () => Promise<void>,
+  onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   if (!window.confirm('确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。')) {
@@ -488,7 +514,10 @@ async function handleClearProgress(
   }
   try {
     await messageClient.clearLearningProgress();
-    await onReload();
+    if (!await onReload()) {
+      onNotice('学习进度已清除，但重新读取失败；当前显示状态未确认');
+      return;
+    }
     onNotice('学习进度已清除');
   } catch (e) {
     onNotice(`清除失败：${e instanceof Error ? e.message : String(e)}`);
@@ -496,17 +525,46 @@ async function handleClearProgress(
 }
 
 async function handleClearAll(
-  onReload: () => Promise<void>,
+  onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   if (!window.confirm('确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。')) {
     return;
   }
   try {
-    await messageClient.clearAllData();
-    await onReload();
-    onNotice('全部数据已清除');
+    const result = await messageClient.clearAllData();
+    if (!await onReload()) {
+      onNotice(result.ok
+        ? '权威数据已清除，但重新读取失败；当前显示状态未确认'
+        : `清除失败：${result.errors.join('；')}`);
+      return;
+    }
+    if (!result.ok) {
+      onNotice(`清除失败：${result.errors.join('；')}`);
+    } else {
+      onNotice(result.warnings.length > 0 ? `权威数据已清除；${result.warnings.join('；')}` : '全部数据已清除');
+    }
   } catch (e) {
     onNotice(`清除失败：${e instanceof Error ? e.message : String(e)}`);
+  }
+}
+
+async function handleRebuildDatabase(
+  onReload: () => Promise<boolean>,
+  onNotice: (msg: string | null) => void,
+  onError: (error: LoadError | null) => void,
+): Promise<void> {
+  if (!window.confirm('重建会永久删除全部本地用户数据。请先确认你已经尝试过“重试”，并关闭了其他刷刷升级页面。是否继续？')) return;
+  if (!window.confirm('最后确认：永久清除本地用户数据并重建，且无法撤销。确定执行吗？')) return;
+  try {
+    const result = await messageClient.rebuildDatabase();
+    if (!await onReload()) {
+      onNotice('本地数据已重建，但重新读取失败；请再次重试，当前状态未确认');
+      return;
+    }
+    onError(null);
+    onNotice(result.warnings.length > 0 ? `本地数据已清除并重建；${result.warnings.join('；')}` : '本地数据已清除并重建');
+  } catch (error) {
+    onNotice(`重建失败：${error instanceof Error ? error.message : String(error)}`);
   }
 }

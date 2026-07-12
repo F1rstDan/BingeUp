@@ -31,22 +31,27 @@ function installChromeStorageMock() {
 }
 
 const NOW = 5_000_000;
+const TEST_DB = 'test-router';
 
 describe('message-router — Issue #9 新增消息', () => {
   let cleanup: (() => void) | null = null;
   let store: LocalSettingsStore;
   let router: ReturnType<typeof createMessageRouter>;
+  let db: IDBDatabase;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     installChromeStorageMock();
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    store = new LocalSettingsStore();
-    router = createMessageRouter(store);
+    db = await openDatabase(TEST_DB, MIGRATIONS);
+    store = new LocalSettingsStore(db);
+    router = createMessageRouter(store, db);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    db.close();
+    await deleteDatabase(TEST_DB);
     cleanup?.();
     cleanup = null;
   });
@@ -207,8 +212,6 @@ describe('message-router — Issue #9 新增消息', () => {
 
 // ─── Issue #10：设置页与本地数据管理 ─────────────────────────────
 
-const TEST_DB = 'test-router-issue10';
-
 async function deleteDatabase(name: string): Promise<void> {
   return new Promise((resolve) => {
     const req = indexedDB.deleteDatabase(name);
@@ -231,8 +234,8 @@ describe('message-router — Issue #10 新增消息', () => {
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    store = new LocalSettingsStore();
     db = await openDatabase(TEST_DB, MIGRATIONS);
+    store = new LocalSettingsStore(db);
     router = createMessageRouter(store, db);
   });
 
@@ -477,8 +480,8 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as ExportPayload;
 
-    expect(res.version).toBe(2);
-    expect(res.settings.appSettings.dailyNewWordLimit).toBe(15);
+    expect(res.version).toBe(1);
+    expect(res.authoritativeState.appSettings.dailyNewWordLimit).toBe(15);
     expect(res.data.cards).toHaveLength(1);
     expect(res.data.reviewLogs).toHaveLength(1);
     expect(res.data.sessionLogs).toEqual([]);
@@ -488,14 +491,12 @@ describe('message-router — Issue #10 新增消息', () => {
 
   it('IMPORT_DATA：校验通过后写入数据（AC4）', async () => {
     const payload: ExportPayload = {
-      version: 2,
+      version: 1,
       exportedAt: 9000,
-      settings: {
+      authoritativeState: {
         appSettings: { ...DEFAULT_SETTINGS, dailyNewWordLimit: 42 },
         sites: { 'bilibili.com': { enabled: true, mode: 'full-adaptation', firstQuestionPending: false } },
-        cooldown: { nextAllowedAt: 0, consecutiveSkipCount: 0 },
         onboardingCompleted: true,
-        globalPausedUntil: 0,
       },
       data: {
         cards: [{ id: 'c1', wordId: 'w-abandon', deckId: 'deck-daily-high-frequency', stage: 'new', createdAt: 1, updatedAt: 1 } satisfies CardRecord],
@@ -577,13 +578,16 @@ describe('message-router — Issue #10 新增消息', () => {
 describe('message-router — Issue #13 数据库不可用', () => {
   it('数据操作明确失败，不把不可用数据库伪装成成功', async () => {
     installChromeStorageMock();
-    const store = new LocalSettingsStore();
+    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const store = new LocalSettingsStore(db);
     const router = createMessageRouter(store, null);
 
     await expect(
       router.handle({ type: 'EXPORT_DATA' }, {} as chrome.runtime.MessageSender),
     ).rejects.toThrow('数据库不可用');
 
+    db.close();
+    await deleteDatabase(TEST_DB);
     delete (globalThis as { chrome?: unknown }).chrome;
   });
 });
@@ -594,17 +598,21 @@ describe('message-router — Issue #11 新增消息', () => {
   let cleanup: (() => void) | null = null;
   let store: LocalSettingsStore;
   let router: ReturnType<typeof createMessageRouter>;
+  let db: IDBDatabase;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     installChromeStorageMock();
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    store = new LocalSettingsStore();
-    router = createMessageRouter(store);
+    db = await openDatabase(TEST_DB, MIGRATIONS);
+    store = new LocalSettingsStore(db);
+    router = createMessageRouter(store, db);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    db.close();
+    await deleteDatabase(TEST_DB);
     cleanup?.();
     cleanup = null;
   });
