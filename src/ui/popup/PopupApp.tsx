@@ -82,7 +82,7 @@ export function PopupApp(): JSX.Element {
     return (
       <div className="bingeup-popup">
         <div className="bingeup-title">刷刷升级</div>
-        <p className="bingeup-hint">{error}</p>
+        <p className="bingeup-hint bingeup-error">{error}</p>
       </div>
     );
   }

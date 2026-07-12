@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { StatsApp } from '@/ui/stats/StatsApp';
+import '@/ui/styles/design-tokens.css';
 import './stats.css';
 
 /**

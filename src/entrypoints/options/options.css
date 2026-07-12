@@ -1,188 +1,75 @@
-/* Options 设置页样式。与 Popup 一致的暗色主题，但为全页布局。 */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 html,
 body {
-  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--bingeup-ink);
+  background: var(--bingeup-canvas);
   font-size: 14px;
-  color: #e5e7eb;
-  background: #111827;
 }
+
 .bingeup-options {
-  max-width: 640px;
+  width: min(100% - 40px, 760px);
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 42px 0 64px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
-h1 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #fff;
-}
-h2 {
-  font-size: 15px;
-  font-weight: 600;
-  color: #9ca3af;
-  margin-bottom: 12px;
-}
+.bingeup-options h1 { margin: 0; color: var(--bingeup-ink); font-size: 32px; font-weight: 900; letter-spacing: -0.07em; }
 .bingeup-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  background: #1f2937;
-  border-radius: 12px;
+  gap: 13px;
+  padding: 22px;
+  border: 1px solid var(--bingeup-line);
+  border-radius: var(--bingeup-radius-lg);
+  background: var(--bingeup-white);
+  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
 }
-.bingeup-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.bingeup-field-label {
-  color: #9ca3af;
-  flex-shrink: 0;
-}
-.bingeup-field-control {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-input[type="number"],
-input[type="text"],
-select {
-  font-family: inherit;
-  font-size: 13px;
-  color: #e5e7eb;
-  background: #374151;
-  border: 1px solid #4b5563;
-  border-radius: 6px;
+.bingeup-section h2 { margin: 0 0 3px; color: var(--bingeup-ink); font-size: 17px; font-weight: 900; letter-spacing: -0.04em; }
+.bingeup-field { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 43px; padding-bottom: 10px; border-bottom: 1px dashed #e7edf2; }
+.bingeup-field:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.bingeup-field-label { color: #4e6072; font-weight: 800; }
+.bingeup-field-control { display: flex; align-items: center; gap: 6px; }
+.bingeup-options input[type="number"],
+.bingeup-options input[type="text"],
+.bingeup-options select {
+  width: min(260px, 46vw);
+  min-height: 36px;
   padding: 6px 10px;
-  width: 180px;
 }
-input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #3b82f6;
-}
-input:disabled {
-  opacity: 0.45;
-}
-button {
-  font-family: inherit;
+.bingeup-options input[type="checkbox"] { width: 18px; height: 18px; }
+.bingeup-options input:disabled { color: #a9b4bd; background: #f3f6f8; opacity: .72; }
+.bingeup-options button {
+  min-height: 38px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 11px;
   font-size: 13px;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: background 0.15s, opacity 0.15s;
+  font-weight: 900;
+  transition: 140ms ease;
 }
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-.bingeup-btn-primary {
-  background: #3b82f6;
-  color: #fff;
-}
-.bingeup-btn-primary:hover:not(:disabled) {
-  background: #2563eb;
-}
-.bingeup-btn-secondary {
-  background: #374151;
-  color: #e5e7eb;
-}
-.bingeup-btn-secondary:hover:not(:disabled) {
-  background: #4b5563;
-}
-.bingeup-btn-danger {
-  background: #7f1d1d;
-  color: #fca5a5;
-}
-.bingeup-btn-danger:hover:not(:disabled) {
-  background: #991b1b;
-}
-.bingeup-btn-sm {
-  padding: 4px 10px;
-  font-size: 12px;
-}
-.bingeup-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.bingeup-file-input {
-  display: none;
-}
-.bingeup-hint {
-  font-size: 13px;
-  color: #9ca3af;
-  line-height: 1.5;
-}
-.bingeup-notice {
-  font-size: 13px;
-  color: #34d399;
-  padding: 8px 12px;
-  background: rgba(52, 211, 153, 0.1);
-  border-radius: 8px;
-}
-.bingeup-error {
-  font-size: 13px;
-  color: #f87171;
-}
-.bingeup-site-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.bingeup-site-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 12px;
-  background: #374151;
-  border-radius: 8px;
-  flex-wrap: wrap;
-}
-.bingeup-site-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.bingeup-site-host {
-  color: #e5e7eb;
-  font-weight: 500;
-}
-.bingeup-badge {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: #4b5563;
-  color: #d1d5db;
-}
-.bingeup-badge-ok {
-  background: #064e3b;
-  color: #34d399;
-}
-.bingeup-badge-off {
-  background: #7f1d1d;
-  color: #fca5a5;
-}
-.bingeup-site-triggers {
-  display: flex;
-  gap: 12px;
-  font-size: 12px;
-  color: #9ca3af;
-}
-.bingeup-site-triggers label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.bingeup-options button:hover:not(:disabled) { transform: translateY(-2px); }
+.bingeup-options button:active:not(:disabled) { transform: translateY(1px); }
+.bingeup-options button:disabled { opacity: .5; }
+.bingeup-btn-sm { min-height: 31px !important; padding: 4px 10px !important; font-size: 12px !important; }
+.bingeup-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+.bingeup-file-input { display: none; }
+.bingeup-hint { margin: 0; color: var(--bingeup-muted); line-height: 1.55; }
+.bingeup-notice { margin: 0; padding: 11px 13px; border-left: 4px solid var(--bingeup-green); border-radius: 12px; color: var(--bingeup-green-dark); background: var(--bingeup-green-soft); font-weight: 800; }
+.bingeup-error { margin: 0; color: var(--bingeup-pink-dark); font-weight: 800; }
+.bingeup-site-list { display: flex; flex-direction: column; gap: 10px; }
+.bingeup-site-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px; border: 1px solid var(--bingeup-line); border-radius: var(--bingeup-radius-md); background: #fbfdff; flex-wrap: wrap; }
+.bingeup-site-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bingeup-site-host { color: var(--bingeup-ink); font-weight: 900; }
+.bingeup-badge { padding: 3px 8px; border-radius: 999px; color: #738394; background: #eef2f5; font-size: 11px; font-weight: 900; }
+.bingeup-badge-ok { color: var(--bingeup-green-dark); background: var(--bingeup-green-soft); }
+.bingeup-badge-off { color: var(--bingeup-pink-dark); background: var(--bingeup-pink-soft); }
+.bingeup-site-triggers { display: flex; gap: 12px; color: var(--bingeup-muted); font-size: 12px; }
+.bingeup-site-triggers label { display: flex; align-items: center; gap: 4px; }
+
+@media (max-width: 540px) {
+  .bingeup-options { width: min(100% - 28px, 760px); padding-top: 28px; }
+  .bingeup-field { align-items: flex-start; flex-direction: column; }
+  .bingeup-options input[type="number"], .bingeup-options input[type="text"], .bingeup-options select { width: 100%; }
 }

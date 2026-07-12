@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { OptionsApp } from '@/ui/options/OptionsApp';
+import '@/ui/styles/design-tokens.css';
 import './options.css';
 
 /**

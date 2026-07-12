@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
   permissionOriginsFor,
@@ -30,6 +31,10 @@ const SITE_OPTIONS: SiteOption[] = [
 ];
 
 type Phase = 'select' | 'done' | 'error';
+
+function LevelUpMascot(): JSX.Element {
+  return <img className="bingeup-onboarding-mascot" src={mascotUrl} alt="" />;
+}
 
 export function OnboardingApp(): JSX.Element {
   const [selected, setSelected] = useState<Set<OnboardingSiteSelection>>(new Set());
@@ -77,15 +82,15 @@ export function OnboardingApp(): JSX.Element {
     return (
       <div className="bingeup-onboarding">
         <div className="bingeup-success">
+          <LevelUpMascot />
           <h2>引导完成</h2>
-          <p style={{ marginTop: 12 }}>
+          <p className="bingeup-onboarding-copy">
             {selected.size > 0
               ? '已启用所选网站。请访问对应视频页面，刷新后即可开始学习。'
               : '未选择任何网站。之后可在 Popup 面板中随时启用。'}
           </p>
           <button
             className="bingeup-btn-secondary"
-            style={{ marginTop: 20 }}
             onClick={() => window.close()}
           >
             关闭
@@ -97,10 +102,11 @@ export function OnboardingApp(): JSX.Element {
 
   return (
     <div className="bingeup-onboarding">
+      <LevelUpMascot />
       <h1>欢迎使用刷刷升级</h1>
       <p>在视频间隙轻量学习英语单词。选择要在哪些网站启用学习：</p>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div className="bingeup-site-options">
         {SITE_OPTIONS.map((opt) => {
           const checked = selected.has(opt.key);
           return (
@@ -122,7 +128,7 @@ export function OnboardingApp(): JSX.Element {
         })}
       </div>
 
-      <p style={{ fontSize: 13 }}>
+      <p className="bingeup-onboarding-hint">
         不选择任何网站也可以完成引导，之后可在 Popup 面板或网站提示中随时启用。
       </p>
 

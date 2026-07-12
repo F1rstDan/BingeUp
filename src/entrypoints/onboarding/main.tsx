@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
+import '@/ui/styles/design-tokens.css';
 import './onboarding.css';
 
 /**

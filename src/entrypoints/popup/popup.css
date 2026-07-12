@@ -1,105 +1,43 @@
-/* Popup 面板样式。独立于 Tailwind preflight（已禁用），保证扩展页自包含。 */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 html,
 body {
-  width: 320px;
-  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  width: 340px;
+  min-width: 320px;
+  color: var(--bingeup-ink);
+  background: var(--bingeup-canvas);
   font-size: 13px;
-  color: #e5e7eb;
-  background: #111827;
 }
-button {
-  font-family: inherit;
-  font-size: 13px;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background 0.15s, opacity 0.15s;
-}
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
+
 .bingeup-popup {
-  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid var(--bingeup-line);
+  border-radius: 20px;
+  background: var(--bingeup-white);
+  box-shadow: var(--bingeup-shadow);
 }
-.bingeup-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-}
-.bingeup-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.bingeup-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-.bingeup-label {
-  color: #9ca3af;
-}
-.bingeup-value {
-  color: #e5e7eb;
-  font-weight: 500;
-  text-align: right;
-  word-break: break-all;
-}
-.bingeup-status-ok {
-  color: #34d399;
-}
-.bingeup-status-off {
-  color: #f87171;
-}
-.bingeup-status-warn {
-  color: #fbbf24;
-}
-.bingeup-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.bingeup-btn-primary {
-  background: #3b82f6;
-  color: #fff;
-}
-.bingeup-btn-primary:hover:not(:disabled) {
-  background: #2563eb;
-}
-.bingeup-btn-secondary {
-  background: #374151;
-  color: #e5e7eb;
-}
-.bingeup-btn-secondary:hover:not(:disabled) {
-  background: #4b5563;
-}
-.bingeup-btn-danger {
-  background: #7f1d1d;
-  color: #fca5a5;
-}
-.bingeup-btn-danger:hover:not(:disabled) {
-  background: #991b1b;
-}
-.bingeup-btn-full {
-  grid-column: 1 / -1;
-}
-.bingeup-hint {
+.bingeup-title { color: var(--bingeup-ink); font-size: 19px; font-weight: 900; letter-spacing: -0.07em; }
+.bingeup-section { display: flex; flex-direction: column; gap: 8px; }
+.bingeup-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.bingeup-label { color: var(--bingeup-muted); font-size: 12px; }
+.bingeup-value { color: #4e6072; font-weight: 900; text-align: right; word-break: break-all; }
+.bingeup-divider { height: 1px; background: var(--bingeup-line); }
+.bingeup-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.bingeup-actions .bingeup-hint { grid-column: 1 / -1; }
+
+.bingeup-popup button {
+  min-height: 39px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 12px;
   font-size: 12px;
-  color: #9ca3af;
-  line-height: 1.5;
+  font-weight: 900;
+  transition: 140ms ease;
 }
-.bingeup-divider {
-  height: 1px;
-  background: #374151;
-}
+.bingeup-popup button:hover:not(:disabled) { transform: translateY(-2px); }
+.bingeup-popup button:active:not(:disabled) { transform: translateY(1px); }
+.bingeup-popup button:disabled { opacity: .5; }
+.bingeup-btn-full { grid-column: 1 / -1; }
+.bingeup-hint { margin: 0; color: var(--bingeup-muted); font-size: 12px; line-height: 1.5; }
+.bingeup-error { color: var(--bingeup-pink-dark); font-weight: 800; }

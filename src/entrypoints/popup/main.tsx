@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { PopupApp } from '@/ui/popup/PopupApp';
+import '@/ui/styles/design-tokens.css';
 import './popup.css';
 
 /**

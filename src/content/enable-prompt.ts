@@ -7,6 +7,7 @@
  *
  * 使用 Shadow DOM 隔离样式，避免与宿主页面 CSS 冲突。
  */
+import { SHADOW_DESIGN_TOKENS } from '@/ui/styles/shadow-design';
 
 export interface EnablePromptCallbacks {
   /** 用户点击"启用"。调用方应启用站点；成功后组件切换到"请刷新"状态。 */
@@ -23,30 +24,31 @@ export interface EnablePromptHandle {
 const PROMPT_HOST_ID = 'bingeup-enable-prompt-host';
 
 const PROMPT_CSS = `
-  :host { all: initial; }
+  ${SHADOW_DESIGN_TOKENS}
   .bingeup-prompt-root {
     position: fixed;
     top: 16px;
     right: 16px;
     z-index: 2147483647;
-    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
-    color: #fff;
+    font-family: var(--bingeup-font);
+    color: var(--bingeup-ink);
     pointer-events: auto;
   }
   .bingeup-prompt-card {
-    background: #1f2937;
-    border-radius: 12px;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-    padding: 14px 16px;
-    width: 280px;
+    width: 296px;
+    padding: 16px;
+    border: 1px solid var(--bingeup-line);
+    border-radius: var(--bingeup-radius-md);
+    background: var(--bingeup-white);
+    box-shadow: var(--bingeup-shadow);
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
   .bingeup-prompt-title {
     font-size: 14px;
-    font-weight: 600;
-    line-height: 1.4;
+    font-weight: 900;
+    line-height: 1.5;
   }
   .bingeup-prompt-actions {
     display: flex;
@@ -55,29 +57,33 @@ const PROMPT_CSS = `
   }
   .bingeup-btn {
     border: none;
-    border-radius: 8px;
+    border-radius: 11px;
     padding: 7px 14px;
     font-size: 13px;
-    font-weight: 500;
+    font-family: var(--bingeup-font);
+    font-weight: 900;
     cursor: pointer;
-    font-family: inherit;
+    transition: 140ms ease;
   }
   .bingeup-btn-primary {
-    background: #3b82f6;
+    background: var(--bingeup-blue);
+    box-shadow: 0 3px 0 var(--bingeup-blue-dark);
     color: #fff;
   }
-  .bingeup-btn-primary:hover { background: #2563eb; }
+  .bingeup-btn-primary:hover { background: #2198ee; transform: translateY(-2px); }
   .bingeup-btn-secondary {
-    background: transparent;
-    color: #9ca3af;
+    background: #eef2f5;
+    color: #536476;
+    box-shadow: 0 3px 0 #dbe2e8;
   }
-  .bingeup-btn-secondary:hover { color: #d1d5db; }
+  .bingeup-btn-secondary:hover { transform: translateY(-2px); }
+  .bingeup-btn:active { transform: translateY(1px); }
   .bingeup-prompt-hint {
     font-size: 13px;
     line-height: 1.5;
-    color: #d1d5db;
+    color: var(--bingeup-muted);
   }
-  .bingeup-prompt-hint strong { color: #fff; }
+  .bingeup-prompt-hint strong { color: var(--bingeup-green-dark); }
 `;
 
 /**
