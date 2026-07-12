@@ -36,6 +36,86 @@ interface PopupContext {
   tabId: number | null;
 }
 
+type PopupSiteStatusTone = 'ready' | 'paused' | 'warning' | 'inactive';
+type PopupRuntimeTone = 'ready' | 'paused' | 'limited' | 'inactive';
+
+function PopupHeader(): JSX.Element {
+  return (
+    <header className="bingeup-header">
+      <div className="bingeup-brand" aria-label="刷刷升级">
+        <span className="bingeup-brand-mark" aria-hidden="true">
+          <i className="bingeup-brand-eye left" />
+          <i className="bingeup-brand-eye right" />
+          <i className="bingeup-brand-mouth" />
+        </span>
+        <strong>刷刷升级</strong>
+      </div>
+      <button
+        className="bingeup-popup-settings"
+        aria-label="设置"
+        title="设置"
+        onClick={() => void chrome.runtime.openOptionsPage()}
+      >
+        <span className="bingeup-visually-hidden">设置</span>
+        <span aria-hidden="true">⚙</span>
+      </button>
+    </header>
+  );
+}
+
+function popupSiteStatusTone(state: PopupDisplayState): PopupSiteStatusTone {
+  if (state.globallyPaused) return 'paused';
+  if (state.enabled) return 'ready';
+  if (state.compatibilityLevel === 'needs-permission') return 'warning';
+  return 'inactive';
+}
+
+function popupSiteBadge(state: PopupDisplayState): string {
+  if (state.globallyPaused) return '已暂停';
+  if (state.enabled) return '可学习';
+  if (state.canAddCustomSite) return '可加入';
+  if (state.compatibilityLevel === 'needs-permission') return '需权限';
+  return '待启用';
+}
+
+function popupRuntimeStatus(state: PopupDisplayState): {
+  tone: PopupRuntimeTone;
+  label: string;
+  description: string;
+  badge: string;
+} {
+  if (state.globallyPaused) {
+    return {
+      tone: 'paused',
+      label: '全局暂停中',
+      description: '恢复全部后，才会继续出现学习界面。',
+      badge: '暂停',
+    };
+  }
+  if (!state.enabled) {
+    return {
+      tone: 'inactive',
+      label: '网站未启用',
+      description: '启用当前网站后即可在视频间隙学习。',
+      badge: '待处理',
+    };
+  }
+  if (state.canControlVideo) {
+    return {
+      tone: 'ready',
+      label: '可以开始学习',
+      description: '当前页面已准备好连续学习。',
+      badge: '就绪',
+    };
+  }
+  return {
+    tone: 'limited',
+    label: '基础网页模式',
+    description: '学习界面可用，但插件不会控制视频。',
+    badge: '有限支持',
+  };
+}
+
 export function PopupApp(): JSX.Element {
   const [state, setState] = useState<PopupDisplayState | null>(null);
   const [ctx, setCtx] = useState<PopupContext | null>(null);
@@ -81,8 +161,10 @@ export function PopupApp(): JSX.Element {
   if (error !== null) {
     return (
       <div className="bingeup-popup">
-        <div className="bingeup-title">刷刷升级</div>
-        <p className="bingeup-hint bingeup-error">{error}</p>
+        <PopupHeader />
+        <div className="bingeup-state-card">
+          <p className="bingeup-hint bingeup-error">{error}</p>
+        </div>
       </div>
     );
   }
@@ -90,8 +172,10 @@ export function PopupApp(): JSX.Element {
   if (state === null || ctx === null) {
     return (
       <div className="bingeup-popup">
-        <div className="bingeup-title">刷刷升级</div>
-        <p className="bingeup-hint">加载中…</p>
+        <PopupHeader />
+        <div className="bingeup-state-card">
+          <p className="bingeup-hint">加载中…</p>
+        </div>
       </div>
     );
   }
@@ -123,10 +207,13 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
   if (state.isProtectedPage) {
     return (
       <div className="bingeup-popup">
-        <div className="bingeup-title">刷刷升级</div>
-        <p className="bingeup-hint">
-          当前为浏览器受保护页面（{ctx.url}），刷刷升级无法在此运行。
-        </p>
+        <PopupHeader />
+        <div className="bingeup-state-card">
+          <strong className="bingeup-state-title">当前页面不可用</strong>
+          <p className="bingeup-hint">
+            当前为浏览器受保护页面（{ctx.url}），刷刷升级无法在此运行。
+          </p>
+        </div>
       </div>
     );
   }
@@ -135,8 +222,11 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
   if (state.compatibilityLevel === 'not-onboarding') {
     return (
       <div className="bingeup-popup">
-        <div className="bingeup-title">刷刷升级</div>
-        <p className="bingeup-hint">尚未完成安装引导。</p>
+        <PopupHeader />
+        <div className="bingeup-state-card">
+          <strong className="bingeup-state-title">先完成安装引导</strong>
+          <p className="bingeup-hint">尚未完成安装引导。</p>
+        </div>
         <button
           className="bingeup-btn-primary bingeup-btn-full"
           onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/onboarding.html') })}
@@ -151,8 +241,16 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
   if (state.compatibilityLevel === 'needs-permission') {
     return (
       <div className="bingeup-popup">
-        <div className="bingeup-title">刷刷升级</div>
-        <div className="bingeup-section">
+        <PopupHeader />
+        <div className="bingeup-site-status bingeup-site-status-warning">
+          <i className="bingeup-site-dot" />
+          <div className="bingeup-site-copy">
+            <strong>{state.hostname}</strong>
+            <span>未启用 · 需要权限</span>
+          </div>
+          <span className="bingeup-site-badge bingeup-site-badge-warning">需权限</span>
+        </div>
+        <div className="bingeup-state-card">
           <div className="bingeup-row">
             <span className="bingeup-label">域名</span>
             <span className="bingeup-value">{state.hostname}</span>
@@ -165,60 +263,81 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
     );
   }
 
+  const siteStatusTone = popupSiteStatusTone(state);
+  const runtimeStatus = popupRuntimeStatus(state);
+
   return (
     <div className="bingeup-popup">
-      <div className="bingeup-title">刷刷升级</div>
+      <PopupHeader />
 
-      {/* AC3：状态显示 */}
-      <div className="bingeup-section">
-        <div className="bingeup-row">
-          <span className="bingeup-label">域名</span>
-          <span className="bingeup-value">{state.hostname}</span>
+      {/* AC3：当前网站状态 */}
+      <section className={`bingeup-site-status bingeup-site-status-${siteStatusTone}`} aria-label="当前网站状态">
+        <i className="bingeup-site-dot" />
+        <div className="bingeup-site-copy">
+          <strong>{state.hostname || '当前页面'}</strong>
+          <span>
+            <b>{state.globallyPaused ? '已暂停' : state.enabled ? '已启用' : '未启用'}</b>
+            {' · '}
+            <span>{COMPATIBILITY_LABELS[state.compatibilityLevel]}</span>
+          </span>
         </div>
-        <div className="bingeup-row">
-          <span className="bingeup-label">启用状态</span>
-          <span
-            className={
-              'bingeup-value ' +
-              (state.enabled ? 'bingeup-status-ok' : 'bingeup-status-off')
-            }
+        <span className="bingeup-site-badge">{popupSiteBadge(state)}</span>
+      </section>
+
+      <section className="bingeup-block" aria-labelledby="bingeup-capability-title">
+        <div className="bingeup-block-head">
+          <strong id="bingeup-capability-title">网站能力</strong>
+          <button
+            className="bingeup-text-button"
+            aria-label="查看统计"
+            onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
           >
-            {state.enabled ? '已启用' : '未启用'}
-          </span>
+            统计
+          </button>
         </div>
-        <div className="bingeup-row">
-          <span className="bingeup-label">兼容等级</span>
-          <span className="bingeup-value">{COMPATIBILITY_LABELS[state.compatibilityLevel]}</span>
-        </div>
-        <div className="bingeup-row">
-          <span className="bingeup-label">覆盖方式</span>
-          <span className="bingeup-value">
-            {state.overlayMode ? OVERLAY_MODE_LABELS[state.overlayMode] ?? '—' : '—'}
-          </span>
-        </div>
-        <div className="bingeup-row">
-          <span className="bingeup-label">可控制视频</span>
-          <span
-            className={
-              'bingeup-value ' +
-              (state.canControlVideo ? 'bingeup-status-ok' : 'bingeup-status-warn')
-            }
-          >
-            {state.canControlVideo ? '是' : '否'}
-          </span>
-        </div>
-        {state.globallyPaused && (
-          <div className="bingeup-row">
-            <span className="bingeup-label">全局状态</span>
-            <span className="bingeup-value bingeup-status-warn">已暂停</span>
+        <div className="bingeup-metrics">
+          <div className="bingeup-metric">
+            <strong>
+              {Array.from(COMPATIBILITY_LABELS[state.compatibilityLevel]).map((character, index) => (
+                <span className="bingeup-metric-value-part" key={`${character}-${index}`}>
+                  {character}
+                </span>
+              ))}
+            </strong>
+            <span>兼容等级</span>
           </div>
-        )}
-      </div>
+          <div className="bingeup-metric bingeup-metric-green">
+            <strong>{state.overlayMode ? OVERLAY_MODE_LABELS[state.overlayMode] ?? '—' : '—'}</strong>
+            <span>覆盖方式</span>
+          </div>
+          <div className="bingeup-metric bingeup-metric-pink">
+            <strong>{state.canControlVideo ? '是' : '否'}</strong>
+            <span>视频控制</span>
+          </div>
+        </div>
+      </section>
 
-      <div className="bingeup-divider" />
+      <section className="bingeup-block" aria-labelledby="bingeup-runtime-title">
+        <div className="bingeup-block-head">
+          <strong id="bingeup-runtime-title">当前状态</strong>
+          <span className="bingeup-block-meta">{state.enabled ? '网站已加入' : '等待操作'}</span>
+        </div>
+        <div className="bingeup-runtime-row">
+          <div>
+            <strong>{runtimeStatus.label}</strong>
+            <span>{runtimeStatus.description}</span>
+          </div>
+          <span className={`bingeup-runtime-pill bingeup-runtime-pill-${runtimeStatus.tone}`}>
+            {runtimeStatus.badge}
+          </span>
+        </div>
+      </section>
 
       {/* AC4：暂停控制 / Issue #11：加入当前网站 */}
       <div className="bingeup-actions">
+        {notice !== null && (
+          <p className="bingeup-hint bingeup-notice" role="status">{notice}</p>
+        )}
         {state.canAddCustomSite ? (
           <button
             className="bingeup-btn-primary bingeup-btn-full"
@@ -228,21 +347,21 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
           </button>
         ) : state.enabled ? (
           <button
-            className="bingeup-btn-danger"
+            className="bingeup-btn-danger bingeup-btn-full"
             onClick={() => void handleDisable(ctx.hostname, onReload)}
           >
             暂停当前网站
           </button>
         ) : state.showEnablePrompt ? (
           <button
-            className="bingeup-btn-primary"
+            className="bingeup-btn-primary bingeup-btn-full"
             onClick={() => void handleEnable(ctx.hostname, onReload)}
           >
             开启当前网站
           </button>
         ) : (
           <button
-            className="bingeup-btn-primary"
+            className="bingeup-btn-primary bingeup-btn-full"
             onClick={() => void handleEnable(ctx.hostname, onReload)}
           >
             启用当前网站
@@ -251,13 +370,13 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
 
         {state.globallyPaused ? (
           <button
-            className="bingeup-btn-secondary"
+            className="bingeup-btn-secondary bingeup-btn-full"
             onClick={() => void handleResumeAll(onReload)}
           >
             恢复全部
           </button>
         ) : (
-          <>
+          <div className="bingeup-pause-row">
             <button
               className="bingeup-btn-secondary"
               onClick={() => void handlePauseAll(onReload)}
@@ -265,40 +384,21 @@ function PopupView({ state, ctx, notice, onReload, onNotice }: PopupViewProps): 
               暂停全部
             </button>
             <button
-              className="bingeup-btn-secondary bingeup-btn-full"
+              className="bingeup-btn-secondary"
               onClick={() => void handlePauseToday(onReload)}
             >
               暂停今天
             </button>
-          </>
+          </div>
         )}
-      </div>
 
-      <div className="bingeup-divider" />
-
-      {/* AC4：入口按钮 */}
-      <div className="bingeup-actions">
-        {notice !== null && (
-          <p className="bingeup-hint">{notice}</p>
-        )}
+        {/* AC4：入口按钮 */}
         <button
-          className="bingeup-btn-primary bingeup-btn-full"
+          className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
           disabled={!state.canControlVideo || state.globallyPaused}
           onClick={() => void handleStartContinuousLearning(ctx.tabId, onNotice)}
         >
           开始连续学习
-        </button>
-        <button
-          className="bingeup-btn-secondary"
-          onClick={() => void chrome.runtime.openOptionsPage()}
-        >
-          设置
-        </button>
-        <button
-          className="bingeup-btn-secondary"
-          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
-        >
-          统计
         </button>
       </div>
     </div>
