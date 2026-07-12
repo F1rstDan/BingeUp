@@ -30,6 +30,7 @@ body {
 }
 
 .bingeup-onboarding h1 { font-size: clamp(30px, 8vw, 40px); line-height: 1.08; }
+.bingeup-onboarding-brand-name { color: var(--bingeup-blue); }
 .bingeup-onboarding h2 { color: var(--bingeup-green-dark); font-size: 28px; }
 .bingeup-onboarding p { margin: 0; color: var(--bingeup-muted); font-size: 14px; line-height: 1.7; }
 

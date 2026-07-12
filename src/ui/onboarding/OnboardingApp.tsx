@@ -2,7 +2,6 @@ import { useState } from 'react';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
-  permissionOriginsFor,
   siteKeysToEnable,
   type OnboardingSiteSelection,
 } from '@/onboarding/onboarding-service';
@@ -10,12 +9,12 @@ import {
 /**
  * 安装引导（Issue #9 AC1）。
  *
- * AC1：引导允许用户不选择任何网站完成，且仅在用户选择后请求对应网站权限。
+ * AC1：受支持站点默认启用；用户可在引导中取消启用任一站点。
  *
  * 流程：
  * 1. 欢迎页 → 说明插件用途；
- * 2. 网站选择 → 哔哩哔哩 / YouTube 复选框，可不选；
- * 3. 完成引导 → 仅对选中网站请求主机权限并启用，标记引导完成；
+ * 2. 网站选择 → 哔哩哔哩 / YouTube 默认勾选，可取消；
+ * 3. 完成引导 → 同步保留勾选的网站启用状态；
  * 4. 成功页 → 提示刷新或访问已启用网站。
  */
 
@@ -37,7 +36,9 @@ function LevelUpMascot(): JSX.Element {
 }
 
 export function OnboardingApp(): JSX.Element {
-  const [selected, setSelected] = useState<Set<OnboardingSiteSelection>>(new Set());
+  const [selected, setSelected] = useState<Set<OnboardingSiteSelection>>(
+    () => new Set(SITE_OPTIONS.map(({ key }) => key)),
+  );
   const [phase, setPhase] = useState<Phase>('select');
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -59,15 +60,7 @@ export function OnboardingApp(): JSX.Element {
     setErrorMsg(null);
     try {
       const sites = Array.from(selected);
-      // AC1：仅在用户选择后请求对应网站权限。已声明的 host_permissions 为 no-op。
-      if (sites.length > 0) {
-        const origins = permissionOriginsFor(sites);
-        const granted = await chrome.permissions.request({ origins });
-        // 用户拒绝权限（granted === false）：仍标记引导完成并启用站点。
-        // host_permissions 已在 manifest 声明，权限拒绝不影响实际主机访问。
-        void granted;
-      }
-      // 标记引导完成并启用选定网站（空列表也完成引导，AC1）。
+      // 主机权限在安装时已声明；引导只同步用户最终保留的启用选择。
       await messageClient.completeOnboarding(siteKeysToEnable(sites));
       setPhase('done');
     } catch (e) {
@@ -103,8 +96,8 @@ export function OnboardingApp(): JSX.Element {
   return (
     <div className="bingeup-onboarding">
       <LevelUpMascot />
-      <h1>欢迎使用刷刷升级</h1>
-      <p>在视频间隙轻量学习英语单词。选择要在哪些网站启用学习：</p>
+      <h1>欢迎使用<span className="bingeup-onboarding-brand-name">刷刷升级</span></h1>
+      <p>在视频间隙轻量学习英语单词。已为你启用受支持网站，可按需取消：</p>
 
       <div className="bingeup-site-options">
         {SITE_OPTIONS.map((opt) => {
@@ -129,7 +122,7 @@ export function OnboardingApp(): JSX.Element {
       </div>
 
       <p className="bingeup-onboarding-hint">
-        不选择任何网站也可以完成引导，之后可在 Popup 面板或网站提示中随时启用。
+        取消所有网站也可以完成引导，之后可在 Popup 面板中随时重新启用。
       </p>
 
       {errorMsg !== null && <p className="bingeup-error">出错了：{errorMsg}</p>}

@@ -14,7 +14,7 @@ export type ExtensionMessage =
   | { type: 'SITE_GET_STATE'; hostname: string }
   | { type: 'SITE_MARK_FIRST_QUESTION_HANDLED'; hostname: string }
   // ─── Issue #9：安装引导、可选权限与 Popup 控制 ──────────────
-  /** 完成引导：标记 onboardingCompleted 并启用选定网站。 */
+  /** 完成引导：标记 onboardingCompleted，并同步受支持站点的启用选择。 */
   | { type: 'ONBOARDING_COMPLETE'; hostnames: string[] }
   /** 启用当前网站（Popup / 启用提示）。 */
   | { type: 'SITE_ENABLE'; hostname: string }

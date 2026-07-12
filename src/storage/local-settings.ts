@@ -47,15 +47,15 @@ export function canonicalSiteKey(hostname: string): string {
 }
 
 /**
- * 受支持站点的默认设置（Issue #9 后默认未启用，等待引导或启用提示开启）。
- * 未启用时不保留首次触发；启用操作（enableSite）会重新置 firstQuestionPending=true。
+ * 受支持站点的默认设置：安装后即启用，并等待首次触发。
+ * 用户显式暂停时，持久化设置会覆盖此默认值。
  *
  * 自定义站点（Issue #11）：非 Bilibili/YouTube 的主机名默认 unsupported，
  * 等待用户从 Popup 主动加入后由能力检测写入 generic-video / basic-web。
  */
 function defaultSiteSettings(hostname: string): SiteSettings {
   if (!isSupportedHostname(hostname)) return unsupportedSiteSettings();
-  return { enabled: false, mode: 'full-adaptation', firstQuestionPending: false };
+  return { enabled: true, mode: 'full-adaptation', firstQuestionPending: true };
 }
 
 /**

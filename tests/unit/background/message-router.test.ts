@@ -65,6 +65,26 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(youtube.enabled).toBe(true);
   });
 
+  it('ONBOARDING_COMPLETE：取消的网站会持久化为未启用', async () => {
+    await router.handle(
+      { type: 'ONBOARDING_COMPLETE', hostnames: ['bilibili.com'] },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(true);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(false);
+  });
+
+  it('ONBOARDING_COMPLETE：忽略非受支持站点', async () => {
+    await router.handle(
+      { type: 'ONBOARDING_COMPLETE', hostnames: ['bilibili.com', 'example.com'] },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(true);
+    expect((await store.getSite('example.com')).enabled).toBe(false);
+  });
+
   it('ONBOARDING_COMPLETE：空网站列表也标记引导完成（AC1：不选择也能完成）', async () => {
     await router.handle(
       { type: 'ONBOARDING_COMPLETE', hostnames: [] },

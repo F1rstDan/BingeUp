@@ -8,6 +8,10 @@ import {
   importLocalData,
 } from '@/storage/data-transfer';
 import { isSupportedHostname } from '@/sites/supported-sites';
+import {
+  ONBOARDING_HOSTNAMES,
+  selectedOnboardingHostnames,
+} from '@/onboarding/onboarding-service';
 import type { ExtensionMessage } from '@/messaging/messages';
 
 /**
@@ -62,8 +66,14 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       // ─── Issue #9 ───────────────────────────────────────────
       case 'ONBOARDING_COMPLETE': {
         await store.markOnboardingCompleted();
-        for (const hostname of message.hostnames) {
+        const selectedHostnames = selectedOnboardingHostnames(message.hostnames);
+        for (const hostname of selectedHostnames) {
           await store.enableSite(hostname);
+        }
+        for (const hostname of ONBOARDING_HOSTNAMES) {
+          if (!selectedHostnames.includes(hostname)) {
+            await store.disableSite(hostname);
+          }
         }
         return undefined;
       }

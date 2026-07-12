@@ -76,13 +76,13 @@ describe('LocalSettingsStore — 重启持久化', () => {
     expect(site.firstQuestionPending).toBe(false);
   });
 
-  it('未存储任何数据时，受支持站点默认未启用（等待引导，Issue #9）', async () => {
+  it('未存储任何数据时，受支持站点默认启用', async () => {
     const reader = new LocalSettingsStore();
     const cooldown = await reader.getCooldown();
     const site = await reader.getSite('www.bilibili.com');
 
     expect(cooldown).toEqual({ nextAllowedAt: 0, consecutiveSkipCount: 0 });
-    expect(site).toEqual({ enabled: false, mode: 'full-adaptation', firstQuestionPending: false });
+    expect(site).toEqual({ enabled: true, mode: 'full-adaptation', firstQuestionPending: true });
   });
 
   it('未存储任何数据时，未知网站保持未启用', async () => {
@@ -271,7 +271,7 @@ describe('LocalSettingsStore — 启用提示拒绝计数（Issue #9 AC2）', ()
     const reader = new LocalSettingsStore();
     const site = await reader.getSite('m.bilibili.com');
     expect(site.promptDeclineCount).toBe(1);
-    expect(site.enabled).toBe(false);
+    expect(site.enabled).toBe(true);
   });
 
   it('多次拒绝累计计数', async () => {

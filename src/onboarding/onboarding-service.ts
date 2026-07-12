@@ -3,41 +3,35 @@ import type { SiteSettings } from '@/types';
 /**
  * 安装引导与有限启用提示纯逻辑（Issue #9 AC1 / AC2）。无副作用，不访问存储或浏览器 API。
  *
- * AC1：引导允许用户不选择任何网站完成，且仅在用户选择后请求对应网站权限。
+ * AC1：受支持站点默认启用；引导允许用户取消任意站点。
  * AC2：跳过引导后，Bilibili/YouTube 各自最多两次有限启用提示；启用后需刷新或新开页面才开始正式运行。
  */
 
-/** 引导中用户可选的网站（与具体浏览器权限解耦的站点键）。 */
-export type OnboardingSiteSelection = 'bilibili' | 'youtube';
+/** 引导中可选、且默认启用的受支持站点。 */
+const ONBOARDING_SITES = {
+  bilibili: 'bilibili.com',
+  youtube: 'youtube.com',
+} as const;
+
+export type OnboardingSiteSelection = keyof typeof ONBOARDING_SITES;
+export const ONBOARDING_HOSTNAMES = Object.values(ONBOARDING_SITES);
 
 /** 跳过引导后每个网站最多主动提示次数（AC2）。 */
 export const MAX_PROMPT_DECLINES = 2;
 
-/** 站点键 → 内容脚本匹配模式（用于 chrome.permissions.request 的 origins）。 */
-const SITE_ORIGIN_PATTERNS: Record<OnboardingSiteSelection, string> = {
-  bilibili: '*://*.bilibili.com/*',
-  youtube: '*://*.youtube.com/*',
-};
-
-/** 站点键 → 规范主机名（用于 LocalSettingsStore 的 canonical key）。 */
-const SITE_CANONICAL_HOST: Record<OnboardingSiteSelection, string> = {
-  bilibili: 'bilibili.com',
-  youtube: 'youtube.com',
-};
-
-/** 根据用户选择的网站返回需要请求的 origin 匹配模式列表。空选择返回空列表（AC1）。 */
-export function permissionOriginsFor(sites: OnboardingSiteSelection[]): string[] {
-  return sites.map((s) => SITE_ORIGIN_PATTERNS[s]);
-}
-
 /** 站点键 → 规范主机名。 */
 export function canonicalHostnameFor(site: OnboardingSiteSelection): string {
-  return SITE_CANONICAL_HOST[site];
+  return ONBOARDING_SITES[site];
 }
 
 /** 根据用户选择的网站返回需要启用的规范主机名列表。 */
 export function siteKeysToEnable(sites: OnboardingSiteSelection[]): string[] {
-  return sites.map((s) => SITE_CANONICAL_HOST[s]);
+  return sites.map(canonicalHostnameFor);
+}
+
+/** 将消息中的站点限制为安装引导可控制的规范主机名。 */
+export function selectedOnboardingHostnames(hostnames: readonly string[]): string[] {
+  return ONBOARDING_HOSTNAMES.filter((hostname) => hostnames.includes(hostname));
 }
 
 /**

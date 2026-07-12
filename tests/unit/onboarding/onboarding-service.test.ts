@@ -1,32 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   MAX_PROMPT_DECLINES,
-  permissionOriginsFor,
   canonicalHostnameFor,
   siteKeysToEnable,
   shouldShowEnablePrompt,
   recordPromptDecline,
-  type OnboardingSiteSelection,
 } from '@/onboarding/onboarding-service';
 import type { SiteSettings } from '@/types';
-
-describe('onboarding-service — 权限来源', () => {
-  it('选择 Bilibili + YouTube 返回两者的 origin 匹配模式', () => {
-    const sites: OnboardingSiteSelection[] = ['bilibili', 'youtube'];
-    expect(permissionOriginsFor(sites)).toEqual([
-      '*://*.bilibili.com/*',
-      '*://*.youtube.com/*',
-    ]);
-  });
-
-  it('只选择 Bilibili 只返回 Bilibili origin', () => {
-    expect(permissionOriginsFor(['bilibili'])).toEqual(['*://*.bilibili.com/*']);
-  });
-
-  it('不选择任何网站返回空数组（AC1：不选择也能完成，不请求权限）', () => {
-    expect(permissionOriginsFor([])).toEqual([]);
-  });
-});
 
 describe('onboarding-service — 规范主机名', () => {
   it('bilibili 映射到 bilibili.com', () => {
