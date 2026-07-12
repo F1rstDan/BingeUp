@@ -568,7 +568,7 @@ export function OverlayApp({
               renderExplanation(question)
             )}
             <div
-              className={`bingeup-actions${isContinuous || !isCorrect ? ' bingeup-question-actions' : ''}`}
+              className="bingeup-actions bingeup-question-actions"
               role="group"
               aria-label="题目操作"
             >
@@ -603,19 +603,27 @@ export function OverlayApp({
                 <>
                   <button
                     type="button"
-                    className="bingeup-continue"
+                    className="bingeup-skip"
                     onClick={() => fireFinal({ type: 'skip' })}
                     disabled={done}
                   >
-                    继续 <span className="bingeup-key-hint">Enter</span>
+                    跳过 <span className="bingeup-key-hint">Esc</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="bingeup-continue"
+                    onClick={doSubmitAndContinue}
+                    disabled={done}
+                  >
+                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
                   </button>
                   <button
                     type="button"
                     className="bingeup-submit"
-                    onClick={doSubmitAndContinue}
+                    onClick={() => fireFinal({ type: 'skip' })}
                     disabled={done}
                   >
-                    提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
+                    明白了 <span className="bingeup-key-hint">Enter</span>
                   </button>
                 </>
               ) : (

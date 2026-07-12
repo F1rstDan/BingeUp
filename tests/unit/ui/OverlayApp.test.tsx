@@ -284,27 +284,38 @@ describe('OverlayApp — 单题反馈', () => {
     expect(screen.getByText('植物吸收阳光。')).toBeInTheDocument();
   });
 
-  it('反馈后有"继续"按钮，点击发出 skip 动作（表示交互结束）', () => {
+  it('答对反馈显示三项反馈操作（与答错对称）', () => {
+    renderOverlay({ kind: 'question', question: QUESTION });
+    click('吸收');
+    clickSubmitButton();
+
+    const actionsGroup = screen.getByRole('group', { name: '题目操作' });
+    expect(actionsGroup).toHaveClass('bingeup-question-actions');
+    const actions = within(actionsGroup).getAllByRole('button');
+    expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+      '跳过 Esc',
+      '继续 Shift + Enter',
+      '明白了 Enter',
+    ]);
+  });
+
+  it('答对反馈中的继续加载下一道题', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
     clickSubmitButton();
     clickButton(/^继续/);
-    expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
+
+    const call = onAction.mock.calls[onAction.mock.calls.length - 1]![0] as OverlayAction;
+    expect(call.type).toBe('submit-and-continue');
   });
 
-  it('单题反馈阶段显示"提交并继续"入口，点击发出 submit-and-continue（Issue #8 验收标准 1）', () => {
+  it('答对反馈中的明白了结束当前反馈', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
     clickSubmitButton();
-    // 反馈阶段应有"继续"和"提交并继续"两个按钮
-    expect(screen.getByRole('button', { name: /^继续/ })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /提交并继续/ })).toBeInTheDocument();
-    clickButton(/提交并继续/);
-    const call = onAction.mock.calls[onAction.mock.calls.length - 1]![0] as OverlayAction;
-    expect(call.type).toBe('submit-and-continue');
-    if (call.type === 'submit-and-continue') {
-      expect(call.selectedIndex).toBe(0);
-    }
+    clickButton(/^明白了/);
+
+    expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
   });
 });
 
@@ -384,11 +395,11 @@ describe('OverlayApp — 快捷键', () => {
   });
 
   describe('反馈阶段快捷键', () => {
-    it('提交后按 Enter 触发继续（发出 skip）', () => {
+    it('提交后按 Enter 触发明白了（发出 skip）', () => {
       const onAction = renderOverlay({ kind: 'question', question: QUESTION });
       pressKey('1');
       pressKey('Enter'); // 提交
-      pressKey('Enter'); // 继续
+      pressKey('Enter'); // 明白了
       expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
     });
 
