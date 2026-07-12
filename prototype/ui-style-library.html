@@ -13,8 +13,6 @@
         --pink: #ff7e99;
         --pink-dark: #e75e7b;
         --pink-soft: #fff0f3;
-        --red: #ff5574;
-        --red-dark: #d9435f;
         --green: #10c26b;
         --green-dark: #079451;
         --green-soft: #eafff3;
@@ -141,8 +139,7 @@
       .btn-primary { background: var(--blue); box-shadow: 0 4px 0 var(--blue-dark); color: #fff; }
       .btn-primary:hover { background: #2198ee; }
       .btn-pink { background: var(--pink); box-shadow: 0 4px 0 var(--pink-dark); color: #fff; }
-      .btn-red { background: var(--red); box-shadow: 0 4px 0 var(--red-dark); color: #fff; }
-      .btn-red:hover { background: #ff6b87; }
+      .btn-pink:hover { background: #ff94a9; }
       .btn-secondary { background: #eef2f5; box-shadow: 0 3px 0 #dbe2e8; color: #536476; }
       .btn-outline { border: 1px solid #dce5ec; background: #fff; color: #738394; }
       .btn-disabled { background: #e9edf0; color: #a9b4bd; cursor: not-allowed; }
@@ -165,18 +162,24 @@
       .question-actions { display: grid; grid-template-columns: .85fr 1.35fr 1.8fr; gap: 9px; margin-top: 17px; }
 
       .feedback-stack { display: grid; gap: 12px; }
-      .feedback { padding: 17px; border: 1px solid #d9f3e5; border-left: 4px solid var(--green); border-radius: 16px; background: linear-gradient(125deg, #f1fff7, #fff); }
-      .feedback.wrong { border-color: #ffe1e8; border-left-color: var(--pink); background: linear-gradient(125deg, #fff4f6, #fff); }
-      .feedback-title { display: flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: 14px; font-weight: 900; }
+      .feedback { position: relative; overflow: hidden; min-height: 184px; padding: 18px 20px 15px; border: 1px solid #d9f3e5; border-left: 5px solid var(--green); border-radius: 17px; background: linear-gradient(135deg, #edfff6 0%, #fff 73%); box-shadow: 0 9px 22px rgba(35,75,112,.055); transition: 140ms ease; }
+      .feedback::after { position: absolute; right: -35px; bottom: -45px; width: 145px; height: 145px; border-radius: 50%; background: rgba(16,194,107,.08); content: ""; }
+      .feedback:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(35,75,112,.09); }
+      .feedback.wrong { border-color: #ffe1e8; border-left-color: var(--pink); background: linear-gradient(135deg, #fff0f4 0%, #fff 73%); }
+      .feedback.wrong::after { background: rgba(255,126,153,.10); }
+      .feedback-title { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 5px 9px 5px 5px; border-radius: 999px; background: rgba(255,255,255,.76); color: var(--green-dark); font-size: 13px; font-weight: 900; }
       .feedback.wrong .feedback-title { color: var(--pink-dark); }
-      .feedback-icon { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; background: var(--green); color: #fff; font-size: 14px; }
+      .feedback-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: 14px; }
       .feedback.wrong .feedback-icon { background: var(--pink); }
-      .feedback-body { display: flex; align-items: end; justify-content: space-between; gap: 10px; margin-top: 14px; }
-      .feedback-body strong { font-size: 14px; }
+      .feedback-body { position: relative; z-index: 1; display: flex; align-items: end; justify-content: space-between; min-height: 86px; gap: 10px; margin-top: 9px; }
+      .feedback-body > div:first-child { padding-bottom: 4px; }
+      .feedback-body strong { color: var(--ink); font-size: 15px; letter-spacing: -.03em; }
       .feedback-body p { margin: 4px 0 0; color: #344456; font-size: 12px; font-weight: 800; }
       .feedback-body small { display: block; max-width: 230px; margin-top: 7px; color: #82909e; font-size: 10px; line-height: 1.5; }
-      .feedback-link { display: inline-block; margin-top: 12px; color: var(--green-dark); font-size: 10px; font-weight: 900; }
-      .feedback.wrong .feedback-link { color: var(--pink-dark); }
+      .feedback-link { position: relative; z-index: 1; display: inline-flex; align-items: center; margin-top: 7px; padding: 6px 8px; border-radius: 8px; background: rgba(16,194,107,.10); color: var(--green-dark); font-size: 10px; font-weight: 900; }
+      .feedback.wrong .feedback-link { background: rgba(255,126,153,.12); color: var(--pink-dark); }
+      .feedback:not(.wrong) .mascot { transform: rotate(2deg); }
+      .feedback.wrong .mascot { transform: rotate(-2deg); }
 
       .mascot { position: relative; width: 92px; height: 110px; flex: 0 0 auto; }
       .mascot::before, .mascot::after { position: absolute; top: 0; width: 5px; height: 25px; border-radius: 10px; background: var(--blue); content: ""; }
@@ -416,7 +419,7 @@
                 <button class="answer" data-answer="idle"><span class="answer-letter">C</span><span>修复</span></button>
                 <button class="answer" data-answer="idle"><span class="answer-letter">D</span><span>同意</span></button>
               </div>
-              <div class="question-actions"><button class="btn btn-secondary">跳过</button><button class="btn btn-primary">提交并继续 <span>→</span></button><button class="btn btn-red">提交</button></div>
+              <div class="question-actions"><button class="btn btn-secondary">跳过</button><button class="btn btn-primary">提交并继续 <span>→</span></button><button class="btn btn-pink">提交</button></div>
             </article>
 
             <div class="feedback-stack">
