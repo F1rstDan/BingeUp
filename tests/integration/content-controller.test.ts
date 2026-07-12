@@ -46,6 +46,7 @@ function flush(): Promise<void> {
 function fakePlayback(opts: { playing?: boolean } = {}): VideoPlaybackPort & {
   pauseCalls: number;
   playCalls: number;
+  setPlaying(playing: boolean): void;
 } {
   const f = {
     paused: !(opts.playing ?? true),
@@ -61,6 +62,9 @@ function fakePlayback(opts: { playing?: boolean } = {}): VideoPlaybackPort & {
     async play() {
       f.playCalls += 1;
       f.paused = false;
+    },
+    setPlaying(playing: boolean) {
+      f.paused = !playing;
     },
   };
   return f;
@@ -319,6 +323,27 @@ describe('ContentController — 核心闭环编排', () => {
       expect(overlay.openCalls).toBe(1);
     });
 
+    it('学习项目加载延迟时，视频先暂停且打开遮罩时仍保持暂停', async () => {
+      const { adapter, overlay, playback, learningService } = makeController();
+      let resolveItem!: (item: LearningItem | null) => void;
+      const itemPromise = new Promise<LearningItem | null>((resolve) => {
+        resolveItem = resolve;
+      });
+      learningService.getNextItem = async () => itemPromise;
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      expect(playback.pauseCalls).toBe(1);
+      expect(playback.paused).toBe(true);
+
+      resolveItem(LEARNING_ITEM);
+      await flush();
+
+      expect(overlay.openCalls).toBe(1);
+      expect(playback.paused).toBe(true);
+    });
+
     it('冷却未结束且非首次触发 → 不打开遮罩', async () => {
       const { adapter, overlay } = makeController({
         cooldown: { nextAllowedAt: NOW + 10_000, consecutiveSkipCount: 0 },
@@ -363,14 +388,31 @@ describe('ContentController — 核心闭环编排', () => {
       expect(overlay.openCalls).toBe(1);
     });
 
-    it('学习服务无内容（getNextItem 返回 null）→ 不暂停不打开遮罩', async () => {
+    it('学习服务无内容（getNextItem 返回 null）→ 恢复原播放状态且不打开遮罩', async () => {
       const { adapter, overlay, playback } = makeController({ item: null });
 
       adapter.emit('bv-1', {});
       await flush();
 
       expect(overlay.openCalls).toBe(0);
-      expect(playback.pauseCalls).toBe(0);
+      expect(playback.pauseCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(playback.paused).toBe(false);
+    });
+
+    it('学习服务获取失败时恢复原播放状态且不打开遮罩', async () => {
+      const { adapter, overlay, playback, learningService } = makeController();
+      learningService.getNextItem = async () => {
+        throw new Error('模拟取题失败');
+      };
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      expect(overlay.openCalls).toBe(0);
+      expect(playback.pauseCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(playback.paused).toBe(false);
     });
   });
 
@@ -572,6 +614,26 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(playback.playCalls).toBe(0); // 未恢复播放
     });
 
+    it('连续学习加载下一题前重新暂停被外部恢复播放的视频', async () => {
+      const { adapter, overlay, playback } = makeContinuousController();
+
+      adapter.emit('bv-1', {});
+      await flush();
+      playback.setPlaying(true);
+
+      overlay.fireAction({
+        type: 'submit-and-continue',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(playback.pauseCalls).toBe(2);
+      expect(playback.paused).toBe(true);
+      expect(overlay.openCalls).toBe(2);
+    });
+
     it('submit-and-continue 传入 excludedWordIds 和 allowSpelling', async () => {
       const { adapter, overlay, learningService } = makeContinuousController();
 
@@ -667,6 +729,62 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(learningService.submitSpellingCalls).toBe(1);
       expect(overlay.closeCalls).toBe(0);
       expect(overlay.openCalls).toBe(2);
+    });
+  });
+
+  describe('提交并结束', () => {
+    it('submit-and-end 提交选择题并关闭连续学习，按完成记录', async () => {
+      const { controller, adapter, overlay, playback, cooldownStore, learningService, sessionLogger } = makeContinuousController({
+        items: [LEARNING_ITEM],
+        withSessionLogger: true,
+      });
+
+      adapter.setCurrentEvent('bv-1', {});
+      await controller.startContinuousLearning();
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-and-end',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      });
+      await flush();
+
+      expect(learningService.submitCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(cooldownStore.current).toEqual({
+        nextAllowedAt: NOW + 2 * MS_PER_MIN,
+        consecutiveSkipCount: 0,
+      });
+      expect(sessionLogger?.logs[0]).toMatchObject({
+        mode: 'continuous',
+        outcome: 'submitted',
+        questionsAnswered: 1,
+      });
+    });
+
+    it('submit-spelling-and-end 提交拼写题并关闭连续学习', async () => {
+      const { controller, adapter, overlay, playback, learningService } = makeContinuousController({
+        items: [SPELLING_ITEM],
+      });
+
+      adapter.setCurrentEvent('bv-1', {});
+      await controller.startContinuousLearning();
+      await flush();
+
+      overlay.fireAction({
+        type: 'submit-spelling-and-end',
+        question: SPELLING_ITEM.question,
+        spelledAnswer: 'absorb',
+        responseTimeMs: 2000,
+      });
+      await flush();
+
+      expect(learningService.submitSpellingCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
     });
   });
 
@@ -886,7 +1004,7 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(overlay.openCalls).toBe(1); // 没有再次打开
   });
 
-  it('无学习内容时返回 false，不暂停视频', async () => {
+  it('无学习内容时返回 false，并恢复原播放状态', async () => {
     const { controller, adapter, overlay, playback } = makeController({ item: null });
     adapter.setCurrentEvent('bv-1', {});
 
@@ -894,7 +1012,9 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     await flush();
 
     expect(ok).toBe(false);
-    expect(playback.pauseCalls).toBe(0);
+    expect(playback.pauseCalls).toBe(1);
+    expect(playback.playCalls).toBe(1);
+    expect(playback.paused).toBe(false);
     expect(overlay.openCalls).toBe(0);
   });
 

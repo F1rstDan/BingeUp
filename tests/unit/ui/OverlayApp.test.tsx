@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import type {
   LearningItem,
   MultipleChoiceQuestion,
@@ -62,9 +62,17 @@ function clickButton(name: RegExp) {
   fireEvent.click(screen.getByRole('button', { name }));
 }
 
+function submitButton() {
+  return screen.getByRole('button', { name: /^提交(?:\s+Enter)?$/ });
+}
+
+function clickSubmitButton() {
+  fireEvent.click(submitButton());
+}
+
 /** 在 document 上触发 keydown（组件在此监听）。fireEvent 自动包裹 act()。 */
-function pressKey(key: string) {
-  fireEvent.keyDown(document, { key });
+function pressKey(key: string, init: KeyboardEventInit = {}) {
+  fireEvent.keyDown(document, { key, ...init });
 }
 
 // ─── 新词展示 ────────────────────────────────────────────────
@@ -137,19 +145,43 @@ describe('OverlayApp — 题目交互', () => {
 
   it('未选择时提交按钮禁用', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
-    expect(screen.getByRole('button', { name: /提交/ })).toBeDisabled();
+    expect(submitButton()).toBeDisabled();
   });
 
   it('选择选项后可以提交', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    expect(screen.getByRole('button', { name: /提交/ })).toBeEnabled();
+    expect(submitButton()).toBeEnabled();
+  });
+
+  it('未提交时显示按顺序排列的三个题目操作和快捷键', () => {
+    renderOverlay({ kind: 'question', question: QUESTION });
+
+    const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole('button');
+    expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+      '跳过 Esc',
+      '提交并继续 Shift + Enter',
+      '提交 Enter',
+    ]);
+  });
+
+  it('选择答案后点击提交并继续发出 submit-and-continue 动作', () => {
+    const onAction = renderOverlay({ kind: 'question', question: QUESTION });
+    click('吸收');
+    clickButton(/提交并继续/);
+
+    const call = onAction.mock.calls[0]![0] as OverlayAction;
+    expect(call.type).toBe('submit-and-continue');
+    if (call.type === 'submit-and-continue') {
+      expect(call.question).toBe(QUESTION);
+      expect(call.selectedIndex).toBe(0);
+    }
   });
 
   it('提交正确答案发出 submit-answer 动作，含 selectedIndex 和 responseTimeMs', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/提交/);
+    clickSubmitButton();
     const call = onAction.mock.calls[0]![0] as OverlayAction;
     expect(call.type).toBe('submit-answer');
     if (call.type === 'submit-answer') {
@@ -162,7 +194,7 @@ describe('OverlayApp — 题目交互', () => {
   it('提交错误答案也发出 submit-answer 动作', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('释放');
-    clickButton(/提交/);
+    clickSubmitButton();
     const call = onAction.mock.calls[0]![0] as OverlayAction;
     expect(call.type).toBe('submit-answer');
     if (call.type === 'submit-answer') {
@@ -179,7 +211,7 @@ describe('OverlayApp — 题目交互', () => {
   it('提交后禁用选项，提交和跳过按钮替换为反馈区', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/提交/);
+    clickSubmitButton();
     expect(screen.getByText('吸收').closest('button')).toBeDisabled();
     // 提交和跳过按钮消失，被"继续"替代
     expect(screen.queryByRole('button', { name: /^提交$/ })).not.toBeInTheDocument();
@@ -193,7 +225,7 @@ describe('OverlayApp — 单题反馈', () => {
   it('提交后显示正确性（答对）', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/提交/);
+    clickSubmitButton();
     expect(screen.getByText(/答对了|正确|答对/)).toBeInTheDocument();
   });
 
@@ -201,14 +233,51 @@ describe('OverlayApp — 单题反馈', () => {
     const wrongQuestion = makeQuestion({ correctIndex: 1 });
     renderOverlay({ kind: 'question', question: wrongQuestion });
     click('吸收'); // selectedIndex=0, correct=1
-    clickButton(/提交/);
+    clickSubmitButton();
     expect(screen.getByText(/答错了|错误|答错/)).toBeInTheDocument();
+  });
+
+  it('答错后默认展开学习信息，并显示三项反馈操作', () => {
+    const wrongQuestion = makeQuestion({ correctIndex: 1 });
+    renderOverlay({ kind: 'question', question: wrongQuestion });
+    click('吸收');
+    clickSubmitButton();
+
+    expect(screen.getByText('Plants absorb sunlight.')).toBeInTheDocument();
+    expect(screen.getByText('植物吸收阳光。')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /学习信息/ })).not.toBeInTheDocument();
+
+    const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole('button');
+    expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+      '跳过 Esc',
+      '继续 Shift + Enter',
+      '明白了 Enter',
+    ]);
+  });
+
+  it('答错反馈中的继续加载下一道题', () => {
+    const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+    click('吸收');
+    clickSubmitButton();
+    clickButton(/^继续/);
+
+    const call = onAction.mock.calls[onAction.mock.calls.length - 1]![0] as OverlayAction;
+    expect(call.type).toBe('submit-and-continue');
+  });
+
+  it('答错反馈中的明白了结束当前反馈', () => {
+    const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+    click('吸收');
+    clickSubmitButton();
+    clickButton(/^明白了/);
+
+    expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
   });
 
   it('反馈区默认折叠，点击可展开学习信息', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/提交/);
+    clickSubmitButton();
     expect(screen.queryByText('Plants absorb sunlight.')).not.toBeInTheDocument();
     clickButton(/学习信息|详情|展开/);
     expect(screen.getByText('Plants absorb sunlight.')).toBeInTheDocument();
@@ -218,7 +287,7 @@ describe('OverlayApp — 单题反馈', () => {
   it('反馈后有"继续"按钮，点击发出 skip 动作（表示交互结束）', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/^提交$/);
+    clickSubmitButton();
     clickButton(/^继续/);
     expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
   });
@@ -226,7 +295,7 @@ describe('OverlayApp — 单题反馈', () => {
   it('单题反馈阶段显示"提交并继续"入口，点击发出 submit-and-continue（Issue #8 验收标准 1）', () => {
     const onAction = renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
-    clickButton(/^提交$/);
+    clickSubmitButton();
     // 反馈阶段应有"继续"和"提交并继续"两个按钮
     expect(screen.getByRole('button', { name: /^继续/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /提交并继续/ })).toBeInTheDocument();
@@ -295,6 +364,18 @@ describe('OverlayApp — 快捷键', () => {
       }
     });
 
+    it('选择后按 Shift + Enter 提交并继续', () => {
+      const onAction = renderOverlay({ kind: 'question', question: QUESTION });
+      pressKey('1');
+      pressKey('Enter', { shiftKey: true });
+
+      const call = onAction.mock.calls[0]![0] as OverlayAction;
+      expect(call.type).toBe('submit-and-continue');
+      if (call.type === 'submit-and-continue') {
+        expect(call.selectedIndex).toBe(0);
+      }
+    });
+
     it('按 Escape 跳过', () => {
       const onAction = renderOverlay({ kind: 'question', question: QUESTION });
       pressKey('Escape');
@@ -308,6 +389,24 @@ describe('OverlayApp — 快捷键', () => {
       pressKey('1');
       pressKey('Enter'); // 提交
       pressKey('Enter'); // 继续
+      expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
+    });
+
+    it('答错反馈按 Shift + Enter 触发继续', () => {
+      const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+      pressKey('1');
+      pressKey('Enter'); // 提交
+      pressKey('Enter', { shiftKey: true }); // 继续
+
+      expect(onAction).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'submit-and-continue' }));
+    });
+
+    it('答错反馈按 Escape 跳过', () => {
+      const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+      pressKey('1');
+      pressKey('Enter'); // 提交
+      pressKey('Escape');
+
       expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
     });
   });
@@ -427,10 +526,14 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
   });
 
   describe('连续模式选择题按钮', () => {
-    it('未提交时显示"提交并继续"和"结束学习"按钮', () => {
+    it('未提交时显示一排三个按钮及快捷键', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
-      expect(screen.getByRole('button', { name: /提交并继续/ })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /结束学习/ })).toBeInTheDocument();
+      const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole('button');
+      expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+        '跳过 Esc',
+        '提交并继续 Shift + Enter',
+        '提交并结束 Enter',
+      ]);
     });
 
     it('未选择时"提交并继续"禁用', () => {
@@ -455,10 +558,15 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
       }
     });
 
-    it('点击"结束学习"发出 exit-learning 动作', () => {
+    it('点击"提交并结束"发出 submit-and-end 动作', () => {
       const onAction = renderOverlayContinuous({ kind: 'question', question: QUESTION });
-      clickButton(/结束学习/);
-      expect(onAction).toHaveBeenCalledWith({ type: 'exit-learning' });
+      click('吸收');
+      clickButton(/提交并结束/);
+      const call = onAction.mock.calls[0]![0] as OverlayAction;
+      expect(call.type).toBe('submit-and-end');
+      if (call.type === 'submit-and-end') {
+        expect(call.selectedIndex).toBe(0);
+      }
     });
   });
 
@@ -517,6 +625,7 @@ describe('OverlayApp — 拼写题（Issue #8 验收标准 3）', () => {
   it('输入框为空时提交按钮禁用', () => {
     renderSpelling({ continuous: true });
     expect(screen.getByRole('button', { name: /提交并继续/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /提交并结束/ })).toBeDisabled();
   });
 
   it('输入后提交按钮启用', () => {
@@ -537,9 +646,21 @@ describe('OverlayApp — 拼写题（Issue #8 验收标准 3）', () => {
     }
   });
 
-  it('连续模式显示"结束学习"按钮', () => {
+  it('连续模式点击"提交并结束"发出 submit-spelling-and-end', () => {
+    const onAction = renderSpelling({ continuous: true });
+    const input = screen.getByPlaceholderText('输入单词...');
+    fireEvent.change(input, { target: { value: 'absorb' } });
+    clickButton(/提交并结束/);
+    const call = onAction.mock.calls[0]![0] as OverlayAction;
+    expect(call.type).toBe('submit-spelling-and-end');
+    if (call.type === 'submit-spelling-and-end') {
+      expect(call.spelledAnswer).toBe('absorb');
+    }
+  });
+
+  it('连续模式显示"提交并结束"按钮', () => {
     renderSpelling({ continuous: true });
-    expect(screen.getByRole('button', { name: /结束学习/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /提交并结束/ })).toBeInTheDocument();
   });
 
   it('非连续模式显示"提交"按钮（单题模式不会出现拼写题，但 UI 兼容）', () => {
@@ -549,16 +670,24 @@ describe('OverlayApp — 拼写题（Issue #8 验收标准 3）', () => {
 });
 
 describe('OverlayApp — 连续模式快捷键（Issue #8）', () => {
-  it('连续模式 Escape 触发 exit-learning', () => {
+  it('连续模式 Escape 触发 skip', () => {
     const onAction = renderOverlayContinuous({ kind: 'question', question: QUESTION });
     pressKey('Escape');
-    expect(onAction).toHaveBeenCalledWith({ type: 'exit-learning' });
+    expect(onAction).toHaveBeenCalledWith({ type: 'skip' });
   });
 
-  it('连续模式选择题 Enter 触发 submit-and-continue', () => {
+  it('连续模式选择题 Enter 触发 submit-and-end', () => {
     const onAction = renderOverlayContinuous({ kind: 'question', question: QUESTION });
     pressKey('1');
     pressKey('Enter');
+    const call = onAction.mock.calls[0]![0] as OverlayAction;
+    expect(call.type).toBe('submit-and-end');
+  });
+
+  it('连续模式选择题 Shift + Enter 触发 submit-and-continue', () => {
+    const onAction = renderOverlayContinuous({ kind: 'question', question: QUESTION });
+    pressKey('1');
+    pressKey('Enter', { shiftKey: true });
     const call = onAction.mock.calls[0]![0] as OverlayAction;
     expect(call.type).toBe('submit-and-continue');
   });

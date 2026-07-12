@@ -129,9 +129,16 @@ interface ActiveInteraction {
   questionsAnswered: number;
 }
 
+/** Reassert the pause invariant without replacing the original playback snapshot. */
+function pauseIfPlaying(playback: VideoPlaybackPort | null): void {
+  if (playback !== null && !playback.paused && !playback.ended) {
+    playback.pause();
+  }
+}
+
 /**
- * 内容侧学习会话控制器。协调：视频变化 → 触发判定 → 获取学习项目 →
- * 暂停 → 打开遮罩 → 用户动作 →（软动作反馈 / 连续加载下一题 / 终态关闭）→ 恢复视频 → 更新冷却。
+ * 内容侧学习会话控制器。协调：视频变化 → 触发判定 → 暂停 → 获取学习项目 →
+ * 打开遮罩 → 用户动作 →（软动作反馈 / 连续加载下一题 / 终态关闭）→ 恢复视频 → 更新冷却。
  *
  * 该控制器是核心编排边界，不包含网站选择器、FSRS、题目生成、冷却计算等细节。
  *
@@ -197,17 +204,27 @@ export class ContentController {
     if (event === null || event.video === null) {
       return false;
     }
-    // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
-    // 不传 excludedWordIds（会话刚开始，无已展示单词）。
-    const allowSpelling = this.deps.spellingEnabled ?? true;
-    const item = await this.deps.learningService.getNextItem({ allowSpelling });
-    if (item === null) {
-      return false;
-    }
     const playback = this.deps.videoPortFor(event.video);
     const snapshot = pauseForInteraction(playback);
+
+    // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
+    // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
+    const allowSpelling = this.deps.spellingEnabled ?? true;
+    let item: LearningItem | null;
+    try {
+      item = await this.deps.learningService.getNextItem({ allowSpelling });
+    } catch (error) {
+      console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
+      await restore(playback, snapshot);
+      return false;
+    }
+    if (item === null) {
+      await restore(playback, snapshot);
+      return false;
+    }
     const target = event.overlayTarget ?? event.video.getBoundingClientRect();
     try {
+      pauseIfPlaying(playback);
       this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
     } catch (error) {
       console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
@@ -252,23 +269,35 @@ export class ContentController {
       }
     }
 
-    // 获取学习项目；无内容则不触发。单题模式不出拼写题。
-    const item = await this.deps.learningService.getNextItem();
-    if (item === null) {
-      this.triggerInProgress = false;
-      return;
-    }
-
-    // 视频模式：暂停视频。基础网页模式（video === null）：跳过暂停。
+    // 视频模式：先暂停视频，再获取学习项目。基础网页模式（video === null）：跳过暂停。
     const hasVideo = event.video !== null;
     const playback = hasVideo ? this.deps.videoPortFor(event.video!) : null;
     const snapshot = playback !== null ? pauseForInteraction(playback) : null;
+
+    // 获取学习项目；无内容则不触发。单题模式不出拼写题。
+    let item: LearningItem | null;
+    try {
+      item = await this.deps.learningService.getNextItem();
+    } catch (error) {
+      if (playback !== null && snapshot !== null) {
+        await restore(playback, snapshot);
+      }
+      throw error;
+    }
+    if (item === null) {
+      if (playback !== null && snapshot !== null) {
+        await restore(playback, snapshot);
+      }
+      this.triggerInProgress = false;
+      return;
+    }
 
     // 遮罩目标：有视频时用视频区域；基础网页模式用文档根元素（全网页遮罩）。
     const target = event.overlayTarget
       ?? (event.video !== null ? event.video.getBoundingClientRect() : document.documentElement);
 
     try {
+      pauseIfPlaying(playback);
       this.deps.overlay.open(item, target, event.overlayMode);
     } catch (error) {
       console.error('[BingeUp] 打开遮罩失败，恢复视频', error);
@@ -373,6 +402,40 @@ export class ContentController {
       return;
     }
 
+    if (action.type === 'submit-and-end') {
+      if (!this.hasSubmitted) {
+        const result = await this.deps.learningService.submitAnswer({
+          question: action.question,
+          selectedIndex: action.selectedIndex,
+          responseTimeMs: action.responseTimeMs,
+          answerChanges: action.answerChanges,
+        });
+        this.hasSubmitted = true;
+        active.questionsAnswered += 1;
+        this.lastFeedback = result;
+        this.lastQuestion = action.question;
+      }
+      await this.endInteraction(active, 'submitted');
+      return;
+    }
+
+    if (action.type === 'submit-spelling-and-end') {
+      if (!this.hasSubmitted) {
+        const result = await this.deps.learningService.submitSpellingAnswer({
+          question: action.question,
+          spelledAnswer: action.spelledAnswer,
+          responseTimeMs: action.responseTimeMs,
+          answerChanges: action.answerChanges,
+        });
+        this.hasSubmitted = true;
+        active.questionsAnswered += 1;
+        this.lastFeedback = result;
+        this.lastQuestion = action.question;
+      }
+      await this.endInteraction(active, 'submitted');
+      return;
+    }
+
     if (action.type === 'accept-new-word-and-continue') {
       await this.deps.learningService.acceptNewWord(action.wordId);
       this.lastFeedback = null;
@@ -424,6 +487,7 @@ export class ContentController {
    * 若无更多内容，自动结束连续学习。
    */
   private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
+    pauseIfPlaying(active.playback);
     const allowSpelling = this.deps.spellingEnabled ?? true;
     const nextItem = await this.deps.learningService.getNextItem({
       excludedWordIds: this.sessionWordIds,
@@ -442,6 +506,7 @@ export class ContentController {
     this.trackWordId(nextItem);
     this.hasSubmitted = false;
 
+    pauseIfPlaying(active.playback);
     this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
       previousFeedback: this.lastFeedback ?? undefined,
       previousQuestion: this.lastQuestion ?? undefined,

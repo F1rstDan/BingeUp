@@ -352,6 +352,7 @@ export interface CorrectionResult {
  * 连续学习动作（Issue #8 验收标准 1）：
  * - `submit-and-continue`：提交选择题并加载下一题，保留暂停状态；
  * - `submit-spelling-and-continue`：提交拼写题并加载下一题；
+ * - `submit-and-end` / `submit-spelling-and-end`：提交当前题并关闭连续学习；
  * - `accept-new-word-and-continue`：接受新词并加载下一题；
  * - `self-report-and-continue`：自报认识并加载下一题。
  *
@@ -389,6 +390,20 @@ export type OverlayAction =
     }
   | {
       type: 'submit-spelling-and-continue';
+      question: SpellingQuestion;
+      spelledAnswer: string;
+      responseTimeMs: number;
+      answerChanges?: number;
+    }
+  | {
+      type: 'submit-and-end';
+      question: MultipleChoiceQuestion;
+      selectedIndex: number;
+      responseTimeMs: number;
+      answerChanges?: number;
+    }
+  | {
+      type: 'submit-spelling-and-end';
       question: SpellingQuestion;
       spelledAnswer: string;
       responseTimeMs: number;

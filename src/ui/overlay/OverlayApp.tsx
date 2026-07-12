@@ -19,18 +19,19 @@ interface OverlayAppProps {
  *
  * 单题模式：根据 LearningItem 渲染新词展示或题目。
  * - 新词展示：词形、释义、例句 + "知道了"/"我认识，换一个"/"跳过"；
- * - 题目：选项 → 提交 → 可展开反馈（正确性 + 学习信息）→ 继续；
+ * - 题目：选项 → 提交 → 反馈（正确性 + 学习信息）→ 继续；
  * - 快捷键仅在组件挂载期间生效（document 级监听，卸载即移除）。
  *
  * 连续学习模式（Issue #8）：
  * - 顶部展示上一题的无障碍反馈（文字 + 图标，不仅依赖颜色）；
- * - 选择题/拼写题动作变为"提交并继续" + "结束学习"；
+ * - 选择题/拼写题动作固定为"跳过" + "提交并继续" + "提交并结束"；
  * - 新词展示动作变为"知道了，继续" / "我认识，换一个" + "结束学习"；
- * - "结束学习"不提交当前题、不算跳过、应用默认冷却。
+ * - "跳过"不提交当前题；"提交并结束"提交当前题并按完成处理。
  *
  * 状态流转：
  * - submit-answer / submit-spelling 是"软"动作：发出回调 + 进入反馈阶段；
  * - submit-and-continue / submit-spelling-and-continue：提交并加载下一题；
+ * - submit-and-end / submit-spelling-and-end：提交并关闭连续学习；
  * - accept-new-word / self-report / skip / exit-learning 是"终态"动作。
  */
 export function OverlayApp({
@@ -82,9 +83,10 @@ export function OverlayApp({
     });
   }, [item, spelledAnswer, submitted, done, onAction]);
 
-  /** 提交选择题并继续：连续模式下提交并加载下一题。 */
+  /** 提交选择题并继续：提交并加载下一题，防止重复触发。 */
   const doSubmitAndContinue = useCallback(() => {
     if (item.kind !== 'question' || selected === null || done) return;
+    setDone(true);
     onAction({
       type: 'submit-and-continue',
       question: item.question,
@@ -96,6 +98,7 @@ export function OverlayApp({
   /** 提交拼写题并继续。 */
   const doSubmitSpellingAndContinue = useCallback(() => {
     if (item.kind !== 'spelling-question' || spelledAnswer.trim() === '' || done) return;
+    setDone(true);
     onAction({
       type: 'submit-spelling-and-continue',
       question: item.question,
@@ -103,6 +106,30 @@ export function OverlayApp({
       responseTimeMs: Date.now() - startTimeRef.current,
     });
   }, [item, spelledAnswer, done, onAction]);
+
+  /** 连续学习中提交拼写题并结束当前交互。 */
+  const doSubmitSpellingAndEnd = useCallback(() => {
+    if (item.kind !== 'spelling-question' || spelledAnswer.trim() === '' || done) return;
+    setDone(true);
+    onAction({
+      type: 'submit-spelling-and-end',
+      question: item.question,
+      spelledAnswer,
+      responseTimeMs: Date.now() - startTimeRef.current,
+    });
+  }, [item, spelledAnswer, done, onAction]);
+
+  /** 连续学习中提交选择题并结束当前交互。 */
+  const doSubmitAndEnd = useCallback(() => {
+    if (item.kind !== 'question' || selected === null || done) return;
+    setDone(true);
+    onAction({
+      type: 'submit-and-end',
+      question: item.question,
+      selectedIndex: selected,
+      responseTimeMs: Date.now() - startTimeRef.current,
+    });
+  }, [item, selected, done, onAction]);
 
   // ─── 拼写题自动聚焦输入框 ──────────────────────────────────
   useEffect(() => {
@@ -117,12 +144,6 @@ export function OverlayApp({
       if (done) return;
       const key = e.key;
 
-      // 连续模式：Escape 结束学习
-      if (isContinuous && key === 'Escape') {
-        fireFinal({ type: 'exit-learning' });
-        return;
-      }
-
       if (item.kind === 'new-word-presentation') {
         if (isContinuous) {
           // 连续模式新词展示
@@ -130,6 +151,8 @@ export function OverlayApp({
             onAction({ type: 'accept-new-word-and-continue', wordId: item.presentation.word.id });
           } else if (key === '2') {
             onAction({ type: 'self-report-and-continue', wordId: item.presentation.word.id });
+          } else if (key === 'Escape') {
+            fireFinal({ type: 'exit-learning' });
           }
           return;
         }
@@ -147,7 +170,11 @@ export function OverlayApp({
       if (item.kind === 'spelling-question') {
         if (submitted) {
           // 反馈阶段
-          if (isContinuous && key === 'Enter') {
+          if (key === 'Escape' || (key === 'Enter' && !e.shiftKey)) {
+            e.preventDefault();
+            fireFinal({ type: 'skip' });
+          } else if (key === 'Enter' && e.shiftKey) {
+            e.preventDefault();
             doSubmitSpellingAndContinue();
           }
           return;
@@ -156,10 +183,16 @@ export function OverlayApp({
         if (key === 'Enter' && spelledAnswer.trim() !== '') {
           e.preventDefault();
           if (isContinuous) {
-            doSubmitSpellingAndContinue();
+            if (e.shiftKey) {
+              doSubmitSpellingAndContinue();
+            } else {
+              doSubmitSpellingAndEnd();
+            }
           } else {
             doSubmitSpelling();
           }
+        } else if (isContinuous && key === 'Escape') {
+          fireFinal({ type: 'skip' });
         }
         return;
       }
@@ -167,10 +200,12 @@ export function OverlayApp({
       // 选择题
       if (submitted) {
         // 反馈阶段
-        if (isContinuous && key === 'Enter') {
-          doSubmitAndContinue();
-        } else if (!isContinuous && key === 'Enter') {
+        if (key === 'Escape' || (key === 'Enter' && !e.shiftKey)) {
+          e.preventDefault();
           fireFinal({ type: 'skip' });
+        } else if (key === 'Enter' && e.shiftKey) {
+          e.preventDefault();
+          doSubmitAndContinue();
         }
         return;
       }
@@ -188,20 +223,27 @@ export function OverlayApp({
         }
       } else if (key === 'Enter') {
         if (selected !== null) {
+          e.preventDefault();
           if (isContinuous) {
+            if (e.shiftKey) {
+              doSubmitAndContinue();
+            } else {
+              doSubmitAndEnd();
+            }
+          } else if (e.shiftKey) {
             doSubmitAndContinue();
           } else {
             doSubmit();
           }
         }
-      } else if (!isContinuous && key === 'Escape') {
+      } else if (key === 'Escape') {
         fireFinal({ type: 'skip' });
       }
     };
 
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [item, submitted, selected, done, isContinuous, spelledAnswer, fireFinal, doSubmit, doSubmitSpelling, doSubmitAndContinue, doSubmitSpellingAndContinue, onAction]);
+  }, [item, submitted, selected, done, isContinuous, spelledAnswer, fireFinal, doSubmit, doSubmitSpelling, doSubmitAndContinue, doSubmitSpellingAndContinue, doSubmitAndEnd, doSubmitSpellingAndEnd, onAction]);
 
   // ─── 上一题反馈区（连续模式，验收标准 2：无障碍反馈） ──────────
   const renderPreviousFeedback = () => {
@@ -229,6 +271,24 @@ export function OverlayApp({
       </div>
     );
   };
+
+  const renderExplanation = (question: Question) => (
+    <div className="bingeup-explanation">
+      {question.explanation.phonetic && (
+        <div className="bingeup-explanation-phonetic">{question.explanation.phonetic}</div>
+      )}
+      <div className="bingeup-explanation-pos">{question.explanation.partOfSpeech.join(' ')}</div>
+      <div className="bingeup-explanation-meanings">{question.explanation.meanings.join('；')}</div>
+      {question.explanation.exampleSentence && (
+        <div className="bingeup-explanation-example">{question.explanation.exampleSentence}</div>
+      )}
+      {question.explanation.exampleTranslation && (
+        <div className="bingeup-explanation-example-translation">
+          {question.explanation.exampleTranslation}
+        </div>
+      )}
+    </div>
+  );
 
   // ─── 新词展示 ──────────────────────────────────────────────
   if (item.kind === 'new-word-presentation') {
@@ -332,8 +392,13 @@ export function OverlayApp({
             onKeyDown={(e) => {
               if (e.key === 'Enter' && spelledAnswer.trim() !== '' && !submitted && !done) {
                 e.preventDefault();
+                e.stopPropagation();
                 if (isContinuous) {
-                  doSubmitSpellingAndContinue();
+                  if (e.shiftKey) {
+                    doSubmitSpellingAndContinue();
+                  } else {
+                    doSubmitSpellingAndEnd();
+                  }
                 } else {
                   doSubmitSpelling();
                 }
@@ -354,70 +419,81 @@ export function OverlayApp({
                 </span>
                 {isCorrect ? '答对了' : '答错了'}
               </div>
-              <button
-                type="button"
-                className="bingeup-explanation-toggle"
-                onClick={() => setShowExplanation((s) => !s)}
-              >
-                {showExplanation ? '收起' : '学习信息'}
-              </button>
-              {showExplanation && (
-                <div className="bingeup-explanation">
-                  {question.explanation.phonetic && (
-                    <div className="bingeup-explanation-phonetic">{question.explanation.phonetic}</div>
-                  )}
-                  <div className="bingeup-explanation-pos">{question.explanation.partOfSpeech.join(' ')}</div>
-                  <div className="bingeup-explanation-meanings">{question.explanation.meanings.join('；')}</div>
-                  {question.explanation.exampleSentence && (
-                    <div className="bingeup-explanation-example">{question.explanation.exampleSentence}</div>
-                  )}
-                  {question.explanation.exampleTranslation && (
-                    <div className="bingeup-explanation-example-translation">
-                      {question.explanation.exampleTranslation}
-                    </div>
-                  )}
+              {!isCorrect && (
+                <div className="bingeup-feedback-answer">
+                  正确答案：<span className="correct-answer">{question.correctAnswer}</span>
                 </div>
               )}
+              {isCorrect ? (
+                <>
+                  <button
+                    type="button"
+                    className="bingeup-explanation-toggle"
+                    onClick={() => setShowExplanation((s) => !s)}
+                  >
+                    {showExplanation ? '收起' : '学习信息'}
+                  </button>
+                  {showExplanation && renderExplanation(question)}
+                </>
+              ) : (
+                renderExplanation(question)
+              )}
               {isContinuous && (
-                <div className="bingeup-actions">
+                <div className="bingeup-actions bingeup-question-actions" role="group" aria-label="题目操作">
+                  <button
+                    type="button"
+                    className="bingeup-skip"
+                    onClick={() => fireFinal({ type: 'skip' })}
+                    disabled={done}
+                  >
+                    跳过 <span className="bingeup-key-hint">Esc</span>
+                  </button>
                   <button
                     type="button"
                     className="bingeup-continue"
                     onClick={doSubmitSpellingAndContinue}
                     disabled={done}
                   >
-                    提交并继续 <span className="bingeup-key-hint">Enter</span>
+                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
                   </button>
                   <button
                     type="button"
-                    className="bingeup-exit"
-                    onClick={() => fireFinal({ type: 'exit-learning' })}
+                    className="bingeup-submit"
+                    onClick={() => fireFinal({ type: 'skip' })}
                     disabled={done}
                   >
-                    结束学习 <span className="bingeup-key-hint">Esc</span>
+                    明白了 <span className="bingeup-key-hint">Enter</span>
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            <div className="bingeup-actions">
+            <div className={`bingeup-actions${isContinuous ? ' bingeup-question-actions' : ''}`} role={isContinuous ? 'group' : undefined} aria-label={isContinuous ? '题目操作' : undefined}>
               {isContinuous ? (
                 <>
+                  <button
+                    type="button"
+                    className="bingeup-skip"
+                    onClick={() => fireFinal({ type: 'skip' })}
+                    disabled={done}
+                  >
+                    跳过 <span className="bingeup-key-hint">Esc</span>
+                  </button>
                   <button
                     type="button"
                     className="bingeup-continue"
                     onClick={doSubmitSpellingAndContinue}
                     disabled={spelledAnswer.trim() === '' || done}
                   >
-                    提交并继续 <span className="bingeup-key-hint">Enter</span>
+                    提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
                   </button>
                   <button
                     type="button"
                     className="bingeup-exit"
-                    onClick={() => fireFinal({ type: 'exit-learning' })}
-                    disabled={done}
+                    onClick={doSubmitSpellingAndEnd}
+                    disabled={spelledAnswer.trim() === '' || done}
                   >
-                    结束学习 <span className="bingeup-key-hint">Esc</span>
+                    提交并结束 <span className="bingeup-key-hint">Enter</span>
                   </button>
                 </>
               ) : (
@@ -472,51 +548,58 @@ export function OverlayApp({
               </span>
               {isCorrect ? '答对了' : '答错了'}
             </div>
-            <button
-              type="button"
-              className="bingeup-explanation-toggle"
-              onClick={() => setShowExplanation((s) => !s)}
-            >
-              {showExplanation ? '收起' : '学习信息'}
-            </button>
-            {showExplanation && (
-              <div className="bingeup-explanation">
-                {question.explanation.phonetic && (
-                  <div className="bingeup-explanation-phonetic">{question.explanation.phonetic}</div>
-                )}
-                <div className="bingeup-explanation-pos">{question.explanation.partOfSpeech.join(' ')}</div>
-                <div className="bingeup-explanation-meanings">{question.explanation.meanings.join('；')}</div>
-                {question.explanation.exampleSentence && (
-                  <div className="bingeup-explanation-example">{question.explanation.exampleSentence}</div>
-                )}
-                {question.explanation.exampleTranslation && (
-                  <div className="bingeup-explanation-example-translation">
-                    {question.explanation.exampleTranslation}
-                  </div>
-                )}
+            {!isCorrect && (
+              <div className="bingeup-feedback-answer">
+                正确答案：<span className="correct-answer">{question.options[question.correctIndex]}</span>
               </div>
             )}
-            <div className="bingeup-actions">
+            {isCorrect ? (
+              <>
+                <button
+                  type="button"
+                  className="bingeup-explanation-toggle"
+                  onClick={() => setShowExplanation((s) => !s)}
+                >
+                  {showExplanation ? '收起' : '学习信息'}
+                </button>
+                {showExplanation && renderExplanation(question)}
+              </>
+            ) : (
+              renderExplanation(question)
+            )}
+            <div
+              className={`bingeup-actions${isContinuous || !isCorrect ? ' bingeup-question-actions' : ''}`}
+              role="group"
+              aria-label="题目操作"
+            >
               {isContinuous ? (
                 <>
+                  <button
+                    type="button"
+                    className="bingeup-skip"
+                    onClick={() => fireFinal({ type: 'skip' })}
+                    disabled={done}
+                  >
+                    跳过 <span className="bingeup-key-hint">Esc</span>
+                  </button>
                   <button
                     type="button"
                     className="bingeup-continue"
                     onClick={doSubmitAndContinue}
                     disabled={done}
                   >
-                    提交并继续 <span className="bingeup-key-hint">Enter</span>
+                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
                   </button>
                   <button
                     type="button"
-                    className="bingeup-exit"
-                    onClick={() => fireFinal({ type: 'exit-learning' })}
+                    className="bingeup-submit"
+                    onClick={() => fireFinal({ type: 'skip' })}
                     disabled={done}
                   >
-                    结束学习 <span className="bingeup-key-hint">Esc</span>
+                    明白了 <span className="bingeup-key-hint">Enter</span>
                   </button>
                 </>
-              ) : (
+              ) : isCorrect ? (
                 <>
                   <button
                     type="button"
@@ -532,50 +615,97 @@ export function OverlayApp({
                     onClick={doSubmitAndContinue}
                     disabled={done}
                   >
-                    提交并继续
+                    提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="bingeup-skip"
+                    onClick={() => fireFinal({ type: 'skip' })}
+                    disabled={done}
+                  >
+                    跳过 <span className="bingeup-key-hint">Esc</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="bingeup-continue"
+                    onClick={doSubmitAndContinue}
+                    disabled={done}
+                  >
+                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="bingeup-submit"
+                    onClick={() => fireFinal({ type: 'skip' })}
+                    disabled={done}
+                  >
+                    明白了 <span className="bingeup-key-hint">Enter</span>
                   </button>
                 </>
               )}
             </div>
           </div>
         ) : (
-          <div className="bingeup-actions">
+          <div
+            className="bingeup-actions bingeup-question-actions"
+            role="group"
+            aria-label="题目操作"
+          >
             {isContinuous ? (
               <>
-                <button
-                  type="button"
-                  className="bingeup-continue"
-                  onClick={doSubmitAndContinue}
-                  disabled={selected === null || done}
-                >
-                  提交并继续 <span className="bingeup-key-hint">Enter</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-exit"
-                  onClick={() => fireFinal({ type: 'exit-learning' })}
-                  disabled={done}
-                >
-                  结束学习 <span className="bingeup-key-hint">Esc</span>
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  className="bingeup-submit"
-                  onClick={doSubmit}
-                  disabled={selected === null || done}
-                >
-                  提交
-                </button>
                 <button
                   type="button"
                   className="bingeup-skip"
                   onClick={() => fireFinal({ type: 'skip' })}
                   disabled={done}
                 >
-                  跳过
+                  跳过 <span className="bingeup-key-hint">Esc</span>
+                </button>
+                <button
+                  type="button"
+                  className="bingeup-continue"
+                  onClick={doSubmitAndContinue}
+                  disabled={selected === null || done}
+                >
+                  提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
+                </button>
+                <button
+                  type="button"
+                  className="bingeup-exit"
+                  onClick={doSubmitAndEnd}
+                  disabled={selected === null || done}
+                >
+                  提交并结束 <span className="bingeup-key-hint">Enter</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="bingeup-skip"
+                  onClick={() => fireFinal({ type: 'skip' })}
+                  disabled={done}
+                >
+                  跳过 <span className="bingeup-key-hint">Esc</span>
+                </button>
+                <button
+                  type="button"
+                  className="bingeup-continue"
+                  onClick={doSubmitAndContinue}
+                  disabled={selected === null || done}
+                >
+                  提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
+                </button>
+                <button
+                  type="button"
+                  className="bingeup-submit"
+                  onClick={doSubmit}
+                  disabled={selected === null || done}
+                >
+                  提交 <span className="bingeup-key-hint">Enter</span>
                 </button>
               </>
             )}

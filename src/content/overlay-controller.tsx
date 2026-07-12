@@ -10,12 +10,13 @@ const OVERLAY_HOST_ID = 'bingeup-overlay-host';
 const OVERLAY_CSS = `
   ${SHADOW_DESIGN_TOKENS}
   .bingeup-overlay {
-    display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;
+    display: grid; width: 100%; height: 100%; place-items: center; overflow: visible;
     color: var(--bingeup-ink); background: rgba(31, 41, 55, .72); font-family: var(--bingeup-font);
   }
   .bingeup-card {
-    width: min(470px, calc(100% - 30px)); padding: 24px 22px 20px; border: 1px solid var(--bingeup-line);
-    border-radius: var(--bingeup-radius-lg); background: var(--bingeup-white); box-shadow: var(--bingeup-shadow);
+    box-sizing: border-box; width: min(470px, calc(100% - 30px));
+    padding: 24px 22px 20px; border: 1px solid var(--bingeup-line);
+    border-radius: var(--bingeup-radius-lg); background: rgba(255, 255, 255, .9); box-shadow: var(--bingeup-shadow);
   }
   .bingeup-prompt { margin-bottom: 18px; color: var(--bingeup-ink); font-size: 27px; font-weight: 900; text-align: center; letter-spacing: -.06em; }
   .bingeup-phonetic { margin-bottom: 12px; color: var(--bingeup-muted); font-size: 15px; text-align: center; }
@@ -38,6 +39,9 @@ const OVERLAY_CSS = `
   .bingeup-option.correct .bingeup-option-key { color: #fff; background: var(--bingeup-green); }
   .bingeup-option.wrong .bingeup-option-key { color: #fff; background: var(--bingeup-pink); }
   .bingeup-actions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: flex-end; }
+  .bingeup-question-actions { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.55fr) minmax(0, 1.7fr); width: 100%; align-items: stretch; }
+  .bingeup-question-actions > button { box-sizing: border-box; width: 100%; min-width: 0; padding-right: 6px; padding-left: 6px; font-size: 13px; white-space: nowrap; }
+  .bingeup-question-actions > button .bingeup-key-hint { margin-left: 2px; padding-right: 3px; padding-left: 3px; font-size: 10px; }
   .bingeup-actions-new-word { flex-direction: column; }
   .bingeup-submit, .bingeup-skip, .bingeup-accept, .bingeup-self-report, .bingeup-continue, .bingeup-exit, .bingeup-explanation-toggle {
     min-height: 40px; padding: 8px 14px; border: 0; border-radius: 12px; font-family: var(--bingeup-font); font-size: 14px; font-weight: 900; cursor: pointer; transition: 140ms ease;
@@ -52,6 +56,8 @@ const OVERLAY_CSS = `
   .bingeup-key-hint { display: inline-block; margin-left: 4px; padding: 1px 5px; border: 1px solid rgba(82, 98, 116, .18); border-radius: 4px; background: rgba(255, 255, 255, .42); color: inherit; font-size: 11px; font-weight: 800; }
   .bingeup-feedback { margin-top: 16px; padding: 15px; border: 1px solid var(--bingeup-line); border-radius: var(--bingeup-radius-md); background: #fbfdff; }
   .bingeup-feedback-result { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 11px; font-size: 18px; font-weight: 900; }
+  .bingeup-feedback-answer { margin-bottom: 12px; color: var(--bingeup-muted); font-size: 13px; text-align: center; }
+  .bingeup-feedback-answer .correct-answer { color: var(--bingeup-ink); font-weight: 800; }
   .bingeup-feedback-result.correct { color: var(--bingeup-green-dark); }
   .bingeup-feedback-result.wrong { color: var(--bingeup-pink-dark); }
   .bingeup-feedback-icon { display: inline-flex; flex-shrink: 0; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-size: 14px; font-weight: 700; }
