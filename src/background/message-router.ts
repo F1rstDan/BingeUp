@@ -205,20 +205,20 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return { released };
       }
       case 'EXPORT_DATA': {
-        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
+        if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         return exportLocalData(store, db);
       }
       case 'IMPORT_DATA': {
-        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
+        if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         return importLocalData(store, db, message.payload);
       }
       case 'CLEAR_LEARNING_PROGRESS': {
-        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
+        if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         await clearLearningProgress(db);
         return undefined;
       }
       case 'CLEAR_ALL_DATA': {
-        if (!db) throw new Error('数据库不可用，请先导出已有备份或在设置页重建数据');
+        if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         await clearAllLocalData(store, db);
         return undefined;
       }

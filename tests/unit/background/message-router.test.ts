@@ -477,17 +477,18 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as ExportPayload;
 
-    expect(res.version).toBe(1);
+    expect(res.version).toBe(2);
     expect(res.settings.appSettings.dailyNewWordLimit).toBe(15);
     expect(res.data.cards).toHaveLength(1);
     expect(res.data.reviewLogs).toHaveLength(1);
+    expect(res.data.sessionLogs).toEqual([]);
     expect(res.data.words).toEqual([]);
     expect(res.data.decks).toEqual([]);
   });
 
   it('IMPORT_DATA：校验通过后写入数据（AC4）', async () => {
     const payload: ExportPayload = {
-      version: 1,
+      version: 2,
       exportedAt: 9000,
       settings: {
         appSettings: { ...DEFAULT_SETTINGS, dailyNewWordLimit: 42 },
@@ -497,8 +498,9 @@ describe('message-router — Issue #10 新增消息', () => {
         globalPausedUntil: 0,
       },
       data: {
-        cards: [{ id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 } satisfies CardRecord],
+        cards: [{ id: 'c1', wordId: 'w-abandon', deckId: 'deck-daily-high-frequency', stage: 'new', createdAt: 1, updatedAt: 1 } satisfies CardRecord],
         reviewLogs: [],
+        sessionLogs: [],
         words: [],
         decks: [],
       },

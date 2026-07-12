@@ -61,7 +61,12 @@ export function openDatabase(name: string, migrations: Migration[]): Promise<IDB
       }
     };
 
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      const db = request.result;
+      // 长期打开的设置页、统计页或内容页必须让出后续版本升级。
+      db.onversionchange = () => db.close();
+      resolve(db);
+    };
     request.onerror = () => {
       reject(migrationError ?? request.error ?? new Error('数据库打开失败'));
     };
@@ -122,6 +127,21 @@ export async function idbCount(db: IDBDatabase, store: StoreName): Promise<numbe
 export async function idbClear(db: IDBDatabase, store: StoreName): Promise<void> {
   const tx = db.transaction(store, 'readwrite');
   tx.objectStore(store).clear();
+  await awaitTransaction(tx);
+}
+
+/** 在一个事务内完整替换多个仓库；任一请求失败会回滚全部仓库。 */
+export async function idbReplaceAll(
+  db: IDBDatabase,
+  records: Partial<Record<StoreName, readonly unknown[]>>,
+): Promise<void> {
+  const stores = Object.keys(records) as StoreName[];
+  const tx = db.transaction(stores, 'readwrite');
+  for (const storeName of stores) {
+    const store = tx.objectStore(storeName);
+    store.clear();
+    for (const record of records[storeName] ?? []) store.put(record);
+  }
   await awaitTransaction(tx);
 }
 

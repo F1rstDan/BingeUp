@@ -12,10 +12,19 @@ export default defineBackground(() => {
 
   // Issue #10 AC4：打开 IDB 供导出/导入/清除操作使用。
   // 立即发起打开请求；数据操作消息到达时 await 该 Promise。
-  const dbPromise = openDatabase('bingeup', MIGRATIONS).catch((err) => {
-    console.error('[BingeUp] IDB 打开失败', err);
-    return null;
-  });
+  let dbPromise: Promise<IDBDatabase> | null = null;
+  const getDatabase = (): Promise<IDBDatabase> => {
+    if (dbPromise === null) {
+      dbPromise = openDatabase('bingeup', MIGRATIONS).catch((error) => {
+        // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
+        dbPromise = null;
+        throw new Error(
+          `数据库打开失败，现有数据未被更改。请关闭其他刷刷升级页面后重试：${error instanceof Error ? error.message : String(error)}`,
+        );
+      });
+    }
+    return dbPromise;
+  };
 
   const router = createMessageRouter(store, null);
 
@@ -31,7 +40,7 @@ export default defineBackground(() => {
           'GET_POPUP_DATA',
         ]);
         if (dataOpTypes.has(message?.type)) {
-          const db = await dbPromise;
+          const db = await getDatabase();
           const dataRouter = createMessageRouter(store, db);
           const response = await dataRouter.handle(message, sender);
           sendResponse(response);

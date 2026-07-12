@@ -93,6 +93,16 @@ describe('openDatabase — 版本迁移可执行（Issue #5 验收标准 4）', 
     expect(card!.wordId).toBe('w-1');
     db2.close();
   });
+
+  it('旧页面的连接响应版本变化并自动释放，不会永久阻塞升级', async () => {
+    const oldPageDb = await openDatabase(TEST_DB, V1_MIGRATIONS);
+
+    const upgradedDb = await openDatabase(TEST_DB, V2_WITH_NEW_STORE);
+
+    expect(upgradedDb.version).toBe(2);
+    expect(() => oldPageDb.transaction(STORES.cards)).toThrow();
+    upgradedDb.close();
+  });
 });
 
 describe('openDatabase — 迁移失败不会静默清空数据（Issue #5 验收标准 4）', () => {

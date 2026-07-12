@@ -255,6 +255,7 @@ export function OptionsApp(): JSX.Element {
 
       {/* AC4：数据管理 */}
       <SettingsSection title="数据管理">
+        <p className="bingeup-hint">恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。</p>
         <div className="bingeup-actions">
           <button
             className="bingeup-btn-primary"
@@ -482,7 +483,7 @@ async function handleClearProgress(
   onReload: () => Promise<void>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  if (!window.confirm('确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡与复习记录，但保留设置与词库。')) {
+  if (!window.confirm('确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。')) {
     return;
   }
   try {
