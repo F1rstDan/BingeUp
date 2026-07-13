@@ -138,7 +138,17 @@ describe('bootstrapContent — 启动诊断', () => {
       scrollTrigger: false,
     });
     const addListener = vi.fn();
-    vi.stubGlobal('chrome', { runtime: { onMessage: { addListener } } });
+    vi.stubGlobal('chrome', { runtime: { onMessage: { addListener }, getURL: vi.fn((path: string) => `chrome-extension://test/${path}`) } });
+    // Mock fetch 为 BuiltInWordBank 提供空词库（避免加载失败阻断启动）
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+      if (url.includes('words.json')) {
+        return { ok: true, json: async () => [{ id: 'w-test', word: 'test', lemma: 'test', partOfSpeech: ['v.'], coreMeaningZh: ['测试'], exampleSentence: 'Test sentence.', exampleTranslation: '测试翻译。', surfaceFormInExample: 'Test', difficulty: 2, source: 'test', license: 'CC0' }] };
+      }
+      if (url.includes('decks.json')) {
+        return { ok: true, json: async () => [{ id: 'deck-test', name: '测试', source: 'test', license: 'CC0', wordIds: ['w-test'] }] };
+      }
+      return { ok: false };
+    }));
     const { bootstrapContent } = await import('@/content/bootstrap');
 
     await bootstrapContent();

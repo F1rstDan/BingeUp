@@ -157,8 +157,15 @@ export interface WordRecord {
   partOfSpeech: string[];
   /** 核心中文释义，至少一项。 */
   coreMeaningZh: string[];
-  exampleSentence: string;
-  exampleTranslation: string;
+  exampleSentence?: string;
+  exampleTranslation?: string;
+  /**
+   * 例句中目标词的表层词形（如 abandoned, benefits）。
+   * 用于语境选择题，确保正确答案与空位一致。
+   * 无例句时可为空。
+   */
+  surfaceFormInExample?: string;
+  /** 通用难度（1-4），基于词频和考试标签。 */
   difficulty: number;
   /** 数据来源标识，用于追溯。 */
   source: string;
@@ -174,6 +181,12 @@ export interface DeckRecord {
   source: string;
   license: string;
   wordIds: string[];
+  /**
+   * 词库内每个单词的难度 (wordId → 1-4)。
+   * 由构建流水线基于该词在词库中的相对位置计算。
+   * 与 WordRecord.difficulty（通用词频分）不同，此字段反映特定词库语境下的难度。
+   */
+  wordDifficulties?: Record<string, number>;
 }
 
 /** 学习卡：用户与一个单词之间唯一的学习关系。 */

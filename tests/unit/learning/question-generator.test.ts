@@ -20,6 +20,7 @@ function makeWord(overrides: Partial<WordRecord> = {}): WordRecord {
     coreMeaningZh: ['放弃；遗弃'],
     exampleSentence: 'He abandoned his car.',
     exampleTranslation: '他把车丢弃了。',
+    surfaceFormInExample: 'abandoned',
     difficulty: 2,
     source: 'builtin-sample',
     license: 'CC0-1.0',
@@ -300,8 +301,8 @@ describe('generateContextChoiceQuestion — 例句语境题（Issue #7 验收标
       distractors: DISTRACTORS,
       cardId: 'card-1',
     });
-    expect(q.options[q.correctIndex]).toBe('abandon');
-    const correctCount = q.options.filter((o) => o === 'abandon').length;
+    expect(q.options[q.correctIndex]).toBe('abandoned');
+    const correctCount = q.options.filter((o) => o === 'abandoned').length;
     expect(correctCount).toBe(1);
   });
 
@@ -331,6 +332,7 @@ describe('generateContextChoiceQuestion — 例句语境题（Issue #7 验收标
       word: 'able',
       lemma: 'able',
       exampleSentence: 'She is able to solve it.',
+      surfaceFormInExample: 'able',
     });
     const q = generateContextChoiceQuestion({
       targetWord: ableWord,

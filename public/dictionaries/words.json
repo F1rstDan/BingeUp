@@ -1,0 +1,935 @@
+[
+  {
+    "id": "w-ability",
+    "word": "ability",
+    "lemma": "ability",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "能力",
+      "才能"
+    ],
+    "exampleSentence": "She has the ability to solve complex problems.",
+    "exampleTranslation": "她有能力解决复杂的问题。",
+    "surfaceFormInExample": "ability",
+    "difficulty": 1,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-accept",
+    "word": "accept",
+    "lemma": "accept",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "接受",
+      "承认"
+    ],
+    "exampleSentence": "He accepted the job offer immediately.",
+    "exampleTranslation": "他立即接受了工作邀请。",
+    "surfaceFormInExample": "accepted",
+    "difficulty": 1,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-achieve",
+    "word": "achieve",
+    "lemma": "achieve",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "实现",
+      "达到"
+    ],
+    "exampleSentence": "She achieved her goal of running a marathon.",
+    "exampleTranslation": "她实现了跑马拉松的目标。",
+    "surfaceFormInExample": "achieved",
+    "difficulty": 1,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-active",
+    "word": "active",
+    "lemma": "active",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "活跃的",
+      "积极的"
+    ],
+    "exampleSentence": "He stays active by walking every day.",
+    "exampleTranslation": "他每天散步保持活跃。",
+    "surfaceFormInExample": "active",
+    "difficulty": 1,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-benefit",
+    "word": "benefit",
+    "lemma": "benefit",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "利益",
+      "好处"
+    ],
+    "exampleSentence": "Regular exercise has many benefits.",
+    "exampleTranslation": "经常锻炼有很多好处。",
+    "surfaceFormInExample": "benefits",
+    "difficulty": 1,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-capable",
+    "word": "capable",
+    "lemma": "capable",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "有能力的",
+      "能干的"
+    ],
+    "exampleSentence": "She is capable of solving complex problems.",
+    "exampleTranslation": "她有能力解决复杂的问题。",
+    "surfaceFormInExample": "capable",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-compare",
+    "word": "compare",
+    "lemma": "compare",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "比较",
+      "对比"
+    ],
+    "exampleSentence": "We compared the two products before buying.",
+    "exampleTranslation": "我们在购买前比较了两款产品。",
+    "surfaceFormInExample": "compared",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-decline",
+    "word": "decline",
+    "lemma": "decline",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "下降",
+      "拒绝"
+    ],
+    "exampleSentence": "The company's profits declined sharply last year.",
+    "exampleTranslation": "公司利润去年大幅下降。",
+    "surfaceFormInExample": "declined",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-encourage",
+    "word": "encourage",
+    "lemma": "encourage",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "鼓励",
+      "激励"
+    ],
+    "exampleSentence": "Teachers should encourage students to ask questions.",
+    "exampleTranslation": "老师应该鼓励学生提问。",
+    "surfaceFormInExample": "encourage",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-frequent",
+    "word": "frequent",
+    "lemma": "frequent",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "频繁的",
+      "经常的"
+    ],
+    "exampleSentence": "Frequent breaks improve productivity.",
+    "exampleTranslation": "频繁的休息能提高生产力。",
+    "surfaceFormInExample": "frequent",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-genuine",
+    "word": "genuine",
+    "lemma": "genuine",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "真正的",
+      "真诚的"
+    ],
+    "exampleSentence": "Her smile was warm and genuine.",
+    "exampleTranslation": "她的微笑温暖而真诚。",
+    "surfaceFormInExample": "genuine",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-hesitate",
+    "word": "hesitate",
+    "lemma": "hesitate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "犹豫",
+      "踌躇"
+    ],
+    "exampleSentence": "Don't hesitate to ask if you need help.",
+    "exampleTranslation": "如果需要帮助，不要犹豫。",
+    "surfaceFormInExample": "hesitate",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-abandon",
+    "word": "abandon",
+    "lemma": "abandon",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "放弃",
+      "遗弃"
+    ],
+    "exampleSentence": "He abandoned his car on the highway.",
+    "exampleTranslation": "他把车丢弃在高速公路上。",
+    "surfaceFormInExample": "abandoned",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-absorb",
+    "word": "absorb",
+    "lemma": "absorb",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "吸收",
+      "吸引"
+    ],
+    "exampleSentence": "Plants absorb nutrients from the soil.",
+    "exampleTranslation": "植物从土壤中吸收养分。",
+    "surfaceFormInExample": "absorb",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-academic",
+    "word": "academic",
+    "lemma": "academic",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "学术的",
+      "学院的"
+    ],
+    "exampleSentence": "She published several academic papers last year.",
+    "exampleTranslation": "她去年发表了几篇学术论文。",
+    "surfaceFormInExample": "academic",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-barrier",
+    "word": "barrier",
+    "lemma": "barrier",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "障碍",
+      "屏障"
+    ],
+    "exampleSentence": "Language barriers can cause misunderstandings.",
+    "exampleTranslation": "语言障碍可能导致误解。",
+    "surfaceFormInExample": "barriers",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-budget",
+    "word": "budget",
+    "lemma": "budget",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "预算",
+      "经费"
+    ],
+    "exampleSentence": "We need to stay within the budget this year.",
+    "exampleTranslation": "我们今年需要控制在预算范围内。",
+    "surfaceFormInExample": "budget",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-candidate",
+    "word": "candidate",
+    "lemma": "candidate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "候选人",
+      "应试者"
+    ],
+    "exampleSentence": "Several candidates were interviewed for the position.",
+    "exampleTranslation": "几位候选人接受了该职位的面试。",
+    "surfaceFormInExample": "candidates",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-deliberate",
+    "word": "deliberate",
+    "lemma": "deliberate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "故意的",
+      "深思熟虑的"
+    ],
+    "exampleSentence": "His silence was a deliberate choice.",
+    "exampleTranslation": "他的沉默是深思熟虑的选择。",
+    "surfaceFormInExample": "deliberate",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-elaborate",
+    "word": "elaborate",
+    "lemma": "elaborate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "精心制作的",
+      "详尽的"
+    ],
+    "exampleSentence": "She gave an elaborate explanation of the process.",
+    "exampleTranslation": "她对这个过程做了详尽的解释。",
+    "surfaceFormInExample": "elaborate",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-enhance",
+    "word": "enhance",
+    "lemma": "enhance",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "提高",
+      "增强"
+    ],
+    "exampleSentence": "Music can enhance the mood of a film.",
+    "exampleTranslation": "音乐能增强电影的氛围。",
+    "surfaceFormInExample": "enhance",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-influence",
+    "word": "influence",
+    "lemma": "influence",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "影响",
+      "作用"
+    ],
+    "exampleSentence": "Teachers have a great influence on children.",
+    "exampleTranslation": "老师对孩子有很大的影响。",
+    "surfaceFormInExample": "influence",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-justify",
+    "word": "justify",
+    "lemma": "justify",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "证明…正当",
+      "辩护"
+    ],
+    "exampleSentence": "Nothing can justify his rude behavior.",
+    "exampleTranslation": "没有任何理由可以为他的粗鲁行为辩护。",
+    "surfaceFormInExample": "justify",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-legacy",
+    "word": "legacy",
+    "lemma": "legacy",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "遗产",
+      "遗留"
+    ],
+    "exampleSentence": "The writer left a rich literary legacy.",
+    "exampleTranslation": "这位作家留下了丰富的文学遗产。",
+    "surfaceFormInExample": "legacy",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-mitigate",
+    "word": "mitigate",
+    "lemma": "mitigate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "减轻",
+      "缓和"
+    ],
+    "exampleSentence": "We planted trees to mitigate noise pollution.",
+    "exampleTranslation": "我们种树来减轻噪音污染。",
+    "surfaceFormInExample": "mitigate",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-negligible",
+    "word": "negligible",
+    "lemma": "negligible",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "可忽略的",
+      "微不足道的"
+    ],
+    "exampleSentence": "The difference in cost is negligible.",
+    "exampleTranslation": "成本的差异可以忽略不计。",
+    "surfaceFormInExample": "negligible",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-predominant",
+    "word": "predominant",
+    "lemma": "predominant",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "主要的",
+      "占优势的"
+    ],
+    "exampleSentence": "English is the predominant language in business.",
+    "exampleTranslation": "英语是商业中的主要语言。",
+    "surfaceFormInExample": "predominant",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-scrutiny",
+    "word": "scrutiny",
+    "lemma": "scrutiny",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "仔细审查",
+      "监督"
+    ],
+    "exampleSentence": "The plan is under close scrutiny by experts.",
+    "exampleTranslation": "该计划正受到专家的严格审查。",
+    "surfaceFormInExample": "scrutiny",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-skeptical",
+    "word": "skeptical",
+    "lemma": "skeptical",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "怀疑的",
+      "持怀疑态度的"
+    ],
+    "exampleSentence": "Many people are skeptical about the new policy.",
+    "exampleTranslation": "许多人对新政策持怀疑态度。",
+    "surfaceFormInExample": "skeptical",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-unprecedented",
+    "word": "unprecedented",
+    "lemma": "unprecedented",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "前所未有的",
+      "空前的"
+    ],
+    "exampleSentence": "The pandemic caused unprecedented disruption worldwide.",
+    "exampleTranslation": "疫情在全球造成了前所未有的破坏。",
+    "surfaceFormInExample": "unprecedented",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-comprehensive",
+    "word": "comprehensive",
+    "lemma": "comprehensive",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "全面的",
+      "综合的"
+    ],
+    "exampleSentence": "We need a comprehensive review of the system.",
+    "exampleTranslation": "我们需要对系统进行全面审查。",
+    "surfaceFormInExample": "comprehensive",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-deteriorate",
+    "word": "deteriorate",
+    "lemma": "deteriorate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "恶化",
+      "变坏"
+    ],
+    "exampleSentence": "His health began to deteriorate rapidly.",
+    "exampleTranslation": "他的健康状况开始迅速恶化。",
+    "surfaceFormInExample": "deteriorate",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-fluctuate",
+    "word": "fluctuate",
+    "lemma": "fluctuate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "波动",
+      "起伏"
+    ],
+    "exampleSentence": "Stock prices fluctuate constantly throughout the day.",
+    "exampleTranslation": "股票价格全天不断波动。",
+    "surfaceFormInExample": "fluctuate",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-prominent",
+    "word": "prominent",
+    "lemma": "prominent",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "突出的",
+      "著名的"
+    ],
+    "exampleSentence": "She is a prominent figure in the tech industry.",
+    "exampleTranslation": "她是科技行业的杰出人物。",
+    "surfaceFormInExample": "prominent",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-sophisticated",
+    "word": "sophisticated",
+    "lemma": "sophisticated",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "复杂的",
+      "精密的",
+      "老练的"
+    ],
+    "exampleSentence": "The laboratory uses sophisticated equipment.",
+    "exampleTranslation": "实验室使用精密的设备。",
+    "surfaceFormInExample": "sophisticated",
+    "difficulty": 4,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-confront",
+    "word": "confront",
+    "lemma": "confront",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "面对",
+      "对抗"
+    ],
+    "exampleSentence": "We must confront the challenges ahead.",
+    "exampleTranslation": "我们必须面对前方的挑战。",
+    "surfaceFormInExample": "confront",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-perceive",
+    "word": "perceive",
+    "lemma": "perceive",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "察觉",
+      "感知",
+      "理解"
+    ],
+    "exampleSentence": "People perceive the same situation differently.",
+    "exampleTranslation": "人们对同一情况的理解各不相同。",
+    "surfaceFormInExample": "perceive",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-inevitable",
+    "word": "inevitable",
+    "lemma": "inevitable",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "不可避免的",
+      "必然的"
+    ],
+    "exampleSentence": "Change is inevitable in any organization.",
+    "exampleTranslation": "变革在任何组织中都是不可避免的。",
+    "surfaceFormInExample": "inevitable",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-exaggerate",
+    "word": "exaggerate",
+    "lemma": "exaggerate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "夸张",
+      "夸大"
+    ],
+    "exampleSentence": "He tends to exaggerate his achievements.",
+    "exampleTranslation": "他倾向于夸大自己的成就。",
+    "surfaceFormInExample": "exaggerate",
+    "difficulty": 3,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-concentrate",
+    "word": "concentrate",
+    "lemma": "concentrate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "集中",
+      "专心"
+    ],
+    "exampleSentence": "I can't concentrate with all this noise.",
+    "exampleTranslation": "这么多噪音我无法集中注意力。",
+    "surfaceFormInExample": "concentrate",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-demonstrate",
+    "word": "demonstrate",
+    "lemma": "demonstrate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "展示",
+      "证明"
+    ],
+    "exampleSentence": "She demonstrated the new software to the team.",
+    "exampleTranslation": "她向团队演示了新软件。",
+    "surfaceFormInExample": "demonstrated",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-expand",
+    "word": "expand",
+    "lemma": "expand",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "扩展",
+      "扩大"
+    ],
+    "exampleSentence": "The company plans to expand into new markets.",
+    "exampleTranslation": "公司计划扩展到新市场。",
+    "surfaceFormInExample": "expand",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-flexible",
+    "word": "flexible",
+    "lemma": "flexible",
+    "phonetic": "",
+    "partOfSpeech": [
+      "adj."
+    ],
+    "coreMeaningZh": [
+      "灵活的",
+      "柔韧的"
+    ],
+    "exampleSentence": "We offer flexible working hours.",
+    "exampleTranslation": "我们提供灵活的工作时间。",
+    "surfaceFormInExample": "flexible",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-generate",
+    "word": "generate",
+    "lemma": "generate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "产生",
+      "生成"
+    ],
+    "exampleSentence": "The new system generates reports automatically.",
+    "exampleTranslation": "新系统自动生成报告。",
+    "surfaceFormInExample": "generates",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-illustrate",
+    "word": "illustrate",
+    "lemma": "illustrate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "说明",
+      "举例说明"
+    ],
+    "exampleSentence": "Let me illustrate this point with a diagram.",
+    "exampleTranslation": "让我用图表来说明这一点。",
+    "surfaceFormInExample": "illustrate",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-maintain",
+    "word": "maintain",
+    "lemma": "maintain",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "维持",
+      "保持"
+    ],
+    "exampleSentence": "It's important to maintain a healthy lifestyle.",
+    "exampleTranslation": "保持健康的生活方式很重要。",
+    "surfaceFormInExample": "maintain",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-negotiate",
+    "word": "negotiate",
+    "lemma": "negotiate",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "谈判",
+      "协商"
+    ],
+    "exampleSentence": "They negotiated a better deal for the company.",
+    "exampleTranslation": "他们为公司谈判了更好的交易。",
+    "surfaceFormInExample": "negotiated",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-obtain",
+    "word": "obtain",
+    "lemma": "obtain",
+    "phonetic": "",
+    "partOfSpeech": [
+      "v."
+    ],
+    "coreMeaningZh": [
+      "获得",
+      "得到"
+    ],
+    "exampleSentence": "You need permission to obtain this information.",
+    "exampleTranslation": "你需要许可才能获得这些信息。",
+    "surfaceFormInExample": "obtain",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  },
+  {
+    "id": "w-prediction",
+    "word": "prediction",
+    "lemma": "prediction",
+    "phonetic": "",
+    "partOfSpeech": [
+      "n."
+    ],
+    "coreMeaningZh": [
+      "预测",
+      "预言"
+    ],
+    "exampleSentence": "His prediction about the market proved correct.",
+    "exampleTranslation": "他对市场的预测证明是正确的。",
+    "surfaceFormInExample": "prediction",
+    "difficulty": 2,
+    "source": "ECDICT (sample)",
+    "license": "MIT"
+  }
+]

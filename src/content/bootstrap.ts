@@ -234,6 +234,8 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     words: new BuiltInWordBank(),
     clock: { now: () => Date.now() },
     dailyNewWordLimit: appSettings.dailyNewWordLimit,
+    selectedDeckId: appSettings.selectedDeckId,
+    selfRatedLevel: appSettings.selfRatedLevel,
   });
 
   const overlay = new OverlayController();

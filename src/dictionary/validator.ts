@@ -15,8 +15,10 @@ function hasEmptyEntry(arr: string[]): boolean {
 }
 
 /**
- * 校验单条单词记录（Issue #5 验收标准 1）。
- * 必须包含：词形、词性、核心中文释义、例句、例句翻译、来源和许可证。
+ * 校验单条单词记录（Issue #5 验收标准 1 / Issue #25）。
+ * 必须包含：词形、词性、核心中文释义、来源和许可证。
+ * 例句和例句翻译为可选（无例句时不能用于语境选择题）。
+ * 有例句时必须有例句翻译和 surfaceFormInExample。
  */
 export function validateWordRecord(record: WordRecord): ValidationResult {
   const errors: string[] = [];
@@ -37,12 +39,6 @@ export function validateWordRecord(record: WordRecord): ValidationResult {
   } else if (hasEmptyEntry(record.coreMeaningZh)) {
     errors.push('coreMeaningZh 含有空项');
   }
-  if (!isNonEmpty(record.exampleSentence)) {
-    errors.push('exampleSentence 不能为空');
-  }
-  if (!isNonEmpty(record.exampleTranslation)) {
-    errors.push('exampleTranslation 不能为空');
-  }
   if (!isNonEmpty(record.source)) {
     errors.push('source 不能为空');
   }
@@ -51,6 +47,19 @@ export function validateWordRecord(record: WordRecord): ValidationResult {
   }
   if (typeof record.difficulty !== 'number' || !(record.difficulty > 0)) {
     errors.push('difficulty 必须为正数');
+  }
+
+  // 例句一致性校验：有例句时必须有翻译和表层词形
+  if (isNonEmpty(record.exampleSentence)) {
+    if (!isNonEmpty(record.exampleTranslation)) {
+      errors.push('有例句但无例句翻译');
+    }
+    if (!isNonEmpty(record.surfaceFormInExample)) {
+      errors.push('有例句但无 surfaceFormInExample');
+    }
+  } else if (isNonEmpty(record.exampleTranslation)) {
+    // 有翻译但无例句，不一致
+    errors.push('有例句翻译但无例句');
   }
 
   return { valid: errors.length === 0, errors };

@@ -115,14 +115,32 @@ const DECK: DeckRecord = {
 };
 
 class FakeWordBank implements WordBankPort {
-  getDefaultDeck(): DeckRecord {
+  async getDefaultDeck(): Promise<DeckRecord> {
     return DECK;
   }
-  getWord(wordId: string): WordRecord | null {
+  async getDeck(deckId: string): Promise<DeckRecord | null> {
+    return deckId === DECK.id ? DECK : null;
+  }
+  async getWord(wordId: string): Promise<WordRecord | null> {
     return WORDS.find((w) => w.id === wordId) ?? null;
   }
-  listWords(): WordRecord[] {
+  async getWordsByIds(wordIds: string[]): Promise<WordRecord[]> {
+    return WORDS.filter((w) => wordIds.includes(w.id));
+  }
+  async listWords(): Promise<WordRecord[]> {
     return [...WORDS];
+  }
+  async sampleDeckWords(params: {
+    deckId: string;
+    count: number;
+    preferredDifficulty: number[];
+    excludeWordIds: string[];
+  }): Promise<WordRecord[]> {
+    const excludeSet = new Set(params.excludeWordIds);
+    const diffSet = new Set(params.preferredDifficulty);
+    return WORDS
+      .filter((w) => !excludeSet.has(w.id) && diffSet.has(w.difficulty))
+      .slice(0, params.count);
   }
 }
 
@@ -228,7 +246,7 @@ describe('LearningService — 候选新词展示（Issue #6 验收标准 1）', 
   });
 
   it('新词展示包含单词的词形、释义与例句', async () => {
-    const { service } = makeService();
+    const { service } = makeService({ random: () => 0 });
     const item = await service.getNextItem();
 
     expect(item!.kind).toBe('new-word-presentation');
@@ -444,7 +462,7 @@ describe('LearningService — selfReportKnown 与跳过（Issue #6 验收标准 
   });
 
   it('跳过不改变单词学习状态：不创建学习卡', async () => {
-    const { service, cards } = makeService();
+    const { service, cards } = makeService({ random: () => 0 });
     const before = await service.getNextItem();
     expect(before!.kind).toBe('new-word-presentation');
     // 跳过：不调用任何服务方法，状态不变

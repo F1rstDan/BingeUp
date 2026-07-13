@@ -1,11 +1,11 @@
 import type { WordRecord, DeckRecord } from '@/types';
 
 /**
- * 内置示例词库（Issue #5 验收标准 1）。
+ * 内置示例词库（Issue #5 验收标准 1 / Issue #25）。
  *
- * Beta 阶段的内置词库为项目自建的示例数据，以 CC0 释出。
- * 生产环境应替换为经过清洗的开放数据源（如 ECDICT，CC-BY-SA 4.0），
- * 并在构建脚本中记录来源与许可证。此处保留 source/license 字段以保证可追溯。
+ * Beta 阶段的内置词库为示例数据，以 CC0 释出。
+ * 生产环境应替换为从 public/dictionaries/ 加载的构建流水线产出。
+ * 此处保留 source/license 字段以保证可追溯。
  */
 
 const SOURCE = 'BingeUp built-in sample';
@@ -21,6 +21,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['放弃；遗弃'],
     exampleSentence: 'He abandoned his car on the highway.',
     exampleTranslation: '他把车丢弃在高速公路上。',
+    surfaceFormInExample: 'abandoned',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -34,6 +35,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['利益；好处'],
     exampleSentence: 'Regular exercise has many benefits.',
     exampleTranslation: '经常锻炼有很多好处。',
+    surfaceFormInExample: 'benefits',
     difficulty: 1,
     source: SOURCE,
     license: LICENSE,
@@ -47,6 +49,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['有能力的；能干的'],
     exampleSentence: 'She is capable of solving complex problems.',
     exampleTranslation: '她有能力解决复杂的问题。',
+    surfaceFormInExample: 'capable',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -60,6 +63,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['故意的；深思熟虑的'],
     exampleSentence: 'His silence was a deliberate choice.',
     exampleTranslation: '他的沉默是深思熟虑的选择。',
+    surfaceFormInExample: 'deliberate',
     difficulty: 3,
     source: SOURCE,
     license: LICENSE,
@@ -73,6 +77,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['提高；增强'],
     exampleSentence: 'Music can enhance the mood of a film.',
     exampleTranslation: '音乐能增强电影的氛围。',
+    surfaceFormInExample: 'enhance',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -86,6 +91,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['频繁的；经常的'],
     exampleSentence: 'Frequent breaks improve productivity.',
     exampleTranslation: '频繁的休息能提高生产力。',
+    surfaceFormInExample: 'Frequent',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -99,6 +105,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['真正的；真诚的'],
     exampleSentence: 'Her smile was warm and genuine.',
     exampleTranslation: '她的微笑温暖而真诚。',
+    surfaceFormInExample: 'genuine',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -110,8 +117,9 @@ const WORDS: WordRecord[] = [
     phonetic: '/ˈhezɪteɪt/',
     partOfSpeech: ['v.'],
     coreMeaningZh: ['犹豫；踌躇'],
-    exampleSentence: 'Don\'t hesitate to ask if you need help.',
+    exampleSentence: "Don't hesitate to ask if you need help.",
     exampleTranslation: '如果需要帮助，不要犹豫。',
+    surfaceFormInExample: 'hesitate',
     difficulty: 3,
     source: SOURCE,
     license: LICENSE,
@@ -125,6 +133,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['影响；作用'],
     exampleSentence: 'Teachers have a great influence on children.',
     exampleTranslation: '老师对孩子有很大的影响。',
+    surfaceFormInExample: 'influence',
     difficulty: 2,
     source: SOURCE,
     license: LICENSE,
@@ -138,6 +147,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['证明…正当；辩护'],
     exampleSentence: 'Nothing can justify his rude behavior.',
     exampleTranslation: '没有任何理由可以为他的粗鲁行为辩护。',
+    surfaceFormInExample: 'justify',
     difficulty: 3,
     source: SOURCE,
     license: LICENSE,
@@ -151,6 +161,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['遗产；遗留'],
     exampleSentence: 'The writer left a rich literary legacy.',
     exampleTranslation: '这位作家留下了丰富的文学遗产。',
+    surfaceFormInExample: 'legacy',
     difficulty: 3,
     source: SOURCE,
     license: LICENSE,
@@ -164,6 +175,7 @@ const WORDS: WordRecord[] = [
     coreMeaningZh: ['减轻；缓和'],
     exampleSentence: 'We planted trees to mitigate noise pollution.',
     exampleTranslation: '我们种树来减轻噪音污染。',
+    surfaceFormInExample: 'mitigate',
     difficulty: 4,
     source: SOURCE,
     license: LICENSE,
@@ -179,6 +191,9 @@ export const BUILT_IN_DECKS: DeckRecord[] = [
     source: SOURCE,
     license: LICENSE,
     wordIds: WORDS.map((w) => w.id),
+    wordDifficulties: Object.fromEntries(
+      WORDS.map((w) => [w.id, w.difficulty]),
+    ),
   },
 ];
 

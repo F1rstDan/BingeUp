@@ -1,0 +1,177 @@
+/**
+ * 生成测试用样本词库数据。
+ * 用法：npx tsx scripts/build-dictionary/build-sample.ts
+ */
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import type { BuildManifest, DictionarySourceMetadata } from './types';
+import { DECK_IDS, DIFFICULTY_RULE_VERSION } from './types';
+
+const OUTPUT_DIR = path.resolve('public/dictionaries');
+
+/** 示例单词数据，覆盖三个词库，含足够干扰项。 */
+const SAMPLE_WORDS = [
+  // 日常高频 (difficulty 1-2)
+  { word: 'ability', lemma: 'ability', pos: 'n.', zh: '能力；才能', example: 'She has the ability to solve complex problems.', exampleZh: '她有能力解决复杂的问题。', surfaceForm: 'ability', diff: 1, decks: ['daily', 'cet4'], deckDiffs: { daily: 1, cet4: 1 }, frq: 500 },
+  { word: 'accept', lemma: 'accept', pos: 'v.', zh: '接受；承认', example: 'He accepted the job offer immediately.', exampleZh: '他立即接受了工作邀请。', surfaceForm: 'accepted', diff: 1, decks: ['daily', 'cet4'], deckDiffs: { daily: 1, cet4: 1 }, frq: 400 },
+  { word: 'achieve', lemma: 'achieve', pos: 'v.', zh: '实现；达到', example: 'She achieved her goal of running a marathon.', exampleZh: '她实现了跑马拉松的目标。', surfaceForm: 'achieved', diff: 1, decks: ['daily', 'cet4'], deckDiffs: { daily: 1, cet4: 1 }, frq: 800 },
+  { word: 'active', lemma: 'active', pos: 'adj.', zh: '活跃的；积极的', example: 'He stays active by walking every day.', exampleZh: '他每天散步保持活跃。', surfaceForm: 'active', diff: 1, decks: ['daily', 'cet4'], deckDiffs: { daily: 1, cet4: 1 }, frq: 1200 },
+  { word: 'benefit', lemma: 'benefit', pos: 'n.', zh: '利益；好处', example: 'Regular exercise has many benefits.', exampleZh: '经常锻炼有很多好处。', surfaceForm: 'benefits', diff: 1, decks: ['daily', 'cet4'], deckDiffs: { daily: 1, cet4: 1 }, frq: 900 },
+  { word: 'capable', lemma: 'capable', pos: 'adj.', zh: '有能力的；能干的', example: 'She is capable of solving complex problems.', exampleZh: '她有能力解决复杂的问题。', surfaceForm: 'capable', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 2500 },
+  { word: 'compare', lemma: 'compare', pos: 'v.', zh: '比较；对比', example: 'We compared the two products before buying.', exampleZh: '我们在购买前比较了两款产品。', surfaceForm: 'compared', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 1500 },
+  { word: 'decline', lemma: 'decline', pos: 'v.', zh: '下降；拒绝', example: 'The company\'s profits declined sharply last year.', exampleZh: '公司利润去年大幅下降。', surfaceForm: 'declined', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 2800 },
+  { word: 'encourage', lemma: 'encourage', pos: 'v.', zh: '鼓励；激励', example: 'Teachers should encourage students to ask questions.', exampleZh: '老师应该鼓励学生提问。', surfaceForm: 'encourage', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 2200 },
+  { word: 'frequent', lemma: 'frequent', pos: 'adj.', zh: '频繁的；经常的', example: 'Frequent breaks improve productivity.', exampleZh: '频繁的休息能提高生产力。', surfaceForm: 'frequent', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3000 },
+  { word: 'genuine', lemma: 'genuine', pos: 'adj.', zh: '真正的；真诚的', example: 'Her smile was warm and genuine.', exampleZh: '她的微笑温暖而真诚。', surfaceForm: 'genuine', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3500 },
+  { word: 'hesitate', lemma: 'hesitate', pos: 'v.', zh: '犹豫；踌躇', example: 'Don\'t hesitate to ask if you need help.', exampleZh: '如果需要帮助，不要犹豫。', surfaceForm: 'hesitate', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 4000 },
+  // 四级 (difficulty 2-3)
+  { word: 'abandon', lemma: 'abandon', pos: 'v.', zh: '放弃；遗弃', example: 'He abandoned his car on the highway.', exampleZh: '他把车丢弃在高速公路上。', surfaceForm: 'abandoned', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 3200 },
+  { word: 'absorb', lemma: 'absorb', pos: 'v.', zh: '吸收；吸引', example: 'Plants absorb nutrients from the soil.', exampleZh: '植物从土壤中吸收养分。', surfaceForm: 'absorb', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 4200 },
+  { word: 'academic', lemma: 'academic', pos: 'adj.', zh: '学术的；学院的', example: 'She published several academic papers last year.', exampleZh: '她去年发表了几篇学术论文。', surfaceForm: 'academic', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 3800 },
+  { word: 'barrier', lemma: 'barrier', pos: 'n.', zh: '障碍；屏障', example: 'Language barriers can cause misunderstandings.', exampleZh: '语言障碍可能导致误解。', surfaceForm: 'barriers', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 5000 },
+  { word: 'budget', lemma: 'budget', pos: 'n.', zh: '预算；经费', example: 'We need to stay within the budget this year.', exampleZh: '我们今年需要控制在预算范围内。', surfaceForm: 'budget', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 4500 },
+  { word: 'candidate', lemma: 'candidate', pos: 'n.', zh: '候选人；应试者', example: 'Several candidates were interviewed for the position.', exampleZh: '几位候选人接受了该职位的面试。', surfaceForm: 'candidates', diff: 2, decks: ['cet4'], deckDiffs: { cet4: 2 }, frq: 4800 },
+  { word: 'deliberate', lemma: 'deliberate', pos: 'adj.', zh: '故意的；深思熟虑的', example: 'His silence was a deliberate choice.', exampleZh: '他的沉默是深思熟虑的选择。', surfaceForm: 'deliberate', diff: 3, decks: ['cet4'], deckDiffs: { cet4: 3 }, frq: 7000 },
+  { word: 'elaborate', lemma: 'elaborate', pos: 'adj.', zh: '精心制作的；详尽的', example: 'She gave an elaborate explanation of the process.', exampleZh: '她对这个过程做了详尽的解释。', surfaceForm: 'elaborate', diff: 3, decks: ['cet4'], deckDiffs: { cet4: 3 }, frq: 7500 },
+  { word: 'enhance', lemma: 'enhance', pos: 'v.', zh: '提高；增强', example: 'Music can enhance the mood of a film.', exampleZh: '音乐能增强电影的氛围。', surfaceForm: 'enhance', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 5500 },
+  { word: 'influence', lemma: 'influence', pos: 'n.', zh: '影响；作用', example: 'Teachers have a great influence on children.', exampleZh: '老师对孩子有很大的影响。', surfaceForm: 'influence', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 2500 },
+  // 六级 (difficulty 3-4)
+  { word: 'justify', lemma: 'justify', pos: 'v.', zh: '证明…正当；辩护', example: 'Nothing can justify his rude behavior.', exampleZh: '没有任何理由可以为他的粗鲁行为辩护。', surfaceForm: 'justify', diff: 3, decks: ['cet6'], deckDiffs: { cet6: 3 }, frq: 8500 },
+  { word: 'legacy', lemma: 'legacy', pos: 'n.', zh: '遗产；遗留', example: 'The writer left a rich literary legacy.', exampleZh: '这位作家留下了丰富的文学遗产。', surfaceForm: 'legacy', diff: 3, decks: ['cet6'], deckDiffs: { cet6: 3 }, frq: 9000 },
+  { word: 'mitigate', lemma: 'mitigate', pos: 'v.', zh: '减轻；缓和', example: 'We planted trees to mitigate noise pollution.', exampleZh: '我们种树来减轻噪音污染。', surfaceForm: 'mitigate', diff: 3, decks: ['cet6'], deckDiffs: { cet6: 3 }, frq: 12000 },
+  { word: 'negligible', lemma: 'negligible', pos: 'adj.', zh: '可忽略的；微不足道的', example: 'The difference in cost is negligible.', exampleZh: '成本的差异可以忽略不计。', surfaceForm: 'negligible', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 14000 },
+  { word: 'predominant', lemma: 'predominant', pos: 'adj.', zh: '主要的；占优势的', example: 'English is the predominant language in business.', exampleZh: '英语是商业中的主要语言。', surfaceForm: 'predominant', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 13000 },
+  { word: 'scrutiny', lemma: 'scrutiny', pos: 'n.', zh: '仔细审查；监督', example: 'The plan is under close scrutiny by experts.', exampleZh: '该计划正受到专家的严格审查。', surfaceForm: 'scrutiny', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 15000 },
+  { word: 'skeptical', lemma: 'skeptical', pos: 'adj.', zh: '怀疑的；持怀疑态度的', example: 'Many people are skeptical about the new policy.', exampleZh: '许多人对新政策持怀疑态度。', surfaceForm: 'skeptical', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 11000 },
+  { word: 'unprecedented', lemma: 'unprecedented', pos: 'adj.', zh: '前所未有的；空前的', example: 'The pandemic caused unprecedented disruption worldwide.', exampleZh: '疫情在全球造成了前所未有的破坏。', surfaceForm: 'unprecedented', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 10000 },
+  // 跨词库词 (四级+六级)
+  { word: 'comprehensive', lemma: 'comprehensive', pos: 'adj.', zh: '全面的；综合的', example: 'We need a comprehensive review of the system.', exampleZh: '我们需要对系统进行全面审查。', surfaceForm: 'comprehensive', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 6000 },
+  { word: 'deteriorate', lemma: 'deteriorate', pos: 'v.', zh: '恶化；变坏', example: 'His health began to deteriorate rapidly.', exampleZh: '他的健康状况开始迅速恶化。', surfaceForm: 'deteriorate', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 14500 },
+  { word: 'fluctuate', lemma: 'fluctuate', pos: 'v.', zh: '波动；起伏', example: 'Stock prices fluctuate constantly throughout the day.', exampleZh: '股票价格全天不断波动。', surfaceForm: 'fluctuate', diff: 3, decks: ['cet6'], deckDiffs: { cet6: 3 }, frq: 9500 },
+  { word: 'prominent', lemma: 'prominent', pos: 'adj.', zh: '突出的；著名的', example: 'She is a prominent figure in the tech industry.', exampleZh: '她是科技行业的杰出人物。', surfaceForm: 'prominent', diff: 3, decks: ['cet6'], deckDiffs: { cet6: 3 }, frq: 8000 },
+  { word: 'sophisticated', lemma: 'sophisticated', pos: 'adj.', zh: '复杂的；精密的；老练的', example: 'The laboratory uses sophisticated equipment.', exampleZh: '实验室使用精密的设备。', surfaceForm: 'sophisticated', diff: 4, decks: ['cet6'], deckDiffs: { cet6: 4 }, frq: 7000 },
+  { word: 'confront', lemma: 'confront', pos: 'v.', zh: '面对；对抗', example: 'We must confront the challenges ahead.', exampleZh: '我们必须面对前方的挑战。', surfaceForm: 'confront', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 7000 },
+  { word: 'perceive', lemma: 'perceive', pos: 'v.', zh: '察觉；感知；理解', example: 'People perceive the same situation differently.', exampleZh: '人们对同一情况的理解各不相同。', surfaceForm: 'perceive', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 6500 },
+  { word: 'inevitable', lemma: 'inevitable', pos: 'adj.', zh: '不可避免的；必然的', example: 'Change is inevitable in any organization.', exampleZh: '变革在任何组织中都是不可避免的。', surfaceForm: 'inevitable', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 3 }, frq: 5500 },
+  { word: 'exaggerate', lemma: 'exaggerate', pos: 'v.', zh: '夸张；夸大', example: 'He tends to exaggerate his achievements.', exampleZh: '他倾向于夸大自己的成就。', surfaceForm: 'exaggerate', diff: 3, decks: ['cet4', 'cet6'], deckDiffs: { cet4: 3, cet6: 2 }, frq: 8000 },
+  // 额外高频词 (难度 1)
+  { word: 'concentrate', lemma: 'concentrate', pos: 'v.', zh: '集中；专心', example: 'I can\'t concentrate with all this noise.', exampleZh: '这么多噪音我无法集中注意力。', surfaceForm: 'concentrate', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3500 },
+  { word: 'demonstrate', lemma: 'demonstrate', pos: 'v.', zh: '展示；证明', example: 'She demonstrated the new software to the team.', exampleZh: '她向团队演示了新软件。', surfaceForm: 'demonstrated', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 2800 },
+  { word: 'expand', lemma: 'expand', pos: 'v.', zh: '扩展；扩大', example: 'The company plans to expand into new markets.', exampleZh: '公司计划扩展到新市场。', surfaceForm: 'expand', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3000 },
+  { word: 'flexible', lemma: 'flexible', pos: 'adj.', zh: '灵活的；柔韧的', example: 'We offer flexible working hours.', exampleZh: '我们提供灵活的工作时间。', surfaceForm: 'flexible', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 4000 },
+  { word: 'generate', lemma: 'generate', pos: 'v.', zh: '产生；生成', example: 'The new system generates reports automatically.', exampleZh: '新系统自动生成报告。', surfaceForm: 'generates', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3200 },
+  { word: 'illustrate', lemma: 'illustrate', pos: 'v.', zh: '说明；举例说明', example: 'Let me illustrate this point with a diagram.', exampleZh: '让我用图表来说明这一点。', surfaceForm: 'illustrate', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 4500 },
+  { word: 'maintain', lemma: 'maintain', pos: 'v.', zh: '维持；保持', example: 'It\'s important to maintain a healthy lifestyle.', exampleZh: '保持健康的生活方式很重要。', surfaceForm: 'maintain', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 1800 },
+  { word: 'negotiate', lemma: 'negotiate', pos: 'v.', zh: '谈判；协商', example: 'They negotiated a better deal for the company.', exampleZh: '他们为公司谈判了更好的交易。', surfaceForm: 'negotiated', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 5000 },
+  { word: 'obtain', lemma: 'obtain', pos: 'v.', zh: '获得；得到', example: 'You need permission to obtain this information.', exampleZh: '你需要许可才能获得这些信息。', surfaceForm: 'obtain', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 3500 },
+  { word: 'prediction', lemma: 'prediction', pos: 'n.', zh: '预测；预言', example: 'His prediction about the market proved correct.', exampleZh: '他对市场的预测证明是正确的。', surfaceForm: 'prediction', diff: 2, decks: ['daily', 'cet4'], deckDiffs: { daily: 2, cet4: 2 }, frq: 5500 },
+];
+
+const SOURCE = 'ECDICT (sample)';
+const LICENSE = 'MIT';
+
+function main() {
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+
+  const wordIds = new Set<string>();
+  const words: Array<{
+    id: string;
+    word: string;
+    lemma: string;
+    phonetic: string;
+    partOfSpeech: string[];
+    coreMeaningZh: string[];
+    exampleSentence: string;
+    exampleTranslation: string;
+    surfaceFormInExample: string;
+    difficulty: number;
+    source: string;
+    license: string;
+  }> = [];
+
+  for (const w of SAMPLE_WORDS) {
+    const wordId = `w-${w.lemma}`;
+    if (wordIds.has(wordId)) continue;
+    wordIds.add(wordId);
+
+    const pos = w.pos.split('/').map((p) => p.trim());
+    const zhMeanings = w.zh.split('；');
+
+    words.push({
+      id: wordId,
+      word: w.lemma,
+      lemma: w.lemma,
+      phonetic: '',
+      partOfSpeech: pos,
+      coreMeaningZh: zhMeanings,
+      exampleSentence: w.example,
+      exampleTranslation: w.exampleZh,
+      surfaceFormInExample: w.surfaceForm,
+      difficulty: w.diff as number,
+      source: SOURCE,
+      license: LICENSE,
+    });
+  }
+
+  // 短名 → 完整 ID 映射
+  const SHORT_TO_DECK_ID: Record<string, string> = {
+    daily: DECK_IDS.daily,
+    cet4: DECK_IDS.cet4,
+    cet6: DECK_IDS.cet6,
+  };
+
+  // 构建词库
+  const decks = Object.entries(SHORT_TO_DECK_ID).map(([shortName, deckId]) => {
+    const deckWords = SAMPLE_WORDS.filter((w) => w.decks.includes(shortName));
+    const deckWordIds = deckWords.map((w) => `w-${w.lemma}`);
+    const wordDifficulties: Record<string, number> = {};
+    for (const w of deckWords) {
+      wordDifficulties[`w-${w.lemma}`] = w.deckDiffs[shortName] ?? w.diff;
+    }
+    return {
+      id: deckId,
+      name: deckId === DECK_IDS.daily ? '日常高频' : deckId === DECK_IDS.cet4 ? '四级' : '六级',
+      description: `${deckId === DECK_IDS.daily ? '日常高频' : deckId === DECK_IDS.cet4 ? '四级' : '六级'}词汇`,
+      source: SOURCE,
+      license: LICENSE,
+      wordIds: [...new Set(deckWordIds)],
+      wordDifficulties,
+    };
+  });
+
+  const manifest: BuildManifest = {
+    schemaVersion: 1,
+    dictionaryVersion: '2026.07.1',
+    generatedAt: new Date().toISOString(),
+    sourceCommit: 'bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b',
+    sourceLicense: 'MIT',
+    totalWordCount: words.length,
+    decks: Object.fromEntries(
+      decks.map((d) => [d.id, d.wordIds.length]),
+    ),
+    difficultyRuleVersion: DIFFICULTY_RULE_VERSION,
+  };
+
+  const sourceMeta: DictionarySourceMetadata = {
+    sourceName: 'ECDICT',
+    repository: 'https://github.com/skywind3000/ECDICT',
+    commitHash: 'bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b',
+    importedAt: new Date().toISOString(),
+    declaredLicense: 'MIT',
+    licenseFileHash: 'sample',
+  };
+
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'words.json'), JSON.stringify(words, null, 2), 'utf-8');
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'decks.json'), JSON.stringify(decks, null, 2), 'utf-8');
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf-8');
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'source-metadata.json'), JSON.stringify(sourceMeta, null, 2), 'utf-8');
+
+  console.log('样本词库生成完成:');
+  console.log(`  总单词: ${words.length}`);
+  for (const deck of decks) {
+    console.log(`  ${deck.name}: ${deck.wordIds.length} 词`);
+  }
+  console.log(`输出目录: ${OUTPUT_DIR}`);
+}
+
+main();

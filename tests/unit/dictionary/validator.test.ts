@@ -4,16 +4,16 @@ import type { WordRecord, DeckRecord } from '@/types';
 
 function validWord(overrides: Partial<WordRecord> = {}): WordRecord {
   return {
-    id: 'w-abandon',
-    word: 'abandon',
-    lemma: 'abandon',
-    phonetic: '/əˈbændən/',
+    id: 'w-test',
+    word: 'test',
+    lemma: 'test',
     partOfSpeech: ['v.'],
-    coreMeaningZh: ['放弃；遗弃'],
+    coreMeaningZh: ['测试'],
     exampleSentence: 'He abandoned his car on the highway.',
     exampleTranslation: '他把车丢在了高速公路上。',
+    surfaceFormInExample: 'abandoned',
     difficulty: 2,
-    source: 'builtin-sample',
+    source: 'test-source',
     license: 'CC0-1.0',
     ...overrides,
   };
@@ -74,16 +74,25 @@ describe('validateWordRecord — 词库单条校验', () => {
     expect(result.errors).toContain('coreMeaningZh 含有空项');
   });
 
-  it('exampleSentence 为空时不通过', () => {
-    const result = validateWordRecord(validWord({ exampleSentence: '' }));
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain('exampleSentence 不能为空');
-  });
-
-  it('exampleTranslation 为空时不通过', () => {
+  it('有例句但无例句翻译时不通过', () => {
     const result = validateWordRecord(validWord({ exampleTranslation: '' }));
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('exampleTranslation 不能为空');
+    expect(result.errors).toContain('有例句但无例句翻译');
+  });
+
+  it('有例句翻译但无例句时不通过', () => {
+    const result = validateWordRecord(validWord({ exampleSentence: '', exampleTranslation: '翻译' }));
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain('有例句翻译但无例句');
+  });
+
+  it('无例句时 surfaceFormInExample 可为空', () => {
+    const result = validateWordRecord(validWord({
+      exampleSentence: '',
+      exampleTranslation: '',
+      surfaceFormInExample: '',
+    }));
+    expect(result.valid).toBe(true);
   });
 
   it('source 为空时不通过（来源可追溯）', () => {

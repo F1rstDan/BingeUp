@@ -8,6 +8,7 @@ import type {
   Question,
   ReviewLogRecord,
   ReviewRating,
+  SelfRatedLevel,
   SpellingQuestion,
   SpellingSubmission,
   SubmissionResult,
@@ -27,13 +28,37 @@ import {
 } from '@/learning/question-generator';
 
 /**
- * 本地词库端口：学习服务通过此端口读取单词与词库，
- * 默认实现为内置词库（见 `src/dictionary/built-in`）。
+ * 本地词库端口：学习服务通过此端口读取单词与词库。
+ *
+ * Issue #25：全部方法异步化，支持按词库查询、分页和候选抽样。
+ * 默认实现为 IndexedDB 词库（见 `src/dictionary/`）。
  */
 export interface WordBankPort {
-  getDefaultDeck(): DeckRecord;
-  getWord(wordId: string): WordRecord | null;
-  listWords(): WordRecord[];
+  /** 获取默认词库。 */
+  getDefaultDeck(): Promise<DeckRecord>;
+  /** 按 ID 获取词库。 */
+  getDeck(deckId: string): Promise<DeckRecord | null>;
+  /** 按 ID 获取单词。 */
+  getWord(wordId: string): Promise<WordRecord | null>;
+  /** 批量按 ID 获取单词（用于干扰项池）。 */
+  getWordsByIds(wordIds: string[]): Promise<WordRecord[]>;
+  /**
+   * 从指定词库中抽样候选新词。
+   *
+   * @param deckId - 词库 ID
+   * @param count - 需要抽样的数量
+   * @param preferredDifficulty - 优先难度区间（如 [1, 2]）
+   * @param excludeWordIds - 排除的单词 ID（已有学习卡、已展示等）
+   * @returns 按优先级排序的候选单词列表
+   */
+  sampleDeckWords(params: {
+    deckId: string;
+    count: number;
+    preferredDifficulty: number[];
+    excludeWordIds: string[];
+  }): Promise<WordRecord[]>;
+  /** 列出所有单词（用于干扰项池）。 */
+  listWords(): Promise<WordRecord[]>;
 }
 
 /** 时钟端口，便于测试注入。 */
@@ -72,6 +97,10 @@ export interface LearningServiceDeps {
   dailyNewWordLimit?: number;
   /** 随机函数，用于自报认识词验证题延迟（[1,2) 天），缺省 Math.random。 */
   random?: () => number;
+  /** 当前选中的词库 ID（Issue #25）。缺省时使用默认词库。 */
+  selectedDeckId?: string;
+  /** 用户自评水平（Issue #25）。缺省为 intermediate。 */
+  selfRatedLevel?: SelfRatedLevel;
 }
 
 /**
@@ -113,6 +142,38 @@ export class LearningService {
   }
 
   private readonly defaultScheduler: ReviewSchedulerPort = new FsrsReviewScheduler();
+
+  /** 当前词库 ID（Issue #25）。 */
+  private async getSelectedDeckId(): Promise<string> {
+    if (this.deps.selectedDeckId) {
+      const deck = await this.deps.words.getDeck(this.deps.selectedDeckId);
+      if (deck) return this.deps.selectedDeckId;
+    }
+    const defaultDeck = await this.deps.words.getDefaultDeck();
+    return defaultDeck.id;
+  }
+
+  /** 当前自评水平（Issue #25）。 */
+  private get selfRatedLevel(): SelfRatedLevel {
+    return this.deps.selfRatedLevel ?? 'intermediate';
+  }
+
+  /**
+   * 自评水平对应的优先难度区间（Issue #25）。
+   * - beginner → [1, 2]
+   * - intermediate → [2, 3]
+   * - advanced → [3, 4]
+   */
+  private getPreferredDifficulty(): number[] {
+    switch (this.selfRatedLevel) {
+      case 'beginner':
+        return [1, 2];
+      case 'intermediate':
+        return [2, 3];
+      case 'advanced':
+        return [3, 4];
+    }
+  }
 
   /**
    * 获取下一个学习项目。
@@ -170,7 +231,7 @@ export class LearningService {
       return null;
     }
 
-    const candidate = this.pickCandidateNewWord(allCards, excludedWordIds);
+    const candidate = await this.pickCandidateNewWord(allCards, excludedWordIds);
     if (candidate) {
       return { kind: 'new-word-presentation', presentation: { word: candidate } };
     }
@@ -195,10 +256,11 @@ export class LearningService {
     const existing = await this.deps.cards.getByWordId(wordId);
     if (existing) return;
 
+    const deckId = await this.getSelectedDeckId();
     const card: CardRecord = {
       id: crypto.randomUUID(),
       wordId,
-      deckId: this.deps.words.getDefaultDeck().id,
+      deckId,
       stage: 'short-term',
       origin: 'accepted-new',
       createdAt: now,
@@ -217,13 +279,14 @@ export class LearningService {
     const existing = await this.deps.cards.getByWordId(wordId);
     if (existing) return;
 
+    const deckId = await this.getSelectedDeckId();
     const delay =
       SELF_REPORTED_MIN_DELAY_MS +
       this.random() * (SELF_REPORTED_MAX_DELAY_MS - SELF_REPORTED_MIN_DELAY_MS);
     const card: CardRecord = {
       id: crypto.randomUUID(),
       wordId,
-      deckId: this.deps.words.getDefaultDeck().id,
+      deckId,
       stage: 'self-reported-known',
       origin: 'self-reported',
       createdAt: now,
@@ -544,9 +607,9 @@ export class LearningService {
     card: CardRecord,
     allowSpelling: boolean = false,
   ): Promise<Question | null> {
-    const targetWord = this.deps.words.getWord(card.wordId);
+    const targetWord = await this.deps.words.getWord(card.wordId);
     if (!targetWord) return null;
-    const allWords = this.deps.words.listWords();
+    const allWords = await this.deps.words.listWords();
     const distractors = allWords.filter((w) => w.id !== card.wordId);
     if (distractors.length < 3) return null;
 
@@ -577,20 +640,62 @@ export class LearningService {
   }
 
   /**
-   * 选取尚无学习卡的候选新词（取第一个）。
-   * 连续学习模式排除已展示过的单词（Issue #8 验收标准 5）。
+   * 选取候选新词（Issue #25：词库+水平感知）。
+   *
+   * 策略：
+   * 1. 从当前词库获取候选单词
+   * 2. 排除已有学习卡的单词 + 排除项
+   * 3. 优先从当前水平区间内选取
+   * 4. 区间内无候选时，逐级扩展到相邻难度
+   * 5. 最低保证：从所有剩余合格词中随机选
    */
-  private pickCandidateNewWord(
+  private async pickCandidateNewWord(
     existingCards: CardRecord[],
     excludedWordIds?: Set<string>,
-  ): WordRecord | null {
-    const allWords = this.deps.words.listWords();
+  ): Promise<WordRecord | null> {
+    const deckId = await this.getSelectedDeckId();
     const cardWordIds = new Set(existingCards.map((c) => c.wordId));
-    return (
-      allWords.find(
-        (w) => !cardWordIds.has(w.id) && !(excludedWordIds?.has(w.id) ?? false),
-      ) ?? null
-    );
+    const allExcluded = new Set([...cardWordIds, ...(excludedWordIds ?? [])]);
+
+    // 逐级扩展的难度区间
+    const preferred = this.getPreferredDifficulty();
+    const difficultyZones = this.buildDifficultyZones(preferred);
+
+    for (const zone of difficultyZones) {
+      const candidates = await this.deps.words.sampleDeckWords({
+        deckId,
+        count: 5,
+        preferredDifficulty: zone,
+        excludeWordIds: [...allExcluded],
+      });
+
+      // 排除已有学习卡的词（双重保险）
+      const valid = candidates.filter((w) => !allExcluded.has(w.id));
+      if (valid.length > 0) {
+        // 在优先级区间内随机选一个
+        return valid[Math.floor(this.random() * valid.length)]!;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * 构建逐级扩展的难度区间（Issue #25 review 修正）。
+   * - beginner: [1,2] → [3] → [4]
+   * - intermediate: [2,3] → [1] → [4]
+   * - advanced: [3,4] → [2] → [1]
+   */
+  private buildDifficultyZones(preferred: number[]): number[][] {
+    const all: number[] = [1, 2, 3, 4];
+    const zones: number[][] = [preferred];
+
+    const remaining = all.filter((d) => !preferred.includes(d));
+    for (const d of remaining) {
+      zones.push([d]);
+    }
+
+    return zones;
   }
 
   /** 统计本地自然日内通过“知道了”接受的新词数量。 */

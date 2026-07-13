@@ -219,19 +219,21 @@ export function generateZhToEnQuestion(input: GenerateQuestionInput): MultipleCh
 }
 
 /**
- * 生成例句语境选择题（Issue #7 验收标准 2）。
+ * 生成例句语境选择题（Issue #7 验收标准 2 / Issue #25）。
  *
  * 规则：
  * - 题干是目标词的例句，目标词位置替换为 ____；
  * - 四个选项为英文词形，互不重复；
- * - 只有一个正确答案；
+ * - 正确答案使用 surfaceFormInExample（表层词形），而非 lemma，
+ *   确保时态、单复数等与空位一致；
  * - 干扰项按词性/难度优先选取（确保填入后语法合理）。
  */
 export function generateContextChoiceQuestion(input: GenerateQuestionInput): MultipleChoiceQuestion {
   const { targetWord, distractors, cardId } = input;
   const random = input.random ?? Math.random;
 
-  const correctText = targetWord.word;
+  // 使用 surfaceFormInExample 作为正确答案（Issue #25）
+  const correctText = targetWord.surfaceFormInExample || targetWord.word;
   const rankedDistractors = pickDistractors(targetWord, distractors);
 
   const seen = new Set<string>([correctText]);
@@ -267,13 +269,10 @@ export function generateContextChoiceQuestion(input: GenerateQuestionInput): Mul
   const options = shuffle([correctText, ...validDistractors], random);
   const correctIndex = options.indexOf(correctText);
 
-  // 将例句中的目标词替换为 ____，构造语境题干。
-  // 使用 word boundary 正则避免子串误匹配（如 "able" 不应匹配 "capable"）。
-  // 匹配词形变化：lemma + 可选后缀（如 abandon → abandoned/abandoning/abandons）。
-  // 对正则特殊字符做 escape。
+  // 将例句中的目标词替换为 ____，构造语境题干
   const escaped = correctText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const prompt = targetWord.exampleSentence.replace(
-    new RegExp(`\\b${escaped}\\w*\\b`, 'i'),
+  const prompt = (targetWord.exampleSentence ?? '').replace(
+    new RegExp(`\\b${escaped}\\b`, 'i'),
     '____',
   );
 
