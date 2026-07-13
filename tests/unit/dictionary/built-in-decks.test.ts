@@ -74,7 +74,7 @@ describe('内置词库 — 查询接口', () => {
   });
 
   it('listBuiltInWords 返回所有词库的单词', () => {
-    const totalWordIds = BUILT_IN_DECKS.flatMap((d) => d.wordIds).length;
-    expect(listBuiltInWords().length).toBe(totalWordIds);
+    const uniqueWordIds = new Set(BUILT_IN_DECKS.flatMap((d) => d.wordIds));
+    expect(listBuiltInWords().length).toBe(uniqueWordIds.size);
   });
 });

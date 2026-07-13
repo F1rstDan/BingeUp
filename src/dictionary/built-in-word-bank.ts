@@ -2,10 +2,11 @@ import type { WordBankPort } from '@/learning/learning-service';
 import type { WordRecord, DeckRecord } from '@/types';
 
 /**
- * 内置词库适配器（Issue #25：异步化 + 从 JSON 文件加载）。
+ * 内置词库适配器（Issue #25：异步化 + JSON 加载）。
  *
  * 从 public/dictionaries/ 加载由构建流水线生成的词库数据。
- * 首次加载后缓存到内存，后续查询直接返回缓存数据。
+ * 这些 JSON 必须在 manifest 的 web_accessible_resources 中声明，否则
+ * chrome.runtime.getURL 返回的 URL 在 fetch 时会被 Chrome 屏蔽为 chrome-extension://invalid/。
  * 内容脚本通过此适配器访问词库，不将完整数据常驻 bundle。
  */
 export class BuiltInWordBank implements WordBankPort {
@@ -15,45 +16,45 @@ export class BuiltInWordBank implements WordBankPort {
   private loaded = false;
   private loadingPromise: Promise<void> | null = null;
 
-  /** 加载词库数据（幂等）。 */
+  /** 加载词库数据（幂等）。失败时清空 in-flight promise 允许下次重试，错误向上抛出。 */
   private async ensureLoaded(): Promise<void> {
     if (this.loaded) return;
     if (this.loadingPromise) return this.loadingPromise;
 
     this.loadingPromise = this.loadData();
-    await this.loadingPromise;
-    this.loaded = true;
+    try {
+      await this.loadingPromise;
+      this.loaded = true;
+    } catch (error) {
+      this.loadingPromise = null;
+      throw error;
+    }
   }
 
   private async loadData(): Promise<void> {
-    try {
-      const baseUrl = chrome.runtime.getURL('dictionaries');
-      const [wordsRes, decksRes] = await Promise.all([
-        fetch(`${baseUrl}/words.json`),
-        fetch(`${baseUrl}/decks.json`),
-      ]);
+    const baseUrl = chrome.runtime.getURL('dictionaries');
+    const [wordsRes, decksRes] = await Promise.all([
+      fetch(`${baseUrl}/words.json`),
+      fetch(`${baseUrl}/decks.json`),
+    ]);
 
-      if (!wordsRes.ok || !decksRes.ok) {
-        throw new Error(`词库加载失败: words=${wordsRes.status} decks=${decksRes.status}`);
-      }
+    if (!wordsRes.ok || !decksRes.ok) {
+      throw new Error(`词库加载失败: words=${wordsRes.status} decks=${decksRes.status}`);
+    }
 
-      const wordsData: WordRecord[] = await wordsRes.json();
-      const decksData: DeckRecord[] = await decksRes.json();
+    const wordsData: WordRecord[] = await wordsRes.json();
+    const decksData: DeckRecord[] = await decksRes.json();
 
-      for (const w of wordsData) {
-        this.words.set(w.id, w);
-      }
+    for (const w of wordsData) {
+      this.words.set(w.id, w);
+    }
 
-      for (const d of decksData) {
-        this.decks.set(d.id, d);
-      }
+    for (const d of decksData) {
+      this.decks.set(d.id, d);
+    }
 
-      if (decksData.length > 0) {
-        this.defaultDeckId = decksData[0]!.id;
-      }
-    } catch (err) {
-      console.error('[BuiltInWordBank] 词库加载失败:', err);
-      throw err;
+    if (decksData.length > 0) {
+      this.defaultDeckId = decksData[0]!.id;
     }
   }
 

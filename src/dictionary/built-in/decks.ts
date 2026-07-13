@@ -182,17 +182,39 @@ const WORDS: WordRecord[] = [
   },
 ];
 
-/** 内置词库列表。 */
+/** 内置词库列表（Issue #25：三个词库）。 */
 export const BUILT_IN_DECKS: DeckRecord[] = [
   {
     id: 'deck-daily-high-frequency',
     name: '日常高频',
-    description: 'Beta 内置示例词库，收录 12 个常见英语单词。',
+    description: '基于现代英语语料库词频排序的高频常用词汇',
     source: SOURCE,
     license: LICENSE,
     wordIds: WORDS.map((w) => w.id),
     wordDifficulties: Object.fromEntries(
       WORDS.map((w) => [w.id, w.difficulty]),
+    ),
+  },
+  {
+    id: 'deck-cet4',
+    name: '四级',
+    description: '大学英语四级考试（CET-4）核心词汇',
+    source: SOURCE,
+    license: LICENSE,
+    wordIds: WORDS.filter((w) => w.difficulty <= 3).map((w) => w.id),
+    wordDifficulties: Object.fromEntries(
+      WORDS.filter((w) => w.difficulty <= 3).map((w) => [w.id, w.difficulty]),
+    ),
+  },
+  {
+    id: 'deck-cet6',
+    name: '六级',
+    description: '大学英语六级考试（CET-6）核心词汇',
+    source: SOURCE,
+    license: LICENSE,
+    wordIds: WORDS.filter((w) => w.difficulty >= 2).map((w) => w.id),
+    wordDifficulties: Object.fromEntries(
+      WORDS.filter((w) => w.difficulty >= 2).map((w) => [w.id, w.difficulty]),
     ),
   },
 ];
