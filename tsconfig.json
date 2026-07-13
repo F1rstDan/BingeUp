@@ -6,7 +6,7 @@
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
-    "types": ["chrome", "vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "types": ["chrome", "node", "vite/client", "vitest/globals", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
