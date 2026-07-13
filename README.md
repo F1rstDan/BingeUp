@@ -47,7 +47,7 @@ npm run build
 
 ## 本地开发
 
-**前置要求**：Node.js 20+
+**前置要求**：Node.js 22+
 
 所有开发命令的唯一来源是 `package.json` 的 `scripts` 字段。下表列出日常使用的命令：
 
