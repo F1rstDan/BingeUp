@@ -25,12 +25,14 @@ import {
   extractExample,
   parseExchange,
   getLemma,
+  extractPosFromTranslation,
 } from './parse-ecdict';
 import { computeDifficulty, computeDeckDifficulty, isValidLearningWord } from './difficulty';
 import { validateAllWords } from './validate';
 
-// ECDICT 固定 commit（2024-06 附近稳定版本）
-const ECDICT_COMMIT = '3b69c3b1e6d7f8a2c0d5e4f3b2a1c9d8e7f6a5b4';
+// ECDICT 固定 commit：master 分支 2025-03-28 快照（与 ADR 003 / source-metadata.json 一致）。
+// raw.githubusercontent.com 上确有 ecdict.csv 文件（约 63MB，76 万词条基础版）。
+const ECDICT_COMMIT = 'bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b';
 const ECDICT_CSV_URL = `https://raw.githubusercontent.com/skywind3000/ECDICT/${ECDICT_COMMIT}/ecdict.csv`;
 const ECDICT_LICENSE_URL = `https://raw.githubusercontent.com/skywind3000/ECDICT/${ECDICT_COMMIT}/LICENSE`;
 const ECDICT_REPO = 'https://github.com/skywind3000/ECDICT';
@@ -160,8 +162,11 @@ async function main() {
       deckDifficulties[deckId] = computeDeckDifficulty(difficulty, deckId, tags, isOxford);
     }
 
-    // 词性
-    const partOfSpeech = parsePartOfSpeech(row.pos);
+    // 词性：ECDICT 的 pos 字段大多为空，从 translation 提取词性前缀作为回退
+    let partOfSpeech = parsePartOfSpeech(row.pos);
+    if (partOfSpeech.length === 0) {
+      partOfSpeech = extractPosFromTranslation(row.translation);
+    }
     if (partOfSpeech.length === 0) continue;
 
     // 释义：优先用 translation（中文），否则用 definition

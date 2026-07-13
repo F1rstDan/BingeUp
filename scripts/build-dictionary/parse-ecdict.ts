@@ -72,6 +72,33 @@ export function parsePartOfSpeech(pos: string): string[] {
     .map(normalizePOS);
 }
 
+/**
+ * ECDICT 的 pos 字段大多为空，词性前缀往往写在 translation 里。
+ * 例如 `vt. 放弃, 抛弃\nn. 放任, 无拘束` → ['v.', 'n.']。
+ * 按换行分多行，每行匹配开头的词性缩写。
+ */
+export function extractPosFromTranslation(translation: string): string[] {
+  if (!translation) return [];
+  const posSet = new Set<string>();
+  for (const line of translation.split(/\n/)) {
+    const m = line.match(/^\s*([a-zA-Z]+)\./);
+    if (m) {
+      const normalized = normalizePOS(m[1]!);
+      // 只保留合法的词性，过滤掉 mr.、dr. 这类前缀
+      if (VALID_POS_ABBREVS.has(normalized)) {
+        posSet.add(normalized);
+      }
+    }
+  }
+  return [...posSet];
+}
+
+/** 合法词性缩写集合，extractPosFromTranslation 用作白名单。 */
+const VALID_POS_ABBREVS = new Set([
+  'n.', 'v.', 'adj.', 'adv.', 'prep.', 'conj.', 'pron.',
+  'num.', 'art.', 'int.', 'det.', 'abbr.', 'aux.',
+]);
+
 /** 标准化词性标记。 */
 function normalizePOS(pos: string): string {
   const normalized = pos.toLowerCase();

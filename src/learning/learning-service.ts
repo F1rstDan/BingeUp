@@ -615,6 +615,11 @@ export class LearningService {
 
     let questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
 
+    // context-choice 需要例句作为题干；单词无例句时回退到 zh-to-en（ECDICT 基础版 detail 字段普遍为空）。
+    if (questionType === 'context-choice' && !targetWord.exampleSentence) {
+      questionType = 'zh-to-en';
+    }
+
     // 连续学习模式：长期复习词有概率出现拼写题（Issue #8 验收标准 3）
     if (allowSpelling && questionType === 'context-choice' && this.random() < 0.5) {
       questionType = 'spelling';
