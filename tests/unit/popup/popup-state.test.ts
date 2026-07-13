@@ -70,19 +70,66 @@ describe('popup-state — 受保护页面（AC5）', () => {
   });
 });
 
-describe('popup-state — 引导未完成（AC5：可理解状态）', () => {
-  it('引导未完成时兼容等级为 not-onboarding，提示完成引导', () => {
+describe('popup-state — 引导未完成（Issue #21 AC3/AC6）', () => {
+  it('引导未完成时默认支持网站仍按 site.mode 显示正常状态，不阻塞 Popup', () => {
     const state = derivePopupState({
       hostname: 'www.bilibili.com',
       url: 'https://www.bilibili.com/video/BV1',
-      site: site({ enabled: false }),
+      site: site({ enabled: true, mode: 'full-adaptation' }),
       onboardingCompleted: false,
       globalPausedUntil: 0,
       hasHostPermission: true,
       now: NOW,
     });
-    expect(state.compatibilityLevel).toBe('not-onboarding');
+    expect(state.compatibilityLevel).toBe('full-adaptation');
+    expect(state.overlayMode).toBe('video-region');
+    expect(state.canControlVideo).toBe(true);
+    expect(state.enabled).toBe(true);
     expect(state.onboardingCompleted).toBe(false);
+  });
+
+  it('引导未完成 + 站点默认启用：跳过引导不触发启用提示（AC7）', () => {
+    const state = derivePopupState({
+      hostname: 'www.bilibili.com',
+      url: 'https://www.bilibili.com/',
+      site: site({ enabled: true, mode: 'full-adaptation' }),
+      onboardingCompleted: false,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    // AC7：跳过引导时默认站点保持启用，启用提示不出现
+    expect(state.enabled).toBe(true);
+    expect(state.showEnablePrompt).toBe(false);
+  });
+
+  it('引导未完成 + 站点已关闭：启用提示正常显示，不因引导未完成而抑制', () => {
+    const state = derivePopupState({
+      hostname: 'www.bilibili.com',
+      url: 'https://www.bilibili.com/',
+      site: site({ enabled: false, mode: 'full-adaptation', promptDeclineCount: 0 }),
+      onboardingCompleted: false,
+      globalPausedUntil: 0,
+      hasHostPermission: true,
+      now: NOW,
+    });
+    expect(state.compatibilityLevel).toBe('full-adaptation');
+    expect(state.showEnablePrompt).toBe(true);
+    expect(state.onboardingCompleted).toBe(false);
+  });
+
+  it('引导未完成 + 非官方 unsupported 站点：canAddCustomSite 不被引导状态阻塞（AC6）', () => {
+    const state = derivePopupState({
+      hostname: 'example.com',
+      url: 'https://example.com/',
+      site: site({ enabled: false, mode: 'unsupported' }),
+      onboardingCompleted: false,
+      globalPausedUntil: 0,
+      hasHostPermission: false,
+      now: NOW,
+    });
+    expect(state.canAddCustomSite).toBe(true);
+    expect(state.compatibilityLevel).toBe('unsupported');
   });
 });
 
@@ -325,19 +372,6 @@ describe('popup-state — 自定义网站加入（Issue #11 AC1）', () => {
       url: 'chrome://extensions/',
       site: site({ mode: 'unsupported' }),
       onboardingCompleted: true,
-      globalPausedUntil: 0,
-      hasHostPermission: false,
-      now: NOW,
-    });
-    expect(state.canAddCustomSite).toBe(false);
-  });
-
-  it('引导未完成 → canAddCustomSite=false', () => {
-    const state = derivePopupState({
-      hostname: 'example.com',
-      url: 'https://example.com/',
-      site: site({ mode: 'unsupported' }),
-      onboardingCompleted: false,
       globalPausedUntil: 0,
       hasHostPermission: false,
       now: NOW,

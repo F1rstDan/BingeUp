@@ -103,7 +103,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return { ...site, hostname: message.hostname };
       }
 
-      // ─── Issue #9 ───────────────────────────────────────────
+      // ─── Issue #9 / #21 ───────────────────────────────────────
       case 'ONBOARDING_COMPLETE': {
         await store.markOnboardingCompleted();
         const selectedHostnames = selectedOnboardingHostnames(message.hostnames);
@@ -115,6 +115,15 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
             await store.disableSite(hostname);
           }
         }
+        // Issue #21：引导期选择的词库与自评水平覆盖默认应用设置。
+        // setAppSettings 会经过 normalizeAppSettings 校验自动修正，
+        // 非法值回退默认，不会污染持久化状态。
+        const current = await store.getAppSettings();
+        await store.setAppSettings({
+          ...current,
+          selectedDeckId: message.deckId,
+          selfRatedLevel: message.selfRatedLevel,
+        });
         return undefined;
       }
       case 'SITE_ENABLE': {

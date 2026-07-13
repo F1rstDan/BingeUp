@@ -15,6 +15,93 @@ body {
   gap: 18px;
 }
 
+.bingeup-onboarding-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--bingeup-line);
+  border-radius: var(--bingeup-radius-lg);
+  background: var(--bingeup-white);
+  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
+}
+
+.bingeup-onboarding-section h2 {
+  margin: 0;
+  color: var(--bingeup-ink);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.bingeup-onboarding-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bingeup-onboarding-field-label {
+  color: #4e6072;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.bingeup-onboarding-options {
+  display: grid;
+  gap: 8px;
+}
+
+.bingeup-onboarding-level-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bingeup-onboarding-option {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 16px;
+  border: 1.5px solid var(--bingeup-line);
+  border-radius: var(--bingeup-radius-md);
+  background: var(--bingeup-white);
+  box-shadow: 0 4px 0 rgba(35, 75, 112, 0.025);
+  cursor: pointer;
+  transition: 140ms ease;
+}
+
+.bingeup-onboarding-option:hover {
+  border-color: #9bd4f8;
+  transform: translateY(-1px);
+}
+.bingeup-onboarding-option.checked {
+  border-color: var(--bingeup-blue);
+  background: var(--bingeup-blue-soft);
+  box-shadow: 0 4px 0 #b9def6;
+}
+.bingeup-onboarding-option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.bingeup-onboarding-option.bingeup-onboarding-option-sm {
+  align-items: flex-start;
+  padding: 11px 12px;
+  gap: 9px;
+}
+
+.bingeup-onboarding-option.bingeup-onboarding-option-sm input {
+  margin-top: 2px;
+}
+
+.bingeup-onboarding-option.bingeup-onboarding-option-sm .bingeup-site-name {
+  font-size: 13px;
+}
+
+.bingeup-onboarding-option.bingeup-onboarding-option-sm .bingeup-site-desc {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .bingeup-onboarding-mascot {
   width: 148px;
   height: 148px;
@@ -143,4 +230,10 @@ body {
   color: var(--bingeup-pink-dark) !important;
   font-size: 13px !important;
   font-weight: 800;
+}
+
+@media (max-width: 540px) {
+  .bingeup-onboarding-level-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

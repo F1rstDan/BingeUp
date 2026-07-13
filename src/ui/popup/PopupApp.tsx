@@ -17,11 +17,12 @@ import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
 
 /**
- * Popup 面板（Issue #9 AC3 / AC4 / AC5）。
+ * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6）。
  *
  * AC3：显示当前域名、启用状态与兼容等级。
  * AC4：暂停 10 分钟 / 暂停今天 / 恢复全部 / 开始连续学习 / 设置 / 统计。
- * AC5：受保护页面、未完成引导、缺少权限时提供可理解状态而非静默失败。
+ * AC5：受保护页面、缺少权限时提供可理解状态而非静默失败。
+ * Issue #21 AC3/AC6：未完成安装引导不阻止 Popup 显示正常网站状态与控制。
  */
 
 const COMPATIBILITY_LABELS: Record<PopupCompatibilityLevel, string> = {
@@ -31,7 +32,6 @@ const COMPATIBILITY_LABELS: Record<PopupCompatibilityLevel, string> = {
   unsupported: '不支持',
   protected: '受保护页面',
   'needs-permission': '需要权限',
-  'not-onboarding': '未完成引导',
 };
 
 interface PopupContext {
@@ -270,27 +270,8 @@ function PopupView({
     );
   }
 
-  // AC5：引导未完成
-  if (state.compatibilityLevel === 'not-onboarding') {
-    return (
-      <div className="bingeup-popup">
-        <PopupHeader />
-        <div className="bingeup-state-card">
-          <strong className="bingeup-state-title">先完成安装引导</strong>
-          <p className="bingeup-hint">尚未完成安装引导。</p>
-        </div>
-        <button
-          className="bingeup-btn-primary bingeup-btn-full"
-          onClick={() =>
-            void chrome.tabs.create({ url: chrome.runtime.getURL('/onboarding.html') })
-          }
-        >
-          开始引导
-        </button>
-        <DisabledStartLearning reason="请先完成安装引导。" />
-      </div>
-    );
-  }
+  // Issue #21 AC3/AC6：未完成安装引导不再阻止 Popup 显示正常网站状态。
+  // 受保护页面之外的所有页面都按正常状态展示，引导状态只作为信息字段保留。
 
   // AC5：缺少主机权限
   if (state.compatibilityLevel === 'needs-permission') {

@@ -1,8 +1,8 @@
-import type { AppSettings, CooldownState, SiteSettings } from '@/types';
+import type { AppSettings, CooldownState, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
 
 /**
- * Background ↔ Content Script / Popup 消息协议（M1-02 / Issue #9 / #10）。
+ * Background ↔ Content Script / Popup 消息协议（M1-02 / Issue #9 / #10 / #21）。
  * Background 负责共享全局冷却、站点权限/状态、引导状态、全局暂停、
  * 应用设置与本地数据管理，以及消息分发。
  */
@@ -14,8 +14,16 @@ export type ExtensionMessage =
   | { type: 'SITE_GET_STATE'; hostname: string }
   | { type: 'SITE_MARK_FIRST_QUESTION_HANDLED'; hostname: string }
   // ─── Issue #9：安装引导、可选权限与 Popup 控制 ──────────────
-  /** 完成引导：标记 onboardingCompleted，并同步受支持站点的启用选择。 */
-  | { type: 'ONBOARDING_COMPLETE'; hostnames: string[] }
+  /**
+   * 完成引导：标记 onboardingCompleted，并同步受支持站点的启用选择。
+   * Issue #21：引导同时让用户选择当前词库与自评水平，覆盖默认应用设置。
+   */
+  | {
+      type: 'ONBOARDING_COMPLETE';
+      hostnames: string[];
+      deckId: string;
+      selfRatedLevel: SelfRatedLevel;
+    }
   /** 启用当前网站（Popup / 启用提示）。 */
   | { type: 'SITE_ENABLE'; hostname: string }
   /** 暂停当前网站（AC4）。 */

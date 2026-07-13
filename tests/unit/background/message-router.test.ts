@@ -67,7 +67,12 @@ describe('message-router — Issue #9 新增消息', () => {
 
   it('ONBOARDING_COMPLETE：标记引导完成并启用选定网站', async () => {
     await router.handle(
-      { type: 'ONBOARDING_COMPLETE', hostnames: ['bilibili.com', 'youtube.com'] },
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com', 'youtube.com'],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
       {} as chrome.runtime.MessageSender,
     );
 
@@ -81,7 +86,12 @@ describe('message-router — Issue #9 新增消息', () => {
 
   it('ONBOARDING_COMPLETE：取消的网站会持久化为未启用', async () => {
     await router.handle(
-      { type: 'ONBOARDING_COMPLETE', hostnames: ['bilibili.com'] },
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com'],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
       {} as chrome.runtime.MessageSender,
     );
 
@@ -91,7 +101,12 @@ describe('message-router — Issue #9 新增消息', () => {
 
   it('ONBOARDING_COMPLETE：忽略非受支持站点', async () => {
     await router.handle(
-      { type: 'ONBOARDING_COMPLETE', hostnames: ['bilibili.com', 'example.com'] },
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com', 'example.com'],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
       {} as chrome.runtime.MessageSender,
     );
 
@@ -101,7 +116,12 @@ describe('message-router — Issue #9 新增消息', () => {
 
   it('ONBOARDING_COMPLETE：空网站列表也标记引导完成（AC1：不选择也能完成）', async () => {
     await router.handle(
-      { type: 'ONBOARDING_COMPLETE', hostnames: [] },
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: [],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
       {} as chrome.runtime.MessageSender,
     );
 
@@ -246,6 +266,137 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(res.site.hostname).toBe('www.bilibili.com');
     expect(res.onboardingCompleted).toBe(true);
     expect(res.globalPausedUntil).toBe(7_000_000);
+  });
+});
+
+// ─── Issue #21：安装引导与默认启用语义一致 ─────────────────────────
+
+describe('message-router — Issue #21 默认启用与引导一致性', () => {
+  let cleanup: (() => void) | null = null;
+  let store: LocalSettingsStore;
+  let router: ReturnType<typeof createMessageRouter>;
+  let db: IDBDatabase;
+
+  beforeEach(async () => {
+    installChromeStorageMock();
+    cleanup = () => {
+      delete (globalThis as { chrome?: unknown }).chrome;
+    };
+    db = await openDatabase(TEST_DB, MIGRATIONS);
+    store = new LocalSettingsStore(db);
+    router = createMessageRouter(store, db);
+  });
+
+  afterEach(async () => {
+    db.close();
+    await deleteDatabase(TEST_DB);
+    cleanup?.();
+    cleanup = null;
+  });
+
+  it('AC1/AC2：未完成引导时默认支持网站仍为启用状态（首次安装直接可用）', async () => {
+    // 不发送 ONBOARDING_COMPLETE，模拟用户关闭/跳过引导标签页
+    expect(await store.isOnboardingCompleted()).toBe(false);
+    const bilibili = await store.getSite('www.bilibili.com');
+    expect(bilibili.enabled).toBe(true);
+    expect(bilibili.mode).toBe('full-adaptation');
+    expect(bilibili.firstQuestionPending).toBe(true);
+    const youtube = await store.getSite('www.youtube.com');
+    expect(youtube.enabled).toBe(true);
+  });
+
+  it('AC4：完成引导时持久化用户选择的词库与自评水平', async () => {
+    await router.handle(
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com', 'youtube.com'],
+        deckId: 'deck-cet4',
+        selfRatedLevel: 'advanced',
+      },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    const settings = await store.getAppSettings();
+    expect(settings.selectedDeckId).toBe('deck-cet4');
+    expect(settings.selfRatedLevel).toBe('advanced');
+  });
+
+  it('AC4：完成引导时取消的网站持久化为未启用，保留的网站保持启用', async () => {
+    await router.handle(
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com'],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(true);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(false);
+  });
+
+  it('AC5：完成引导关闭全部默认网站后可通过 SITE_ENABLE 重新启用', async () => {
+    // 完成引导时不选择任何网站
+    await router.handle(
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: [],
+        deckId: DEFAULT_SETTINGS.selectedDeckId,
+        selfRatedLevel: DEFAULT_SETTINGS.selfRatedLevel,
+      },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(false);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(false);
+
+    // 用户从 Popup/设置页重新启用
+    const res = (await router.handle(
+      { type: 'SITE_ENABLE', hostname: 'www.bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { enabled: boolean; firstQuestionPending: boolean };
+
+    expect(res.enabled).toBe(true);
+    expect(res.firstQuestionPending).toBe(true);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(false);
+  });
+
+  it('AC8：完整流程 — 首次安装可用 → 跳过引导保持启用 → 完成引导关闭全部 → 重新启用', async () => {
+    // 1. 首次安装：默认网站已启用，引导未完成
+    expect(await store.isOnboardingCompleted()).toBe(false);
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(true);
+
+    // 2. 跳过引导（不发消息）：默认网站仍启用
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(true);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(true);
+
+    // 3. 用户后来完成引导，关闭全部默认网站，选择六级词库与初级水平
+    await router.handle(
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: [],
+        deckId: 'deck-cet6',
+        selfRatedLevel: 'beginner',
+      },
+      {} as chrome.runtime.MessageSender,
+    );
+    expect(await store.isOnboardingCompleted()).toBe(true);
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(false);
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(false);
+    const settings = await store.getAppSettings();
+    expect(settings.selectedDeckId).toBe('deck-cet6');
+    expect(settings.selfRatedLevel).toBe('beginner');
+
+    // 4. 用户从 Popup 重新启用 YouTube
+    await router.handle(
+      { type: 'SITE_ENABLE', hostname: 'www.youtube.com' },
+      {} as chrome.runtime.MessageSender,
+    );
+    expect((await store.getSite('www.youtube.com')).enabled).toBe(true);
+    expect((await store.getSite('www.youtube.com')).firstQuestionPending).toBe(true);
+    // Bilibili 仍保持关闭
+    expect((await store.getSite('www.bilibili.com')).enabled).toBe(false);
   });
 });
 

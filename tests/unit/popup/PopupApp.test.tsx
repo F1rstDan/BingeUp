@@ -86,7 +86,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     });
   });
 
-  it('未完成引导时显示"开始引导"入口（AC5）', async () => {
+  it('引导未完成 + 默认站点未启用：显示正常网站状态与开启入口（Issue #21 AC3/AC6）', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
       site: {
@@ -102,9 +102,35 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     render(<PopupApp />);
 
     await waitFor(() => {
-      expect(screen.getByText('尚未完成安装引导。')).toBeInTheDocument();
-      expect(screen.getByText('开始引导')).toBeInTheDocument();
+      expect(screen.getByText('www.bilibili.com')).toBeInTheDocument();
+      expect(screen.getByText('未启用')).toBeInTheDocument();
+      expect(screen.getByText('完整适配')).toBeInTheDocument();
+      expect(screen.getByText('开启当前网站')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
+    });
+  });
+
+  it('引导未完成 + 默认站点已启用：显示正常状态且开始学习可用（Issue #21 AC3/AC6）', async () => {
+    const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
+    stub.tabs.sendMessage.mockResolvedValue({ ok: true });
+    getPopupData.mockResolvedValue({
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
+      onboardingCompleted: false,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    await waitFor(() => {
+      expect(screen.getByText('www.bilibili.com')).toBeInTheDocument();
+      expect(screen.getByText('已启用')).toBeInTheDocument();
+      expect(screen.getByText('完整适配')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '开始学习' })).toBeEnabled();
     });
   });
 

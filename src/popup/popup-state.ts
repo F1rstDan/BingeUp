@@ -4,18 +4,19 @@ import { MAX_PROMPT_DECLINES } from '@/onboarding/onboarding-service';
 import { isSupportedHostname } from '@/sites/supported-sites';
 
 /**
- * Popup 显示状态派生（Issue #9 AC3 / AC5）。纯函数。
+ * Popup 显示状态派生（Issue #9 AC3 / AC5 / Issue #21 AC3/AC6）。纯函数。
  *
  * AC3：Popup 显示当前域名、启用状态、兼容等级、覆盖方式和是否能控制视频。
  * AC5：权限拒绝与受保护页面提供可理解的状态，而不是静默失败。
+ * Issue #21 AC3/AC6：未完成安装引导不阻止 Popup 显示正常网站状态、
+ * 暂停控制和主动学习入口；onboardingCompleted 不参与可用性判断。
  */
 
 /** 受保护页面协议前缀（内容脚本无法注入）。 */
 const PROTECTED_PROTOCOLS = ['chrome:', 'edge:', 'about:', 'chrome-extension:', 'moz-extension:'];
 
-/** Popup 兼容等级展示类型（比 SiteMode 多出 protected/needs-permission/not-onboarding）。 */
-export type PopupCompatibilityLevel =
-  SiteMode | 'protected' | 'needs-permission' | 'not-onboarding';
+/** Popup 兼容等级展示类型（比 SiteMode 多出 protected/needs-permission）。 */
+export type PopupCompatibilityLevel = SiteMode | 'protected' | 'needs-permission';
 
 /** Popup 显示状态。 */
 export interface PopupDisplayState {
@@ -23,7 +24,10 @@ export interface PopupDisplayState {
   hostname: string;
   /** 是否为受保护页面（chrome://、edge://、about:、扩展页）。 */
   isProtectedPage: boolean;
-  /** 引导是否已完成。 */
+  /**
+   * 引导是否已完成（仅用于显示，不参与可用性判断；Issue #21 AC6）。
+   * 启用提示等需要区分"用户明确关闭"与"尚未配置"的 UX 逻辑仍可读取此字段。
+   */
   onboardingCompleted: boolean;
   /** 当前网站是否启用（站点 enabled 标志）。 */
   enabled: boolean;
@@ -112,22 +116,8 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     };
   }
 
-  // AC5：引导未完成时提供"完成引导"状态。
-  if (!input.onboardingCompleted) {
-    return {
-      hostname: input.hostname,
-      isProtectedPage: false,
-      onboardingCompleted: false,
-      enabled: false,
-      globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
-      globalPausedUntil: input.globalPausedUntil,
-      compatibilityLevel: 'not-onboarding',
-      overlayMode: null,
-      canControlVideo: false,
-      showEnablePrompt: false,
-      canAddCustomSite: false,
-    };
-  }
+  // Issue #21 AC3/AC6：未完成安装引导不再阻止 Popup 显示正常网站状态。
+  // 默认支持网站在引导未完成时仍按默认启用状态展示，用户可立即开始学习。
 
   // Issue #16：内容脚本只运行在 HTTPS 页面。即使相同 hostname 已持久化启用，
   // HTTP 等页面也必须按不支持处理，不能向内容脚本发送主动学习请求。
@@ -136,7 +126,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     return {
       hostname: input.hostname,
       isProtectedPage: false,
-      onboardingCompleted: true,
+      onboardingCompleted: input.onboardingCompleted,
       enabled: false,
       globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
       globalPausedUntil: input.globalPausedUntil,
@@ -153,7 +143,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
     return {
       hostname: input.hostname,
       isProtectedPage: false,
-      onboardingCompleted: true,
+      onboardingCompleted: input.onboardingCompleted,
       enabled: input.site.enabled,
       globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
       globalPausedUntil: input.globalPausedUntil,
@@ -173,7 +163,7 @@ export function derivePopupState(input: DerivePopupStateInput): PopupDisplayStat
   return {
     hostname: input.hostname,
     isProtectedPage: false,
-    onboardingCompleted: true,
+    onboardingCompleted: input.onboardingCompleted,
     enabled: input.site.enabled,
     globallyPaused: isGloballyPaused(input.globalPausedUntil, input.now),
     globalPausedUntil: input.globalPausedUntil,

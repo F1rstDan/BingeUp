@@ -1,4 +1,4 @@
-import type { AppSettings, SiteMode } from '@/types';
+import type { AppSettings, SelfRatedLevel, SiteMode } from '@/types';
 import type {
   CooldownStatusResponse,
   ExportDataResponse,
@@ -33,9 +33,22 @@ export const messageClient = {
     return send({ type: 'SITE_MARK_FIRST_QUESTION_HANDLED', hostname });
   },
 
-  // ─── Issue #9 ─────────────────────────────────────────────
-  async completeOnboarding(hostnames: string[]): Promise<void> {
-    await send({ type: 'ONBOARDING_COMPLETE', hostnames });
+  // ─── Issue #9 / #21 ───────────────────────────────────────
+  /**
+   * 完成安装引导：同步受支持站点的启用选择，并持久化用户在引导中选择的
+   * 当前词库与自评水平（Issue #21）。
+   */
+  async completeOnboarding(params: {
+    hostnames: string[];
+    deckId: string;
+    selfRatedLevel: SelfRatedLevel;
+  }): Promise<void> {
+    await send({
+      type: 'ONBOARDING_COMPLETE',
+      hostnames: params.hostnames,
+      deckId: params.deckId,
+      selfRatedLevel: params.selfRatedLevel,
+    });
   },
   async enableSite(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'SITE_ENABLE', hostname });
