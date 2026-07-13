@@ -17,4 +17,19 @@ export default defineConfig({
     },
   },
   srcDir: 'src',
+  dev: {
+    // WXT 0.18.14 的 serve background 会无条件监听 browser.commands.onCommand。
+    // 显式保留 reload command，确保生成 commands manifest、避免启动时 API 缺失。
+    reloadCommand: 'Alt+R',
+  },
+  hooks: {
+    // Vite 5.4+ 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
+    // WXT 0.18.x 的扩展 dev client 尚未携带该 token。仅在本机开发服务器中跳过校验。
+    'vite:devServer:extendConfig': (config) => {
+      (config as Record<string, unknown>).legacy = {
+        ...((config as Record<string, unknown>).legacy ?? {}),
+        skipWebSocketTokenCheck: true,
+      };
+    },
+  },
 });
