@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   captureSnapshot,
   pauseForInteraction,
@@ -7,7 +7,9 @@ import {
 } from '@/video/playback-controller';
 
 /** 假视频：实现 VideoPlaybackPort，记录 pause/play 调用次数。 */
-function makeFakeVideo(opts: { paused?: boolean; ended?: boolean; playFails?: boolean } = {}): VideoPlaybackPort & {
+function makeFakeVideo(
+  opts: { paused?: boolean; ended?: boolean; playFails?: boolean } = {},
+): VideoPlaybackPort & {
   pauseCalls: number;
   playCalls: number;
 } {

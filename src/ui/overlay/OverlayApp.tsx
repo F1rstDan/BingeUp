@@ -73,7 +73,8 @@ export function OverlayApp({
 
   /** 提交拼写题答案：发出 submit-spelling 回调，进入反馈阶段。 */
   const doSubmitSpelling = useCallback(() => {
-    if (item.kind !== 'spelling-question' || spelledAnswer.trim() === '' || submitted || done) return;
+    if (item.kind !== 'spelling-question' || spelledAnswer.trim() === '' || submitted || done)
+      return;
     setSubmitted(true);
     onAction({
       type: 'submit-spelling',
@@ -243,7 +244,22 @@ export function OverlayApp({
 
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [item, submitted, selected, done, isContinuous, spelledAnswer, fireFinal, doSubmit, doSubmitSpelling, doSubmitAndContinue, doSubmitSpellingAndContinue, doSubmitAndEnd, doSubmitSpellingAndEnd, onAction]);
+  }, [
+    item,
+    submitted,
+    selected,
+    done,
+    isContinuous,
+    spelledAnswer,
+    fireFinal,
+    doSubmit,
+    doSubmitSpelling,
+    doSubmitAndContinue,
+    doSubmitSpellingAndContinue,
+    doSubmitAndEnd,
+    doSubmitSpellingAndEnd,
+    onAction,
+  ]);
 
   // ─── 上一题反馈区（连续模式，验收标准 2：无障碍反馈） ──────────
   const renderPreviousFeedback = () => {
@@ -260,7 +276,10 @@ export function OverlayApp({
           <div className="bingeup-previous-feedback-prompt">{previousQuestion.prompt}</div>
         )}
         <div className={`bingeup-previous-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-          <span className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`} aria-hidden="true">
+          <span
+            className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
+            aria-hidden="true"
+          >
             {isCorrect ? '✓' : '✗'}
           </span>
           {isCorrect ? '答对了' : '答错了'}
@@ -311,7 +330,9 @@ export function OverlayApp({
                 <button
                   type="button"
                   className="bingeup-accept"
-                  onClick={() => onAction({ type: 'accept-new-word-and-continue', wordId: word.id })}
+                  onClick={() =>
+                    onAction({ type: 'accept-new-word-and-continue', wordId: word.id })
+                  }
                   disabled={done}
                 >
                   知道了，继续 <span className="bingeup-key-hint">1</span>
@@ -414,7 +435,10 @@ export function OverlayApp({
           {submitted ? (
             <div className="bingeup-feedback">
               <div className={`bingeup-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-                <span className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`} aria-hidden="true">
+                <span
+                  className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
+                  aria-hidden="true"
+                >
                   {isCorrect ? '✓' : '✗'}
                 </span>
                 {isCorrect ? '答对了' : '答错了'}
@@ -439,7 +463,11 @@ export function OverlayApp({
                 renderExplanation(question)
               )}
               {isContinuous && (
-                <div className="bingeup-actions bingeup-question-actions" role="group" aria-label="题目操作">
+                <div
+                  className="bingeup-actions bingeup-question-actions"
+                  role="group"
+                  aria-label="题目操作"
+                >
                   <button
                     type="button"
                     className="bingeup-skip"
@@ -468,7 +496,11 @@ export function OverlayApp({
               )}
             </div>
           ) : (
-            <div className={`bingeup-actions${isContinuous ? ' bingeup-question-actions' : ''}`} role={isContinuous ? 'group' : undefined} aria-label={isContinuous ? '题目操作' : undefined}>
+            <div
+              className={`bingeup-actions${isContinuous ? ' bingeup-question-actions' : ''}`}
+              role={isContinuous ? 'group' : undefined}
+              aria-label={isContinuous ? '题目操作' : undefined}
+            >
               {isContinuous ? (
                 <>
                   <button
@@ -543,14 +575,18 @@ export function OverlayApp({
         {submitted ? (
           <div className="bingeup-feedback">
             <div className={`bingeup-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-              <span className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`} aria-hidden="true">
+              <span
+                className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
+                aria-hidden="true"
+              >
                 {isCorrect ? '✓' : '✗'}
               </span>
               {isCorrect ? '答对了' : '答错了'}
             </div>
             {!isCorrect && (
               <div className="bingeup-feedback-answer">
-                正确答案：<span className="correct-answer">{question.options[question.correctIndex]}</span>
+                正确答案：
+                <span className="correct-answer">{question.options[question.correctIndex]}</span>
               </div>
             )}
             {isCorrect ? (

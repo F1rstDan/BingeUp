@@ -8,10 +8,14 @@ const TEST_DB = 'test-authoritative-local-settings';
 
 function installRuntimeStorageMock() {
   const values: Record<string, unknown> = {};
-  const chromeStub = { storage: { local: {
-    get: vi.fn(async (key: string) => ({ [key]: values[key] })),
-    set: vi.fn(async (entries: Record<string, unknown>) => Object.assign(values, entries)),
-  } } };
+  const chromeStub = {
+    storage: {
+      local: {
+        get: vi.fn(async (key: string) => ({ [key]: values[key] })),
+        set: vi.fn(async (entries: Record<string, unknown>) => Object.assign(values, entries)),
+      },
+    },
+  };
   (globalThis as unknown as { chrome: typeof chromeStub }).chrome = chromeStub;
   return { values, chromeStub };
 }
@@ -55,18 +59,28 @@ describe('LocalSettingsStore — ADR-0003 存储边界', () => {
     await store.setGlobalPausedUntil(9_000);
 
     expect(runtime.chromeStub.storage.local.set).toHaveBeenCalled();
-    await expect(store.getCooldown()).resolves.toEqual({ nextAllowedAt: 5_000, consecutiveSkipCount: 2 });
+    await expect(store.getCooldown()).resolves.toEqual({
+      nextAllowedAt: 5_000,
+      consecutiveSkipCount: 2,
+    });
     await expect(store.getGlobalPausedUntil()).resolves.toBe(9_000);
     await expect(store.getAuthoritativeState()).resolves.toMatchObject({
-      sites: {}, onboardingCompleted: false,
+      sites: {},
+      onboardingCompleted: false,
     });
   });
 
   it('默认支持网站保持启用，自定义网站按领域规则规范化', async () => {
     const store = new LocalSettingsStore(db);
-    await expect(store.getSite('www.bilibili.com')).resolves.toMatchObject({ enabled: true, mode: 'full-adaptation' });
+    await expect(store.getSite('www.bilibili.com')).resolves.toMatchObject({
+      enabled: true,
+      mode: 'full-adaptation',
+    });
     await store.enableSite('example.com');
-    await expect(store.getSite('example.com')).resolves.toMatchObject({ enabled: true, mode: 'generic-video' });
+    await expect(store.getSite('example.com')).resolves.toMatchObject({
+      enabled: true,
+      mode: 'generic-video',
+    });
   });
 
   it('首次触发、拒绝计数和站点删除保持原有业务语义', async () => {
@@ -75,7 +89,8 @@ describe('LocalSettingsStore — ADR-0003 存储边界', () => {
     await store.markFirstQuestionHandled('www.bilibili.com');
     await store.recordPromptDecline('m.bilibili.com');
     await expect(store.getSite('bilibili.com')).resolves.toMatchObject({
-      firstQuestionPending: false, promptDeclineCount: 1,
+      firstQuestionPending: false,
+      promptDeclineCount: 1,
     });
     await store.removeSite('bilibili.com');
     await expect(store.listSites()).resolves.toEqual([]);

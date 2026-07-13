@@ -15,10 +15,7 @@ const PROTECTED_PROTOCOLS = ['chrome:', 'edge:', 'about:', 'chrome-extension:', 
 
 /** Popup 兼容等级展示类型（比 SiteMode 多出 protected/needs-permission/not-onboarding）。 */
 export type PopupCompatibilityLevel =
-  | SiteMode
-  | 'protected'
-  | 'needs-permission'
-  | 'not-onboarding';
+  SiteMode | 'protected' | 'needs-permission' | 'not-onboarding';
 
 /** Popup 显示状态。 */
 export interface PopupDisplayState {

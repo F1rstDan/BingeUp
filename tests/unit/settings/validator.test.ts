@@ -19,18 +19,14 @@ describe('validateAppSettings — Issue #10 AC3 校验', () => {
   });
 
   it('dailyNewWordLimit 超出 [0, 100] 不合法', () => {
-    expect(
-      validateAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: -1 }).valid,
-    ).toBe(false);
-    expect(
-      validateAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 101 }).valid,
-    ).toBe(false);
+    expect(validateAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: -1 }).valid).toBe(false);
+    expect(validateAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 101 }).valid).toBe(false);
   });
 
   it('consecutiveSkipCooldowns 为空数组不合法', () => {
-    expect(
-      validateAppSettings({ ...DEFAULT_SETTINGS, consecutiveSkipCooldowns: [] }).valid,
-    ).toBe(false);
+    expect(validateAppSettings({ ...DEFAULT_SETTINGS, consecutiveSkipCooldowns: [] }).valid).toBe(
+      false,
+    );
   });
 
   it('consecutiveSkipCooldowns 含非正数不合法', () => {
@@ -43,9 +39,7 @@ describe('validateAppSettings — Issue #10 AC3 校验', () => {
   });
 
   it('selectedDeckId 为空不合法', () => {
-    expect(
-      validateAppSettings({ ...DEFAULT_SETTINGS, selectedDeckId: '' }).valid,
-    ).toBe(false);
+    expect(validateAppSettings({ ...DEFAULT_SETTINGS, selectedDeckId: '' }).valid).toBe(false);
   });
 
   it('selfRatedLevel 非法值不合法', () => {
@@ -137,9 +131,7 @@ describe('normalizeAppSettings — Issue #10 AC3 自动修正', () => {
     expect(out.selectedDeckId).toBe(DEFAULT_SETTINGS.selectedDeckId);
     expect(out.selfRatedLevel).toBe(DEFAULT_SETTINGS.selfRatedLevel);
     expect(out.spellingEnabled).toBe(DEFAULT_SETTINGS.spellingEnabled);
-    expect(out.longVideoTimedLearningEnabled).toBe(
-      DEFAULT_SETTINGS.longVideoTimedLearningEnabled,
-    );
+    expect(out.longVideoTimedLearningEnabled).toBe(DEFAULT_SETTINGS.longVideoTimedLearningEnabled);
     expect(out.longVideoIntervalMinutes).toBe(DEFAULT_SETTINGS.longVideoIntervalMinutes);
   });
 });

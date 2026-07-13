@@ -1,7 +1,4 @@
-import type {
-  AppSettings,
-  SiteMode,
-} from '@/types';
+import type { AppSettings, SiteMode } from '@/types';
 import type {
   CooldownStatusResponse,
   ExportDataResponse,
@@ -112,10 +109,10 @@ export const messageClient = {
 async function send<T>(message: ExtensionMessage): Promise<T> {
   const response = await chrome.runtime.sendMessage(message);
   if (
-    typeof response === 'object'
-    && response !== null
-    && '__bingeupError' in response
-    && typeof response.__bingeupError === 'string'
+    typeof response === 'object' &&
+    response !== null &&
+    '__bingeupError' in response &&
+    typeof response.__bingeupError === 'string'
   ) {
     throw new Error(response.__bingeupError);
   }

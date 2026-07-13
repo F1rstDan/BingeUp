@@ -37,10 +37,7 @@ describe('DropdownSelect', () => {
     fireEvent.click(trigger);
 
     const selected = screen.getByRole('menuitemradio', { name: '一般' });
-    expect(selected).toHaveAttribute(
-      'aria-checked',
-      'true',
-    );
+    expect(selected).toHaveAttribute('aria-checked', 'true');
     expect(selected).toHaveFocus();
     expect(selected).toHaveAttribute('tabindex', '-1');
     expect(document.querySelectorAll('.bingeup-dropdown-radio')).toHaveLength(3);

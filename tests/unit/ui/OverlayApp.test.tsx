@@ -256,7 +256,10 @@ describe('OverlayApp — 单题反馈', () => {
   });
 
   it('答错反馈中的继续加载下一道题', () => {
-    const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+    const onAction = renderOverlay({
+      kind: 'question',
+      question: makeQuestion({ correctIndex: 1 }),
+    });
     click('吸收');
     clickSubmitButton();
     clickButton(/^继续/);
@@ -266,7 +269,10 @@ describe('OverlayApp — 单题反馈', () => {
   });
 
   it('答错反馈中的明白了结束当前反馈', () => {
-    const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+    const onAction = renderOverlay({
+      kind: 'question',
+      question: makeQuestion({ correctIndex: 1 }),
+    });
     click('吸收');
     clickSubmitButton();
     clickButton(/^明白了/);
@@ -404,16 +410,24 @@ describe('OverlayApp — 快捷键', () => {
     });
 
     it('答错反馈按 Shift + Enter 触发继续', () => {
-      const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+      const onAction = renderOverlay({
+        kind: 'question',
+        question: makeQuestion({ correctIndex: 1 }),
+      });
       pressKey('1');
       pressKey('Enter'); // 提交
       pressKey('Enter', { shiftKey: true }); // 继续
 
-      expect(onAction).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'submit-and-continue' }));
+      expect(onAction).toHaveBeenLastCalledWith(
+        expect.objectContaining({ type: 'submit-and-continue' }),
+      );
     });
 
     it('答错反馈按 Escape 跳过', () => {
-      const onAction = renderOverlay({ kind: 'question', question: makeQuestion({ correctIndex: 1 }) });
+      const onAction = renderOverlay({
+        kind: 'question',
+        question: makeQuestion({ correctIndex: 1 }),
+      });
       pressKey('1');
       pressKey('Enter'); // 提交
       pressKey('Escape');
@@ -468,9 +482,12 @@ const PREVIOUS_FEEDBACK: SubmissionResult = {
 
 function renderOverlayContinuous(
   item: LearningItem,
-  options: { previousFeedback?: SubmissionResult; onAction?: ReturnType<typeof vi.fn> } = {},
+  options: {
+    previousFeedback?: SubmissionResult;
+    onAction?: ReturnType<typeof vi.fn<(action: OverlayAction) => void>>;
+  } = {},
 ) {
-  const onAction = options.onAction ?? vi.fn();
+  const onAction = options.onAction ?? vi.fn<(action: OverlayAction) => void>();
   render(
     <OverlayApp
       item={item}
@@ -539,7 +556,9 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
   describe('连续模式选择题按钮', () => {
     it('未提交时显示一排三个按钮及快捷键', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
-      const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole('button');
+      const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole(
+        'button',
+      );
       expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
         '跳过 Esc',
         '提交并继续 Shift + Enter',
@@ -583,7 +602,10 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
 
   describe('连续模式新词展示按钮', () => {
     it('显示"知道了，继续"和"结束学习"按钮', () => {
-      renderOverlayContinuous({ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION });
+      renderOverlayContinuous({
+        kind: 'new-word-presentation',
+        presentation: NEW_WORD_PRESENTATION,
+      });
       expect(screen.getByRole('button', { name: /知道了，继续/ })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /结束学习/ })).toBeInTheDocument();
     });
@@ -615,8 +637,13 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
 });
 
 describe('OverlayApp — 拼写题（Issue #8 验收标准 3）', () => {
-  function renderSpelling(opts: { continuous?: boolean; onAction?: ReturnType<typeof vi.fn> } = {}) {
-    const onAction = opts.onAction ?? vi.fn();
+  function renderSpelling(
+    opts: {
+      continuous?: boolean;
+      onAction?: ReturnType<typeof vi.fn<(action: OverlayAction) => void>>;
+    } = {},
+  ) {
+    const onAction = opts.onAction ?? vi.fn<(action: OverlayAction) => void>();
     render(
       <OverlayApp
         item={{ kind: 'spelling-question', question: SPELLING_QUESTION }}

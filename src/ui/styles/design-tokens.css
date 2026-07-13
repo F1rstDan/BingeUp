@@ -19,7 +19,9 @@
   --bingeup-radius-lg: 24px;
   --bingeup-radius-md: 16px;
   --bingeup-shadow: 0 18px 48px rgba(35, 75, 112, 0.1);
-  --bingeup-font: "Nunito", "Trebuchet MS", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bingeup-font:
+    'Nunito', 'Trebuchet MS', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
 }
 
 * {
@@ -68,7 +70,9 @@ select:disabled {
   box-shadow: 0 3px 0 var(--bingeup-blue-dark);
 }
 
-.bingeup-btn-primary:hover:not(:disabled) { background: #2198ee; }
+.bingeup-btn-primary:hover:not(:disabled) {
+  background: #2198ee;
+}
 
 .bingeup-btn-secondary {
   color: #536476;
@@ -82,12 +86,18 @@ select:disabled {
   box-shadow: 0 3px 0 var(--bingeup-pink-dark);
 }
 
-.bingeup-status-ok { color: var(--bingeup-green-dark); }
-.bingeup-status-off { color: var(--bingeup-pink-dark); }
-.bingeup-status-warn { color: #9a6810; }
+.bingeup-status-ok {
+  color: var(--bingeup-green-dark);
+}
+.bingeup-status-off {
+  color: var(--bingeup-pink-dark);
+}
+.bingeup-status-warn {
+  color: #9a6810;
+}
 
-input[type="number"],
-input[type="text"],
+input[type='number'],
+input[type='text'],
 select {
   border: 1px solid #dce5ec;
   border-radius: 10px;
@@ -95,7 +105,9 @@ select {
   background: #fff;
 }
 
-input[type="checkbox"] { accent-color: var(--bingeup-blue); }
+input[type='checkbox'] {
+  accent-color: var(--bingeup-blue);
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

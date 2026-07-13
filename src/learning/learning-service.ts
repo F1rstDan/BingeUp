@@ -420,11 +420,7 @@ export class LearningService {
         // 长期复习词：通过调度器更新状态与下次时间（Issue #7 验收标准 4）
         const currentState = card.schedulerState;
         if (currentState) {
-          const { state, nextReviewAt: due } = this.scheduler.schedule(
-            currentState,
-            rating,
-            now,
-          );
+          const { state, nextReviewAt: due } = this.scheduler.schedule(currentState, rating, now);
           card.schedulerState = state;
           card.nextReviewAt = due;
           nextReviewAt = due;
@@ -565,7 +561,7 @@ export class LearningService {
   ): CardRecord | undefined {
     return cards
       .filter((c) => c.stage === stage && c.nextReviewAt !== undefined && now >= c.nextReviewAt)
-      .sort((a, b) => (a.nextReviewAt! - b.nextReviewAt!))[0];
+      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
   }
 
   /**
@@ -581,11 +577,14 @@ export class LearningService {
           now >= c.nextReviewAt &&
           c.lastWrongAt !== undefined,
       )
-      .sort((a, b) => (a.nextReviewAt! - b.nextReviewAt!))[0];
+      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
   }
 
   /** 查找无近期答错记录的到期长期复习词（Issue #7 验收标准 1：第 2 优先级）。 */
-  private findDueLongTermWithoutRecentError(cards: CardRecord[], now: number): CardRecord | undefined {
+  private findDueLongTermWithoutRecentError(
+    cards: CardRecord[],
+    now: number,
+  ): CardRecord | undefined {
     return cards
       .filter(
         (c) =>
@@ -594,7 +593,7 @@ export class LearningService {
           now >= c.nextReviewAt &&
           c.lastWrongAt === undefined,
       )
-      .sort((a, b) => (a.nextReviewAt! - b.nextReviewAt!))[0];
+      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
   }
 
   /**

@@ -191,9 +191,7 @@ export const BUILT_IN_DECKS: DeckRecord[] = [
     source: SOURCE,
     license: LICENSE,
     wordIds: WORDS.map((w) => w.id),
-    wordDifficulties: Object.fromEntries(
-      WORDS.map((w) => [w.id, w.difficulty]),
-    ),
+    wordDifficulties: Object.fromEntries(WORDS.map((w) => [w.id, w.difficulty])),
   },
   {
     id: 'deck-cet4',

@@ -14,30 +14,34 @@ export default defineBackground(() => {
   let dbPromise: Promise<IDBDatabase> | null = null;
   const getDatabase = (): Promise<IDBDatabase> => {
     if (dbPromise === null) {
-      dbPromise = openDatabase(DATABASE_NAME, MIGRATIONS).then((db) => {
-        db.onversionchange = () => {
-          db.close();
+      dbPromise = openDatabase(DATABASE_NAME, MIGRATIONS)
+        .then((db) => {
+          db.onversionchange = () => {
+            db.close();
+            dbPromise = null;
+          };
+          return db;
+        })
+        .catch((error) => {
+          // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
           dbPromise = null;
-        };
-        return db;
-      }).catch((error) => {
-        // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
-        dbPromise = null;
-        throw new Error(
-          `数据库打开失败，现有数据未被更改。请关闭其他刷刷升级页面后重试：${error instanceof Error ? error.message : String(error)}`,
-        );
-      });
+          throw new Error(
+            `数据库打开失败，现有数据未被更改。请关闭其他刷刷升级页面后重试：${error instanceof Error ? error.message : String(error)}`,
+          );
+        });
     }
     return dbPromise;
   };
 
   // 扩展升级后动态注册表可能为空；根据权威网站设置恢复精确 origin 注册。
-  const customScriptsReady = getDatabase().then(async (db) => {
-    const store = new LocalSettingsStore(db);
-    await syncCustomContentScripts(await store.listSites());
-  }).catch((error) => {
-    console.error('[BingeUp] 自定义网站内容脚本恢复失败', error);
-  });
+  const customScriptsReady = getDatabase()
+    .then(async (db) => {
+      const store = new LocalSettingsStore(db);
+      await syncCustomContentScripts(await store.listSites());
+    })
+    .catch((error) => {
+      console.error('[BingeUp] 自定义网站内容脚本恢复失败', error);
+    });
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     (async () => {
@@ -51,12 +55,16 @@ export default defineBackground(() => {
           try {
             await rebuiltStore.resetRuntimeState();
           } catch (error) {
-            warnings.push(`本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`);
+            warnings.push(
+              `本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`,
+            );
           }
           try {
             await syncCustomContentScripts(await rebuiltStore.listSites());
           } catch (error) {
-            warnings.push(`本地用户数据已重建，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`);
+            warnings.push(
+              `本地用户数据已重建，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`,
+            );
           }
           sendResponse({ ok: true, errors: [], warnings });
           return;

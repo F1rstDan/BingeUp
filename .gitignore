@@ -19,3 +19,6 @@ Thumbs.db
 
 # Trash
 .trash/
+
+# Local npm cache (sandboxed cache used during installs)
+.npm-cache/

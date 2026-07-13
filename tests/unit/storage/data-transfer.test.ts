@@ -7,28 +7,68 @@ import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { getBuiltInDeck, getBuiltInWord } from '@/dictionary/built-in/decks';
 import { StatsService } from '@/stats/stats-service';
 import {
-  clearAllLocalData, clearLearningProgress, exportLocalData, importLocalData,
+  clearAllLocalData,
+  clearLearningProgress,
+  exportLocalData,
+  importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
 import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 const TEST_DB = 'test-issue-18-data-lifecycle';
-const CARD: CardRecord = { id: 'card-1', wordId: 'w-abandon', deckId: 'deck-daily-high-frequency', stage: 'short-term', createdAt: 1_000, updatedAt: 1_000, nextReviewAt: 2_000 };
-const LOG: ReviewLogRecord = { id: 'log-1', cardId: CARD.id, wordId: CARD.wordId, questionType: 'en-to-zh', selectedAnswer: '错', correctAnswer: '放弃', isCorrect: false, responseTimeMs: 300, reviewedAt: 1_500 };
-const SESSION: SessionLogRecord = { id: 'session-1', startedAt: 1_000, endedAt: 1_600, mode: 'single', outcome: 'submitted', questionsAnswered: 1 };
+const CARD: CardRecord = {
+  id: 'card-1',
+  wordId: 'w-abandon',
+  deckId: 'deck-daily-high-frequency',
+  stage: 'short-term',
+  createdAt: 1_000,
+  updatedAt: 1_000,
+  nextReviewAt: 2_000,
+};
+const LOG: ReviewLogRecord = {
+  id: 'log-1',
+  cardId: CARD.id,
+  wordId: CARD.wordId,
+  questionType: 'en-to-zh',
+  selectedAnswer: '错',
+  correctAnswer: '放弃',
+  isCorrect: false,
+  responseTimeMs: 300,
+  reviewedAt: 1_500,
+};
+const SESSION: SessionLogRecord = {
+  id: 'session-1',
+  startedAt: 1_000,
+  endedAt: 1_600,
+  mode: 'single',
+  outcome: 'submitted',
+  questionsAnswered: 1,
+};
 
 function installRuntimeStorageMock() {
   const values: Record<string, unknown> = {};
   let failNextWrite = false;
-  const chromeStub = { storage: { local: {
-    get: vi.fn(async (key: string) => ({ [key]: values[key] })),
-    set: vi.fn(async (entries: Record<string, unknown>) => {
-      if (failNextWrite) { failNextWrite = false; throw new Error('模拟临时状态写入失败'); }
-      Object.assign(values, entries);
-    }),
-  } } };
+  const chromeStub = {
+    storage: {
+      local: {
+        get: vi.fn(async (key: string) => ({ [key]: values[key] })),
+        set: vi.fn(async (entries: Record<string, unknown>) => {
+          if (failNextWrite) {
+            failNextWrite = false;
+            throw new Error('模拟临时状态写入失败');
+          }
+          Object.assign(values, entries);
+        }),
+      },
+    },
+  };
   (globalThis as unknown as { chrome: typeof chromeStub }).chrome = chromeStub;
-  return { values, failOnce: () => { failNextWrite = true; } };
+  return {
+    values,
+    failOnce: () => {
+      failNextWrite = true;
+    },
+  };
 }
 
 async function deleteDatabase(): Promise<void> {
@@ -60,7 +100,8 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     await store.disableSite('youtube.com');
     await store.markOnboardingCompleted();
     await Promise.all([
-      idbPut(db, STORES.cards, CARD), idbPut(db, STORES.reviewLogs, LOG),
+      idbPut(db, STORES.cards, CARD),
+      idbPut(db, STORES.reviewLogs, LOG),
       idbPut(db, STORES.sessionLogs, SESSION),
     ]);
     return exportLocalData(store);
@@ -74,10 +115,17 @@ describe('本地用户数据生命周期 — Issue #18', () => {
 
     expect(payload.version).toBe(1);
     expect(payload.authoritativeState).toMatchObject({
-      appSettings: { dailyNewWordLimit: 8 }, onboardingCompleted: true,
+      appSettings: { dailyNewWordLimit: 8 },
+      onboardingCompleted: true,
       sites: { 'youtube.com': { enabled: false } },
     });
-    expect(payload.data).toMatchObject({ cards: [CARD], reviewLogs: [LOG], sessionLogs: [SESSION], words: [], decks: [] });
+    expect(payload.data).toMatchObject({
+      cards: [CARD],
+      reviewLogs: [LOG],
+      sessionLogs: [SESSION],
+      words: [],
+      decks: [],
+    });
     expect(JSON.stringify(payload)).not.toContain('nextAllowedAt');
     expect(payload.data.words).toEqual([]);
     expect(payload.data.decks).toEqual([]);
@@ -88,22 +136,65 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     payload.data.words.push(getBuiltInWord('w-abandon')!);
     payload.data.decks.push(getBuiltInDeck('deck-daily-high-frequency')!);
     const result = await importLocalData(store, payload);
-    expect(result.errors).toEqual(expect.arrayContaining([
-      expect.stringContaining('与内置单词 id 冲突'),
-      expect.stringContaining('与内置词库 id 冲突'),
-    ]));
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('与内置单词 id 冲突'),
+        expect.stringContaining('与内置词库 id 冲突'),
+      ]),
+    );
   });
 
   it('不支持开发期版本并给出可理解错误', async () => {
     const result = await importLocalData(store, { version: 2 });
-    expect(result).toEqual({ ok: false, errors: ['不支持的备份版本：2（当前支持版本：1）'], warnings: [] });
+    expect(result).toEqual({
+      ok: false,
+      errors: ['不支持的备份版本：2（当前支持版本：1）'],
+      warnings: [],
+    });
   });
 
   it.each([
-    ['站点可选字段', (payload: ExportPayload) => { payload.authoritativeState.sites['bad.test'] = { enabled: true, mode: 'basic-web', firstQuestionPending: true, pageLoadTrigger: 'yes' as never }; }],
-    ['学习卡可选字段', (payload: ExportPayload) => { payload.data.cards[0]!.schedulerState = { stability: -1 } as never; }],
-    ['复习日志可选字段', (payload: ExportPayload) => { payload.data.reviewLogs[0]!.rating = 'perfect' as never; }],
-    ['单词可选字段', (payload: ExportPayload) => { payload.data.words.push({ id: 'custom', word: 'x', lemma: 'x', phonetic: 3 as never, partOfSpeech: ['n.'], coreMeaningZh: ['词'], exampleSentence: 'x', exampleTranslation: '词', difficulty: 1, source: 'user', license: 'user' }); }],
+    [
+      '站点可选字段',
+      (payload: ExportPayload) => {
+        payload.authoritativeState.sites['bad.test'] = {
+          enabled: true,
+          mode: 'basic-web',
+          firstQuestionPending: true,
+          pageLoadTrigger: 'yes' as never,
+        };
+      },
+    ],
+    [
+      '学习卡可选字段',
+      (payload: ExportPayload) => {
+        payload.data.cards[0]!.schedulerState = { stability: -1 } as never;
+      },
+    ],
+    [
+      '复习日志可选字段',
+      (payload: ExportPayload) => {
+        payload.data.reviewLogs[0]!.rating = 'perfect' as never;
+      },
+    ],
+    [
+      '单词可选字段',
+      (payload: ExportPayload) => {
+        payload.data.words.push({
+          id: 'custom',
+          word: 'x',
+          lemma: 'x',
+          phonetic: 3 as never,
+          partOfSpeech: ['n.'],
+          coreMeaningZh: ['词'],
+          exampleSentence: 'x',
+          exampleTranslation: '词',
+          difficulty: 1,
+          source: 'user',
+          license: 'user',
+        });
+      },
+    ],
   ])('导入逐条拒绝无效%s且不修改现有数据', async (_name, corrupt) => {
     const payload = await populatedBackup();
     corrupt(payload);
@@ -117,9 +208,12 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     payload.data.cards[0]!.wordId = 'missing-word';
     payload.data.reviewLogs[0]!.cardId = 'missing-card';
     const result = await importLocalData(store, payload);
-    expect(result.errors).toEqual(expect.arrayContaining([
-      expect.stringContaining('引用不存在的单词'), expect.stringContaining('引用不存在的学习卡'),
-    ]));
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('引用不存在的单词'),
+        expect.stringContaining('引用不存在的学习卡'),
+      ]),
+    );
   });
 
   it('恢复在一个事务中完整替换全部权威数据，并将临时状态归零', async () => {
@@ -142,7 +236,10 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     payload.data.cards = [];
     const originalPut = IDBObjectStore.prototype.put;
     let putCount = 0;
-    const putSpy = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (this: IDBObjectStore, ...args) {
+    const putSpy = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (
+      this: IDBObjectStore,
+      ...args
+    ) {
       putCount += 1;
       if (putCount === 2) throw new Error('模拟事务中途请求失败');
       return originalPut.apply(this, args);
@@ -172,11 +269,24 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     await populatedBackup();
     await clearLearningProgress(db);
     const [cards, logs, sessions] = await Promise.all([
-      idbGetAll<CardRecord>(db, STORES.cards), idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
+      idbGetAll<CardRecord>(db, STORES.cards),
+      idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
       idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
     ]);
-    const stats = new StatsService({ clock: { now: () => 2_000 } }).computeStats(cards, logs, sessions);
-    expect(stats.today).toMatchObject({ completedQuestions: 0, correctAnswers: 0, skipped: 0, reviewedWords: 0, newWords: 0, continuousSessions: 0, continuousQuestions: 0 });
+    const stats = new StatsService({ clock: { now: () => 2_000 } }).computeStats(
+      cards,
+      logs,
+      sessions,
+    );
+    expect(stats.today).toMatchObject({
+      completedQuestions: 0,
+      correctAnswers: 0,
+      skipped: 0,
+      reviewedWords: 0,
+      newWords: 0,
+      continuousSessions: 0,
+      continuousQuestions: 0,
+    });
     expect(await store.getAppSettings()).toMatchObject({ dailyNewWordLimit: 8 });
     expect(await store.isOnboardingCompleted()).toBe(true);
   });

@@ -87,12 +87,29 @@ const OVERLAY_CSS = `
   .bingeup-error-card p { color: var(--bingeup-pink-dark); line-height: 1.5; }
 `;
 
-class OverlayErrorBoundary extends Component<{ children: ReactNode; onRecover: () => void }, { hasError: boolean }> {
+class OverlayErrorBoundary extends Component<
+  { children: ReactNode; onRecover: () => void },
+  { hasError: boolean }
+> {
   override state = { hasError: false };
-  static getDerivedStateFromError(): { hasError: boolean } { return { hasError: true }; }
-  override componentDidCatch(error: Error): void { console.error('[BingeUp] 遮罩渲染失败', error); }
+  static getDerivedStateFromError(): { hasError: boolean } {
+    return { hasError: true };
+  }
+  override componentDidCatch(error: Error): void {
+    console.error('[BingeUp] 遮罩渲染失败', error);
+  }
   override render(): ReactNode {
-    if (this.state.hasError) return <div className="bingeup-overlay" role="alert"><div className="bingeup-card bingeup-error-card"><p>学习界面出现错误，视频仍可安全恢复。</p><button className="bingeup-submit" type="button" onClick={this.props.onRecover}>返回视频</button></div></div>;
+    if (this.state.hasError)
+      return (
+        <div className="bingeup-overlay" role="alert">
+          <div className="bingeup-card bingeup-error-card">
+            <p>学习界面出现错误，视频仍可安全恢复。</p>
+            <button className="bingeup-submit" type="button" onClick={this.props.onRecover}>
+              返回视频
+            </button>
+          </div>
+        </div>
+      );
     return this.props.children;
   }
 }
@@ -110,10 +127,19 @@ export class OverlayController implements OverlayPort {
   private rafId: number | null = null;
   private recoveryRequested = false;
 
-  onAction(handler: (action: OverlayAction) => void): void { this.actionHandler = handler; }
-  open(item: LearningItem, target: HTMLElement | DOMRect, mode: OverlayMode, options?: OverlayOpenOptions): void {
+  onAction(handler: (action: OverlayAction) => void): void {
+    this.actionHandler = handler;
+  }
+  open(
+    item: LearningItem,
+    target: HTMLElement | DOMRect,
+    mode: OverlayMode,
+    options?: OverlayOpenOptions,
+  ): void {
     if (this.host !== null) this.close();
-    this.target = target; this.mode = mode; this.recoveryRequested = false;
+    this.target = target;
+    this.mode = mode;
+    this.recoveryRequested = false;
     const host = document.createElement('div');
     host.id = OVERLAY_HOST_ID;
     host.style.position = 'fixed';
@@ -123,42 +149,92 @@ export class OverlayController implements OverlayPort {
     host.style.pointerEvents = 'auto';
     document.documentElement.appendChild(host);
     const shadow = host.attachShadow({ mode: 'open' });
-    const style = document.createElement('style'); style.textContent = OVERLAY_CSS; shadow.appendChild(style);
-    const mountPoint = document.createElement('div'); shadow.appendChild(mountPoint);
-    this.host = host; this.shadow = shadow;
+    const style = document.createElement('style');
+    style.textContent = OVERLAY_CSS;
+    shadow.appendChild(style);
+    const mountPoint = document.createElement('div');
+    shadow.appendChild(mountPoint);
+    this.host = host;
+    this.shadow = shadow;
     this.hostObserver = new MutationObserver(() => {
-      if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) { this.recoveryRequested = true; this.actionHandler?.({ type: 'recover' }); }
+      if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
+        this.recoveryRequested = true;
+        this.actionHandler?.({ type: 'recover' });
+      }
     });
     this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
     this.root = createRoot(mountPoint);
-    this.root.render(<OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}><OverlayApp item={item} onAction={(action) => this.actionHandler?.(action)} previousFeedback={options?.previousFeedback} previousQuestion={options?.previousQuestion} isContinuous={options?.isContinuous} /></OverlayErrorBoundary>);
-    this.updatePosition(); this.startTracking();
+    this.root.render(
+      <OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}>
+        <OverlayApp
+          item={item}
+          onAction={(action) => this.actionHandler?.(action)}
+          previousFeedback={options?.previousFeedback}
+          previousQuestion={options?.previousQuestion}
+          isContinuous={options?.isContinuous}
+        />
+      </OverlayErrorBoundary>,
+    );
+    this.updatePosition();
+    this.startTracking();
   }
   close(): void {
-    this.hostObserver?.disconnect(); this.hostObserver = null; this.recoveryRequested = false; this.stopTracking();
-    if (this.root !== null) { this.root.unmount(); this.root = null; }
-    if (this.host !== null && this.host.parentNode !== null) this.host.parentNode.removeChild(this.host);
-    this.host = null; this.shadow = null; this.target = null;
+    this.hostObserver?.disconnect();
+    this.hostObserver = null;
+    this.recoveryRequested = false;
+    this.stopTracking();
+    if (this.root !== null) {
+      this.root.unmount();
+      this.root = null;
+    }
+    if (this.host !== null && this.host.parentNode !== null)
+      this.host.parentNode.removeChild(this.host);
+    this.host = null;
+    this.shadow = null;
+    this.target = null;
   }
   private startTracking(): void {
     if (typeof ResizeObserver === 'undefined') return;
-    this.resizeObserver = new ResizeObserver(() => this.scheduleUpdate()); this.resizeObserver.observe(document.body);
+    this.resizeObserver = new ResizeObserver(() => this.scheduleUpdate());
+    this.resizeObserver.observe(document.body);
     if (this.target instanceof HTMLElement) this.resizeObserver.observe(this.target);
-    window.addEventListener('scroll', this.scheduleUpdate, { passive: true, capture: true }); window.addEventListener('resize', this.scheduleUpdate); document.addEventListener('visibilitychange', this.scheduleUpdate);
+    window.addEventListener('scroll', this.scheduleUpdate, { passive: true, capture: true });
+    window.addEventListener('resize', this.scheduleUpdate);
+    document.addEventListener('visibilitychange', this.scheduleUpdate);
   }
   private stopTracking(): void {
-    this.resizeObserver?.disconnect(); this.resizeObserver = null;
-    if (this.rafId !== null) { cancelAnimationFrame(this.rafId); this.rafId = null; }
-    window.removeEventListener('scroll', this.scheduleUpdate, { capture: true } as EventListenerOptions); window.removeEventListener('resize', this.scheduleUpdate); document.removeEventListener('visibilitychange', this.scheduleUpdate);
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = null;
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    window.removeEventListener('scroll', this.scheduleUpdate, {
+      capture: true,
+    } as EventListenerOptions);
+    window.removeEventListener('resize', this.scheduleUpdate);
+    document.removeEventListener('visibilitychange', this.scheduleUpdate);
   }
   private scheduleUpdate = (): void => {
     if (document.visibilityState === 'hidden' || this.rafId !== null) return;
-    this.rafId = requestAnimationFrame(() => { this.rafId = null; this.updatePosition(); });
+    this.rafId = requestAnimationFrame(() => {
+      this.rafId = null;
+      this.updatePosition();
+    });
   };
   private updatePosition(): void {
     if (this.host === null || this.target === null) return;
     const rect = this.target instanceof DOMRect ? this.target : this.target.getBoundingClientRect();
-    if (this.mode === 'full-page') { this.host.style.left = '0px'; this.host.style.top = '0px'; this.host.style.width = `${document.documentElement.clientWidth}px`; this.host.style.height = `${document.documentElement.clientHeight}px`; }
-    else { this.host.style.left = `${rect.left}px`; this.host.style.top = `${rect.top}px`; this.host.style.width = `${rect.width}px`; this.host.style.height = `${rect.height}px`; }
+    if (this.mode === 'full-page') {
+      this.host.style.left = '0px';
+      this.host.style.top = '0px';
+      this.host.style.width = `${document.documentElement.clientWidth}px`;
+      this.host.style.height = `${document.documentElement.clientHeight}px`;
+    } else {
+      this.host.style.left = `${rect.left}px`;
+      this.host.style.top = `${rect.top}px`;
+      this.host.style.width = `${rect.width}px`;
+      this.host.style.height = `${rect.height}px`;
+    }
   }
 }

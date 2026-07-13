@@ -9,31 +9,30 @@ export default defineConfig({
     permissions: ['storage', 'scripting'],
     host_permissions: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
     // Issue #11：自定义网站通过可选权限按需授权，用户从 Popup 主动加入时请求。
-    // webextension-polyfill 类型未包含此 MV3 有效键，用 @ts-expect-error 绕过。
-    // @ts-expect-error optional_host_permissions is a valid MV3 key not yet in webextension-polyfill types
     optional_host_permissions: ['https://*/*'],
     // 内容脚本运行在宿主页 CSP 上下文里，必须显式声明 dictionaries/*.json 可被任意页面 fetch；
     // 否则 chrome.runtime.getURL 返回的 URL 在 fetch 时被 Chrome 屏蔽为 chrome-extension://invalid/。
-    web_accessible_resources: [{
-      resources: ['dictionaries/*.json'],
-      matches: ['*://*/*'],
-    }],
+    web_accessible_resources: [
+      {
+        resources: ['dictionaries/*.json'],
+        matches: ['*://*/*'],
+      },
+    ],
     action: {
       default_title: '刷刷升级 — 点击查看状态与控制',
     },
   },
   srcDir: 'src',
-  // WXT 0.18.14 将 publicDir 解析为相对 srcDir 的路径（即 ./src/public）。
-  // 这里用 ../public 指向项目根目录的 public/，存放构建流水线生成的 dictionaries/*.json。
-  publicDir: '../public',
+  // WXT 0.20+ 将 publicDir 解析为相对项目根目录的路径。
+  // public/ 存放构建流水线生成的 dictionaries/*.json。
+  publicDir: 'public',
   dev: {
-    // WXT 0.18.14 的 serve background 会无条件监听 browser.commands.onCommand。
-    // 显式保留 reload command，确保生成 commands manifest、避免启动时 API 缺失。
+    // 保留 reload command，确保生成 commands manifest、避免启动时 API 缺失。
     reloadCommand: 'Alt+R',
   },
   hooks: {
-    // Vite 5.4+ 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
-    // WXT 0.18.x 的扩展 dev client 尚未携带该 token。仅在本机开发服务器中跳过校验。
+    // Vite 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
+    // WXT 的扩展 dev client 可能未携带该 token。仅在本机开发服务器中跳过校验。
     'vite:devServer:extendConfig': (config) => {
       (config as Record<string, unknown>).legacy = {
         ...((config as Record<string, unknown>).legacy ?? {}),

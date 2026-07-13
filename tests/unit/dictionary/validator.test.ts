@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { validateWordRecord, validateDeckRecord, type ValidationResult } from '@/dictionary/validator';
+import {
+  validateWordRecord,
+  validateDeckRecord,
+  type ValidationResult,
+} from '@/dictionary/validator';
 import type { WordRecord, DeckRecord } from '@/types';
 
 function validWord(overrides: Partial<WordRecord> = {}): WordRecord {
@@ -81,17 +85,21 @@ describe('validateWordRecord — 词库单条校验', () => {
   });
 
   it('有例句翻译但无例句时不通过', () => {
-    const result = validateWordRecord(validWord({ exampleSentence: '', exampleTranslation: '翻译' }));
+    const result = validateWordRecord(
+      validWord({ exampleSentence: '', exampleTranslation: '翻译' }),
+    );
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('有例句翻译但无例句');
   });
 
   it('无例句时 surfaceFormInExample 可为空', () => {
-    const result = validateWordRecord(validWord({
-      exampleSentence: '',
-      exampleTranslation: '',
-      surfaceFormInExample: '',
-    }));
+    const result = validateWordRecord(
+      validWord({
+        exampleSentence: '',
+        exampleTranslation: '',
+        surfaceFormInExample: '',
+      }),
+    );
     expect(result.valid).toBe(true);
   });
 

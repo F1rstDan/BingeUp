@@ -99,7 +99,9 @@ function DisabledStartLearning({ reason }: { reason: string }): JSX.Element {
       >
         开始学习
       </button>
-      <p id="bingeup-start-reason" className="bingeup-hint">{reason}</p>
+      <p id="bingeup-start-reason" className="bingeup-hint">
+        {reason}
+      </p>
     </div>
   );
 }
@@ -158,13 +160,15 @@ export function PopupApp(): JSX.Element {
   }, []);
 
   const updatePauseState = useCallback((globalPausedUntil: number) => {
-    setState((current) => current === null
-      ? current
-      : {
-        ...current,
-        globalPausedUntil,
-        globallyPaused: globalPausedUntil > Date.now(),
-      });
+    setState((current) =>
+      current === null
+        ? current
+        : {
+            ...current,
+            globalPausedUntil,
+            globallyPaused: globalPausedUntil > Date.now(),
+          },
+    );
   }, []);
 
   useEffect(() => {
@@ -227,11 +231,14 @@ function PopupView({
 }: PopupViewProps): JSX.Element {
   const [clockNow, setClockNow] = useState(() => Date.now());
   const pauseMode = popupPauseMode(state.globalPausedUntil, clockNow);
-  const applyPauseStateChange = useCallback((globalPausedUntil: number) => {
-    // 暂停截止时间在后台响应时生成；同步刷新基准时间，避免几毫秒误差被判成无限期暂停。
-    setClockNow(Date.now());
-    onPauseStateChange(globalPausedUntil);
-  }, [onPauseStateChange]);
+  const applyPauseStateChange = useCallback(
+    (globalPausedUntil: number) => {
+      // 暂停截止时间在后台响应时生成；同步刷新基准时间，避免几毫秒误差被判成无限期暂停。
+      setClockNow(Date.now());
+      onPauseStateChange(globalPausedUntil);
+    },
+    [onPauseStateChange],
+  );
 
   useEffect(() => {
     if (pauseMode !== 'ten-minutes' && pauseMode !== 'today') return undefined;
@@ -274,7 +281,9 @@ function PopupView({
         </div>
         <button
           className="bingeup-btn-primary bingeup-btn-full"
-          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/onboarding.html') })}
+          onClick={() =>
+            void chrome.tabs.create({ url: chrome.runtime.getURL('/onboarding.html') })
+          }
         >
           开始引导
         </button>
@@ -311,9 +320,8 @@ function PopupView({
   }
 
   const isPaused = pauseMode !== 'none';
-  const displayState = state.globallyPaused === isPaused
-    ? state
-    : { ...state, globallyPaused: isPaused };
+  const displayState =
+    state.globallyPaused === isPaused ? state : { ...state, globallyPaused: isPaused };
   const siteStatusTone = popupSiteStatusTone(displayState);
   const startUnavailableReason = startLearningUnavailableReason(displayState, isPaused);
 
@@ -322,12 +330,17 @@ function PopupView({
       <PopupHeader />
 
       {/* AC3：当前网站状态 */}
-      <section className={`bingeup-site-status bingeup-site-status-${siteStatusTone}`} aria-label="当前网站状态">
+      <section
+        className={`bingeup-site-status bingeup-site-status-${siteStatusTone}`}
+        aria-label="当前网站状态"
+      >
         <i className="bingeup-site-dot" />
         <div className="bingeup-site-copy">
           <strong>{displayState.hostname || '当前页面'}</strong>
           <span>
-            <b>{displayState.globallyPaused ? '已暂停' : displayState.enabled ? '已启用' : '未启用'}</b>
+            <b>
+              {displayState.globallyPaused ? '已暂停' : displayState.enabled ? '已启用' : '未启用'}
+            </b>
             {' · '}
             <span>{COMPATIBILITY_LABELS[displayState.compatibilityLevel]}</span>
           </span>
@@ -374,19 +387,20 @@ function PopupView({
       {/* AC4：暂停控制 / Issue #11：加入当前网站 */}
       <div className="bingeup-actions">
         {notice !== null && (
-          <p className="bingeup-hint bingeup-notice" role="status">{notice}</p>
+          <p className="bingeup-hint bingeup-notice" role="status">
+            {notice}
+          </p>
         )}
-        {!displayState.enabled
-          && !displayState.canAddCustomSite
-          && displayState.compatibilityLevel !== 'unsupported'
-          && (
-          <button
-            className="bingeup-btn-primary bingeup-btn-full"
-            onClick={() => void handleEnable(ctx.hostname, onReload)}
-          >
-            {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
-          </button>
-        )}
+        {!displayState.enabled &&
+          !displayState.canAddCustomSite &&
+          displayState.compatibilityLevel !== 'unsupported' && (
+            <button
+              className="bingeup-btn-primary bingeup-btn-full"
+              onClick={() => void handleEnable(ctx.hostname, onReload)}
+            >
+              {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
+            </button>
+          )}
 
         {pauseMode === 'indefinite' ? (
           <button
@@ -399,7 +413,9 @@ function PopupView({
           <div className="bingeup-pause-row">
             <button
               className="bingeup-btn-secondary"
-              onClick={() => void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)}
+              onClick={() =>
+                void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)
+              }
             >
               {pauseMode === 'ten-minutes'
                 ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
@@ -424,7 +440,9 @@ function PopupView({
           开始学习
         </button>
         {startUnavailableReason !== null && (
-          <p id="bingeup-start-reason" className="bingeup-hint">{startUnavailableReason}</p>
+          <p id="bingeup-start-reason" className="bingeup-hint">
+            {startUnavailableReason}
+          </p>
         )}
       </div>
     </div>
@@ -443,9 +461,11 @@ async function handleAddCustomSite(
     onNotice(result.message);
     return;
   }
-  onNotice(result.status === 'already-enabled'
-    ? '当前网站已启用。'
-    : '已加入当前网站，请刷新页面以启用学习。');
+  onNotice(
+    result.status === 'already-enabled'
+      ? '当前网站已启用。'
+      : '已加入当前网站，请刷新页面以启用学习。',
+  );
   await onReload();
 }
 
@@ -488,7 +508,8 @@ async function handleStartContinuousLearning(
   if (tabId === null) return;
   const message: ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
   try {
-    const response = await chrome.tabs.sendMessage(tabId, message) as StartLearningResponse | undefined;
+    const response = (await chrome.tabs.sendMessage(tabId, message)) as
+      StartLearningResponse | undefined;
     if (response?.ok) {
       window.close();
       return;
@@ -502,11 +523,17 @@ async function handleStartContinuousLearning(
 
 function startLearningFailureMessage(reason?: StartLearningFailureReason): string {
   switch (reason) {
-    case 'globally-paused': return '全局暂停期间无法开始学习。';
-    case 'interaction-active': return '当前已有学习界面。';
-    case 'context-unavailable': return '当前页面尚未准备好学习上下文。';
-    case 'no-learning-content': return '暂无可学习内容。';
-    case 'failed': return '无法开始学习，请稍后重试。';
-    default: return '无法开始学习：页面尚未就绪，请刷新当前页面后重试。';
+    case 'globally-paused':
+      return '全局暂停期间无法开始学习。';
+    case 'interaction-active':
+      return '当前已有学习界面。';
+    case 'context-unavailable':
+      return '当前页面尚未准备好学习上下文。';
+    case 'no-learning-content':
+      return '暂无可学习内容。';
+    case 'failed':
+      return '无法开始学习，请稍后重试。';
+    default:
+      return '无法开始学习：页面尚未就绪，请刷新当前页面后重试。';
   }
 }

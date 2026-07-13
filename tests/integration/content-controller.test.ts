@@ -81,7 +81,12 @@ function fakeAdapter() {
         handler = null;
       };
     },
-    emit(identity: string, video: unknown, overlayTarget: unknown = {}, overlayMode: OverlayMode = 'video-region') {
+    emit(
+      identity: string,
+      video: unknown,
+      overlayTarget: unknown = {},
+      overlayMode: OverlayMode = 'video-region',
+    ) {
       currentEvent = {
         identity,
         video: video as HTMLVideoElement | null,
@@ -91,7 +96,12 @@ function fakeAdapter() {
       handler?.(currentEvent);
     },
     /** 设置当前主视频事件（用于主动触发连续学习测试）。 */
-    setCurrentEvent(identity: string, video: unknown, overlayTarget: unknown = {}, overlayMode: OverlayMode = 'video-region') {
+    setCurrentEvent(
+      identity: string,
+      video: unknown,
+      overlayTarget: unknown = {},
+      overlayMode: OverlayMode = 'video-region',
+    ) {
       currentEvent = {
         identity,
         video: video as HTMLVideoElement | null,
@@ -175,7 +185,9 @@ function fakeSiteState(firstPending: boolean) {
 function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
   const svc = {
     nextItemCalls: 0,
-    nextItemOptions: [] as Array<{ excludedWordIds?: Set<string>; allowSpelling?: boolean } | undefined>,
+    nextItemOptions: [] as Array<
+      { excludedWordIds?: Set<string>; allowSpelling?: boolean } | undefined
+    >,
     acceptCalls: [] as string[],
     selfReportCalls: [] as string[],
     submitCalls: 0,
@@ -202,11 +214,24 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     },
     async submitAnswer() {
       svc.submitCalls += 1;
-      return { isCorrect: true, correctIndex: 0, correctAnswer: '放弃', cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+      return {
+        isCorrect: true,
+        correctIndex: 0,
+        correctAnswer: '放弃',
+        cardId: 'card-1',
+        reviewLogId: 'log-1',
+        explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] },
+      };
     },
     async submitSpellingAnswer() {
       svc.submitSpellingCalls += 1;
-      return { isCorrect: true, correctAnswer: 'abandon', cardId: 'card-1', reviewLogId: 'log-1', explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] } };
+      return {
+        isCorrect: true,
+        correctAnswer: 'abandon',
+        cardId: 'card-1',
+        reviewLogId: 'log-1',
+        explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] },
+      };
     },
     async correctRating() {
       svc.correctRatingCalls += 1;
@@ -227,14 +252,16 @@ function fakeSessionLogger() {
   };
 }
 
-function makeController(opts: {
-  cooldown?: CooldownState;
-  firstPending?: boolean;
-  playback?: VideoPlaybackPort & { pauseCalls: number; playCalls: number };
-  item?: LearningItem | null;
-  withSessionLogger?: boolean;
-  globallyPaused?: boolean;
-} = {}) {
+function makeController(
+  opts: {
+    cooldown?: CooldownState;
+    firstPending?: boolean;
+    playback?: VideoPlaybackPort & { pauseCalls: number; playCalls: number };
+    item?: LearningItem | null;
+    withSessionLogger?: boolean;
+    globallyPaused?: boolean;
+  } = {},
+) {
   const adapter = fakeAdapter();
   const overlay = fakeOverlay();
   const cooldownStore = fakeCooldownStore(opts.cooldown);
@@ -264,7 +291,17 @@ function makeController(opts: {
   const controller = new ContentController(controllerDeps);
   controller.start();
 
-  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService, sessionLogger };
+  return {
+    controller,
+    adapter,
+    overlay,
+    cooldownStore,
+    siteState,
+    playback,
+    videoPortFor,
+    learningService,
+    sessionLogger,
+  };
 }
 
 /** 连续学习用的第二道题（拼写题）。 */
@@ -286,12 +323,14 @@ const SPELLING_ITEM: LearningItem = {
 };
 
 /** 构造可返回多项目的控制器（用于连续模式测试）。 */
-function makeContinuousController(opts: {
-  items: LearningItem[];
-  cooldown?: CooldownState;
-  firstPending?: boolean;
-  withSessionLogger?: boolean;
-} = { items: [LEARNING_ITEM, SPELLING_ITEM] }) {
+function makeContinuousController(
+  opts: {
+    items: LearningItem[];
+    cooldown?: CooldownState;
+    firstPending?: boolean;
+    withSessionLogger?: boolean;
+  } = { items: [LEARNING_ITEM, SPELLING_ITEM] },
+) {
   const adapter = fakeAdapter();
   const overlay = fakeOverlay();
   const cooldownStore = fakeCooldownStore(opts.cooldown);
@@ -308,7 +347,11 @@ function makeContinuousController(opts: {
     adapter,
     overlay,
     cooldownStore,
-    pauseState: { async isGloballyPaused() { return false; } },
+    pauseState: {
+      async isGloballyPaused() {
+        return false;
+      },
+    },
     clock,
     videoPortFor,
     siteState,
@@ -317,7 +360,17 @@ function makeContinuousController(opts: {
   });
   controller.start();
 
-  return { controller, adapter, overlay, cooldownStore, siteState, playback, videoPortFor, learningService, sessionLogger };
+  return {
+    controller,
+    adapter,
+    overlay,
+    cooldownStore,
+    siteState,
+    playback,
+    videoPortFor,
+    learningService,
+    sessionLogger,
+  };
 }
 
 describe('ContentController — 核心闭环编排', () => {
@@ -410,6 +463,7 @@ describe('ContentController — 核心闭环编排', () => {
     });
 
     it('学习服务获取失败时恢复原播放状态且不打开遮罩', async () => {
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
       const { adapter, overlay, playback, learningService } = makeController();
       learningService.getNextItem = async () => {
         throw new Error('模拟取题失败');
@@ -422,6 +476,12 @@ describe('ContentController — 核心闭环编排', () => {
       expect(playback.pauseCalls).toBe(1);
       expect(playback.playCalls).toBe(1);
       expect(playback.paused).toBe(false);
+      // 断言故障日志，避免未断言的错误日志噪声
+      expect(errorSpy).toHaveBeenCalledWith(
+        '[BingeUp] 学习交互失败，正在返回视频',
+        expect.any(Error),
+      );
+      errorSpy.mockRestore();
     });
   });
 
@@ -743,7 +803,15 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
 
   describe('提交并结束', () => {
     it('submit-and-end 提交选择题并关闭连续学习，按完成记录', async () => {
-      const { controller, adapter, overlay, playback, cooldownStore, learningService, sessionLogger } = makeContinuousController({
+      const {
+        controller,
+        adapter,
+        overlay,
+        playback,
+        cooldownStore,
+        learningService,
+        sessionLogger,
+      } = makeContinuousController({
         items: [LEARNING_ITEM],
         withSessionLogger: true,
       });
@@ -875,7 +943,7 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
 
   describe('验收标准 4：结束学习', () => {
     it('exit-learning 不提交当前题、不算跳过、应用默认冷却', async () => {
-      const { adapter, overlay, playback, cooldownStore, learningService } = makeContinuousController();
+      const { adapter, overlay, playback, cooldownStore } = makeContinuousController();
 
       adapter.emit('bv-1', {});
       await flush();
@@ -1244,7 +1312,9 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
   });
 
   it('主动连续学习后 exit-learning → 记录 mode=continuous, outcome=exit', async () => {
-    const { controller, adapter, overlay, sessionLogger } = makeController({ withSessionLogger: true });
+    const { controller, adapter, overlay, sessionLogger } = makeController({
+      withSessionLogger: true,
+    });
     adapter.setCurrentEvent('bv-1', {});
 
     await controller.startContinuousLearning();
@@ -1277,6 +1347,7 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
 
 describe('ContentController — 故障恢复（Issue #13）', () => {
   it('提交失败时关闭遮罩并恢复原本播放的视频', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const { adapter, overlay, playback, learningService } = makeController();
     learningService.submitAnswer = async () => {
       throw new Error('模拟存储失败');
@@ -1294,5 +1365,11 @@ describe('ContentController — 故障恢复（Issue #13）', () => {
 
     expect(overlay.closeCalls).toBe(1);
     expect(playback.playCalls).toBe(1);
+    // 断言故障日志，避免未断言的错误日志噪声
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[BingeUp] 学习交互失败，正在返回视频',
+      expect.any(Error),
+    );
+    errorSpy.mockRestore();
   });
 });

@@ -113,7 +113,9 @@ export class YouTubeAdapter implements VideoSiteAdapter {
     if (player.classList.contains('ad-showing')) {
       return true;
     }
-    return !!player.querySelector('.ytp-ad-player-overlay, .ytp-ad-skip-indicator, .ytp-ad-skip-button');
+    return !!player.querySelector(
+      '.ytp-ad-player-overlay, .ytp-ad-skip-indicator, .ytp-ad-skip-button',
+    );
   }
 
   isPreview(video: HTMLVideoElement): boolean {

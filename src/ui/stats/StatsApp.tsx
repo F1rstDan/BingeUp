@@ -7,7 +7,6 @@ import { SessionLogRepository } from '@/storage/repositories/session-log-reposit
 import { openDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 
-
 /** 百分比格式化：0 → "—"，0.5 → "50%"。 */
 function pct(value: number): string {
   if (value === 0) return '—';
@@ -36,7 +35,9 @@ export function StatsApp(): JSX.Element {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (error !== null) {
@@ -57,7 +58,8 @@ export function StatsApp(): JSX.Element {
     );
   }
 
-  const totalCards = stats.cardStatus.shortTerm + stats.cardStatus.longTerm + stats.cardStatus.selfReported;
+  const totalCards =
+    stats.cardStatus.shortTerm + stats.cardStatus.longTerm + stats.cardStatus.selfReported;
 
   return (
     <div className="bingeup-stats">
@@ -183,13 +185,21 @@ export function StatsApp(): JSX.Element {
         <div className="bingeup-stats-comparison">
           <div className="bingeup-stats-comparison-col">
             <span className="bingeup-stats-comparison-label">本周</span>
-            <span className="bingeup-stats-comparison-value">{stats.weekComparison.thisWeekCompleted}</span>
-            <span className="bingeup-stats-comparison-sub">完成题数 · 正确率 {pct(stats.weekComparison.thisWeekAccuracy)}</span>
+            <span className="bingeup-stats-comparison-value">
+              {stats.weekComparison.thisWeekCompleted}
+            </span>
+            <span className="bingeup-stats-comparison-sub">
+              完成题数 · 正确率 {pct(stats.weekComparison.thisWeekAccuracy)}
+            </span>
           </div>
           <div className="bingeup-stats-comparison-col">
             <span className="bingeup-stats-comparison-label">上周</span>
-            <span className="bingeup-stats-comparison-value">{stats.weekComparison.lastWeekCompleted}</span>
-            <span className="bingeup-stats-comparison-sub">完成题数 · 正确率 {pct(stats.weekComparison.lastWeekAccuracy)}</span>
+            <span className="bingeup-stats-comparison-value">
+              {stats.weekComparison.lastWeekCompleted}
+            </span>
+            <span className="bingeup-stats-comparison-sub">
+              完成题数 · 正确率 {pct(stats.weekComparison.lastWeekAccuracy)}
+            </span>
           </div>
         </div>
       </section>

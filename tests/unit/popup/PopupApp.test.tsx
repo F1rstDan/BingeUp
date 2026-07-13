@@ -89,7 +89,12 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   it('未完成引导时显示"开始引导"入口（AC5）', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: false,
       globalPausedUntil: 0,
     });
@@ -106,7 +111,12 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   it('缺少主机权限时保留禁用的开始学习入口', async () => {
     installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: true,
+        mode: 'basic-web',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -120,7 +130,12 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   it('HTTP 页面即使 hostname 已启用也禁用开始学习并说明不支持', async () => {
     installChromeStub({ url: 'http://example.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: true,
+        mode: 'basic-web',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -134,7 +149,12 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   it('已启用站点显示域名、启用状态、兼容等级与今日学习统计（AC3）', async () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/video/BV1', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
       stats: {
@@ -162,7 +182,13 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
   it('未启用但可提示时显示"开启当前网站"按钮', async () => {
     installChromeStub({ url: 'https://www.youtube.com/watch?v=x', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.youtube.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 0 },
+      site: {
+        hostname: 'www.youtube.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 0,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -195,7 +221,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
   it('点击"暂停 10 分钟"后在原按钮显示倒计时', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -218,15 +249,23 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     });
 
     const initialLabel = btn.textContent;
-    await waitFor(() => {
-      expect(btn.textContent).not.toBe(initialLabel);
-    }, { timeout: 2500 });
+    await waitFor(
+      () => {
+        expect(btn.textContent).not.toBe(initialLabel);
+      },
+      { timeout: 2500 },
+    );
   });
 
   it('点击"暂停今天"调用 pauseToday', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -245,7 +284,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
   it('暂停 10 分钟后显示倒计时，点击倒计时调用 resumeAll', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: Date.now() + 10 * 60 * 1000,
     });
@@ -264,7 +308,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
   it('暂停今天后显示“今天恢复”，点击后调用 resumeAll', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: endOfToday(Date.now()),
     });
@@ -284,7 +333,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     const farFuture = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: farFuture,
     });
@@ -304,7 +358,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
     stub.tabs.sendMessage.mockResolvedValue({ ok: true });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -324,7 +383,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
     stub.tabs.sendMessage.mockResolvedValue({ ok: false, reason: 'no-learning-content' });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -342,7 +406,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 42 });
     stub.tabs.sendMessage.mockRejectedValue(new Error('Receiving end does not exist'));
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -361,7 +430,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     const farFuture = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: farFuture,
     });
@@ -376,7 +450,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     const stub = installChromeStub({ url: 'https://example.com/article', id: 7 });
     stub.tabs.sendMessage.mockResolvedValue({ ok: true });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: true, mode: 'basic-web', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: true,
+        mode: 'basic-web',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -417,7 +496,12 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
   it('未加入 HTTPS 网站在顶部状态区显示唯一加入按钮，并保留禁用的开始学习入口', async () => {
     installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: false,
+        mode: 'unsupported',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -434,7 +518,12 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
   it('HTTP 页面不显示"加入当前网站"按钮（规范要求 HTTPS）', async () => {
     installChromeStub({ url: 'http://example.com/', id: 1 }, false);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: false,
+        mode: 'unsupported',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -451,7 +540,12 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     const stub = installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     stub.permissions.request.mockResolvedValue(false);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: false,
+        mode: 'unsupported',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -471,7 +565,12 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     const stub = installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     stub.permissions.request.mockResolvedValue(true);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: false,
+        mode: 'unsupported',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -500,7 +599,12 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     const stub = installChromeStub({ url: 'https://example.com/', id: 1 }, false);
     stub.permissions.request.mockResolvedValue(true);
     getPopupData.mockResolvedValue({
-      site: { hostname: 'example.com', enabled: false, mode: 'unsupported', firstQuestionPending: false },
+      site: {
+        hostname: 'example.com',
+        enabled: false,
+        mode: 'unsupported',
+        firstQuestionPending: false,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });

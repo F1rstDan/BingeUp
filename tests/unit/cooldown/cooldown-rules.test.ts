@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  applyComplete,
-  applySkip,
-  isReady,
-  type CooldownConfig,
-} from '@/cooldown/cooldown-rules';
+import { applyComplete, applySkip, isReady, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import type { CooldownState } from '@/types';
 
 const NOW = 1_000_000;

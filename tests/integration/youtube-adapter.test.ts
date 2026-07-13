@@ -87,15 +87,21 @@ function mountInCustomTag(video: HTMLVideoElement, tagName: string): HTMLElement
 
 describe('getYouTubeVideoIdentity — 身份提取', () => {
   it('普通视频 /watch?v=ID → yt:watch:ID', () => {
-    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/watch?v=dQw4w9WgXcQ`)).toBe('yt:watch:dQw4w9WgXcQ');
+    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/watch?v=dQw4w9WgXcQ`)).toBe(
+      'yt:watch:dQw4w9WgXcQ',
+    );
   });
 
   it('普通视频带额外参数 → 仍按 v 参数提取', () => {
-    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/watch?v=abc12345678&t=120s`)).toBe('yt:watch:abc12345678');
+    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/watch?v=abc12345678&t=120s`)).toBe(
+      'yt:watch:abc12345678',
+    );
   });
 
   it('Shorts /shorts/ID → yt:shorts:ID', () => {
-    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/shorts/abcdef12345`)).toBe('yt:shorts:abcdef12345');
+    expect(getYouTubeVideoIdentity(`${YT_ORIGIN}/shorts/abcdef12345`)).toBe(
+      'yt:shorts:abcdef12345',
+    );
   });
 
   it('直播 /live/ID → yt:live:ID', () => {

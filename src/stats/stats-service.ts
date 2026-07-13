@@ -82,9 +82,7 @@ export class StatsService {
     const thisWeekStart = startOfLocalWeek(now);
     const lastWeekStart = thisWeekStart - 7 * MS_PER_DAY;
 
-    const longTermCardIds = new Set(
-      cards.filter((c) => c.stage === 'long-term').map((c) => c.id),
-    );
+    const longTermCardIds = new Set(cards.filter((c) => c.stage === 'long-term').map((c) => c.id));
 
     return {
       today: this.computeTodayStats(cards, logs, sessions, todayStart),
@@ -127,10 +125,7 @@ export class StatsService {
 
     // 连续学习会话数和连续题数
     const continuousSessions = todaySessions.filter((s) => s.mode === 'continuous');
-    const continuousQuestions = continuousSessions.reduce(
-      (sum, s) => sum + s.questionsAnswered,
-      0,
-    );
+    const continuousQuestions = continuousSessions.reduce((sum, s) => sum + s.questionsAnswered, 0);
 
     return {
       completedQuestions: todayLogs.length,
@@ -204,21 +199,21 @@ export class StatsService {
     lastWeekStart: number,
     now: number,
   ): WeekComparison {
-    const thisWeekLogs = logs.filter(
-      (l) => l.reviewedAt >= thisWeekStart && l.reviewedAt <= now,
-    );
+    const thisWeekLogs = logs.filter((l) => l.reviewedAt >= thisWeekStart && l.reviewedAt <= now);
     const lastWeekLogs = logs.filter(
       (l) => l.reviewedAt >= lastWeekStart && l.reviewedAt < thisWeekStart,
     );
 
     const thisWeekCompleted = thisWeekLogs.length;
     const lastWeekCompleted = lastWeekLogs.length;
-    const thisWeekAccuracy = thisWeekLogs.length > 0
-      ? thisWeekLogs.filter((l) => l.isCorrect).length / thisWeekLogs.length
-      : 0;
-    const lastWeekAccuracy = lastWeekLogs.length > 0
-      ? lastWeekLogs.filter((l) => l.isCorrect).length / lastWeekLogs.length
-      : 0;
+    const thisWeekAccuracy =
+      thisWeekLogs.length > 0
+        ? thisWeekLogs.filter((l) => l.isCorrect).length / thisWeekLogs.length
+        : 0;
+    const lastWeekAccuracy =
+      lastWeekLogs.length > 0
+        ? lastWeekLogs.filter((l) => l.isCorrect).length / lastWeekLogs.length
+        : 0;
 
     return {
       thisWeekCompleted,

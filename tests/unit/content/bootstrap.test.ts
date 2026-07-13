@@ -66,7 +66,13 @@ describe('bootstrapContent — 启动诊断', () => {
       promptDeclineCount: 0,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 0 },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 0,
+      },
       onboardingCompleted: false,
       globalPausedUntil: 0,
     });
@@ -75,10 +81,7 @@ describe('bootstrapContent — 启动诊断', () => {
 
     await bootstrapContent();
 
-    expect(info).toHaveBeenCalledWith(
-      '[BingeUp] 内容脚本未启动：网站已暂停',
-      'www.bilibili.com',
-    );
+    expect(info).toHaveBeenCalledWith('[BingeUp] 内容脚本未启动：网站已暂停', 'www.bilibili.com');
     expect(showEnablePrompt).not.toHaveBeenCalled();
     info.mockRestore();
   });
@@ -124,6 +127,8 @@ describe('bootstrapContent — 启动诊断', () => {
   });
 
   it('基础网页收到主动学习消息后以全网页上下文启动', async () => {
+    // 本用例关注消息监听器行为，静默启动诊断日志避免未断言日志噪声
+    const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
     vi.stubGlobal('location', {
       hostname: 'example.com',
       protocol: 'https:',
@@ -138,17 +143,53 @@ describe('bootstrapContent — 启动诊断', () => {
       scrollTrigger: false,
     });
     const addListener = vi.fn();
-    vi.stubGlobal('chrome', { runtime: { onMessage: { addListener }, getURL: vi.fn((path: string) => `chrome-extension://test/${path}`) } });
+    vi.stubGlobal('chrome', {
+      runtime: {
+        onMessage: { addListener },
+        getURL: vi.fn((path: string) => `chrome-extension://test/${path}`),
+      },
+    });
     // Mock fetch 为 BuiltInWordBank 提供空词库（避免加载失败阻断启动）
-    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
-      if (url.includes('words.json')) {
-        return { ok: true, json: async () => [{ id: 'w-test', word: 'test', lemma: 'test', partOfSpeech: ['v.'], coreMeaningZh: ['测试'], exampleSentence: 'Test sentence.', exampleTranslation: '测试翻译。', surfaceFormInExample: 'Test', difficulty: 2, source: 'test', license: 'CC0' }] };
-      }
-      if (url.includes('decks.json')) {
-        return { ok: true, json: async () => [{ id: 'deck-test', name: '测试', source: 'test', license: 'CC0', wordIds: ['w-test'] }] };
-      }
-      return { ok: false };
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url.includes('words.json')) {
+          return {
+            ok: true,
+            json: async () => [
+              {
+                id: 'w-test',
+                word: 'test',
+                lemma: 'test',
+                partOfSpeech: ['v.'],
+                coreMeaningZh: ['测试'],
+                exampleSentence: 'Test sentence.',
+                exampleTranslation: '测试翻译。',
+                surfaceFormInExample: 'Test',
+                difficulty: 2,
+                source: 'test',
+                license: 'CC0',
+              },
+            ],
+          };
+        }
+        if (url.includes('decks.json')) {
+          return {
+            ok: true,
+            json: async () => [
+              {
+                id: 'deck-test',
+                name: '测试',
+                source: 'test',
+                license: 'CC0',
+                wordIds: ['w-test'],
+              },
+            ],
+          };
+        }
+        return { ok: false };
+      }),
+    );
     const { bootstrapContent } = await import('@/content/bootstrap');
 
     await bootstrapContent();
@@ -163,6 +204,7 @@ describe('bootstrapContent — 启动诊断', () => {
     });
 
     await expect(response).resolves.toEqual({ ok: true });
+    info.mockRestore();
   });
 });
 
@@ -190,10 +232,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     vi.stubGlobal('chrome', {
       runtime: { onMessage: { addListener: vi.fn() } },
     });
+    // 本组用例不关注启动诊断日志，静默 console.info 避免未断言日志噪声
+    vi.spyOn(console, 'info').mockImplementation(() => undefined);
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.restoreAllMocks();
   });
 
   it('引导完成 + 未启用 + 拒绝次数未达上限 → 显示启用提示', async () => {
@@ -205,7 +250,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       promptDeclineCount: 0,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 0 },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 0,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -214,7 +265,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     await bootstrapContent();
 
     expect(showEnablePrompt).toHaveBeenCalledTimes(1);
-    expect(showEnablePrompt.mock.calls[0][0]).toBe('www.bilibili.com');
+    expect(showEnablePrompt.mock.calls[0]![0]).toBe('www.bilibili.com');
   });
 
   it('拒绝次数已达上限（2 次）→ 不显示启用提示', async () => {
@@ -226,7 +277,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       promptDeclineCount: 2,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 2 },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 2,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -246,7 +303,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       promptDeclineCount: 0,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.bilibili.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 0 },
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 0,
+      },
       onboardingCompleted: false,
       globalPausedUntil: 0,
     });
@@ -281,7 +344,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       promptDeclineCount: 1,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.youtube.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 1 },
+      site: {
+        hostname: 'www.youtube.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 1,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -291,7 +360,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     await bootstrapContent();
 
     expect(showEnablePrompt).toHaveBeenCalledTimes(1);
-    const callbacks = showEnablePrompt.mock.calls[0][1] as {
+    const callbacks = showEnablePrompt.mock.calls[0]![1] as {
       onEnable: () => Promise<void>;
       onDismiss: () => Promise<void>;
     };
@@ -309,7 +378,13 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       promptDeclineCount: 0,
     });
     getPopupData.mockResolvedValue({
-      site: { hostname: 'www.youtube.com', enabled: false, mode: 'full-adaptation', firstQuestionPending: false, promptDeclineCount: 0 },
+      site: {
+        hostname: 'www.youtube.com',
+        enabled: false,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+        promptDeclineCount: 0,
+      },
       onboardingCompleted: true,
       globalPausedUntil: 0,
     });
@@ -319,7 +394,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     await bootstrapContent();
 
     expect(showEnablePrompt).toHaveBeenCalledTimes(1);
-    const callbacks = showEnablePrompt.mock.calls[0][1] as {
+    const callbacks = showEnablePrompt.mock.calls[0]![1] as {
       onEnable: () => Promise<void>;
       onDismiss: () => Promise<void>;
     };

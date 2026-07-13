@@ -14,8 +14,19 @@ export interface ValidationError {
 
 /** 合法的词性标记集合。 */
 const VALID_POS = new Set([
-  'n.', 'v.', 'adj.', 'adv.', 'prep.', 'conj.', 'pron.',
-  'num.', 'art.', 'int.', 'det.', 'abbr.', 'aux.',
+  'n.',
+  'v.',
+  'adj.',
+  'adv.',
+  'prep.',
+  'conj.',
+  'pron.',
+  'num.',
+  'art.',
+  'int.',
+  'det.',
+  'abbr.',
+  'aux.',
 ]);
 
 /** 校验单条单词记录。 */
@@ -60,9 +71,7 @@ export function validateBuildWord(w: BuildWord): ValidationError | null {
       // 校验 surfaceFormInExample 在例句中恰好出现一次
       const count = countOccurrences(w.exampleSentence, w.surfaceFormInExample);
       if (count === 0) {
-        errors.push(
-          `surfaceFormInExample "${w.surfaceFormInExample}" 未在例句中出现`,
-        );
+        errors.push(`surfaceFormInExample "${w.surfaceFormInExample}" 未在例句中出现`);
       } else if (count > 1) {
         errors.push(
           `surfaceFormInExample "${w.surfaceFormInExample}" 在例句中出现 ${count} 次（应恰好 1 次）`,

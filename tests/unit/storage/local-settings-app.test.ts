@@ -10,9 +10,14 @@ const TEST_DB = 'test-authoritative-app-settings';
 describe('LocalSettingsStore — 长期学习设置', () => {
   let db: IDBDatabase;
   beforeEach(async () => {
-    (globalThis as unknown as { chrome: unknown }).chrome = { storage: { local: {
-      get: vi.fn(async () => ({})), set: vi.fn(async () => undefined),
-    } } };
+    (globalThis as unknown as { chrome: unknown }).chrome = {
+      storage: {
+        local: {
+          get: vi.fn(async () => ({})),
+          set: vi.fn(async () => undefined),
+        },
+      },
+    };
     db = await openDatabase(TEST_DB, MIGRATIONS);
   });
   afterEach(async () => {
@@ -31,7 +36,11 @@ describe('LocalSettingsStore — 长期学习设置', () => {
 
   it('保存时规范化并由 IndexedDB 跨实例读取', async () => {
     const writer = new LocalSettingsStore(db);
-    await writer.setAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 999, defaultCooldownMinutes: -1 });
+    await writer.setAppSettings({
+      ...DEFAULT_SETTINGS,
+      dailyNewWordLimit: 999,
+      defaultCooldownMinutes: -1,
+    });
     const saved = await new LocalSettingsStore(db).getAppSettings();
     expect(saved.dailyNewWordLimit).toBe(100);
     expect(saved.defaultCooldownMinutes).toBe(DEFAULT_SETTINGS.defaultCooldownMinutes);
@@ -52,9 +61,14 @@ describe('LocalSettingsStore — 长期学习设置', () => {
 
   it('冷却配置实时派生自 IndexedDB 的长期学习设置', async () => {
     const store = new LocalSettingsStore(db);
-    await store.setAppSettings({ ...DEFAULT_SETTINGS, defaultCooldownMinutes: 9, consecutiveSkipCooldowns: [3, 30] });
+    await store.setAppSettings({
+      ...DEFAULT_SETTINGS,
+      defaultCooldownMinutes: 9,
+      consecutiveSkipCooldowns: [3, 30],
+    });
     await expect(store.getCooldownConfig()).resolves.toEqual({
-      defaultCooldownMinutes: 9, consecutiveSkipCooldowns: [3, 30],
+      defaultCooldownMinutes: 9,
+      consecutiveSkipCooldowns: [3, 30],
     });
   });
 });

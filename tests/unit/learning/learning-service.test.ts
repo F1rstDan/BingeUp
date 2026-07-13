@@ -4,7 +4,6 @@ import type { CardRepositoryPort } from '@/storage/repositories/card-repository'
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import type {
-  AnswerSubmission,
   CardRecord,
   DeckRecord,
   LearningItem,
@@ -14,8 +13,6 @@ import type {
   ReviewRating,
   SchedulerState,
   SpellingQuestion,
-  SpellingSubmission,
-  UserCorrection,
   WordRecord,
 } from '@/types';
 
@@ -37,7 +34,8 @@ function questionOf(value: LearningItem | null): MultipleChoiceQuestion {
 /** 收窄 LearningItem 为拼写题；测试已用 expect 断言 kind，此处提供类型安全访问。 */
 function spellingQuestionOf(value: LearningItem | null): SpellingQuestion {
   if (value === null) throw new Error('item is null');
-  if (value.kind !== 'spelling-question') throw new Error(`expected spelling-question, got ${value.kind}`);
+  if (value.kind !== 'spelling-question')
+    throw new Error(`expected spelling-question, got ${value.kind}`);
   return value.question;
 }
 
@@ -138,9 +136,10 @@ class FakeWordBank implements WordBankPort {
   }): Promise<WordRecord[]> {
     const excludeSet = new Set(params.excludeWordIds);
     const diffSet = new Set(params.preferredDifficulty);
-    return WORDS
-      .filter((w) => !excludeSet.has(w.id) && diffSet.has(w.difficulty))
-      .slice(0, params.count);
+    return WORDS.filter((w) => !excludeSet.has(w.id) && diffSet.has(w.difficulty)).slice(
+      0,
+      params.count,
+    );
   }
 }
 
@@ -191,15 +190,17 @@ class FakeScheduler implements ReviewSchedulerPort {
   }
 }
 
-function makeService(opts: {
-  cards?: CardRepositoryPort;
-  logs?: ReviewLogRepositoryPort;
-  words?: WordBankPort;
-  now?: number;
-  dailyNewWordLimit?: number;
-  random?: () => number;
-  scheduler?: ReviewSchedulerPort;
-} = {}) {
+function makeService(
+  opts: {
+    cards?: CardRepositoryPort;
+    logs?: ReviewLogRepositoryPort;
+    words?: WordBankPort;
+    now?: number;
+    dailyNewWordLimit?: number;
+    random?: () => number;
+    scheduler?: ReviewSchedulerPort;
+  } = {},
+) {
   const cards = opts.cards ?? new FakeCardRepository();
   const logs = opts.logs ?? new FakeReviewLogRepository();
   const words = opts.words ?? new FakeWordBank();
@@ -835,7 +836,12 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
     let item = await service.getNextItem();
     expect(questionOf(item).wordId).toBe('w-abandon');
     // 清空该卡后
-    await cards.save(makeLongTermCard('w-abandon', now, { nextReviewAt: now + MS_PER_DAY, lastWrongAt: now - 100 }));
+    await cards.save(
+      makeLongTermCard('w-abandon', now, {
+        nextReviewAt: now + MS_PER_DAY,
+        lastWrongAt: now - 100,
+      }),
+    );
 
     // 第 2 次：其他到期长期复习词
     item = await service.getNextItem();
@@ -1650,4 +1656,3 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
     });
   });
 });
-

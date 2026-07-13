@@ -1,0 +1,9 @@
+.output/
+.wxt/
+dist/
+node_modules/
+.npm-cache/
+public/dictionaries/
+scripts/build-dictionary/.cache/
+package-lock.json
+.agents/

@@ -42,7 +42,10 @@ export function validateAppSettings(input: Partial<AppSettings>): ValidationResu
   ) {
     errors.push(`每日新词上限必须在 ${MIN_DAILY_NEW_WORD_LIMIT}-${MAX_DAILY_NEW_WORD_LIMIT} 之间`);
   }
-  if (!Array.isArray(input.consecutiveSkipCooldowns) || input.consecutiveSkipCooldowns.length === 0) {
+  if (
+    !Array.isArray(input.consecutiveSkipCooldowns) ||
+    input.consecutiveSkipCooldowns.length === 0
+  ) {
     errors.push('连续跳过降频冷却不能为空');
   } else if (!input.consecutiveSkipCooldowns.every((m) => isFinitePositive(m))) {
     errors.push('连续跳过降频冷却必须为正数');
@@ -50,7 +53,10 @@ export function validateAppSettings(input: Partial<AppSettings>): ValidationResu
   if (typeof input.selectedDeckId !== 'string' || input.selectedDeckId.trim() === '') {
     errors.push('当前词库不能为空');
   }
-  if (typeof input.selfRatedLevel !== 'string' || !VALID_LEVELS.includes(input.selfRatedLevel as SelfRatedLevel)) {
+  if (
+    typeof input.selfRatedLevel !== 'string' ||
+    !VALID_LEVELS.includes(input.selfRatedLevel as SelfRatedLevel)
+  ) {
     errors.push('自评水平取值非法');
   }
   if (typeof input.spellingEnabled !== 'boolean') {

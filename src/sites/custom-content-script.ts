@@ -6,7 +6,10 @@ const CONTENT_SCRIPT_FILE = 'content-scripts/content.js';
 const CUSTOM_SCRIPT_ID_PREFIX = 'bingeup_custom_';
 
 export function customContentScriptId(hostname: string): string {
-  const encodedHostname = btoa(hostname).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+  const encodedHostname = btoa(hostname)
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replaceAll('=', '');
   return `${CUSTOM_SCRIPT_ID_PREFIX}${encodedHostname}`;
 }
 

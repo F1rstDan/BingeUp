@@ -62,7 +62,7 @@ export type ExtensionMessage =
   | { type: 'UPDATE_SITE_MODE'; hostname: string; mode: SiteSettings['mode'] };
 
 /** Background 返回给 Content 的冷却状态。 */
-export interface CooldownStatusResponse extends CooldownState {}
+export type CooldownStatusResponse = CooldownState;
 
 /** Background 返回给 Content 的站点状态。 */
 export interface SiteStateResponse extends SiteSettings {
@@ -115,8 +115,7 @@ export type ImportDataResponse = ImportResult;
  * Popup → Content Script 消息（通过 chrome.tabs.sendMessage 发送）。
  * 与 ExtensionMessage 分开，因为走不同的消息通道。
  */
-export type ContentMessage =
-  | { type: 'START_CONTINUOUS_LEARNING' };
+export type ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
 
 export type StartLearningFailureReason =
   | 'globally-paused'
@@ -126,5 +125,4 @@ export type StartLearningFailureReason =
   | 'failed';
 
 export type StartLearningResponse =
-  | { ok: true }
-  | { ok: false; reason: StartLearningFailureReason };
+  { ok: true } | { ok: false; reason: StartLearningFailureReason };

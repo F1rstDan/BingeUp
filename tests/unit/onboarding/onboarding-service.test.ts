@@ -18,10 +18,7 @@ describe('onboarding-service — 规范主机名', () => {
   });
 
   it('siteKeysToEnable 返回规范主机名列表', () => {
-    expect(siteKeysToEnable(['bilibili', 'youtube'])).toEqual([
-      'bilibili.com',
-      'youtube.com',
-    ]);
+    expect(siteKeysToEnable(['bilibili', 'youtube'])).toEqual(['bilibili.com', 'youtube.com']);
   });
 
   it('siteKeysToEnable 空选择返回空列表', () => {
@@ -37,12 +34,8 @@ describe('onboarding-service — 启用提示策略（AC2）', () => {
   };
 
   it('引导已完成、站点未启用、拒绝次数未达上限：应显示提示', () => {
-    expect(
-      shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 0 }, true),
-    ).toBe(true);
-    expect(
-      shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 1 }, true),
-    ).toBe(true);
+    expect(shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 0 }, true)).toBe(true);
+    expect(shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 1 }, true)).toBe(true);
   });
 
   it('拒绝次数达到上限（2）后不再显示提示', () => {
@@ -58,9 +51,7 @@ describe('onboarding-service — 启用提示策略（AC2）', () => {
   });
 
   it('引导未完成时不显示启用提示（等待用户先完成引导）', () => {
-    expect(
-      shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 0 }, false),
-    ).toBe(false);
+    expect(shouldShowEnablePrompt({ ...baseSite, promptDeclineCount: 0 }, false)).toBe(false);
   });
 
   it('未记录拒绝次数时按 0 处理', () => {

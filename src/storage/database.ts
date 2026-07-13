@@ -109,7 +109,11 @@ function awaitTransaction(tx: IDBTransaction): Promise<void> {
 }
 
 /** 按 key 读取单条记录。 */
-export async function idbGet<T>(db: IDBDatabase, store: StoreName, key: IDBValidKey): Promise<T | undefined> {
+export async function idbGet<T>(
+  db: IDBDatabase,
+  store: StoreName,
+  key: IDBValidKey,
+): Promise<T | undefined> {
   const tx = db.transaction(store, 'readonly');
   const result = await awaitRequest<T>(tx.objectStore(store).get(key));
   return result;
@@ -158,7 +162,11 @@ export async function idbReplaceAll(
     }
   } catch (error) {
     tx.abort();
-    try { await awaitTransaction(tx); } catch { /* 使用触发中止的原始错误。 */ }
+    try {
+      await awaitTransaction(tx);
+    } catch {
+      /* 使用触发中止的原始错误。 */
+    }
     throw error;
   }
   await awaitTransaction(tx);

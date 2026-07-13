@@ -54,7 +54,10 @@ export interface OverlayPort {
 
 /** 学习服务端口：控制器通过它获取学习项目并处理用户动作。 */
 export interface LearningServicePort {
-  getNextItem(options?: { excludedWordIds?: Set<string>; allowSpelling?: boolean }): Promise<LearningItem | null>;
+  getNextItem(options?: {
+    excludedWordIds?: Set<string>;
+    allowSpelling?: boolean;
+  }): Promise<LearningItem | null>;
   acceptNewWord(wordId: string): Promise<void>;
   selfReportKnown(wordId: string): Promise<void>;
   submitAnswer(submission: AnswerSubmission): Promise<SubmissionResult>;
@@ -241,8 +244,9 @@ export class ContentController {
         if (playback !== null && snapshot !== null) await restore(playback, snapshot);
         return { ok: false, reason: 'no-learning-content' };
       }
-      const target = event.overlayTarget
-        ?? (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
+      const target =
+        event.overlayTarget ??
+        (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
       try {
         pauseIfPlaying(playback);
         this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
@@ -316,8 +320,9 @@ export class ContentController {
     }
 
     // 遮罩目标：有视频时用视频区域；基础网页模式用文档根元素（全网页遮罩）。
-    const target = event.overlayTarget
-      ?? (event.video !== null ? event.video.getBoundingClientRect() : document.documentElement);
+    const target =
+      event.overlayTarget ??
+      (event.video !== null ? event.video.getBoundingClientRect() : document.documentElement);
 
     try {
       pauseIfPlaying(playback);

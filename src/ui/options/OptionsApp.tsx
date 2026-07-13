@@ -56,10 +56,12 @@ export function OptionsApp(): JSX.Element {
         messageClient.getAppSettings(),
         messageClient.listSites(),
       ]);
-      const sitesWithPermissions = await Promise.all(siteList.sites.map(async (entry) => ({
-        ...entry,
-        hasHostPermission: await hasExactHttpsPermission(entry.hostname),
-      })));
+      const sitesWithPermissions = await Promise.all(
+        siteList.sites.map(async (entry) => ({
+          ...entry,
+          hasHostPermission: await hasExactHttpsPermission(entry.hostname),
+        })),
+      );
       setSettings(appSettings);
       setSites(sitesWithPermissions);
       setError(null);
@@ -83,11 +85,20 @@ export function OptionsApp(): JSX.Element {
       <div className="bingeup-options">
         <h1>刷刷升级 — 设置</h1>
         <p className="bingeup-error">{error.message}</p>
-        {notice && <p className="bingeup-notice" role="status">{notice}</p>}
+        {notice && (
+          <p className="bingeup-notice" role="status">
+            {notice}
+          </p>
+        )}
         <div className="bingeup-actions">
-          <button className="bingeup-btn-primary" onClick={() => void load()}>重试</button>
+          <button className="bingeup-btn-primary" onClick={() => void load()}>
+            重试
+          </button>
           {error.databaseUnavailable && (
-            <button className="bingeup-btn-danger" onClick={() => void handleRebuildDatabase(load, setNotice, setError)}>
+            <button
+              className="bingeup-btn-danger"
+              onClick={() => void handleRebuildDatabase(load, setNotice, setError)}
+            >
               清除本地数据并重建
             </button>
           )}
@@ -109,7 +120,11 @@ export function OptionsApp(): JSX.Element {
     <div className="bingeup-options">
       <h1>刷刷升级 — 设置</h1>
 
-      {notice && <p className="bingeup-notice" role="status">{notice}</p>}
+      {notice && (
+        <p className="bingeup-notice" role="status">
+          {notice}
+        </p>
+      )}
 
       {/* AC1：学习设置 */}
       <SettingsSection title="学习设置">
@@ -235,13 +250,7 @@ export function OptionsApp(): JSX.Element {
           className="bingeup-site-add"
           onSubmit={(event) => {
             event.preventDefault();
-            void handleAddWebsite(
-              siteInput,
-              load,
-              setSiteInput,
-              setSiteAdding,
-              setNotice,
-            );
+            void handleAddWebsite(siteInput, load, setSiteInput, setSiteAdding, setNotice);
           }}
         >
           <label htmlFor="bingeup-site-address">网站地址</label>
@@ -259,7 +268,9 @@ export function OptionsApp(): JSX.Element {
           </div>
         </form>
         {sites.length === 0 ? (
-          <p className="bingeup-hint">暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。</p>
+          <p className="bingeup-hint">
+            暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。
+          </p>
         ) : (
           <div className="bingeup-site-list">
             {sites.map((entry) => (
@@ -275,18 +286,14 @@ export function OptionsApp(): JSX.Element {
 
       {/* AC4：数据管理 */}
       <SettingsSection title="数据管理">
-        <p className="bingeup-hint">恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。</p>
+        <p className="bingeup-hint">
+          恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
+        </p>
         <div className="bingeup-actions">
-          <button
-            className="bingeup-btn-primary"
-            onClick={() => void handleExport(setNotice)}
-          >
+          <button className="bingeup-btn-primary" onClick={() => void handleExport(setNotice)}>
             导出数据
           </button>
-          <button
-            className="bingeup-btn-secondary"
-            onClick={() => fileInputRef.current?.click()}
-          >
+          <button className="bingeup-btn-secondary" onClick={() => fileInputRef.current?.click()}>
             导入数据
           </button>
           <input
@@ -318,7 +325,13 @@ export function OptionsApp(): JSX.Element {
 
 // ─── 子组件 ──────────────────────────────────────────────
 
-function SettingsSection({ title, children }: { title: string; children: React.ReactNode }): JSX.Element {
+function SettingsSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}): JSX.Element {
   return (
     <section className="bingeup-section">
       <h2>{title}</h2>
@@ -336,13 +349,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function SiteRow({
-  entry,
-  onRemove,
-}: {
-  entry: SiteEntry;
-  onRemove: () => void;
-}): JSX.Element {
+function SiteRow({ entry, onRemove }: { entry: SiteEntry; onRemove: () => void }): JSX.Element {
   const { hostname, settings, hasHostPermission } = entry;
   const needsPermission = settings.mode !== 'unsupported' && !hasHostPermission;
   const effectivelyEnabled = settings.enabled && !needsPermission;
@@ -364,19 +371,11 @@ function SiteRow({
       {settings.mode === 'basic-web' && (
         <div className="bingeup-site-triggers">
           <label>
-            <input
-              type="checkbox"
-              checked={settings.pageLoadTrigger ?? true}
-              disabled
-            />
+            <input type="checkbox" checked={settings.pageLoadTrigger ?? true} disabled />
             页面加载触发
           </label>
           <label>
-            <input
-              type="checkbox"
-              checked={settings.scrollTrigger ?? true}
-              disabled
-            />
+            <input type="checkbox" checked={settings.scrollTrigger ?? true} disabled />
             滚动触发
           </label>
         </div>
@@ -410,7 +409,7 @@ async function handleReset(
 ): Promise<void> {
   try {
     await messageClient.resetAppSettings();
-    if (!await onReload()) {
+    if (!(await onReload())) {
       onNotice('默认设置已恢复，但重新读取失败；当前显示状态未确认');
       return;
     }
@@ -490,11 +489,13 @@ async function handleImport(
     const payload = JSON.parse(text);
     const result: ImportResult = await messageClient.importData(payload);
     if (result.ok) {
-      if (!await onReload()) {
+      if (!(await onReload())) {
         onNotice('权威数据已恢复，但重新读取失败；当前显示状态未确认');
         return;
       }
-      onNotice(result.warnings.length > 0 ? `数据已恢复；${result.warnings.join('；')}` : '数据导入成功');
+      onNotice(
+        result.warnings.length > 0 ? `数据已恢复；${result.warnings.join('；')}` : '数据导入成功',
+      );
     } else {
       onNotice(`导入失败：${result.errors.join('；')}`);
     }
@@ -509,12 +510,16 @@ async function handleClearProgress(
   onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  if (!window.confirm('确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。')) {
+  if (
+    !window.confirm(
+      '确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。',
+    )
+  ) {
     return;
   }
   try {
     await messageClient.clearLearningProgress();
-    if (!await onReload()) {
+    if (!(await onReload())) {
       onNotice('学习进度已清除，但重新读取失败；当前显示状态未确认');
       return;
     }
@@ -528,21 +533,31 @@ async function handleClearAll(
   onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  if (!window.confirm('确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。')) {
+  if (
+    !window.confirm(
+      '确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。',
+    )
+  ) {
     return;
   }
   try {
     const result = await messageClient.clearAllData();
-    if (!await onReload()) {
-      onNotice(result.ok
-        ? '权威数据已清除，但重新读取失败；当前显示状态未确认'
-        : `清除失败：${result.errors.join('；')}`);
+    if (!(await onReload())) {
+      onNotice(
+        result.ok
+          ? '权威数据已清除，但重新读取失败；当前显示状态未确认'
+          : `清除失败：${result.errors.join('；')}`,
+      );
       return;
     }
     if (!result.ok) {
       onNotice(`清除失败：${result.errors.join('；')}`);
     } else {
-      onNotice(result.warnings.length > 0 ? `权威数据已清除；${result.warnings.join('；')}` : '全部数据已清除');
+      onNotice(
+        result.warnings.length > 0
+          ? `权威数据已清除；${result.warnings.join('；')}`
+          : '全部数据已清除',
+      );
     }
   } catch (e) {
     onNotice(`清除失败：${e instanceof Error ? e.message : String(e)}`);
@@ -554,16 +569,25 @@ async function handleRebuildDatabase(
   onNotice: (msg: string | null) => void,
   onError: (error: LoadError | null) => void,
 ): Promise<void> {
-  if (!window.confirm('重建会永久删除全部本地用户数据。请先确认你已经尝试过“重试”，并关闭了其他刷刷升级页面。是否继续？')) return;
+  if (
+    !window.confirm(
+      '重建会永久删除全部本地用户数据。请先确认你已经尝试过“重试”，并关闭了其他刷刷升级页面。是否继续？',
+    )
+  )
+    return;
   if (!window.confirm('最后确认：永久清除本地用户数据并重建，且无法撤销。确定执行吗？')) return;
   try {
     const result = await messageClient.rebuildDatabase();
-    if (!await onReload()) {
+    if (!(await onReload())) {
       onNotice('本地数据已重建，但重新读取失败；请再次重试，当前状态未确认');
       return;
     }
     onError(null);
-    onNotice(result.warnings.length > 0 ? `本地数据已清除并重建；${result.warnings.join('；')}` : '本地数据已清除并重建');
+    onNotice(
+      result.warnings.length > 0
+        ? `本地数据已清除并重建；${result.warnings.join('；')}`
+        : '本地数据已清除并重建',
+    );
   } catch (error) {
     onNotice(`重建失败：${error instanceof Error ? error.message : String(error)}`);
   }

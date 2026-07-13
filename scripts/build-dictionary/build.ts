@@ -15,7 +15,13 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { createHash } from 'node:crypto';
-import type { BuildWord, BuildManifest, DictionarySourceMetadata, DeckMeta, Difficulty } from './types';
+import type {
+  BuildWord,
+  BuildManifest,
+  DictionarySourceMetadata,
+  DeckMeta,
+  Difficulty,
+} from './types';
 import { DECK_IDS, DIFFICULTY_RULE_VERSION } from './types';
 import {
   parseEcdictRow,
@@ -110,7 +116,8 @@ async function main() {
 
   const allRows: ReturnType<typeof parseEcdictRow>[] = [];
   let skipped = 0;
-  for (let i = 1; i < lines.length; i++) { // 跳过 header
+  for (let i = 1; i < lines.length; i++) {
+    // 跳过 header
     const line = lines[i];
     if (!line || !line.trim()) continue;
     const row = parseEcdictRow(line);
@@ -301,9 +308,7 @@ async function main() {
     sourceCommit: ECDICT_COMMIT,
     sourceLicense: 'MIT',
     totalWordCount: allWords.length,
-    decks: Object.fromEntries(
-      Object.entries(deckWords).map(([id, words]) => [id, words.length]),
-    ),
+    decks: Object.fromEntries(Object.entries(deckWords).map(([id, words]) => [id, words.length])),
     difficultyRuleVersion: DIFFICULTY_RULE_VERSION,
   };
   fs.writeFileSync(

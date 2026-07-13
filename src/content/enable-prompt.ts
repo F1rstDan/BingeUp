@@ -90,7 +90,10 @@ const PROMPT_CSS = `
  * 显示有限启用提示横幅。返回 handle 用于手动移除。
  * 同一页面只允许存在一个提示横幅（重复调用先移除旧的）。
  */
-export function showEnablePrompt(hostname: string, callbacks: EnablePromptCallbacks): EnablePromptHandle {
+export function showEnablePrompt(
+  hostname: string,
+  callbacks: EnablePromptCallbacks,
+): EnablePromptHandle {
   // 移除可能残留的旧横幅。
   document.getElementById(PROMPT_HOST_ID)?.remove();
 

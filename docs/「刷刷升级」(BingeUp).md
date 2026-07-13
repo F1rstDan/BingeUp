@@ -7,18 +7,14 @@ BingeLevel 改成 BingeUp
 
 边刷边学，独自升级。
 
-
 和"Binge-watching"（刷剧/刷视频）做严格的语法对齐和视觉暗示，母语者一眼就能看出你在玩梗。
-
-
-
 
 ### 为什么合适
 
-* **“刷刷”有双关**：既是刷视频，也像刷题、反复复习。
-* **“升级”有正反馈**：不强调克制娱乐，而是把刷视频变成积累经验，符合我们确定的产品方向。
-* **有游戏感但不幼稚**：连续学习、掌握词数、等级成长等视觉语言都能自然围绕它展开。
-* **容易记忆和传播**：“你装那个刷刷升级了吗？”口语上很顺。
+- **“刷刷”有双关**：既是刷视频，也像刷题、反复复习。
+- **“升级”有正反馈**：不强调克制娱乐，而是把刷视频变成积累经验，符合我们确定的产品方向。
+- **有游戏感但不幼稚**：连续学习、掌握词数、等级成长等视觉语言都能自然围绕它展开。
+- **容易记忆和传播**：“你装那个刷刷升级了吗？”口语上很顺。
 
 它唯一的小问题是，单看名字可能被理解成游戏刷等级、代练工具。因此早期最好始终带一句副标题：
 
@@ -38,9 +34,9 @@ BingeLevel 改成 BingeUp
 
 我的判断是：
 
-* 面向中文用户：**刷刷升级**，非常合适。
-* 英文作为辅助品牌标识：**BingeLevel**，可以保留。
-* 暂时不要把英文名翻译成中文语义，也不必强调给普通用户解释。
+- 面向中文用户：**刷刷升级**，非常合适。
+- 英文作为辅助品牌标识：**BingeLevel**，可以保留。
+- 暂时不要把英文名翻译成中文语义，也不必强调给普通用户解释。
 
 ## 建议最终品牌写法
 
@@ -79,5 +75,5 @@ bingelevel-extension
 
 综合评价：**中文名 9/10，英文名 7.5/10，组合使用 8.5/10。**
 
-[1]: https://pubmed.ncbi.nlm.nih.gov/27853417/?utm_source=chatgpt.com "A Mouse Model for Binge-Level Methamphetamine Use"
-[2]: https://www.instagram.com/p/B-0pOAAHmzl/?hl=zh-cn&utm_source=chatgpt.com "Binge level: Expert"
+[1]: https://pubmed.ncbi.nlm.nih.gov/27853417/?utm_source=chatgpt.com 'A Mouse Model for Binge-Level Methamphetamine Use'
+[2]: https://www.instagram.com/p/B-0pOAAHmzl/?hl=zh-cn&utm_source=chatgpt.com 'Binge level: Expert'

@@ -5,9 +5,19 @@ import type { EcdictRow, ParsedExample } from './types';
 
 /** ECDICT CSV 列名 */
 const ECDICT_COLUMNS = [
-  'word', 'phonetic', 'definition', 'translation',
-  'pos', 'collins', 'oxford', 'tag', 'bnc', 'frq',
-  'exchange', 'detail', 'audio',
+  'word',
+  'phonetic',
+  'definition',
+  'translation',
+  'pos',
+  'collins',
+  'oxford',
+  'tag',
+  'bnc',
+  'frq',
+  'exchange',
+  'detail',
+  'audio',
 ] as const;
 
 /** 解析 ECDICT CSV 的一行。 */
@@ -95,42 +105,53 @@ export function extractPosFromTranslation(translation: string): string[] {
 
 /** 合法词性缩写集合，extractPosFromTranslation 用作白名单。 */
 const VALID_POS_ABBREVS = new Set([
-  'n.', 'v.', 'adj.', 'adv.', 'prep.', 'conj.', 'pron.',
-  'num.', 'art.', 'int.', 'det.', 'abbr.', 'aux.',
+  'n.',
+  'v.',
+  'adj.',
+  'adv.',
+  'prep.',
+  'conj.',
+  'pron.',
+  'num.',
+  'art.',
+  'int.',
+  'det.',
+  'abbr.',
+  'aux.',
 ]);
 
 /** 标准化词性标记。 */
 function normalizePOS(pos: string): string {
   const normalized = pos.toLowerCase();
   const mapping: Record<string, string> = {
-    'noun': 'n.',
-    'verb': 'v.',
-    'adjective': 'adj.',
-    'adverb': 'adv.',
-    'preposition': 'prep.',
-    'conjunction': 'conj.',
-    'pronoun': 'pron.',
-    'interjection': 'int.',
-    'numeral': 'num.',
-    'article': 'art.',
-    'determiner': 'det.',
-    'abbreviation': 'abbr.',
-    'auxiliary': 'aux.',
-    'n': 'n.',
-    'v': 'v.',
-    'adj': 'adj.',
-    'adv': 'adv.',
-    'prep': 'prep.',
-    'conj': 'conj.',
-    'pron': 'pron.',
-    'int': 'int.',
-    'num': 'num.',
-    'art': 'art.',
-    'det': 'det.',
-    'abbr': 'abbr.',
-    'aux': 'aux.',
-    'vi': 'v.',
-    'vt': 'v.',
+    noun: 'n.',
+    verb: 'v.',
+    adjective: 'adj.',
+    adverb: 'adv.',
+    preposition: 'prep.',
+    conjunction: 'conj.',
+    pronoun: 'pron.',
+    interjection: 'int.',
+    numeral: 'num.',
+    article: 'art.',
+    determiner: 'det.',
+    abbreviation: 'abbr.',
+    auxiliary: 'aux.',
+    n: 'n.',
+    v: 'v.',
+    adj: 'adj.',
+    adv: 'adv.',
+    prep: 'prep.',
+    conj: 'conj.',
+    pron: 'pron.',
+    int: 'int.',
+    num: 'num.',
+    art: 'art.',
+    det: 'det.',
+    abbr: 'abbr.',
+    aux: 'aux.',
+    vi: 'v.',
+    vt: 'v.',
   };
   return mapping[normalized] ?? normalized;
 }
@@ -138,7 +159,10 @@ function normalizePOS(pos: string): string {
 /** 解析考试标签。 */
 export function parseTags(tag: string): string[] {
   if (!tag) return [];
-  return tag.split(' ').filter(Boolean).map((t) => t.trim().toLowerCase());
+  return tag
+    .split(' ')
+    .filter(Boolean)
+    .map((t) => t.trim().toLowerCase());
 }
 
 /** 解析数字字段（frq/bnc）。 */
@@ -207,7 +231,10 @@ export function parseExchange(exchange: string): Record<string, string[]> {
   for (const part of parts) {
     const [type, ...forms] = part.split(':');
     if (type && forms.length > 0) {
-      result[type.trim()] = forms.join(':').split(',').map((f) => f.trim());
+      result[type.trim()] = forms
+        .join(':')
+        .split(',')
+        .map((f) => f.trim());
     }
   }
   return result;

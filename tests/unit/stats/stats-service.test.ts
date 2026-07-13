@@ -5,14 +5,9 @@ import {
   startOfLocalWeek,
   isSameLocalDay,
 } from '@/stats/stats-service';
-import type {
-  CardRecord,
-  ReviewLogRecord,
-  SessionLogRecord,
-} from '@/types';
+import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const MS_PER_MIN = 60_000;
 
 // 固定"现在"为 2026-07-11 10:00:00 本地时间（周六）
 const NOW = new Date(2026, 6, 11, 10, 0, 0).getTime();
@@ -184,9 +179,7 @@ describe('StatsService — 今日统计（Issue #12 AC1）', () => {
 
   it('同一单词多次复习只计一次复习词', () => {
     const service = makeService();
-    const cards = [
-      makeCard({ id: 'c1', wordId: 'w-same', createdAt: NOW - 5 * MS_PER_DAY }),
-    ];
+    const cards = [makeCard({ id: 'c1', wordId: 'w-same', createdAt: NOW - 5 * MS_PER_DAY })];
     const logs = [
       makeLog({ id: 'l1', cardId: 'c1', wordId: 'w-same', reviewedAt: NOW }),
       makeLog({ id: 'l2', cardId: 'c1', wordId: 'w-same', reviewedAt: NOW - 100 }),
@@ -390,15 +383,19 @@ describe('StatsService — 不重复/不过期统计（Issue #12 AC3）', () => 
     // 评分纠正（correctRating）修改已有复习日志的 rating 字段，
     // 不创建新日志。统计从日志派生，因此纠正不会增加完成题数。
     const service = makeService();
-    const logs = [
-      makeLog({ id: 'l1', isCorrect: true, rating: 'good', reviewedAt: NOW }),
-    ];
+    const logs = [makeLog({ id: 'l1', isCorrect: true, rating: 'good', reviewedAt: NOW })];
     const stats1 = service.computeStats([], logs, []);
     expect(stats1.today.completedQuestions).toBe(1);
 
     // 模拟纠正后：同一日志，rating 变了，但日志数量不变
     const correctedLogs = [
-      makeLog({ id: 'l1', isCorrect: true, rating: 'easy', userCorrection: 'too-easy', reviewedAt: NOW }),
+      makeLog({
+        id: 'l1',
+        isCorrect: true,
+        rating: 'easy',
+        userCorrection: 'too-easy',
+        reviewedAt: NOW,
+      }),
     ];
     const stats2 = service.computeStats([], correctedLogs, []);
     expect(stats2.today.completedQuestions).toBe(1); // 仍是 1，不是 2
@@ -422,9 +419,7 @@ describe('StatsService — 不重复/不过期统计（Issue #12 AC3）', () => 
     const importedCards = [
       makeCard({ id: 'c1', wordId: 'w-imp1', createdAt: todayStart + 3600_000 }),
     ];
-    const importedLogs = [
-      makeLog({ id: 'l1', cardId: 'c1', wordId: 'w-imp1', reviewedAt: NOW }),
-    ];
+    const importedLogs = [makeLog({ id: 'l1', cardId: 'c1', wordId: 'w-imp1', reviewedAt: NOW })];
     const stats = service.computeStats(importedCards, importedLogs, []);
     expect(stats.today.completedQuestions).toBe(1);
     expect(stats.today.newWords).toBe(1);
@@ -466,12 +461,8 @@ describe('StatsService — 交叉验证（Issue #12 AC5）', () => {
       makeCard({ id: 'c2', stage: 'short-term' }),
     ];
     const stats = service.computeStats(cards, [], []);
-    expect(stats.cardStatus.longTerm).toBe(
-      cards.filter((c) => c.stage === 'long-term').length,
-    );
-    expect(stats.cardStatus.shortTerm).toBe(
-      cards.filter((c) => c.stage === 'short-term').length,
-    );
+    expect(stats.cardStatus.longTerm).toBe(cards.filter((c) => c.stage === 'long-term').length);
+    expect(stats.cardStatus.shortTerm).toBe(cards.filter((c) => c.stage === 'short-term').length);
   });
 
   it('待复习词数可由 cards 的 nextReviewAt 直接验证', () => {

@@ -3,6 +3,7 @@
 > 审计日期：2026-07-13  
 > 审计基线：`e552efd`（`main`）；审计期间另出现了 issue #16 的 Options 测试未提交改动  
 > 对照来源：
+>
 > - [`「刷刷升级」浏览器插件 Beta 版执行计划书.md`](./「刷刷升级」浏览器插件%20Beta%20版执行计划书.md)
 > - [`「刷刷升级」开发任务清单与项目目录骨架.md`](./「刷刷升级」开发任务清单与项目目录骨架.md)
 > - [GitHub issue #1：Spec: 「刷刷升级」浏览器插件 Beta v0.1](https://github.com/F1rstDan/BingeUp/issues/1)
@@ -51,17 +52,17 @@
 
 ## 三、本次验证结果
 
-| 检查 | 结果 | 说明 |
-| --- | --- | --- |
-| `npm test` | 通过 | 30 个测试文件、640 项测试通过；测试过程有预期错误路径日志及一条 jsdom navigation 噪声 |
-| `npm run typecheck` | 通过 | TypeScript 严格检查通过 |
-| `npm run build` | 通过 | Chrome MV3 生产构建通过；警告 `src/public` 不存在 |
-| `npm run build:edge` | 通过 | Edge MV3 生产构建通过；同一 public 警告 |
-| `npm run zip` | 通过 | 生成 Chrome zip，约 816 KB |
-| `npx wxt zip -b edge` | 通过 | 生成 Edge zip，约 816 KB |
-| `npm run lint` | 失败 | 项目声明了 lint 脚本，但未安装 ESLint 可执行依赖 |
-| `npm audit --omit=dev` | 通过 | 生产依赖未报告漏洞 |
-| `npm audit` | 未通过 | 开发工具链报告 14 项：4 critical、6 high、4 moderate；主要位于旧版 WXT/Vite/Vitest 的传递依赖 |
+| 检查                   | 结果   | 说明                                                                                          |
+| ---------------------- | ------ | --------------------------------------------------------------------------------------------- |
+| `npm test`             | 通过   | 30 个测试文件、640 项测试通过；测试过程有预期错误路径日志及一条 jsdom navigation 噪声         |
+| `npm run typecheck`    | 通过   | TypeScript 严格检查通过                                                                       |
+| `npm run build`        | 通过   | Chrome MV3 生产构建通过；警告 `src/public` 不存在                                             |
+| `npm run build:edge`   | 通过   | Edge MV3 生产构建通过；同一 public 警告                                                       |
+| `npm run zip`          | 通过   | 生成 Chrome zip，约 816 KB                                                                    |
+| `npx wxt zip -b edge`  | 通过   | 生成 Edge zip，约 816 KB                                                                      |
+| `npm run lint`         | 失败   | 项目声明了 lint 脚本，但未安装 ESLint 可执行依赖                                              |
+| `npm audit --omit=dev` | 通过   | 生产依赖未报告漏洞                                                                            |
+| `npm audit`            | 未通过 | 开发工具链报告 14 项：4 critical、6 high、4 moderate；主要位于旧版 WXT/Vite/Vitest 的传递依赖 |
 
 构建产物约 1.15 MB，其中吉祥物图片约 671 KB，内容脚本约 248 KB。两份 zip 可生成，但 manifest 没有扩展图标配置。
 

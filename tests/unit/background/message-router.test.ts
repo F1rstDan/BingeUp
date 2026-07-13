@@ -27,7 +27,9 @@ function installChromeStorageMock() {
       remove: vi.fn().mockResolvedValue(true),
     },
     scripting: {
-      getRegisteredContentScripts: vi.fn(async (): Promise<chrome.scripting.RegisteredContentScript[]> => []),
+      getRegisteredContentScripts: vi.fn(
+        async (): Promise<chrome.scripting.RegisteredContentScript[]> => [],
+      ),
       registerContentScripts: vi.fn().mockResolvedValue(undefined),
       updateContentScripts: vi.fn().mockResolvedValue(undefined),
       unregisterContentScripts: vi.fn().mockResolvedValue(undefined),
@@ -267,7 +269,9 @@ describe('message-router — Issue #10 新增消息', () => {
 
   beforeEach(async () => {
     installChromeStorageMock();
-    permissionsRemove = (globalThis as unknown as { chrome: { permissions: { remove: ReturnType<typeof vi.fn> } } }).chrome.permissions.remove;
+    permissionsRemove = (
+      globalThis as unknown as { chrome: { permissions: { remove: ReturnType<typeof vi.fn> } } }
+    ).chrome.permissions.remove;
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
@@ -309,7 +313,13 @@ describe('message-router — Issue #10 新增消息', () => {
     const res = (await router.handle(
       { type: 'GET_POPUP_DATA', hostname: 'www.bilibili.com' },
       {} as chrome.runtime.MessageSender,
-    )) as { stats?: { today: { completedQuestions: number }; cardStatus: { longTerm: number }; dueReviewCount: number } };
+    )) as {
+      stats?: {
+        today: { completedQuestions: number };
+        cardStatus: { longTerm: number };
+        dueReviewCount: number;
+      };
+    };
 
     expect(res.stats).toEqual({
       today: { completedQuestions: 1 },
@@ -453,10 +463,18 @@ describe('message-router — Issue #10 新增消息', () => {
 
   it('REMOVE_SITE：自定义站点尝试释放当前与旧版可选权限（AC5）', async () => {
     // 直接写入一个自定义站点（绕过 enableSite 的受支持检查）
-    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
-    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-    }]);
+    await store.setSite('example.com', {
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+    });
+    (
+      chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      },
+    ]);
 
     const res = (await router.handle(
       { type: 'REMOVE_SITE', hostname: 'example.com' },
@@ -477,7 +495,11 @@ describe('message-router — Issue #10 新增消息', () => {
 
   it('REMOVE_SITE：仅存在旧版宽泛权限时仍报告已释放', async () => {
     permissionsRemove.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
+    await store.setSite('example.com', {
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+    });
 
     const res = (await router.handle(
       { type: 'REMOVE_SITE', hostname: 'example.com' },
@@ -538,11 +560,22 @@ describe('message-router — Issue #10 新增消息', () => {
       exportedAt: 9000,
       authoritativeState: {
         appSettings: { ...DEFAULT_SETTINGS, dailyNewWordLimit: 42 },
-        sites: { 'bilibili.com': { enabled: true, mode: 'full-adaptation', firstQuestionPending: false } },
+        sites: {
+          'bilibili.com': { enabled: true, mode: 'full-adaptation', firstQuestionPending: false },
+        },
         onboardingCompleted: true,
       },
       data: {
-        cards: [{ id: 'c1', wordId: 'w-abandon', deckId: 'deck-daily-high-frequency', stage: 'new', createdAt: 1, updatedAt: 1 } satisfies CardRecord],
+        cards: [
+          {
+            id: 'c1',
+            wordId: 'w-abandon',
+            deckId: 'deck-daily-high-frequency',
+            stage: 'new',
+            createdAt: 1,
+            updatedAt: 1,
+          } satisfies CardRecord,
+        ],
         reviewLogs: [],
         sessionLogs: [],
         words: [],
@@ -583,15 +616,46 @@ describe('message-router — Issue #10 新增消息', () => {
   });
 
   it('CLEAR_LEARNING_PROGRESS：只清空 cards 和 reviewLogs（AC4）', async () => {
-    await idbPut(db, STORES.cards, { id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 });
-    await idbPut(db, STORES.reviewLogs, { id: 'l1', cardId: 'c1', wordId: 'w1', questionType: 'en-to-zh', selectedAnswer: '', correctAnswer: '', isCorrect: true, responseTimeMs: 0, reviewedAt: 0 });
-    await idbPut(db, STORES.words, { id: 'w1', word: 'test', lemma: 'test', partOfSpeech: ['n.'], coreMeaningZh: ['测试'], exampleSentence: '', exampleTranslation: '', difficulty: 1, source: '', license: '' });
-    await idbPut(db, STORES.decks, { id: 'd1', name: 'deck', source: '', license: '', wordIds: [] });
+    await idbPut(db, STORES.cards, {
+      id: 'c1',
+      wordId: 'w1',
+      deckId: 'd1',
+      stage: 'new',
+      createdAt: 1,
+      updatedAt: 1,
+    });
+    await idbPut(db, STORES.reviewLogs, {
+      id: 'l1',
+      cardId: 'c1',
+      wordId: 'w1',
+      questionType: 'en-to-zh',
+      selectedAnswer: '',
+      correctAnswer: '',
+      isCorrect: true,
+      responseTimeMs: 0,
+      reviewedAt: 0,
+    });
+    await idbPut(db, STORES.words, {
+      id: 'w1',
+      word: 'test',
+      lemma: 'test',
+      partOfSpeech: ['n.'],
+      coreMeaningZh: ['测试'],
+      exampleSentence: '',
+      exampleTranslation: '',
+      difficulty: 1,
+      source: '',
+      license: '',
+    });
+    await idbPut(db, STORES.decks, {
+      id: 'd1',
+      name: 'deck',
+      source: '',
+      license: '',
+      wordIds: [],
+    });
 
-    await router.handle(
-      { type: 'CLEAR_LEARNING_PROGRESS' },
-      {} as chrome.runtime.MessageSender,
-    );
+    await router.handle({ type: 'CLEAR_LEARNING_PROGRESS' }, {} as chrome.runtime.MessageSender);
 
     expect(await idbGetAll(db, STORES.cards)).toHaveLength(0);
     expect(await idbGetAll(db, STORES.reviewLogs)).toHaveLength(0);
@@ -601,18 +665,37 @@ describe('message-router — Issue #10 新增消息', () => {
   });
 
   it('CLEAR_ALL_DATA：清空全部 IDB 仓库与持久化状态（AC4）', async () => {
-    await idbPut(db, STORES.cards, { id: 'c1', wordId: 'w1', deckId: 'd1', stage: 'new', createdAt: 1, updatedAt: 1 });
-    await idbPut(db, STORES.words, { id: 'w1', word: 'test', lemma: 'test', partOfSpeech: ['n.'], coreMeaningZh: ['测试'], exampleSentence: '', exampleTranslation: '', difficulty: 1, source: '', license: '' });
+    await idbPut(db, STORES.cards, {
+      id: 'c1',
+      wordId: 'w1',
+      deckId: 'd1',
+      stage: 'new',
+      createdAt: 1,
+      updatedAt: 1,
+    });
+    await idbPut(db, STORES.words, {
+      id: 'w1',
+      word: 'test',
+      lemma: 'test',
+      partOfSpeech: ['n.'],
+      coreMeaningZh: ['测试'],
+      exampleSentence: '',
+      exampleTranslation: '',
+      difficulty: 1,
+      source: '',
+      license: '',
+    });
     await store.enableSite('bilibili.com');
     await store.markOnboardingCompleted();
-    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-    }]);
+    (
+      chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      },
+    ]);
 
-    await router.handle(
-      { type: 'CLEAR_ALL_DATA' },
-      {} as chrome.runtime.MessageSender,
-    );
+    await router.handle({ type: 'CLEAR_ALL_DATA' }, {} as chrome.runtime.MessageSender);
 
     expect(await idbGetAll(db, STORES.cards)).toHaveLength(0);
     expect(await idbGetAll(db, STORES.words)).toHaveLength(0);
@@ -624,17 +707,26 @@ describe('message-router — Issue #10 新增消息', () => {
   });
 
   it('CLEAR_ALL_DATA：数据已清空但脚本同步失败时返回成功与明确告警', async () => {
-    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
-    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-    }]);
-    (chrome.scripting.unregisterContentScripts as unknown as ReturnType<typeof vi.fn>)
-      .mockRejectedValue(new Error('scripting 不可用'));
+    await store.setSite('example.com', {
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+    });
+    (
+      chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      },
+    ]);
+    (
+      chrome.scripting.unregisterContentScripts as unknown as ReturnType<typeof vi.fn>
+    ).mockRejectedValue(new Error('scripting 不可用'));
 
-    const result = await router.handle(
+    const result = (await router.handle(
       { type: 'CLEAR_ALL_DATA' },
       {} as chrome.runtime.MessageSender,
-    ) as { ok: boolean; warnings: string[] };
+    )) as { ok: boolean; warnings: string[] };
 
     expect(result.ok).toBe(true);
     expect(result.warnings[0]).toContain('内容脚本同步失败');
@@ -699,13 +791,15 @@ describe('message-router — Issue #11 新增消息', () => {
     const site = await store.getSite('example.com');
     expect(site.enabled).toBe(true);
     expect(site.mode).toBe('basic-web');
-    expect(chrome.scripting.registerContentScripts).toHaveBeenCalledWith([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-      matches: ['https://example.com/*'],
-      js: ['content-scripts/content.js'],
-      runAt: 'document_idle',
-      persistAcrossSessions: true,
-    }]);
+    expect(chrome.scripting.registerContentScripts).toHaveBeenCalledWith([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+        matches: ['https://example.com/*'],
+        js: ['content-scripts/content.js'],
+        runAt: 'document_idle',
+        persistAcrossSessions: true,
+      },
+    ]);
   });
 
   it('ADD_CUSTOM_SITE：full-adaptation 被降级为 generic-video（保护官方适配器边界）', async () => {
@@ -717,9 +811,13 @@ describe('message-router — Issue #11 新增消息', () => {
   });
 
   it('ADD_CUSTOM_SITE：重复注册时更新既有精确匹配而不创建重复脚本', async () => {
-    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-    }]);
+    (
+      chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      },
+    ]);
 
     await router.handle(
       { type: 'ADD_CUSTOM_SITE', hostname: 'example.com' },
@@ -727,13 +825,15 @@ describe('message-router — Issue #11 新增消息', () => {
     );
 
     expect(chrome.scripting.registerContentScripts).not.toHaveBeenCalled();
-    expect(chrome.scripting.updateContentScripts).toHaveBeenCalledWith([{
-      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
-      matches: ['https://example.com/*'],
-      js: ['content-scripts/content.js'],
-      runAt: 'document_idle',
-      persistAcrossSessions: true,
-    }]);
+    expect(chrome.scripting.updateContentScripts).toHaveBeenCalledWith([
+      {
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+        matches: ['https://example.com/*'],
+        js: ['content-scripts/content.js'],
+        runAt: 'document_idle',
+        persistAcrossSessions: true,
+      },
+    ]);
   });
 
   it('UPDATE_SITE_MODE：更新站点兼容模式（AC4 能力检测回写）', async () => {

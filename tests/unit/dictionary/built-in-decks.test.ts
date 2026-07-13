@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { BUILT_IN_DECKS, getBuiltInDeck, getBuiltInWord, listBuiltInWords } from '@/dictionary/built-in/decks';
+import {
+  BUILT_IN_DECKS,
+  getBuiltInDeck,
+  getBuiltInWord,
+  listBuiltInWords,
+} from '@/dictionary/built-in/decks';
 import { validateWordRecord, validateDeckRecord } from '@/dictionary/validator';
 
 describe('内置词库 — 授权与来源（Issue #5 验收标准 1）', () => {
@@ -42,7 +47,10 @@ describe('内置词库 — 数据校验（Issue #5 验收标准 1）', () => {
   it('词库的 wordIds 与实际单词一一对应，无悬空引用', () => {
     for (const deck of BUILT_IN_DECKS) {
       for (const wordId of deck.wordIds) {
-        expect(getBuiltInWord(wordId), `词库 ${deck.id} 引用了不存在的单词 ${wordId}`).not.toBeNull();
+        expect(
+          getBuiltInWord(wordId),
+          `词库 ${deck.id} 引用了不存在的单词 ${wordId}`,
+        ).not.toBeNull();
       }
     }
   });

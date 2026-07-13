@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { GenericVideoAdapter } from '@/adapters/generic-video';
 import {
   detectSiteCapability,
@@ -7,7 +7,6 @@ import {
   isBackgroundVideo,
   isVisibleAndMeaningful,
   scoreVideoCandidate,
-  SCROLL_TRIGGER_THRESHOLD_PX,
   MIN_VIDEO_WIDTH,
   MIN_VIDEO_HEIGHT,
 } from '@/adapters/generic-video/detection';
@@ -22,17 +21,19 @@ function resetPage(): void {
   history.pushState({}, '', GENERIC_PATH);
 }
 
-function createVideo(opts: {
-  width?: number;
-  height?: number;
-  muted?: boolean;
-  loop?: boolean;
-  paused?: boolean;
-  src?: string;
-  display?: string;
-  visibility?: string;
-  opacity?: number;
-} = {}): HTMLVideoElement {
+function createVideo(
+  opts: {
+    width?: number;
+    height?: number;
+    muted?: boolean;
+    loop?: boolean;
+    paused?: boolean;
+    src?: string;
+    display?: string;
+    visibility?: string;
+    opacity?: number;
+  } = {},
+): HTMLVideoElement {
   const width = opts.width ?? 800;
   const height = opts.height ?? 450;
   const video = document.createElement('video');

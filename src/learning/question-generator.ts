@@ -1,4 +1,10 @@
-import type { CardStage, QuestionType, WordRecord, MultipleChoiceQuestion, SpellingQuestion } from '@/types';
+import type {
+  CardStage,
+  QuestionType,
+  WordRecord,
+  MultipleChoiceQuestion,
+  SpellingQuestion,
+} from '@/types';
 
 /** 将单词的核心中文释义连接为选项文本。 */
 export function meaningText(word: WordRecord): string {
@@ -228,7 +234,9 @@ export function generateZhToEnQuestion(input: GenerateQuestionInput): MultipleCh
  *   确保时态、单复数等与空位一致；
  * - 干扰项按词性/难度优先选取（确保填入后语法合理）。
  */
-export function generateContextChoiceQuestion(input: GenerateQuestionInput): MultipleChoiceQuestion {
+export function generateContextChoiceQuestion(
+  input: GenerateQuestionInput,
+): MultipleChoiceQuestion {
   const { targetWord, distractors, cardId } = input;
   const random = input.random ?? Math.random;
 

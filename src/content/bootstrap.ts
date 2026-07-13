@@ -25,7 +25,6 @@ import { openDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { isGloballyPaused } from '@/pause/pause-rules';
 
-
 /**
  * 消息驱动的冷却存储：Content 通过 background 读写共享冷却状态。
  * 冷却规则在 background service worker 中计算（单一来源）。
@@ -128,7 +127,10 @@ async function bootstrapOfficialSite(adapter: VideoSiteAdapter, hostname: string
 }
 
 /** 专属适配无法启动时的安全降级链：通用视频 → 基础网页。 */
-async function startOfficialFallbackController(hostname: string, site: SiteSettings): Promise<void> {
+async function startOfficialFallbackController(
+  hostname: string,
+  site: SiteSettings,
+): Promise<void> {
   try {
     if (detectSiteCapability() === 'generic-video') {
       await startController(new GenericVideoAdapter(), hostname);
@@ -256,12 +258,15 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
   // Popup → Content 消息：主动触发连续学习（AC4）。
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message?.type === 'START_CONTINUOUS_LEARNING') {
-      void controller.startContinuousLearning().then((result) => {
-        sendResponse(result);
-      }).catch((error) => {
-        console.error('[BingeUp] 主动学习启动失败', error);
-        sendResponse({ ok: false, reason: 'failed' });
-      });
+      void controller
+        .startContinuousLearning()
+        .then((result) => {
+          sendResponse(result);
+        })
+        .catch((error) => {
+          console.error('[BingeUp] 主动学习启动失败', error);
+          sendResponse({ ok: false, reason: 'failed' });
+        });
       return true; // 异步响应
     }
     return false;

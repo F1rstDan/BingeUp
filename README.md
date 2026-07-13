@@ -47,30 +47,27 @@ npm run build
 
 ## 本地开发
 
-**前置要求**：Node.js 18+
+**前置要求**：Node.js 20+
 
-```bash
-# 安装依赖
-npm install
+所有开发命令的唯一来源是 `package.json` 的 `scripts` 字段。下表列出日常使用的命令：
 
-# 开发模式（Chrome）
-npm run dev
+| 用途               | 命令                   | 说明                                   |
+| ------------------ | ---------------------- | -------------------------------------- |
+| 安装依赖           | `npm install`          | 安装 `package.json` 中声明的全部依赖   |
+| 开发模式（Chrome） | `npm run dev`          | 启动 WXT 开发服务器，带 HMR            |
+| 开发模式（Edge）   | `npm run dev:edge`     | 以 Edge 为目标浏览器启动开发服务器     |
+| 类型检查           | `npm run typecheck`    | `tsc --noEmit`，不产出文件             |
+| 单元测试           | `npm test`             | `vitest run`，一次性运行全部用例       |
+| 测试监听模式       | `npm run test:watch`   | `vitest`，文件变更时重跑               |
+| Lint 检查          | `npm run lint`         | `eslint .`，扫描全项目                 |
+| Lint 自动修复      | `npm run lint:fix`     | `eslint . --fix`                       |
+| 格式化             | `npm run format`       | `prettier --write .`，统一代码风格     |
+| 格式化检查         | `npm run format:check` | `prettier --check .`，CI 用            |
+| 生产构建（Chrome） | `npm run build`        | `wxt build` + 内容脚本清单校验         |
+| 生产构建（Edge）   | `npm run build:edge`   | `wxt build -b edge` + 内容脚本清单校验 |
+| 打包 zip           | `npm run zip`          | `wxt zip`，产出可发布的扩展包          |
 
-# 开发模式（Edge）
-npm run dev:edge
-
-# 生产构建（Chrome）
-npm run build
-
-# 生产构建（Edge）
-npm run build:edge
-
-# 运行测试
-npm test
-
-# 类型检查
-npm run typecheck
-```
+> 命令脚本以 `package.json` 为唯一真实来源；本表仅作索引，新增命令请同步更新此处。
 
 ## 技术栈
 

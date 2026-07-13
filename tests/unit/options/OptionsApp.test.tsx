@@ -55,7 +55,13 @@ const SAMPLE_SITES = {
     },
     {
       hostname: 'example.com',
-      settings: { enabled: true, mode: 'basic-web' as const, firstQuestionPending: false, pageLoadTrigger: true, scrollTrigger: false },
+      settings: {
+        enabled: true,
+        mode: 'basic-web' as const,
+        firstQuestionPending: false,
+        pageLoadTrigger: true,
+        scrollTrigger: false,
+      },
     },
   ],
 };
@@ -203,7 +209,9 @@ describe('OptionsApp — Issue #10', () => {
 
     fireEvent.click(screen.getByText('恢复默认'));
     await screen.findByText(/加载失败：重新读取失败/);
-    expect(screen.getByText('默认设置已恢复，但重新读取失败；当前显示状态未确认')).toBeInTheDocument();
+    expect(
+      screen.getByText('默认设置已恢复，但重新读取失败；当前显示状态未确认'),
+    ).toBeInTheDocument();
     fireEvent.click(screen.getByText('重试'));
 
     await screen.findByText('默认设置已恢复，但重新读取失败；当前显示状态未确认');
@@ -224,20 +232,18 @@ describe('OptionsApp — Issue #10', () => {
 
   it('手动添加 HTTPS 网站后申请精确 hostname 权限并刷新列表（Issue #16）', async () => {
     permissionsContains.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-    mocks.listSites
-      .mockResolvedValueOnce({ sites: [] })
-      .mockResolvedValueOnce({
-        sites: [
-          {
-            hostname: 'example.com',
-            settings: {
-              enabled: true,
-              mode: 'basic-web' as const,
-              firstQuestionPending: true,
-            },
+    mocks.listSites.mockResolvedValueOnce({ sites: [] }).mockResolvedValueOnce({
+      sites: [
+        {
+          hostname: 'example.com',
+          settings: {
+            enabled: true,
+            mode: 'basic-web' as const,
+            firstQuestionPending: true,
           },
-        ],
-      });
+        },
+      ],
+    });
 
     renderOptions();
 
@@ -261,18 +267,18 @@ describe('OptionsApp — Issue #10', () => {
       mode: 'full-adaptation',
       firstQuestionPending: true,
     });
-    mocks.listSites
-      .mockResolvedValueOnce({ sites: [] })
-      .mockResolvedValueOnce({
-        sites: [{
+    mocks.listSites.mockResolvedValueOnce({ sites: [] }).mockResolvedValueOnce({
+      sites: [
+        {
           hostname: 'youtube.com',
           settings: {
             enabled: true,
             mode: 'full-adaptation' as const,
             firstQuestionPending: true,
           },
-        }],
-      });
+        },
+      ],
+    });
 
     renderOptions();
 
@@ -289,14 +295,16 @@ describe('OptionsApp — Issue #10', () => {
   it('权限被撤销时与 Popup 一致显示未启用和需要权限', async () => {
     permissionsContains.mockResolvedValue(false);
     mocks.listSites.mockResolvedValue({
-      sites: [{
-        hostname: 'example.com',
-        settings: {
-          enabled: true,
-          mode: 'basic-web' as const,
-          firstQuestionPending: false,
+      sites: [
+        {
+          hostname: 'example.com',
+          settings: {
+            enabled: true,
+            mode: 'basic-web' as const,
+            firstQuestionPending: false,
+          },
         },
-      }],
+      ],
     });
 
     renderOptions();
@@ -339,14 +347,16 @@ describe('OptionsApp — Issue #10', () => {
       firstQuestionPending: false,
     });
     mocks.listSites.mockResolvedValue({
-      sites: [{
-        hostname: 'example.com',
-        settings: {
-          enabled: true,
-          mode: 'basic-web' as const,
-          firstQuestionPending: false,
+      sites: [
+        {
+          hostname: 'example.com',
+          settings: {
+            enabled: true,
+            mode: 'basic-web' as const,
+            firstQuestionPending: false,
+          },
         },
-      }],
+      ],
     });
     renderOptions();
 
@@ -434,7 +444,16 @@ describe('OptionsApp — Issue #10', () => {
   // ── AC4：数据管理 ────────────────────────────────────────
 
   it('点击导出数据调用 exportData（AC4）', async () => {
-    const payload: Partial<ExportPayload> = { version: 1, exportedAt: 0, authoritativeState: {} as never, data: {} as never };
+    // jsdom 未实现 blob URL 导航，stub 掉 anchor.click 避免噪声日志
+    const clickSpy = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => undefined);
+    const payload: Partial<ExportPayload> = {
+      version: 1,
+      exportedAt: 0,
+      authoritativeState: {} as never,
+      data: {} as never,
+    };
     mocks.exportData.mockResolvedValue(payload);
 
     renderOptions();
@@ -447,6 +466,8 @@ describe('OptionsApp — Issue #10', () => {
     await waitFor(() => {
       expect(mocks.exportData).toHaveBeenCalledTimes(1);
     });
+    // 验证下载锚点被触发（已 stub 避免 jsdom 导航噪声）
+    expect(clickSpy).toHaveBeenCalledTimes(1);
   });
 
   it('清除学习进度需要二次确认（AC4）', async () => {
@@ -513,7 +534,11 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('导入数据先校验再写入：非法 payload 显示错误不调用 reload（AC4）', async () => {
-    const importResult: ImportResult = { ok: false, errors: ['不支持的备份版本：999'], warnings: [] };
+    const importResult: ImportResult = {
+      ok: false,
+      errors: ['不支持的备份版本：999'],
+      warnings: [],
+    };
     mocks.importData.mockResolvedValue(importResult);
 
     renderOptions();
@@ -523,7 +548,9 @@ describe('OptionsApp — Issue #10', () => {
 
     // 模拟文件选择
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    const file = new File([JSON.stringify({ version: 999 })], 'backup.json', { type: 'application/json' });
+    const file = new File([JSON.stringify({ version: 999 })], 'backup.json', {
+      type: 'application/json',
+    });
     fireEvent.change(fileInput, { target: { files: [file] } });
 
     await waitFor(() => {
@@ -545,7 +572,9 @@ describe('OptionsApp — Issue #10', () => {
     });
 
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    const file = new File([JSON.stringify({ version: 1 })], 'backup.json', { type: 'application/json' });
+    const file = new File([JSON.stringify({ version: 1 })], 'backup.json', {
+      type: 'application/json',
+    });
     fireEvent.change(fileInput, { target: { files: [file] } });
 
     await waitFor(() => {

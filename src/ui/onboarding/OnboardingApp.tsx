@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
-import {
-  siteKeysToEnable,
-  type OnboardingSiteSelection,
-} from '@/onboarding/onboarding-service';
+import { siteKeysToEnable, type OnboardingSiteSelection } from '@/onboarding/onboarding-service';
 
 /**
  * 安装引导（Issue #9 AC1）。
@@ -82,10 +79,7 @@ export function OnboardingApp(): JSX.Element {
               ? '已启用所选网站。请访问对应视频页面，刷新后即可开始学习。'
               : '未选择任何网站。之后可在 Popup 面板中随时启用。'}
           </p>
-          <button
-            className="bingeup-btn-secondary"
-            onClick={() => window.close()}
-          >
+          <button className="bingeup-btn-secondary" onClick={() => window.close()}>
             关闭
           </button>
         </div>
@@ -96,22 +90,17 @@ export function OnboardingApp(): JSX.Element {
   return (
     <div className="bingeup-onboarding">
       <LevelUpMascot />
-      <h1>欢迎使用<span className="bingeup-onboarding-brand-name">刷刷升级</span></h1>
+      <h1>
+        欢迎使用<span className="bingeup-onboarding-brand-name">刷刷升级</span>
+      </h1>
       <p>在视频间隙轻量学习英语单词。已为你启用受支持网站，可按需取消：</p>
 
       <div className="bingeup-site-options">
         {SITE_OPTIONS.map((opt) => {
           const checked = selected.has(opt.key);
           return (
-            <label
-              key={opt.key}
-              className={'bingeup-site-option' + (checked ? ' checked' : '')}
-            >
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() => toggleSite(opt.key)}
-              />
+            <label key={opt.key} className={'bingeup-site-option' + (checked ? ' checked' : '')}>
+              <input type="checkbox" checked={checked} onChange={() => toggleSite(opt.key)} />
               <div className="bingeup-site-info">
                 <span className="bingeup-site-name">{opt.name}</span>
                 <span className="bingeup-site-desc">{opt.desc}</span>

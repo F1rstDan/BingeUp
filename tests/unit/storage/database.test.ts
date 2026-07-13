@@ -1,6 +1,15 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { openDatabase, rebuildDatabase, idbPut, idbGet, idbGetAll, idbCount, STORES, type Migration } from '@/storage/database';
+import {
+  openDatabase,
+  rebuildDatabase,
+  idbPut,
+  idbGet,
+  idbGetAll,
+  idbCount,
+  STORES,
+  type Migration,
+} from '@/storage/database';
 
 const TEST_DB = 'test-bingeup-db';
 
@@ -198,7 +207,9 @@ describe('IDB 辅助函数', () => {
 });
 
 describe('rebuildDatabase — 仅显式调用才删除并重建', () => {
-  afterEach(async () => { await deleteDatabase(TEST_DB); });
+  afterEach(async () => {
+    await deleteDatabase(TEST_DB);
+  });
 
   it('显式重建删除旧数据并创建当前结构', async () => {
     const original = await openDatabase(TEST_DB, V1_MIGRATIONS);

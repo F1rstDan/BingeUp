@@ -1,6 +1,12 @@
 import type {
-  AppSettings, CardRecord, DeckRecord, ReviewLogRecord, SchedulerState,
-  SessionLogRecord, SiteSettings, WordRecord,
+  AppSettings,
+  CardRecord,
+  DeckRecord,
+  ReviewLogRecord,
+  SchedulerState,
+  SessionLogRecord,
+  SiteSettings,
+  WordRecord,
 } from '@/types';
 import { STORES, idbGetAll, idbReplaceAll } from '@/storage/database';
 import {
@@ -10,7 +16,12 @@ import {
   type LocalSettingsStore,
 } from '@/storage/local-settings';
 import { validateAppSettings } from '@/settings/validator';
-import { BUILT_IN_DECKS, getBuiltInDeck, getBuiltInWord, listBuiltInWords } from '@/dictionary/built-in/decks';
+import {
+  BUILT_IN_DECKS,
+  getBuiltInDeck,
+  getBuiltInWord,
+  listBuiltInWords,
+} from '@/dictionary/built-in/decks';
 
 /** 首次公开备份格式；开发期格式不兼容。 */
 export const EXPORT_VERSION = 1;
@@ -56,7 +67,9 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
     exportedAt: Date.now(),
     authoritativeState,
     data: {
-      cards, reviewLogs, sessionLogs,
+      cards,
+      reviewLogs,
+      sessionLogs,
       words: words.filter(({ id }) => !builtInWordIds.has(id)),
       decks: decks.filter(({ id }) => !builtInDeckIds.has(id)),
     },
@@ -78,8 +91,13 @@ function isNonNegativeNumber(value: unknown): value is number {
 function isOptional(value: unknown, validate: (candidate: unknown) => boolean): boolean {
   return value === undefined || validate(value);
 }
-function hasFields(value: unknown, fields: Record<string, (candidate: unknown) => boolean>): boolean {
-  return isRecord(value) && Object.entries(fields).every(([name, validate]) => validate(value[name]));
+function hasFields(
+  value: unknown,
+  fields: Record<string, (candidate: unknown) => boolean>,
+): boolean {
+  return (
+    isRecord(value) && Object.entries(fields).every(([name, validate]) => validate(value[name]))
+  );
 }
 
 const RATINGS = ['again', 'hard', 'good', 'easy'];
@@ -89,7 +107,8 @@ function isSchedulerState(value: unknown): value is SchedulerState {
     difficulty: (candidate) => isFiniteNumber(candidate) && candidate >= 1 && candidate <= 10,
     reps: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
     lapses: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
-    state: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0 && Number(candidate) <= 3,
+    state: (candidate) =>
+      Number.isInteger(candidate) && Number(candidate) >= 0 && Number(candidate) <= 3,
     scheduledDays: isNonNegativeNumber,
     learningSteps: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
     lastReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
@@ -99,57 +118,90 @@ function isSchedulerState(value: unknown): value is SchedulerState {
 function isSiteSettings(value: unknown): value is SiteSettings {
   return hasFields(value, {
     enabled: (candidate) => typeof candidate === 'boolean',
-    mode: (candidate) => ['full-adaptation', 'generic-video', 'basic-web', 'unsupported'].includes(String(candidate)),
+    mode: (candidate) =>
+      ['full-adaptation', 'generic-video', 'basic-web', 'unsupported'].includes(String(candidate)),
     firstQuestionPending: (candidate) => typeof candidate === 'boolean',
-    promptDeclineCount: (candidate) => isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
+    promptDeclineCount: (candidate) =>
+      isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
     pageLoadTrigger: (candidate) => isOptional(candidate, (flag) => typeof flag === 'boolean'),
     scrollTrigger: (candidate) => isOptional(candidate, (flag) => typeof flag === 'boolean'),
   });
 }
 
 const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean> = {
-  cards: (value) => hasFields(value, {
-    id: isNonEmptyString, wordId: isNonEmptyString, deckId: isNonEmptyString,
-    stage: (candidate) => ['new', 'short-term', 'long-term', 'self-reported-known'].includes(String(candidate)),
-    origin: (candidate) => isOptional(candidate, (origin) => origin === 'accepted-new' || origin === 'self-reported'),
-    createdAt: isNonNegativeNumber, updatedAt: isNonNegativeNumber,
-    nextReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
-    schedulerState: (candidate) => isOptional(candidate, isSchedulerState),
-    lastWrongAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
-  }),
-  reviewLogs: (value) => hasFields(value, {
-    id: isNonEmptyString, cardId: isNonEmptyString, wordId: isNonEmptyString,
-    questionType: (candidate) => ['en-to-zh', 'zh-to-en', 'context-choice', 'spelling'].includes(String(candidate)),
-    selectedAnswer: (candidate) => typeof candidate === 'string',
-    correctAnswer: (candidate) => typeof candidate === 'string',
-    isCorrect: (candidate) => typeof candidate === 'boolean',
-    responseTimeMs: isNonNegativeNumber, reviewedAt: isNonNegativeNumber,
-    rating: (candidate) => isOptional(candidate, (rating) => RATINGS.includes(String(rating))),
-    userCorrection: (candidate) => isOptional(candidate, (correction) => correction === 'guessed' || correction === 'too-easy'),
-    answerChanges: (candidate) => isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
-    previousSchedulerState: (candidate) => isOptional(candidate, isSchedulerState),
-  }),
-  sessionLogs: (value) => hasFields(value, {
-    id: isNonEmptyString, startedAt: isNonNegativeNumber, endedAt: isNonNegativeNumber,
-    mode: (candidate) => candidate === 'single' || candidate === 'continuous',
-    outcome: (candidate) => candidate === 'submitted' || candidate === 'skipped' || candidate === 'exit',
-    questionsAnswered: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
-  }) && (value as SessionLogRecord).endedAt >= (value as SessionLogRecord).startedAt,
-  words: (value) => hasFields(value, {
-    id: isNonEmptyString, word: isNonEmptyString, lemma: isNonEmptyString,
-    phonetic: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
-    partOfSpeech: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
-    coreMeaningZh: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
-    exampleSentence: isNonEmptyString, exampleTranslation: isNonEmptyString,
-    difficulty: (candidate) => isFiniteNumber(candidate) && candidate > 0,
-    source: isNonEmptyString, license: isNonEmptyString,
-  }),
-  decks: (value) => hasFields(value, {
-    id: isNonEmptyString, name: isNonEmptyString,
-    description: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
-    source: isNonEmptyString, license: isNonEmptyString,
-    wordIds: (candidate) => Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
-  }),
+  cards: (value) =>
+    hasFields(value, {
+      id: isNonEmptyString,
+      wordId: isNonEmptyString,
+      deckId: isNonEmptyString,
+      stage: (candidate) =>
+        ['new', 'short-term', 'long-term', 'self-reported-known'].includes(String(candidate)),
+      origin: (candidate) =>
+        isOptional(candidate, (origin) => origin === 'accepted-new' || origin === 'self-reported'),
+      createdAt: isNonNegativeNumber,
+      updatedAt: isNonNegativeNumber,
+      nextReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+      schedulerState: (candidate) => isOptional(candidate, isSchedulerState),
+      lastWrongAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+    }),
+  reviewLogs: (value) =>
+    hasFields(value, {
+      id: isNonEmptyString,
+      cardId: isNonEmptyString,
+      wordId: isNonEmptyString,
+      questionType: (candidate) =>
+        ['en-to-zh', 'zh-to-en', 'context-choice', 'spelling'].includes(String(candidate)),
+      selectedAnswer: (candidate) => typeof candidate === 'string',
+      correctAnswer: (candidate) => typeof candidate === 'string',
+      isCorrect: (candidate) => typeof candidate === 'boolean',
+      responseTimeMs: isNonNegativeNumber,
+      reviewedAt: isNonNegativeNumber,
+      rating: (candidate) => isOptional(candidate, (rating) => RATINGS.includes(String(rating))),
+      userCorrection: (candidate) =>
+        isOptional(
+          candidate,
+          (correction) => correction === 'guessed' || correction === 'too-easy',
+        ),
+      answerChanges: (candidate) =>
+        isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
+      previousSchedulerState: (candidate) => isOptional(candidate, isSchedulerState),
+    }),
+  sessionLogs: (value) =>
+    hasFields(value, {
+      id: isNonEmptyString,
+      startedAt: isNonNegativeNumber,
+      endedAt: isNonNegativeNumber,
+      mode: (candidate) => candidate === 'single' || candidate === 'continuous',
+      outcome: (candidate) =>
+        candidate === 'submitted' || candidate === 'skipped' || candidate === 'exit',
+      questionsAnswered: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+    }) && (value as SessionLogRecord).endedAt >= (value as SessionLogRecord).startedAt,
+  words: (value) =>
+    hasFields(value, {
+      id: isNonEmptyString,
+      word: isNonEmptyString,
+      lemma: isNonEmptyString,
+      phonetic: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
+      partOfSpeech: (candidate) =>
+        Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+      coreMeaningZh: (candidate) =>
+        Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+      exampleSentence: isNonEmptyString,
+      exampleTranslation: isNonEmptyString,
+      difficulty: (candidate) => isFiniteNumber(candidate) && candidate > 0,
+      source: isNonEmptyString,
+      license: isNonEmptyString,
+    }),
+  decks: (value) =>
+    hasFields(value, {
+      id: isNonEmptyString,
+      name: isNonEmptyString,
+      description: (candidate) => isOptional(candidate, (text) => typeof text === 'string'),
+      source: isNonEmptyString,
+      license: isNonEmptyString,
+      wordIds: (candidate) =>
+        Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+    }),
 };
 
 function validateAuthoritativeState(value: unknown, errors: string[]): void {
@@ -163,17 +215,19 @@ function validateAuthoritativeState(value: unknown, errors: string[]): void {
     errors.push('authoritativeState.onboardingCompleted 必须为布尔值');
   }
   if (!isRecord(value.sites)) errors.push('authoritativeState.sites 结构非法');
-  else Object.entries(value.sites).forEach(([hostname, settings]) => {
-    if (!isNonEmptyString(hostname) || !isSiteSettings(settings)) {
-      errors.push(`authoritativeState.sites.${hostname} 结构非法`);
-    }
-  });
+  else
+    Object.entries(value.sites).forEach(([hostname, settings]) => {
+      if (!isNonEmptyString(hostname) || !isSiteSettings(settings)) {
+        errors.push(`authoritativeState.sites.${hostname} 结构非法`);
+      }
+    });
 }
 
 function validateEntities(data: ExportedData, errors: string[]): void {
   (Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]).forEach((collection) => {
     data[collection].forEach((entity, index) => {
-      if (!ENTITY_VALIDATORS[collection](entity)) errors.push(`data.${collection}[${index}] 结构非法`);
+      if (!ENTITY_VALIDATORS[collection](entity))
+        errors.push(`data.${collection}[${index}] 结构非法`);
     });
   });
 }
@@ -190,8 +244,10 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
     if (getBuiltInDeck(id)) errors.push(`data.decks[${index}] 与内置词库 id 冲突：${id}`);
   });
   for (const [collection, ids] of [
-    ['words', data.words.map(({ id }) => id)], ['decks', data.decks.map(({ id }) => id)],
-    ['cards', data.cards.map(({ id }) => id)], ['reviewLogs', data.reviewLogs.map(({ id }) => id)],
+    ['words', data.words.map(({ id }) => id)],
+    ['decks', data.decks.map(({ id }) => id)],
+    ['cards', data.cards.map(({ id }) => id)],
+    ['reviewLogs', data.reviewLogs.map(({ id }) => id)],
     ['sessionLogs', data.sessionLogs.map(({ id }) => id)],
   ] as const) {
     if (new Set(ids).size !== ids.length) errors.push(`data.${collection} 包含重复 id`);
@@ -199,12 +255,17 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
   if (new Set(data.cards.map(({ wordId }) => wordId)).size !== data.cards.length) {
     errors.push('data.cards 中同一单词存在多张学习卡');
   }
-  data.decks.forEach((deck, index) => deck.wordIds.forEach((wordId) => {
-    if (!wordIds.has(wordId) && !getBuiltInWord(wordId)) errors.push(`data.decks[${index}] 引用不存在的单词：${wordId}`);
-  }));
+  data.decks.forEach((deck, index) =>
+    deck.wordIds.forEach((wordId) => {
+      if (!wordIds.has(wordId) && !getBuiltInWord(wordId))
+        errors.push(`data.decks[${index}] 引用不存在的单词：${wordId}`);
+    }),
+  );
   data.cards.forEach((card, index) => {
-    if (!wordIds.has(card.wordId) && !getBuiltInWord(card.wordId)) errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
-    if (!deckIds.has(card.deckId) && !getBuiltInDeck(card.deckId)) errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
+    if (!wordIds.has(card.wordId) && !getBuiltInWord(card.wordId))
+      errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
+    if (!deckIds.has(card.deckId) && !getBuiltInDeck(card.deckId))
+      errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
     const deck = data.decks.find(({ id }) => id === card.deckId) ?? getBuiltInDeck(card.deckId);
     if (deck && !deck.wordIds.includes(card.wordId)) {
       errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
@@ -213,12 +274,16 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
   data.reviewLogs.forEach((log, index) => {
     const card = cardsById.get(log.cardId);
     if (!card) errors.push(`data.reviewLogs[${index}] 引用不存在的学习卡：${log.cardId}`);
-    else if (card.wordId !== log.wordId) errors.push(`data.reviewLogs[${index}] 的单词引用与学习卡不一致`);
-    if (!wordIds.has(log.wordId) && !getBuiltInWord(log.wordId)) errors.push(`data.reviewLogs[${index}] 引用不存在的单词：${log.wordId}`);
+    else if (card.wordId !== log.wordId)
+      errors.push(`data.reviewLogs[${index}] 的单词引用与学习卡不一致`);
+    if (!wordIds.has(log.wordId) && !getBuiltInWord(log.wordId))
+      errors.push(`data.reviewLogs[${index}] 引用不存在的单词：${log.wordId}`);
   });
   const selectedDeckId = authoritativeState.appSettings.selectedDeckId;
   if (!deckIds.has(selectedDeckId) && !getBuiltInDeck(selectedDeckId)) {
-    errors.push(`authoritativeState.appSettings.selectedDeckId 引用不存在的词库：${selectedDeckId}`);
+    errors.push(
+      `authoritativeState.appSettings.selectedDeckId 引用不存在的词库：${selectedDeckId}`,
+    );
   }
 }
 
@@ -231,9 +296,10 @@ export function validateExportPayload(input: unknown): string[] {
   if (!isFiniteNumber(input.exportedAt)) errors.push('exportedAt 必须为数字');
   validateAuthoritativeState(input.authoritativeState, errors);
   if (!isRecord(input.data)) errors.push('缺少 data 字段');
-  else for (const collection of Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]) {
-    if (!Array.isArray(input.data[collection])) errors.push(`data.${collection} 必须为数组`);
-  }
+  else
+    for (const collection of Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]) {
+      if (!Array.isArray(input.data[collection])) errors.push(`data.${collection} 必须为数组`);
+    }
   if (errors.length === 0) validateEntities(input.data as unknown as ExportedData, errors);
   if (errors.length === 0) validateReferences(input as unknown as ExportPayload, errors);
   return errors;
@@ -248,11 +314,16 @@ async function resetRuntimeState(store: LocalSettingsStore): Promise<string[]> {
     await store.resetRuntimeState();
     return [];
   } catch (error) {
-    return [`权威数据已成功更新，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`];
+    return [
+      `权威数据已成功更新，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`,
+    ];
   }
 }
 
-export async function importLocalData(store: LocalSettingsStore, input: unknown): Promise<ImportResult> {
+export async function importLocalData(
+  store: LocalSettingsStore,
+  input: unknown,
+): Promise<ImportResult> {
   const db = store.database;
   const errors = validateExportPayload(input);
   if (errors.length > 0) return { ok: false, errors, warnings: [] };
@@ -267,14 +338,22 @@ export async function importLocalData(store: LocalSettingsStore, input: unknown)
       [STORES.decks]: payload.data.decks,
     });
   } catch (error) {
-    return { ok: false, errors: [`恢复事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`], warnings: [] };
+    return {
+      ok: false,
+      errors: [
+        `恢复事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`,
+      ],
+      warnings: [],
+    };
   }
   return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }
 
 export async function clearLearningProgress(db: IDBDatabase): Promise<void> {
   await idbReplaceAll(db, {
-    [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [],
+    [STORES.cards]: [],
+    [STORES.reviewLogs]: [],
+    [STORES.sessionLogs]: [],
   });
 }
 
@@ -283,11 +362,20 @@ export async function clearAllLocalData(store: LocalSettingsStore): Promise<Data
   try {
     await idbReplaceAll(db, {
       [STORES.authoritativeState]: [{ ...DEFAULT_AUTHORITATIVE_STATE }],
-      [STORES.cards]: [], [STORES.reviewLogs]: [], [STORES.sessionLogs]: [],
-      [STORES.words]: [], [STORES.decks]: [],
+      [STORES.cards]: [],
+      [STORES.reviewLogs]: [],
+      [STORES.sessionLogs]: [],
+      [STORES.words]: [],
+      [STORES.decks]: [],
     });
   } catch (error) {
-    return { ok: false, errors: [`清除事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`], warnings: [] };
+    return {
+      ok: false,
+      errors: [
+        `清除事务失败，原有权威数据未改变：${error instanceof Error ? error.message : String(error)}`,
+      ],
+      warnings: [],
+    };
   }
   return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }

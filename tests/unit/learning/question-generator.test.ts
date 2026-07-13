@@ -469,4 +469,3 @@ describe('generateSpellingQuestion — 拼写题生成（Issue #8 验收标准 3
     expect(q).not.toHaveProperty('options');
   });
 });
-

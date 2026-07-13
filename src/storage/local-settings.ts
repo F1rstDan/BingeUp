@@ -1,7 +1,14 @@
 import type { AppSettings, CooldownState, SiteSettings } from '@/types';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
-import { normalizeAppSettings, normalizeSiteSettings as normalizeSiteSettingsPure } from '@/settings/validator';
-import { isBilibiliHostname, isSupportedHostname, isYouTubeHostname } from '@/sites/supported-sites';
+import {
+  normalizeAppSettings,
+  normalizeSiteSettings as normalizeSiteSettingsPure,
+} from '@/settings/validator';
+import {
+  isBilibiliHostname,
+  isSupportedHostname,
+  isYouTubeHostname,
+} from '@/sites/supported-sites';
 import { recordPromptDecline as recordPromptDeclinePure } from '@/onboarding/onboarding-service';
 import { STORES, idbGet, idbPut } from '@/storage/database';
 
@@ -64,10 +71,12 @@ function copyAuthoritativeState(state: AuthoritativeStateRecord): AuthoritativeS
   return {
     id: AUTHORITATIVE_STATE_ID,
     appSettings: normalizeAppSettings(state.appSettings),
-    sites: Object.fromEntries(Object.entries(state.sites).map(([hostname, settings]) => [
-      hostname,
-      normalizeSiteSettings(hostname, settings),
-    ])),
+    sites: Object.fromEntries(
+      Object.entries(state.sites).map(([hostname, settings]) => [
+        hostname,
+        normalizeSiteSettings(hostname, settings),
+      ]),
+    ),
     onboardingCompleted: state.onboardingCompleted,
   };
 }
@@ -102,7 +111,9 @@ export class LocalSettingsStore {
       STORES.authoritativeState,
       AUTHORITATIVE_STATE_ID,
     );
-    return stored ? copyAuthoritativeState(stored) : copyAuthoritativeState(DEFAULT_AUTHORITATIVE_STATE);
+    return stored
+      ? copyAuthoritativeState(stored)
+      : copyAuthoritativeState(DEFAULT_AUTHORITATIVE_STATE);
   }
 
   async setAuthoritativeState(state: AuthoritativeStateRecord): Promise<void> {
@@ -137,7 +148,9 @@ export class LocalSettingsStore {
     return { ...authoritative, ...runtime };
   }
 
-  async getCooldown(): Promise<CooldownState> { return (await this.getRuntimeState()).cooldown; }
+  async getCooldown(): Promise<CooldownState> {
+    return (await this.getRuntimeState()).cooldown;
+  }
   async setCooldown(cooldown: CooldownState): Promise<void> {
     const runtime = await this.getRuntimeState();
     await this.setRuntimeState({ ...runtime, cooldown });
@@ -158,16 +171,29 @@ export class LocalSettingsStore {
   async markFirstQuestionHandled(hostname: string): Promise<void> {
     await this.updateAuthoritativeState((state) => {
       const key = canonicalSiteKey(hostname);
-      const site = normalizeSiteSettings(hostname, state.sites[key] ?? defaultSiteSettings(hostname));
+      const site = normalizeSiteSettings(
+        hostname,
+        state.sites[key] ?? defaultSiteSettings(hostname),
+      );
       if (site.firstQuestionPending) state.sites[key] = { ...site, firstQuestionPending: false };
     });
   }
 
-  async enableSite(hostname: string, mode: SiteSettings['mode'] = 'full-adaptation'): Promise<void> {
+  async enableSite(
+    hostname: string,
+    mode: SiteSettings['mode'] = 'full-adaptation',
+  ): Promise<void> {
     await this.updateAuthoritativeState((state) => {
       const key = canonicalSiteKey(hostname);
-      const current = normalizeSiteSettings(hostname, state.sites[key] ?? defaultSiteSettings(hostname));
-      const enabled = normalizeSiteSettings(hostname, { enabled: true, mode, firstQuestionPending: true });
+      const current = normalizeSiteSettings(
+        hostname,
+        state.sites[key] ?? defaultSiteSettings(hostname),
+      );
+      const enabled = normalizeSiteSettings(hostname, {
+        enabled: true,
+        mode,
+        firstQuestionPending: true,
+      });
       state.sites[key] = current.enabled && current.mode === enabled.mode ? current : enabled;
     });
   }
@@ -191,10 +217,14 @@ export class LocalSettingsStore {
     return (await this.getAuthoritativeState()).onboardingCompleted;
   }
   async markOnboardingCompleted(): Promise<void> {
-    await this.updateAuthoritativeState((state) => { state.onboardingCompleted = true; });
+    await this.updateAuthoritativeState((state) => {
+      state.onboardingCompleted = true;
+    });
   }
 
-  async getGlobalPausedUntil(): Promise<number> { return (await this.getRuntimeState()).globalPausedUntil; }
+  async getGlobalPausedUntil(): Promise<number> {
+    return (await this.getRuntimeState()).globalPausedUntil;
+  }
   async setGlobalPausedUntil(globalPausedUntil: number): Promise<void> {
     const runtime = await this.getRuntimeState();
     await this.setRuntimeState({ ...runtime, globalPausedUntil });
@@ -204,13 +234,23 @@ export class LocalSettingsStore {
     return (await this.getAuthoritativeState()).appSettings;
   }
   async setAppSettings(appSettings: AppSettings): Promise<void> {
-    await this.updateAuthoritativeState((state) => { state.appSettings = normalizeAppSettings(appSettings); });
+    await this.updateAuthoritativeState((state) => {
+      state.appSettings = normalizeAppSettings(appSettings);
+    });
   }
-  async resetAppSettings(): Promise<void> { await this.setAppSettings({ ...DEFAULT_SETTINGS }); }
+  async resetAppSettings(): Promise<void> {
+    await this.setAppSettings({ ...DEFAULT_SETTINGS });
+  }
 
-  async getCooldownConfig(): Promise<{ defaultCooldownMinutes: number; consecutiveSkipCooldowns: number[] }> {
+  async getCooldownConfig(): Promise<{
+    defaultCooldownMinutes: number;
+    consecutiveSkipCooldowns: number[];
+  }> {
     const app = await this.getAppSettings();
-    return { defaultCooldownMinutes: app.defaultCooldownMinutes, consecutiveSkipCooldowns: app.consecutiveSkipCooldowns };
+    return {
+      defaultCooldownMinutes: app.defaultCooldownMinutes,
+      consecutiveSkipCooldowns: app.consecutiveSkipCooldowns,
+    };
   }
 
   async listSites(): Promise<{ hostname: string; settings: SiteSettings }[]> {

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { BasicWebAdapter } from '@/adapters/basic-web';
 import { SCROLL_TRIGGER_THRESHOLD_PX } from '@/adapters/generic-video/detection';
 import type { VideoChangeEvent } from '@/types';

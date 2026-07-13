@@ -19,7 +19,11 @@ export function createPageObservationScheduler(detect: () => void): {
     queueMicrotask(() => {
       queued = false;
       // 测试/页面销毁后不再调用可能依赖全局 document 的检测逻辑。
-      if (!disposed && typeof document !== 'undefined' && pageDocument.visibilityState !== 'hidden') {
+      if (
+        !disposed &&
+        typeof document !== 'undefined' &&
+        pageDocument.visibilityState !== 'hidden'
+      ) {
         detect();
       }
     });

@@ -18,10 +18,7 @@ import {
   syncCustomContentScripts,
   unregisterCustomContentScript,
 } from '@/sites/custom-content-script';
-import {
-  ONBOARDING_HOSTNAMES,
-  selectedOnboardingHostnames,
-} from '@/onboarding/onboarding-service';
+import { ONBOARDING_HOSTNAMES, selectedOnboardingHostnames } from '@/onboarding/onboarding-service';
 import type { ExtensionMessage, PopupLearningStats } from '@/messaging/messages';
 
 async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
@@ -61,7 +58,6 @@ async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
  *           background 在启动时打开并传入；测试中可传 null 跳过数据操作。
  */
 export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase | null = null) {
-
   async function syncCustomScriptsWarning(): Promise<string | undefined> {
     try {
       await syncCustomContentScripts(await store.listSites());
@@ -223,12 +219,10 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           await unregisterCustomContentScript(message.hostname);
         }
         if (
-          !isSupportedHostname(message.hostname)
-          && typeof chrome.permissions?.remove === 'function'
+          !isSupportedHostname(message.hostname) &&
+          typeof chrome.permissions?.remove === 'function'
         ) {
-          const exactReleased = await tryRemoveOrigins([
-            exactHttpsOriginPattern(message.hostname),
-          ]);
+          const exactReleased = await tryRemoveOrigins([exactHttpsOriginPattern(message.hostname)]);
           // 即使当前精确权限释放失败，也继续清理 Issue #16 之前申请的宽泛权限。
           const legacyReleased = await tryRemoveOrigins(
             legacyBroadOriginPatterns(message.hostname),
