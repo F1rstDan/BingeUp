@@ -186,3 +186,89 @@ describe('STORES — 仓库与迁移一致性', () => {
     db.close();
   });
 });
+
+// ─── Issue #19：持久化层唯一约束与原子提交 ───────────────────────
+
+describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）', () => {
+  afterEach(async () => {
+    await deleteDatabase(TEST_DB);
+  });
+
+  it('AC1：唯一索引拒绝同 wordId 不同 id 的重复学习卡', async () => {
+    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const repo = new CardRepository(db);
+    await repo.save(makeCard({ id: 'card-a', wordId: 'w-dup' }));
+
+    // 同 wordId 不同 id：唯一索引拒绝
+    await expect(repo.save(makeCard({ id: 'card-b', wordId: 'w-dup' }))).rejects.toThrow(
+      /已有学习卡|ConstraintError/i,
+    );
+
+    // 同 id 覆盖仍允许（更新现有学习卡）
+    await repo.save(makeCard({ id: 'card-a', wordId: 'w-dup', stage: 'long-term' }));
+    const all = await repo.getAll();
+    expect(all).toHaveLength(1);
+    expect(all[0]!.stage).toBe('long-term');
+    db.close();
+  });
+
+  it('AC3：saveCardAndLog 在单一事务内原子写入学习卡与复习日志', async () => {
+    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const card = makeCard({ id: 'card-1', wordId: 'w-1' });
+    const log = makeLog({ id: 'log-1', cardId: 'card-1', wordId: 'w-1' });
+
+    await cardRepo.saveCardAndLog(card, log);
+
+    // 两边同时持久化
+    await expect(cardRepo.getById('card-1')).resolves.toBeDefined();
+    await expect(logRepo.getById('log-1')).resolves.toBeDefined();
+    db.close();
+  });
+
+  it('AC3：saveCardAndLog 失败时学习卡与复习日志都不写入（事务回滚）', async () => {
+    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    // 先存一张卡占据该 wordId
+    await cardRepo.save(makeCard({ id: 'card-existing', wordId: 'w-existing' }));
+
+    // 原子方法写入同 wordId 不同 id 的新卡 + 日志 → 唯一索引拒绝 → 事务回滚
+    const conflictCard = makeCard({ id: 'card-conflict', wordId: 'w-existing' });
+    const conflictLog = makeLog({
+      id: 'log-conflict',
+      cardId: 'card-conflict',
+      wordId: 'w-existing',
+    });
+    await expect(cardRepo.saveCardAndLog(conflictCard, conflictLog)).rejects.toThrow();
+
+    // 冲突卡未写入
+    await expect(cardRepo.getById('card-conflict')).resolves.toBeUndefined();
+    // 冲突日志也未写入（事务回滚：学习卡与复习日志要么同时成功要么都不发生）
+    await expect(logRepo.getById('log-conflict')).resolves.toBeUndefined();
+    // 原有卡仍在
+    await expect(cardRepo.getById('card-existing')).resolves.toBeDefined();
+    db.close();
+  });
+
+  it('AC3：saveCardAndLog 事务回滚不残留部分写入到复习日志', async () => {
+    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+
+    // 尝试原子写入一张违反唯一约束的卡 + 日志
+    await cardRepo.save(makeCard({ id: 'c0', wordId: 'w-0' }));
+    await expect(
+      cardRepo.saveCardAndLog(
+        makeCard({ id: 'c1', wordId: 'w-0' }),
+        makeLog({ id: 'l1', cardId: 'c1', wordId: 'w-0' }),
+      ),
+    ).rejects.toThrow();
+
+    // 复习日志仓库应为空（事务整体回滚）
+    const allLogs = await logRepo.getAll();
+    expect(allLogs).toHaveLength(0);
+    db.close();
+  });
+});

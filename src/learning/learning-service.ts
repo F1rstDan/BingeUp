@@ -15,7 +15,10 @@ import type {
   UserCorrection,
   WordRecord,
 } from '@/types';
-import type { CardRepositoryPort } from '@/storage/repositories/card-repository';
+import {
+  CardUniquenessError,
+  type CardRepositoryPort,
+} from '@/storage/repositories/card-repository';
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import { FsrsReviewScheduler } from '@/learning/review-scheduler';
@@ -249,15 +252,13 @@ export class LearningService {
 
   /**
    * “知道了”：接受候选新词，创建短期学习词学习卡，计入每日新词上限。
-   * 已存在学习卡时不重复创建。
+   *
+   * Issue #19 AC2：多标签并发接受同一候选新词时结果幂等。先查询避免常见重复写入；
+   * 若两标签在查询与保存之间竞态，持久化层唯一索引会拒绝第二次写入，
+   * 此处捕获 `CardUniquenessError` 并视为“已存在”，保证最终只有一张学习卡。
    */
   async acceptNewWord(wordId: string): Promise<void> {
-    const now = this.deps.clock.now();
-    const existing = await this.deps.cards.getByWordId(wordId);
-    if (existing) return;
-
-    const deckId = await this.getSelectedDeckId();
-    const card: CardRecord = {
+    await this.createCardIfAbsent(wordId, (deckId, now) => ({
       id: crypto.randomUUID(),
       wordId,
       deckId,
@@ -266,24 +267,18 @@ export class LearningService {
       createdAt: now,
       updatedAt: now,
       nextReviewAt: now + SHORT_TERM_DELAY_MS,
-    };
-    await this.deps.cards.save(card);
+    }));
   }
 
   /**
    * “我认识，换一个”：创建自报认识词，安排一至两天后的验证题。
-   * 不占用每日新词上限。已存在学习卡时不重复创建。
+   * 不占用每日新词上限。已存在学习卡时不重复创建（Issue #19 AC2 幂等）。
    */
   async selfReportKnown(wordId: string): Promise<void> {
-    const now = this.deps.clock.now();
-    const existing = await this.deps.cards.getByWordId(wordId);
-    if (existing) return;
-
-    const deckId = await this.getSelectedDeckId();
     const delay =
       SELF_REPORTED_MIN_DELAY_MS +
       this.random() * (SELF_REPORTED_MAX_DELAY_MS - SELF_REPORTED_MIN_DELAY_MS);
-    const card: CardRecord = {
+    await this.createCardIfAbsent(wordId, (deckId, now) => ({
       id: crypto.randomUUID(),
       wordId,
       deckId,
@@ -292,8 +287,36 @@ export class LearningService {
       createdAt: now,
       updatedAt: now,
       nextReviewAt: now + delay,
-    };
-    await this.deps.cards.save(card);
+    }));
+  }
+
+  /**
+   * 幂等地为新词创建学习卡（Issue #19 AC2）。
+   *
+   * 流程：
+   * 1. 先查 `getByWordId`：已存在则直接返回，避免常见重复写入；
+   * 2. 尝试 `save`：若两调用方在查询与保存之间竞态，持久化层唯一索引拒绝重复创建，
+   *    抛出 `CardUniquenessError`；此处捕获并视为“已存在”，保证幂等。
+   */
+  private async createCardIfAbsent(
+    wordId: string,
+    buildCard: (deckId: string, now: number) => CardRecord,
+  ): Promise<void> {
+    const existing = await this.deps.cards.getByWordId(wordId);
+    if (existing) return;
+
+    const now = this.deps.clock.now();
+    const deckId = await this.getSelectedDeckId();
+    const card = buildCard(deckId, now);
+    try {
+      await this.deps.cards.save(card);
+    } catch (error) {
+      if (error instanceof CardUniquenessError) {
+        // 并发接受同一候选新词：另一调用方先写入成功，本次视为幂等成功。
+        return;
+      }
+      throw error;
+    }
   }
 
   /**
@@ -304,21 +327,26 @@ export class LearningService {
    * - 自报认识词验证题答对 → 进入长期复习；答错 → 短期学习词（10 分钟后重测）；
    * - 长期复习词 → 通过调度器更新状态与下次时间；
    * - 返回带可展开学习信息和评分的判定结果。
+   *
+   * Issue #19 AC4：同一题目在途调用去重。重复按钮、重复键盘事件或并发消息
+   * 触发同一 `question.id` 的并发提交时，共享同一次持久化结果，不会写入多条复习日志。
    */
   async submitAnswer(submission: AnswerSubmission): Promise<SubmissionResult> {
-    const { question } = submission;
-    const isCorrect = submission.selectedIndex === question.correctIndex;
-    const correctAnswer = question.options[question.correctIndex]!;
-    const selectedAnswer = question.options[submission.selectedIndex]!;
+    return this.dedupeSubmission(submission.question.id, () => {
+      const { question } = submission;
+      const isCorrect = submission.selectedIndex === question.correctIndex;
+      const correctAnswer = question.options[question.correctIndex]!;
+      const selectedAnswer = question.options[submission.selectedIndex]!;
 
-    return this.processSubmission({
-      question,
-      isCorrect,
-      selectedAnswer,
-      correctAnswer,
-      responseTimeMs: submission.responseTimeMs,
-      answerChanges: submission.answerChanges ?? 0,
-      correctIndex: question.correctIndex,
+      return this.processSubmission({
+        question,
+        isCorrect,
+        selectedAnswer,
+        correctAnswer,
+        responseTimeMs: submission.responseTimeMs,
+        answerChanges: submission.answerChanges ?? 0,
+        correctIndex: question.correctIndex,
+      });
     });
   }
 
@@ -327,27 +355,34 @@ export class LearningService {
    *
    * 判定逻辑：忽略大小写和首尾空格后与正确答案比较，
    * 或匹配可接受的其他形式。
+   *
+   * Issue #19 AC4：同一题目在途调用去重（同 `submitAnswer`）。
    */
   async submitSpellingAnswer(submission: SpellingSubmission): Promise<SubmissionResult> {
-    const { question } = submission;
-    const normalized = submission.spelledAnswer.trim().toLowerCase();
-    const correct = question.correctAnswer.trim().toLowerCase();
-    const acceptable = (question.acceptableAnswers ?? []).map((a) => a.trim().toLowerCase());
-    const isCorrect = normalized === correct || acceptable.includes(normalized);
+    return this.dedupeSubmission(submission.question.id, () => {
+      const { question } = submission;
+      const normalized = submission.spelledAnswer.trim().toLowerCase();
+      const correct = question.correctAnswer.trim().toLowerCase();
+      const acceptable = (question.acceptableAnswers ?? []).map((a) => a.trim().toLowerCase());
+      const isCorrect = normalized === correct || acceptable.includes(normalized);
 
-    return this.processSubmission({
-      question,
-      isCorrect,
-      selectedAnswer: submission.spelledAnswer,
-      correctAnswer: question.correctAnswer,
-      responseTimeMs: submission.responseTimeMs,
-      answerChanges: submission.answerChanges ?? 0,
+      return this.processSubmission({
+        question,
+        isCorrect,
+        selectedAnswer: submission.spelledAnswer,
+        correctAnswer: question.correctAnswer,
+        responseTimeMs: submission.responseTimeMs,
+        answerChanges: submission.answerChanges ?? 0,
+      });
     });
   }
 
   /**
    * 提交判定的通用逻辑：写入复习日志、更新学习卡、调度下次复习。
    * 选择题和拼写题共用此方法（Issue #8）。
+   *
+   * Issue #19 AC3：学习卡更新与复习日志写入通过 `saveCardAndLog` 在同一持久化事务内提交，
+   * 要么同时成功、要么都不发生。失败回滚后调度状态与历史始终一致。
    */
   private async processSubmission(input: {
     question: Question;
@@ -434,9 +469,12 @@ export class LearningService {
         }
       }
       card.updatedAt = now;
-      await cards.save(card);
+      // Issue #19 AC3：学习卡更新与复习日志写入在同一事务内提交，保证原子一致。
+      await cards.saveCardAndLog(card, reviewLog);
+    } else {
+      // 学习卡不存在：仅写复习日志（保留原行为；题目生成时学习卡应存在，此处为兜底）。
+      await logs.save(reviewLog);
     }
-    await logs.save(reviewLog);
 
     return {
       isCorrect,
@@ -458,57 +496,103 @@ export class LearningService {
    *
    * 纠正会回滚到评分前的调度器状态，再用纠正后的评分重新调度，
    * 避免重复推进调度器状态。并更新复习日志的评分与纠正标记。
+   *
+   * Issue #19 AC3：学习卡调度更新与复习日志标记更新通过 `saveCardAndLog` 原子提交。
+   * Issue #19 AC4：同一复习日志的并发纠正通过在途缓存去重，不会重复推进调度。
    */
   async correctRating(reviewLogId: string, correction: UserCorrection): Promise<CorrectionResult> {
-    const { cards, logs, clock } = this.deps;
-    const now = clock.now();
+    return this.dedupeCorrection(reviewLogId, async () => {
+      const { cards, logs, clock } = this.deps;
+      const now = clock.now();
 
-    const log = await logs.getById(reviewLogId);
-    if (!log) {
-      throw new Error(`复习日志不存在：${reviewLogId}`);
-    }
-
-    const originalRating = log.rating ?? 'good';
-    const correctedRating = this.applyCorrection(originalRating, correction);
-
-    log.rating = correctedRating;
-    log.userCorrection = correction;
-
-    const card = await cards.getById(log.cardId);
-    let nextReviewAt: number | undefined;
-
-    if (card && card.stage === 'long-term') {
-      // 回滚-重放：用评分前的调度器状态 + 纠正后评分重新调度（Issue #7 验收标准 5）
-      const previousState = log.previousSchedulerState;
-      if (previousState) {
-        // 评分前已是长期复习词：从评分前状态重新 schedule
-        const { state, nextReviewAt: due } = this.scheduler.schedule(
-          previousState,
-          correctedRating,
-          now,
-        );
-        card.schedulerState = state;
-        card.nextReviewAt = due;
-        nextReviewAt = due;
-      } else {
-        // 评分前尚未进入长期复习（本次评分使其首次进入）：用纠正后评分重新 init
-        const { state, nextReviewAt: due } = this.scheduler.init(correctedRating, now);
-        card.schedulerState = state;
-        card.nextReviewAt = due;
-        nextReviewAt = due;
+      const log = await logs.getById(reviewLogId);
+      if (!log) {
+        throw new Error(`复习日志不存在：${reviewLogId}`);
       }
-      card.updatedAt = now;
-      await cards.save(card);
-    }
 
-    await logs.save(log);
+      const originalRating = log.rating ?? 'good';
+      const correctedRating = this.applyCorrection(originalRating, correction);
 
-    return {
-      cardId: log.cardId,
-      reviewLogId: log.id,
-      rating: correctedRating,
-      nextReviewAt,
-    };
+      log.rating = correctedRating;
+      log.userCorrection = correction;
+
+      const card = await cards.getById(log.cardId);
+      let nextReviewAt: number | undefined;
+
+      if (card && card.stage === 'long-term') {
+        // 回滚-重放：用评分前的调度器状态 + 纠正后评分重新调度（Issue #7 验收标准 5）
+        const previousState = log.previousSchedulerState;
+        if (previousState) {
+          // 评分前已是长期复习词：从评分前状态重新 schedule
+          const { state, nextReviewAt: due } = this.scheduler.schedule(
+            previousState,
+            correctedRating,
+            now,
+          );
+          card.schedulerState = state;
+          card.nextReviewAt = due;
+          nextReviewAt = due;
+        } else {
+          // 评分前尚未进入长期复习（本次评分使其首次进入）：用纠正后评分重新 init
+          const { state, nextReviewAt: due } = this.scheduler.init(correctedRating, now);
+          card.schedulerState = state;
+          card.nextReviewAt = due;
+          nextReviewAt = due;
+        }
+        card.updatedAt = now;
+        // Issue #19 AC3：学习卡调度更新与复习日志标记更新在同一事务内提交。
+        await cards.saveCardAndLog(card, log);
+      } else {
+        // 非长期复习词：纠正只更新复习日志的评分与标记，不推进调度。
+        await logs.save(log);
+      }
+
+      return {
+        cardId: log.cardId,
+        reviewLogId: log.id,
+        rating: correctedRating,
+        nextReviewAt,
+      };
+    });
+  }
+
+  // ─── Issue #19 AC4：在途调用去重 ───────────────────────────────
+
+  /** 同一题目在途提交的 Promise 缓存；完成或失败后移除。 */
+  private readonly inFlightSubmissions = new Map<string, Promise<SubmissionResult>>();
+  /** 同一复习日志在途纠正的 Promise 缓存；完成或失败后移除。 */
+  private readonly inFlightCorrections = new Map<string, Promise<CorrectionResult>>();
+
+  /**
+   * 同一题目的并发提交共享同一次持久化结果（Issue #19 AC4）。
+   * 重复按钮、重复键盘事件或并发消息触发同一 `questionId` 的提交时，
+   * 第二个及后续调用方等待第一个调用方完成并返回同一结果，不会写入多条复习日志。
+   */
+  private dedupeSubmission(
+    questionId: string,
+    run: () => Promise<SubmissionResult>,
+  ): Promise<SubmissionResult> {
+    const existing = this.inFlightSubmissions.get(questionId);
+    if (existing) return existing;
+    const promise = run().finally(() => {
+      this.inFlightSubmissions.delete(questionId);
+    });
+    this.inFlightSubmissions.set(questionId, promise);
+    return promise;
+  }
+
+  /** 同一复习日志的并发纠正共享同一次结果（Issue #19 AC4）。 */
+  private dedupeCorrection(
+    reviewLogId: string,
+    run: () => Promise<CorrectionResult>,
+  ): Promise<CorrectionResult> {
+    const existing = this.inFlightCorrections.get(reviewLogId);
+    if (existing) return existing;
+    const promise = run().finally(() => {
+      this.inFlightCorrections.delete(reviewLogId);
+    });
+    this.inFlightCorrections.set(reviewLogId, promise);
+    return promise;
   }
 
   // ─── 内部辅助 ───────────────────────────────────────────────

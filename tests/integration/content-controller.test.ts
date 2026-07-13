@@ -1345,6 +1345,66 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
   });
 });
 
+// ─── Issue #19 AC5：会话标识并发唯一 ──────────────────────────────
+
+describe('ContentController — 会话标识并发唯一（Issue #19 AC5）', () => {
+  it('两标签同一毫秒、同一内容身份的会话日志 ID 仍各不相同', async () => {
+    // 共享会话日志端口与时钟（固定 NOW），模拟两个标签页同时触发同一视频身份。
+    // 旧格式 session-${startedAt}-${identity} 在此场景会碰撞为同一 ID。
+    const sharedLogger = fakeSessionLogger();
+    const clock = { now: () => NOW };
+
+    function buildController() {
+      const adapter = fakeAdapter();
+      const overlay = fakeOverlay();
+      const cooldownStore = fakeCooldownStore();
+      const siteState = fakeSiteState(false);
+      const playback = fakePlayback({ playing: true });
+      const videoPortFor = vi.fn(() => playback);
+      const learningService = fakeLearningService(LEARNING_ITEM);
+      const controller = new ContentController({
+        adapter,
+        overlay,
+        cooldownStore,
+        clock,
+        videoPortFor,
+        siteState,
+        learningService,
+        sessionLogger: sharedLogger,
+        pauseState: {
+          async isGloballyPaused() {
+            return false;
+          },
+        },
+      });
+      controller.start();
+      return { controller, adapter, overlay };
+    }
+
+    const tab1 = buildController();
+    const tab2 = buildController();
+
+    // 两标签同一毫秒、同一内容身份触发
+    tab1.adapter.emit('bv-1', {});
+    await flush();
+    tab2.adapter.emit('bv-1', {});
+    await flush();
+
+    // 两标签各自跳过结束会话
+    tab1.overlay.fireAction({ type: 'skip' });
+    await flush();
+    tab2.overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(sharedLogger.logs).toHaveLength(2);
+    // 关键：两会话 ID 不同（crypto.randomUUID 保证唯一）
+    expect(sharedLogger.logs[0]!.id).not.toBe(sharedLogger.logs[1]!.id);
+    // 两会话 startedAt 相同（同一毫秒），但 ID 仍唯一
+    expect(sharedLogger.logs[0]!.startedAt).toBe(NOW);
+    expect(sharedLogger.logs[1]!.startedAt).toBe(NOW);
+  });
+});
+
 describe('ContentController — 故障恢复（Issue #13）', () => {
   it('提交失败时关闭遮罩并恢复原本播放的视频', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);

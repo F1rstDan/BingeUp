@@ -581,10 +581,12 @@ export class ContentController {
       console.error('[BingeUp] 记录学习结果失败', error);
     }
     // 会话日志（Issue #12）：可选，未提供 sessionLogger 时跳过。
+    // Issue #19 AC5：会话标识使用 crypto.randomUUID()，保证同一毫秒、同一内容身份的
+    // 并发会话（多标签同时触发）仍各自唯一，不依赖 startedAt+identity 组合。
     if (this.deps.sessionLogger !== undefined) {
       try {
         await this.deps.sessionLogger.save({
-          id: `session-${active.startedAt}-${active.identity}`,
+          id: crypto.randomUUID(),
           startedAt: active.startedAt,
           endedAt: this.deps.clock.now(),
           mode: active.mode,

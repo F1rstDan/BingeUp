@@ -82,17 +82,16 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         };
       }
       case 'COOLDOWN_COMPLETE_QUESTION': {
+        // Issue #19 AC6/AC7：冷却规则应用在 store.updateCooldown 内原子完成，
+        // 按消息到达顺序串行化，不丢失更新。
         const config = await store.getCooldownConfig();
-        const next = applyComplete(Date.now(), config);
-        await store.setCooldown(next);
-        return next;
+        return store.updateCooldown(() => applyComplete(Date.now(), config));
       }
       case 'COOLDOWN_SKIP_QUESTION': {
+        // Issue #19 AC6/AC7：读 before → applySkip → 写回在同一锁内完成，
+        // 连续跳过计数与完成重置都不会因并发丢失。
         const config = await store.getCooldownConfig();
-        const before = await store.getCooldown();
-        const next = applySkip(before, Date.now(), config);
-        await store.setCooldown(next);
-        return next;
+        return store.updateCooldown((before) => applySkip(before, Date.now(), config));
       }
       case 'SITE_GET_STATE': {
         const site = await store.getSite(message.hostname);

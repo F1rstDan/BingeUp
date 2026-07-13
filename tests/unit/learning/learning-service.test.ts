@@ -43,9 +43,25 @@ function spellingQuestionOf(value: LearningItem | null): SpellingQuestion {
 
 class FakeCardRepository implements CardRepositoryPort {
   private readonly map = new Map<string, CardRecord>();
+  private readonly wordIds = new Set<string>();
+  /** 原子提交时写入复习日志的目标仓库；由测试组装时注入（Issue #19 AC3）。 */
+  private logsSink: ReviewLogRepositoryPort | null = null;
+
+  /** 绑定复习日志仓库，使 saveCardAndLog 在同一原子步内写入两边。 */
+  bindLogs(logs: ReviewLogRepositoryPort): this {
+    this.logsSink = logs;
+    return this;
+  }
 
   async save(card: CardRecord): Promise<void> {
+    // 模拟持久化层唯一约束：同 wordId 不同 id 的写入抛出 CardUniquenessError（Issue #19 AC1/AC2）。
+    const existing = [...this.map.values()].find((c) => c.wordId === card.wordId);
+    if (existing && existing.id !== card.id) {
+      const { CardUniquenessError } = await import('@/storage/repositories/card-repository');
+      throw new CardUniquenessError(card.wordId);
+    }
     this.map.set(card.id, { ...card });
+    this.wordIds.add(card.wordId);
   }
   async getById(id: string): Promise<CardRecord | undefined> {
     const c = this.map.get(id);
@@ -59,6 +75,15 @@ class FakeCardRepository implements CardRepositoryPort {
   }
   async getAll(): Promise<CardRecord[]> {
     return [...this.map.values()].map((c) => ({ ...c }));
+  }
+  async saveCardAndLog(card: CardRecord, log: ReviewLogRecord): Promise<void> {
+    // 内存实现同样遵守唯一约束；日志写入与学习卡写入在同一调用内完成，
+    // 模拟 IDB 事务的原子语义（Issue #19 AC3）。
+    await this.save(card);
+    if (this.logsSink === null) {
+      throw new Error('FakeCardRepository.saveCardAndLog 未绑定 logs 仓库');
+    }
+    await this.logsSink.save(log);
   }
 }
 
@@ -201,8 +226,13 @@ function makeService(
     scheduler?: ReviewSchedulerPort;
   } = {},
 ) {
-  const cards = opts.cards ?? new FakeCardRepository();
   const logs = opts.logs ?? new FakeReviewLogRepository();
+  const cards = opts.cards ?? new FakeCardRepository();
+  // Issue #19 AC3：确保 FakeCardRepository 的原子提交能写入 logs 仓库。
+  // 已绑定时再次绑定是无害的——以最新 logs 仓库为准。
+  if (cards instanceof FakeCardRepository) {
+    cards.bindLogs(logs);
+  }
   const words = opts.words ?? new FakeWordBank();
   const scheduler = opts.scheduler ?? new FakeScheduler();
   let now = opts.now ?? 1_000_000;
@@ -633,8 +663,8 @@ describe('LearningService — 验证题流转（Issue #6 验收标准 3）', () 
 
 describe('LearningService — 端到端持久化', () => {
   it('接受新词后通过新实例读取学习卡（模拟重启）', async () => {
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const { service } = makeService({ cards, logs, now: 1_000_000 });
 
     const item = await service.getNextItem();
@@ -649,8 +679,8 @@ describe('LearningService — 端到端持久化', () => {
   });
 
   it('提交答案后通过新实例读取复习日志（模拟重启）', async () => {
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const { service, advance } = makeService({ cards, logs, now: 1_000_000 });
 
     const item = await service.getNextItem();
@@ -883,8 +913,8 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
 
   it('长期复习词答对后清除 lastWrongAt：以正确答案赎回后不再属于"近期答错"', async () => {
     const now = 1_000_000;
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
     // 近期答错的长期复习词（reps=2，答对后仍为长期复习词）
     await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: now - 100, reps: 2 }));
@@ -906,8 +936,8 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
 
   it('长期复习词答错后设置 lastWrongAt：属于"近期答错"', async () => {
     const now = 1_000_000;
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
     await cards.save(makeLongTermCard('w-abandon', now, { reps: 2 }));
 
@@ -978,8 +1008,8 @@ describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）
 describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）', () => {
   it('长期复习词提交后调度器状态与下次时间持久化', async () => {
     const now = 1_000_000;
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
 
     // 直接构造一张已到期的长期复习卡
@@ -1028,8 +1058,8 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
 
   it('长期复习词答错后记录 lastWrongAt 并通过调度器安排', async () => {
     const now = 1_000_000;
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
 
     const card: CardRecord = {
@@ -1070,8 +1100,8 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
 
   it('完整复习历史持久化：刷新后仍可读取', async () => {
     const now = 1_000_000;
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
 
     // 构造到期长期复习卡
@@ -1291,8 +1321,8 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
   });
 
   it('纠正后调度更新持久化：刷新后仍可读取新评分', async () => {
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
     const { service } = makeService({ cards, logs, scheduler, now: 1_000_000 });
 
@@ -1325,8 +1355,8 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
   });
 
   it('纠正二次复习的评分：回滚到评分前状态重放，不重复推进 reps', async () => {
-    const cards = new FakeCardRepository();
     const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
     const env = makeService({ cards, logs, scheduler, now: 1_000_000 });
 
@@ -1547,8 +1577,8 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
   describe('submitSpellingAnswer — 拼写题判定（验收标准 3）', () => {
     async function prepareSpellingQuestion() {
       const now = 1_000_000;
-      const cards = new FakeCardRepository();
       const logs = new FakeReviewLogRepository();
+      const cards = new FakeCardRepository().bindLogs(logs);
       const scheduler = new FakeScheduler();
       await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
 
@@ -1654,5 +1684,146 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
       });
       expect(item).toBeNull();
     });
+  });
+});
+
+// ─── Issue #19：多标签并发一致性 ─────────────────────────────────
+
+describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', () => {
+  it('AC2：并发接受同一候选新词最终只创建一张学习卡', async () => {
+    const { service, cards } = makeService({ now: 1_000_000 });
+    const item = await service.getNextItem();
+    const wordId = presentationOf(item).word.id;
+
+    // 三个调用方并发接受同一候选新词（模拟多标签同时点击"知道了"）
+    await Promise.all([
+      service.acceptNewWord(wordId),
+      service.acceptNewWord(wordId),
+      service.acceptNewWord(wordId),
+    ]);
+
+    const all = await cards.getAll();
+    expect(all).toHaveLength(1);
+    expect(all[0]!.wordId).toBe(wordId);
+    expect(all[0]!.stage).toBe('short-term');
+  });
+
+  it('AC2：并发 acceptNewWord 与 selfReportKnown 同一单词只创建一张卡', async () => {
+    const { service, cards } = makeService({ now: 1_000_000 });
+    const item = await service.getNextItem();
+    const wordId = presentationOf(item).word.id;
+
+    await Promise.all([service.acceptNewWord(wordId), service.selfReportKnown(wordId)]);
+
+    const all = await cards.getAll();
+    expect(all).toHaveLength(1);
+    expect(all[0]!.wordId).toBe(wordId);
+  });
+
+  it('AC4：并发提交同一题目只写入一条复习日志且两调用方拿到同一结果', async () => {
+    const env = makeService({ now: 1_000_000 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    const question = questionOf(q);
+
+    // 两个调用方并发提交同一题（模拟重复按钮/键盘事件或并发消息）
+    const [r1, r2] = await Promise.all([
+      env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 2000,
+      }),
+      env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 2000,
+      }),
+    ]);
+
+    // 在途去重：两调用方共享同一次持久化结果
+    expect(r1).toBe(r2);
+    expect(r1.reviewLogId).toBeTruthy();
+    const logs = await env.logs.getAll();
+    expect(logs).toHaveLength(1);
+  });
+
+  it('AC4：并发提交同一拼写题只写入一条复习日志', async () => {
+    const env = makeService({ now: 1_000_000, dailyNewWordLimit: 5 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    env.advance(MS_PER_DAY); // 推进到长期复习，以便出现拼写题
+    const q = await env.service.getNextItem({ allowSpelling: true });
+    expect(q).not.toBeNull();
+    if (q!.kind !== 'spelling-question') {
+      // 拼写题出现概率性：若本次未出拼写题则跳过
+      return;
+    }
+    const question = spellingQuestionOf(q);
+
+    const [r1, r2] = await Promise.all([
+      env.service.submitSpellingAnswer({
+        question,
+        spelledAnswer: question.correctAnswer,
+        responseTimeMs: 2000,
+      }),
+      env.service.submitSpellingAnswer({
+        question,
+        spelledAnswer: question.correctAnswer,
+        responseTimeMs: 2000,
+      }),
+    ]);
+
+    expect(r1).toBe(r2);
+    const logs = await env.logs.getAll();
+    expect(logs).toHaveLength(1);
+  });
+
+  it('AC4：并发纠正同一复习日志评分只调度一次且结果共享', async () => {
+    // 准备一张已提交的长期复习卡
+    const env = makeService({ now: 1_000_000 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    const result = await env.service.submitAnswer({
+      question: questionOf(q),
+      selectedIndex: questionOf(q).correctIndex,
+      responseTimeMs: 5000,
+    });
+
+    // 两个调用方并发纠正同一评分
+    const [c1, c2] = await Promise.all([
+      env.service.correctRating(result.reviewLogId, 'too-easy'),
+      env.service.correctRating(result.reviewLogId, 'too-easy'),
+    ]);
+
+    // 在途去重：共享同一次纠正结果
+    expect(c1).toBe(c2);
+    expect((c1 as { rating: string }).rating).toBe('easy');
+  });
+
+  it('AC3：提交后学习卡与复习日志原子提交（均持久化或均不持久化）', async () => {
+    const env = makeService({ now: 1_000_000 });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+    const q = await env.service.getNextItem();
+    const question = questionOf(q);
+
+    await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 2000,
+    });
+
+    // 学习卡与复习日志应同时持久化（原子提交的 happy path）
+    const card = await env.cards.getById(question.cardId);
+    expect(card).toBeDefined();
+    const logs = await env.logs.getAll();
+    expect(logs).toHaveLength(1);
+    expect(logs[0]!.cardId).toBe(question.cardId);
   });
 });

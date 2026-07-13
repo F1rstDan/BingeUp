@@ -92,7 +92,8 @@ describe('迁移 v2 — sessionLogs 仓库与索引（Issue #12）', () => {
   it('迁移后 sessionLogs 仓库存在', async () => {
     const db = await openDatabase(TEST_DB, MIGRATIONS);
     expect(db.objectStoreNames.contains(STORES.sessionLogs)).toBe(true);
-    expect(db.version).toBe(3);
+    // Issue #19 新增 v4 迁移（cards.byWordId 唯一索引），数据库版本升至 4。
+    expect(db.version).toBe(4);
     db.close();
   });
 

@@ -84,6 +84,44 @@ function copyAuthoritativeState(state: AuthoritativeStateRecord): AuthoritativeS
 export class LocalSettingsStore {
   constructor(readonly database: IDBDatabase) {}
 
+  /**
+   * 运行时状态（冷却 + 全局暂停）的串行化锁（Issue #19 AC6/AC7）。
+   *
+   * chrome.storage.local 没有事务，`setCooldown` / `setGlobalPausedUntil` /
+   * 冷却规则应用都采用"读取 → 修改 → 写回"模式。多个并发消息（多标签完成/跳过题目）
+   * 同时执行该模式会丢失更新（后写覆盖前写）。
+   *
+   * 所有运行时状态的读-改-写都通过本锁串行化。由于全部冷却/暂停消息都在
+   * background service worker 的同一 `LocalSettingsStore` 实例上处理，
+   * 锁的获取顺序即消息到达顺序，保证完成与跳过并发时最终状态有确定、可测试的顺序语义。
+   */
+  private runtimeLock: Promise<void> = Promise.resolve();
+
+  private withRuntimeLock<T>(fn: () => Promise<T>): Promise<T> {
+    const result = this.runtimeLock.then(fn);
+    // 无论 fn 成功或失败，都释放锁：失败时记录但不阻塞后续调用。
+    this.runtimeLock = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
+  }
+
+  /**
+   * 在运行时锁内原子地读取-修改-写回运行时状态（Issue #19 AC6/AC7）。
+   * 返回写回后的完整运行时状态，供调用方读取变更后的字段。
+   */
+  private async updateRuntimeState(
+    mutate: (state: RuntimeState) => RuntimeState,
+  ): Promise<RuntimeState> {
+    return this.withRuntimeLock(async () => {
+      const current = await this.getRuntimeState();
+      const next = mutate(current);
+      await this.setRuntimeState(next);
+      return next;
+    });
+  }
+
   private updateAuthoritativeState(
     update: (state: AuthoritativeStateRecord) => void,
   ): Promise<void> {
@@ -152,8 +190,27 @@ export class LocalSettingsStore {
     return (await this.getRuntimeState()).cooldown;
   }
   async setCooldown(cooldown: CooldownState): Promise<void> {
-    const runtime = await this.getRuntimeState();
-    await this.setRuntimeState({ ...runtime, cooldown });
+    // Issue #19 AC6：通过运行时锁串行化，避免与并发冷却更新/暂停写入丢失更新。
+    await this.updateRuntimeState((state) => ({ ...state, cooldown }));
+  }
+
+  /**
+   * 原子地更新冷却状态：在运行时锁内读取当前冷却、应用变更函数、写回（Issue #19 AC6/AC7）。
+   *
+   * 冷却规则（applyComplete / applySkip）依赖"前一次状态"做读-改-写；
+   * 本方法保证多标签并发完成/跳过时变更按消息到达顺序串行化，
+   * 不会因并发读-改-写丢失连续跳过计数或完成重置。
+   *
+   * @param mutate 接收当前冷却状态、返回下一状态。`now` 应在函数内捕获，
+   *   以反映锁内实际应用时刻。
+   * @returns 写回后的冷却状态。
+   */
+  async updateCooldown(mutate: (before: CooldownState) => CooldownState): Promise<CooldownState> {
+    const next = await this.updateRuntimeState((state) => ({
+      ...state,
+      cooldown: mutate(state.cooldown),
+    }));
+    return next.cooldown;
   }
 
   async getSite(hostname: string): Promise<SiteSettings> {
@@ -226,8 +283,8 @@ export class LocalSettingsStore {
     return (await this.getRuntimeState()).globalPausedUntil;
   }
   async setGlobalPausedUntil(globalPausedUntil: number): Promise<void> {
-    const runtime = await this.getRuntimeState();
-    await this.setRuntimeState({ ...runtime, globalPausedUntil });
+    // Issue #19 AC6：与冷却更新共用运行时锁，避免并发写回时互相覆盖。
+    await this.updateRuntimeState((state) => ({ ...state, globalPausedUntil }));
   }
 
   async getAppSettings(): Promise<AppSettings> {
