@@ -14,6 +14,11 @@ import {
 import { isSupportedHostname } from '@/sites/supported-sites';
 import { exactHttpsOriginPattern, legacyBroadOriginPatterns } from '@/sites/site-origin';
 import {
+  registerCustomContentScript,
+  syncCustomContentScripts,
+  unregisterCustomContentScript,
+} from '@/sites/custom-content-script';
+import {
   ONBOARDING_HOSTNAMES,
   selectedOnboardingHostnames,
 } from '@/onboarding/onboarding-service';
@@ -56,6 +61,15 @@ async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
  *           background 在启动时打开并传入；测试中可传 null 跳过数据操作。
  */
 export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase | null = null) {
+
+  async function syncCustomScriptsWarning(): Promise<string | undefined> {
+    try {
+      await syncCustomContentScripts(await store.listSites());
+      return undefined;
+    } catch (error) {
+      return `网站设置已更新，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`;
+    }
+  }
 
   async function handle(message: ExtensionMessage, _sender: chrome.runtime.MessageSender) {
     switch (message.type) {
@@ -109,12 +123,29 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return undefined;
       }
       case 'SITE_ENABLE': {
-        await store.enableSite(message.hostname);
+        if (!isSupportedHostname(message.hostname)) {
+          await registerCustomContentScript(message.hostname);
+          const current = await store.getSite(message.hostname);
+          await store.enableSite(
+            message.hostname,
+            current.mode === 'unsupported' ? 'basic-web' : current.mode,
+          );
+        } else {
+          await store.enableSite(message.hostname);
+        }
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }
       case 'SITE_DISABLE': {
         await store.disableSite(message.hostname);
+        if (!isSupportedHostname(message.hostname)) {
+          try {
+            await unregisterCustomContentScript(message.hostname);
+          } catch (error) {
+            // 网站设置已是权威禁用状态；保留结果并由下次 background 启动重试清理。
+            console.error('[BingeUp] 自定义网站内容脚本注销失败', error);
+          }
+        }
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }
@@ -185,10 +216,12 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return { sites };
       }
       case 'REMOVE_SITE': {
-        await store.removeSite(message.hostname);
         // AC5：受支持站点（bilibili/youtube）使用必需 host_permissions，不可释放；
         // 自定义站点使用可选权限，尝试释放。
         let released = false;
+        if (!isSupportedHostname(message.hostname)) {
+          await unregisterCustomContentScript(message.hostname);
+        }
         if (
           !isSupportedHostname(message.hostname)
           && typeof chrome.permissions?.remove === 'function'
@@ -202,6 +235,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           );
           released = exactReleased || legacyReleased;
         }
+        await store.removeSite(message.hostname);
         return { released };
       }
       case 'EXPORT_DATA': {
@@ -210,7 +244,10 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       }
       case 'IMPORT_DATA': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
-        return importLocalData(store, message.payload);
+        const result = await importLocalData(store, message.payload);
+        if (!result.ok) return result;
+        const warning = await syncCustomScriptsWarning();
+        return warning ? { ...result, warnings: [...result.warnings, warning] } : result;
       }
       case 'CLEAR_LEARNING_PROGRESS': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
@@ -219,13 +256,20 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       }
       case 'CLEAR_ALL_DATA': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
-        return clearAllLocalData(store);
+        const result = await clearAllLocalData(store);
+        if (!result.ok) return result;
+        const warning = await syncCustomScriptsWarning();
+        return warning ? { ...result, warnings: [...result.warnings, warning] } : result;
       }
 
       // ─── Issue #11：自定义网站兼容模式 ───────────────────
       case 'ADD_CUSTOM_SITE': {
         // 加入自定义站点：以基础网页模式启用，内容脚本加载后按能力检测更新。
-        await store.enableSite(message.hostname, 'basic-web');
+        await registerCustomContentScript(message.hostname);
+        const current = await store.getSite(message.hostname);
+        if (!current.enabled || current.mode === 'unsupported') {
+          await store.enableSite(message.hostname, 'basic-web');
+        }
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }

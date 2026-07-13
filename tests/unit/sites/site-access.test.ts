@@ -84,7 +84,7 @@ describe('网站加入边界（Issue #16）', () => {
     expect(chrome.permissions.request).toHaveBeenCalledWith({
       origins: ['https://example.com/*'],
     });
-    expect(mocks.addCustomSite).not.toHaveBeenCalled();
+    expect(mocks.addCustomSite).toHaveBeenCalledWith('example.com');
     expect(result).toEqual({
       ok: true,
       hostname: 'example.com',

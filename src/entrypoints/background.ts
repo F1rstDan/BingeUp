@@ -2,6 +2,7 @@ import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
+import { syncCustomContentScripts } from '@/sites/custom-content-script';
 
 /**
  * Background service worker 入口（WXT）。
@@ -30,23 +31,34 @@ export default defineBackground(() => {
     return dbPromise;
   };
 
+  // 扩展升级后动态注册表可能为空；根据权威网站设置恢复精确 origin 注册。
+  const customScriptsReady = getDatabase().then(async (db) => {
+    const store = new LocalSettingsStore(db);
+    await syncCustomContentScripts(await store.listSites());
+  }).catch((error) => {
+    console.error('[BingeUp] 自定义网站内容脚本恢复失败', error);
+  });
+
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     (async () => {
       try {
+        await customScriptsReady;
         if (message?.type === 'REBUILD_DATABASE') {
           const rebuilt = await rebuildDatabase(DATABASE_NAME, MIGRATIONS);
           dbPromise = Promise.resolve(rebuilt);
           const rebuiltStore = new LocalSettingsStore(rebuilt);
+          const warnings: string[] = [];
           try {
             await rebuiltStore.resetRuntimeState();
-            sendResponse({ ok: true, errors: [], warnings: [] });
           } catch (error) {
-            sendResponse({
-              ok: true,
-              errors: [],
-              warnings: [`本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`],
-            });
+            warnings.push(`本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`);
           }
+          try {
+            await syncCustomContentScripts(await rebuiltStore.listSites());
+          } catch (error) {
+            warnings.push(`本地用户数据已重建，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`);
+          }
+          sendResponse({ ok: true, errors: [], warnings });
           return;
         }
         const db = await getDatabase();

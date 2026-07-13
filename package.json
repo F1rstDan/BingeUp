@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "wxt build --mode development",
     "dev:edge": "wxt build -b edge --mode development",
-    "build": "wxt build",
-    "build:edge": "wxt build -b edge",
+    "build": "wxt build && node scripts/verify-content-script-manifest.mjs chrome-mv3",
+    "build:edge": "wxt build -b edge && node scripts/verify-content-script-manifest.mjs edge-mv3",
     "zip": "wxt zip",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -23,7 +23,14 @@ function installChromeStorageMock() {
       },
     },
     permissions: {
+      contains: vi.fn().mockResolvedValue(true),
       remove: vi.fn().mockResolvedValue(true),
+    },
+    scripting: {
+      getRegisteredContentScripts: vi.fn(async (): Promise<chrome.scripting.RegisteredContentScript[]> => []),
+      registerContentScripts: vi.fn().mockResolvedValue(undefined),
+      updateContentScripts: vi.fn().mockResolvedValue(undefined),
+      unregisterContentScripts: vi.fn().mockResolvedValue(undefined),
     },
   };
   (globalThis as unknown as { chrome: typeof chromeStub }).chrome = chromeStub;
@@ -122,6 +129,36 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(res.enabled).toBe(false);
     const site = await store.getSite('www.bilibili.com');
     expect(site.enabled).toBe(false);
+  });
+
+  it('自定义网站禁用后重新启用时恢复精确内容脚本注册', async () => {
+    await store.enableSite('example.com', 'basic-web');
+    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>)
+      .mockResolvedValueOnce([{ id: 'bingeup_custom_ZXhhbXBsZS5jb20' }])
+      .mockResolvedValueOnce([]);
+
+    await router.handle(
+      { type: 'SITE_DISABLE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    );
+    await router.handle(
+      { type: 'SITE_ENABLE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect(chrome.scripting.unregisterContentScripts).toHaveBeenCalledWith({
+      ids: ['bingeup_custom_ZXhhbXBsZS5jb20'],
+    });
+    expect(chrome.scripting.registerContentScripts).toHaveBeenCalledWith([
+      expect.objectContaining({
+        id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+        matches: ['https://example.com/*'],
+      }),
+    ]);
+    expect(await store.getSite('example.com')).toMatchObject({
+      enabled: true,
+      mode: 'basic-web',
+    });
   });
 
   it('PAUSE_ALL：设置远期全局暂停（AC4）', async () => {
@@ -417,6 +454,9 @@ describe('message-router — Issue #10 新增消息', () => {
   it('REMOVE_SITE：自定义站点尝试释放当前与旧版可选权限（AC5）', async () => {
     // 直接写入一个自定义站点（绕过 enableSite 的受支持检查）
     await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
+    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+    }]);
 
     const res = (await router.handle(
       { type: 'REMOVE_SITE', hostname: 'example.com' },
@@ -429,6 +469,9 @@ describe('message-router — Issue #10 新增消息', () => {
     });
     expect(permissionsRemove).toHaveBeenNthCalledWith(2, {
       origins: ['*://example.com/*', '*://*.example.com/*'],
+    });
+    expect(chrome.scripting.unregisterContentScripts).toHaveBeenCalledWith({
+      ids: ['bingeup_custom_ZXhhbXBsZS5jb20'],
     });
   });
 
@@ -562,6 +605,9 @@ describe('message-router — Issue #10 新增消息', () => {
     await idbPut(db, STORES.words, { id: 'w1', word: 'test', lemma: 'test', partOfSpeech: ['n.'], coreMeaningZh: ['测试'], exampleSentence: '', exampleTranslation: '', difficulty: 1, source: '', license: '' });
     await store.enableSite('bilibili.com');
     await store.markOnboardingCompleted();
+    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+    }]);
 
     await router.handle(
       { type: 'CLEAR_ALL_DATA' },
@@ -571,6 +617,27 @@ describe('message-router — Issue #10 新增消息', () => {
     expect(await idbGetAll(db, STORES.cards)).toHaveLength(0);
     expect(await idbGetAll(db, STORES.words)).toHaveLength(0);
     expect(await store.isOnboardingCompleted()).toBe(false);
+    expect(await store.listSites()).toHaveLength(0);
+    expect(chrome.scripting.unregisterContentScripts).toHaveBeenCalledWith({
+      ids: ['bingeup_custom_ZXhhbXBsZS5jb20'],
+    });
+  });
+
+  it('CLEAR_ALL_DATA：数据已清空但脚本同步失败时返回成功与明确告警', async () => {
+    await store.setSite('example.com', { enabled: true, mode: 'basic-web', firstQuestionPending: false });
+    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+    }]);
+    (chrome.scripting.unregisterContentScripts as unknown as ReturnType<typeof vi.fn>)
+      .mockRejectedValue(new Error('scripting 不可用'));
+
+    const result = await router.handle(
+      { type: 'CLEAR_ALL_DATA' },
+      {} as chrome.runtime.MessageSender,
+    ) as { ok: boolean; warnings: string[] };
+
+    expect(result.ok).toBe(true);
+    expect(result.warnings[0]).toContain('内容脚本同步失败');
     expect(await store.listSites()).toHaveLength(0);
   });
 });
@@ -632,6 +699,13 @@ describe('message-router — Issue #11 新增消息', () => {
     const site = await store.getSite('example.com');
     expect(site.enabled).toBe(true);
     expect(site.mode).toBe('basic-web');
+    expect(chrome.scripting.registerContentScripts).toHaveBeenCalledWith([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      matches: ['https://example.com/*'],
+      js: ['content-scripts/content.js'],
+      runAt: 'document_idle',
+      persistAcrossSessions: true,
+    }]);
   });
 
   it('ADD_CUSTOM_SITE：full-adaptation 被降级为 generic-video（保护官方适配器边界）', async () => {
@@ -640,6 +714,26 @@ describe('message-router — Issue #11 新增消息', () => {
     const site = await store.getSite('example.com');
     // enableSite 直接写入，getSite 会通过 normalizeSiteSettings 规范化
     expect(site.mode).toBe('generic-video');
+  });
+
+  it('ADD_CUSTOM_SITE：重复注册时更新既有精确匹配而不创建重复脚本', async () => {
+    (chrome.scripting.getRegisteredContentScripts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+    }]);
+
+    await router.handle(
+      { type: 'ADD_CUSTOM_SITE', hostname: 'example.com' },
+      {} as chrome.runtime.MessageSender,
+    );
+
+    expect(chrome.scripting.registerContentScripts).not.toHaveBeenCalled();
+    expect(chrome.scripting.updateContentScripts).toHaveBeenCalledWith([{
+      id: 'bingeup_custom_ZXhhbXBsZS5jb20',
+      matches: ['https://example.com/*'],
+      js: ['content-scripts/content.js'],
+      runAt: 'document_idle',
+      persistAcrossSessions: true,
+    }]);
   });
 
   it('UPDATE_SITE_MODE：更新站点兼容模式（AC4 能力检测回写）', async () => {

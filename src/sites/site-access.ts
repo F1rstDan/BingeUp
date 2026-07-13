@@ -72,6 +72,7 @@ export async function addWebsite(input: string): Promise<AddWebsiteResult> {
     }
 
     if (alreadyEnabled) {
+      await messageClient.addCustomSite(hostname);
       return { ok: true, hostname, status: 'permission-restored' };
     }
     await messageClient.addCustomSite(hostname);
