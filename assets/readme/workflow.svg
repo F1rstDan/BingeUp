@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">刷刷升级的工作流程</title>
+  <desc id="desc">新视频成为自然触发点，插件暂停主视频，展示一个学习项目，完成后恢复播放并进入冷却。</desc>
+
+  <rect width="1200" height="360" rx="26" fill="#F5F8FB"/>
+  <text x="58" y="54" fill="#0A86E6" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" letter-spacing="2">NATURAL LEARNING LOOP</text>
+  <text x="58" y="96" fill="#1F2937" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="34" font-weight="800">不抢走视频，只借用一个自然间隙</text>
+
+  <path d="M152 210H1020" stroke="#CADBE7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1020 210l-14-9v18z" fill="#CADBE7"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif">
+    <g transform="translate(62 150)">
+      <circle cx="72" cy="60" r="60" fill="#FFFFFF" stroke="#D9E7F0" stroke-width="2"/>
+      <path d="M49 42h46a8 8 0 0 1 8 8v28a8 8 0 0 1-8 8H49a8 8 0 0 1-8-8V50a8 8 0 0 1 8-8z" fill="#E8F5FF" stroke="#0A86E6" stroke-width="2"/>
+      <path d="M67 54l18 10-18 10z" fill="#0A86E6"/>
+      <text x="72" y="145" text-anchor="middle" fill="#1F2937" font-size="19" font-weight="800">新视频</text>
+      <text x="72" y="172" text-anchor="middle" fill="#7D8B9D" font-size="16">自然触发点</text>
+    </g>
+
+    <g transform="translate(316 150)">
+      <circle cx="72" cy="60" r="60" fill="#FFFFFF" stroke="#D9E7F0" stroke-width="2"/>
+      <rect x="52" y="37" width="12" height="46" rx="5" fill="#FF7E99"/>
+      <rect x="80" y="37" width="12" height="46" rx="5" fill="#FF7E99"/>
+      <text x="72" y="145" text-anchor="middle" fill="#1F2937" font-size="19" font-weight="800">暂停主视频</text>
+      <text x="72" y="172" text-anchor="middle" fill="#7D8B9D" font-size="16">保持当前进度</text>
+    </g>
+
+    <g transform="translate(570 150)">
+      <circle cx="72" cy="60" r="70" fill="#E8F5FF" stroke="#0A86E6" stroke-width="3"/>
+      <rect x="34" y="30" width="76" height="60" rx="13" fill="#FFFFFF"/>
+      <text x="72" y="57" text-anchor="middle" fill="#1F2937" font-size="18" font-weight="800">word</text>
+      <rect x="46" y="67" width="52" height="8" rx="4" fill="#10C26B"/>
+      <text x="72" y="150" text-anchor="middle" fill="#0A86E6" font-size="20" font-weight="850">学一个词</text>
+      <text x="72" y="177" text-anchor="middle" fill="#607487" font-size="16">新词或到期复习</text>
+    </g>
+
+    <g transform="translate(834 150)">
+      <circle cx="72" cy="60" r="60" fill="#FFFFFF" stroke="#D9E7F0" stroke-width="2"/>
+      <path d="M60 37l36 23-36 23z" fill="#10C26B"/>
+      <text x="72" y="145" text-anchor="middle" fill="#1F2937" font-size="19" font-weight="800">继续播放</text>
+      <text x="72" y="172" text-anchor="middle" fill="#7D8B9D" font-size="16">答完或跳过</text>
+    </g>
+
+    <g transform="translate(1058 182)">
+      <rect width="86" height="56" rx="18" fill="#FFF8DF" stroke="#F4D57C"/>
+      <path d="M43 13v16l11 7" fill="none" stroke="#B48416" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="43" cy="29" r="17" fill="none" stroke="#B48416" stroke-width="3"/>
+      <text x="43" y="82" text-anchor="middle" fill="#8A6A20" font-size="16" font-weight="800">冷却</text>
+    </g>
+  </g>
+</svg>

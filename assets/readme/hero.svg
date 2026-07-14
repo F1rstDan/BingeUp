@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">刷刷升级 BingeUp</title>
+  <desc id="desc">在视频的自然间隙完成一次轻量单词学习，再继续播放。</desc>
+
+  <defs>
+    <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FBFD"/>
+      <stop offset="1" stop-color="#E8F5FF"/>
+    </linearGradient>
+    <clipPath id="video-clip">
+      <rect x="744" y="58" width="396" height="304" rx="24"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="420" rx="28" fill="url(#canvas)"/>
+  <path d="M0 356H1200" stroke="#D7E6F1"/>
+  <rect x="0" y="356" width="1200" height="64" fill="#FFFFFF" opacity=".72"/>
+
+  <g id="title-block" transform="translate(64 54)">
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" letter-spacing="2">
+      <text x="0" y="16" fill="#0A86E6">BROWSER EXTENSION</text>
+      <text x="218" y="16" fill="#7D8B9D">/ MANIFEST V3</text>
+    </g>
+
+    <text x="0" y="100" fill="#1F2937" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="76" font-weight="800" letter-spacing="-3">刷刷升级</text>
+    <text x="2" y="144" fill="#0A86E6" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="27" font-weight="750" letter-spacing="5">BINGEUP</text>
+
+    <text x="0" y="204" fill="#3D5063" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="650">刷视频时，顺手学一个词。</text>
+    <text x="0" y="243" fill="#6F8194" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="20">暂停片刻 · 轻量答题 · 继续播放</text>
+
+    <g transform="translate(0 274)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="16" font-weight="700">
+      <rect width="112" height="38" rx="19" fill="#FFFFFF" stroke="#CFE5F5"/>
+      <circle cx="20" cy="19" r="7" fill="#0A86E6"/>
+      <text x="35" y="25" fill="#36536C">Bilibili</text>
+      <rect x="124" width="118" height="38" rx="19" fill="#FFFFFF" stroke="#CFE5F5"/>
+      <circle cx="144" cy="19" r="7" fill="#FF7E99"/>
+      <text x="159" y="25" fill="#36536C">YouTube</text>
+      <rect x="254" width="110" height="38" rx="19" fill="#FFFFFF" stroke="#CFE5F5"/>
+      <circle cx="274" cy="19" r="7" fill="#10C26B"/>
+      <text x="289" y="25" fill="#36536C">FSRS</text>
+    </g>
+  </g>
+
+  <g id="product-proof">
+    <rect x="728" y="42" width="428" height="336" rx="30" fill="#D6E4EE" opacity=".55"/>
+    <rect x="744" y="58" width="396" height="304" rx="24" fill="#152231"/>
+    <g clip-path="url(#video-clip)">
+      <path d="M744 58h396v304H744z" fill="#172637"/>
+      <circle cx="1085" cy="100" r="118" fill="#223C55"/>
+      <path d="M760 270C840 206 903 238 970 178s120-57 186-88v272H744z" fill="#1D3145"/>
+      <path d="M768 326h348" stroke="#5E7286" stroke-width="6" stroke-linecap="round"/>
+      <path d="M768 326h182" stroke="#0A86E6" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="950" cy="326" r="9" fill="#FFFFFF" stroke="#0A86E6" stroke-width="5"/>
+    </g>
+
+    <g id="learning-card" transform="translate(798 82)">
+      <rect width="288" height="222" rx="22" fill="#FFFFFF"/>
+      <rect x="112" y="-12" width="64" height="26" rx="13" fill="#FFF8DF"/>
+      <path d="M141 0h6M144-3v6" stroke="#FFC947" stroke-width="3" stroke-linecap="round"/>
+      <text x="144" y="45" text-anchor="middle" fill="#1F2937" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="26" font-weight="800">upgrade</text>
+      <text x="144" y="70" text-anchor="middle" fill="#7D8B9D" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">/ˈʌpɡreɪd/</text>
+
+      <g transform="translate(20 89)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="16" font-weight="700">
+        <rect width="248" height="42" rx="11" fill="#EAFFF3" stroke="#10C26B"/>
+        <rect x="10" y="8" width="26" height="26" rx="8" fill="#10C26B"/>
+        <text x="23" y="27" text-anchor="middle" fill="#FFFFFF">A</text>
+        <text x="48" y="27" fill="#245B43">升级；改善</text>
+        <rect y="50" width="248" height="42" rx="11" fill="#F2F5F7"/>
+        <rect x="10" y="58" width="26" height="26" rx="8" fill="#DDE5EB"/>
+        <text x="23" y="77" text-anchor="middle" fill="#587087">B</text>
+        <text x="48" y="77" fill="#526476">暂停；延后</text>
+      </g>
+
+      <rect x="20" y="190" width="248" height="5" rx="2.5" fill="#E5EDF4"/>
+      <rect x="20" y="190" width="172" height="5" rx="2.5" fill="#0A86E6"/>
+    </g>
+  </g>
+
+  <g id="timeline" transform="translate(64 377)" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="700">
+    <text x="0" y="21" fill="#526476">VIDEO</text>
+    <path d="M70 15h210" stroke="#A9BDCC" stroke-width="2"/>
+    <circle cx="168" cy="15" r="7" fill="#0A86E6"/>
+    <text x="296" y="21" fill="#0A86E6">ONE WORD</text>
+    <path d="M388 15h210" stroke="#A9BDCC" stroke-width="2"/>
+    <circle cx="494" cy="15" r="7" fill="#10C26B"/>
+    <text x="614" y="21" fill="#526476">KEEP WATCHING</text>
+  </g>
+</svg>
