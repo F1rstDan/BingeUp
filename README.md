@@ -16,24 +16,10 @@
 当你进入新视频，刷刷升级会暂停主视频并盖上一道轻量学习题。答完或跳过后，视频从原进度继续；如果你想多学几题，也可以主动进入连续学习。
 
 <p align="center">
-  <img src="./docs/assets/screenshot/视频内-答对了-01.png" width="100%" alt="Bilibili 视频暂停后显示答题正确反馈的刷刷升级浮层">
+  <img src="./assets/readme/showcase.png" width="100%" alt="刷刷升级真实产品界面合集：视频内学习、安装引导、连续答题和插件状态控制">
 </p>
 
-<p align="center"><sub>真实运行截图：答题浮层覆盖在主视频区域，反馈完成后恢复播放。</sub></p>
-
-<p align="center">
-  <img src="./docs/assets/screenshot/填空题-01.png" width="470" alt="刷刷升级的例句语境选择题，支持提交、提交并继续和跳过">
-</p>
-
-<p align="center"><sub>题目近景：可单题完成，也可「提交并继续」进入连续学习。</sub></p>
-
-<p align="center">
-  <img src="./docs/assets/screenshot/安装使用引导-01.webp" width="640" alt="刷刷升级首次安装引导，可选择学习水平、词库和默认支持网站">
-</p>
-
-<p align="center">
-  <img src="./docs/assets/screenshot/插件面板-01.png" width="340" alt="刷刷升级插件面板，显示网站状态、今日学习和暂停控制">
-</p>
+<p align="center"><sub>真实运行界面：视频内学习、连续答题、首次引导与快捷控制。</sub></p>
 
 ## 学习被放在间隙里，而不是待办清单里
 
