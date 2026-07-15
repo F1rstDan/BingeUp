@@ -7,6 +7,7 @@ public/dictionaries/
 scripts/build-dictionary/.cache/
 package-lock.json
 .agents/
+.codex/
 .trash/
 docs/
 *.md
