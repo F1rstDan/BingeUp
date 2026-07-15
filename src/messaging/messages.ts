@@ -59,6 +59,8 @@ export type ExtensionMessage =
   | { type: 'RESUME_GLOBAL_PAUSE' }
   /** 查询全局暂停状态，供内容侧主动学习入口做最终状态检查。 */
   | { type: 'GET_GLOBAL_PAUSE_STATUS' }
+  /** 原子领取当日本地全局播放恢复失败提示额度。 */
+  | { type: 'PLAYBACK_RECOVERY_NOTICE_CLAIM'; now: number }
   /** 记录一次启用提示拒绝（AC2）。 */
   | { type: 'PROMPT_DECLINE'; hostname: string }
   /** 查询 Popup 需要的站点/引导/暂停数据（AC3）。 */

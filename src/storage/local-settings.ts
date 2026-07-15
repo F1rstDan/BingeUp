@@ -24,9 +24,15 @@ export interface AuthoritativeStateRecord {
 }
 
 /** chrome.storage.local 中可安全丢弃、不进入备份的临时运行状态。 */
+interface PlaybackRecoveryNoticeState {
+  localDate: string;
+  count: number;
+}
+
 export interface RuntimeState {
   cooldown: CooldownState;
   globalPausedUntil: number;
+  playbackRecoveryNotice: PlaybackRecoveryNoticeState;
 }
 
 /** 兼容业务层一次读取两类状态；不代表它们共享持久化边界。 */
@@ -42,6 +48,7 @@ export const DEFAULT_AUTHORITATIVE_STATE: AuthoritativeStateRecord = {
 const DEFAULT_RUNTIME_STATE: RuntimeState = {
   cooldown: { nextAllowedAt: 0, consecutiveSkipCount: 0 },
   globalPausedUntil: 0,
+  playbackRecoveryNotice: { localDate: '', count: 0 },
 };
 
 export function canonicalSiteKey(hostname: string): string {
@@ -164,6 +171,10 @@ export class LocalSettingsStore {
     return {
       cooldown: { ...DEFAULT_RUNTIME_STATE.cooldown, ...stored?.cooldown },
       globalPausedUntil: stored?.globalPausedUntil ?? 0,
+      playbackRecoveryNotice: {
+        ...DEFAULT_RUNTIME_STATE.playbackRecoveryNotice,
+        ...stored?.playbackRecoveryNotice,
+      },
     };
   }
 
@@ -175,6 +186,7 @@ export class LocalSettingsStore {
     await this.setRuntimeState({
       cooldown: { ...DEFAULT_RUNTIME_STATE.cooldown },
       globalPausedUntil: DEFAULT_RUNTIME_STATE.globalPausedUntil,
+      playbackRecoveryNotice: { ...DEFAULT_RUNTIME_STATE.playbackRecoveryNotice },
     });
   }
 
@@ -192,6 +204,23 @@ export class LocalSettingsStore {
   async setCooldown(cooldown: CooldownState): Promise<void> {
     // Issue #19 AC6：通过运行时锁串行化，避免与并发冷却更新/暂停写入丢失更新。
     await this.updateRuntimeState((state) => ({ ...state, cooldown }));
+  }
+
+  async claimPlaybackRecoveryNotice(now: number): Promise<boolean> {
+    let claimed = false;
+    await this.updateRuntimeState((state) => {
+      const date = new Date(now);
+      const localDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      const current = state.playbackRecoveryNotice;
+      const count = current.localDate === localDate ? current.count : 0;
+      if (count >= 3) return state;
+      claimed = true;
+      return {
+        ...state,
+        playbackRecoveryNotice: { localDate, count: count + 1 },
+      };
+    });
+    return claimed;
   }
 
   /**

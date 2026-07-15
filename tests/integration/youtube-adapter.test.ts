@@ -33,6 +33,8 @@ interface VideoOpts {
   className?: string;
   display?: string;
   opacity?: number;
+  top?: number;
+  left?: number;
 }
 
 /**
@@ -42,6 +44,8 @@ interface VideoOpts {
 function createVideo(opts: VideoOpts = {}): HTMLVideoElement {
   const width = opts.width ?? 854;
   const height = opts.height ?? 480;
+  const top = opts.top ?? 0;
+  const left = opts.left ?? 0;
   const video = document.createElement('video');
 
   if (opts.muted) video.muted = true;
@@ -53,12 +57,12 @@ function createVideo(opts: VideoOpts = {}): HTMLVideoElement {
   video.getBoundingClientRect = () => ({
     width,
     height,
-    top: 0,
-    left: 0,
-    right: width,
-    bottom: height,
-    x: 0,
-    y: 0,
+    top,
+    left,
+    right: left + width,
+    bottom: top + height,
+    x: left,
+    y: top,
     toJSON: () => ({}),
   });
 
@@ -158,6 +162,32 @@ describe('YouTubeAdapter.findPrimaryVideo — 主播放器选择与过滤', () =
     const adapter = new YouTubeAdapter();
 
     expect(adapter.findPrimaryVideo()).toBe(large);
+  });
+
+  it('视口外的大视频不会胜过当前可见视频', () => {
+    const offscreen = createVideo({ width: 1600, height: 900, top: 900 });
+    const visible = createVideo({ width: 854, height: 480, top: 100, left: 80 });
+    document.body.append(offscreen, visible);
+    const adapter = new YouTubeAdapter();
+
+    expect(adapter.findPrimaryVideo()).toBe(visible);
+  });
+
+  it('相邻 Shorts 中只选择当前主要可见且正在播放的条目', () => {
+    const previous = createVideo({ width: 360, height: 640, top: -600, left: 320 });
+    const current = createVideo({
+      width: 360,
+      height: 640,
+      top: 60,
+      left: 320,
+    });
+    Object.defineProperty(current, 'paused', { value: false, configurable: true });
+    Object.defineProperty(current, 'ended', { value: false, configurable: true });
+    const next = createVideo({ width: 360, height: 640, top: 760, left: 320 });
+    document.body.append(previous, current, next);
+    const adapter = new YouTubeAdapter();
+
+    expect(adapter.findPrimaryVideo()).toBe(current);
   });
 
   it('不可见视频（display:none）→ 不被选中', () => {

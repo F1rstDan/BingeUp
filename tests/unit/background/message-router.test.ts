@@ -295,6 +295,19 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(res).toEqual({ globalPausedUntil: 7_000_000 });
   });
 
+  it('PLAYBACK_RECOVERY_NOTICE_CLAIM：跨消息全局限制当日三次', async () => {
+    const claim = () =>
+      router.handle(
+        { type: 'PLAYBACK_RECOVERY_NOTICE_CLAIM', now: NOW },
+        {} as chrome.runtime.MessageSender,
+      );
+
+    await expect(claim()).resolves.toBe(true);
+    await expect(claim()).resolves.toBe(true);
+    await expect(claim()).resolves.toBe(true);
+    await expect(claim()).resolves.toBe(false);
+  });
+
   it('PROMPT_DECLINE：记录一次拒绝（AC2）', async () => {
     await router.handle(
       { type: 'PROMPT_DECLINE', hostname: 'www.bilibili.com' },

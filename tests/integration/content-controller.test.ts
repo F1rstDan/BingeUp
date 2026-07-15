@@ -273,6 +273,7 @@ function makeController(
     item?: LearningItem | null;
     withSessionLogger?: boolean;
     globallyPaused?: boolean;
+    playbackRecoveryNotice?: { show(): Promise<void> };
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -300,6 +301,7 @@ function makeController(
     learningService,
     sessionLogger,
     pauseState,
+    playbackRecoveryNotice: opts.playbackRecoveryNotice,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -452,6 +454,43 @@ describe('ContentController — 核心闭环编排', () => {
       await flush();
 
       expect(overlay.openCalls).toBe(1);
+    });
+
+    it('A→B→A 只阻止连续重复，返回 A 在冷却满足后可再次触发', async () => {
+      const { adapter, overlay, cooldownStore } = makeController();
+
+      adapter.emit('A', {});
+      await flush();
+      overlay.fireAction({ type: 'skip' });
+      await flush();
+      cooldownStore.current.nextAllowedAt = 0;
+
+      adapter.emit('B', {});
+      await flush();
+      overlay.fireAction({ type: 'skip' });
+      await flush();
+      cooldownStore.current.nextAllowedAt = 0;
+
+      adapter.emit('A', {});
+      await flush();
+
+      expect(overlay.openCalls).toBe(3);
+    });
+
+    it('交互期间出现的新内容在内部恢复后作为待处理自然触发继续执行', async () => {
+      const { adapter, overlay, cooldownStore } = makeController();
+
+      adapter.emit('basic-load', null, document.documentElement, 'full-page');
+      await flush();
+      adapter.emit('generic-video', {}, document.documentElement, 'full-page');
+      await flush();
+
+      overlay.fireAction({ type: 'recover' });
+      await flush();
+
+      expect(overlay.openCalls).toBe(2);
+      expect(overlay.lastMode).toBe('full-page');
+      expect(cooldownStore.recordCalls).toBe(0);
     });
 
     it('视频为 null 的事件 → 基础网页模式下仍打开遮罩（Issue #11）', async () => {
@@ -1431,6 +1470,40 @@ describe('ContentController — 会话标识并发唯一（Issue #19 AC5）', ()
 });
 
 describe('ContentController — 故障恢复（Issue #13）', () => {
+  it('内部恢复不记录为用户跳过，也不更新冷却', async () => {
+    const { adapter, overlay, cooldownStore } = makeController();
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'recover' });
+    await flush();
+
+    expect(overlay.closeCalls).toBe(1);
+    expect(cooldownStore.recordCalls).toBe(0);
+    expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+  });
+
+  it('自动恢复播放失败时请求一次用户可见提示且不重试', async () => {
+    const playback = fakePlayback({ playing: true });
+    playback.play = vi.fn(async () => {
+      playback.playCalls += 1;
+      throw new Error('autoplay blocked');
+    });
+    const notice = { show: vi.fn(async () => undefined) };
+    const { adapter, overlay } = makeController({
+      playback,
+      playbackRecoveryNotice: notice,
+    });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'recover' });
+    await flush();
+
+    expect(playback.playCalls).toBe(1);
+    expect(notice.show).toHaveBeenCalledTimes(1);
+  });
+
   it('提交失败时关闭遮罩并恢复原本播放的视频', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const { adapter, overlay, playback, learningService } = makeController();

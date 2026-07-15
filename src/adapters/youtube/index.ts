@@ -2,10 +2,7 @@ import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { createPageObservationScheduler } from '@/adapters/observation';
 import { isYouTubeHostname } from '@/sites/supported-sites';
-
-/** 视频被视为"有意义主播放器"的最小可见尺寸（px）。 */
-const MIN_VIDEO_WIDTH = 200;
-const MIN_VIDEO_HEIGHT = 120;
+import { MIN_VIDEO_HEIGHT, MIN_VIDEO_WIDTH, selectPrimaryVideo } from '@/adapters/video-candidates';
 
 /**
  * 从 YouTube URL 中提取视频身份。
@@ -31,27 +28,6 @@ export function getYouTubeVideoIdentity(href: string = location.href): string | 
   return null;
 }
 
-/** 判断元素是否在视口内且可见面积足够。 */
-function isVisibleAndMeaningful(el: Element): boolean {
-  const rect = el.getBoundingClientRect();
-  if (rect.width < MIN_VIDEO_WIDTH || rect.height < MIN_VIDEO_HEIGHT) {
-    return false;
-  }
-  const style = getComputedStyle(el);
-  if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) {
-    return false;
-  }
-  return true;
-}
-
-/**
- * 判断是否为背景视频（页面装饰性视频，非主播放器）。
- * 背景视频通常静音且循环播放，用于横幅或页面氛围而非用户主要观看内容。
- */
-function isBackgroundVideo(video: HTMLVideoElement): boolean {
-  return video.muted && video.loop;
-}
-
 /**
  * YouTube 专属适配器（Issue #4）。
  * 覆盖普通视频、Shorts、SPA 路由切换与直播的身份识别与触发控制；
@@ -65,25 +41,10 @@ export class YouTubeAdapter implements VideoSiteAdapter {
   }
 
   findPrimaryVideo(): HTMLVideoElement | null {
-    // YouTube 主播放器的 <video> 通常在 #movie_player / #shorts-player 内。
-    const candidates = document.querySelectorAll<HTMLVideoElement>('video');
-    let primary: HTMLVideoElement | null = null;
-    let bestArea = 0;
-    for (const video of candidates) {
-      if (!isVisibleAndMeaningful(video)) {
-        continue;
-      }
-      if (isBackgroundVideo(video)) {
-        continue;
-      }
-      const rect = video.getBoundingClientRect();
-      const area = rect.width * rect.height;
-      if (area > bestArea) {
-        bestArea = area;
-        primary = video;
-      }
-    }
-    return primary;
+    return selectPrimaryVideo(
+      document.querySelectorAll<HTMLVideoElement>('video'),
+      (video) => this.isAdvertisement(video) || this.isPreview(video),
+    );
   }
 
   getVideoIdentity(_video: HTMLVideoElement): string | null {

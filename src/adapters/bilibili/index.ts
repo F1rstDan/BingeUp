@@ -2,53 +2,36 @@ import type { OverlayMode, VideoChangeEvent } from '@/types';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { createPageObservationScheduler } from '@/adapters/observation';
 import { isBilibiliHostname } from '@/sites/supported-sites';
-
-/** 视频被视为"有意义主播放器"的最小可见尺寸（px）。 */
-const MIN_VIDEO_WIDTH = 200;
-const MIN_VIDEO_HEIGHT = 120;
+import { MIN_VIDEO_HEIGHT, MIN_VIDEO_WIDTH, selectPrimaryVideo } from '@/adapters/video-candidates';
 
 /**
- * 从 Bilibili URL 中提取视频身份（BV 号或 live room id）。
+ * 从 Bilibili URL 中提取当前观看内容身份。
  * 身份变化才视为新视频；播放器 DOM 变化不触发。
  */
 export function getBilibiliVideoIdentity(href: string = location.href): string | null {
+  const url = new URL(href, location.origin);
   // 普通视频：/video/BVxxxxxx
-  const videoMatch = href.match(/\/video\/(BV[\w]+)/i);
-  if (videoMatch?.[1]) {
-    return videoMatch[1].toUpperCase();
-  }
   // 竖屏/播放页：/v/[BV]
-  const shortMatch = href.match(/\/v\/(BV[\w]+)/i);
-  if (shortMatch?.[1]) {
-    return shortMatch[1].toUpperCase();
+  const videoMatch = url.pathname.match(/\/(?:video|v)\/(BV[\w]+)/i);
+  if (videoMatch?.[1]) {
+    const rawPart = url.searchParams.get('p');
+    const parsedPart = rawPart === null ? 1 : Number.parseInt(rawPart, 10);
+    const part = Number.isInteger(parsedPart) && parsedPart > 0 ? parsedPart : 1;
+    return `bili:video:${videoMatch[1].toUpperCase()}:p${part}`;
+  }
+  // 番剧/影视：当前集 ep ID 是内容身份；ss ID 只代表整季，不猜测当前集。
+  const episodeMatch = url.pathname.match(/\/bangumi\/play\/ep(\d+)/i);
+  if (episodeMatch?.[1]) {
+    return `bili:episode:${episodeMatch[1]}`;
   }
   // 直播：/live/12345 或 live.bilibili.com/12345
-  const liveMatch = href.match(/(?:\/live\/|live\.bilibili\.com\/)(\d+)/i);
+  const liveMatch =
+    url.pathname.match(/\/live\/(\d+)/i) ??
+    (url.hostname === 'live.bilibili.com' ? url.pathname.match(/^\/(\d+)/) : null);
   if (liveMatch?.[1]) {
-    return `live-${liveMatch[1]}`;
+    return `bili:live:${liveMatch[1]}`;
   }
   return null;
-}
-
-/** 判断元素是否在视口内且可见面积足够。 */
-function isVisibleAndMeaningful(el: Element): boolean {
-  const rect = el.getBoundingClientRect();
-  if (rect.width < MIN_VIDEO_WIDTH || rect.height < MIN_VIDEO_HEIGHT) {
-    return false;
-  }
-  const style = getComputedStyle(el);
-  if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) {
-    return false;
-  }
-  return true;
-}
-
-/**
- * 判断是否为背景视频（页面装饰性视频，非主播放器）。
- * 背景视频通常静音且循环播放，用于横幅或页面氛围而非用户主要观看内容。
- */
-function isBackgroundVideo(video: HTMLVideoElement): boolean {
-  return video.muted && video.loop;
 }
 
 /**
@@ -64,25 +47,10 @@ export class BilibiliAdapter implements VideoSiteAdapter {
   }
 
   findPrimaryVideo(): HTMLVideoElement | null {
-    // Bilibili 主播放器的 <video> 通常在 .bpx-player-video-wrap 内。
-    const candidates = document.querySelectorAll<HTMLVideoElement>('video');
-    let primary: HTMLVideoElement | null = null;
-    let bestArea = 0;
-    for (const video of candidates) {
-      if (!isVisibleAndMeaningful(video)) {
-        continue;
-      }
-      if (isBackgroundVideo(video)) {
-        continue;
-      }
-      const rect = video.getBoundingClientRect();
-      const area = rect.width * rect.height;
-      if (area > bestArea) {
-        bestArea = area;
-        primary = video;
-      }
-    }
-    return primary;
+    return selectPrimaryVideo(
+      document.querySelectorAll<HTMLVideoElement>('video'),
+      (video) => this.isAdvertisement(video) || this.isPreview(video),
+    );
   }
 
   getVideoIdentity(_video: HTMLVideoElement): string | null {

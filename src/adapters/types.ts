@@ -6,6 +6,10 @@ import type { OverlayMode, VideoChangeEvent } from '@/types';
  */
 export interface VideoSiteAdapter {
   id: string;
+  /** Whether the adapter can provide a no-video, full-page learning context. */
+  readonly supportsBasicContext?: boolean;
+  /** False when repeated same-video timed learning does not apply to this adapter. */
+  readonly supportsTimedLearning?: boolean;
 
   /** 当前 location 是否由本适配器处理。 */
   matches(location: Location): boolean;

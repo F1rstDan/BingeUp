@@ -117,6 +117,9 @@ export const messageClient = {
   async getGlobalPauseStatus(): Promise<PauseResponse> {
     return send({ type: 'GET_GLOBAL_PAUSE_STATUS' });
   },
+  async claimPlaybackRecoveryNotice(now: number): Promise<boolean> {
+    return send({ type: 'PLAYBACK_RECOVERY_NOTICE_CLAIM', now });
+  },
   async recordPromptDecline(hostname: string): Promise<void> {
     await send({ type: 'PROMPT_DECLINE', hostname });
   },

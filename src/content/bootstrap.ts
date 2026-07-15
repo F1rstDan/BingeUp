@@ -2,6 +2,7 @@ import { BilibiliAdapter } from '@/adapters/bilibili';
 import { YouTubeAdapter } from '@/adapters/youtube';
 import { GenericVideoAdapter } from '@/adapters/generic-video';
 import { BasicWebAdapter } from '@/adapters/basic-web';
+import { AdaptiveCustomSiteAdapter } from '@/adapters/adaptive-custom-site';
 import { TimedLearningAdapter } from '@/adapters/timed-learning';
 import { detectSiteCapability } from '@/adapters/generic-video/detection';
 import type { VideoSiteAdapter } from '@/adapters/types';
@@ -20,6 +21,8 @@ import { adaptHtmlVideo } from '@/video/playback-controller';
 import { messageClient } from '@/messaging/message-client';
 import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent } from '@/types';
 import { isGloballyPaused } from '@/pause/pause-rules';
+import { normalizeLearningContext } from '@/content/learning-context';
+import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
 
 /**
  * 消息驱动的冷却存储：Content 通过 background 读写共享冷却状态。
@@ -97,6 +100,14 @@ export class MessageLearningService implements LearningServicePort {
 export class MessageSessionLogger implements SessionLoggerPort {
   save(log: Parameters<SessionLoggerPort['save']>[0]) {
     return messageClient.saveLearningSession(log);
+  }
+}
+
+export class MessagePlaybackRecoveryNotice {
+  async show(): Promise<void> {
+    if (await messageClient.claimPlaybackRecoveryNotice(Date.now())) {
+      showPlaybackRecoveryNotice();
+    }
   }
 }
 
@@ -193,7 +204,9 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
 
   // AC4：能力检测——重新检测当前页面的实际能力，并在模式变化时回写。
   const detectedMode = detectSiteCapability();
-  if (detectedMode !== site.mode) {
+  // 页面会话内允许 basic → generic 单向升级；暂时未找到视频不反向覆盖
+  // 已确认的通用视频兼容等级，避免异步加载时序导致状态来回抖动。
+  if (detectedMode === 'generic-video' && detectedMode !== site.mode) {
     await messageClient.updateSiteMode(hostname, detectedMode);
   }
 
@@ -202,7 +215,7 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
   if (detectedMode === 'generic-video') {
     adapter = new GenericVideoAdapter();
   } else if (detectedMode === 'basic-web') {
-    adapter = new BasicWebAdapter({
+    const basic = new BasicWebAdapter({
       pageLoadTrigger: site.pageLoadTrigger ?? true,
       scrollTrigger: site.scrollTrigger ?? true,
       getLatest: async () => {
@@ -213,6 +226,9 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
         };
       },
     });
+    adapter = new AdaptiveCustomSiteAdapter(basic, new GenericVideoAdapter(), () =>
+      messageClient.updateSiteMode(hostname, 'generic-video'),
+    );
   }
 
   if (!adapter) {
@@ -235,7 +251,7 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
  * video=null 的文档根上下文，供插件面板主动启动全网页学习界面（Issue #16）。
  */
 async function startController(adapter: VideoSiteAdapter, hostname: string): Promise<void> {
-  if (adapter.id !== 'basic-web') {
+  if (adapter.supportsTimedLearning !== false) {
     adapter = new TimedLearningAdapter(adapter, {
       settings: { get: () => messageClient.getAppSettings() },
       pollMilliseconds: 15_000,
@@ -243,11 +259,11 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
   }
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
-      adapter.observePageChanges(handler),
+      adapter.observePageChanges((event) => handler(normalizeLearningContext(event))),
     getCurrentLearningContext(): VideoChangeEvent | null {
       const video = adapter.findPrimaryVideo();
       if (!video) {
-        if (adapter.id !== 'basic-web') return null;
+        if (adapter.supportsBasicContext !== true) return null;
         return {
           identity: `basic-web:manual:${location.href}:${Date.now()}`,
           video: null,
@@ -258,12 +274,12 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
       if (adapter.isAdvertisement(video) || adapter.isPreview(video)) return null;
       const identity = adapter.getVideoIdentity(video);
       if (!identity) return null;
-      return {
+      return normalizeLearningContext({
         identity,
         video,
         overlayTarget: adapter.getOverlayTarget(video),
         overlayMode: adapter.getOverlayMode(),
-      };
+      });
     },
   };
 
@@ -278,6 +294,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     videoPortFor: (video) => adaptHtmlVideo(video),
     learningService: new MessageLearningService(),
     sessionLogger: new MessageSessionLogger(),
+    playbackRecoveryNotice: new MessagePlaybackRecoveryNotice(),
   });
   controller.start();
 

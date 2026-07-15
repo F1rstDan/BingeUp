@@ -94,16 +94,13 @@ export class GenericVideoAdapter implements VideoSiteAdapter {
     const originalReplaceState = history.replaceState.bind(history);
     history.pushState = (...args: Parameters<typeof history.pushState>) => {
       originalPushState(...args);
-      lastIdentity = null;
       scheduler.schedule();
     };
     history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
       originalReplaceState(...args);
-      lastIdentity = null;
       scheduler.schedule();
     };
     const onPopState = () => {
-      lastIdentity = null;
       scheduler.schedule();
     };
     window.addEventListener('popstate', onPopState);

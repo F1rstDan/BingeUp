@@ -116,6 +116,8 @@ export interface ContentControllerDeps {
   learningService: LearningServicePort;
   /** 学习会话日志（Issue #12）。可选：未提供时不记录会话日志。 */
   sessionLogger?: SessionLoggerPort;
+  /** 自动恢复播放失败后的限频、非模态用户提示。 */
+  playbackRecoveryNotice?: { show(): Promise<void> };
 }
 
 interface ActiveInteraction {
@@ -161,8 +163,9 @@ function pauseIfPlaying(playback: VideoPlaybackPort | null): void {
  */
 export class ContentController {
   private readonly deps: ContentControllerDeps;
-  private readonly handledIdentities = new Set<string>();
+  private lastObservedIdentity: string | null = null;
   private active: ActiveInteraction | null = null;
+  private pendingVideoChange: VideoChangeEvent | null = null;
   private triggerInProgress = false;
   private hasSubmitted = false;
   private unsubscribe: (() => void) | null = null;
@@ -243,11 +246,11 @@ export class ContentController {
         });
       } catch (error) {
         console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
-        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        if (playback !== null && snapshot !== null) await this.restorePlayback(playback, snapshot);
         return { ok: false, reason: 'failed' };
       }
       if (item === null) {
-        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        if (playback !== null && snapshot !== null) await this.restorePlayback(playback, snapshot);
         return { ok: false, reason: 'no-learning-content' };
       }
       const target =
@@ -258,7 +261,7 @@ export class ContentController {
         this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
       } catch (error) {
         console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
-        if (playback !== null && snapshot !== null) await restore(playback, snapshot);
+        if (playback !== null && snapshot !== null) await this.restorePlayback(playback, snapshot);
         return { ok: false, reason: 'failed' };
       }
       this.active = {
@@ -272,7 +275,7 @@ export class ContentController {
         questionsAnswered: 0,
         allowEarlyShortTermReview: true,
       };
-      this.handledIdentities.add(event.identity);
+      this.lastObservedIdentity = event.identity;
       this.hasSubmitted = false;
       this.trackWordId(item);
       return { ok: true };
@@ -281,15 +284,18 @@ export class ContentController {
     }
   }
 
-  private async handleVideoChange(event: VideoChangeEvent): Promise<void> {
+  private async handleVideoChange(event: VideoChangeEvent, replayPending = false): Promise<void> {
+    // 内容身份只做连续去重。先记录观察结果，确保 A→B→A 即使 B 因冷却或
+    // 当前交互未触发，返回 A 仍属于新的自然触发点。
+    if (!replayPending) {
+      if (event.identity === this.lastObservedIdentity) return;
+      this.lastObservedIdentity = event.identity;
+    }
     // 正在交互中或并发触发：忽略。triggerInProgress 同步保证一次只处理一个触发，
     // 避免并发事件在 await 之间双双重入。
     // 注意：基础网页模式（Issue #11）允许 event.video === null，不在此处拦截。
     if (this.active !== null || this.triggerInProgress) {
-      return;
-    }
-    // 同一 identity 已经处理过：去重，避免 DOM 更新触发重复弹题。
-    if (this.handledIdentities.has(event.identity)) {
+      this.pendingVideoChange = event;
       return;
     }
     this.triggerInProgress = true;
@@ -319,13 +325,13 @@ export class ContentController {
       item = await this.deps.learningService.getNextItem();
     } catch (error) {
       if (playback !== null && snapshot !== null) {
-        await restore(playback, snapshot);
+        await this.restorePlayback(playback, snapshot);
       }
       throw error;
     }
     if (item === null) {
       if (playback !== null && snapshot !== null) {
-        await restore(playback, snapshot);
+        await this.restorePlayback(playback, snapshot);
       }
       this.triggerInProgress = false;
       return;
@@ -342,7 +348,7 @@ export class ContentController {
     } catch (error) {
       console.error('[BingeUp] 打开遮罩失败，恢复视频', error);
       if (playback !== null && snapshot !== null) {
-        await restore(playback, snapshot);
+        await this.restorePlayback(playback, snapshot);
       }
       this.triggerInProgress = false;
       return;
@@ -358,7 +364,6 @@ export class ContentController {
       questionsAnswered: 0,
       allowEarlyShortTermReview: false,
     };
-    this.handledIdentities.add(event.identity);
     this.hasSubmitted = false;
     this.trackWordId(item);
     this.triggerInProgress = false;
@@ -372,7 +377,7 @@ export class ContentController {
     }
 
     if (action.type === 'recover') {
-      await this.endInteraction(active, 'skipped');
+      await this.clearFailedInteraction(active);
       return;
     }
 
@@ -580,11 +585,7 @@ export class ContentController {
       console.error('[BingeUp] 关闭遮罩失败', error);
     }
     if (active.playback !== null && active.snapshot !== null) {
-      try {
-        await restore(active.playback, active.snapshot);
-      } catch (error) {
-        console.error('[BingeUp] 恢复视频失败', error);
-      }
+      await this.restorePlayback(active.playback, active.snapshot);
     }
     try {
       await this.deps.cooldownStore.recordOutcome(outcome);
@@ -610,6 +611,7 @@ export class ContentController {
         console.error('[BingeUp] 会话日志写入失败', error);
       }
     }
+    await this.drainPendingVideoChange();
   }
 
   /** 任何学习/界面异常都优先解除遮罩并恢复用户原有播放状态。 */
@@ -619,6 +621,11 @@ export class ContentController {
     this.triggerInProgress = false;
     if (active === null) return;
 
+    await this.clearFailedInteraction(active);
+  }
+
+  /** 内部恢复不是用户跳过：只解除界面并恢复播放，不写冷却或会话结果。 */
+  private async clearFailedInteraction(active: ActiveInteraction): Promise<void> {
     this.active = null;
     this.hasSubmitted = false;
     this.sessionWordIds.clear();
@@ -630,11 +637,29 @@ export class ContentController {
       console.error('[BingeUp] 故障恢复时关闭遮罩失败', closeError);
     }
     if (active.playback !== null && active.snapshot !== null) {
-      try {
-        await restore(active.playback, active.snapshot);
-      } catch (restoreError) {
-        console.error('[BingeUp] 故障恢复时视频恢复失败', restoreError);
-      }
+      await this.restorePlayback(active.playback, active.snapshot);
+    }
+    await this.drainPendingVideoChange();
+  }
+
+  private async drainPendingVideoChange(): Promise<void> {
+    const pending = this.pendingVideoChange;
+    if (pending === null || this.active !== null || this.triggerInProgress) return;
+    this.pendingVideoChange = null;
+    await this.handleVideoChange(pending, true);
+  }
+
+  private async restorePlayback(
+    playback: VideoPlaybackPort,
+    snapshot: PlaybackSnapshot,
+  ): Promise<void> {
+    const restored = await restore(playback, snapshot);
+    if (restored) return;
+    console.error('[BingeUp] 视频未能自动继续，请用户手动播放');
+    try {
+      await this.deps.playbackRecoveryNotice?.show();
+    } catch (error) {
+      console.error('[BingeUp] 显示播放恢复提示失败', error);
     }
   }
 

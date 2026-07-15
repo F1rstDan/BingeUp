@@ -72,6 +72,18 @@ describe('LocalSettingsStore — ADR-0003 存储边界', () => {
     });
   });
 
+  it('播放恢复失败提示按本地自然日全局最多领取三次', async () => {
+    const store = new LocalSettingsStore(db);
+    const dayOne = new Date(2026, 6, 15, 10).getTime();
+    const dayTwo = new Date(2026, 6, 16, 1).getTime();
+
+    await expect(store.claimPlaybackRecoveryNotice(dayOne)).resolves.toBe(true);
+    await expect(store.claimPlaybackRecoveryNotice(dayOne + 1)).resolves.toBe(true);
+    await expect(store.claimPlaybackRecoveryNotice(dayOne + 2)).resolves.toBe(true);
+    await expect(store.claimPlaybackRecoveryNotice(dayOne + 3)).resolves.toBe(false);
+    await expect(store.claimPlaybackRecoveryNotice(dayTwo)).resolves.toBe(true);
+  });
+
   it('默认支持网站保持启用，自定义网站按领域规则规范化', async () => {
     const store = new LocalSettingsStore(db);
     await expect(store.getSite('www.bilibili.com')).resolves.toMatchObject({

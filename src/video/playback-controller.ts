@@ -44,14 +44,19 @@ export function pauseForInteraction(video: VideoPlaybackPort): PlaybackSnapshot 
  * 交互后恢复视频：只有原本在播放的视频才会调用 play。
  * 失败时不抛出、不重试——避免无限重试导致页面卡死。
  */
-export async function restore(video: VideoPlaybackPort, snapshot: PlaybackSnapshot): Promise<void> {
+export async function restore(
+  video: VideoPlaybackPort,
+  snapshot: PlaybackSnapshot,
+): Promise<boolean> {
   if (!snapshot.wasPlaying) {
-    return;
+    return true;
   }
   try {
     await video.play();
+    return true;
   } catch {
     // 浏览器可能拒绝自动播放；不重试，由上层决定是否提示用户。
+    return false;
   }
 }
 

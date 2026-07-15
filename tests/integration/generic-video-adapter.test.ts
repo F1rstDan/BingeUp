@@ -4,11 +4,6 @@ import {
   detectSiteCapability,
   findPrimaryVideoGeneric,
   getGenericVideoIdentity,
-  isBackgroundVideo,
-  isVisibleAndMeaningful,
-  scoreVideoCandidate,
-  MIN_VIDEO_WIDTH,
-  MIN_VIDEO_HEIGHT,
 } from '@/adapters/generic-video/detection';
 import type { VideoChangeEvent } from '@/types';
 
@@ -67,88 +62,6 @@ function createVideo(
   return video;
 }
 
-describe('isVisibleAndMeaningful — 可见性判定', () => {
-  beforeEach(() => resetPage());
-
-  it('尺寸足够且可见 → true', () => {
-    const video = createVideo({ width: 300, height: 200 });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(true);
-  });
-
-  it('宽度不足 → false', () => {
-    const video = createVideo({ width: MIN_VIDEO_WIDTH - 1, height: 200 });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(false);
-  });
-
-  it('高度不足 → false', () => {
-    const video = createVideo({ width: 300, height: MIN_VIDEO_HEIGHT - 1 });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(false);
-  });
-
-  it('display:none → false', () => {
-    const video = createVideo({ display: 'none' });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(false);
-  });
-
-  it('visibility:hidden → false', () => {
-    const video = createVideo({ visibility: 'hidden' });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(false);
-  });
-
-  it('opacity:0 → false', () => {
-    const video = createVideo({ opacity: 0 });
-    document.body.appendChild(video);
-    expect(isVisibleAndMeaningful(video)).toBe(false);
-  });
-});
-
-describe('isBackgroundVideo — 背景视频判定', () => {
-  it('muted + loop → true', () => {
-    const video = createVideo({ muted: true, loop: true });
-    expect(isBackgroundVideo(video)).toBe(true);
-  });
-
-  it('仅 muted → false', () => {
-    const video = createVideo({ muted: true });
-    expect(isBackgroundVideo(video)).toBe(false);
-  });
-
-  it('仅 loop → false', () => {
-    const video = createVideo({ loop: true });
-    expect(isBackgroundVideo(video)).toBe(false);
-  });
-
-  it('均否 → false', () => {
-    const video = createVideo();
-    expect(isBackgroundVideo(video)).toBe(false);
-  });
-});
-
-describe('scoreVideoCandidate — 候选评分', () => {
-  it('正在播放的视频分数更高', () => {
-    const paused = createVideo({ width: 400, height: 300, paused: true });
-    const playing = createVideo({ width: 400, height: 300, paused: false });
-    expect(scoreVideoCandidate(playing)).toBeGreaterThan(scoreVideoCandidate(paused));
-  });
-
-  it('静音视频分数更低', () => {
-    const normal = createVideo({ width: 400, height: 300, muted: false });
-    const muted = createVideo({ width: 400, height: 300, muted: true });
-    expect(scoreVideoCandidate(muted)).toBeLessThan(scoreVideoCandidate(normal));
-  });
-
-  it('面积越大分数越高', () => {
-    const small = createVideo({ width: 300, height: 200 });
-    const large = createVideo({ width: 800, height: 600 });
-    expect(scoreVideoCandidate(large)).toBeGreaterThan(scoreVideoCandidate(small));
-  });
-});
-
 describe('findPrimaryVideoGeneric — 主视频查找', () => {
   beforeEach(() => resetPage());
 
@@ -199,12 +112,26 @@ describe('getGenericVideoIdentity — 身份标识', () => {
     expect(getGenericVideoIdentity(video)).toBe('generic:https://example.com/video.mp4');
   });
 
-  it('无 src 但有尺寸 → generic:WxH@L,T', () => {
+  it('无 src 但有尺寸 → 使用不受布局变化影响的元素身份', () => {
     const video = createVideo({ width: 400, height: 300 });
     // 重写 currentSrc 和 src 为空
     Object.defineProperty(video, 'currentSrc', { value: '', configurable: true });
     Object.defineProperty(video, 'src', { value: '', configurable: true });
-    expect(getGenericVideoIdentity(video)).toBe('generic:400x300@0,0');
+    const first = getGenericVideoIdentity(video);
+    video.getBoundingClientRect = () => ({
+      width: 400,
+      height: 300,
+      top: 200,
+      left: 100,
+      right: 500,
+      bottom: 500,
+      x: 100,
+      y: 200,
+      toJSON: () => ({}),
+    });
+
+    expect(first).toMatch(/^generic:element:\d+$/);
+    expect(getGenericVideoIdentity(video)).toBe(first);
   });
 
   it('无 src 且零尺寸 → null', () => {

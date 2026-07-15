@@ -221,6 +221,9 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       case 'GET_GLOBAL_PAUSE_STATUS': {
         return { globalPausedUntil: await store.getGlobalPausedUntil() };
       }
+      case 'PLAYBACK_RECOVERY_NOTICE_CLAIM': {
+        return store.claimPlaybackRecoveryNotice(message.now);
+      }
       case 'PROMPT_DECLINE': {
         await store.recordPromptDecline(message.hostname);
         return undefined;

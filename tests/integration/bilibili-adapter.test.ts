@@ -84,20 +84,40 @@ function mockElementRect(element: HTMLElement, width: number, height: number): v
 }
 
 describe('getBilibiliVideoIdentity — 身份提取', () => {
-  it('普通视频 /video/BVxxx → BV 大写', () => {
-    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/video/BV1abc12345`)).toBe('BV1ABC12345');
+  it('普通视频缺少 p 参数时按 P1 识别', () => {
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/video/BV1abc12345`)).toBe(
+      'bili:video:BV1ABC12345:p1',
+    );
+  });
+
+  it('普通视频按 BV 号与分 P 序号共同识别', () => {
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/video/BV1abc12345?p=2`)).toBe(
+      'bili:video:BV1ABC12345:p2',
+    );
   });
 
   it('竖屏视频 /v/BVxxx → BV 大写', () => {
-    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/v/BV2def67890`)).toBe('BV2DEF67890');
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/v/BV2def67890`)).toBe(
+      'bili:video:BV2DEF67890:p1',
+    );
+  });
+
+  it('番剧播放页按当前 ep ID 识别', () => {
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/bangumi/play/ep3854806`)).toBe(
+      'bili:episode:3854806',
+    );
+  });
+
+  it('只有 ss ID 时不把整季猜作当前内容', () => {
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/bangumi/play/ss28747`)).toBeNull();
   });
 
   it('直播 /live/12345 → live-12345', () => {
-    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/live/12345`)).toBe('live-12345');
+    expect(getBilibiliVideoIdentity(`${BILIBILI_ORIGIN}/live/12345`)).toBe('bili:live:12345');
   });
 
   it('直播 live.bilibili.com/12345 → live-12345', () => {
-    expect(getBilibiliVideoIdentity(`https://live.bilibili.com/12345`)).toBe('live-12345');
+    expect(getBilibiliVideoIdentity(`https://live.bilibili.com/12345`)).toBe('bili:live:12345');
   });
 
   it('非视频页 → null', () => {
@@ -276,7 +296,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV1ABC');
+      expect(events[0]?.identity).toBe('bili:video:BV1ABC:p1');
       expect(events[0]?.video).toBe(video);
       expect(events[0]?.overlayMode).toBe('video-region');
     });
@@ -288,7 +308,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV2DEF');
+      expect(events[0]?.identity).toBe('bili:video:BV2DEF:p1');
     });
 
     it('站内 SPA 切换到新视频 → 发出新 BV 身份', async () => {
@@ -298,7 +318,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV1AAA');
+      expect(events[0]?.identity).toBe('bili:video:BV1AAA:p1');
 
       // SPA 导航：URL 变化 + 视频元素替换
       navigateTo('/video/BV2bbb');
@@ -307,7 +327,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       await flush();
 
       expect(events).toHaveLength(2);
-      expect(events[1]?.identity).toBe('BV2BBB');
+      expect(events[1]?.identity).toBe('bili:video:BV2BBB:p1');
     });
 
     it('仅 URL 变化、视频元素复用 → 发出新 BV 身份', async () => {
@@ -319,13 +339,47 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV1URL');
+      expect(events[0]?.identity).toBe('bili:video:BV1URL:p1');
 
       navigateTo('/video/BV2url');
       await flush();
 
       expect(events).toHaveLength(2);
-      expect(events[1]?.identity).toBe('BV2URL');
+      expect(events[1]?.identity).toBe('bili:video:BV2URL:p1');
+
+      navigateTo('/video/BV1url');
+      await flush();
+
+      expect(events).toHaveLength(3);
+      expect(events[2]?.identity).toBe('bili:video:BV1URL:p1');
+    });
+
+    it('同一 BV 切换分 P 会发出新的内容身份', async () => {
+      navigateTo('/video/BV1parts?p=1');
+      document.body.appendChild(createVideo());
+      startObserver();
+
+      expect(events[0]?.identity).toBe('bili:video:BV1PARTS:p1');
+
+      navigateTo('/video/BV1parts?p=2');
+      await flush();
+
+      expect(events).toHaveLength(2);
+      expect(events[1]?.identity).toBe('bili:video:BV1PARTS:p2');
+    });
+
+    it('番剧 ep 页面刷新与切集会发出剧集身份', async () => {
+      navigateTo('/bangumi/play/ep3854806');
+      document.body.appendChild(createVideo());
+      startObserver();
+
+      expect(events[0]?.identity).toBe('bili:episode:3854806');
+
+      navigateTo('/bangumi/play/ep3854807');
+      await flush();
+
+      expect(events).toHaveLength(2);
+      expect(events[1]?.identity).toBe('bili:episode:3854807');
     });
 
     it('多个视频只对主播放器触发一次', () => {
@@ -336,7 +390,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV1MP1');
+      expect(events[0]?.identity).toBe('bili:video:BV1MP1:p1');
       expect(events[0]?.video).toBe(main);
     });
   });
@@ -395,7 +449,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       await flush();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('BV1NV1');
+      expect(events[0]?.identity).toBe('bili:video:BV1NV1:p1');
     });
   });
 
@@ -406,7 +460,7 @@ describe('BilibiliAdapter.observePageChanges — 视频变化检测', () => {
       startObserver();
 
       expect(events).toHaveLength(1);
-      expect(events[0]?.identity).toBe('live-12345');
+      expect(events[0]?.identity).toBe('bili:live:12345');
 
       // DOM 变动（如播放器布局更新）不重复触发
       document.body.appendChild(createVideo({ width: 800, height: 450 }));

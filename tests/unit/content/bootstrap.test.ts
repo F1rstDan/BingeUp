@@ -15,6 +15,7 @@ const submitLearningAnswer = vi.fn();
 const submitLearningSpelling = vi.fn();
 const correctLearningRating = vi.fn();
 const saveLearningSession = vi.fn();
+const claimPlaybackRecoveryNotice = vi.fn();
 const showEnablePrompt = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
@@ -33,6 +34,7 @@ vi.mock('@/messaging/message-client', () => ({
     submitLearningSpelling,
     correctLearningRating,
     saveLearningSession,
+    claimPlaybackRecoveryNotice,
   },
 }));
 
@@ -52,6 +54,8 @@ describe('bootstrapContent — 启动诊断', () => {
     getGlobalPauseStatus.mockReset();
     getNextLearningItem.mockReset();
     getNextLearningItem.mockResolvedValue(null);
+    claimPlaybackRecoveryNotice.mockReset();
+    claimPlaybackRecoveryNotice.mockResolvedValue(false);
     getGlobalPauseStatus.mockResolvedValue({ globalPausedUntil: 0 });
     getAppSettings.mockResolvedValue({
       defaultCooldownMinutes: 2,
@@ -238,6 +242,29 @@ describe('bootstrapContent — 启动诊断', () => {
     });
 
     await expect(response).resolves.toEqual({ ok: true });
+    info.mockRestore();
+  });
+
+  it('已升级的自定义网站暂时无视频时不把共享兼容状态降回基础网页', async () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
+    vi.stubGlobal('location', {
+      hostname: 'example.com',
+      protocol: 'https:',
+      href: 'https://example.com/article',
+    });
+    getSiteState.mockResolvedValue({
+      hostname: 'example.com',
+      enabled: true,
+      mode: 'generic-video',
+      firstQuestionPending: false,
+      pageLoadTrigger: false,
+      scrollTrigger: false,
+    });
+    const { bootstrapContent } = await import('@/content/bootstrap');
+
+    await bootstrapContent();
+
+    expect(updateSiteMode).not.toHaveBeenCalledWith('example.com', 'basic-web');
     info.mockRestore();
   });
 });

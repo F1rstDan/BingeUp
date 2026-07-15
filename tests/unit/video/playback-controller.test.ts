@@ -90,7 +90,7 @@ describe('playback controller', () => {
       const video = makeFakeVideo({ paused: false });
       const snap = pauseForInteraction(video);
 
-      await restore(video, snap);
+      await expect(restore(video, snap)).resolves.toBe(true);
 
       expect(counters(video).playCalls).toBe(1);
     });
@@ -99,7 +99,7 @@ describe('playback controller', () => {
       const video = makeFakeVideo({ paused: true });
       const snap = pauseForInteraction(video);
 
-      await restore(video, snap);
+      await expect(restore(video, snap)).resolves.toBe(true);
 
       expect(counters(video).playCalls).toBe(0);
     });
@@ -108,7 +108,7 @@ describe('playback controller', () => {
       const video = makeFakeVideo({ paused: false, playFails: true });
       const snap = pauseForInteraction(video);
 
-      await expect(restore(video, snap)).resolves.toBeUndefined();
+      await expect(restore(video, snap)).resolves.toBe(false);
       expect(counters(video).playCalls).toBe(1);
     });
   });

@@ -25,6 +25,8 @@ export interface BasicWebAdapterOptions {
  */
 export class BasicWebAdapter implements VideoSiteAdapter {
   readonly id = 'basic-web';
+  readonly supportsBasicContext = true;
+  readonly supportsTimedLearning = false;
 
   constructor(private readonly options: BasicWebAdapterOptions) {}
 
