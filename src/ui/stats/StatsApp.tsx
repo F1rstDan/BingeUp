@@ -4,13 +4,19 @@ import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
+import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
+import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 
-/** 百分比格式化：0 → "—"，0.5 → "50%"。 */
-function pct(value: number): string {
-  if (value === 0) return '—';
+/** 百分比格式化；null 表示没有可计算的样本。 */
+function pct(value: number | null): string {
+  if (value === null) return '—';
   return `${Math.round(value * 100)}%`;
+}
+
+function performancePct(completed: number, accuracy: number): string {
+  return completed === 0 ? '—' : pct(accuracy);
 }
 
 export function StatsApp(): JSX.Element {
@@ -22,14 +28,23 @@ export function StatsApp(): JSX.Element {
     (async () => {
       try {
         const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
-        const [cards, logs, sessions] = await Promise.all([
+        const store = new LocalSettingsStore(db);
+        const [cards, logs, sessions, events, sites] = await Promise.all([
           new CardRepository(db).getAll(),
           new ReviewLogRepository(db).getAll(),
           new SessionLogRepository(db).getAll(),
+          new BehaviorEventRepository(db).getAll(),
+          store.listSites(),
         ]);
         db.close();
         const service = new StatsService({ clock: { now: () => Date.now() } });
-        const result = service.computeStats(cards, logs, sessions);
+        const result = service.computeStats(
+          cards,
+          logs,
+          sessions,
+          events,
+          Object.fromEntries(sites.map(({ hostname, settings }) => [hostname, settings.enabled])),
+        );
         if (!cancelled) setStats(result);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
@@ -70,8 +85,8 @@ export function StatsApp(): JSX.Element {
         <h2>概览</h2>
         <div className="bingeup-stats-grid">
           <div className="bingeup-stat-card">
-            <span className="bingeup-stat-value">{stats.today.completedQuestions}</span>
-            <span className="bingeup-stat-label">今日完成题数</span>
+            <span className="bingeup-stat-value">{stats.today.naturalCompletedQuestions}</span>
+            <span className="bingeup-stat-label">今日自然完成题目</span>
           </div>
           <div className="bingeup-stat-card">
             <span className="bingeup-stat-value">{stats.today.reviewedWords}</span>
@@ -83,7 +98,7 @@ export function StatsApp(): JSX.Element {
           </div>
           <div className="bingeup-stat-card">
             <span className="bingeup-stat-value">{stats.dueReviewCount}</span>
-            <span className="bingeup-stat-label">待复习词数</span>
+            <span className="bingeup-stat-label">当前待复习词数</span>
           </div>
         </div>
       </section>
@@ -93,20 +108,37 @@ export function StatsApp(): JSX.Element {
         <h2>今日学习</h2>
         <div className="bingeup-stats-detail">
           <div className="bingeup-stats-row">
-            <span className="bingeup-stats-row-label">完成题目</span>
-            <span className="bingeup-stats-row-value">{stats.today.completedQuestions}</span>
+            <span className="bingeup-stats-row-label">自然完成题目</span>
+            <span className="bingeup-stats-row-value">{stats.today.naturalCompletedQuestions}</span>
           </div>
           <div className="bingeup-stats-row">
             <span className="bingeup-stats-row-label">正确题数</span>
             <span className="bingeup-stats-row-value">{stats.today.correctAnswers}</span>
           </div>
           <div className="bingeup-stats-row">
-            <span className="bingeup-stats-row-label">跳过次数</span>
-            <span className="bingeup-stats-row-value">{stats.today.skipped}</span>
+            <span className="bingeup-stats-row-label">自然交互跳过率</span>
+            <span className="bingeup-stats-row-value">{pct(stats.today.naturalSkipRate)}</span>
           </div>
           <div className="bingeup-stats-row">
             <span className="bingeup-stats-row-label">复习词数</span>
             <span className="bingeup-stats-row-value">{stats.today.reviewedWords}</span>
+          </div>
+          <div className="bingeup-stats-row">
+            <span className="bingeup-stats-row-label">主动暂停次数</span>
+            <span className="bingeup-stats-row-value">{stats.today.activePauseCount}</span>
+          </div>
+          <div className="bingeup-stats-row">
+            <span className="bingeup-stats-row-label">长期复习完成题目</span>
+            <span className="bingeup-stats-row-value">{stats.longTermReview.today.completed}</span>
+          </div>
+          <div className="bingeup-stats-row">
+            <span className="bingeup-stats-row-label">长期复习正确率</span>
+            <span className="bingeup-stats-row-value">
+              {performancePct(
+                stats.longTermReview.today.completed,
+                stats.longTermReview.today.accuracy,
+              )}
+            </span>
           </div>
           <div className="bingeup-stats-row">
             <span className="bingeup-stats-row-label">新词数</span>
@@ -125,7 +157,7 @@ export function StatsApp(): JSX.Element {
 
       {/* AC2：学习卡状态 */}
       <section>
-        <h2>学习卡状态</h2>
+        <h2>当前学习卡状态</h2>
         {totalCards === 0 ? (
           <p className="bingeup-stats-row-label">还没有学习卡</p>
         ) : (
@@ -168,13 +200,57 @@ export function StatsApp(): JSX.Element {
         )}
       </section>
 
-      {/* AC2：延迟复习正确率 */}
       <section>
-        <h2>延迟复习正确率</h2>
+        <h2>近 7 日趋势</h2>
+        <div className="bingeup-stats-detail">
+          {stats.last7Days.map((day) => (
+            <div className="bingeup-stats-row" key={day.dayStart}>
+              <span className="bingeup-stats-row-label">
+                {new Date(day.dayStart).toLocaleDateString()}
+              </span>
+              <span className="bingeup-stats-row-value">
+                自然 {day.naturalCompletedQuestions} · 跳过 {pct(day.naturalSkipRate)} · 暂停{' '}
+                {day.activePauseCount} · 连续 {day.continuousSessions}/{day.continuousQuestions} ·
+                长期 {day.longTermReview.completed}/
+                {performancePct(day.longTermReview.completed, day.longTermReview.accuracy)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2>默认支持网站</h2>
+        <div className="bingeup-stats-detail">
+          {stats.defaultSites.map((site) => (
+            <div className="bingeup-stats-row" key={site.hostname}>
+              <span className="bingeup-stats-row-label">{site.hostname}</span>
+              <span className="bingeup-stats-row-value">
+                {site.currentEnabled ? '已启用' : '已关闭'} · 连续启用 {site.continuousEnabledDays}{' '}
+                天
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2>全期长期复习表现</h2>
         <div className="bingeup-stats-detail">
           <div className="bingeup-stats-row">
-            <span className="bingeup-stats-row-label">长期复习词正确率</span>
-            <span className="bingeup-stats-row-value">{pct(stats.delayedReviewAccuracy)}</span>
+            <span className="bingeup-stats-row-label">完成题目</span>
+            <span className="bingeup-stats-row-value">
+              {stats.longTermReview.allTime.completed}
+            </span>
+          </div>
+          <div className="bingeup-stats-row">
+            <span className="bingeup-stats-row-label">正确率</span>
+            <span className="bingeup-stats-row-value">
+              {performancePct(
+                stats.longTermReview.allTime.completed,
+                stats.longTermReview.allTime.accuracy,
+              )}
+            </span>
           </div>
         </div>
       </section>

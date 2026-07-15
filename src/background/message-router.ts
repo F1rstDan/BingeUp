@@ -5,6 +5,7 @@ import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
+import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
 import { LearningService } from '@/learning/learning-service';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import {
@@ -21,7 +22,23 @@ import {
   unregisterCustomContentScript,
 } from '@/sites/custom-content-script';
 import { ONBOARDING_HOSTNAMES, selectedOnboardingHostnames } from '@/onboarding/onboarding-service';
+import type { BehaviorEventRecord } from '@/types';
 import type { ExtensionMessage, PopupLearningStats } from '@/messaging/messages';
+
+function createSiteEnabledEvent(
+  hostname: string,
+  enabled: boolean,
+  options: { occurredAt?: number; baseline?: boolean } = {},
+): Extract<BehaviorEventRecord, { kind: 'site-enabled' }> {
+  return {
+    id: crypto.randomUUID(),
+    kind: 'site-enabled',
+    occurredAt: options.occurredAt ?? Date.now(),
+    hostname,
+    enabled,
+    ...(options.baseline === undefined ? {} : { baseline: options.baseline }),
+  };
+}
 
 async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
   try {
@@ -32,21 +49,27 @@ async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
 }
 
 async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
-  const [cards, logs, sessions] = await Promise.all([
+  const [cards, logs, sessions, events] = await Promise.all([
     new CardRepository(db).getAll(),
     new ReviewLogRepository(db).getAll(),
     new SessionLogRepository(db).getAll(),
+    new BehaviorEventRepository(db).getAll(),
   ]);
   const stats = new StatsService({ clock: { now: () => Date.now() } }).computeStats(
     cards,
     logs,
     sessions,
+    events,
   );
   return {
     today: {
-      completedQuestions: stats.today.completedQuestions,
+      completedQuestions: stats.today.naturalCompletedQuestions,
       reviewedWords: stats.today.reviewedWords,
       newWords: stats.today.newWords,
+      continuousSessions: stats.today.continuousSessions,
+      continuousQuestions: stats.today.continuousQuestions,
+      longTermCompleted: stats.longTermReview.today.completed,
+      longTermAccuracy: stats.longTermReview.today.accuracy,
     },
     dueReviewCount: stats.dueReviewCount,
   };
@@ -73,6 +96,34 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       })
     : null;
   const sessionLogs = db ? new SessionLogRepository(db) : null;
+  const behaviorEvents = db ? new BehaviorEventRepository(db) : null;
+  const saveBehaviorEvent = async (
+    event: Parameters<BehaviorEventRepository['save']>[0],
+  ): Promise<void> => {
+    if (!behaviorEvents) return;
+    await behaviorEvents.save(event);
+  };
+  let baselinesReady: Promise<void> | null = null;
+  const ensureBaselines = (): Promise<void> => {
+    baselinesReady ??= (async () => {
+      if (!behaviorEvents) return;
+      const existing = await behaviorEvents.getAll();
+      const hostsWithBaseline = new Set(
+        existing.filter((event) => event.kind === 'site-enabled').map((event) => event.hostname),
+      );
+      const occurredAt = Date.now();
+      for (const hostname of ONBOARDING_HOSTNAMES) {
+        if (hostsWithBaseline.has(hostname)) continue;
+        await behaviorEvents.save(
+          createSiteEnabledEvent(hostname, (await store.getSite(hostname)).enabled, {
+            occurredAt,
+            baseline: true,
+          }),
+        );
+      }
+    })();
+    return baselinesReady;
+  };
   const requireLearningService = () => {
     if (!learningService) throw new Error('数据库不可用，无法读取或更新学习进度');
     return learningService;
@@ -87,6 +138,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
   }
 
   async function handle(message: ExtensionMessage, _sender: chrome.runtime.MessageSender) {
+    await ensureBaselines();
     switch (message.type) {
       case 'COOLDOWN_GET_STATUS': {
         // 全局暂停期间，有效冷却截止时间取 max(cooldown, pauseUntil)，
@@ -158,11 +210,19 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         await store.markOnboardingCompleted();
         const selectedHostnames = selectedOnboardingHostnames(message.hostnames);
         for (const hostname of selectedHostnames) {
+          const before = await store.getSite(hostname);
           await store.enableSite(hostname);
+          if (!before.enabled) {
+            await saveBehaviorEvent(createSiteEnabledEvent(hostname, true));
+          }
         }
         for (const hostname of ONBOARDING_HOSTNAMES) {
           if (!selectedHostnames.includes(hostname)) {
+            const before = await store.getSite(hostname);
             await store.disableSite(hostname);
+            if (before.enabled) {
+              await saveBehaviorEvent(createSiteEnabledEvent(hostname, false));
+            }
           }
         }
         // Issue #21：引导期选择的词库与自评水平覆盖默认应用设置。
@@ -177,6 +237,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return undefined;
       }
       case 'SITE_ENABLE': {
+        const before = await store.getSite(message.hostname);
         if (!isSupportedHostname(message.hostname)) {
           await registerCustomContentScript(message.hostname);
           const current = await store.getSite(message.hostname);
@@ -188,9 +249,13 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           await store.enableSite(message.hostname);
         }
         const site = await store.getSite(message.hostname);
+        if (!before.enabled && site.enabled) {
+          await saveBehaviorEvent(createSiteEnabledEvent(message.hostname, true));
+        }
         return { ...site, hostname: message.hostname };
       }
       case 'SITE_DISABLE': {
+        const before = await store.getSite(message.hostname);
         await store.disableSite(message.hostname);
         if (!isSupportedHostname(message.hostname)) {
           try {
@@ -201,21 +266,49 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           }
         }
         const site = await store.getSite(message.hostname);
+        if (before.enabled && !site.enabled) {
+          await saveBehaviorEvent(createSiteEnabledEvent(message.hostname, false));
+        }
         return { ...site, hostname: message.hostname };
       }
       case 'PAUSE_TEN_MINUTES': {
-        const until = pauseForTenMinutes(Date.now());
+        const now = Date.now();
+        const before = await store.getGlobalPausedUntil();
+        const until = pauseForTenMinutes(now);
         await store.setGlobalPausedUntil(until);
+        await saveBehaviorEvent({
+          id: crypto.randomUUID(),
+          kind: 'global-pause',
+          occurredAt: now,
+          action: before > now ? 'extended' : 'started',
+          pausedUntil: until,
+        });
         return { globalPausedUntil: until };
       }
       case 'PAUSE_TODAY': {
+        const before = await store.getGlobalPausedUntil();
         const until = pauseToday(message.now);
         await store.setGlobalPausedUntil(until);
+        await saveBehaviorEvent({
+          id: crypto.randomUUID(),
+          kind: 'global-pause',
+          occurredAt: message.now,
+          action: before > message.now ? 'extended' : 'started',
+          pausedUntil: until,
+        });
         return { globalPausedUntil: until };
       }
       case 'RESUME_GLOBAL_PAUSE': {
+        const now = Date.now();
         const until = resumeGlobalPause();
         await store.setGlobalPausedUntil(until);
+        await saveBehaviorEvent({
+          id: crypto.randomUUID(),
+          kind: 'global-pause',
+          occurredAt: now,
+          action: 'resumed',
+          pausedUntil: until,
+        });
         return { globalPausedUntil: until };
       }
       case 'GET_GLOBAL_PAUSE_STATUS': {
@@ -301,18 +394,31 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         const result = await importLocalData(store, message.payload);
         if (!result.ok) return result;
+        baselinesReady = null;
+        await ensureBaselines();
         const warning = await syncCustomScriptsWarning();
         return warning ? { ...result, warnings: [...result.warnings, warning] } : result;
       }
       case 'CLEAR_LEARNING_PROGRESS': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
-        await clearLearningProgress(db);
+        const occurredAt = Date.now();
+        const baselines = await Promise.all(
+          ONBOARDING_HOSTNAMES.map(async (hostname) =>
+            createSiteEnabledEvent(hostname, (await store.getSite(hostname)).enabled, {
+              occurredAt,
+              baseline: true,
+            }),
+          ),
+        );
+        await clearLearningProgress(db, baselines);
         return undefined;
       }
       case 'CLEAR_ALL_DATA': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         const result = await clearAllLocalData(store);
         if (!result.ok) return result;
+        baselinesReady = null;
+        await ensureBaselines();
         const warning = await syncCustomScriptsWarning();
         return warning ? { ...result, warnings: [...result.warnings, warning] } : result;
       }

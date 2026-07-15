@@ -1005,7 +1005,7 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
     expect(item!.kind).toBe('new-word-presentation');
   });
 
-  it('长期复习词答对后清除 lastWrongAt：以正确答案赎回后不再属于"近期答错"', async () => {
+  it('最近三条均答对时清除 lastWrongAt', async () => {
     const now = 1_000_000;
     const logs = new FakeReviewLogRepository();
     const cards = new FakeCardRepository().bindLogs(logs);
@@ -1026,6 +1026,36 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
 
     const card = await cards.getById('card-w-abandon');
     expect(card!.lastWrongAt).toBeUndefined();
+  });
+
+  it('答对后若最近三条内仍有答错则保留近期答错优先级', async () => {
+    const now = 1_000_000;
+    const logs = new FakeReviewLogRepository();
+    const cards = new FakeCardRepository().bindLogs(logs);
+    const scheduler = new FakeScheduler();
+    await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: now - 100, reps: 2 }));
+    await logs.save({
+      id: 'prior-wrong',
+      cardId: 'card-w-abandon',
+      wordId: 'w-abandon',
+      questionType: 'en-to-zh',
+      selectedAnswer: '错误',
+      correctAnswer: '正确',
+      isCorrect: false,
+      responseTimeMs: 1_000,
+      reviewedAt: now - 100,
+    });
+
+    const { service } = makeService({ cards, logs, scheduler, now });
+    const item = await service.getNextItem();
+    await service.submitAnswer({
+      question: questionOf(item),
+      selectedIndex: questionOf(item).correctIndex,
+      responseTimeMs: 1_000,
+    });
+
+    const card = await cards.getById('card-w-abandon');
+    expect(card!.lastWrongAt).toBe(now - 100);
   });
 
   it('长期复习词答错后设置 lastWrongAt：属于"近期答错"', async () => {
@@ -1303,13 +1333,13 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
     expect(result.rating).toBe('hard');
   });
 
-  it('答对 + 多次切换（>2）→ hard', async () => {
+  it('答对 + 两次答案修改 → hard', async () => {
     const { env, question } = await prepareDueQuestion();
     const result = await env.service.submitAnswer({
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 3000,
-      answerChanges: 3,
+      answerChanges: 2,
     });
     expect(result.rating).toBe('hard');
   });
@@ -1358,6 +1388,32 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
     expect(allLogs).toHaveLength(1);
     expect(allLogs[0]!.rating).toBe('good');
     expect(allLogs[0]!.answerChanges).toBe(1);
+    expect(allLogs[0]).toMatchObject({ stageAtSubmission: 'short-term' });
+  });
+
+  it('“近期答错”只检查提交前最近三条复习日志', async () => {
+    const { env, question } = await prepareDueQuestion();
+    for (let index = 0; index < 4; index += 1) {
+      await env.logs.save({
+        id: `history-${index}`,
+        cardId: question.cardId,
+        wordId: question.wordId,
+        questionType: question.type,
+        selectedAnswer: index === 0 ? 'wrong' : question.options[question.correctIndex]!,
+        correctAnswer: question.options[question.correctIndex]!,
+        isCorrect: index !== 0,
+        responseTimeMs: 3_000,
+        reviewedAt: index + 1,
+      });
+    }
+
+    const result = await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 5_000,
+    });
+
+    expect(result.rating).toBe('good');
   });
 });
 
@@ -1482,6 +1538,19 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
     await env.service.correctRating(result2.reviewLogId, 'too-easy');
     const cardAfterCorrection = await cards.getByWordId(presentationOf(item).word.id);
     expect(cardAfterCorrection!.schedulerState!.reps).toBe(2);
+  });
+
+  it('纠正以原提交时间重放，并拒绝对同一日志再次纠正', async () => {
+    const { env, result } = await prepareSubmittedLongTerm();
+    const submittedAt = env.clock.now();
+    env.advance(30_000);
+
+    await env.service.correctRating(result.reviewLogId, 'guessed');
+
+    expect((env.scheduler as FakeScheduler).initCalls.at(-1)?.now).toBe(submittedAt);
+    await expect(env.service.correctRating(result.reviewLogId, 'too-easy')).rejects.toThrow(
+      '评分已经纠正',
+    );
   });
 });
 

@@ -189,7 +189,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
 
     render(<PopupApp />);
 
-    expect(await screen.findByText('今日完成题目')).toBeInTheDocument();
+    expect(await screen.findByText('今日自然完成题目')).toBeInTheDocument();
     expect(screen.getByText('今日复习词')).toBeInTheDocument();
     expect(screen.getByText('今日新词')).toBeInTheDocument();
   });

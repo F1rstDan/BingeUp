@@ -48,7 +48,7 @@ export interface OverlayPort {
     mode: OverlayMode,
     options?: OverlayOpenOptions,
   ): void;
-  onAction(handler: (action: OverlayAction) => void): void;
+  onAction(handler: (action: OverlayAction) => unknown | Promise<unknown>): void;
   close(): void;
 }
 
@@ -139,6 +139,11 @@ interface ActiveInteraction {
   mode: 'single' | 'continuous';
   /** 会话中已提交的题目数（Issue #12）。 */
   questionsAnswered: number;
+  continuousQuestionsAnswered: number;
+  currentSource: 'natural' | 'manual' | 'continuous';
+  source: 'natural' | 'manual';
+  initialItemKind: LearningItem['kind'];
+  initialOutcome?: SessionLogRecord['initialOutcome'];
   /** 是否由 Popup 主动学习入口启动，可在新词额度用完后使用主动巩固题。 */
   allowEarlyShortTermReview: boolean;
 }
@@ -188,11 +193,12 @@ export class ContentController {
         void this.recoverFromFailure(error);
       });
     });
-    this.deps.overlay.onAction((action) => {
-      void this.handleAction(action).catch((error) => {
-        void this.recoverFromFailure(error);
-      });
-    });
+    this.deps.overlay.onAction((action) =>
+      this.handleAction(action).catch(async (error) => {
+        await this.recoverFromFailure(error);
+        return undefined;
+      }),
+    );
   }
 
   stop(): void {
@@ -273,6 +279,10 @@ export class ContentController {
         startedAt: this.deps.clock.now(),
         mode: 'continuous',
         questionsAnswered: 0,
+        continuousQuestionsAnswered: 0,
+        currentSource: 'manual',
+        source: 'manual',
+        initialItemKind: item.kind,
         allowEarlyShortTermReview: true,
       };
       this.lastObservedIdentity = event.identity;
@@ -362,6 +372,10 @@ export class ContentController {
       startedAt: this.deps.clock.now(),
       mode: 'single',
       questionsAnswered: 0,
+      continuousQuestionsAnswered: 0,
+      currentSource: 'natural',
+      source: 'natural',
+      initialItemKind: item.kind,
       allowEarlyShortTermReview: false,
     };
     this.hasSubmitted = false;
@@ -369,7 +383,7 @@ export class ContentController {
     this.triggerInProgress = false;
   }
 
-  private async handleAction(action: OverlayAction): Promise<void> {
+  private async handleAction(action: OverlayAction): Promise<unknown> {
     const active = this.active;
     // 没有进行中的交互：忽略，防止重复提交/恢复/冷却更新。
     if (active === null) {
@@ -388,12 +402,11 @@ export class ContentController {
         selectedIndex: action.selectedIndex,
         responseTimeMs: action.responseTimeMs,
         answerChanges: action.answerChanges,
+        source: active.currentSource,
       });
       this.hasSubmitted = true;
-      active.questionsAnswered += 1;
-      this.lastFeedback = result;
-      this.lastQuestion = action.question;
-      return;
+      this.recordSubmittedQuestion(active, result, action.question);
+      return result;
     }
 
     if (action.type === 'submit-spelling') {
@@ -402,17 +415,15 @@ export class ContentController {
         spelledAnswer: action.spelledAnswer,
         responseTimeMs: action.responseTimeMs,
         answerChanges: action.answerChanges,
+        source: active.currentSource,
       });
       this.hasSubmitted = true;
-      active.questionsAnswered += 1;
-      this.lastFeedback = result;
-      this.lastQuestion = action.question;
-      return;
+      this.recordSubmittedQuestion(active, result, action.question);
+      return result;
     }
 
     if (action.type === 'correct-rating') {
-      await this.deps.learningService.correctRating(action.reviewLogId, action.correction);
-      return;
+      return this.deps.learningService.correctRating(action.reviewLogId, action.correction);
     }
 
     // ─── 连续学习动作：提交并加载下一题（Issue #8 验收标准 1） ───
@@ -423,10 +434,9 @@ export class ContentController {
           selectedIndex: action.selectedIndex,
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
+          source: active.currentSource,
         });
-        active.questionsAnswered += 1;
-        this.lastFeedback = result;
-        this.lastQuestion = action.question;
+        this.recordSubmittedQuestion(active, result, action.question);
       }
       await this.loadNextContinuous(active);
       return;
@@ -439,10 +449,9 @@ export class ContentController {
           spelledAnswer: action.spelledAnswer,
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
+          source: active.currentSource,
         });
-        active.questionsAnswered += 1;
-        this.lastFeedback = result;
-        this.lastQuestion = action.question;
+        this.recordSubmittedQuestion(active, result, action.question);
       }
       await this.loadNextContinuous(active);
       return;
@@ -455,11 +464,10 @@ export class ContentController {
           selectedIndex: action.selectedIndex,
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
+          source: active.currentSource,
         });
         this.hasSubmitted = true;
-        active.questionsAnswered += 1;
-        this.lastFeedback = result;
-        this.lastQuestion = action.question;
+        this.recordSubmittedQuestion(active, result, action.question);
       }
       await this.endInteraction(active, 'submitted');
       return;
@@ -472,11 +480,10 @@ export class ContentController {
           spelledAnswer: action.spelledAnswer,
           responseTimeMs: action.responseTimeMs,
           answerChanges: action.answerChanges,
+          source: active.currentSource,
         });
         this.hasSubmitted = true;
-        active.questionsAnswered += 1;
-        this.lastFeedback = result;
-        this.lastQuestion = action.question;
+        this.recordSubmittedQuestion(active, result, action.question);
       }
       await this.endInteraction(active, 'submitted');
       return;
@@ -484,6 +491,7 @@ export class ContentController {
 
     if (action.type === 'accept-new-word-and-continue') {
       await this.deps.learningService.acceptNewWord(action.wordId);
+      active.initialOutcome ??= 'accepted-new';
       this.lastFeedback = null;
       this.lastQuestion = null;
       await this.loadNextContinuous(active);
@@ -492,6 +500,7 @@ export class ContentController {
 
     if (action.type === 'self-report-and-continue') {
       await this.deps.learningService.selfReportKnown(action.wordId);
+      active.initialOutcome ??= 'self-reported';
       this.lastFeedback = null;
       this.lastQuestion = null;
       await this.loadNextContinuous(active);
@@ -512,19 +521,34 @@ export class ContentController {
     switch (action.type) {
       case 'accept-new-word':
         await this.deps.learningService.acceptNewWord(action.wordId);
+        active.initialOutcome ??= 'accepted-new';
         outcome = 'submitted';
         break;
       case 'self-report':
         await this.deps.learningService.selfReportKnown(action.wordId);
+        active.initialOutcome ??= 'self-reported';
         outcome = 'submitted';
         break;
       case 'skip':
         // 提交后点"继续"视为完成题目；未提交直接跳过才是真正的跳过。
         outcome = this.hasSubmitted ? 'submitted' : 'skipped';
+        active.initialOutcome ??= this.hasSubmitted ? 'submitted' : 'skipped';
         break;
     }
 
     await this.endInteraction(active, outcome);
+  }
+
+  private recordSubmittedQuestion(
+    active: ActiveInteraction,
+    result: SubmissionResult,
+    question: Question,
+  ): void {
+    active.questionsAnswered += 1;
+    if (active.mode === 'continuous') active.continuousQuestionsAnswered += 1;
+    active.initialOutcome ??= 'submitted';
+    this.lastFeedback = result;
+    this.lastQuestion = question;
   }
 
   /**
@@ -548,6 +572,7 @@ export class ContentController {
 
     // 进入连续学习模式（Issue #12：会话日志需正确记录 mode）。
     active.mode = 'continuous';
+    active.currentSource = 'continuous';
 
     this.trackWordId(nextItem);
     this.hasSubmitted = false;
@@ -606,6 +631,10 @@ export class ContentController {
           mode: active.mode,
           outcome: sessionOutcome,
           questionsAnswered: active.questionsAnswered,
+          continuousQuestionsAnswered: active.continuousQuestionsAnswered,
+          source: active.source,
+          initialItemKind: active.initialItemKind,
+          initialOutcome: active.initialOutcome,
         });
       } catch (error) {
         console.error('[BingeUp] 会话日志写入失败', error);

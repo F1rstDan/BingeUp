@@ -183,6 +183,7 @@ describe('STORES — 仓库与迁移一致性', () => {
     expect(db.objectStoreNames.contains(STORES.reviewLogs)).toBe(true);
     expect(db.objectStoreNames.contains(STORES.words)).toBe(true);
     expect(db.objectStoreNames.contains(STORES.decks)).toBe(true);
+    expect(db.objectStoreNames.contains(STORES.behaviorEvents)).toBe(true);
     db.close();
   });
 });

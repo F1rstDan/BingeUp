@@ -1,5 +1,6 @@
 import type {
   AppSettings,
+  BehaviorEventRecord,
   CardRecord,
   DeckRecord,
   ReviewLogRecord,
@@ -30,6 +31,7 @@ export interface ExportedData {
   cards: CardRecord[];
   reviewLogs: ReviewLogRecord[];
   sessionLogs: SessionLogRecord[];
+  behaviorEvents: BehaviorEventRecord[];
   /** 仅未来用户创建/导入的内容；内置内容不导出。 */
   words: WordRecord[];
   decks: DeckRecord[];
@@ -51,11 +53,12 @@ export type ImportResult = DataOperationResult;
 
 export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
   const db = store.database;
-  const [state, cards, reviewLogs, sessionLogs, words, decks] = await Promise.all([
+  const [state, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] = await Promise.all([
     store.getAuthoritativeState(),
     idbGetAll<CardRecord>(db, STORES.cards),
     idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
     idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
+    idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents),
     idbGetAll<WordRecord>(db, STORES.words),
     idbGetAll<DeckRecord>(db, STORES.decks),
   ]);
@@ -70,6 +73,7 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
       cards,
       reviewLogs,
       sessionLogs,
+      behaviorEvents,
       words: words.filter(({ id }) => !builtInWordIds.has(id)),
       decks: decks.filter(({ id }) => !builtInDeckIds.has(id)),
     },
@@ -156,6 +160,14 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
       isCorrect: (candidate) => typeof candidate === 'boolean',
       responseTimeMs: isNonNegativeNumber,
       reviewedAt: isNonNegativeNumber,
+      stageAtSubmission: (candidate) =>
+        isOptional(candidate, (stage) =>
+          ['new', 'short-term', 'long-term', 'self-reported-known'].includes(String(stage)),
+        ),
+      source: (candidate) =>
+        isOptional(candidate, (source) =>
+          ['natural', 'manual', 'continuous'].includes(String(source)),
+        ),
       rating: (candidate) => isOptional(candidate, (rating) => RATINGS.includes(String(rating))),
       userCorrection: (candidate) =>
         isOptional(
@@ -175,7 +187,40 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
       outcome: (candidate) =>
         candidate === 'submitted' || candidate === 'skipped' || candidate === 'exit',
       questionsAnswered: (candidate) => Number.isInteger(candidate) && Number(candidate) >= 0,
+      source: (candidate) =>
+        isOptional(candidate, (source) => source === 'natural' || source === 'manual'),
+      initialItemKind: (candidate) =>
+        isOptional(candidate, (kind) =>
+          ['new-word-presentation', 'question', 'spelling-question'].includes(String(kind)),
+        ),
+      initialOutcome: (candidate) =>
+        isOptional(candidate, (outcome) =>
+          ['submitted', 'accepted-new', 'self-reported', 'skipped'].includes(String(outcome)),
+        ),
+      continuousQuestionsAnswered: (candidate) =>
+        isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),
     }) && (value as SessionLogRecord).endedAt >= (value as SessionLogRecord).startedAt,
+  behaviorEvents: (value) => {
+    if (
+      !isRecord(value) ||
+      !hasFields(value, { id: isNonEmptyString, occurredAt: isNonNegativeNumber })
+    )
+      return false;
+    if (value.kind === 'site-enabled') {
+      return (
+        isNonEmptyString(value.hostname) &&
+        typeof value.enabled === 'boolean' &&
+        isOptional(value.baseline, (flag) => typeof flag === 'boolean')
+      );
+    }
+    if (value.kind === 'global-pause') {
+      return (
+        ['started', 'extended', 'resumed'].includes(String(value.action)) &&
+        isNonNegativeNumber(value.pausedUntil)
+      );
+    }
+    return false;
+  },
   words: (value) =>
     hasFields(value, {
       id: isNonEmptyString,
@@ -249,6 +294,7 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
     ['cards', data.cards.map(({ id }) => id)],
     ['reviewLogs', data.reviewLogs.map(({ id }) => id)],
     ['sessionLogs', data.sessionLogs.map(({ id }) => id)],
+    ['behaviorEvents', data.behaviorEvents.map(({ id }) => id)],
   ] as const) {
     if (new Set(ids).size !== ids.length) errors.push(`data.${collection} 包含重复 id`);
   }
@@ -334,6 +380,7 @@ export async function importLocalData(
       [STORES.cards]: payload.data.cards,
       [STORES.reviewLogs]: payload.data.reviewLogs,
       [STORES.sessionLogs]: payload.data.sessionLogs,
+      [STORES.behaviorEvents]: payload.data.behaviorEvents,
       [STORES.words]: payload.data.words,
       [STORES.decks]: payload.data.decks,
     });
@@ -349,11 +396,15 @@ export async function importLocalData(
   return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }
 
-export async function clearLearningProgress(db: IDBDatabase): Promise<void> {
+export async function clearLearningProgress(
+  db: IDBDatabase,
+  siteBaselines: BehaviorEventRecord[] = [],
+): Promise<void> {
   await idbReplaceAll(db, {
     [STORES.cards]: [],
     [STORES.reviewLogs]: [],
     [STORES.sessionLogs]: [],
+    [STORES.behaviorEvents]: siteBaselines,
   });
 }
 
@@ -365,6 +416,7 @@ export async function clearAllLocalData(store: LocalSettingsStore): Promise<Data
       [STORES.cards]: [],
       [STORES.reviewLogs]: [],
       [STORES.sessionLogs]: [],
+      [STORES.behaviorEvents]: [],
       [STORES.words]: [],
       [STORES.decks]: [],
     });

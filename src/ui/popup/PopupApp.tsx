@@ -373,7 +373,7 @@ function PopupView({
         <div className="bingeup-metrics">
           <div className="bingeup-metric">
             <strong>{stats?.today.completedQuestions ?? '—'}</strong>
-            <span>今日完成题目</span>
+            <span>今日自然完成题目</span>
           </div>
           <div className="bingeup-metric bingeup-metric-green">
             <strong>{stats?.today.reviewedWords ?? '—'}</strong>
@@ -382,6 +382,26 @@ function PopupView({
           <div className="bingeup-metric bingeup-metric-pink">
             <strong>{stats?.today.newWords ?? '—'}</strong>
             <span>今日新词</span>
+          </div>
+          <div className="bingeup-metric">
+            <strong>{stats?.today.continuousSessions ?? '—'}</strong>
+            <span>今日连续学习次数</span>
+          </div>
+          <div className="bingeup-metric">
+            <strong>{stats?.today.continuousQuestions ?? '—'}</strong>
+            <span>今日连续完成题目</span>
+          </div>
+          <div className="bingeup-metric bingeup-metric-green">
+            <strong>{stats?.today.longTermCompleted ?? '—'}</strong>
+            <span>今日长期复习题目</span>
+          </div>
+          <div className="bingeup-metric bingeup-metric-green">
+            <strong>
+              {stats?.today.longTermAccuracy === undefined || stats.today.longTermCompleted === 0
+                ? '—'
+                : `${Math.round(stats.today.longTermAccuracy * 100)}%`}
+            </strong>
+            <span>今日长期复习正确率</span>
           </div>
         </div>
       </section>

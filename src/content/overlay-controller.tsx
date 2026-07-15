@@ -50,6 +50,10 @@ const OVERLAY_CSS = `
   .bingeup-submit, .bingeup-accept, .bingeup-continue { color: #fff; background: var(--bingeup-blue); box-shadow: 0 3px 0 var(--bingeup-blue-dark); }
   .bingeup-skip, .bingeup-self-report, .bingeup-exit { color: #536476; background: #eef2f5; box-shadow: 0 3px 0 #dbe2e8; }
   .bingeup-explanation-toggle { width: 100%; margin-bottom: 10px; border: 1px solid #dce5ec; background: #fff; color: #637589; }
+  .bingeup-rating-correction { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .bingeup-rating-correction button { min-height: 38px; border: 1px solid var(--bingeup-line); border-radius: 10px; background: #fff; color: #536476; font-weight: 800; cursor: pointer; }
+  .bingeup-rating-correction button:disabled { cursor: default; opacity: .55; }
+  .bingeup-rating-correction span { grid-column: 1 / -1; color: var(--bingeup-blue-dark); font-size: 12px; font-weight: 800; text-align: center; }
   .bingeup-submit:not(:disabled):hover, .bingeup-accept:not(:disabled):hover, .bingeup-continue:not(:disabled):hover { background: #2198ee; }
   .bingeup-submit:not(:disabled):hover, .bingeup-skip:not(:disabled):hover, .bingeup-accept:not(:disabled):hover, .bingeup-self-report:not(:disabled):hover, .bingeup-continue:not(:disabled):hover, .bingeup-exit:not(:disabled):hover, .bingeup-explanation-toggle:hover { transform: translateY(-2px); }
   .bingeup-submit:not(:disabled):active, .bingeup-skip:not(:disabled):active, .bingeup-accept:not(:disabled):active, .bingeup-self-report:not(:disabled):active, .bingeup-continue:not(:disabled):active, .bingeup-exit:not(:disabled):active, .bingeup-explanation-toggle:active { transform: translateY(1px); }
@@ -119,7 +123,7 @@ export class OverlayController implements OverlayPort {
   private host: HTMLElement | null = null;
   private shadow: ShadowRoot | null = null;
   private root: Root | null = null;
-  private actionHandler: ((action: OverlayAction) => void) | null = null;
+  private actionHandler: ((action: OverlayAction) => unknown | Promise<unknown>) | null = null;
   private target: HTMLElement | DOMRect | null = null;
   private mode: OverlayMode = 'video-region';
   private resizeObserver: ResizeObserver | null = null;
@@ -127,7 +131,7 @@ export class OverlayController implements OverlayPort {
   private rafId: number | null = null;
   private recoveryRequested = false;
 
-  onAction(handler: (action: OverlayAction) => void): void {
+  onAction(handler: (action: OverlayAction) => unknown | Promise<unknown>): void {
     this.actionHandler = handler;
   }
   open(

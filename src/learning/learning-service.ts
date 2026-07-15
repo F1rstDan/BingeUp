@@ -85,6 +85,7 @@ const SELF_REPORTED_MAX_DELAY_MS = 2 * ONE_DAY_MS;
  */
 const SLOW_RESPONSE_MS = 10_000;
 const MANY_ANSWER_CHANGES = 2;
+const RECENT_REVIEW_COUNT = 3;
 
 export interface LearningServiceDeps {
   cards: CardRepositoryPort;
@@ -358,6 +359,7 @@ export class LearningService {
         correctAnswer,
         responseTimeMs: submission.responseTimeMs,
         answerChanges: submission.answerChanges ?? 0,
+        source: submission.source,
         correctIndex: question.correctIndex,
       });
     });
@@ -386,6 +388,7 @@ export class LearningService {
         correctAnswer: question.correctAnswer,
         responseTimeMs: submission.responseTimeMs,
         answerChanges: submission.answerChanges ?? 0,
+        source: submission.source,
       });
     });
   }
@@ -404,6 +407,7 @@ export class LearningService {
     correctAnswer: string;
     responseTimeMs: number;
     answerChanges: number;
+    source?: AnswerSubmission['source'];
     correctIndex?: number;
   }): Promise<SubmissionResult> {
     const { question, isCorrect, selectedAnswer, correctAnswer } = input;
@@ -430,6 +434,8 @@ export class LearningService {
       isCorrect,
       responseTimeMs: input.responseTimeMs,
       reviewedAt: now,
+      stageAtSubmission: card?.stage,
+      source: input.source,
       rating,
       answerChanges: input.answerChanges,
     };
@@ -473,13 +479,11 @@ export class LearningService {
           card.nextReviewAt = due;
           nextReviewAt = due;
         }
-        if (!isCorrect) {
-          // 近期答错：标记以便优先级 1 优先出题（Issue #7 验收标准 1）
-          card.lastWrongAt = now;
-        } else {
-          // 答对后清除"近期答错"标记：以正确答案赎回后不再属于"近期答错"
-          card.lastWrongAt = undefined;
-        }
+        // 近期答错以当前提交结束后的最近三条日志为准；一次答对不会抹掉仍在窗口内的错误。
+        card.lastWrongAt = [...recentLogs, reviewLog]
+          .sort((a, b) => b.reviewedAt - a.reviewedAt)
+          .slice(0, RECENT_REVIEW_COUNT)
+          .find((log) => !log.isCorrect)?.reviewedAt;
       }
       card.updatedAt = now;
       // Issue #19 AC3：学习卡更新与复习日志写入在同一事务内提交，保证原子一致。
@@ -522,6 +526,12 @@ export class LearningService {
       if (!log) {
         throw new Error(`复习日志不存在：${reviewLogId}`);
       }
+      if (!log.isCorrect) {
+        throw new Error('答错记录不能进行评分纠正');
+      }
+      if (log.userCorrection !== undefined) {
+        throw new Error('评分已经纠正');
+      }
 
       const originalRating = log.rating ?? 'good';
       const correctedRating = this.applyCorrection(originalRating, correction);
@@ -540,14 +550,14 @@ export class LearningService {
           const { state, nextReviewAt: due } = this.scheduler.schedule(
             previousState,
             correctedRating,
-            now,
+            log.reviewedAt,
           );
           card.schedulerState = state;
           card.nextReviewAt = due;
           nextReviewAt = due;
         } else {
           // 评分前尚未进入长期复习（本次评分使其首次进入）：用纠正后评分重新 init
-          const { state, nextReviewAt: due } = this.scheduler.init(correctedRating, now);
+          const { state, nextReviewAt: due } = this.scheduler.init(correctedRating, log.reviewedAt);
           card.schedulerState = state;
           card.nextReviewAt = due;
           nextReviewAt = due;
@@ -629,10 +639,13 @@ export class LearningService {
   }): ReviewRating {
     if (!input.isCorrect) return 'again';
 
-    const hasRecentWrong = input.recentLogs.some((l) => !l.isCorrect);
+    const hasRecentWrong = [...input.recentLogs]
+      .sort((a, b) => b.reviewedAt - a.reviewedAt)
+      .slice(0, RECENT_REVIEW_COUNT)
+      .some((log) => !log.isCorrect);
     const fast = input.responseTimeMs < 2_000;
     const slow = input.responseTimeMs > SLOW_RESPONSE_MS;
-    const manyChanges = input.answerChanges > MANY_ANSWER_CHANGES;
+    const manyChanges = input.answerChanges >= MANY_ANSWER_CHANGES;
     const hasHistory = input.recentLogs.length > 0;
 
     if (manyChanges || slow || hasRecentWrong) return 'hard';
@@ -683,7 +696,7 @@ export class LearningService {
 
   /**
    * 查找近期答错的到期长期复习词（Issue #7 验收标准 1：第 1 优先级）。
-   * "近期答错"指上次答错后尚未以正确答案赎回：答错时设置 lastWrongAt，答对时清除。
+   * `lastWrongAt` 是最近三条复习日志窗口的持久化投影；窗口中任一答错即属于近期答错。
    */
   private findDueLongTermWithRecentError(cards: CardRecord[], now: number): CardRecord | undefined {
     return cards

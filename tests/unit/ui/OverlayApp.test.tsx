@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import type {
   LearningItem,
   MultipleChoiceQuestion,
@@ -447,6 +447,62 @@ describe('OverlayApp — 快捷键', () => {
       expect(onAction).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('Issue #26：答案修改与评分纠正', () => {
+    it('选择题只统计首次选择后的改选', () => {
+      const onAction = renderOverlay({ kind: 'question', question: QUESTION });
+      click('吸收');
+      click('释放');
+      click('吸收');
+      clickSubmitButton();
+
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'submit-answer', answerChanges: 2 }),
+      );
+    });
+
+    it('答对后可纠正一次评分并显示结果', async () => {
+      const onAction = vi.fn(async (action: OverlayAction) => {
+        if (action.type === 'submit-answer') {
+          return {
+            isCorrect: true,
+            correctAnswer: '吸收',
+            cardId: 'card-1',
+            reviewLogId: 'log-1',
+            explanation: QUESTION.explanation,
+            rating: 'good' as const,
+          };
+        }
+        if (action.type === 'correct-rating') {
+          return { cardId: 'card-1', reviewLogId: 'log-1', rating: 'again' as const };
+        }
+        return undefined;
+      });
+      renderOverlay({ kind: 'question', question: QUESTION }, onAction);
+      click('吸收');
+      clickSubmitButton();
+
+      await waitFor(() => expect(screen.getByRole('button', { name: '其实是蒙的' })).toBeEnabled());
+      fireEvent.click(screen.getByRole('button', { name: '其实是蒙的' }));
+
+      await waitFor(() => expect(screen.getByText('已调整为 Again')).toBeInTheDocument());
+      expect(screen.getByRole('button', { name: '这个太简单' })).toBeDisabled();
+    });
+
+    it('拼写题只统计删除或替换已有内容的纠错操作', () => {
+      const onAction = renderOverlay({ kind: 'spelling-question', question: SPELLING_QUESTION });
+      const input = screen.getByRole('textbox');
+      fireEvent.change(input, { target: { value: 'absorb' } });
+      fireEvent.change(input, { target: { value: 'absor' } });
+      fireEvent.change(input, { target: { value: 'absorx' } });
+      fireEvent.change(input, { target: { value: 'absory' } });
+      clickSubmitButton();
+
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'submit-spelling', answerChanges: 2 }),
+      );
+    });
+  });
 });
 
 // ─── Issue #8：连续学习模式与拼写题 ──────────────────────────────
@@ -542,6 +598,8 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
       );
       expect(screen.getByText('✓')).toBeInTheDocument();
       expect(screen.getByText(/答对了/)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '其实是蒙的' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '这个太简单' })).toBeInTheDocument();
     });
 
     it('反馈区有 aria-label 描述结果', () => {

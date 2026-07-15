@@ -120,6 +120,10 @@ export interface PopupLearningStats {
     completedQuestions: number;
     reviewedWords: number;
     newWords: number;
+    continuousSessions: number;
+    continuousQuestions: number;
+    longTermCompleted: number;
+    longTermAccuracy: number;
   };
   dueReviewCount: number;
 }

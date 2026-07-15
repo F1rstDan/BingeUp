@@ -8,6 +8,7 @@ import {
 import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const MS_PER_MIN = 60 * 1000;
 
 // 固定"现在"为 2026-07-11 10:00:00 本地时间（周六）
 const NOW = new Date(2026, 6, 11, 10, 0, 0).getTime();
@@ -67,6 +68,122 @@ describe('startOfLocalDay — 本地自然日起始', () => {
   });
 });
 
+describe('StatsService — Issue #26 可信指标', () => {
+  it('只把自然来源的提交计为自然完成题目', () => {
+    const stats = makeService().computeStats(
+      [],
+      [makeLog({ id: 'natural', source: 'natural' }), makeLog({ id: 'manual', source: 'manual' })],
+      [],
+    );
+    expect(stats.today.naturalCompletedQuestions).toBe(1);
+  });
+
+  it('自然交互跳过率排除主动交互', () => {
+    const sessions = [
+      makeSession({ id: 'n-skip', source: 'natural', initialOutcome: 'skipped' }),
+      makeSession({ id: 'n-submit', source: 'natural', initialOutcome: 'submitted' }),
+      makeSession({ id: 'manual', source: 'manual', initialOutcome: 'skipped' }),
+    ];
+    expect(makeService().computeStats([], [], sessions).today.naturalSkipRate).toBe(0.5);
+  });
+
+  it('连续学习分别统计会话和连续状态中的完成题目', () => {
+    const sessions = [
+      makeSession({
+        id: 'continuous',
+        mode: 'continuous',
+        questionsAnswered: 3,
+        continuousQuestionsAnswered: 2,
+      }),
+    ];
+    const stats = makeService().computeStats([], [], sessions);
+    expect(stats.today.continuousSessions).toBe(1);
+    expect(stats.today.continuousQuestions).toBe(2);
+  });
+
+  it('长期复习表现只按提交时阶段统计', () => {
+    const stats = makeService().computeStats(
+      [],
+      [
+        makeLog({ id: 'short', stageAtSubmission: 'short-term', isCorrect: true }),
+        makeLog({ id: 'long-right', stageAtSubmission: 'long-term', isCorrect: true }),
+        makeLog({ id: 'long-wrong', stageAtSubmission: 'long-term', isCorrect: false }),
+      ],
+      [],
+    );
+    expect(stats.longTermReview.allTime).toEqual({ completed: 2, correct: 1, accuracy: 0.5 });
+  });
+
+  it('五分钟内恢复的暂停不计，持续五分钟的暂停计一次', () => {
+    const stats = makeService().computeStats(
+      [],
+      [],
+      [],
+      [
+        {
+          id: 'p1',
+          kind: 'global-pause',
+          action: 'started',
+          occurredAt: NOW - 20_000,
+          pausedUntil: NOW + 600_000,
+        },
+        {
+          id: 'p2',
+          kind: 'global-pause',
+          action: 'resumed',
+          occurredAt: NOW - 10_000,
+          pausedUntil: 0,
+        },
+        {
+          id: 'p3',
+          kind: 'global-pause',
+          action: 'started',
+          occurredAt: NOW - 600_000,
+          pausedUntil: NOW + 600_000,
+        },
+      ],
+    );
+    expect(stats.today.activePauseCount).toBe(1);
+  });
+
+  it('网站关闭后五分钟内重开不中断连续启用', () => {
+    const stats = makeService().computeStats(
+      [],
+      [],
+      [],
+      [
+        {
+          id: 'baseline',
+          kind: 'site-enabled',
+          occurredAt: NOW - 3 * MS_PER_DAY,
+          hostname: 'bilibili.com',
+          enabled: true,
+          baseline: true,
+        },
+        {
+          id: 'off',
+          kind: 'site-enabled',
+          occurredAt: NOW - 4 * MS_PER_MIN,
+          hostname: 'bilibili.com',
+          enabled: false,
+        },
+        {
+          id: 'on',
+          kind: 'site-enabled',
+          occurredAt: NOW - MS_PER_MIN,
+          hostname: 'bilibili.com',
+          enabled: true,
+        },
+      ],
+      { 'bilibili.com': true },
+    );
+    expect(stats.defaultSites[0]).toMatchObject({
+      currentEnabled: true,
+      continuousEnabledDays: 3,
+    });
+  });
+});
+
 describe('startOfLocalWeek — 本地自然周起始（周一）', () => {
   it('周六返回本周一', () => {
     // 2026-07-11 是周六
@@ -122,6 +239,9 @@ describe('StatsService — 今日统计（Issue #12 AC1）', () => {
       newWords: 0,
       continuousSessions: 0,
       continuousQuestions: 0,
+      naturalCompletedQuestions: 0,
+      naturalSkipRate: null,
+      activePauseCount: 0,
     });
   });
 
@@ -319,10 +439,10 @@ describe('StatsService — 统计页指标（Issue #12 AC2）', () => {
     ];
     const logs = [
       // 长期复习词：3 对 1 错 → 0.75
-      makeLog({ id: 'l1', cardId: 'c-lt1', isCorrect: true }),
-      makeLog({ id: 'l2', cardId: 'c-lt1', isCorrect: true }),
-      makeLog({ id: 'l3', cardId: 'c-lt2', isCorrect: true }),
-      makeLog({ id: 'l4', cardId: 'c-lt2', isCorrect: false }),
+      makeLog({ id: 'l1', cardId: 'c-lt1', isCorrect: true, stageAtSubmission: 'long-term' }),
+      makeLog({ id: 'l2', cardId: 'c-lt1', isCorrect: true, stageAtSubmission: 'long-term' }),
+      makeLog({ id: 'l3', cardId: 'c-lt2', isCorrect: true, stageAtSubmission: 'long-term' }),
+      makeLog({ id: 'l4', cardId: 'c-lt2', isCorrect: false, stageAtSubmission: 'long-term' }),
       // 短期学习词：不计入延迟复习正确率
       makeLog({ id: 'l5', cardId: 'c-st', isCorrect: false }),
     ];

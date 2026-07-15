@@ -1,11 +1,13 @@
 import type {
   CardRecord,
   CardStatusStats,
+  BehaviorEventRecord,
   LearningStats,
   ReviewLogRecord,
   SessionLogRecord,
   TodayStats,
   WeekComparison,
+  ReviewPerformance,
 } from '@/types';
 
 /**
@@ -26,6 +28,7 @@ export interface StatsServiceDeps {
 }
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const PAUSE_GRACE_MS = 5 * 60 * 1000;
 
 /**
  * 计算本地自然日的起始时间戳（00:00:00.000）。
@@ -35,6 +38,12 @@ export function startOfLocalDay(timestamp: number): number {
   const d = new Date(timestamp);
   d.setHours(0, 0, 0, 0);
   return d.getTime();
+}
+
+function shiftLocalDay(dayStart: number, days: number): number {
+  const date = new Date(dayStart);
+  date.setDate(date.getDate() + days);
+  return startOfLocalDay(date.getTime());
 }
 
 /**
@@ -76,20 +85,37 @@ export class StatsService {
     cards: CardRecord[],
     logs: ReviewLogRecord[],
     sessions: SessionLogRecord[],
+    behaviorEvents: BehaviorEventRecord[] = [],
+    siteStates: Record<string, boolean> = {},
   ): LearningStats {
     const now = this.deps.clock.now();
     const todayStart = startOfLocalDay(now);
     const thisWeekStart = startOfLocalWeek(now);
     const lastWeekStart = thisWeekStart - 7 * MS_PER_DAY;
 
-    const longTermCardIds = new Set(cards.filter((c) => c.stage === 'long-term').map((c) => c.id));
+    const longTermLogs = logs.filter((log) => log.stageAtSubmission === 'long-term');
+    const sevenDaysStart = shiftLocalDay(startOfLocalDay(now), -6);
+    const longTermAllTime = this.computeReviewPerformance(longTermLogs);
 
     return {
-      today: this.computeTodayStats(cards, logs, sessions, todayStart),
+      today: this.computeTodayStats(cards, logs, sessions, behaviorEvents, todayStart, now),
       weekLearningDays: this.computeWeekLearningDays(logs, sessions, thisWeekStart, now),
       cardStatus: this.computeCardStatus(cards),
       dueReviewCount: this.computeDueReviewCount(cards, now),
-      delayedReviewAccuracy: this.computeDelayedReviewAccuracy(logs, longTermCardIds),
+      delayedReviewAccuracy: longTermAllTime.accuracy,
+      longTermReview: {
+        today: this.computeReviewPerformance(
+          longTermLogs.filter((log) => log.reviewedAt >= todayStart),
+        ),
+        last7Days: this.computeReviewPerformance(
+          longTermLogs.filter((log) => log.reviewedAt >= sevenDaysStart),
+        ),
+        allTime: longTermAllTime,
+      },
+      last7Days: this.computeLast7Days(logs, sessions, behaviorEvents, now),
+      defaultSites: ['bilibili.com', 'youtube.com'].map((hostname) =>
+        this.computeSiteMetric(hostname, behaviorEvents, siteStates[hostname] ?? false, now),
+      ),
       weekComparison: this.computeWeekComparison(logs, thisWeekStart, lastWeekStart, now),
     };
   }
@@ -99,7 +125,9 @@ export class StatsService {
     cards: CardRecord[],
     logs: ReviewLogRecord[],
     sessions: SessionLogRecord[],
+    behaviorEvents: BehaviorEventRecord[],
     todayStart: number,
+    now: number,
   ): TodayStats {
     const todayLogs = logs.filter((l) => l.reviewedAt >= todayStart);
     const todaySessions = sessions.filter((s) => s.startedAt >= todayStart);
@@ -123,9 +151,7 @@ export class StatsService {
       (c) => (c.origin ?? 'accepted-new') === 'accepted-new' && c.createdAt >= todayStart,
     ).length;
 
-    // 连续学习会话数和连续题数
-    const continuousSessions = todaySessions.filter((s) => s.mode === 'continuous');
-    const continuousQuestions = continuousSessions.reduce((sum, s) => sum + s.questionsAnswered, 0);
+    const sessionMetrics = this.computeSessionMetrics(todaySessions);
 
     return {
       completedQuestions: todayLogs.length,
@@ -133,8 +159,130 @@ export class StatsService {
       skipped: todaySessions.filter((s) => s.outcome === 'skipped').length,
       reviewedWords: reviewedWordIds.size,
       newWords,
+      continuousSessions: sessionMetrics.continuousSessions,
+      continuousQuestions: sessionMetrics.continuousQuestions,
+      naturalCompletedQuestions: todayLogs.filter((log) => log.source === 'natural').length,
+      naturalSkipRate: sessionMetrics.naturalSkipRate,
+      activePauseCount: this.computeActivePauseCount(behaviorEvents, todayStart, now),
+    };
+  }
+
+  private computeSessionMetrics(sessions: SessionLogRecord[]): {
+    naturalSkipRate: number | null;
+    continuousSessions: number;
+    continuousQuestions: number;
+  } {
+    const naturalSessions = sessions.filter(
+      (session) => session.source === 'natural' && session.initialOutcome !== undefined,
+    );
+    const naturalSkipped = naturalSessions.filter(
+      (session) => session.initialOutcome === 'skipped',
+    ).length;
+    const continuousSessions = sessions.filter((session) => session.mode === 'continuous');
+    return {
+      naturalSkipRate:
+        naturalSessions.length === 0 ? null : naturalSkipped / naturalSessions.length,
       continuousSessions: continuousSessions.length,
-      continuousQuestions,
+      continuousQuestions: continuousSessions.reduce(
+        (sum, session) => sum + (session.continuousQuestionsAnswered ?? session.questionsAnswered),
+        0,
+      ),
+    };
+  }
+
+  private computeReviewPerformance(logs: ReviewLogRecord[]): ReviewPerformance {
+    const correct = logs.filter((log) => log.isCorrect).length;
+    return {
+      completed: logs.length,
+      correct,
+      accuracy: logs.length === 0 ? 0 : correct / logs.length,
+    };
+  }
+
+  private computeActivePauseCount(
+    events: BehaviorEventRecord[],
+    rangeStart: number,
+    now: number,
+  ): number {
+    const pauseEvents = events
+      .filter((event) => event.kind === 'global-pause')
+      .sort((a, b) => a.occurredAt - b.occurredAt);
+    let count = 0;
+    for (let index = 0; index < pauseEvents.length; index += 1) {
+      const event = pauseEvents[index]!;
+      if (event.action !== 'started' || event.occurredAt < rangeStart || event.occurredAt > now)
+        continue;
+      const resume = pauseEvents
+        .slice(index + 1)
+        .find((candidate) => candidate.action === 'resumed' || candidate.action === 'started');
+      const endedAt = Math.min(event.pausedUntil, resume?.occurredAt ?? now);
+      if (endedAt - event.occurredAt >= PAUSE_GRACE_MS) count += 1;
+    }
+    return count;
+  }
+
+  private computeLast7Days(
+    logs: ReviewLogRecord[],
+    sessions: SessionLogRecord[],
+    events: BehaviorEventRecord[],
+    now: number,
+  ): LearningStats['last7Days'] {
+    const today = startOfLocalDay(now);
+    return Array.from({ length: 7 }, (_, index) => shiftLocalDay(today, index - 6)).map(
+      (dayStart) => {
+        const dayEnd = shiftLocalDay(dayStart, 1);
+        const dayLogs = logs.filter((log) => log.reviewedAt >= dayStart && log.reviewedAt < dayEnd);
+        const daySessions = sessions.filter(
+          (session) => session.startedAt >= dayStart && session.startedAt < dayEnd,
+        );
+        const sessionMetrics = this.computeSessionMetrics(daySessions);
+        return {
+          dayStart,
+          naturalCompletedQuestions: dayLogs.filter((log) => log.source === 'natural').length,
+          naturalSkipRate: sessionMetrics.naturalSkipRate,
+          activePauseCount: this.computeActivePauseCount(events, dayStart, Math.min(dayEnd, now)),
+          continuousSessions: sessionMetrics.continuousSessions,
+          continuousQuestions: sessionMetrics.continuousQuestions,
+          longTermReview: this.computeReviewPerformance(
+            dayLogs.filter((log) => log.stageAtSubmission === 'long-term'),
+          ),
+        };
+      },
+    );
+  }
+
+  private computeSiteMetric(
+    hostname: string,
+    events: BehaviorEventRecord[],
+    currentEnabled: boolean,
+    now: number,
+  ): LearningStats['defaultSites'][number] {
+    const siteEvents = events
+      .filter(
+        (event): event is Extract<BehaviorEventRecord, { kind: 'site-enabled' }> =>
+          event.kind === 'site-enabled' && event.hostname === hostname,
+      )
+      .sort((a, b) => a.occurredAt - b.occurredAt);
+    let streakStart = siteEvents.find((event) => event.enabled)?.occurredAt ?? now;
+    let pendingDisable: number | null = null;
+    for (const event of siteEvents) {
+      if (!event.enabled) {
+        pendingDisable = event.occurredAt;
+      } else if (pendingDisable !== null) {
+        if (event.occurredAt - pendingDisable > PAUSE_GRACE_MS) streakStart = event.occurredAt;
+        pendingDisable = null;
+      } else if (streakStart === now) {
+        streakStart = event.occurredAt;
+      }
+    }
+    const effectivelyInterrupted =
+      pendingDisable !== null && now - pendingDisable > PAUSE_GRACE_MS && !currentEnabled;
+    return {
+      hostname,
+      currentEnabled,
+      continuousEnabledDays: effectivelyInterrupted
+        ? 0
+        : Math.max(0, Math.floor((now - streakStart) / MS_PER_DAY)),
     };
   }
 

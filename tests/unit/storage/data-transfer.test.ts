@@ -13,7 +13,7 @@ import {
   importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
+import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 const TEST_DB = 'test-issue-18-data-lifecycle';
 const CARD: CardRecord = {
@@ -43,6 +43,13 @@ const SESSION: SessionLogRecord = {
   mode: 'single',
   outcome: 'submitted',
   questionsAnswered: 1,
+};
+const BEHAVIOR_EVENT: BehaviorEventRecord = {
+  id: 'event-1',
+  kind: 'site-enabled',
+  occurredAt: 900,
+  hostname: 'youtube.com',
+  enabled: false,
 };
 
 function installRuntimeStorageMock() {
@@ -103,6 +110,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
       idbPut(db, STORES.cards, CARD),
       idbPut(db, STORES.reviewLogs, LOG),
       idbPut(db, STORES.sessionLogs, SESSION),
+      idbPut(db, STORES.behaviorEvents, BEHAVIOR_EVENT),
     ]);
     return exportLocalData(store);
   }
@@ -123,6 +131,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
       cards: [CARD],
       reviewLogs: [LOG],
       sessionLogs: [SESSION],
+      behaviorEvents: [BEHAVIOR_EVENT],
       words: [],
       decks: [],
     });
@@ -268,15 +277,17 @@ describe('本地用户数据生命周期 — Issue #18', () => {
   it('清除学习进度保留长期选择并使派生统计归零', async () => {
     await populatedBackup();
     await clearLearningProgress(db);
-    const [cards, logs, sessions] = await Promise.all([
+    const [cards, logs, sessions, events] = await Promise.all([
       idbGetAll<CardRecord>(db, STORES.cards),
       idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
       idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
+      idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents),
     ]);
     const stats = new StatsService({ clock: { now: () => 2_000 } }).computeStats(
       cards,
       logs,
       sessions,
+      events,
     );
     expect(stats.today).toMatchObject({
       completedQuestions: 0,
@@ -288,6 +299,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
       continuousQuestions: 0,
     });
     expect(await store.getAppSettings()).toMatchObject({ dailyNewWordLimit: 8 });
+    expect(events).toEqual([]);
     expect(await store.isOnboardingCompleted()).toBe(true);
   });
 

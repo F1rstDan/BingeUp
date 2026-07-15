@@ -1,11 +1,40 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { LearningItem, OverlayAction, Question, SubmissionResult } from '@/types';
+import type {
+  CorrectionResult,
+  LearningItem,
+  OverlayAction,
+  Question,
+  SubmissionResult,
+  UserCorrection,
+} from '@/types';
 
 export type { OverlayAction };
 
+function isSubmissionResult(value: unknown): value is SubmissionResult {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as SubmissionResult).reviewLogId === 'string' &&
+    typeof (value as SubmissionResult).isCorrect === 'boolean'
+  );
+}
+
+function isCorrectionResult(value: unknown): value is CorrectionResult {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as CorrectionResult).reviewLogId === 'string' &&
+    ['again', 'hard', 'good', 'easy'].includes((value as CorrectionResult).rating)
+  );
+}
+
+function ratingLabel(rating: CorrectionResult['rating']): string {
+  return rating[0]!.toUpperCase() + rating.slice(1);
+}
+
 interface OverlayAppProps {
   item: LearningItem;
-  onAction: (action: OverlayAction) => void;
+  onAction: (action: OverlayAction) => unknown | Promise<unknown>;
   /** 连续学习模式：上一题的提交反馈，在下一题上方展示（Issue #8 验收标准 2）。 */
   previousFeedback?: SubmissionResult;
   /** 上一题的题目（用于反馈区展示题干与正确答案）。 */
@@ -43,7 +72,11 @@ export function OverlayApp({
 }: OverlayAppProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [spelledAnswer, setSpelledAnswer] = useState('');
+  const [answerChanges, setAnswerChanges] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
+  const [correctionResult, setCorrectionResult] = useState<CorrectionResult | null>(null);
+  const [correctionPending, setCorrectionPending] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [done, setDone] = useState(false);
   const startTimeRef = useRef<number>(Date.now());
@@ -60,29 +93,33 @@ export function OverlayApp({
   );
 
   /** 提交选择题答案：发出 submit-answer 回调，进入反馈阶段（不禁用"继续"）。 */
-  const doSubmit = useCallback(() => {
+  const doSubmit = useCallback(async () => {
     if (item.kind !== 'question' || selected === null || submitted || done) return;
     setSubmitted(true);
-    onAction({
+    const result = await onAction({
       type: 'submit-answer',
       question: item.question,
       selectedIndex: selected,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, selected, submitted, done, onAction]);
+    if (isSubmissionResult(result)) setSubmissionResult(result);
+  }, [item, selected, submitted, done, onAction, answerChanges]);
 
   /** 提交拼写题答案：发出 submit-spelling 回调，进入反馈阶段。 */
-  const doSubmitSpelling = useCallback(() => {
+  const doSubmitSpelling = useCallback(async () => {
     if (item.kind !== 'spelling-question' || spelledAnswer.trim() === '' || submitted || done)
       return;
     setSubmitted(true);
-    onAction({
+    const result = await onAction({
       type: 'submit-spelling',
       question: item.question,
       spelledAnswer: spelledAnswer,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, spelledAnswer, submitted, done, onAction]);
+    if (isSubmissionResult(result)) setSubmissionResult(result);
+  }, [item, spelledAnswer, submitted, done, onAction, answerChanges]);
 
   /** 提交选择题并继续：提交并加载下一题，防止重复触发。 */
   const doSubmitAndContinue = useCallback(() => {
@@ -93,8 +130,9 @@ export function OverlayApp({
       question: item.question,
       selectedIndex: selected,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, selected, done, onAction]);
+  }, [item, selected, done, onAction, answerChanges]);
 
   /** 提交拼写题并继续。 */
   const doSubmitSpellingAndContinue = useCallback(() => {
@@ -105,8 +143,9 @@ export function OverlayApp({
       question: item.question,
       spelledAnswer: spelledAnswer,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, spelledAnswer, done, onAction]);
+  }, [item, spelledAnswer, done, onAction, answerChanges]);
 
   /** 连续学习中提交拼写题并结束当前交互。 */
   const doSubmitSpellingAndEnd = useCallback(() => {
@@ -117,8 +156,9 @@ export function OverlayApp({
       question: item.question,
       spelledAnswer,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, spelledAnswer, done, onAction]);
+  }, [item, spelledAnswer, done, onAction, answerChanges]);
 
   /** 连续学习中提交选择题并结束当前交互。 */
   const doSubmitAndEnd = useCallback(() => {
@@ -129,8 +169,67 @@ export function OverlayApp({
       question: item.question,
       selectedIndex: selected,
       responseTimeMs: Date.now() - startTimeRef.current,
+      answerChanges,
     });
-  }, [item, selected, done, onAction]);
+  }, [item, selected, done, onAction, answerChanges]);
+
+  const selectAnswer = useCallback((index: number) => {
+    setSelected((current) => {
+      if (current !== null && current !== index) setAnswerChanges((count) => count + 1);
+      return index;
+    });
+  }, []);
+
+  const changeSpellingAnswer = useCallback((next: string) => {
+    setSpelledAnswer((current) => {
+      if (current !== '' && (next.length < current.length || !next.startsWith(current))) {
+        setAnswerChanges((count) => count + 1);
+      }
+      return next;
+    });
+  }, []);
+
+  const correctRating = useCallback(
+    async (reviewLogId: string, correction: UserCorrection) => {
+      if (correctionResult !== null || correctionPending) return;
+      setCorrectionPending(true);
+      try {
+        const result = await onAction({
+          type: 'correct-rating',
+          reviewLogId,
+          correction,
+        });
+        if (isCorrectionResult(result)) setCorrectionResult(result);
+      } finally {
+        setCorrectionPending(false);
+      }
+    },
+    [correctionPending, correctionResult, onAction],
+  );
+
+  const renderRatingCorrection = (result: SubmissionResult | null = submissionResult) => {
+    if (result === null || !result.isCorrect) return null;
+    const disabled = correctionPending || correctionResult !== null;
+    return (
+      <div className="bingeup-rating-correction" aria-label="评分纠正">
+        <button
+          type="button"
+          onClick={() => void correctRating(result.reviewLogId, 'guessed')}
+          disabled={disabled}
+        >
+          其实是蒙的
+        </button>
+        <button
+          type="button"
+          onClick={() => void correctRating(result.reviewLogId, 'too-easy')}
+          disabled={disabled}
+        >
+          这个太简单
+        </button>
+        {correctionResult && <span>已调整为 {ratingLabel(correctionResult.rating)}</span>}
+      </div>
+    );
+  };
 
   // ─── 拼写题自动聚焦输入框 ──────────────────────────────────
   useEffect(() => {
@@ -215,12 +314,12 @@ export function OverlayApp({
       if (key >= '1' && key <= '4') {
         const idx = parseInt(key, 10) - 1;
         if (idx < item.question.options.length) {
-          setSelected(idx);
+          selectAnswer(idx);
         }
       } else if (key.match(/^[a-dA-D]$/)) {
         const idx = key.toLowerCase().charCodeAt(0) - 97;
         if (idx < item.question.options.length) {
-          setSelected(idx);
+          selectAnswer(idx);
         }
       } else if (key === 'Enter') {
         if (selected !== null) {
@@ -259,6 +358,7 @@ export function OverlayApp({
     doSubmitAndEnd,
     doSubmitSpellingAndEnd,
     onAction,
+    selectAnswer,
   ]);
 
   // ─── 上一题反馈区（连续模式，验收标准 2：无障碍反馈） ──────────
@@ -287,6 +387,7 @@ export function OverlayApp({
         <div className="bingeup-previous-feedback-answer">
           正确答案：<span className="correct-answer">{previousFeedback.correctAnswer}</span>
         </div>
+        {renderRatingCorrection(previousFeedback)}
       </div>
     );
   };
@@ -409,7 +510,7 @@ export function OverlayApp({
             type="text"
             className="bingeup-spelling-input"
             value={spelledAnswer}
-            onChange={(e) => setSpelledAnswer(e.target.value)}
+            onChange={(e) => changeSpellingAnswer(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && spelledAnswer.trim() !== '' && !submitted && !done) {
                 e.preventDefault();
@@ -462,6 +563,7 @@ export function OverlayApp({
               ) : (
                 renderExplanation(question)
               )}
+              {renderRatingCorrection()}
               {isContinuous && (
                 <div
                   className="bingeup-actions bingeup-question-actions"
@@ -563,7 +665,7 @@ export function OverlayApp({
               className={`bingeup-option ${selected === idx ? 'selected' : ''} ${
                 submitted && idx === question.correctIndex ? 'correct' : ''
               } ${submitted && selected === idx && idx !== question.correctIndex ? 'wrong' : ''}`}
-              onClick={() => !submitted && !done && setSelected(idx)}
+              onClick={() => !submitted && !done && selectAnswer(idx)}
               disabled={submitted || done}
             >
               <span className="bingeup-option-key">{String.fromCharCode(65 + idx)}</span>
@@ -603,6 +705,7 @@ export function OverlayApp({
             ) : (
               renderExplanation(question)
             )}
+            {renderRatingCorrection()}
             <div
               className="bingeup-actions bingeup-question-actions"
               role="group"

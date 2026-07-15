@@ -1276,6 +1276,10 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'single',
       outcome: 'submitted',
       questionsAnswered: 1,
+      continuousQuestionsAnswered: 0,
+      source: 'natural',
+      initialItemKind: 'question',
+      initialOutcome: 'submitted',
       startedAt: NOW,
       endedAt: NOW,
     });
@@ -1294,6 +1298,8 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'single',
       outcome: 'skipped',
       questionsAnswered: 0,
+      source: 'natural',
+      initialOutcome: 'skipped',
     });
   });
 
@@ -1310,6 +1316,8 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'single',
       outcome: 'submitted',
       questionsAnswered: 0,
+      source: 'natural',
+      initialOutcome: 'accepted-new',
     });
   });
 
@@ -1340,6 +1348,9 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'continuous',
       outcome: 'exit',
       questionsAnswered: 1,
+      continuousQuestionsAnswered: 0,
+      source: 'natural',
+      initialOutcome: 'submitted',
     });
   });
 
@@ -1375,6 +1386,9 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'continuous',
       outcome: 'submitted',
       questionsAnswered: 2,
+      continuousQuestionsAnswered: 1,
+      source: 'natural',
+      initialOutcome: 'submitted',
     });
   });
 

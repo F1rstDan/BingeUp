@@ -83,4 +83,12 @@ export const MIGRATIONS: Migration[] = [
       };
     },
   },
+  {
+    version: 5,
+    description: '新增 behaviorEvents 仓库及 occurredAt 索引（Issue #26 本地指标源事件）',
+    run: (db) => {
+      const events = db.createObjectStore(STORES.behaviorEvents, { keyPath: 'id' });
+      events.createIndex('byOccurredAt', 'occurredAt', { unique: false });
+    },
+  },
 ];

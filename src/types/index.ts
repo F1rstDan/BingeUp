@@ -111,6 +111,7 @@ export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
  * - `too-easy`：用户声明太简单，应提高评分。
  */
 export type UserCorrection = 'guessed' | 'too-easy';
+export type LearningItemSource = 'natural' | 'manual' | 'continuous';
 
 /**
  * 调度器状态：FSRS 内部记忆状态的领域投影（Issue #7 验收标准 4）。
@@ -216,7 +217,7 @@ export interface CardRecord {
   schedulerState?: SchedulerState;
   /**
    * 最近一次答错的时间戳（ms），用于优先级排序（Issue #7 验收标准 1）。
-   * undefined 表示该长期复习词从未答错。
+   * 仅投影最近三条复习日志；undefined 表示该窗口内没有答错。
    */
   lastWrongAt?: number;
 }
@@ -232,6 +233,10 @@ export interface ReviewLogRecord {
   isCorrect: boolean;
   responseTimeMs: number;
   reviewedAt: number;
+  /** 提交判定前学习卡所处阶段；缺省表示开发期旧记录，阶段未知。 */
+  stageAtSubmission?: CardStage;
+  /** 当前题目为何被呈现；缺省表示开发期旧记录，来源未知。 */
+  source?: LearningItemSource;
   /**
    * 自动评分或用户纠正后的最终评分（Issue #7 验收标准 5）。
    * 旧日志可能缺省；按 `good` 处理。
@@ -315,6 +320,7 @@ export interface AnswerSubmission {
   responseTimeMs: number;
   /** 提交前的选项切换次数（Issue #7 自动评分输入，缺省 0）。 */
   answerChanges?: number;
+  source?: LearningItemSource;
 }
 
 /** 提交拼写题答案的内容（Issue #8 验收标准 3）。 */
@@ -323,6 +329,7 @@ export interface SpellingSubmission {
   spelledAnswer: string;
   responseTimeMs: number;
   answerChanges?: number;
+  source?: LearningItemSource;
 }
 
 /** 提交后的判定结果（含可展开的学习信息，Issue #6 验收标准 5）。 */
@@ -457,7 +464,30 @@ export interface SessionLogRecord {
   outcome: 'submitted' | 'skipped' | 'exit';
   /** 会话中提交的题目数（含连续模式多题）。 */
   questionsAnswered: number;
+  /** 首个学习项目的来源与类型；缺省表示开发期旧记录。 */
+  source?: Exclude<LearningItemSource, 'continuous'>;
+  initialItemKind?: LearningItem['kind'];
+  initialOutcome?: 'submitted' | 'accepted-new' | 'self-reported' | 'skipped';
+  /** 真正在连续学习状态中提交的题目数。 */
+  continuousQuestionsAnswered?: number;
 }
+
+export type BehaviorEventRecord =
+  | {
+      id: string;
+      kind: 'site-enabled';
+      occurredAt: number;
+      hostname: string;
+      enabled: boolean;
+      baseline?: boolean;
+    }
+  | {
+      id: string;
+      kind: 'global-pause';
+      occurredAt: number;
+      action: 'started' | 'extended' | 'resumed';
+      pausedUntil: number;
+    };
 
 /** 今日学习统计（AC1）。 */
 export interface TodayStats {
@@ -475,6 +505,32 @@ export interface TodayStats {
   continuousSessions: number;
   /** 连续题数（今日连续学习会话中提交的题目总数）。 */
   continuousQuestions: number;
+  naturalCompletedQuestions: number;
+  /** 没有已结束的自然触发项目时为 null，避免把“无样本”误报为 0%。 */
+  naturalSkipRate: number | null;
+  activePauseCount: number;
+}
+
+export interface ReviewPerformance {
+  completed: number;
+  correct: number;
+  accuracy: number;
+}
+
+export interface DailyMetricPoint {
+  dayStart: number;
+  naturalCompletedQuestions: number;
+  naturalSkipRate: number | null;
+  activePauseCount: number;
+  continuousSessions: number;
+  continuousQuestions: number;
+  longTermReview: ReviewPerformance;
+}
+
+export interface DefaultSiteMetric {
+  hostname: string;
+  currentEnabled: boolean;
+  continuousEnabledDays: number;
 }
 
 /** 学习卡状态统计（AC2）。 */
@@ -511,6 +567,13 @@ export interface LearningStats {
   dueReviewCount: number;
   /** 延迟复习正确率（长期复习词的复习日志正确率，0-1）。 */
   delayedReviewAccuracy: number;
+  longTermReview: {
+    today: ReviewPerformance;
+    last7Days: ReviewPerformance;
+    allTime: ReviewPerformance;
+  };
+  last7Days: DailyMetricPoint[];
+  defaultSites: DefaultSiteMetric[];
   /** 周对比。 */
   weekComparison: WeekComparison;
 }

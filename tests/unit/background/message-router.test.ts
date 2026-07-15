@@ -6,7 +6,7 @@ import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { CardRepository } from '@/storage/repositories/card-repository';
-import type { AppSettings, CardRecord, ReviewLogRecord } from '@/types';
+import type { AppSettings, BehaviorEventRecord, CardRecord, ReviewLogRecord } from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
 
 /** 内存态 chrome.storage.local + permissions，模拟浏览器持久化。 */
@@ -259,6 +259,11 @@ describe('message-router — Issue #9 新增消息', () => {
 
     expect(res.globalPausedUntil).toBeGreaterThanOrEqual(before + 10 * 60 * 1000);
     expect(res.globalPausedUntil).toBeLessThanOrEqual(Date.now() + 10 * 60 * 1000);
+    expect(await idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: 'global-pause', action: 'started' }),
+      ]),
+    );
   });
 
   it('PAUSE_TODAY：设置当日结束时间戳（AC4）', async () => {
@@ -527,6 +532,7 @@ describe('message-router — Issue #10 新增消息', () => {
       selectedAnswer: 'a',
       correctAnswer: 'a',
       isCorrect: true,
+      source: 'natural',
       responseTimeMs: 500,
       reviewedAt: now,
     } satisfies ReviewLogRecord);
@@ -542,7 +548,15 @@ describe('message-router — Issue #10 新增消息', () => {
     };
 
     expect(res.stats).toEqual({
-      today: { completedQuestions: 1, reviewedWords: 1, newWords: 0 },
+      today: {
+        completedQuestions: 1,
+        reviewedWords: 1,
+        newWords: 0,
+        continuousSessions: 0,
+        continuousQuestions: 0,
+        longTermCompleted: 0,
+        longTermAccuracy: 0,
+      },
       dueReviewCount: 1,
     });
   });
@@ -797,6 +811,7 @@ describe('message-router — Issue #10 新增消息', () => {
         ],
         reviewLogs: [],
         sessionLogs: [],
+        behaviorEvents: [],
         words: [],
         decks: [],
       },

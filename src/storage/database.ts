@@ -14,6 +14,7 @@ export const STORES = {
   words: 'words',
   decks: 'decks',
   sessionLogs: 'sessionLogs',
+  behaviorEvents: 'behaviorEvents',
   authoritativeState: 'authoritativeState',
 } as const;
 
