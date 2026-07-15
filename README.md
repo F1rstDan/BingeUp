@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="刷刷升级：在视频自然间隙学一个词，再继续播放">
+  <img src="./docs/assets/readme/hero.svg" width="100%" alt="刷刷升级：在视频自然间隙学一个词，再继续播放">
 </p>
 
 <p align="center">
@@ -16,7 +16,7 @@
 当你进入新视频，刷刷升级会暂停主视频并盖上一道轻量学习题。答完或跳过后，视频从原进度继续；如果你想多学几题，也可以主动进入连续学习。
 
 <p align="center">
-  <img src="./assets/readme/showcase.png" width="100%" alt="刷刷升级真实产品界面合集：视频内学习、安装引导、连续答题和插件状态控制">
+  <img src="./docs/assets/readme/showcase.png" width="100%" alt="刷刷升级真实产品界面合集：视频内学习、安装引导、连续答题和插件状态控制">
 </p>
 
 <p align="center"><sub>真实运行界面：视频内学习、连续答题、首次引导与快捷控制。</sub></p>
@@ -30,7 +30,7 @@
 - **随时多学**：选择“提交并继续”即可保持视频暂停，连续处理多个学习项目。
 
 <p align="center">
-  <img src="./assets/readme/workflow.svg" width="100%" alt="新视频触发、暂停主视频、学习一个词、继续播放并进入冷却的流程">
+  <img src="./docs/assets/readme/workflow.svg" width="100%" alt="新视频触发、暂停主视频、学习一个词、继续播放并进入冷却的流程">
 </p>
 
 ## 现在可以做什么

@@ -7,3 +7,7 @@ public/dictionaries/
 scripts/build-dictionary/.cache/
 package-lock.json
 .agents/
+.trash/
+docs/
+*.md
+vMDs.yaml
