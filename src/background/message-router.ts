@@ -1,6 +1,6 @@
 import { applyComplete, applySkip } from '@/cooldown/cooldown-rules';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { pauseAll, pauseForTenMinutes, pauseToday, resumeAll } from '@/pause/pause-rules';
+import { pauseForTenMinutes, pauseToday, resumeGlobalPause } from '@/pause/pause-rules';
 import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
@@ -41,8 +41,11 @@ async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
     sessions,
   );
   return {
-    today: { completedQuestions: stats.today.completedQuestions },
-    cardStatus: { longTerm: stats.cardStatus.longTerm },
+    today: {
+      completedQuestions: stats.today.completedQuestions,
+      reviewedWords: stats.today.reviewedWords,
+      newWords: stats.today.newWords,
+    },
     dueReviewCount: stats.dueReviewCount,
   };
 }
@@ -153,11 +156,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }
-      case 'PAUSE_ALL': {
-        const until = pauseAll(Date.now());
-        await store.setGlobalPausedUntil(until);
-        return { globalPausedUntil: until };
-      }
       case 'PAUSE_TEN_MINUTES': {
         const until = pauseForTenMinutes(Date.now());
         await store.setGlobalPausedUntil(until);
@@ -168,8 +166,8 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         await store.setGlobalPausedUntil(until);
         return { globalPausedUntil: until };
       }
-      case 'RESUME_ALL': {
-        const until = resumeAll();
+      case 'RESUME_GLOBAL_PAUSE': {
+        const until = resumeGlobalPause();
         await store.setGlobalPausedUntil(until);
         return { globalPausedUntil: until };
       }
@@ -218,6 +216,12 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
       case 'LIST_SITES': {
         const sites = await store.listSites();
         return { sites };
+      }
+      case 'UPDATE_SITE_SETTINGS': {
+        await store.setSite(message.hostname, message.settings);
+        await syncCustomScriptsWarning();
+        const site = await store.getSite(message.hostname);
+        return { ...site, hostname: message.hostname };
       }
       case 'REMOVE_SITE': {
         // AC5：受支持站点（bilibili/youtube）使用必需 host_permissions，不可释放；

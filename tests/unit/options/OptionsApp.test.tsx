@@ -13,6 +13,8 @@ const mocks = vi.hoisted(() => ({
   resetAppSettings: vi.fn(),
   getSiteState: vi.fn(),
   enableSite: vi.fn(),
+  disableSite: vi.fn(),
+  updateSiteSettings: vi.fn(),
   addCustomSite: vi.fn(),
   listSites: vi.fn(),
   removeSite: vi.fn(),
@@ -34,6 +36,8 @@ vi.mock('@/messaging/message-client', () => ({
     resetAppSettings: mocks.resetAppSettings,
     getSiteState: mocks.getSiteState,
     enableSite: mocks.enableSite,
+    disableSite: mocks.disableSite,
+    updateSiteSettings: mocks.updateSiteSettings,
     addCustomSite: mocks.addCustomSite,
     listSites: mocks.listSites,
     removeSite: mocks.removeSite,
@@ -78,6 +82,8 @@ describe('OptionsApp — Issue #10', () => {
     mocks.resetAppSettings.mockReset();
     mocks.getSiteState.mockReset();
     mocks.enableSite.mockReset();
+    mocks.disableSite.mockReset();
+    mocks.updateSiteSettings.mockReset();
     mocks.addCustomSite.mockReset();
     mocks.listSites.mockReset();
     mocks.removeSite.mockReset();
@@ -96,6 +102,8 @@ describe('OptionsApp — Issue #10', () => {
       firstQuestionPending: false,
     });
     mocks.enableSite.mockResolvedValue(undefined);
+    mocks.disableSite.mockResolvedValue(undefined);
+    mocks.updateSiteSettings.mockResolvedValue(undefined);
     mocks.addCustomSite.mockResolvedValue(undefined);
     mocks.setAppSettings.mockImplementation(async (s: AppSettings) => s);
     mocks.resetAppSettings.mockResolvedValue({ ...DEFAULT_SETTINGS });
@@ -160,6 +168,7 @@ describe('OptionsApp — Issue #10', () => {
     expect(screen.getAllByDisplayValue('2').length).toBeGreaterThan(0);
     // 连续跳过降频
     expect(screen.getByDisplayValue('5, 15, 60')).toBeInTheDocument();
+    expect(screen.getByRole('switch', { name: '连续跳过自动降频' })).toBeChecked();
     // 长视频定时学习间隔
     expect(screen.getByDisplayValue('10')).toBeInTheDocument();
   });
@@ -420,6 +429,54 @@ describe('OptionsApp — Issue #10', () => {
 
     expect(screen.getByText('页面加载触发')).toBeInTheDocument();
     expect(screen.getByText('滚动触发')).toBeInTheDocument();
+  });
+
+  it('已配置网站可以关闭并在保存后刷新状态', async () => {
+    mocks.listSites.mockResolvedValueOnce(SAMPLE_SITES).mockResolvedValueOnce({
+      sites: SAMPLE_SITES.sites.map((entry) =>
+        entry.hostname === 'bilibili.com'
+          ? { ...entry, settings: { ...entry.settings, enabled: false } }
+          : entry,
+      ),
+    });
+
+    renderOptions();
+    const host = await screen.findByText('bilibili.com');
+    const row = host.closest('.bingeup-site-row') as HTMLElement;
+    fireEvent.click(within(row).getByRole('button', { name: '关闭网站' }));
+
+    await waitFor(() => {
+      expect(mocks.disableSite).toHaveBeenCalledWith('bilibili.com');
+      expect(screen.getByText('已关闭网站 bilibili.com')).toBeInTheDocument();
+    });
+  });
+
+  it('基础网页模式的页面加载与滚动触发可以独立保存', async () => {
+    mocks.listSites.mockResolvedValue(SAMPLE_SITES);
+
+    renderOptions();
+    const host = await screen.findByText('example.com');
+    const row = host.closest('.bingeup-site-row') as HTMLElement;
+    const pageLoad = within(row).getByRole('checkbox', { name: '页面加载触发' });
+    const scroll = within(row).getByRole('checkbox', { name: '滚动触发' });
+
+    expect(pageLoad).toBeEnabled();
+    expect(scroll).toBeEnabled();
+    fireEvent.click(pageLoad);
+    fireEvent.click(scroll);
+
+    await waitFor(() => {
+      expect(mocks.updateSiteSettings).toHaveBeenNthCalledWith(
+        1,
+        'example.com',
+        expect.objectContaining({ pageLoadTrigger: false, scrollTrigger: false }),
+      );
+      expect(mocks.updateSiteSettings).toHaveBeenNthCalledWith(
+        2,
+        'example.com',
+        expect.objectContaining({ pageLoadTrigger: true, scrollTrigger: true }),
+      );
+    });
   });
 
   it('点击删除网站调用 removeSite（AC2 / AC5）', async () => {

@@ -150,6 +150,26 @@ describe('BasicWebAdapter — 双触发独立开关（AC3）', () => {
     Object.defineProperty(window, 'scrollY', { value: 0, configurable: true, writable: true });
   });
 
+  it('保存滚动触发设置后，下一次滚动读取最新值而无需重建适配器', async () => {
+    let scrollTrigger = false;
+    const adapter = new BasicWebAdapter({
+      pageLoadTrigger: false,
+      scrollTrigger: false,
+      getLatest: async () => ({ pageLoadTrigger: false, scrollTrigger }),
+    });
+    const events: VideoChangeEvent[] = [];
+    adapter.observePageChanges((event) => events.push(event));
+
+    scrollTo(SCROLL_TRIGGER_THRESHOLD_PX);
+    await Promise.resolve();
+    expect(events).toHaveLength(0);
+
+    scrollTrigger = true;
+    scrollTo(SCROLL_TRIGGER_THRESHOLD_PX * 2);
+    await Promise.resolve();
+    expect(events).toHaveLength(1);
+  });
+
   it('两个开关均开启：页面加载 + 滚动都能触发', () => {
     const adapter = new BasicWebAdapter({ pageLoadTrigger: true, scrollTrigger: true });
     const events: VideoChangeEvent[] = [];

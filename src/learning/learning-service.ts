@@ -147,10 +147,10 @@ export class LearningService {
   private readonly defaultScheduler: ReviewSchedulerPort = new FsrsReviewScheduler();
 
   /** 当前词库 ID（Issue #25）。 */
-  private async getSelectedDeckId(): Promise<string> {
-    if (this.deps.selectedDeckId) {
-      const deck = await this.deps.words.getDeck(this.deps.selectedDeckId);
-      if (deck) return this.deps.selectedDeckId;
+  private async getSelectedDeckId(selectedDeckId = this.deps.selectedDeckId): Promise<string> {
+    if (selectedDeckId) {
+      const deck = await this.deps.words.getDeck(selectedDeckId);
+      if (deck) return selectedDeckId;
     }
     const defaultDeck = await this.deps.words.getDefaultDeck();
     return defaultDeck.id;
@@ -167,8 +167,8 @@ export class LearningService {
    * - intermediate → [2, 3]
    * - advanced → [3, 4]
    */
-  private getPreferredDifficulty(): number[] {
-    switch (this.selfRatedLevel) {
+  private getPreferredDifficulty(level: SelfRatedLevel = this.selfRatedLevel): number[] {
+    switch (level) {
       case 'beginner':
         return [1, 2];
       case 'intermediate':
@@ -195,6 +195,10 @@ export class LearningService {
   async getNextItem(options?: {
     excludedWordIds?: Set<string>;
     allowSpelling?: boolean;
+    allowEarlyShortTermReview?: boolean;
+    dailyNewWordLimit?: number;
+    selectedDeckId?: string;
+    selfRatedLevel?: SelfRatedLevel;
   }): Promise<LearningItem | null> {
     const now = this.deps.clock.now();
     const allCards = await this.deps.cards.getAll();
@@ -230,11 +234,28 @@ export class LearningService {
     }
 
     // 5. 无到期复习：候选新词（受每日上限约束）
-    if (this.countTodayNewWords(allCards, now) >= this.dailyLimit) {
+    const dailyLimit = options?.dailyNewWordLimit ?? this.dailyLimit;
+    if (this.countTodayNewWords(allCards, now) >= dailyLimit) {
+      if (options?.allowEarlyShortTermReview) {
+        const earlyShortTerm = this.findEarliestShortTermForActiveReview(
+          allCards,
+          now,
+          excludedWordIds,
+        );
+        if (earlyShortTerm) {
+          const question = await this.makeQuestionForCard(earlyShortTerm, allowSpelling);
+          if (question) return this.wrapQuestion(question);
+        }
+      }
       return null;
     }
 
-    const candidate = await this.pickCandidateNewWord(allCards, excludedWordIds);
+    const candidate = await this.pickCandidateNewWord(
+      allCards,
+      excludedWordIds,
+      options?.selectedDeckId,
+      options?.selfRatedLevel,
+    );
     if (candidate) {
       return { kind: 'new-word-presentation', presentation: { word: candidate } };
     }
@@ -649,6 +670,26 @@ export class LearningService {
   }
 
   /**
+   * 主动学习在每日新词额度用完后，可提前巩固尚未到期的短期学习词。
+   * 最早接受者优先；同一连续学习轮次已出现的单词必须排除。
+   */
+  private findEarliestShortTermForActiveReview(
+    cards: CardRecord[],
+    now: number,
+    excludedWordIds?: Set<string>,
+  ): CardRecord | undefined {
+    return cards
+      .filter(
+        (card) =>
+          card.stage === 'short-term' &&
+          card.nextReviewAt !== undefined &&
+          card.nextReviewAt > now &&
+          !excludedWordIds?.has(card.wordId),
+      )
+      .sort((a, b) => a.createdAt - b.createdAt)[0];
+  }
+
+  /**
    * 查找近期答错的到期长期复习词（Issue #7 验收标准 1：第 1 优先级）。
    * "近期答错"指上次答错后尚未以正确答案赎回：答错时设置 lastWrongAt，答对时清除。
    */
@@ -740,13 +781,15 @@ export class LearningService {
   private async pickCandidateNewWord(
     existingCards: CardRecord[],
     excludedWordIds?: Set<string>,
+    selectedDeckId?: string,
+    selfRatedLevel?: SelfRatedLevel,
   ): Promise<WordRecord | null> {
-    const deckId = await this.getSelectedDeckId();
+    const deckId = await this.getSelectedDeckId(selectedDeckId);
     const cardWordIds = new Set(existingCards.map((c) => c.wordId));
     const allExcluded = new Set([...cardWordIds, ...(excludedWordIds ?? [])]);
 
     // 逐级扩展的难度区间
-    const preferred = this.getPreferredDifficulty();
+    const preferred = this.getPreferredDifficulty(selfRatedLevel);
     const difficultyZones = this.buildDifficultyZones(preferred);
 
     for (const zone of difficultyZones) {

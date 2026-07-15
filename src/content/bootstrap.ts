@@ -2,6 +2,7 @@ import { BilibiliAdapter } from '@/adapters/bilibili';
 import { YouTubeAdapter } from '@/adapters/youtube';
 import { GenericVideoAdapter } from '@/adapters/generic-video';
 import { BasicWebAdapter } from '@/adapters/basic-web';
+import { TimedLearningAdapter } from '@/adapters/timed-learning';
 import { detectSiteCapability } from '@/adapters/generic-video/detection';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { OverlayController } from '@/content/overlay-controller';
@@ -53,14 +54,14 @@ export class MessagePauseState implements PauseStatePort {
 
 /** 消息驱动的站点状态端口。 */
 export class MessageSiteState implements SiteStatePort {
-  private cached: SiteSettings | null = null;
-
   constructor(private readonly hostname: string) {}
 
   private async fetch(): Promise<SiteSettings> {
-    if (this.cached !== null) return this.cached;
-    this.cached = await messageClient.getSiteState(this.hostname);
-    return this.cached;
+    return messageClient.getSiteState(this.hostname);
+  }
+
+  async isEnabled(): Promise<boolean> {
+    return (await this.fetch()).enabled;
   }
 
   async isFirstQuestionPending(): Promise<boolean> {
@@ -69,7 +70,7 @@ export class MessageSiteState implements SiteStatePort {
   }
 
   async markFirstQuestionHandled(): Promise<void> {
-    this.cached = await messageClient.markFirstQuestionHandled(this.hostname);
+    await messageClient.markFirstQuestionHandled(this.hostname);
   }
 }
 
@@ -178,6 +179,13 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
     adapter = new BasicWebAdapter({
       pageLoadTrigger: site.pageLoadTrigger ?? true,
       scrollTrigger: site.scrollTrigger ?? true,
+      getLatest: async () => {
+        const latest = await messageClient.getSiteState(hostname);
+        return {
+          pageLoadTrigger: latest.pageLoadTrigger ?? true,
+          scrollTrigger: latest.scrollTrigger ?? true,
+        };
+      },
     });
   }
 
@@ -201,6 +209,12 @@ async function bootstrapCustomSite(hostname: string): Promise<void> {
  * video=null 的文档根上下文，供插件面板主动启动全网页学习界面（Issue #16）。
  */
 async function startController(adapter: VideoSiteAdapter, hostname: string): Promise<void> {
+  if (adapter.id !== 'basic-web') {
+    adapter = new TimedLearningAdapter(adapter, {
+      settings: { get: () => messageClient.getAppSettings() },
+      pollMilliseconds: 15_000,
+    });
+  }
   const adapterPort = {
     onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
       adapter.observePageChanges(handler),
@@ -229,15 +243,11 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
 
   // 初始化学习服务（IDB 仓库 + 内置词库）。
   const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
-  const appSettings = await messageClient.getAppSettings();
   const learningService = new LearningService({
     cards: new CardRepository(db),
     logs: new ReviewLogRepository(db),
     words: new BuiltInWordBank(),
     clock: { now: () => Date.now() },
-    dailyNewWordLimit: appSettings.dailyNewWordLimit,
-    selectedDeckId: appSettings.selectedDeckId,
-    selfRatedLevel: appSettings.selfRatedLevel,
   });
 
   const overlay = new OverlayController();
@@ -251,7 +261,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     videoPortFor: (video) => adaptHtmlVideo(video),
     learningService,
     sessionLogger: new SessionLogRepository(db),
-    spellingEnabled: appSettings.spellingEnabled,
+    learningSettings: { get: () => messageClient.getAppSettings() },
   });
   controller.start();
 

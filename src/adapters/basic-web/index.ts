@@ -7,6 +7,8 @@ export interface BasicWebAdapterOptions {
   pageLoadTrigger: boolean;
   /** 明显滚动触发开关（AC3）。 */
   scrollTrigger: boolean;
+  /** 设置页保存后，后续触发读取最新站点设置。 */
+  getLatest?: () => Promise<Pick<BasicWebAdapterOptions, 'pageLoadTrigger' | 'scrollTrigger'>>;
 }
 
 /**
@@ -66,15 +68,24 @@ export class BasicWebAdapter implements VideoSiteAdapter {
     const cleanups: (() => void)[] = [];
 
     // ─── 页面加载触发（AC3） ───────────────────────────────
-    if (this.options.pageLoadTrigger) {
+    if (this.options.pageLoadTrigger || this.options.getLatest) {
       const emitLoad = () => {
         if (stopped) return;
-        onVideoChanged({
-          identity: `basic-web:load:${location.href}`,
-          video: null,
-          overlayTarget: null,
-          overlayMode: 'full-page',
-        });
+        const emit = () => {
+          onVideoChanged({
+            identity: `basic-web:load:${location.href}`,
+            video: null,
+            overlayTarget: null,
+            overlayMode: 'full-page',
+          });
+        };
+        if (this.options.getLatest) {
+          void this.options.getLatest().then((latest) => {
+            if (latest.pageLoadTrigger && !stopped) emit();
+          });
+        } else if (this.options.pageLoadTrigger) {
+          emit();
+        }
       };
       if (document.readyState === 'loading') {
         const handler = () => emitLoad();
@@ -87,22 +98,30 @@ export class BasicWebAdapter implements VideoSiteAdapter {
     }
 
     // ─── 明显滚动触发（AC3） ───────────────────────────────
-    if (this.options.scrollTrigger) {
+    if (this.options.scrollTrigger || this.options.getLatest) {
+      const applyScroll = (delta: number, enabled: boolean) => {
+        if (!enabled || stopped) {
+          scrollAccumulated = 0;
+          return;
+        }
+        scrollAccumulated += delta;
+        if (scrollAccumulated < SCROLL_TRIGGER_THRESHOLD_PX) return;
+        scrollAccumulated = 0;
+        scrollTriggerCount += 1;
+        onVideoChanged({
+          identity: `basic-web:scroll:${location.href}:${scrollTriggerCount}`,
+          video: null,
+          overlayTarget: null,
+          overlayMode: 'full-page',
+        });
+      };
       const onScroll = () => {
         if (stopped) return;
         const delta = Math.abs(window.scrollY - lastScrollY);
         lastScrollY = window.scrollY;
-        scrollAccumulated += delta;
-        if (scrollAccumulated >= SCROLL_TRIGGER_THRESHOLD_PX) {
-          scrollAccumulated = 0;
-          scrollTriggerCount += 1;
-          onVideoChanged({
-            identity: `basic-web:scroll:${location.href}:${scrollTriggerCount}`,
-            video: null,
-            overlayTarget: null,
-            overlayMode: 'full-page',
-          });
-        }
+        if (this.options.getLatest) {
+          void this.options.getLatest().then((latest) => applyScroll(delta, latest.scrollTrigger));
+        } else applyScroll(delta, this.options.scrollTrigger);
       };
       window.addEventListener('scroll', onScroll, { passive: true });
       cleanups.push(() => window.removeEventListener('scroll', onScroll));

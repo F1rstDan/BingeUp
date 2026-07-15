@@ -168,8 +168,12 @@ function fakeCooldownStore(initial: CooldownState = { nextAllowedAt: 0, consecut
 /** 假站点状态端口。 */
 function fakeSiteState(firstPending: boolean) {
   const s = {
+    enabled: true,
     firstQuestionPending: firstPending,
     handledCalls: 0,
+    async isEnabled() {
+      return s.enabled;
+    },
     async isFirstQuestionPending() {
       return s.firstQuestionPending;
     },
@@ -186,7 +190,15 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
   const svc = {
     nextItemCalls: 0,
     nextItemOptions: [] as Array<
-      { excludedWordIds?: Set<string>; allowSpelling?: boolean } | undefined
+      | {
+          excludedWordIds?: Set<string>;
+          allowSpelling?: boolean;
+          allowEarlyShortTermReview?: boolean;
+          dailyNewWordLimit?: number;
+          selectedDeckId?: string;
+          selfRatedLevel?: 'beginner' | 'intermediate' | 'advanced';
+        }
+      | undefined
     >,
     acceptCalls: [] as string[],
     selfReportCalls: [] as string[],
@@ -196,7 +208,14 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     item,
     items: null as LearningItem[] | null,
     itemIndex: 0,
-    async getNextItem(options?: { excludedWordIds?: Set<string>; allowSpelling?: boolean }) {
+    async getNextItem(options?: {
+      excludedWordIds?: Set<string>;
+      allowSpelling?: boolean;
+      allowEarlyShortTermReview?: boolean;
+      dailyNewWordLimit?: number;
+      selectedDeckId?: string;
+      selfRatedLevel?: 'beginner' | 'intermediate' | 'advanced';
+    }) {
       svc.nextItemCalls += 1;
       svc.nextItemOptions.push(options);
       // 如果配置了多项目序列（用于连续模式测试），按序返回
@@ -260,6 +279,12 @@ function makeController(
     item?: LearningItem | null;
     withSessionLogger?: boolean;
     globallyPaused?: boolean;
+    learningSettings?: {
+      dailyNewWordLimit: number;
+      selectedDeckId: string;
+      selfRatedLevel: 'beginner' | 'intermediate' | 'advanced';
+      spellingEnabled: boolean;
+    };
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -287,6 +312,9 @@ function makeController(
     learningService,
     sessionLogger,
     pauseState,
+    learningSettings: opts.learningSettings
+      ? { get: async () => opts.learningSettings! }
+      : undefined,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -1052,9 +1080,42 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     expect(playback.pauseCalls).toBe(1);
     expect(overlay.openCalls).toBe(1);
     // 连续模式请求允许拼写题
-    expect(learningService.nextItemOptions[0]).toMatchObject({ allowSpelling: true });
+    expect(learningService.nextItemOptions[0]).toMatchObject({
+      allowSpelling: true,
+      allowEarlyShortTermReview: true,
+    });
     // options 标记为连续模式
     expect(overlay.lastOptions).toMatchObject({ isContinuous: true });
+  });
+
+  it('自然触发不允许主动巩固未到期短期学习词', async () => {
+    const { adapter, learningService } = makeController();
+
+    adapter.emit('bv-natural', {});
+    await flush();
+
+    expect(learningService.nextItemOptions[0]?.allowEarlyShortTermReview).not.toBe(true);
+  });
+
+  it('主动学习在每次取内容时传入最新学习设置', async () => {
+    const { controller, adapter, learningService } = makeController({
+      learningSettings: {
+        dailyNewWordLimit: 8,
+        selectedDeckId: 'deck-cet4',
+        selfRatedLevel: 'advanced',
+        spellingEnabled: false,
+      },
+    });
+    adapter.setCurrentEvent('bv-settings', {});
+
+    await controller.startContinuousLearning();
+
+    expect(learningService.nextItemOptions[0]).toMatchObject({
+      dailyNewWordLimit: 8,
+      selectedDeckId: 'deck-cet4',
+      selfRatedLevel: 'advanced',
+      allowSpelling: false,
+    });
   });
 
   it('startContinuousLearning：基础网页上下文以全网页遮罩启动且不调用播放控制', async () => {

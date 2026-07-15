@@ -54,6 +54,8 @@ export interface AppSettings {
   defaultCooldownMinutes: number;
   /** 连续跳过降频冷却分钟数，例如 [5, 15, 60]。 */
   consecutiveSkipCooldowns: number[];
+  /** 是否启用连续跳过自动降频。 */
+  consecutiveSkipSlowdownEnabled: boolean;
   /** 每日新词上限：一个本地自然日内通过“知道了”接受的新词数量上限（CONTEXT.md）。 */
   dailyNewWordLimit: number;
   /** 当前词库 ID（执行计划书：学习设置）。 */

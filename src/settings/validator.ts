@@ -50,6 +50,9 @@ export function validateAppSettings(input: Partial<AppSettings>): ValidationResu
   } else if (!input.consecutiveSkipCooldowns.every((m) => isFinitePositive(m))) {
     errors.push('连续跳过降频冷却必须为正数');
   }
+  if (typeof input.consecutiveSkipSlowdownEnabled !== 'boolean') {
+    errors.push('连续跳过自动降频开关必须为布尔值');
+  }
   if (typeof input.selectedDeckId !== 'string' || input.selectedDeckId.trim() === '') {
     errors.push('当前词库不能为空');
   }
@@ -98,6 +101,9 @@ export function normalizeAppSettings(input: Partial<AppSettings>): AppSettings {
       filtered.length > 0 ? filtered : [...DEFAULT_SETTINGS.consecutiveSkipCooldowns];
   } else {
     merged.consecutiveSkipCooldowns = [...DEFAULT_SETTINGS.consecutiveSkipCooldowns];
+  }
+  if (typeof merged.consecutiveSkipSlowdownEnabled !== 'boolean') {
+    merged.consecutiveSkipSlowdownEnabled = DEFAULT_SETTINGS.consecutiveSkipSlowdownEnabled;
   }
   if (typeof merged.selectedDeckId !== 'string' || merged.selectedDeckId.trim() === '') {
     merged.selectedDeckId = DEFAULT_SETTINGS.selectedDeckId;

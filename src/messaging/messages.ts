@@ -28,14 +28,12 @@ export type ExtensionMessage =
   | { type: 'SITE_ENABLE'; hostname: string }
   /** 暂停当前网站（AC4）。 */
   | { type: 'SITE_DISABLE'; hostname: string }
-  /** 暂停全部网站（AC4）。 */
-  | { type: 'PAUSE_ALL' }
   /** 暂停 10 分钟，Popup 用倒计时显示剩余时间。 */
   | { type: 'PAUSE_TEN_MINUTES' }
   /** 暂停今天（AC4）。 */
   | { type: 'PAUSE_TODAY'; now: number }
-  /** 恢复全部网站。 */
-  | { type: 'RESUME_ALL' }
+  /** 恢复当前全局临时暂停。 */
+  | { type: 'RESUME_GLOBAL_PAUSE' }
   /** 查询全局暂停状态，供内容侧主动学习入口做最终状态检查。 */
   | { type: 'GET_GLOBAL_PAUSE_STATUS' }
   /** 记录一次启用提示拒绝（AC2）。 */
@@ -51,6 +49,8 @@ export type ExtensionMessage =
   | { type: 'RESET_APP_SETTINGS' }
   /** 列出所有已持久化的站点设置（AC2 站点管理）。 */
   | { type: 'LIST_SITES' }
+  /** 保存单个站点设置（启用状态由 SITE_ENABLE / SITE_DISABLE 负责）。 */
+  | { type: 'UPDATE_SITE_SETTINGS'; hostname: string; settings: SiteSettings }
   /** 删除自定义网站并释放可选权限（AC5）。 */
   | { type: 'REMOVE_SITE'; hostname: string }
   /** 导出本地全部数据（AC4）。 */
@@ -89,9 +89,8 @@ export interface PopupDataResponse {
 export interface PopupLearningStats {
   today: {
     completedQuestions: number;
-  };
-  cardStatus: {
-    longTerm: number;
+    reviewedWords: number;
+    newWords: number;
   };
   dueReviewCount: number;
 }

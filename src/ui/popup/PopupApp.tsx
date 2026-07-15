@@ -20,7 +20,7 @@ import { hasExactHttpsPermission } from '@/sites/site-permission';
  * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6）。
  *
  * AC3：显示当前域名、启用状态与兼容等级。
- * AC4：暂停 10 分钟 / 暂停今天 / 恢复全部 / 开始连续学习 / 设置 / 统计。
+ * AC4：暂停 10 分钟 / 暂停今天 / 恢复当前全局暂停 / 开始连续学习 / 设置 / 统计。
  * AC5：受保护页面、缺少权限时提供可理解状态而非静默失败。
  * Issue #21 AC3/AC6：未完成安装引导不阻止 Popup 显示正常网站状态与控制。
  */
@@ -41,7 +41,7 @@ interface PopupContext {
 }
 
 type PopupSiteStatusTone = 'ready' | 'paused' | 'warning' | 'inactive';
-type PopupPauseMode = 'none' | 'ten-minutes' | 'today' | 'indefinite';
+type PopupPauseMode = 'none' | 'ten-minutes' | 'today';
 
 function PopupHeader(): JSX.Element {
   return (
@@ -78,6 +78,16 @@ function popupSiteBadge(state: PopupDisplayState): string {
   return '待启用';
 }
 
+function popupCapabilitySummary(state: PopupDisplayState): string {
+  const overlay =
+    state.overlayMode === 'video-region'
+      ? '视频区域覆盖'
+      : state.overlayMode === 'full-page'
+        ? '全页覆盖'
+        : '无学习遮罩';
+  return `${overlay} · ${state.canControlVideo ? '可控制视频' : '不控制视频'}`;
+}
+
 function startLearningUnavailableReason(
   state: PopupDisplayState,
   isPaused: boolean,
@@ -110,7 +120,7 @@ function popupPauseMode(until: number, now: number): PopupPauseMode {
   if (until <= now) return 'none';
   if (until === endOfToday(now)) return 'today';
   if (until - now <= PAUSE_TEN_MINUTES_MS) return 'ten-minutes';
-  return 'indefinite';
+  return 'none';
 }
 
 function formatCountdown(until: number, now: number): string {
@@ -325,6 +335,7 @@ function PopupView({
             {' · '}
             <span>{COMPATIBILITY_LABELS[displayState.compatibilityLevel]}</span>
           </span>
+          <span>{popupCapabilitySummary(displayState)}</span>
         </div>
         {displayState.canAddCustomSite ? (
           <button
@@ -332,6 +343,15 @@ function PopupView({
             onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
           >
             加入当前网站
+          </button>
+        ) : displayState.compatibilityLevel !== 'unsupported' ? (
+          <button
+            className="bingeup-site-badge bingeup-site-join"
+            onClick={() =>
+              void handleSiteEnabledChange(ctx.hostname, displayState.enabled, onReload, onNotice)
+            }
+          >
+            {displayState.enabled ? '关闭当前网站' : '开启当前网站'}
           </button>
         ) : (
           <span className="bingeup-site-badge">{popupSiteBadge(displayState)}</span>
@@ -352,15 +372,15 @@ function PopupView({
         <div className="bingeup-metrics">
           <div className="bingeup-metric">
             <strong>{stats?.today.completedQuestions ?? '—'}</strong>
-            <span>本次学习</span>
+            <span>今日完成题目</span>
           </div>
           <div className="bingeup-metric bingeup-metric-green">
-            <strong>{stats?.cardStatus.longTerm ?? '—'}</strong>
-            <span>长期复习</span>
+            <strong>{stats?.today.reviewedWords ?? '—'}</strong>
+            <span>今日复习词</span>
           </div>
           <div className="bingeup-metric bingeup-metric-pink">
-            <strong>{stats?.dueReviewCount ?? '—'}</strong>
-            <span>待复习</span>
+            <strong>{stats?.today.newWords ?? '—'}</strong>
+            <span>今日新词</span>
           </div>
         </div>
       </section>
@@ -372,44 +392,24 @@ function PopupView({
             {notice}
           </p>
         )}
-        {!displayState.enabled &&
-          !displayState.canAddCustomSite &&
-          displayState.compatibilityLevel !== 'unsupported' && (
-            <button
-              className="bingeup-btn-primary bingeup-btn-full"
-              onClick={() => void handleEnable(ctx.hostname, onReload)}
-            >
-              {displayState.showEnablePrompt ? '开启当前网站' : '启用当前网站'}
-            </button>
-          )}
-
-        {pauseMode === 'indefinite' ? (
+        <div className="bingeup-pause-row">
           <button
-            className="bingeup-btn-secondary bingeup-btn-full"
-            onClick={() => void handleResumeAll(applyPauseStateChange)}
+            className="bingeup-btn-secondary"
+            onClick={() =>
+              void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)
+            }
           >
-            恢复全部
+            {pauseMode === 'ten-minutes'
+              ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
+              : '暂停 10 分钟'}
           </button>
-        ) : (
-          <div className="bingeup-pause-row">
-            <button
-              className="bingeup-btn-secondary"
-              onClick={() =>
-                void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)
-              }
-            >
-              {pauseMode === 'ten-minutes'
-                ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
-                : '暂停 10 分钟'}
-            </button>
-            <button
-              className="bingeup-btn-secondary"
-              onClick={() => void handlePauseToday(pauseMode === 'today', applyPauseStateChange)}
-            >
-              {pauseMode === 'today' ? '今天恢复' : '暂停今天'}
-            </button>
-          </div>
-        )}
+          <button
+            className="bingeup-btn-secondary"
+            onClick={() => void handlePauseToday(pauseMode === 'today', applyPauseStateChange)}
+          >
+            {pauseMode === 'today' ? '今天恢复' : '暂停今天'}
+          </button>
+        </div>
 
         {/* AC4：入口按钮 */}
         <button
@@ -450,9 +450,24 @@ async function handleAddCustomSite(
   await onReload();
 }
 
-async function handleEnable(hostname: string, onReload: () => Promise<void>): Promise<void> {
-  await messageClient.enableSite(hostname);
-  await onReload();
+async function handleSiteEnabledChange(
+  hostname: string,
+  isEnabled: boolean,
+  onReload: () => Promise<void>,
+  onNotice: (msg: string | null) => void,
+): Promise<void> {
+  try {
+    if (isEnabled) {
+      await messageClient.disableSite(hostname);
+      onNotice('已关闭当前网站。');
+    } else {
+      await messageClient.enableSite(hostname);
+      onNotice('已开启当前网站。');
+    }
+    await onReload();
+  } catch (error) {
+    onNotice(`网站状态更新失败：${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 async function handlePauseTenMinutes(
@@ -460,7 +475,7 @@ async function handlePauseTenMinutes(
   onPauseStateChange: (globalPausedUntil: number) => void,
 ): Promise<void> {
   const response = isPaused
-    ? await messageClient.resumeAll()
+    ? await messageClient.resumeGlobalPause()
     : await messageClient.pauseTenMinutes();
   onPauseStateChange(response.globalPausedUntil);
 }
@@ -470,15 +485,8 @@ async function handlePauseToday(
   onPauseStateChange: (globalPausedUntil: number) => void,
 ): Promise<void> {
   const response = isPaused
-    ? await messageClient.resumeAll()
+    ? await messageClient.resumeGlobalPause()
     : await messageClient.pauseToday(Date.now());
-  onPauseStateChange(response.globalPausedUntil);
-}
-
-async function handleResumeAll(
-  onPauseStateChange: (globalPausedUntil: number) => void,
-): Promise<void> {
-  const response = await messageClient.resumeAll();
   onPauseStateChange(response.globalPausedUntil);
 }
 

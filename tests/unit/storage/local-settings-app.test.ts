@@ -71,4 +71,17 @@ describe('LocalSettingsStore — 长期学习设置', () => {
       consecutiveSkipCooldowns: [3, 30],
     });
   });
+
+  it('关闭连续跳过自动降频后，冷却配置不再提供递增档位', async () => {
+    const store = new LocalSettingsStore(db);
+    await store.setAppSettings({
+      ...DEFAULT_SETTINGS,
+      consecutiveSkipSlowdownEnabled: false,
+    });
+
+    await expect(store.getCooldownConfig()).resolves.toEqual({
+      defaultCooldownMinutes: DEFAULT_SETTINGS.defaultCooldownMinutes,
+      consecutiveSkipCooldowns: [],
+    });
+  });
 });

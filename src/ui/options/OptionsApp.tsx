@@ -204,6 +204,21 @@ export function OptionsApp(): JSX.Element {
           />
         </Field>
 
+        <Field label="连续跳过自动降频">
+          <input
+            type="checkbox"
+            role="switch"
+            aria-label="连续跳过自动降频"
+            checked={settings.consecutiveSkipSlowdownEnabled}
+            onChange={(event) =>
+              setSettings({
+                ...settings,
+                consecutiveSkipSlowdownEnabled: event.target.checked,
+              })
+            }
+          />
+        </Field>
+
         <Field label="长视频定时学习">
           <input
             type="checkbox"
@@ -277,6 +292,10 @@ export function OptionsApp(): JSX.Element {
               <SiteRow
                 key={entry.hostname}
                 entry={entry}
+                onEnabledChange={() => void handleSiteEnabledChange(entry, load, setNotice)}
+                onSettingsChange={(settings) =>
+                  void handleSiteSettingsChange(entry.hostname, settings, load, setNotice)
+                }
                 onRemove={() => void handleRemoveSite(entry.hostname, load, setNotice)}
               />
             ))}
@@ -349,7 +368,17 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function SiteRow({ entry, onRemove }: { entry: SiteEntry; onRemove: () => void }): JSX.Element {
+function SiteRow({
+  entry,
+  onEnabledChange,
+  onSettingsChange,
+  onRemove,
+}: {
+  entry: SiteEntry;
+  onEnabledChange: () => void;
+  onSettingsChange: (settings: SiteSettings) => void;
+  onRemove: () => void;
+}): JSX.Element {
   const { hostname, settings, hasHostPermission } = entry;
   const needsPermission = settings.mode !== 'unsupported' && !hasHostPermission;
   const effectivelyEnabled = settings.enabled && !needsPermission;
@@ -371,15 +400,30 @@ function SiteRow({ entry, onRemove }: { entry: SiteEntry; onRemove: () => void }
       {settings.mode === 'basic-web' && (
         <div className="bingeup-site-triggers">
           <label>
-            <input type="checkbox" checked={settings.pageLoadTrigger ?? true} disabled />
+            <input
+              type="checkbox"
+              checked={settings.pageLoadTrigger ?? true}
+              onChange={(event) =>
+                onSettingsChange({ ...settings, pageLoadTrigger: event.target.checked })
+              }
+            />
             页面加载触发
           </label>
           <label>
-            <input type="checkbox" checked={settings.scrollTrigger ?? true} disabled />
+            <input
+              type="checkbox"
+              checked={settings.scrollTrigger ?? true}
+              onChange={(event) =>
+                onSettingsChange({ ...settings, scrollTrigger: event.target.checked })
+              }
+            />
             滚动触发
           </label>
         </div>
       )}
+      <button className="bingeup-btn-secondary bingeup-btn-sm" onClick={onEnabledChange}>
+        {settings.enabled ? '关闭网站' : '开启网站'}
+      </button>
       <button className="bingeup-btn-danger bingeup-btn-sm" onClick={onRemove}>
         删除
       </button>
@@ -416,6 +460,40 @@ async function handleReset(
     onNotice('已恢复默认设置');
   } catch (e) {
     onNotice(`恢复失败：${e instanceof Error ? e.message : String(e)}`);
+  }
+}
+
+async function handleSiteEnabledChange(
+  entry: SiteEntry,
+  onReload: () => Promise<unknown>,
+  onNotice: (msg: string | null) => void,
+): Promise<void> {
+  try {
+    if (entry.settings.enabled) {
+      await messageClient.disableSite(entry.hostname);
+      onNotice(`已关闭网站 ${entry.hostname}`);
+    } else {
+      await messageClient.enableSite(entry.hostname);
+      onNotice(`已开启网站 ${entry.hostname}`);
+    }
+    await onReload();
+  } catch (error) {
+    onNotice(`网站状态更新失败：${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+async function handleSiteSettingsChange(
+  hostname: string,
+  settings: SiteSettings,
+  onReload: () => Promise<unknown>,
+  onNotice: (msg: string | null) => void,
+): Promise<void> {
+  try {
+    await messageClient.updateSiteSettings(hostname, settings);
+    await onReload();
+    onNotice(`已保存网站 ${hostname} 的触发设置`);
+  } catch (error) {
+    onNotice(`触发设置保存失败：${error instanceof Error ? error.message : String(error)}`);
   }
 }
 

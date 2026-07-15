@@ -11,6 +11,7 @@ import { getDefaultDeck } from '@/dictionary/built-in/decks';
 export const DEFAULT_SETTINGS: AppSettings = {
   defaultCooldownMinutes: 2,
   consecutiveSkipCooldowns: [5, 15, 60],
+  consecutiveSkipSlowdownEnabled: true,
   /** 每日新词上限默认五个、不结转（Issue #6 验收标准 4）。 */
   dailyNewWordLimit: 5,
   /** 默认词库为首个内置词库。 */

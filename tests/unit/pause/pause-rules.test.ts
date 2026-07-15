@@ -1,24 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import {
-  pauseAll,
   pauseForTenMinutes,
   pauseToday,
-  resumeAll,
+  resumeGlobalPause,
   isGloballyPaused,
   endOfToday,
 } from '@/pause/pause-rules';
 
 const NOW = new Date('2026-07-11T10:30:00.000Z').getTime();
 
-describe('pause-rules — 暂停全部', () => {
-  it('暂停全部返回一个远期时间戳，判定为已暂停', () => {
-    const until = pauseAll(NOW);
-    expect(until).toBeGreaterThan(NOW);
-    expect(isGloballyPaused(until, NOW)).toBe(true);
-  });
-
-  it('恢复全部返回 0，判定为未暂停', () => {
-    const until = resumeAll();
+describe('pause-rules — 恢复全局临时暂停', () => {
+  it('恢复返回 0，判定为未暂停', () => {
+    const until = resumeGlobalPause();
     expect(until).toBe(0);
     expect(isGloballyPaused(until, NOW)).toBe(false);
   });

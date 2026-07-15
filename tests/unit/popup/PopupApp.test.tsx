@@ -7,22 +7,32 @@ const mocks = vi.hoisted(() => ({
   getPopupData: vi.fn(),
   getSiteState: vi.fn(),
   enableSite: vi.fn(),
+  disableSite: vi.fn(),
   pauseTenMinutes: vi.fn(),
   pauseToday: vi.fn(),
-  resumeAll: vi.fn(),
+  resumeGlobalPause: vi.fn(),
   addCustomSite: vi.fn(),
 }));
 
-const { getPopupData, enableSite, pauseTenMinutes, pauseToday, resumeAll, addCustomSite } = mocks;
+const {
+  getPopupData,
+  enableSite,
+  disableSite,
+  pauseTenMinutes,
+  pauseToday,
+  resumeGlobalPause,
+  addCustomSite,
+} = mocks;
 
 vi.mock('@/messaging/message-client', () => ({
   messageClient: {
     getPopupData: mocks.getPopupData,
     getSiteState: mocks.getSiteState,
     enableSite: mocks.enableSite,
+    disableSite: mocks.disableSite,
     pauseTenMinutes: mocks.pauseTenMinutes,
     pauseToday: mocks.pauseToday,
-    resumeAll: mocks.resumeAll,
+    resumeGlobalPause: mocks.resumeGlobalPause,
     addCustomSite: mocks.addCustomSite,
   },
 }));
@@ -59,9 +69,10 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     getPopupData.mockReset();
     mocks.getSiteState.mockReset();
     enableSite.mockReset();
+    disableSite.mockReset();
     pauseTenMinutes.mockReset();
     pauseToday.mockReset();
-    resumeAll.mockReset();
+    resumeGlobalPause.mockReset();
     vi.spyOn(window, 'close').mockImplementation(() => undefined);
   });
 
@@ -105,9 +116,78 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
       expect(screen.getByText('www.bilibili.com')).toBeInTheDocument();
       expect(screen.getByText('未启用')).toBeInTheDocument();
       expect(screen.getByText('完整适配')).toBeInTheDocument();
-      expect(screen.getByText('开启当前网站')).toBeInTheDocument();
+      const status = screen.getByRole('region', { name: '当前网站状态' });
+      expect(within(status).getByRole('button', { name: '开启当前网站' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
     });
+  });
+
+  it('当前网站状态区域可关闭已启用网站', async () => {
+    installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
+    getPopupData
+      .mockResolvedValueOnce({
+        site: {
+          hostname: 'www.bilibili.com',
+          enabled: true,
+          mode: 'full-adaptation',
+          firstQuestionPending: false,
+        },
+        onboardingCompleted: true,
+        globalPausedUntil: 0,
+      })
+      .mockResolvedValueOnce({
+        site: {
+          hostname: 'www.bilibili.com',
+          enabled: false,
+          mode: 'full-adaptation',
+          firstQuestionPending: false,
+        },
+        onboardingCompleted: true,
+        globalPausedUntil: 0,
+      });
+    disableSite.mockResolvedValue({
+      hostname: 'www.bilibili.com',
+      enabled: false,
+      mode: 'full-adaptation',
+      firstQuestionPending: false,
+    });
+
+    render(<PopupApp />);
+    const status = await screen.findByRole('region', { name: '当前网站状态' });
+    fireEvent.click(within(status).getByRole('button', { name: '关闭当前网站' }));
+
+    await waitFor(() => {
+      expect(disableSite).toHaveBeenCalledWith('www.bilibili.com');
+      expect(
+        within(screen.getByRole('region', { name: '当前网站状态' })).getByRole('button', {
+          name: '开启当前网站',
+        }),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('今日摘要显示今日完成题目、今日复习词和今日新词', async () => {
+    installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
+    getPopupData.mockResolvedValue({
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+      stats: {
+        today: { completedQuestions: 3, reviewedWords: 2, newWords: 1 },
+        dueReviewCount: 0,
+      },
+    });
+
+    render(<PopupApp />);
+
+    expect(await screen.findByText('今日完成题目')).toBeInTheDocument();
+    expect(screen.getByText('今日复习词')).toBeInTheDocument();
+    expect(screen.getByText('今日新词')).toBeInTheDocument();
   });
 
   it('引导未完成 + 默认站点已启用：显示正常状态且开始学习可用（Issue #21 AC3/AC6）', async () => {
@@ -129,6 +209,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     await waitFor(() => {
       expect(screen.getByText('www.bilibili.com')).toBeInTheDocument();
       expect(screen.getByText('已启用')).toBeInTheDocument();
+      expect(screen.getByText('视频区域覆盖 · 可控制视频')).toBeInTheDocument();
       expect(screen.getByText('完整适配')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '开始学习' })).toBeEnabled();
     });
@@ -184,8 +265,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
       onboardingCompleted: true,
       globalPausedUntil: 0,
       stats: {
-        today: { completedQuestions: 12 },
-        cardStatus: { longTerm: 9 },
+        today: { completedQuestions: 12, reviewedWords: 9, newWords: 5 },
         dueReviewCount: 5,
       },
     });
@@ -235,7 +315,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     enableSite.mockReset();
     pauseTenMinutes.mockReset();
     pauseToday.mockReset();
-    resumeAll.mockReset();
+    resumeGlobalPause.mockReset();
     vi.spyOn(window, 'close').mockImplementation(() => undefined);
   });
 
@@ -307,7 +387,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     });
   });
 
-  it('暂停 10 分钟后显示倒计时，点击倒计时调用 resumeAll', async () => {
+  it('暂停 10 分钟后显示倒计时，点击倒计时恢复全局临时暂停', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
       site: {
@@ -319,7 +399,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
       onboardingCompleted: true,
       globalPausedUntil: Date.now() + 10 * 60 * 1000,
     });
-    resumeAll.mockResolvedValue({ globalPausedUntil: 0 });
+    resumeGlobalPause.mockResolvedValue({ globalPausedUntil: 0 });
 
     render(<PopupApp />);
 
@@ -327,11 +407,11 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     fireEvent.click(btn);
 
     await waitFor(() => {
-      expect(resumeAll).toHaveBeenCalled();
+      expect(resumeGlobalPause).toHaveBeenCalled();
     });
   });
 
-  it('暂停今天后显示“今天恢复”，点击后调用 resumeAll', async () => {
+  it('暂停今天后显示“今天恢复”，点击后恢复全局临时暂停', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
     getPopupData.mockResolvedValue({
       site: {
@@ -343,7 +423,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
       onboardingCompleted: true,
       globalPausedUntil: endOfToday(Date.now()),
     });
-    resumeAll.mockResolvedValue({ globalPausedUntil: 0 });
+    resumeGlobalPause.mockResolvedValue({ globalPausedUntil: 0 });
 
     render(<PopupApp />);
 
@@ -351,13 +431,12 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
     fireEvent.click(btn);
 
     await waitFor(() => {
-      expect(resumeAll).toHaveBeenCalled();
+      expect(resumeGlobalPause).toHaveBeenCalled();
     });
   });
 
-  it('全局暂停时显示"恢复全部"并调用 resumeAll', async () => {
+  it('Popup 不提供“暂停全部网站”或“恢复全部”入口', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
-    const farFuture = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
     getPopupData.mockResolvedValue({
       site: {
         hostname: 'www.bilibili.com',
@@ -366,18 +445,14 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
         firstQuestionPending: false,
       },
       onboardingCompleted: true,
-      globalPausedUntil: farFuture,
+      globalPausedUntil: 0,
     });
-    resumeAll.mockResolvedValue({ globalPausedUntil: 0 });
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('恢复全部');
-    fireEvent.click(btn);
-
-    await waitFor(() => {
-      expect(resumeAll).toHaveBeenCalled();
-    });
+    await screen.findByText('暂停今天');
+    expect(screen.queryByText('暂停全部网站')).not.toBeInTheDocument();
+    expect(screen.queryByText('恢复全部')).not.toBeInTheDocument();
   });
 
   it('点击"开始学习"向内容脚本发送消息', async () => {
@@ -454,7 +529,6 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
   it('全局暂停时"开始学习"按钮禁用', async () => {
     installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
-    const farFuture = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
     getPopupData.mockResolvedValue({
       site: {
         hostname: 'www.bilibili.com',
@@ -463,7 +537,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
         firstQuestionPending: false,
       },
       onboardingCompleted: true,
-      globalPausedUntil: farFuture,
+      globalPausedUntil: endOfToday(Date.now()),
     });
 
     render(<PopupApp />);

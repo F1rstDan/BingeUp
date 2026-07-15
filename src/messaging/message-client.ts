@@ -1,4 +1,4 @@
-import type { AppSettings, SelfRatedLevel, SiteMode } from '@/types';
+import type { AppSettings, SelfRatedLevel, SiteMode, SiteSettings } from '@/types';
 import type {
   CooldownStatusResponse,
   ExportDataResponse,
@@ -56,17 +56,14 @@ export const messageClient = {
   async disableSite(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'SITE_DISABLE', hostname });
   },
-  async pauseAll(): Promise<PauseResponse> {
-    return send({ type: 'PAUSE_ALL' });
-  },
   async pauseTenMinutes(): Promise<PauseResponse> {
     return send({ type: 'PAUSE_TEN_MINUTES' });
   },
   async pauseToday(now: number): Promise<PauseResponse> {
     return send({ type: 'PAUSE_TODAY', now });
   },
-  async resumeAll(): Promise<PauseResponse> {
-    return send({ type: 'RESUME_ALL' });
+  async resumeGlobalPause(): Promise<PauseResponse> {
+    return send({ type: 'RESUME_GLOBAL_PAUSE' });
   },
   async getGlobalPauseStatus(): Promise<PauseResponse> {
     return send({ type: 'GET_GLOBAL_PAUSE_STATUS' });
@@ -90,6 +87,9 @@ export const messageClient = {
   },
   async listSites(): Promise<SiteListResponse> {
     return send({ type: 'LIST_SITES' });
+  },
+  async updateSiteSettings(hostname: string, settings: SiteSettings): Promise<SiteStateResponse> {
+    return send({ type: 'UPDATE_SITE_SETTINGS', hostname, settings });
   },
   async removeSite(hostname: string): Promise<RemoveSiteResponse> {
     return send({ type: 'REMOVE_SITE', hostname });

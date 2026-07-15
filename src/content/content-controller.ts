@@ -1,4 +1,5 @@
 import type {
+  AppSettings,
   AnswerSubmission,
   CooldownState,
   InteractionOutcome,
@@ -57,6 +58,10 @@ export interface LearningServicePort {
   getNextItem(options?: {
     excludedWordIds?: Set<string>;
     allowSpelling?: boolean;
+    allowEarlyShortTermReview?: boolean;
+    dailyNewWordLimit?: number;
+    selectedDeckId?: string;
+    selfRatedLevel?: AppSettings['selfRatedLevel'];
   }): Promise<LearningItem | null>;
   acceptNewWord(wordId: string): Promise<void>;
   selfReportKnown(wordId: string): Promise<void>;
@@ -84,6 +89,7 @@ export interface PauseStatePort {
 
 /** 站点首次触发状态端口。 */
 export interface SiteStatePort {
+  isEnabled(): Promise<boolean>;
   isFirstQuestionPending(): Promise<boolean>;
   markFirstQuestionHandled(): Promise<void>;
 }
@@ -116,6 +122,15 @@ export interface ContentControllerDeps {
   sessionLogger?: SessionLoggerPort;
   /** 拼写题开关（Issue #10 AC1）：仅连续学习模式出现拼写题。缺省 true。 */
   spellingEnabled?: boolean;
+  /** 每次取学习内容前读取最新设置，保存后无需重启内容脚本。 */
+  learningSettings?: {
+    get(): Promise<
+      Pick<
+        AppSettings,
+        'dailyNewWordLimit' | 'selectedDeckId' | 'selfRatedLevel' | 'spellingEnabled'
+      >
+    >;
+  };
 }
 
 interface ActiveInteraction {
@@ -137,6 +152,8 @@ interface ActiveInteraction {
   mode: 'single' | 'continuous';
   /** 会话中已提交的题目数（Issue #12）。 */
   questionsAnswered: number;
+  /** 是否由 Popup 主动学习入口启动，可在新词额度用完后使用主动巩固题。 */
+  allowEarlyShortTermReview: boolean;
 }
 
 /** Reassert the pause invariant without replacing the original playback snapshot. */
@@ -195,6 +212,21 @@ export class ContentController {
     this.unsubscribe = null;
   }
 
+  private async getLearningSelectionOptions(): Promise<{
+    dailyNewWordLimit?: number;
+    selectedDeckId?: string;
+    selfRatedLevel?: AppSettings['selfRatedLevel'];
+    spellingEnabled: boolean;
+  }> {
+    const settings = await this.deps.learningSettings?.get();
+    return {
+      dailyNewWordLimit: settings?.dailyNewWordLimit,
+      selectedDeckId: settings?.selectedDeckId,
+      selfRatedLevel: settings?.selfRatedLevel,
+      spellingEnabled: settings?.spellingEnabled ?? this.deps.spellingEnabled ?? true,
+    };
+  }
+
   /**
    * 主动触发连续学习（Issue #9 AC4）。
    *
@@ -217,6 +249,9 @@ export class ContentController {
         if (await this.deps.pauseState.isGloballyPaused()) {
           return { ok: false, reason: 'globally-paused' };
         }
+        if (!(await this.deps.siteState.isEnabled())) {
+          return { ok: false, reason: 'context-unavailable' };
+        }
       } catch (error) {
         console.error('[BingeUp] 读取全局暂停状态失败', error);
         return { ok: false, reason: 'failed' };
@@ -231,10 +266,17 @@ export class ContentController {
 
       // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
       // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
-      const allowSpelling = this.deps.spellingEnabled ?? true;
+      const selection = await this.getLearningSelectionOptions();
+      const allowSpelling = selection.spellingEnabled;
       let item: LearningItem | null;
       try {
-        item = await this.deps.learningService.getNextItem({ allowSpelling });
+        item = await this.deps.learningService.getNextItem({
+          allowSpelling,
+          allowEarlyShortTermReview: true,
+          dailyNewWordLimit: selection.dailyNewWordLimit,
+          selectedDeckId: selection.selectedDeckId,
+          selfRatedLevel: selection.selfRatedLevel,
+        });
       } catch (error) {
         console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
         if (playback !== null && snapshot !== null) await restore(playback, snapshot);
@@ -264,6 +306,7 @@ export class ContentController {
         startedAt: this.deps.clock.now(),
         mode: 'continuous',
         questionsAnswered: 0,
+        allowEarlyShortTermReview: true,
       };
       this.handledIdentities.add(event.identity);
       this.hasSubmitted = false;
@@ -287,6 +330,11 @@ export class ContentController {
     }
     this.triggerInProgress = true;
 
+    if (!(await this.deps.siteState.isEnabled())) {
+      this.triggerInProgress = false;
+      return;
+    }
+
     const firstPending = await this.deps.siteState.isFirstQuestionPending();
     if (!firstPending) {
       const cooldown = await this.deps.cooldownStore.get();
@@ -304,7 +352,12 @@ export class ContentController {
     // 获取学习项目；无内容则不触发。单题模式不出拼写题。
     let item: LearningItem | null;
     try {
-      item = await this.deps.learningService.getNextItem();
+      const selection = await this.getLearningSelectionOptions();
+      item = await this.deps.learningService.getNextItem({
+        dailyNewWordLimit: selection.dailyNewWordLimit,
+        selectedDeckId: selection.selectedDeckId,
+        selfRatedLevel: selection.selfRatedLevel,
+      });
     } catch (error) {
       if (playback !== null && snapshot !== null) {
         await restore(playback, snapshot);
@@ -344,6 +397,7 @@ export class ContentController {
       startedAt: this.deps.clock.now(),
       mode: 'single',
       questionsAnswered: 0,
+      allowEarlyShortTermReview: false,
     };
     this.handledIdentities.add(event.identity);
     this.hasSubmitted = false;
@@ -516,10 +570,15 @@ export class ContentController {
    */
   private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
     pauseIfPlaying(active.playback);
-    const allowSpelling = this.deps.spellingEnabled ?? true;
+    const selection = await this.getLearningSelectionOptions();
+    const allowSpelling = selection.spellingEnabled;
     const nextItem = await this.deps.learningService.getNextItem({
       excludedWordIds: this.sessionWordIds,
       allowSpelling,
+      allowEarlyShortTermReview: active.allowEarlyShortTermReview,
+      dailyNewWordLimit: selection.dailyNewWordLimit,
+      selectedDeckId: selection.selectedDeckId,
+      selfRatedLevel: selection.selfRatedLevel,
     });
 
     if (nextItem === null) {

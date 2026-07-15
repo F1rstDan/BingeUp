@@ -306,7 +306,9 @@ export class LocalSettingsStore {
     const app = await this.getAppSettings();
     return {
       defaultCooldownMinutes: app.defaultCooldownMinutes,
-      consecutiveSkipCooldowns: app.consecutiveSkipCooldowns,
+      consecutiveSkipCooldowns: app.consecutiveSkipSlowdownEnabled
+        ? app.consecutiveSkipCooldowns
+        : [],
     };
   }
 

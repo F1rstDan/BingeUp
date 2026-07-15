@@ -183,16 +183,6 @@ describe('message-router — Issue #9 新增消息', () => {
     });
   });
 
-  it('PAUSE_ALL：设置远期全局暂停（AC4）', async () => {
-    const res = (await router.handle(
-      { type: 'PAUSE_ALL' },
-      {} as chrome.runtime.MessageSender,
-    )) as { globalPausedUntil: number };
-
-    expect(res.globalPausedUntil).toBeGreaterThan(NOW);
-    expect(await store.getGlobalPausedUntil()).toBe(res.globalPausedUntil);
-  });
-
   it('PAUSE_TEN_MINUTES：设置十分钟全局暂停（Popup 倒计时）', async () => {
     const before = Date.now();
     const res = (await router.handle(
@@ -216,10 +206,10 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(d.getMinutes()).toBe(59);
   });
 
-  it('RESUME_ALL：清零全局暂停', async () => {
+  it('RESUME_GLOBAL_PAUSE：清零全局临时暂停', async () => {
     await store.setGlobalPausedUntil(Number.MAX_SAFE_INTEGER);
     const res = (await router.handle(
-      { type: 'RESUME_ALL' },
+      { type: 'RESUME_GLOBAL_PAUSE' },
       {} as chrome.runtime.MessageSender,
     )) as { globalPausedUntil: number };
 
@@ -466,15 +456,13 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as {
       stats?: {
-        today: { completedQuestions: number };
-        cardStatus: { longTerm: number };
+        today: { completedQuestions: number; reviewedWords: number; newWords: number };
         dueReviewCount: number;
       };
     };
 
     expect(res.stats).toEqual({
-      today: { completedQuestions: 1 },
-      cardStatus: { longTerm: 1 },
+      today: { completedQuestions: 1, reviewedWords: 1, newWords: 0 },
       dueReviewCount: 1,
     });
   });
