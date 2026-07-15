@@ -8,6 +8,13 @@ const recordPromptDecline = vi.fn();
 const getAppSettings = vi.fn();
 const updateSiteMode = vi.fn();
 const getGlobalPauseStatus = vi.fn();
+const getNextLearningItem = vi.fn();
+const acceptNewWord = vi.fn();
+const selfReportKnown = vi.fn();
+const submitLearningAnswer = vi.fn();
+const submitLearningSpelling = vi.fn();
+const correctLearningRating = vi.fn();
+const saveLearningSession = vi.fn();
 const showEnablePrompt = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
@@ -19,6 +26,13 @@ vi.mock('@/messaging/message-client', () => ({
     getAppSettings,
     updateSiteMode,
     getGlobalPauseStatus,
+    getNextLearningItem,
+    acceptNewWord,
+    selfReportKnown,
+    submitLearningAnswer,
+    submitLearningSpelling,
+    correctLearningRating,
+    saveLearningSession,
   },
 }));
 
@@ -36,6 +50,8 @@ describe('bootstrapContent — 启动诊断', () => {
     getAppSettings.mockReset();
     updateSiteMode.mockReset();
     getGlobalPauseStatus.mockReset();
+    getNextLearningItem.mockReset();
+    getNextLearningItem.mockResolvedValue(null);
     getGlobalPauseStatus.mockResolvedValue({ globalPausedUntil: 0 });
     getAppSettings.mockResolvedValue({
       defaultCooldownMinutes: 2,
@@ -141,6 +157,24 @@ describe('bootstrapContent — 启动诊断', () => {
       firstQuestionPending: false,
       pageLoadTrigger: false,
       scrollTrigger: false,
+    });
+    getNextLearningItem.mockResolvedValue({
+      kind: 'new-word-presentation',
+      presentation: {
+        word: {
+          id: 'w-test',
+          word: 'test',
+          lemma: 'test',
+          partOfSpeech: ['v.'],
+          coreMeaningZh: ['测试'],
+          exampleSentence: 'Test sentence.',
+          exampleTranslation: '测试翻译。',
+          surfaceFormInExample: 'Test',
+          difficulty: 2,
+          source: 'test',
+          license: 'CC0',
+        },
+      },
     });
     const addListener = vi.fn();
     vi.stubGlobal('chrome', {

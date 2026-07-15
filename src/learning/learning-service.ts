@@ -69,9 +69,6 @@ interface Clock {
   now(): number;
 }
 
-/** 每日新词上限默认值（CONTEXT.md：每日新词上限默认五个）。 */
-const DEFAULT_DAILY_NEW_WORD_LIMIT = 5;
-
 /** 短期学习词接受后最早可测试的延迟（CONTEXT.md：最早十分钟后才可测试）。 */
 const SHORT_TERM_DELAY_MS = 10 * 60_000;
 
@@ -96,14 +93,17 @@ export interface LearningServiceDeps {
   clock: Clock;
   /** 复习调度器（Issue #7 验收标准 4）。缺省时使用 FsrsReviewScheduler。 */
   scheduler?: ReviewSchedulerPort;
-  /** 每日新词上限，缺省为 5。 */
-  dailyNewWordLimit?: number;
+  /** 每次学习选择读取的唯一设置源。 */
+  settings: {
+    get(): Promise<{
+      dailyNewWordLimit: number;
+      selectedDeckId: string;
+      selfRatedLevel: SelfRatedLevel;
+      spellingEnabled: boolean;
+    }>;
+  };
   /** 随机函数，用于自报认识词验证题延迟（[1,2) 天），缺省 Math.random。 */
   random?: () => number;
-  /** 当前选中的词库 ID（Issue #25）。缺省时使用默认词库。 */
-  selectedDeckId?: string;
-  /** 用户自评水平（Issue #25）。缺省为 intermediate。 */
-  selfRatedLevel?: SelfRatedLevel;
 }
 
 /**
@@ -132,10 +132,6 @@ export class LearningService {
     this.deps = deps;
   }
 
-  private get dailyLimit(): number {
-    return this.deps.dailyNewWordLimit ?? DEFAULT_DAILY_NEW_WORD_LIMIT;
-  }
-
   private get random(): () => number {
     return this.deps.random ?? Math.random;
   }
@@ -147,7 +143,7 @@ export class LearningService {
   private readonly defaultScheduler: ReviewSchedulerPort = new FsrsReviewScheduler();
 
   /** 当前词库 ID（Issue #25）。 */
-  private async getSelectedDeckId(selectedDeckId = this.deps.selectedDeckId): Promise<string> {
+  private async getSelectedDeckId(selectedDeckId: string): Promise<string> {
     if (selectedDeckId) {
       const deck = await this.deps.words.getDeck(selectedDeckId);
       if (deck) return selectedDeckId;
@@ -156,18 +152,13 @@ export class LearningService {
     return defaultDeck.id;
   }
 
-  /** 当前自评水平（Issue #25）。 */
-  private get selfRatedLevel(): SelfRatedLevel {
-    return this.deps.selfRatedLevel ?? 'intermediate';
-  }
-
   /**
    * 自评水平对应的优先难度区间（Issue #25）。
    * - beginner → [1, 2]
    * - intermediate → [2, 3]
    * - advanced → [3, 4]
    */
-  private getPreferredDifficulty(level: SelfRatedLevel = this.selfRatedLevel): number[] {
+  private getPreferredDifficulty(level: SelfRatedLevel): number[] {
     switch (level) {
       case 'beginner':
         return [1, 2];
@@ -196,13 +187,13 @@ export class LearningService {
     excludedWordIds?: Set<string>;
     allowSpelling?: boolean;
     allowEarlyShortTermReview?: boolean;
-    dailyNewWordLimit?: number;
-    selectedDeckId?: string;
-    selfRatedLevel?: SelfRatedLevel;
   }): Promise<LearningItem | null> {
     const now = this.deps.clock.now();
-    const allCards = await this.deps.cards.getAll();
-    const allowSpelling = options?.allowSpelling ?? false;
+    const [allCards, settings] = await Promise.all([
+      this.deps.cards.getAll(),
+      this.deps.settings.get(),
+    ]);
+    const allowSpelling = (options?.allowSpelling ?? false) && settings.spellingEnabled;
     const excludedWordIds = options?.excludedWordIds;
 
     // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
@@ -234,7 +225,7 @@ export class LearningService {
     }
 
     // 5. 无到期复习：候选新词（受每日上限约束）
-    const dailyLimit = options?.dailyNewWordLimit ?? this.dailyLimit;
+    const dailyLimit = settings.dailyNewWordLimit;
     if (this.countTodayNewWords(allCards, now) >= dailyLimit) {
       if (options?.allowEarlyShortTermReview) {
         const earlyShortTerm = this.findEarliestShortTermForActiveReview(
@@ -252,9 +243,9 @@ export class LearningService {
 
     const candidate = await this.pickCandidateNewWord(
       allCards,
+      settings.selectedDeckId,
+      settings.selfRatedLevel,
       excludedWordIds,
-      options?.selectedDeckId,
-      options?.selfRatedLevel,
     );
     if (candidate) {
       return { kind: 'new-word-presentation', presentation: { word: candidate } };
@@ -327,7 +318,8 @@ export class LearningService {
     if (existing) return;
 
     const now = this.deps.clock.now();
-    const deckId = await this.getSelectedDeckId();
+    const { selectedDeckId } = await this.deps.settings.get();
+    const deckId = await this.getSelectedDeckId(selectedDeckId);
     const card = buildCard(deckId, now);
     try {
       await this.deps.cards.save(card);
@@ -780,9 +772,9 @@ export class LearningService {
    */
   private async pickCandidateNewWord(
     existingCards: CardRecord[],
+    selectedDeckId: string,
+    selfRatedLevel: SelfRatedLevel,
     excludedWordIds?: Set<string>,
-    selectedDeckId?: string,
-    selfRatedLevel?: SelfRatedLevel,
   ): Promise<WordRecord | null> {
     const deckId = await this.getSelectedDeckId(selectedDeckId);
     const cardWordIds = new Set(existingCards.map((c) => c.wordId));

@@ -304,6 +304,7 @@ function PopupView({
           <p className="bingeup-hint">
             当前网站缺少主机权限，请在扩展管理页授予访问权限后刷新页面。
           </p>
+          <p className="bingeup-hint">需要权限 · 无学习遮罩 · 不控制视频</p>
         </div>
         <DisabledStartLearning reason="请先授予当前网站访问权限。" />
       </div>
@@ -457,13 +458,8 @@ async function handleSiteEnabledChange(
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
-    if (isEnabled) {
-      await messageClient.disableSite(hostname);
-      onNotice('已关闭当前网站。');
-    } else {
-      await messageClient.enableSite(hostname);
-      onNotice('已开启当前网站。');
-    }
+    await messageClient.setSiteEnabled(hostname, !isEnabled);
+    onNotice(isEnabled ? '已关闭当前网站。' : '已开启当前网站。');
     await onReload();
   } catch (error) {
     onNotice(`网站状态更新失败：${error instanceof Error ? error.message : String(error)}`);

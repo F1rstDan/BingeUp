@@ -116,7 +116,11 @@ export class TimedLearningAdapter implements VideoSiteAdapter {
       }
     };
 
-    const timerId = timers.setInterval(() => void check(), this.deps.pollMilliseconds ?? 1_000);
+    const timerId = timers.setInterval(() => {
+      void check().catch((error: unknown) => {
+        console.error('[BingeUp] 检查长视频定时学习失败', error);
+      });
+    }, this.deps.pollMilliseconds ?? 1_000);
     return () => {
       stopped = true;
       timers.clearInterval(timerId);

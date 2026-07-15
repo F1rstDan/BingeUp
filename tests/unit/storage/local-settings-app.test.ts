@@ -84,4 +84,28 @@ describe('LocalSettingsStore — 长期学习设置', () => {
       consecutiveSkipCooldowns: [],
     });
   });
+
+  it('并发修改两个基础网页触发开关时不覆盖站点启用状态或另一开关', async () => {
+    const store = new LocalSettingsStore(db);
+    await store.setSite('example.com', {
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+      pageLoadTrigger: true,
+      scrollTrigger: false,
+    });
+
+    await Promise.all([
+      store.updateSiteTriggers('example.com', { pageLoadTrigger: false }),
+      store.updateSiteTriggers('example.com', { scrollTrigger: true }),
+    ]);
+
+    await expect(store.getSite('example.com')).resolves.toEqual({
+      enabled: true,
+      mode: 'basic-web',
+      firstQuestionPending: false,
+      pageLoadTrigger: false,
+      scrollTrigger: true,
+    });
+  });
 });

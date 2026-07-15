@@ -236,6 +236,12 @@ function makeService(
   const words = opts.words ?? new FakeWordBank();
   const scheduler = opts.scheduler ?? new FakeScheduler();
   let now = opts.now ?? 1_000_000;
+  let learningSettings = {
+    dailyNewWordLimit: opts.dailyNewWordLimit ?? 5,
+    selectedDeckId: DECK.id,
+    selfRatedLevel: 'intermediate' as const,
+    spellingEnabled: true,
+  };
   const clock = { now: () => now };
   const service = new LearningService({
     cards,
@@ -243,7 +249,7 @@ function makeService(
     words,
     clock,
     scheduler,
-    dailyNewWordLimit: opts.dailyNewWordLimit,
+    settings: { get: async () => learningSettings },
     random: opts.random,
   });
   return {
@@ -258,6 +264,9 @@ function makeService(
     },
     setNow(t: number) {
       now = t;
+    },
+    setLearningSettings(next: Partial<typeof learningSettings>) {
+      learningSettings = { ...learningSettings, ...next };
     },
   };
 }
@@ -508,11 +517,15 @@ describe('LearningService — 主动巩固题（Issue #22）', () => {
 
 describe('LearningService — 学习设置热更新（Issue #22）', () => {
   it('下一次取学习内容读取调用时提供的最新每日新词上限', async () => {
-    const { service } = makeService({ now: 1_000_000, dailyNewWordLimit: 5 });
+    const { service, setLearningSettings } = makeService({
+      now: 1_000_000,
+      dailyNewWordLimit: 5,
+    });
     const candidate = await service.getNextItem();
     await service.acceptNewWord(presentationOf(candidate).word.id);
 
-    const next = await service.getNextItem({ dailyNewWordLimit: 1 });
+    setLearningSettings({ dailyNewWordLimit: 1 });
+    const next = await service.getNextItem();
 
     expect(next).toBeNull();
   });

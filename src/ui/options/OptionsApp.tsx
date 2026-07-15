@@ -293,8 +293,8 @@ export function OptionsApp(): JSX.Element {
                 key={entry.hostname}
                 entry={entry}
                 onEnabledChange={() => void handleSiteEnabledChange(entry, load, setNotice)}
-                onSettingsChange={(settings) =>
-                  void handleSiteSettingsChange(entry.hostname, settings, load, setNotice)
+                onTriggersChange={(triggers) =>
+                  void handleSiteTriggersChange(entry.hostname, triggers, load, setNotice)
                 }
                 onRemove={() => void handleRemoveSite(entry.hostname, load, setNotice)}
               />
@@ -371,12 +371,12 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function SiteRow({
   entry,
   onEnabledChange,
-  onSettingsChange,
+  onTriggersChange,
   onRemove,
 }: {
   entry: SiteEntry;
   onEnabledChange: () => void;
-  onSettingsChange: (settings: SiteSettings) => void;
+  onTriggersChange: (triggers: Pick<SiteSettings, 'pageLoadTrigger' | 'scrollTrigger'>) => void;
   onRemove: () => void;
 }): JSX.Element {
   const { hostname, settings, hasHostPermission } = entry;
@@ -403,9 +403,7 @@ function SiteRow({
             <input
               type="checkbox"
               checked={settings.pageLoadTrigger ?? true}
-              onChange={(event) =>
-                onSettingsChange({ ...settings, pageLoadTrigger: event.target.checked })
-              }
+              onChange={(event) => onTriggersChange({ pageLoadTrigger: event.target.checked })}
             />
             页面加载触发
           </label>
@@ -413,9 +411,7 @@ function SiteRow({
             <input
               type="checkbox"
               checked={settings.scrollTrigger ?? true}
-              onChange={(event) =>
-                onSettingsChange({ ...settings, scrollTrigger: event.target.checked })
-              }
+              onChange={(event) => onTriggersChange({ scrollTrigger: event.target.checked })}
             />
             滚动触发
           </label>
@@ -469,27 +465,22 @@ async function handleSiteEnabledChange(
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
-    if (entry.settings.enabled) {
-      await messageClient.disableSite(entry.hostname);
-      onNotice(`已关闭网站 ${entry.hostname}`);
-    } else {
-      await messageClient.enableSite(entry.hostname);
-      onNotice(`已开启网站 ${entry.hostname}`);
-    }
+    await messageClient.setSiteEnabled(entry.hostname, !entry.settings.enabled);
+    onNotice(`${entry.settings.enabled ? '已关闭' : '已开启'}网站 ${entry.hostname}`);
     await onReload();
   } catch (error) {
     onNotice(`网站状态更新失败：${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
-async function handleSiteSettingsChange(
+async function handleSiteTriggersChange(
   hostname: string,
-  settings: SiteSettings,
+  triggers: Pick<SiteSettings, 'pageLoadTrigger' | 'scrollTrigger'>,
   onReload: () => Promise<unknown>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
-    await messageClient.updateSiteSettings(hostname, settings);
+    await messageClient.updateSiteTriggers(hostname, triggers);
     await onReload();
     onNotice(`已保存网站 ${hostname} 的触发设置`);
   } catch (error) {

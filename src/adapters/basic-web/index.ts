@@ -80,9 +80,14 @@ export class BasicWebAdapter implements VideoSiteAdapter {
           });
         };
         if (this.options.getLatest) {
-          void this.options.getLatest().then((latest) => {
-            if (latest.pageLoadTrigger && !stopped) emit();
-          });
+          void this.options
+            .getLatest()
+            .then((latest) => {
+              if (latest.pageLoadTrigger && !stopped) emit();
+            })
+            .catch((error: unknown) => {
+              console.error('[BingeUp] 读取基础网页触发设置失败', error);
+            });
         } else if (this.options.pageLoadTrigger) {
           emit();
         }
@@ -120,7 +125,12 @@ export class BasicWebAdapter implements VideoSiteAdapter {
         const delta = Math.abs(window.scrollY - lastScrollY);
         lastScrollY = window.scrollY;
         if (this.options.getLatest) {
-          void this.options.getLatest().then((latest) => applyScroll(delta, latest.scrollTrigger));
+          void this.options
+            .getLatest()
+            .then((latest) => applyScroll(delta, latest.scrollTrigger))
+            .catch((error: unknown) => {
+              console.error('[BingeUp] 读取基础网页触发设置失败', error);
+            });
         } else applyScroll(delta, this.options.scrollTrigger);
       };
       window.addEventListener('scroll', onScroll, { passive: true });

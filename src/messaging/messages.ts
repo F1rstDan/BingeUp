@@ -1,4 +1,13 @@
-import type { AppSettings, CooldownState, SelfRatedLevel, SiteSettings } from '@/types';
+import type {
+  AnswerSubmission,
+  AppSettings,
+  CooldownState,
+  SessionLogRecord,
+  SelfRatedLevel,
+  SiteSettings,
+  SpellingSubmission,
+  UserCorrection,
+} from '@/types';
 import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
 
 /**
@@ -11,6 +20,20 @@ export type ExtensionMessage =
   | { type: 'COOLDOWN_GET_STATUS' }
   | { type: 'COOLDOWN_COMPLETE_QUESTION' }
   | { type: 'COOLDOWN_SKIP_QUESTION' }
+  | {
+      type: 'LEARNING_GET_NEXT';
+      options?: {
+        excludedWordIds?: string[];
+        allowSpelling?: boolean;
+        allowEarlyShortTermReview?: boolean;
+      };
+    }
+  | { type: 'LEARNING_ACCEPT_NEW_WORD'; wordId: string }
+  | { type: 'LEARNING_SELF_REPORT_KNOWN'; wordId: string }
+  | { type: 'LEARNING_SUBMIT_ANSWER'; submission: AnswerSubmission }
+  | { type: 'LEARNING_SUBMIT_SPELLING'; submission: SpellingSubmission }
+  | { type: 'LEARNING_CORRECT_RATING'; reviewLogId: string; correction: UserCorrection }
+  | { type: 'LEARNING_SAVE_SESSION'; log: SessionLogRecord }
   | { type: 'SITE_GET_STATE'; hostname: string }
   | { type: 'SITE_MARK_FIRST_QUESTION_HANDLED'; hostname: string }
   // ─── Issue #9：安装引导、可选权限与 Popup 控制 ──────────────
@@ -49,8 +72,12 @@ export type ExtensionMessage =
   | { type: 'RESET_APP_SETTINGS' }
   /** 列出所有已持久化的站点设置（AC2 站点管理）。 */
   | { type: 'LIST_SITES' }
-  /** 保存单个站点设置（启用状态由 SITE_ENABLE / SITE_DISABLE 负责）。 */
-  | { type: 'UPDATE_SITE_SETTINGS'; hostname: string; settings: SiteSettings }
+  /** 原子更新基础网页的两个触发字段，不触碰站点启用状态。 */
+  | {
+      type: 'UPDATE_SITE_TRIGGERS';
+      hostname: string;
+      triggers: Pick<SiteSettings, 'pageLoadTrigger' | 'scrollTrigger'>;
+    }
   /** 删除自定义网站并释放可选权限（AC5）。 */
   | { type: 'REMOVE_SITE'; hostname: string }
   /** 导出本地全部数据（AC4）。 */

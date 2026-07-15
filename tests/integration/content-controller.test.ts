@@ -194,9 +194,6 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
           excludedWordIds?: Set<string>;
           allowSpelling?: boolean;
           allowEarlyShortTermReview?: boolean;
-          dailyNewWordLimit?: number;
-          selectedDeckId?: string;
-          selfRatedLevel?: 'beginner' | 'intermediate' | 'advanced';
         }
       | undefined
     >,
@@ -212,9 +209,6 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
       excludedWordIds?: Set<string>;
       allowSpelling?: boolean;
       allowEarlyShortTermReview?: boolean;
-      dailyNewWordLimit?: number;
-      selectedDeckId?: string;
-      selfRatedLevel?: 'beginner' | 'intermediate' | 'advanced';
     }) {
       svc.nextItemCalls += 1;
       svc.nextItemOptions.push(options);
@@ -279,12 +273,6 @@ function makeController(
     item?: LearningItem | null;
     withSessionLogger?: boolean;
     globallyPaused?: boolean;
-    learningSettings?: {
-      dailyNewWordLimit: number;
-      selectedDeckId: string;
-      selfRatedLevel: 'beginner' | 'intermediate' | 'advanced';
-      spellingEnabled: boolean;
-    };
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -312,9 +300,6 @@ function makeController(
     learningService,
     sessionLogger,
     pauseState,
-    learningSettings: opts.learningSettings
-      ? { get: async () => opts.learningSettings! }
-      : undefined,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -1095,27 +1080,6 @@ describe('ContentController — 主动连续学习入口（Issue #9 AC4）', () 
     await flush();
 
     expect(learningService.nextItemOptions[0]?.allowEarlyShortTermReview).not.toBe(true);
-  });
-
-  it('主动学习在每次取内容时传入最新学习设置', async () => {
-    const { controller, adapter, learningService } = makeController({
-      learningSettings: {
-        dailyNewWordLimit: 8,
-        selectedDeckId: 'deck-cet4',
-        selfRatedLevel: 'advanced',
-        spellingEnabled: false,
-      },
-    });
-    adapter.setCurrentEvent('bv-settings', {});
-
-    await controller.startContinuousLearning();
-
-    expect(learningService.nextItemOptions[0]).toMatchObject({
-      dailyNewWordLimit: 8,
-      selectedDeckId: 'deck-cet4',
-      selfRatedLevel: 'advanced',
-      allowSpelling: false,
-    });
   });
 
   it('startContinuousLearning：基础网页上下文以全网页遮罩启动且不调用播放控制', async () => {

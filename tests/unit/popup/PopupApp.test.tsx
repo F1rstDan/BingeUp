@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   getSiteState: vi.fn(),
   enableSite: vi.fn(),
   disableSite: vi.fn(),
+  setSiteEnabled: vi.fn(),
   pauseTenMinutes: vi.fn(),
   pauseToday: vi.fn(),
   resumeGlobalPause: vi.fn(),
@@ -18,6 +19,7 @@ const {
   getPopupData,
   enableSite,
   disableSite,
+  setSiteEnabled,
   pauseTenMinutes,
   pauseToday,
   resumeGlobalPause,
@@ -30,6 +32,7 @@ vi.mock('@/messaging/message-client', () => ({
     getSiteState: mocks.getSiteState,
     enableSite: mocks.enableSite,
     disableSite: mocks.disableSite,
+    setSiteEnabled: mocks.setSiteEnabled,
     pauseTenMinutes: mocks.pauseTenMinutes,
     pauseToday: mocks.pauseToday,
     resumeGlobalPause: mocks.resumeGlobalPause,
@@ -70,6 +73,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     mocks.getSiteState.mockReset();
     enableSite.mockReset();
     disableSite.mockReset();
+    setSiteEnabled.mockReset();
     pauseTenMinutes.mockReset();
     pauseToday.mockReset();
     resumeGlobalPause.mockReset();
@@ -145,7 +149,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
         onboardingCompleted: true,
         globalPausedUntil: 0,
       });
-    disableSite.mockResolvedValue({
+    setSiteEnabled.mockResolvedValue({
       hostname: 'www.bilibili.com',
       enabled: false,
       mode: 'full-adaptation',
@@ -157,7 +161,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     fireEvent.click(within(status).getByRole('button', { name: '关闭当前网站' }));
 
     await waitFor(() => {
-      expect(disableSite).toHaveBeenCalledWith('www.bilibili.com');
+      expect(setSiteEnabled).toHaveBeenCalledWith('www.bilibili.com', false);
       expect(
         within(screen.getByRole('region', { name: '当前网站状态' })).getByRole('button', {
           name: '开启当前网站',
@@ -231,6 +235,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     render(<PopupApp />);
 
     expect(await screen.findByText(/缺少主机权限/)).toBeInTheDocument();
+    expect(screen.getByText('需要权限 · 无学习遮罩 · 不控制视频')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
   });
 

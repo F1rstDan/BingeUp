@@ -270,6 +270,23 @@ export class LocalSettingsStore {
     await this.setSite(hostname, { ...current, mode });
   }
 
+  async updateSiteTriggers(
+    hostname: string,
+    triggers: Pick<SiteSettings, 'pageLoadTrigger' | 'scrollTrigger'>,
+  ): Promise<void> {
+    await this.updateAuthoritativeState((state) => {
+      const key = canonicalSiteKey(hostname);
+      const current = normalizeSiteSettings(
+        hostname,
+        state.sites[key] ?? defaultSiteSettings(hostname),
+      );
+      if (current.mode !== 'basic-web') {
+        throw new Error('只有基础网页模式可以修改页面触发设置');
+      }
+      state.sites[key] = normalizeSiteSettings(hostname, { ...current, ...triggers });
+    });
+  }
+
   async isOnboardingCompleted(): Promise<boolean> {
     return (await this.getAuthoritativeState()).onboardingCompleted;
   }

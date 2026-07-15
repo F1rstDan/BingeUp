@@ -1,4 +1,16 @@
-import type { AppSettings, SelfRatedLevel, SiteMode, SiteSettings } from '@/types';
+import type {
+  AnswerSubmission,
+  AppSettings,
+  CorrectionResult,
+  LearningItem,
+  SelfRatedLevel,
+  SessionLogRecord,
+  SiteMode,
+  SiteSettings,
+  SpellingSubmission,
+  SubmissionResult,
+  UserCorrection,
+} from '@/types';
 import type {
   CooldownStatusResponse,
   ExportDataResponse,
@@ -25,6 +37,39 @@ export const messageClient = {
   },
   async skipQuestion(): Promise<CooldownStatusResponse> {
     return send({ type: 'COOLDOWN_SKIP_QUESTION' });
+  },
+  async getNextLearningItem(options?: {
+    excludedWordIds?: Set<string>;
+    allowSpelling?: boolean;
+    allowEarlyShortTermReview?: boolean;
+  }): Promise<LearningItem | null> {
+    return send({
+      type: 'LEARNING_GET_NEXT',
+      options: options
+        ? { ...options, excludedWordIds: [...(options.excludedWordIds ?? [])] }
+        : undefined,
+    });
+  },
+  async acceptNewWord(wordId: string): Promise<void> {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId });
+  },
+  async selfReportKnown(wordId: string): Promise<void> {
+    await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId });
+  },
+  async submitLearningAnswer(submission: AnswerSubmission): Promise<SubmissionResult> {
+    return send({ type: 'LEARNING_SUBMIT_ANSWER', submission });
+  },
+  async submitLearningSpelling(submission: SpellingSubmission): Promise<SubmissionResult> {
+    return send({ type: 'LEARNING_SUBMIT_SPELLING', submission });
+  },
+  async correctLearningRating(
+    reviewLogId: string,
+    correction: UserCorrection,
+  ): Promise<CorrectionResult> {
+    return send({ type: 'LEARNING_CORRECT_RATING', reviewLogId, correction });
+  },
+  async saveLearningSession(log: SessionLogRecord): Promise<void> {
+    await send({ type: 'LEARNING_SAVE_SESSION', log });
   },
   async getSiteState(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'SITE_GET_STATE', hostname });
@@ -54,6 +99,10 @@ export const messageClient = {
     return send({ type: 'SITE_ENABLE', hostname });
   },
   async disableSite(hostname: string): Promise<SiteStateResponse> {
+    return send({ type: 'SITE_DISABLE', hostname });
+  },
+  async setSiteEnabled(hostname: string, enabled: boolean): Promise<SiteStateResponse> {
+    if (enabled) return send({ type: 'SITE_ENABLE', hostname });
     return send({ type: 'SITE_DISABLE', hostname });
   },
   async pauseTenMinutes(): Promise<PauseResponse> {
@@ -88,8 +137,11 @@ export const messageClient = {
   async listSites(): Promise<SiteListResponse> {
     return send({ type: 'LIST_SITES' });
   },
-  async updateSiteSettings(hostname: string, settings: SiteSettings): Promise<SiteStateResponse> {
-    return send({ type: 'UPDATE_SITE_SETTINGS', hostname, settings });
+  async updateSiteTriggers(
+    hostname: string,
+    triggers: Pick<SiteSettings, 'pageLoadTrigger' | 'scrollTrigger'>,
+  ): Promise<SiteStateResponse> {
+    return send({ type: 'UPDATE_SITE_TRIGGERS', hostname, triggers });
   },
   async removeSite(hostname: string): Promise<RemoveSiteResponse> {
     return send({ type: 'REMOVE_SITE', hostname });

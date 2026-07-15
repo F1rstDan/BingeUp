@@ -9,7 +9,9 @@ import { OverlayController } from '@/content/overlay-controller';
 import {
   ContentController,
   type CooldownStore,
+  type LearningServicePort,
   type PauseStatePort,
+  type SessionLoggerPort,
   type SiteStatePort,
 } from '@/content/content-controller';
 import { showEnablePrompt } from '@/content/enable-prompt';
@@ -17,13 +19,6 @@ import { shouldShowEnablePrompt } from '@/onboarding/onboarding-service';
 import { adaptHtmlVideo } from '@/video/playback-controller';
 import { messageClient } from '@/messaging/message-client';
 import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent } from '@/types';
-import { LearningService } from '@/learning/learning-service';
-import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
-import { CardRepository } from '@/storage/repositories/card-repository';
-import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
-import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
-import { openDatabase } from '@/storage/database';
-import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { isGloballyPaused } from '@/pause/pause-rules';
 
 /**
@@ -71,6 +66,37 @@ export class MessageSiteState implements SiteStatePort {
 
   async markFirstQuestionHandled(): Promise<void> {
     await messageClient.markFirstQuestionHandled(this.hostname);
+  }
+}
+
+/** 内容页通过 background 中唯一的学习服务读写扩展源 IndexedDB。 */
+export class MessageLearningService implements LearningServicePort {
+  getNextItem(options?: Parameters<LearningServicePort['getNextItem']>[0]) {
+    return messageClient.getNextLearningItem(options);
+  }
+  acceptNewWord(wordId: string) {
+    return messageClient.acceptNewWord(wordId);
+  }
+  selfReportKnown(wordId: string) {
+    return messageClient.selfReportKnown(wordId);
+  }
+  submitAnswer(submission: Parameters<LearningServicePort['submitAnswer']>[0]) {
+    return messageClient.submitLearningAnswer(submission);
+  }
+  submitSpellingAnswer(submission: Parameters<LearningServicePort['submitSpellingAnswer']>[0]) {
+    return messageClient.submitLearningSpelling(submission);
+  }
+  correctRating(
+    reviewLogId: string,
+    correction: Parameters<LearningServicePort['correctRating']>[1],
+  ) {
+    return messageClient.correctLearningRating(reviewLogId, correction);
+  }
+}
+
+export class MessageSessionLogger implements SessionLoggerPort {
+  save(log: Parameters<SessionLoggerPort['save']>[0]) {
+    return messageClient.saveLearningSession(log);
   }
 }
 
@@ -241,15 +267,6 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     },
   };
 
-  // 初始化学习服务（IDB 仓库 + 内置词库）。
-  const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
-  const learningService = new LearningService({
-    cards: new CardRepository(db),
-    logs: new ReviewLogRepository(db),
-    words: new BuiltInWordBank(),
-    clock: { now: () => Date.now() },
-  });
-
   const overlay = new OverlayController();
   const controller = new ContentController({
     adapter: adapterPort,
@@ -259,9 +276,8 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     siteState: new MessageSiteState(hostname),
     clock: { now: () => Date.now() },
     videoPortFor: (video) => adaptHtmlVideo(video),
-    learningService,
-    sessionLogger: new SessionLogRepository(db),
-    learningSettings: { get: () => messageClient.getAppSettings() },
+    learningService: new MessageLearningService(),
+    sessionLogger: new MessageSessionLogger(),
   });
   controller.start();
 

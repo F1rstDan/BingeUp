@@ -1,5 +1,4 @@
 import type {
-  AppSettings,
   AnswerSubmission,
   CooldownState,
   InteractionOutcome,
@@ -59,9 +58,6 @@ export interface LearningServicePort {
     excludedWordIds?: Set<string>;
     allowSpelling?: boolean;
     allowEarlyShortTermReview?: boolean;
-    dailyNewWordLimit?: number;
-    selectedDeckId?: string;
-    selfRatedLevel?: AppSettings['selfRatedLevel'];
   }): Promise<LearningItem | null>;
   acceptNewWord(wordId: string): Promise<void>;
   selfReportKnown(wordId: string): Promise<void>;
@@ -120,17 +116,6 @@ export interface ContentControllerDeps {
   learningService: LearningServicePort;
   /** 学习会话日志（Issue #12）。可选：未提供时不记录会话日志。 */
   sessionLogger?: SessionLoggerPort;
-  /** 拼写题开关（Issue #10 AC1）：仅连续学习模式出现拼写题。缺省 true。 */
-  spellingEnabled?: boolean;
-  /** 每次取学习内容前读取最新设置，保存后无需重启内容脚本。 */
-  learningSettings?: {
-    get(): Promise<
-      Pick<
-        AppSettings,
-        'dailyNewWordLimit' | 'selectedDeckId' | 'selfRatedLevel' | 'spellingEnabled'
-      >
-    >;
-  };
 }
 
 interface ActiveInteraction {
@@ -212,21 +197,6 @@ export class ContentController {
     this.unsubscribe = null;
   }
 
-  private async getLearningSelectionOptions(): Promise<{
-    dailyNewWordLimit?: number;
-    selectedDeckId?: string;
-    selfRatedLevel?: AppSettings['selfRatedLevel'];
-    spellingEnabled: boolean;
-  }> {
-    const settings = await this.deps.learningSettings?.get();
-    return {
-      dailyNewWordLimit: settings?.dailyNewWordLimit,
-      selectedDeckId: settings?.selectedDeckId,
-      selfRatedLevel: settings?.selfRatedLevel,
-      spellingEnabled: settings?.spellingEnabled ?? this.deps.spellingEnabled ?? true,
-    };
-  }
-
   /**
    * 主动触发连续学习（Issue #9 AC4）。
    *
@@ -261,21 +231,15 @@ export class ContentController {
       if (event === null) {
         return { ok: false, reason: 'context-unavailable' };
       }
-      const playback = event.video === null ? null : this.deps.videoPortFor(event.video);
-      const snapshot = playback === null ? null : pauseForInteraction(playback);
-
       // 连续模式允许拼写题（受 spellingEnabled 设置控制，Issue #10 AC1）；
       // 不传 excludedWordIds（会话刚开始，无已展示单词）。视频先暂停，避免异步取题期间继续播放。
-      const selection = await this.getLearningSelectionOptions();
-      const allowSpelling = selection.spellingEnabled;
+      const playback = event.video === null ? null : this.deps.videoPortFor(event.video);
+      const snapshot = playback === null ? null : pauseForInteraction(playback);
       let item: LearningItem | null;
       try {
         item = await this.deps.learningService.getNextItem({
-          allowSpelling,
+          allowSpelling: true,
           allowEarlyShortTermReview: true,
-          dailyNewWordLimit: selection.dailyNewWordLimit,
-          selectedDeckId: selection.selectedDeckId,
-          selfRatedLevel: selection.selfRatedLevel,
         });
       } catch (error) {
         console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
@@ -352,12 +316,7 @@ export class ContentController {
     // 获取学习项目；无内容则不触发。单题模式不出拼写题。
     let item: LearningItem | null;
     try {
-      const selection = await this.getLearningSelectionOptions();
-      item = await this.deps.learningService.getNextItem({
-        dailyNewWordLimit: selection.dailyNewWordLimit,
-        selectedDeckId: selection.selectedDeckId,
-        selfRatedLevel: selection.selfRatedLevel,
-      });
+      item = await this.deps.learningService.getNextItem();
     } catch (error) {
       if (playback !== null && snapshot !== null) {
         await restore(playback, snapshot);
@@ -570,15 +529,10 @@ export class ContentController {
    */
   private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
     pauseIfPlaying(active.playback);
-    const selection = await this.getLearningSelectionOptions();
-    const allowSpelling = selection.spellingEnabled;
     const nextItem = await this.deps.learningService.getNextItem({
       excludedWordIds: this.sessionWordIds,
-      allowSpelling,
+      allowSpelling: true,
       allowEarlyShortTermReview: active.allowEarlyShortTermReview,
-      dailyNewWordLimit: selection.dailyNewWordLimit,
-      selectedDeckId: selection.selectedDeckId,
-      selfRatedLevel: selection.selfRatedLevel,
     });
 
     if (nextItem === null) {

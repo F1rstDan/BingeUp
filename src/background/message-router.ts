@@ -5,6 +5,8 @@ import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
+import { LearningService } from '@/learning/learning-service';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import {
   clearAllLocalData,
   clearLearningProgress,
@@ -61,6 +63,20 @@ async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
  *           background 在启动时打开并传入；测试中可传 null 跳过数据操作。
  */
 export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase | null = null) {
+  const learningService = db
+    ? new LearningService({
+        cards: new CardRepository(db),
+        logs: new ReviewLogRepository(db),
+        words: new BuiltInWordBank(),
+        clock: { now: () => Date.now() },
+        settings: { get: () => store.getAppSettings() },
+      })
+    : null;
+  const sessionLogs = db ? new SessionLogRepository(db) : null;
+  const requireLearningService = () => {
+    if (!learningService) throw new Error('数据库不可用，无法读取或更新学习进度');
+    return learningService;
+  };
   async function syncCustomScriptsWarning(): Promise<string | undefined> {
     try {
       await syncCustomContentScripts(await store.listSites());
@@ -95,6 +111,37 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         // 连续跳过计数与完成重置都不会因并发丢失。
         const config = await store.getCooldownConfig();
         return store.updateCooldown((before) => applySkip(before, Date.now(), config));
+      }
+      case 'LEARNING_GET_NEXT': {
+        const options = message.options
+          ? {
+              ...message.options,
+              excludedWordIds: new Set(message.options.excludedWordIds ?? []),
+            }
+          : undefined;
+        return requireLearningService().getNextItem(options);
+      }
+      case 'LEARNING_ACCEPT_NEW_WORD': {
+        await requireLearningService().acceptNewWord(message.wordId);
+        return undefined;
+      }
+      case 'LEARNING_SELF_REPORT_KNOWN': {
+        await requireLearningService().selfReportKnown(message.wordId);
+        return undefined;
+      }
+      case 'LEARNING_SUBMIT_ANSWER': {
+        return requireLearningService().submitAnswer(message.submission);
+      }
+      case 'LEARNING_SUBMIT_SPELLING': {
+        return requireLearningService().submitSpellingAnswer(message.submission);
+      }
+      case 'LEARNING_CORRECT_RATING': {
+        return requireLearningService().correctRating(message.reviewLogId, message.correction);
+      }
+      case 'LEARNING_SAVE_SESSION': {
+        if (!sessionLogs) throw new Error('数据库不可用，无法保存学习会话');
+        await sessionLogs.save(message.log);
+        return undefined;
       }
       case 'SITE_GET_STATE': {
         const site = await store.getSite(message.hostname);
@@ -217,9 +264,8 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         const sites = await store.listSites();
         return { sites };
       }
-      case 'UPDATE_SITE_SETTINGS': {
-        await store.setSite(message.hostname, message.settings);
-        await syncCustomScriptsWarning();
+      case 'UPDATE_SITE_TRIGGERS': {
+        await store.updateSiteTriggers(message.hostname, message.triggers);
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }

@@ -14,7 +14,8 @@ const mocks = vi.hoisted(() => ({
   getSiteState: vi.fn(),
   enableSite: vi.fn(),
   disableSite: vi.fn(),
-  updateSiteSettings: vi.fn(),
+  setSiteEnabled: vi.fn(),
+  updateSiteTriggers: vi.fn(),
   addCustomSite: vi.fn(),
   listSites: vi.fn(),
   removeSite: vi.fn(),
@@ -37,7 +38,8 @@ vi.mock('@/messaging/message-client', () => ({
     getSiteState: mocks.getSiteState,
     enableSite: mocks.enableSite,
     disableSite: mocks.disableSite,
-    updateSiteSettings: mocks.updateSiteSettings,
+    setSiteEnabled: mocks.setSiteEnabled,
+    updateSiteTriggers: mocks.updateSiteTriggers,
     addCustomSite: mocks.addCustomSite,
     listSites: mocks.listSites,
     removeSite: mocks.removeSite,
@@ -83,7 +85,8 @@ describe('OptionsApp — Issue #10', () => {
     mocks.getSiteState.mockReset();
     mocks.enableSite.mockReset();
     mocks.disableSite.mockReset();
-    mocks.updateSiteSettings.mockReset();
+    mocks.setSiteEnabled.mockReset();
+    mocks.updateSiteTriggers.mockReset();
     mocks.addCustomSite.mockReset();
     mocks.listSites.mockReset();
     mocks.removeSite.mockReset();
@@ -103,7 +106,8 @@ describe('OptionsApp — Issue #10', () => {
     });
     mocks.enableSite.mockResolvedValue(undefined);
     mocks.disableSite.mockResolvedValue(undefined);
-    mocks.updateSiteSettings.mockResolvedValue(undefined);
+    mocks.setSiteEnabled.mockResolvedValue(undefined);
+    mocks.updateSiteTriggers.mockResolvedValue(undefined);
     mocks.addCustomSite.mockResolvedValue(undefined);
     mocks.setAppSettings.mockImplementation(async (s: AppSettings) => s);
     mocks.resetAppSettings.mockResolvedValue({ ...DEFAULT_SETTINGS });
@@ -446,7 +450,7 @@ describe('OptionsApp — Issue #10', () => {
     fireEvent.click(within(row).getByRole('button', { name: '关闭网站' }));
 
     await waitFor(() => {
-      expect(mocks.disableSite).toHaveBeenCalledWith('bilibili.com');
+      expect(mocks.setSiteEnabled).toHaveBeenCalledWith('bilibili.com', false);
       expect(screen.getByText('已关闭网站 bilibili.com')).toBeInTheDocument();
     });
   });
@@ -466,16 +470,12 @@ describe('OptionsApp — Issue #10', () => {
     fireEvent.click(scroll);
 
     await waitFor(() => {
-      expect(mocks.updateSiteSettings).toHaveBeenNthCalledWith(
-        1,
-        'example.com',
-        expect.objectContaining({ pageLoadTrigger: false, scrollTrigger: false }),
-      );
-      expect(mocks.updateSiteSettings).toHaveBeenNthCalledWith(
-        2,
-        'example.com',
-        expect.objectContaining({ pageLoadTrigger: true, scrollTrigger: true }),
-      );
+      expect(mocks.updateSiteTriggers).toHaveBeenNthCalledWith(1, 'example.com', {
+        pageLoadTrigger: false,
+      });
+      expect(mocks.updateSiteTriggers).toHaveBeenNthCalledWith(2, 'example.com', {
+        scrollTrigger: true,
+      });
     });
   });
 

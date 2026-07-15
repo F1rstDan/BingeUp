@@ -5,6 +5,7 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import { CardRepository } from '@/storage/repositories/card-repository';
 import type { AppSettings, CardRecord, ReviewLogRecord } from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
 
@@ -33,6 +34,9 @@ function installChromeStorageMock() {
       registerContentScripts: vi.fn().mockResolvedValue(undefined),
       updateContentScripts: vi.fn().mockResolvedValue(undefined),
       unregisterContentScripts: vi.fn().mockResolvedValue(undefined),
+    },
+    runtime: {
+      getURL: (path: string) => `chrome-extension://test/${path}`,
     },
   };
   (globalThis as unknown as { chrome: typeof chromeStub }).chrome = chromeStub;
@@ -82,6 +86,69 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(bilibili.firstQuestionPending).toBe(true);
     const youtube = await store.getSite('www.youtube.com');
     expect(youtube.enabled).toBe(true);
+  });
+
+  it('Issue #22：两个网站通过 background 共享同一扩展源学习卡', async () => {
+    const words = [
+      {
+        id: 'w-shared-a',
+        word: 'alpha',
+        lemma: 'alpha',
+        partOfSpeech: ['n.'],
+        coreMeaningZh: ['阿尔法'],
+        difficulty: 2,
+        source: 'test',
+        license: 'test',
+      },
+      {
+        id: 'w-shared-b',
+        word: 'beta',
+        lemma: 'beta',
+        partOfSpeech: ['n.'],
+        coreMeaningZh: ['贝塔'],
+        difficulty: 2,
+        source: 'test',
+        license: 'test',
+      },
+    ];
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
+      const url = String(input);
+      const data = url.endsWith('/words.json')
+        ? words
+        : [
+            {
+              id: DEFAULT_SETTINGS.selectedDeckId,
+              name: '测试词库',
+              description: '测试',
+              wordIds: words.map((word) => word.id),
+            },
+          ];
+      return new Response(JSON.stringify(data), { status: 200 });
+    });
+    try {
+      const first = (await router.handle({ type: 'LEARNING_GET_NEXT' }, {
+        url: 'https://site-a.example/',
+      } as chrome.runtime.MessageSender)) as {
+        kind: 'new-word-presentation';
+        presentation: { word: { id: string } };
+      };
+      await router.handle(
+        { type: 'LEARNING_ACCEPT_NEW_WORD', wordId: first.presentation.word.id },
+        { url: 'https://site-a.example/' } as chrome.runtime.MessageSender,
+      );
+
+      const second = (await router.handle({ type: 'LEARNING_GET_NEXT' }, {
+        url: 'https://site-b.example/',
+      } as chrome.runtime.MessageSender)) as {
+        kind: 'new-word-presentation';
+        presentation: { word: { id: string } };
+      };
+
+      expect(second.presentation.word.id).not.toBe(first.presentation.word.id);
+      expect(await new CardRepository(db).getAll()).toHaveLength(1);
+    } finally {
+      fetchSpy.mockRestore();
+    }
   });
 
   it('ONBOARDING_COMPLETE：取消的网站会持久化为未启用', async () => {
