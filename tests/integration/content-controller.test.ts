@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
+import { TimedLearningAdapter, type VisibilityPort } from '@/adapters/timed-learning';
+import type { VideoSiteAdapter } from '@/adapters/types';
+import { normalizeLearningContext } from '@/content/learning-context';
 import type {
   CooldownState,
   LearningItem,
@@ -1529,5 +1532,443 @@ describe('ContentController — 故障恢复（Issue #13）', () => {
       expect.any(Error),
     );
     errorSpy.mockRestore();
+  });
+});
+
+// ─── Issue #24：长视频与直播定时自然触发集成测试 ──────────────────
+
+/**
+ * 定时学习集成测试接缝：真实 TimedLearningAdapter 包裹可控的 delegate，
+ * 通过 normalizeLearningContext 接入真实 ContentController，覆盖 AC9 全部场景。
+ */
+function makeTimedController(
+  opts: {
+    enabled?: boolean;
+    intervalMinutes?: number;
+    isLive?: boolean;
+    duration?: number;
+    cooldown?: CooldownState;
+    firstPending?: boolean;
+    playing?: boolean;
+  } = {},
+) {
+  let now = NOW;
+  let intervalHandler: (() => void) | undefined;
+  let baseHandler: ((event: VideoChangeEvent) => void) | undefined;
+  let settings = {
+    longVideoTimedLearningEnabled: opts.enabled ?? false,
+    longVideoIntervalMinutes: opts.intervalMinutes ?? 10,
+  };
+  let hidden = false;
+  let isAd = false;
+  let currentIdentity = 'bv-1';
+  const visibilityHandlers: Array<() => void> = [];
+
+  const video = document.createElement('video');
+  Object.defineProperty(video, 'duration', {
+    value: opts.duration ?? 60 * 60,
+    configurable: true,
+  });
+
+  const delegate: VideoSiteAdapter = {
+    id: 'timed-test',
+    matches: () => true,
+    observePageChanges(handler) {
+      baseHandler = handler;
+      return () => undefined;
+    },
+    findPrimaryVideo: () => video,
+    getVideoIdentity: () => currentIdentity,
+    getOverlayTarget: () => video,
+    getOverlayMode: () => 'video-region' as OverlayMode,
+    isAdvertisement: () => isAd,
+    isPreview: () => false,
+    isLivePage: () => opts.isLive ?? false,
+  };
+  const clearIntervalSpy = vi.fn();
+  const visibility: VisibilityPort = {
+    isHidden: () => hidden,
+    onChange(handler) {
+      visibilityHandlers.push(handler);
+      return () => {
+        const idx = visibilityHandlers.indexOf(handler);
+        if (idx >= 0) visibilityHandlers.splice(idx, 1);
+      };
+    },
+  };
+  const timedAdapter = new TimedLearningAdapter(delegate, {
+    settings: { get: async () => settings },
+    clock: { now: () => now },
+    timers: {
+      setInterval(handler) {
+        intervalHandler = handler;
+        return 7;
+      },
+      clearInterval: clearIntervalSpy,
+    },
+    visibility,
+  });
+
+  const adapterPort = {
+    onVideoChange: (handler: (event: VideoChangeEvent) => void) =>
+      timedAdapter.observePageChanges((event) => handler(normalizeLearningContext(event))),
+    getCurrentLearningContext(): VideoChangeEvent | null {
+      return {
+        identity: currentIdentity,
+        video,
+        overlayTarget: video,
+        overlayMode: 'video-region' as OverlayMode,
+      };
+    },
+  };
+
+  const overlay = fakeOverlay();
+  const cooldownStore = fakeCooldownStore(opts.cooldown);
+  // 让冷却存储使用可变时钟（默认 fakeCooldownStore 使用固定 NOW）
+  cooldownStore.recordOutcome = async (outcome: 'submitted' | 'skipped') => {
+    cooldownStore.recordCalls += 1;
+    cooldownStore.current =
+      outcome === 'submitted'
+        ? applyComplete(now, CONFIG)
+        : applySkip(cooldownStore.current, now, CONFIG);
+  };
+  const siteState = fakeSiteState(opts.firstPending ?? false);
+  const playback = fakePlayback({ playing: opts.playing ?? true });
+  const learningService = fakeLearningService(LEARNING_ITEM);
+
+  const controller = new ContentController({
+    adapter: adapterPort,
+    overlay,
+    cooldownStore,
+    pauseState: {
+      async isGloballyPaused() {
+        return false;
+      },
+    },
+    clock: { now: () => now },
+    videoPortFor: () => playback,
+    siteState,
+    learningService,
+  });
+  controller.start();
+
+  return {
+    controller,
+    overlay,
+    cooldownStore,
+    siteState,
+    playback,
+    learningService,
+    clearIntervalSpy,
+    emitBase(identity?: string) {
+      const id = identity ?? 'bv-1';
+      currentIdentity = id;
+      baseHandler?.({ identity: id, video, overlayTarget: video, overlayMode: 'video-region' });
+    },
+    setAd(value: boolean) {
+      isAd = value;
+    },
+    enable(intervalMinutes: number) {
+      settings = { longVideoTimedLearningEnabled: true, longVideoIntervalMinutes: intervalMinutes };
+    },
+    disable() {
+      settings = {
+        longVideoTimedLearningEnabled: false,
+        longVideoIntervalMinutes: settings.longVideoIntervalMinutes,
+      };
+    },
+    setHidden(value: boolean) {
+      hidden = value;
+      visibilityHandlers.forEach((h) => h());
+    },
+    advance(milliseconds: number) {
+      now += milliseconds;
+    },
+    now() {
+      return now;
+    },
+    async tick() {
+      intervalHandler?.();
+      await flush();
+    },
+    stop() {
+      controller.stop();
+    },
+  };
+}
+
+describe('ContentController — 长视频定时学习集成（Issue #24 AC9）', () => {
+  it('默认关闭：同一内容身份在冷却结束后不重复弹题', async () => {
+    const harness = makeTimedController({ enabled: false });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 结束首次交互，冷却结束
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    // 经过很长时间，定时学习关闭 → 不再触发
+    harness.advance(60 * MS_PER_MIN);
+    await harness.tick();
+
+    expect(harness.overlay.openCalls).toBe(1);
+  });
+
+  it('开启 10 分钟间隔：到时间在冷却结束后产生新的自然触发点', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 结束交互 → 进入冷却
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    // 冷却设为 5 分钟
+    harness.cooldownStore.current.nextAllowedAt = harness.now() + 5 * MS_PER_MIN;
+
+    // 3 分钟后：冷却未结束，不触发
+    harness.advance(3 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 再过 7 分钟（共 10 分钟）：冷却已结束 + 间隔已到 → 触发
+    harness.advance(7 * MS_PER_MIN);
+    await harness.tick();
+
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('开启 20 分钟间隔：到时间产生新的自然触发点', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 20 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(19 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    harness.advance(1 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('开启 30 分钟间隔：到时间产生新的自然触发点', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 30 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(30 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('直播默认关闭时只在首次进入触发', async () => {
+    const harness = makeTimedController({ enabled: false, isLive: true });
+    harness.emitBase('live-1');
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    // 直播 + 关闭定时 → 不重复
+    for (let i = 0; i < 3; i++) {
+      harness.advance(15 * MS_PER_MIN);
+      await harness.tick();
+    }
+    expect(harness.overlay.openCalls).toBe(1);
+  });
+
+  it('直播开启定时学习后按间隔重复触发', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10, isLive: true });
+    harness.emitBase('live-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+
+    // 结束第二次交互
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(3);
+  });
+
+  it('冷却未结束时定时触发不打开遮罩', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    // 冷却长于定时间隔
+    harness.cooldownStore.current.nextAllowedAt = harness.now() + 30 * MS_PER_MIN;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+  });
+
+  it('广告状态下定时触发不打开遮罩', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    // 广告开始
+    harness.setAd(true);
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 广告结束 → 下一次检查可触发
+    harness.setAd(false);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('页面隐藏时不产生定时触发', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.setHidden(true);
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 恢复可见后需重新等待完整间隔
+    harness.setHidden(false);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('修改间隔后后续触发使用最新设置', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 20 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    // 10 分钟（20 分钟间隔未到）→ 不触发
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+
+    // 改为 10 分钟间隔 → 下一次检查即可触发
+    harness.enable(10);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('运行中关闭后不再产生定时触发', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+
+    // 关闭
+    harness.disable();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(20 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+  });
+
+  it('控制器停止后清理定时调度', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.stop();
+
+    expect(harness.clearIntervalSpy).toHaveBeenCalledWith(7);
+    // 停止后即使到时间也不触发
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(1);
+  });
+
+  it('定时交互期间视频保持暂停，结束后恢复原本播放的视频', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10 });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    expect(harness.playback.paused).toBe(true);
+
+    // 定时触发到达
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+    // 第二次交互期间视频暂停
+    expect(harness.playback.paused).toBe(true);
+
+    // 结束后恢复播放
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    expect(harness.playback.paused).toBe(false);
+  });
+
+  it('定时交互期间原本暂停的视频保持暂停，结束后不恢复播放（AC8）', async () => {
+    const harness = makeTimedController({ enabled: true, intervalMinutes: 10, playing: false });
+    harness.emitBase('bv-1');
+    await harness.tick();
+    expect(harness.playback.paused).toBe(true);
+
+    // 定时触发到达
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    harness.cooldownStore.current.nextAllowedAt = 0;
+
+    harness.advance(10 * MS_PER_MIN);
+    await harness.tick();
+    expect(harness.overlay.openCalls).toBe(2);
+    // 第二次交互期间视频保持暂停
+    expect(harness.playback.paused).toBe(true);
+
+    // 结束后不恢复播放（原本就是暂停的）
+    harness.overlay.fireAction({ type: 'skip' });
+    await harness.tick();
+    expect(harness.playback.paused).toBe(true);
   });
 });
