@@ -150,6 +150,11 @@ export class TimedLearningAdapter implements VideoSiteAdapter {
 
     const timerId = timers.setInterval(() => {
       void check().catch((error: unknown) => {
+        if (error instanceof Error && error.message === 'Extension context invalidated.') {
+          // 扩展上下文已失效（如扩展更新/重载），停止定时器避免无限报错
+          timers.clearInterval(timerId);
+          return;
+        }
         console.error('[BingeUp] 检查长视频定时学习失败', error);
       });
     }, this.deps.pollMilliseconds ?? 1_000);

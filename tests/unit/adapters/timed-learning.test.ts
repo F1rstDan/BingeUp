@@ -474,6 +474,62 @@ describe('TimedLearningAdapter — 长视频定时学习（Issue #24）', () => 
     });
   });
 
+  describe('AC7：扩展上下文失效后停止定时器', () => {
+    it('settings.get() 抛出 "Extension context invalidated" 时停止定时器', async () => {
+      let intervalHandler: (() => void) | undefined;
+      const clearInterval = vi.fn();
+      const video = document.createElement('video');
+      Object.defineProperty(video, 'duration', { value: 60 * 60, configurable: true });
+
+      const adapter = new TimedLearningAdapter(
+        {
+          id: 'fake-video',
+          matches: () => true,
+          observePageChanges: () => () => undefined,
+          findPrimaryVideo: () => video,
+          getVideoIdentity: () => 'video-1',
+          getOverlayTarget: () => video,
+          getOverlayMode: () => 'video-region',
+          isAdvertisement: () => false,
+          isPreview: () => false,
+          isLivePage: () => false,
+        },
+        {
+          settings: {
+            get: async () => {
+              throw new Error('Extension context invalidated.');
+            },
+          },
+          clock: { now: () => Date.now() },
+          timers: {
+            setInterval(handler) {
+              intervalHandler = handler;
+              return 7;
+            },
+            clearInterval,
+          },
+          visibility: {
+            isHidden: () => false,
+            onChange: () => () => undefined,
+          },
+        },
+      );
+
+      const events: VideoChangeEvent[] = [];
+      const stop = adapter.observePageChanges((event) => events.push(event));
+
+      // 触发 timer 回调
+      intervalHandler?.();
+      await Promise.resolve();
+      await Promise.resolve();
+
+      // 定时器应被停止
+      expect(clearInterval).toHaveBeenCalledWith(7);
+
+      stop();
+    });
+  });
+
   describe('原有行为保持', () => {
     it('保存开启设置后按最新间隔为同一长视频产生额外自然触发点', async () => {
       const harness = makeHarness();
