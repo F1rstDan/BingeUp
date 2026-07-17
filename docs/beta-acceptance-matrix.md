@@ -142,15 +142,17 @@ npm run test:e2e     # 自动先构建 chrome-mv3，再运行 Playwright
 
 ## 8. 质量门禁（最终版本）
 
+下列门禁已在 `0.1.0` 上运行并全部通过（提交 `ff4aed9`）；如后续改动需重新验证，复制本表重跑并更新。
+
 | 门禁 | 命令 | 结果 |
 | --- | --- | --- |
-| Lint | `npm run lint` | ☐ |
-| 类型检查 | `npm run typecheck` | ☐ |
-| 单元/集成测试 | `npm test` | ☐ |
-| Chrome 构建 | `npm run build` | ☐ |
-| Edge 构建 | `npm run build:edge` | ☐ |
-| 打包 | `npm run zip` / `npm run zip -- -b edge` | ☐ |
-| 浏览器 E2E | `npm run test:e2e` | ☐ |
+| Lint | `npm run lint` | ✅ |
+| 类型检查 | `npm run typecheck` | ✅ |
+| 单元/集成测试 | `npm test` | ✅（39 文件 / 781 用例通过） |
+| Chrome 构建 | `npm run build` | ✅（含四档图标） |
+| Edge 构建 | `npm run build:edge` | ✅（含四档图标） |
+| 打包 | `npm run zip` / `npm run zip -- -b edge` | ✅（bingeup-0.1.0-chrome.zip / -edge.zip） |
+| 浏览器 E2E | `npm run test:e2e` | ✅（7 通过 / 5 skip 转人工矩阵） |
 
 ---
 
