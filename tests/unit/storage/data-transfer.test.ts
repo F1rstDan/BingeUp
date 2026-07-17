@@ -199,6 +199,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
           exampleSentence: 'x',
           exampleTranslation: '词',
           difficulty: 1,
+          frequencyRank: 1,
           source: 'user',
           license: 'user',
         });

@@ -373,6 +373,7 @@ function toWordRecord(w: BuildWord) {
     exampleTranslation: w.exampleTranslation || undefined,
     surfaceFormInExample: w.surfaceFormInExample || undefined,
     difficulty: w.difficulty,
+    frequencyRank: w.frequencyRank,
     source: w.source,
     license: w.license,
   };

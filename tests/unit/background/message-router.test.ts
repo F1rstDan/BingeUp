@@ -97,6 +97,7 @@ describe('message-router — Issue #9 新增消息', () => {
         partOfSpeech: ['n.'],
         coreMeaningZh: ['阿尔法'],
         difficulty: 2,
+        frequencyRank: 1,
         source: 'test',
         license: 'test',
       },
@@ -107,6 +108,7 @@ describe('message-router — Issue #9 新增消息', () => {
         partOfSpeech: ['n.'],
         coreMeaningZh: ['贝塔'],
         difficulty: 2,
+        frequencyRank: 1,
         source: 'test',
         license: 'test',
       },
@@ -878,6 +880,7 @@ describe('message-router — Issue #10 新增消息', () => {
       exampleSentence: '',
       exampleTranslation: '',
       difficulty: 1,
+      frequencyRank: 1,
       source: '',
       license: '',
     });
@@ -916,6 +919,7 @@ describe('message-router — Issue #10 新增消息', () => {
       exampleSentence: '',
       exampleTranslation: '',
       difficulty: 1,
+      frequencyRank: 1,
       source: '',
       license: '',
     });

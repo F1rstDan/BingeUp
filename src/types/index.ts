@@ -170,6 +170,8 @@ export interface WordRecord {
   surfaceFormInExample?: string;
   /** 通用难度（1-4），基于词频和考试标签。 */
   difficulty: number;
+  /** 词频排名（越小越常用），用于候选新词的同档排序。 */
+  frequencyRank: number;
   /** 数据来源标识，用于追溯。 */
   source: string;
   /** 许可证标识。 */

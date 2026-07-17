@@ -22,6 +22,7 @@ const NEW_WORD_PRESENTATION: NewWordPresentation = {
     exampleSentence: 'He abandoned his car.',
     exampleTranslation: '他抛弃了他的车。',
     difficulty: 3,
+    frequencyRank: 1,
     source: 'built-in',
     license: 'CC-BY-4.0',
   },

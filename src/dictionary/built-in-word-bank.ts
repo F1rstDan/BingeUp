@@ -124,8 +124,12 @@ export class BuiltInWordBank implements WordBankPort {
       }
     }
 
-    // 按词库内难度排序（优先低难度），取前 count 个
-    candidates.sort((a, b) => a.deckDifficulty - b.deckDifficulty);
+    // 按词频排名排序（优先高频词），同频随机打乱，取前 count 个
+    candidates.sort((a, b) => {
+      const rankDiff = a.word.frequencyRank - b.word.frequencyRank;
+      if (rankDiff !== 0) return rankDiff;
+      return Math.random() - 0.5;
+    });
     return candidates.slice(0, params.count).map((c) => c.word);
   }
 }

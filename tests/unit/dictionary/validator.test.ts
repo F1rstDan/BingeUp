@@ -17,6 +17,7 @@ function validWord(overrides: Partial<WordRecord> = {}): WordRecord {
     exampleTranslation: '他把车丢在了高速公路上。',
     surfaceFormInExample: 'abandoned',
     difficulty: 2,
+    frequencyRank: 1,
     source: 'test-source',
     license: 'CC0-1.0',
     ...overrides,

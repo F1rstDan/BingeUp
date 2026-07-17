@@ -175,6 +175,7 @@ describe('bootstrapContent — 启动诊断', () => {
           exampleTranslation: '测试翻译。',
           surfaceFormInExample: 'Test',
           difficulty: 2,
+          frequencyRank: 1,
           source: 'test',
           license: 'CC0',
         },

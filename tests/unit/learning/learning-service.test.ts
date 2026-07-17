@@ -115,6 +115,7 @@ function makeWord(id: string, meaning: string): WordRecord {
     exampleSentence: 'Example sentence.',
     exampleTranslation: '示例翻译。',
     difficulty: 2,
+    frequencyRank: 1,
     source: 'builtin-sample',
     license: 'CC0-1.0',
   };

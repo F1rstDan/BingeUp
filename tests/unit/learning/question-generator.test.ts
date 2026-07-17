@@ -22,6 +22,7 @@ function makeWord(overrides: Partial<WordRecord> = {}): WordRecord {
     exampleTranslation: '他把车丢弃了。',
     surfaceFormInExample: 'abandoned',
     difficulty: 2,
+    frequencyRank: 1,
     source: 'builtin-sample',
     license: 'CC0-1.0',
     ...overrides,

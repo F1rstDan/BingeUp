@@ -800,7 +800,7 @@ export class LearningService {
     for (const zone of difficultyZones) {
       const candidates = await this.deps.words.sampleDeckWords({
         deckId,
-        count: 5,
+        count: 50,
         preferredDifficulty: zone,
         excludeWordIds: [...allExcluded],
       });
