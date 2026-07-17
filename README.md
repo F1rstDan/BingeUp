@@ -49,7 +49,19 @@
 
 ## 本地安装
 
-当前仓库尚未发布预编译 Release。最短可用路径是从源码构建：
+> [!WARNING]
+> 当前处于 **v0.0.1 测试版**，插件尚未完成，功能可能不稳定，仅供体验与反馈，不建议日常使用。
+
+### 方式一：从 Release 下载（推荐）
+
+1. 打开 [Releases 页面](https://github.com/F1rstDan/BingeUp/releases)，下载对应浏览器的压缩包：Chrome 用 `bingeup-0.0.1-chrome.zip`，Edge 用 `bingeup-0.0.1-edge.zip`。
+2. 将压缩包**解压**到一个文件夹（Chrome / Edge 无法直接加载 `.zip`，必须先解压）。
+3. 打开扩展管理页：Chrome 为 `chrome://extensions/`，Edge 为 `edge://extensions/`。
+4. 开启「开发者模式」。
+5. 点击「加载已解压的扩展程序」，选择刚解压出的文件夹。
+6. 打开 Bilibili 或 YouTube，完成首次引导后进入一个视频。
+
+### 方式二：从源码构建（开发 / 进阶）
 
 ```bash
 git clone https://github.com/F1rstDan/BingeUp.git

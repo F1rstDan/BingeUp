@@ -5,7 +5,7 @@ export default defineConfig({
   manifest: {
     name: '刷刷升级',
     description: '在视频间隙轻量学习英语单词',
-    version: '0.1.0',
+    version: '0.0.1',
     permissions: ['storage', 'scripting'],
     host_permissions: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
     // Issue #11：自定义网站通过可选权限按需授权，用户从 Popup 主动加入时请求。
