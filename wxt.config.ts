@@ -18,8 +18,22 @@ export default defineConfig({
         matches: ['*://*/*'],
       },
     ],
+    // 图标由 scripts/generate-icons.mjs 预渲染并提交到 public/icon/；
+    // 显式声明四档尺寸，避免 WXT 依赖自动探测（不引入 sharp 等图像依赖）。
+    icons: {
+      16: 'icon/16.png',
+      32: 'icon/32.png',
+      48: 'icon/48.png',
+      128: 'icon/128.png',
+    },
     action: {
       default_title: '刷刷升级 — 点击查看状态与控制',
+      default_icon: {
+        16: 'icon/16.png',
+        32: 'icon/32.png',
+        48: 'icon/48.png',
+        128: 'icon/128.png',
+      },
     },
   },
   srcDir: 'src',

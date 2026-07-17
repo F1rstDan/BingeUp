@@ -109,6 +109,25 @@ input[type='checkbox'] {
   accent-color: var(--bingeup-blue);
 }
 
+/* Beta 反馈入口（Issue #27）：Popup 与设置页共用页脚。 */
+.bingeup-feedback {
+  margin-top: 12px;
+  padding-top: 10px;
+  text-align: center;
+  border-top: 1px solid var(--bingeup-line);
+}
+
+.bingeup-feedback-link {
+  font-size: 12px;
+  color: var(--bingeup-muted);
+  text-decoration: none;
+}
+
+.bingeup-feedback-link:hover {
+  color: var(--bingeup-blue);
+  text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

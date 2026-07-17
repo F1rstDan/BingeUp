@@ -4,6 +4,7 @@ import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
 import { DropdownSelect } from '@/ui/options/DropdownSelect';
+import { FeedbackLink } from '@/ui/FeedbackLink';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
@@ -338,6 +339,8 @@ export function OptionsApp(): JSX.Element {
           </button>
         </div>
       </SettingsSection>
+
+      <FeedbackLink />
     </div>
   );
 }

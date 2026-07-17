@@ -66,6 +66,27 @@ npm run build
 4. 选择构建产物目录 `.output/chrome-mv3`；Edge 构建请先运行 `npm run build:edge`，再选择 `.output/edge-mv3`。
 5. 打开 Bilibili 或 YouTube，完成首次引导后进入一个视频。
 
+### 升级到新版本
+
+1. 拉取最新代码并重新构建：`git pull && npm install && npm run build`（Edge 另需 `npm run build:edge`）。
+2. 回到扩展管理页，在「刷刷升级」卡片上点击「重新加载」（circular 箭头图标）。
+3. 学习进度、设置与复习记录保存在浏览器本地 IndexedDB，升级不会清除；如遇不兼容变更，请先按下方「数据备份」导出。
+
+### 卸载
+
+1. 在扩展管理页的「刷刷升级」卡片上点击「移除」。
+2. 卸载会一并清除该扩展的本地数据（学习进度、设置、词库）。如需保留，请先导出备份。
+
+### 数据备份
+
+- **导出**：设置页 →「数据管理」→「导出数据」，会下载一个 `bingeup-backup-YYYY-MM-DD.json`。备份仅包含用户数据（学习进度、设置、网站配置），不含随扩展分发的内置词库。
+- **导入 / 恢复**：设置页 →「数据管理」→「导入数据」，选择此前导出的 JSON 即可原子恢复；导入失败会保持原数据不变。
+- **重置**：「清除学习进度」仅删除学习卡 / 复习日志 / 会话；「清除全部数据」还会删除网站设置与本地词库。
+
+## 反馈
+
+Beta 阶段的问题与建议，欢迎通过扩展内入口反馈：Popup 或设置页底部的「反馈问题或建议」会打开预填的 [GitHub Issues](https://github.com/F1rstDan/BingeUp/issues) 新建页面（自动带上扩展版本与浏览器信息，便于复现）。本扩展不设账号、不做任何远程行为分析或数据上报。
+
 ## 开发
 
 前置要求：Node.js 22+。
@@ -89,6 +110,7 @@ npm run build        # Chrome 生产构建
 | 类型检查 | `npm run typecheck` |
 | 单元 / 集成测试 | `npm test` |
 | 测试监听 | `npm run test:watch` |
+| 浏览器 E2E（本地手动） | `npm run test:e2e` |
 | Lint 检查 / 修复 | `npm run lint` / `npm run lint:fix` |
 | 格式化 / 检查 | `npm run format` / `npm run format:check` |
 | Chrome / Edge 构建 | `npm run build` / `npm run build:edge` |

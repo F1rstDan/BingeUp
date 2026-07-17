@@ -9,6 +9,11 @@ node_modules/
 dist/
 *.zip
 
+# Playwright E2E（仅本地/手动运行）
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
 # OS files
 .DS_Store
 Thumbs.db

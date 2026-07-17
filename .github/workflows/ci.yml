@@ -14,6 +14,11 @@ on:
 permissions:
   contents: read
 
+# E2E 不进入 CI（仅本地/手动运行）。跳过 Playwright 浏览器下载，
+# 避免 npm ci 在每次构建时拉取 ~150MB 浏览器二进制。
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

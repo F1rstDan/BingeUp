@@ -15,6 +15,7 @@ import type {
 } from '@/messaging/messages';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
+import { FeedbackLink } from '@/ui/FeedbackLink';
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6）。
@@ -447,6 +448,8 @@ function PopupView({
           </p>
         )}
       </div>
+
+      <FeedbackLink />
     </div>
   );
 }
