@@ -648,7 +648,7 @@ describe('ContentController — 核心闭环编排', () => {
       });
     });
 
-    it('我认识换一个 → 调用 selfReportKnown、关闭遮罩、默认冷却', async () => {
+    it('我认识换一个 → 调用 selfReportKnown、加载下一题、不关闭遮罩', async () => {
       const { adapter, overlay, playback, cooldownStore, learningService } = makeController({
         playback: fakePlayback({ playing: true }),
       });
@@ -659,9 +659,62 @@ describe('ContentController — 核心闭环编排', () => {
       await flush();
 
       expect(learningService.selfReportCalls).toEqual(['w-known']);
-      expect(overlay.closeCalls).toBe(1);
-      expect(playback.playCalls).toBe(1);
-      expect(cooldownStore.current.consecutiveSkipCount).toBe(0);
+      // 不应关闭遮罩，而是加载下一题
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
+      expect(playback.playCalls).toBe(0);
+    });
+
+    it('我认识换一个 → 自报认识后立即加载下一个候选新词（不关闭遮罩）', async () => {
+      const word1: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            id: 'w-known',
+            word: 'knownword',
+            lemma: 'knownword',
+            partOfSpeech: ['n.'],
+            coreMeaningZh: ['已知词'],
+            difficulty: 1,
+            frequencyRank: 1,
+            source: 'test',
+            license: 'CC0',
+          },
+        },
+      };
+      const word2: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            id: 'w-next',
+            word: 'nextword',
+            lemma: 'nextword',
+            partOfSpeech: ['n.'],
+            coreMeaningZh: ['下一个词'],
+            difficulty: 1,
+            frequencyRank: 2,
+            source: 'test',
+            license: 'CC0',
+          },
+        },
+      };
+
+      const { adapter, overlay, learningService } = makeController({
+        playback: fakePlayback({ playing: true }),
+      });
+      learningService.items = [word1, word2];
+      learningService.itemIndex = 0;
+
+      adapter.emit('bv-1', {});
+      await flush();
+
+      overlay.fireAction({ type: 'self-report', wordId: 'w-known' });
+      await flush();
+
+      expect(learningService.selfReportCalls).toEqual(['w-known']);
+      // 不应关闭遮罩，而是加载下一个新词
+      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.openCalls).toBe(2);
     });
   });
 

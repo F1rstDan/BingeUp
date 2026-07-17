@@ -507,6 +507,15 @@ export class ContentController {
       return;
     }
 
+    if (action.type === 'self-report') {
+      await this.deps.learningService.selfReportKnown(action.wordId);
+      active.initialOutcome ??= 'self-reported';
+      this.lastFeedback = null;
+      this.lastQuestion = null;
+      await this.loadNextContinuous(active);
+      return;
+    }
+
     // ─── 终态动作：关闭遮罩、恢复视频、记录冷却 ──────────────
 
     // exit-learning：结束连续学习，不提交当前题，不算跳过，应用默认冷却
@@ -516,17 +525,12 @@ export class ContentController {
       return;
     }
 
-    // accept-new-word / self-report / skip：单题模式终态动作。
+    // accept-new-word / skip：单题模式终态动作。
     let outcome: InteractionOutcome;
     switch (action.type) {
       case 'accept-new-word':
         await this.deps.learningService.acceptNewWord(action.wordId);
         active.initialOutcome ??= 'accepted-new';
-        outcome = 'submitted';
-        break;
-      case 'self-report':
-        await this.deps.learningService.selfReportKnown(action.wordId);
-        active.initialOutcome ??= 'self-reported';
         outcome = 'submitted';
         break;
       case 'skip':
