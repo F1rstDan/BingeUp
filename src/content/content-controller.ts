@@ -512,7 +512,21 @@ export class ContentController {
       active.initialOutcome ??= 'self-reported';
       this.lastFeedback = null;
       this.lastQuestion = null;
-      await this.loadNextContinuous(active);
+      pauseIfPlaying(active.playback);
+      const nextItem = await this.deps.learningService.getNextItem({
+        excludedWordIds: this.sessionWordIds,
+      });
+      if (nextItem === null) {
+        await this.endInteraction(active, 'submitted');
+        return;
+      }
+      this.trackWordId(nextItem);
+      this.hasSubmitted = false;
+      this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
+        previousFeedback: this.lastFeedback ?? undefined,
+        previousQuestion: this.lastQuestion ?? undefined,
+        isContinuous: false,
+      });
       return;
     }
 

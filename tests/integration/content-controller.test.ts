@@ -648,7 +648,7 @@ describe('ContentController — 核心闭环编排', () => {
       });
     });
 
-    it('我认识换一个 → 调用 selfReportKnown、加载下一题、不关闭遮罩', async () => {
+    it('我认识换一个 → 调用 selfReportKnown、加载下一题、不关闭遮罩、保持单题模式', async () => {
       const { adapter, overlay, playback, cooldownStore, learningService } = makeController({
         playback: fakePlayback({ playing: true }),
       });
@@ -663,6 +663,8 @@ describe('ContentController — 核心闭环编排', () => {
       expect(overlay.closeCalls).toBe(0);
       expect(overlay.openCalls).toBe(2);
       expect(playback.playCalls).toBe(0);
+      // 保持单题模式，不进入连续学习（避免"知道了，继续"死循环）
+      expect(overlay.lastOptions).toMatchObject({ isContinuous: false });
     });
 
     it('我认识换一个 → 自报认识后立即加载下一个候选新词（不关闭遮罩）', async () => {
@@ -715,6 +717,8 @@ describe('ContentController — 核心闭环编排', () => {
       // 不应关闭遮罩，而是加载下一个新词
       expect(overlay.closeCalls).toBe(0);
       expect(overlay.openCalls).toBe(2);
+      // 保持单题模式
+      expect(overlay.lastOptions).toMatchObject({ isContinuous: false });
     });
   });
 
