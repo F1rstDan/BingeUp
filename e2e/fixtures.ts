@@ -31,10 +31,7 @@ export const test = base.extend<ExtensionFixtures>({
       // `channel: 'chromium'` 使用支持扩展的新版 headless 构建（Chrome for Testing）；
       // 旧版 headless 不加载扩展，service worker 不会注册。如需可视化调试可加 headless: false。
       channel: 'chromium',
-      args: [
-        `--disable-extensions-except=${EXTENSION_PATH}`,
-        `--load-extension=${EXTENSION_PATH}`,
-      ],
+      args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`],
     });
     await use(context);
     await context.close();

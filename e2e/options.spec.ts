@@ -36,9 +36,7 @@ test.describe('设置页', () => {
     await page.goto(pageUrl(extensionId, 'options.html'));
     const link = page.getByRole('link', { name: '反馈问题或建议' });
     await expect(link).toBeVisible();
-    expect(await link.getAttribute('href')).toContain(
-      'github.com/F1rstDan/BingeUp/issues/new',
-    );
+    expect(await link.getAttribute('href')).toContain('github.com/F1rstDan/BingeUp/issues/new');
     await page.close();
   });
 });
