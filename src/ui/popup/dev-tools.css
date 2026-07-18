@@ -1,7 +1,7 @@
 .bingeup-dev-tools {
   display: grid;
-  gap: 6px;
-  padding-top: 8px;
+  gap: 4px;
+  padding-top: 4px;
   border-top: 1px solid #edf1f5;
 }
 
@@ -48,12 +48,12 @@
 
 .bingeup-dev-tools-body {
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .bingeup-dev-group {
   display: grid;
-  gap: 5px;
+  gap: 3px;
 }
 
 .bingeup-dev-group-title {
@@ -79,12 +79,12 @@
 .bingeup-dev-card-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 4px;
+  gap: 3px;
 }
 
 .bingeup-popup .bingeup-dev-card-button {
-  min-height: 30px;
-  padding: 4px 2px;
+  min-height: 26px;
+  padding: 2px;
   border: 1px solid #cde7f8;
   border-radius: 9px;
   color: var(--bingeup-blue-dark);
@@ -104,7 +104,7 @@
   margin: 0;
   color: var(--bingeup-muted);
   font-size: 10px;
-  line-height: 1.45;
+  line-height: 1.3;
 }
 
 .bingeup-dev-summary-error {
@@ -150,8 +150,8 @@
 
 .bingeup-dev-summary {
   display: grid;
-  gap: 5px;
-  padding: 7px;
+  gap: 3px;
+  padding: 4px;
   border-radius: 10px;
   background: #f7fafc;
 }
@@ -190,13 +190,13 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 4px 9px;
-  padding-top: 4px;
+  padding-top: 2px;
   border-top: 1px dashed #dce6ee;
 }
 
 .bingeup-popup .bingeup-dev-clear {
-  min-height: 28px;
-  padding: 4px 7px;
+  min-height: 26px;
+  padding: 3px 5px;
   border: 1px solid #ffd4de;
   border-radius: 9px;
   color: var(--bingeup-pink-dark);
@@ -208,29 +208,4 @@
 .bingeup-popup .bingeup-dev-clear:hover:not(:disabled) {
   background: #ffe5eb;
   transform: none;
-}
-
-@media (max-height: 640px) {
-  .bingeup-dev-tools {
-    gap: 5px;
-    padding-top: 6px;
-  }
-
-  .bingeup-dev-tools-body {
-    gap: 5px;
-  }
-
-  .bingeup-dev-group {
-    gap: 4px;
-  }
-
-  .bingeup-popup .bingeup-dev-card-button {
-    min-height: 28px;
-    padding: 3px 2px;
-  }
-
-  .bingeup-dev-summary {
-    gap: 4px;
-    padding: 6px;
-  }
 }

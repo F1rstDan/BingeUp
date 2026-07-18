@@ -2,7 +2,9 @@ html,
 body {
   width: 340px;
   min-width: 320px;
-  overflow-x: hidden;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
   color: var(--bingeup-ink);
   background: var(--bingeup-canvas);
   font-size: 13px;
@@ -11,13 +13,20 @@ body {
 
 #app {
   width: 100%;
+  height: auto;
+  min-height: 0;
 }
 
 .bingeup-popup {
   display: grid;
-  gap: 10px;
+  align-content: start;
+  gap: 4px;
   width: 100%;
-  padding: 14px;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  overflow: visible;
+  padding: 8px;
   border: 1px solid var(--bingeup-line);
   border-radius: 16px;
   background: var(--bingeup-white);
@@ -25,8 +34,8 @@ body {
 }
 
 .bingeup-popup .bingeup-feedback {
-  margin-top: 6px;
-  padding-top: 7px;
+  margin-top: 2px;
+  padding-top: 3px;
 }
 
 .bingeup-header {
@@ -42,8 +51,8 @@ body {
 }
 
 .bingeup-brand-mascot {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   flex: 0 0 auto;
   object-fit: contain;
 }
@@ -111,9 +120,9 @@ body {
 .bingeup-site-status {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
-  padding: 10px;
+  padding: 6px;
   border-radius: 14px;
   background: #f7fafc;
 }
@@ -201,7 +210,7 @@ body {
 }
 
 .bingeup-block {
-  padding-top: 10px;
+  padding-top: 6px;
   border-top: 1px solid #edf1f5;
 }
 
@@ -210,7 +219,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 3px;
 }
 
 .bingeup-block-head strong {
@@ -241,12 +250,12 @@ body {
 .bingeup-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
+  gap: 4px;
 }
 
 .bingeup-metric {
   min-width: 0;
-  padding: 6px 3px;
+  padding: 3px 2px;
   border-radius: 10px;
   text-align: center;
   background: #f8fbfe;
@@ -254,7 +263,7 @@ body {
 
 .bingeup-metric strong {
   display: block;
-  min-height: 22px;
+  min-height: 16px;
   overflow-wrap: anywhere;
   color: var(--bingeup-blue);
   font-size: 14px;
@@ -270,20 +279,27 @@ body {
 
 .bingeup-metric span {
   display: block;
-  margin-top: 3px;
+  margin-top: 1px;
   color: var(--bingeup-muted);
-  font-size: 8px;
+  font-size: 7px;
+  line-height: 1.1;
 }
 
 .bingeup-actions {
   display: grid;
-  gap: 6px;
+  gap: 3px;
 }
 
 .bingeup-pause-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 3px;
+}
+
+.bingeup-popup .bingeup-pause-row button,
+.bingeup-popup .bingeup-start-action {
+  min-height: 34px;
+  padding: 5px 8px;
 }
 
 .bingeup-btn-full {
@@ -298,8 +314,8 @@ body {
 .bingeup-hint {
   margin: 0;
   color: var(--bingeup-muted);
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.3;
 }
 
 .bingeup-notice {
@@ -321,56 +337,6 @@ body {
   padding: 13px;
   border-radius: 14px;
   background: #f7fafc;
-}
-
-/* Chrome/Edge Popup 的可视高度有限；在受限高度下进一步压缩间距，优先保证开发工具可见。 */
-@media (max-height: 640px) {
-  .bingeup-popup {
-    gap: 8px;
-    padding: 12px;
-  }
-
-  .bingeup-popup button {
-    min-height: 40px;
-    padding: 8px 10px;
-  }
-
-  .bingeup-popup .bingeup-popup-settings {
-    min-height: 28px;
-  }
-
-  .bingeup-site-status {
-    padding: 8px;
-  }
-
-  .bingeup-block {
-    padding-top: 8px;
-  }
-
-  .bingeup-block-head {
-    margin-bottom: 5px;
-  }
-
-  .bingeup-metric {
-    padding: 5px 2px;
-  }
-
-  .bingeup-metric strong {
-    min-height: 20px;
-  }
-
-  .bingeup-actions {
-    gap: 5px;
-  }
-
-  .bingeup-pause-row {
-    gap: 5px;
-  }
-
-  .bingeup-popup .bingeup-feedback {
-    margin-top: 3px;
-    padding-top: 5px;
-  }
 }
 
 .bingeup-state-title {
