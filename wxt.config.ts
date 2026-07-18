@@ -45,6 +45,13 @@ export default defineConfig({
     reloadCommand: 'Alt+R',
   },
   hooks: {
+    // 开发数据页仅服务开发服务器；生产构建从 WXT entrypoints 列表中移除，
+    // 配套的 Popup 动态导入也会因 import.meta.env.DEV 被树摇掉。
+    'entrypoints:found': (wxt, entrypoints) => {
+      if (wxt.config.command !== 'build') return;
+      const devToolsIndex = entrypoints.findIndex((entrypoint) => entrypoint.name === 'dev-tools');
+      if (devToolsIndex >= 0) entrypoints.splice(devToolsIndex, 1);
+    },
     // Vite 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
     // WXT 的扩展 dev client 可能未携带该 token。仅在本机开发服务器中跳过校验。
     'vite:devServer:extendConfig': (config) => {

@@ -1,0 +1,211 @@
+.bingeup-dev-tools {
+  display: grid;
+  gap: 9px;
+  padding-top: 13px;
+  border-top: 1px solid #edf1f5;
+}
+
+.bingeup-dev-tools-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.bingeup-dev-tools-heading::-webkit-details-marker {
+  display: none;
+}
+
+.bingeup-dev-tools-heading::after {
+  color: var(--bingeup-muted);
+  content: '＋';
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.bingeup-dev-tools[open] .bingeup-dev-tools-heading::after {
+  content: '−';
+}
+
+.bingeup-dev-tools-heading > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bingeup-dev-tools-heading strong {
+  color: var(--bingeup-ink);
+  font-size: 12px;
+}
+
+.bingeup-dev-tools-heading span {
+  color: var(--bingeup-muted);
+  font-size: 10px;
+}
+
+.bingeup-dev-tools-body {
+  display: grid;
+  gap: 9px;
+}
+
+.bingeup-dev-group {
+  display: grid;
+  gap: 7px;
+}
+
+.bingeup-dev-group-title {
+  color: #4e6072;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-link {
+  min-height: 24px;
+  padding: 3px 5px;
+  border-radius: 7px;
+  color: var(--bingeup-blue);
+  background: transparent;
+  box-shadow: none;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-link:hover:not(:disabled) {
+  background: var(--bingeup-blue-soft);
+  transform: none;
+}
+
+.bingeup-dev-card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.bingeup-popup .bingeup-dev-card-button {
+  min-height: 34px;
+  padding: 5px 3px;
+  border: 1px solid #cde7f8;
+  border-radius: 9px;
+  color: var(--bingeup-blue-dark);
+  background: var(--bingeup-blue-soft);
+  box-shadow: none;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-card-button:hover:not(:disabled) {
+  background: #d9efff;
+  transform: none;
+}
+
+.bingeup-dev-status,
+.bingeup-dev-muted,
+.bingeup-dev-notice {
+  margin: 0;
+  color: var(--bingeup-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.bingeup-dev-summary-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid #ffe1e8;
+  border-radius: 8px;
+  color: var(--bingeup-pink-dark);
+  background: var(--bingeup-pink-soft);
+  font-size: 10px;
+}
+
+.bingeup-dev-summary-error p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.bingeup-popup .bingeup-dev-summary-error button {
+  min-height: 24px;
+  padding: 3px 6px;
+  border: 1px solid currentColor;
+  border-radius: 7px;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-summary-error button:hover:not(:disabled) {
+  transform: none;
+}
+
+.bingeup-dev-notice {
+  padding: 7px 8px;
+  border: 1px solid #ffe1e8;
+  border-radius: 8px;
+  color: var(--bingeup-pink-dark);
+  background: var(--bingeup-pink-soft);
+}
+
+.bingeup-dev-summary {
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  border-radius: 10px;
+  background: #f7fafc;
+}
+
+.bingeup-dev-summary-title,
+.bingeup-dev-summary-metrics,
+.bingeup-dev-stage-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bingeup-dev-summary-title span,
+.bingeup-dev-summary-metrics,
+.bingeup-dev-stage-list {
+  color: var(--bingeup-muted);
+  font-size: 10px;
+}
+
+.bingeup-dev-summary-title strong {
+  overflow: hidden;
+  color: var(--bingeup-ink);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bingeup-dev-summary-metrics strong,
+.bingeup-dev-stage-list strong {
+  color: var(--bingeup-blue);
+  font-weight: 900;
+}
+
+.bingeup-dev-stage-list {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 4px 9px;
+  padding-top: 5px;
+  border-top: 1px dashed #dce6ee;
+}
+
+.bingeup-popup .bingeup-dev-clear {
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid #ffd4de;
+  border-radius: 9px;
+  color: var(--bingeup-pink-dark);
+  background: var(--bingeup-pink-soft);
+  box-shadow: none;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-clear:hover:not(:disabled) {
+  background: #ffe5eb;
+  transform: none;
+}

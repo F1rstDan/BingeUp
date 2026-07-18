@@ -16,6 +16,7 @@ import type {
 import { isReady } from '@/cooldown/cooldown-rules';
 import { pauseForInteraction, restore, type VideoPlaybackPort } from '@/video/playback-controller';
 import type { StartLearningResponse } from '@/messaging/messages';
+import type { DevCardType, PrepareDevCardResult, DevShowCardResult } from '@/dev-tools/messages';
 
 /** 站点适配器端口：内容控制器只通过它接收视频变化事件。 */
 export interface SiteAdapterPort {
@@ -66,6 +67,8 @@ export interface LearningServicePort {
   submitSpellingAnswer(submission: SpellingSubmission): Promise<SubmissionResult>;
   /** 用户在反馈阶段纠正评分（Issue #7）。 */
   correctRating(reviewLogId: string, correction: UserCorrection): Promise<unknown>;
+  /** 开发题卡准备；开发构建之外的适配器可以不提供此能力。 */
+  prepareDevCard?(cardType: DevCardType): Promise<PrepareDevCardResult>;
 }
 
 /**
@@ -146,6 +149,8 @@ interface ActiveInteraction {
   initialOutcome?: SessionLogRecord['initialOutcome'];
   /** 是否由 Popup 主动学习入口启动，可在新词额度用完后使用主动巩固题。 */
   allowEarlyShortTermReview: boolean;
+  /** 正式交互或开发交互；开发交互不产生冷却、首次触发和会话副作用。 */
+  effects: 'standard' | 'dev';
 }
 
 /** Reassert the pause invariant without replacing the original playback snapshot. */
@@ -284,6 +289,7 @@ export class ContentController {
         source: 'manual',
         initialItemKind: item.kind,
         allowEarlyShortTermReview: true,
+        effects: 'standard',
       };
       this.lastObservedIdentity = event.identity;
       this.hasSubmitted = false;
@@ -377,10 +383,66 @@ export class ContentController {
       source: 'natural',
       initialItemKind: item.kind,
       allowEarlyShortTermReview: false,
+      effects: 'standard',
     };
     this.hasSubmitted = false;
     this.trackWordId(item);
     this.triggerInProgress = false;
+  }
+
+  /**
+   * 开发题卡入口：只占用内容侧交互槽位，不检查暂停、站点或冷却，也不操作视频。
+   * 题卡准备仍由 Background 的开发模块负责，提交动作继续复用正式学习服务。
+   */
+  async showDevCard(cardType: DevCardType): Promise<DevShowCardResult> {
+    if (this.active !== null || this.triggerInProgress) {
+      return { ok: false, reason: 'interaction-active' };
+    }
+    if (this.deps.learningService.prepareDevCard === undefined) {
+      return { ok: false, reason: 'failed' };
+    }
+
+    this.triggerInProgress = true;
+    try {
+      const prepared = await this.deps.learningService.prepareDevCard(cardType);
+      if (!prepared.ok) return prepared;
+
+      const target = document.documentElement;
+      this.deps.overlay.open(prepared.item, target, 'full-page', { isContinuous: false });
+      this.active = {
+        identity: `dev:${crypto.randomUUID()}`,
+        playback: null,
+        snapshot: null,
+        target,
+        overlayMode: 'full-page',
+        startedAt: this.deps.clock.now(),
+        mode: 'single',
+        questionsAnswered: 0,
+        continuousQuestionsAnswered: 0,
+        currentSource: 'manual',
+        source: 'manual',
+        initialItemKind: prepared.item.kind,
+        allowEarlyShortTermReview: false,
+        effects: 'dev',
+      };
+      this.hasSubmitted = false;
+      this.trackWordId(prepared.item);
+      return { ok: true };
+    } catch (error) {
+      console.error('[BingeUp] 开发题卡打开失败', error);
+      this.active = null;
+      this.hasSubmitted = false;
+      this.sessionWordIds.clear();
+      try {
+        this.deps.overlay.close();
+      } catch (closeError) {
+        console.error('[BingeUp] 开发题卡故障恢复时关闭遮罩失败', closeError);
+      }
+      return { ok: false, reason: 'failed' };
+    } finally {
+      this.triggerInProgress = false;
+      if (this.active === null) await this.drainPendingVideoChange();
+    }
   }
 
   private async handleAction(action: OverlayAction): Promise<unknown> {
@@ -438,6 +500,10 @@ export class ContentController {
         });
         this.recordSubmittedQuestion(active, result, action.question);
       }
+      if (active.effects === 'dev') {
+        await this.endInteraction(active, 'submitted');
+        return;
+      }
       await this.loadNextContinuous(active);
       return;
     }
@@ -452,6 +518,10 @@ export class ContentController {
           source: active.currentSource,
         });
         this.recordSubmittedQuestion(active, result, action.question);
+      }
+      if (active.effects === 'dev') {
+        await this.endInteraction(active, 'submitted');
+        return;
       }
       await this.loadNextContinuous(active);
       return;
@@ -510,6 +580,10 @@ export class ContentController {
     if (action.type === 'self-report') {
       await this.deps.learningService.selfReportKnown(action.wordId);
       active.initialOutcome ??= 'self-reported';
+      if (active.effects === 'dev') {
+        await this.endInteraction(active, 'submitted');
+        return;
+      }
       this.lastFeedback = null;
       this.lastQuestion = null;
       pauseIfPlaying(active.playback);
@@ -630,32 +704,34 @@ export class ContentController {
     if (active.playback !== null && active.snapshot !== null) {
       await this.restorePlayback(active.playback, active.snapshot);
     }
-    try {
-      await this.deps.cooldownStore.recordOutcome(outcome);
-      // 首次触发处理完后才进入全局冷却。
-      await this.deps.siteState.markFirstQuestionHandled();
-    } catch (error) {
-      console.error('[BingeUp] 记录学习结果失败', error);
-    }
-    // 会话日志（Issue #12）：可选，未提供 sessionLogger 时跳过。
-    // Issue #19 AC5：会话标识使用 crypto.randomUUID()，保证同一毫秒、同一内容身份的
-    // 并发会话（多标签同时触发）仍各自唯一，不依赖 startedAt+identity 组合。
-    if (this.deps.sessionLogger !== undefined) {
+    if (active.effects === 'standard') {
       try {
-        await this.deps.sessionLogger.save({
-          id: crypto.randomUUID(),
-          startedAt: active.startedAt,
-          endedAt: this.deps.clock.now(),
-          mode: active.mode,
-          outcome: sessionOutcome,
-          questionsAnswered: active.questionsAnswered,
-          continuousQuestionsAnswered: active.continuousQuestionsAnswered,
-          source: active.source,
-          initialItemKind: active.initialItemKind,
-          initialOutcome: active.initialOutcome,
-        });
+        await this.deps.cooldownStore.recordOutcome(outcome);
+        // 首次触发处理完后才进入全局冷却。
+        await this.deps.siteState.markFirstQuestionHandled();
       } catch (error) {
-        console.error('[BingeUp] 会话日志写入失败', error);
+        console.error('[BingeUp] 记录学习结果失败', error);
+      }
+      // 会话日志（Issue #12）：可选，未提供 sessionLogger 时跳过。
+      // Issue #19 AC5：会话标识使用 crypto.randomUUID()，保证同一毫秒、同一内容身份的
+      // 并发会话（多标签同时触发）仍各自唯一，不依赖 startedAt+identity 组合。
+      if (this.deps.sessionLogger !== undefined) {
+        try {
+          await this.deps.sessionLogger.save({
+            id: crypto.randomUUID(),
+            startedAt: active.startedAt,
+            endedAt: this.deps.clock.now(),
+            mode: active.mode,
+            outcome: sessionOutcome,
+            questionsAnswered: active.questionsAnswered,
+            continuousQuestionsAnswered: active.continuousQuestionsAnswered,
+            source: active.source,
+            initialItemKind: active.initialItemKind,
+            initialOutcome: active.initialOutcome,
+          });
+        } catch (error) {
+          console.error('[BingeUp] 会话日志写入失败', error);
+        }
       }
     }
     await this.drainPendingVideoChange();

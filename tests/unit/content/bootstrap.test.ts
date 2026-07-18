@@ -243,6 +243,15 @@ describe('bootstrapContent — 启动诊断', () => {
     });
 
     await expect(response).resolves.toEqual({ ok: true });
+
+    const devListener = addListener.mock.calls[1]?.[0] as (
+      message: unknown,
+      sender: unknown,
+      sendResponse: (response: unknown) => void,
+    ) => boolean;
+    const pingResponse = vi.fn();
+    expect(devListener({ type: 'DEV_PING' }, {}, pingResponse)).toBe(false);
+    expect(pingResponse).toHaveBeenCalledWith({ ok: true });
     info.mockRestore();
   });
 

@@ -1,0 +1,208 @@
+html,
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--bingeup-ink);
+  background: var(--bingeup-canvas);
+  font-size: 14px;
+}
+
+.bingeup-dev-page {
+  width: min(100% - 40px, 1180px);
+  margin: 0 auto;
+  padding: 42px 0 64px;
+}
+
+.bingeup-dev-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.bingeup-dev-page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+}
+
+.bingeup-dev-page-header p {
+  margin: 8px 0 0;
+  color: var(--bingeup-muted);
+}
+
+.bingeup-dev-refreshed-at {
+  display: block;
+  margin-top: 8px;
+  color: var(--bingeup-muted);
+  font-size: 12px;
+}
+
+.bingeup-dev-eyebrow {
+  margin: 0 0 8px !important;
+  color: var(--bingeup-blue) !important;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bingeup-dev-page-header button {
+  min-width: 96px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 11px;
+  color: #fff;
+  background: var(--bingeup-blue);
+  box-shadow: 0 3px 0 var(--bingeup-blue-dark);
+  font-weight: 900;
+}
+
+.bingeup-dev-page-header button:hover:not(:disabled) {
+  background: #2198ee;
+}
+
+.bingeup-dev-page-header button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.bingeup-dev-page section,
+.bingeup-dev-data-section {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid var(--bingeup-line);
+  border-radius: var(--bingeup-radius-lg);
+  background: var(--bingeup-white);
+  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
+}
+
+.bingeup-dev-page-section-head,
+.bingeup-dev-data-section summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bingeup-dev-page h2 {
+  margin: 0 0 14px;
+  color: #4e6072;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.bingeup-dev-page-section-head span,
+.bingeup-dev-data-section summary span {
+  color: var(--bingeup-muted);
+  font-size: 12px;
+}
+
+.bingeup-dev-data-section {
+  padding: 0;
+}
+
+.bingeup-dev-data-section summary {
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.bingeup-dev-data-section summary strong {
+  color: #4e6072;
+  font-size: 16px;
+}
+
+.bingeup-dev-data-section pre {
+  max-height: 520px;
+  margin: 0;
+  padding: 0 20px 20px;
+  overflow: auto;
+  color: #34495b;
+  font:
+    12px/1.55 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    'Liberation Mono',
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bingeup-dev-empty {
+  margin: 0;
+  padding: 0 20px 20px;
+  color: var(--bingeup-muted);
+  font-size: 12px;
+}
+
+.bingeup-dev-table-wrap {
+  overflow-x: auto;
+}
+
+.bingeup-dev-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.bingeup-dev-table th,
+.bingeup-dev-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf1f5;
+  text-align: left;
+  vertical-align: top;
+}
+
+.bingeup-dev-table th {
+  color: var(--bingeup-muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.bingeup-dev-table td {
+  color: #4e6072;
+}
+
+.bingeup-dev-table td:first-child {
+  display: flex;
+  min-width: 210px;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bingeup-dev-table code {
+  color: var(--bingeup-blue-dark);
+  font-size: 11px;
+}
+
+.bingeup-dev-table small {
+  color: var(--bingeup-muted);
+}
+
+.bingeup-dev-page-muted,
+.bingeup-dev-page-error {
+  padding: 28px 0;
+  color: var(--bingeup-muted);
+  text-align: center;
+}
+
+.bingeup-dev-page-error {
+  color: var(--bingeup-pink-dark);
+  font-weight: 800;
+}
+
+@media (max-width: 680px) {
+  .bingeup-dev-page {
+    width: min(100% - 28px, 1180px);
+    padding-top: 28px;
+  }
+
+  .bingeup-dev-page-header {
+    flex-direction: column;
+  }
+}

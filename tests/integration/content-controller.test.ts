@@ -205,6 +205,8 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     submitCalls: 0,
     submitSpellingCalls: 0,
     correctRatingCalls: 0,
+    devPrepareCalls: 0,
+    devItem: item ?? LEARNING_ITEM,
     item,
     items: null as LearningItem[] | null,
     itemIndex: 0,
@@ -252,6 +254,10 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
     async correctRating() {
       svc.correctRatingCalls += 1;
       return { cardId: 'card-1', reviewLogId: 'log-1', rating: 'good' as const };
+    },
+    async prepareDevCard() {
+      svc.devPrepareCalls += 1;
+      return { ok: true as const, item: svc.devItem };
     },
   };
   return svc;
@@ -2043,5 +2049,115 @@ describe('ContentController — 长视频定时学习集成（Issue #24 AC9）',
     harness.overlay.fireAction({ type: 'skip' });
     await harness.tick();
     expect(harness.playback.paused).toBe(true);
+  });
+});
+
+describe('ContentController — 开发题卡', () => {
+  it('bypasses pause, site and cooldown checks without pausing video', async () => {
+    const harness = makeController({
+      globallyPaused: true,
+      cooldown: { nextAllowedAt: NOW + 60 * MS_PER_MIN, consecutiveSkipCount: 3 },
+      playback: fakePlayback({ playing: true }),
+    });
+    harness.siteState.enabled = false;
+
+    const result = await harness.controller.showDevCard('spelling');
+
+    expect(result).toEqual({ ok: true });
+    expect(harness.overlay.lastMode).toBe('full-page');
+    expect(harness.overlay.lastTarget).toBe(document.documentElement);
+    expect(harness.playback.pauseCalls).toBe(0);
+    expect(harness.learningService.devPrepareCalls).toBe(1);
+  });
+
+  it('rejects a development card while another interaction is active', async () => {
+    const harness = makeController();
+    harness.adapter.emit('video-1', {});
+    await flush();
+
+    const result = await harness.controller.showDevCard('en-to-zh');
+
+    expect(result).toEqual({ ok: false, reason: 'interaction-active' });
+    expect(harness.learningService.devPrepareCalls).toBe(0);
+    expect(harness.overlay.openCalls).toBe(1);
+  });
+
+  it('writes a submitted result but skips development cooldown and session side effects', async () => {
+    const harness = makeController({ withSessionLogger: true });
+    const result = await harness.controller.showDevCard('en-to-zh');
+    expect(result).toEqual({ ok: true });
+
+    harness.overlay.fireAction({
+      type: 'submit-answer',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 100,
+    });
+    await flush();
+    harness.overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(harness.learningService.submitCalls).toBe(1);
+    expect(harness.cooldownStore.recordCalls).toBe(0);
+    expect(harness.siteState.handledCalls).toBe(0);
+    expect(harness.sessionLogger?.logs).toHaveLength(0);
+    expect(harness.overlay.closeCalls).toBe(1);
+  });
+
+  it('ends a development card instead of loading a normal next item on continue', async () => {
+    const harness = makeController();
+    const result = await harness.controller.showDevCard('en-to-zh');
+    expect(result).toEqual({ ok: true });
+
+    harness.overlay.fireAction({
+      type: 'submit-and-continue',
+      question: LEARNING_ITEM.question,
+      selectedIndex: 0,
+      responseTimeMs: 100,
+    });
+    await flush();
+
+    expect(harness.learningService.submitCalls).toBe(1);
+    expect(harness.learningService.nextItemCalls).toBe(0);
+    expect(harness.overlay.closeCalls).toBe(1);
+  });
+
+  it('开发题卡准备期间的自然触发排队，并在开发交互结束后重新判断', async () => {
+    const harness = makeController();
+    let resolvePrepared!: (result: { ok: true; item: LearningItem }) => void;
+    harness.learningService.prepareDevCard = () =>
+      new Promise((resolve) => {
+        resolvePrepared = resolve;
+      });
+
+    const devPromise = harness.controller.showDevCard('en-to-zh');
+    harness.adapter.emit('natural-video', {});
+    await flush();
+    expect(harness.learningService.nextItemCalls).toBe(0);
+
+    resolvePrepared({ ok: true, item: LEARNING_ITEM });
+    await devPromise;
+    harness.overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(harness.overlay.openCalls).toBe(2);
+    expect(harness.learningService.nextItemCalls).toBe(1);
+  });
+
+  it('开发题卡打开失败会关闭遮罩并释放占用', async () => {
+    const harness = makeController();
+    const open = harness.overlay.open;
+    harness.overlay.open = (() => {
+      throw new Error('overlay failed');
+    }) as typeof harness.overlay.open;
+
+    await expect(harness.controller.showDevCard('en-to-zh')).resolves.toEqual({
+      ok: false,
+      reason: 'failed',
+    });
+    expect(harness.overlay.closeCalls).toBe(1);
+
+    harness.overlay.open = open;
+    await expect(harness.controller.showDevCard('en-to-zh')).resolves.toEqual({ ok: true });
   });
 });

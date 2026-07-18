@@ -98,6 +98,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     await waitFor(() => {
       expect(screen.getByText(/受保护页面/)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
+      expect(screen.getByText('开发工具')).toBeInTheDocument();
     });
   });
 
@@ -237,6 +238,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     expect(await screen.findByText(/缺少主机权限/)).toBeInTheDocument();
     expect(screen.getByText('需要权限 · 无学习遮罩 · 不控制视频')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
+    expect(screen.getByText('开发工具')).toBeInTheDocument();
   });
 
   it('HTTP 页面即使 hostname 已启用也禁用开始学习并说明不支持', async () => {

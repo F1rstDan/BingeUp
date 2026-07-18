@@ -47,6 +47,16 @@ export default defineBackground(() => {
     (async () => {
       try {
         await customScriptsReady;
+        if (import.meta.env.DEV) {
+          const { handleDevExtensionMessage, isDevExtensionMessage } =
+            await import('@/dev-tools/background-handler');
+          if (isDevExtensionMessage(message)) {
+            const db = await getDatabase();
+            const store = new LocalSettingsStore(db);
+            sendResponse(await handleDevExtensionMessage(message, { db, store }));
+            return;
+          }
+        }
         if (message?.type === 'REBUILD_DATABASE') {
           const rebuilt = await rebuildDatabase(DATABASE_NAME, MIGRATIONS);
           dbPromise = Promise.resolve(rebuilt);

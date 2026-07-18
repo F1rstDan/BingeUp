@@ -23,6 +23,7 @@ import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent 
 import { isGloballyPaused } from '@/pause/pause-rules';
 import { normalizeLearningContext } from '@/content/learning-context';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
+import type { DevCardType, PrepareDevCardResult } from '@/dev-tools/messages';
 
 /**
  * 消息驱动的冷却存储：Content 通过 background 读写共享冷却状态。
@@ -95,6 +96,11 @@ export class MessageLearningService implements LearningServicePort {
   ) {
     return messageClient.correctLearningRating(reviewLogId, correction);
   }
+  async prepareDevCard(cardType: DevCardType): Promise<PrepareDevCardResult> {
+    if (!import.meta.env.DEV) return { ok: false, reason: 'no-learning-content' };
+    const { prepareDevCard } = await import('@/dev-tools/message-client');
+    return prepareDevCard(cardType);
+  }
 }
 
 export class MessageSessionLogger implements SessionLoggerPort {
@@ -151,6 +157,14 @@ async function bootstrapOfficialSite(adapter: VideoSiteAdapter, hostname: string
           await messageClient.recordPromptDecline(hostname);
         },
       });
+    }
+    // 生产构建保持原有行为：关闭站点时不启动内容控制器。开发服务器为了
+    // 让开发题卡可测试，才在关闭站点时启动控制器与开发消息监听。
+    if (!import.meta.env.DEV) return;
+    try {
+      await startController(adapter, hostname);
+    } catch (error) {
+      console.error('[BingeUp] 已关闭网站的开发监听启动失败', { hostname, error });
     }
     return;
   }
@@ -314,4 +328,9 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     }
     return false;
   });
+
+  if (import.meta.env.DEV) {
+    const { createDevContentMessageListener } = await import('@/dev-tools/content-handler');
+    chrome.runtime.onMessage.addListener(createDevContentMessageListener(controller));
+  }
 }

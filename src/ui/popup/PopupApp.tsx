@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
@@ -16,6 +16,25 @@ import type {
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
 import { FeedbackLink } from '@/ui/FeedbackLink';
+
+/**
+ * 开发工具只在开发服务器的 Popup 中加载。
+ * 生产构建通过 import.meta.env.DEV 消除这个分支，避免把开发 UI 与消息词串带入包。
+ */
+const DevTools = import.meta.env.DEV
+  ? lazy(() =>
+      import('@/ui/popup/DevTools').then(({ DevTools: component }) => ({ default: component })),
+    )
+  : null;
+
+function DevToolsSlot(): JSX.Element | null {
+  if (DevTools === null) return null;
+  return (
+    <Suspense fallback={null}>
+      <DevTools />
+    </Suspense>
+  );
+}
 
 /**
  * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6）。
@@ -193,6 +212,7 @@ export function PopupApp(): JSX.Element {
         <div className="bingeup-state-card">
           <p className="bingeup-hint bingeup-error">{error}</p>
         </div>
+        <DevToolsSlot />
       </div>
     );
   }
@@ -204,6 +224,7 @@ export function PopupApp(): JSX.Element {
         <div className="bingeup-state-card">
           <p className="bingeup-hint">加载中…</p>
         </div>
+        <DevToolsSlot />
       </div>
     );
   }
@@ -277,6 +298,7 @@ function PopupView({
           </p>
         </div>
         <DisabledStartLearning reason="当前页面不支持学习。" />
+        <DevToolsSlot />
       </div>
     );
   }
@@ -308,6 +330,7 @@ function PopupView({
           <p className="bingeup-hint">需要权限 · 无学习遮罩 · 不控制视频</p>
         </div>
         <DisabledStartLearning reason="请先授予当前网站访问权限。" />
+        <DevToolsSlot />
       </div>
     );
   }
@@ -449,6 +472,7 @@ function PopupView({
         )}
       </div>
 
+      <DevToolsSlot />
       <FeedbackLink />
     </div>
   );
