@@ -244,9 +244,9 @@ export type DevExtensionMessage =
 
 ### 6.1 插件面板
 
-“开发工具”位于插件面板最底部，视觉上在反馈入口之前；默认折叠。现有受保护页面和缺权限页面会提前返回，因此实现时必须抽出共享面板外壳，保证这些分支也渲染开发工具，不能只在普通分支的 `FeedbackLink` 前插入组件。
+“开发工具”位于插件面板最底部，视觉上在反馈入口之前；默认展开。面板采用紧凑间距，优先避免在插件面板中出现滚动条；内容过长时允许浏览器按需滚动。现有受保护页面和缺权限页面会提前返回，因此实现时必须抽出共享面板外壳，保证这些分支也渲染开发工具，不能只在普通分支的 `FeedbackLink` 前插入组件。
 
-折叠内容分两组：
+面板内容分两组，仍可通过标题收起：
 
 ```text
 开发工具
@@ -437,7 +437,7 @@ npm run build:edge
 - 当前 Popup 的受保护页与缺权限页会提前返回，不能通过在普通分支末尾插入组件实现“始终显示”。
 - 当前 `clearLearningProgress()` 实际清除学习卡、复习日志、学习会话和指标源事件，并保留词库与单词。
 - FSRS 权威状态已存放在 `CardRecord.schedulerState`，无需建立独立存储。
-- 已通过 `npm test`（803 tests）、`npm run typecheck`、`npm run lint`、Chrome/Edge 正式构建及开发工具生产排除脚本。
+- 已通过 `npm test`（809 tests）、`npm run typecheck`、`npm run lint`、Chrome/Edge 正式构建及开发工具生产排除脚本。
 - 已启动 WXT 开发服务器并确认开发产物包含 `dev-tools.html` 与开发消息处理产物。
 
 未验证前提：

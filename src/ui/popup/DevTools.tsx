@@ -117,7 +117,7 @@ export function DevTools(): JSX.Element {
   }, [clearing, loadSummary]);
 
   return (
-    <details className="bingeup-dev-tools" aria-labelledby="bingeup-dev-tools-title">
+    <details className="bingeup-dev-tools" aria-labelledby="bingeup-dev-tools-title" open>
       <summary className="bingeup-dev-tools-heading">
         <span>
           <strong id="bingeup-dev-tools-title">开发工具</strong>

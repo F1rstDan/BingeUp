@@ -54,6 +54,13 @@ describe('Popup 开发工具', () => {
     mocks.clearLearningProgress.mockReset();
   });
 
+  it('默认展开开发工具面板', () => {
+    installChromeStub({ ok: true });
+    render(<DevTools />);
+
+    expect(screen.getByText('开发工具').closest('details')).toHaveAttribute('open');
+  });
+
   it('显示当前词库摘要，并在内容脚本就绪时启用五个按钮', async () => {
     installChromeStub({ ok: true });
     render(<DevTools />);
@@ -141,5 +148,7 @@ function getDevDeckSummaryMock() {
 }
 
 function openDevTools() {
-  fireEvent.click(screen.getByText('开发工具'));
+  const heading = screen.getByText('开发工具');
+  const details = heading.closest('details');
+  if (details?.open === false) fireEvent.click(heading);
 }

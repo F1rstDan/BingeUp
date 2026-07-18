@@ -2,6 +2,7 @@ html,
 body {
   width: 340px;
   min-width: 320px;
+  overflow-x: hidden;
   color: var(--bingeup-ink);
   background: var(--bingeup-canvas);
   font-size: 13px;
@@ -14,13 +15,18 @@ body {
 
 .bingeup-popup {
   display: grid;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
-  padding: 18px;
+  padding: 14px;
   border: 1px solid var(--bingeup-line);
-  border-radius: 20px;
+  border-radius: 16px;
   background: var(--bingeup-white);
   box-shadow: var(--bingeup-shadow);
+}
+
+.bingeup-popup .bingeup-feedback {
+  margin-top: 6px;
+  padding-top: 7px;
 }
 
 .bingeup-header {
@@ -36,8 +42,8 @@ body {
 }
 
 .bingeup-brand-mascot {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   flex: 0 0 auto;
   object-fit: contain;
 }
@@ -105,9 +111,9 @@ body {
 .bingeup-site-status {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
-  padding: 13px;
+  padding: 10px;
   border-radius: 14px;
   background: #f7fafc;
 }
@@ -195,7 +201,7 @@ body {
 }
 
 .bingeup-block {
-  padding-top: 14px;
+  padding-top: 10px;
   border-top: 1px solid #edf1f5;
 }
 
@@ -204,7 +210,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .bingeup-block-head strong {
@@ -234,13 +240,13 @@ body {
 
 .bingeup-metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
 }
 
 .bingeup-metric {
   min-width: 0;
-  padding: 9px 5px;
+  padding: 6px 3px;
   border-radius: 10px;
   text-align: center;
   background: #f8fbfe;
@@ -248,7 +254,7 @@ body {
 
 .bingeup-metric strong {
   display: block;
-  min-height: 28px;
+  min-height: 22px;
   overflow-wrap: anywhere;
   color: var(--bingeup-blue);
   font-size: 14px;
@@ -271,13 +277,13 @@ body {
 
 .bingeup-actions {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .bingeup-pause-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 6px;
 }
 
 .bingeup-btn-full {
@@ -315,6 +321,56 @@ body {
   padding: 13px;
   border-radius: 14px;
   background: #f7fafc;
+}
+
+/* Chrome/Edge Popup 的可视高度有限；在受限高度下进一步压缩间距，优先保证开发工具可见。 */
+@media (max-height: 640px) {
+  .bingeup-popup {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .bingeup-popup button {
+    min-height: 40px;
+    padding: 8px 10px;
+  }
+
+  .bingeup-popup .bingeup-popup-settings {
+    min-height: 28px;
+  }
+
+  .bingeup-site-status {
+    padding: 8px;
+  }
+
+  .bingeup-block {
+    padding-top: 8px;
+  }
+
+  .bingeup-block-head {
+    margin-bottom: 5px;
+  }
+
+  .bingeup-metric {
+    padding: 5px 2px;
+  }
+
+  .bingeup-metric strong {
+    min-height: 20px;
+  }
+
+  .bingeup-actions {
+    gap: 5px;
+  }
+
+  .bingeup-pause-row {
+    gap: 5px;
+  }
+
+  .bingeup-popup .bingeup-feedback {
+    margin-top: 3px;
+    padding-top: 5px;
+  }
 }
 
 .bingeup-state-title {
