@@ -5,7 +5,6 @@
   output_path: './.agents/skills/'
   skills_list:
   - skills://mattpocock.skills/ask-matt
-  - skills://mattpocock.skills/batch-grill-me
   - skills://mattpocock.skills/code-review
   - skills://mattpocock.skills/codebase-design
   - skills://mattpocock.skills/diagnosing-bugs
