@@ -1,6 +1,6 @@
 - type: folder_skills
   output_path: './.agents/skills/'
-- type: local_copy
+- type: local_symlink
   source: skills://group/19443366-7207-4e34-badc-067dddb600c0
   source_filename: matt超好用SKILLS
   output_path: './.agents/skills/'
