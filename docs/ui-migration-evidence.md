@@ -544,6 +544,141 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 $env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
 ```
 
++## M3b 设置页迁移
+
+工单：#41（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-41-m3b-options（从集成分支 tip e69640f 切出）
+
+### 1. 改动概览
+
+设置页（src/ui/options/OptionsApp.tsx、src/entrypoints/options/options.css、src/entrypoints/options/main.tsx）：
+
+- 入口新增恰好一次的原版样式导入 `animal-island-ui/style`（与 Popup/Stats 一致）；全局旧令牌（design-tokens.css）未删除，属工单 #46。
+- 页面外壳改用 island 共享基础模块（IslandPage）；学习设置、网站管理、数据管理三个分区改用原版 Tabs（方向键/Home/End 切换与 tabpanel 语义随库提供）。
+- 控件全部原版化：Switch（拼写题、连续跳过自动降频、长视频定时学习、站点启用、基础网页两种触发）、Input（数字/文本）、Card（分区与站点行）、Button（保存/恢复默认/添加网站/导出/导入/删除/清除/重试）、Tag（站点状态与兼容模式徽标）。
+- 自绘下拉替换评估：读锁定版 2.2.1 类型声明与小抄后确认可直接替换——`options` 为 `{key,label}[]`、`value` 与 `onChange` 使用 key，与旧组件逐项映射；库内实现为 APG combobox/listbox（aria-expanded/aria-controls/aria-activedescendant、方向键/Home/End/Enter/Escape、点击外部关闭）。旧组件支持词库描述插槽，原版 Select 无描述位，词库说明不再在下拉内展示；这是替换评估中唯一的能力差异。评估结论：删除自绘 DropdownSelect 与其样式，直接使用原版受控 Select。
+- 危险数据操作确认：window.confirm 改为原版 Modal（扩展独立页面允许；variant="game"、typewriter={false}、maskClosable={false}）。清除学习进度与清除全部数据各一次确认；重建数据库保留原有两步确认（“继续” → “最后确认/确定执行”）。确认文案与原 window.confirm 文案一致；确认后仍走原有清除/重建调用链与通知，原子恢复语义不变。关闭打字机是刻意选择：确认弹窗需要完整风险文案立即可读（typewriter 为库官方属性，不是视觉改造）。
+- options.css 只保留布局职责：颜色/圆角/间距一律改用 --island-* 语义别名（桥接库 --animal-* 令牌），旧蓝粉类清零；旧蓝粉令牌文件与其导入按范围保留。
+- 未改：消息链路、站点触发保存链路、保存/恢复默认/导出/导入/清除/重建的行为与通知文案、词库数据与设置字段语义。
+
+### 2. Tabs 集成适配（页面级布局，理由与范围）
+
+| 适配 | 原因 | 实现 |
+| --- | --- | --- |
+| 放开 Tabs 容器 overflow | 库容器默认 overflow:hidden 会裁剪 Select 侧边下拉面板（面板是组件根节点的绝对定位子元素） | .bingeup-options .bingeup-tabs { overflow: visible; }，并把表头两角按容器内圆角补齐 |
+| 窄视口下拉改为触发区下方 | 库按视口空间决定面板在触发区左右侧展开；≤540px 时两侧都没有约 200px 空间，面板会越出视口 | @media (max-width: 540px) 内用 [role='listbox'] 稳定角色选择器以 !important 覆盖内联定位（仅位置，不改颜色与形状） |
+| ≤400px 收紧表头内边距 | 极窄视口三个标签会折行成两行 | 仅调整 tablist/tab 的 padding、gap 与字号 |
+
+以上均为布局适配；未改库组件的颜色、圆角、阴影与动效。
+
+### 3. 测试覆盖变化
+
+- tests/unit/options/OptionsApp.test.tsx：27 → 30 用例。更新因组件替换变化的查询（combobox/option/switch/tab/dialog + within 限定作用域），新增：原版受控 Select 点击选择后随保存写回、键盘方向键/Enter/Escape 交互、Modal 取消不执行清除、两步确认后重建、重建第一步取消不执行；原有行为断言全部保留，未弱化。
+- tests/unit/options/DropdownSelect.test.tsx：随自绘组件删除；下拉选择与键盘交互断言迁移到页面级（OptionsApp）后保留。
+- tests/unit/ui/island-theme.test.ts：追加设置页样式静态规则（不含 --bingeup 旧令牌与写死颜色）。
+- e2e/options.spec.ts：断言改为角色与可访问名称（spinbutton/combobox/switch/tab）；新增「学习水平原版 Select 修改并保存」「键盘切换分区」「Modal Escape 取消、确认执行、滚动锁定与焦点恢复」。
+- e2e/migration-m3b.spec.ts（新增，默认跳过）：M3b 采集脚本。
+- 测试规模：M3b 分支（合并 M3c 前）46 文件 / 831 用例（删自绘组件 1 个文件 4 个用例，新增 OptionsApp 3 个与静态规则 1 个用例）；合并 M3c 后 47 文件 / 838 用例。
+
+### 4. 键盘、焦点与窄宽度（真实 MV3 产物 e2e 实测）
+
+| 项 | 结果 |
+| --- | --- |
+| 字体 | Nunito 与 Noto Sans SC 均 loaded；7 个字体响应全部为 chrome-extension:// 本地资源 |
+| 控制台 | console error 0、pageerror 0、失败请求 0 |
+| 横向溢出 | 1280 / 420 / 360 / 320 与 200% 缩放等效（CSS 视口 640）均为 scrollWidth = clientWidth |
+| Select 面板（320px 打开） | 面板完整位于视口内（x=58、宽 88、右缘 146 ≤ 320），无横向溢出 |
+| Modal | 打开时 body overflow=hidden、焦点落入对话框（取消按钮）；Escape/取消关闭后滚动恢复、焦点回到触发按钮 |
+| 键盘 | Tabs 方向键/Home/End 切换（e2e）；Select ArrowDown/Enter/Escape（单测）；Switch 为原生按钮，Space/Enter 可用（库实现） |
+
+### 5. 截图（docs/assets/migration-m3b/）
+
+| 文件 | 状态 |
+| --- | --- |
+| options-learning-1280.png | 学习设置：Tabs + 原版 Select/Switch/Input/Card/Button |
+| options-learning-420.png / -360.png / -320.png | 窄宽度：表头单行、字段堆叠、无横向溢出 |
+| options-select-open-320.png | 320px 打开原版 Select：面板在触发区下方、完整可见 |
+| options-learning-zoom200.png | 200% 缩放等效（CSS 视口 640px）：行布局、无溢出 |
+| options-sites-1280.png | 网站管理：站点 Card + Tag + 启用 Switch + 触发开关 + 删除 |
+| options-data-1280.png | 数据管理：导出/导入 + 危险清除按钮 |
+| options-modal-clear-1280.png | 原版 Modal（game 外框）：标题、确认文案、取消/危险确认按钮 |
+
+复现命令（默认跳过，采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M3B='1'; npx playwright test e2e/migration-m3b.spec.ts
+```
+
+采集运行时记录（.output/migration-m3b-capture.json）：字体与溢出数字见上表；采集在截图前等待库入场动效结束（tabpanel 淡入 0.25s、Modal 缩放 0.3s、下拉淡入 0.2s），避免截图停留在动画起始帧。200% 缩放等效以 CSS 视口 640px 直接设定，不再与 Playwright 视口模拟混用 CDP 设备指标（混用会导致合成尺寸与布局不一致，本次复核后改为纯视口设定）。
+
+### 6. 体积对比（Chrome 与 Edge 数字一致）
+
+M3b 分支 vs 其基线 e69640f：
+
+| 指标 | 基线（e69640f） | M3b 分支 | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,318,976 B（57 文件） | +8,634 B |
+| 压缩包 zip | 8,451,396 B | 8,455,376 B | +3,980 B |
+| content script | 346,395 B | 346,395 B | 0 |
+| Popup 入口闭包 | 315,708 B | 315,729 B | +21 B |
+| Options 入口闭包 | 未单独测量 | 331,993 B（9 文件） | —（测量脚本本次补充该指标，只增字段） |
+
+合并 M3c（59b0d1f）后复测：
+
+| 指标 | 合并后（含 M3c） |
+| --- | --- |
+| 解包体积 | 11,319,624 B（58 文件） |
+| 压缩包 zip | 8,457,252 B |
+| content script | 346,395 B |
+| Popup 入口闭包 | 315,821 B |
+| Options 入口闭包 | 332,261 B |
+
+说明：设置页引入库样式后，Vite 把库 CSS/JS 合并为跨入口共享 chunk（如 FeedbackLink-*.css 128,665 B 同时服务 Popup/Stats/Options，不重复计入安装包）；Options 入口闭包包含该共享分块、design-tokens 分块与页面自身分块。合并后重新采集：8/9 张截图字节一致，options-select-open-320.png 因下拉面板动画时序有微小差异（SHA 不同，画面内容一致）。
+
+### 7. 门禁执行记录
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | M3b 分支 46 文件 / 831 用例通过；合并 M3c 后 47 文件 / 838 用例通过 |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest / verify-dev-tools-production / verify-island-shadow-assets） |
+| Edge 构建 | npm run build:edge | 通过（同上） |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 6 节） |
+| 浏览器 E2E（既有用例） | npx playwright test | M3b 分支 11 通过 / 21 跳过；合并 M3c 后 11 通过 / 23 跳过（跳过为既有采集与人工矩阵占位） |
+| M3b 采集 | $env:CAPTURE_M3B='1'; npx playwright test e2e/migration-m3b.spec.ts | 3 通过（合并后复测同样通过） |
+
+### 8. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 真实浏览器（非 headless）下的过渡观感（Modal 缩放/遮罩、Tabs 淡入） | 采集为 headless 渲染；过渡由库 CSS 决定，未人工比对 |
+| 浏览器真实 200% 缩放设置 | 以 CSS 视口 640px 作布局等效，非浏览器缩放设置本身（本次未采集 DSF 2 截图） |
+| 浏览器“字体大小/最小字号”偏好下的大字体 | 库与页面均以 px 为尺寸单位，未单独模拟该偏好 |
+| Edge 真实浏览器人工矩阵 | 仅验证 edge-mv3 构建产物（与 Chrome 字节一致） |
+| 屏幕阅读器真机朗读抽查 | 可访问名称与角色由单测/e2e 覆盖，未做真机朗读 |
+| 词库描述信息 | 原版 Select 无描述插槽，词库说明不再在下拉内展示（替换评估结论，见第 1 节） |
+
+### 9. 复现步骤
+
+```powershell
+git checkout codex/ticket-41-m3b-options
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npx playwright test
+$env:CAPTURE_M3B='1'; npx playwright test e2e/migration-m3b.spec.ts
+```
+
+相关提交（分支 codex/ticket-41-m3b-options）：
+
+1. 设置页迁移到 Animal Island 原版组件（工单 #41）
+2. 合并集成分支 feat/animal-island-ui-migration（含 M3c 统计页迁移）
+3. 新增 M3b 设置页迁移证据与截图（工单 #41）
+
+
 采集运行时记录（.output/migration-m3c-capture.json）：Nunito 与 Noto Sans SC 均 loaded；字体响应全部为 chrome-extension:// 本地资源（空状态 7 个响应）；console error 0、pageerror 0、失败请求 0；1120px 与 480px 视口均无横向溢出；键盘 Tab 落在激活标签（●今日）上。采集脚本在截图前强制一帧并等待过渡结束（headless 下无帧时 CSS 过渡会停在起始值，导致 Tab 高亮滞后）；非空数据经真实消息链路完成引导/站点启用后直接写入 IndexedDB（仅采集用，统计读取与聚合链路不变）。
 
 ### 4. 体积对比（M2 合并态 e69640f → 本次；Chrome 与 Edge 数字一致）
