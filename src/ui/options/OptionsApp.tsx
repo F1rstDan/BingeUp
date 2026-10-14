@@ -244,9 +244,7 @@ export function OptionsApp(): JSX.Element {
           max={100}
           aria-label="每日新词上限"
           value={settings.dailyNewWordLimit}
-          onChange={(e) =>
-            setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })
-          }
+          onChange={(e) => setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })}
         />
       </Field>
 
@@ -355,21 +353,14 @@ export function OptionsApp(): JSX.Element {
               placeholder="example.com 或 https://example.com"
               onChange={(event) => setSiteInput(event.target.value)}
             />
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={siteAdding}
-              disabled={siteAdding}
-            >
+            <Button type="primary" htmlType="submit" loading={siteAdding} disabled={siteAdding}>
               {siteAdding ? '正在添加…' : '添加网站'}
             </Button>
           </div>
         </form>
       </Card>
       {sites.length === 0 ? (
-        <p className="bingeup-hint">
-          暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。
-        </p>
+        <p className="bingeup-hint">暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。</p>
       ) : (
         <div className="bingeup-site-list">
           {sites.map((entry) => (
@@ -730,4 +721,3 @@ async function handleRebuildDatabase(
     onNotice(`重建失败：${error instanceof Error ? error.message : String(error)}`);
   }
 }
-

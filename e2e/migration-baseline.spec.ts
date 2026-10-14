@@ -102,10 +102,19 @@ test.describe('M0 旧界面基线采集', () => {
     console.log(JSON.stringify(records, null, 2));
   });
 
-  test('扩展独立页面截图：Popup / Onboarding / Options / Stats', async ({ context, extensionId }) => {
+  test('扩展独立页面截图：Popup / Onboarding / Options / Stats', async ({
+    context,
+    extensionId,
+  }) => {
     const captures = [
       { name: 'popup', file: 'popup.png', html: 'popup.html', width: 400, height: 200 },
-      { name: 'onboarding', file: 'onboarding.png', html: 'onboarding.html', width: 760, height: 1200 },
+      {
+        name: 'onboarding',
+        file: 'onboarding.png',
+        html: 'onboarding.html',
+        width: 760,
+        height: 1200,
+      },
       { name: 'options', file: 'options.png', html: 'options.html', width: 1120, height: 1000 },
       { name: 'stats', file: 'stats.png', html: 'stats.html', width: 1120, height: 1000 },
     ] as const;

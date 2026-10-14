@@ -162,7 +162,9 @@ export function OnboardingApp(): JSX.Element {
             />
           </fieldset>
 
-          <p className="bingeup-onboarding-hint">之后可在设置页修改学习水平、词库与其他学习设置。</p>
+          <p className="bingeup-onboarding-hint">
+            之后可在设置页修改学习水平、词库与其他学习设置。
+          </p>
         </Card>
       </IslandSection>
 
@@ -198,4 +200,3 @@ export function OnboardingApp(): JSX.Element {
     </IslandPage>
   );
 }
-

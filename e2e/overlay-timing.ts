@@ -30,7 +30,8 @@ export async function installOverlayTiming(page: Page): Promise<void> {
       hostAt: null,
       overlayAt: null,
     };
-    (window as unknown as { __bingeupOverlayTiming?: OverlayTiming }).__bingeupOverlayTiming = state;
+    (window as unknown as { __bingeupOverlayTiming?: OverlayTiming }).__bingeupOverlayTiming =
+      state;
 
     const cardVisible = () => {
       const host = document.getElementById('bingeup-overlay-host');
@@ -118,4 +119,3 @@ export async function waitForOverlayCard(page: Page, timeout: number): Promise<b
     .then(() => true)
     .catch(() => false);
 }
-

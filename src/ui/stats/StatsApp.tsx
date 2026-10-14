@@ -217,8 +217,8 @@ export function StatsApp(): JSX.Element {
                   </span>
                   <span className="bingeup-stats-row-value">
                     自然 {day.naturalCompletedQuestions} · 跳过 {pct(day.naturalSkipRate)} · 暂停{' '}
-                    {day.activePauseCount} · 连续 {day.continuousSessions}/{day.continuousQuestions} ·
-                    长期 {day.longTermReview.completed}/
+                    {day.activePauseCount} · 连续 {day.continuousSessions}/{day.continuousQuestions}{' '}
+                    · 长期 {day.longTermReview.completed}/
                     {performancePct(day.longTermReview.completed, day.longTermReview.accuracy)}
                   </span>
                 </div>
@@ -291,8 +291,7 @@ export function StatsApp(): JSX.Element {
                   <span className="bingeup-stats-row-value bingeup-stats-site-value">
                     <Tag size="small" color={site.currentEnabled ? 'app-teal' : 'default'}>
                       {site.currentEnabled ? '已启用' : '已关闭'}
-                    </Tag>
-                    {' '}
+                    </Tag>{' '}
                     <span>· 连续启用 {site.continuousEnabledDays} 天</span>
                   </span>
                 </div>

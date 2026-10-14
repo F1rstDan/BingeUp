@@ -620,8 +620,7 @@ async function handleStartContinuousLearning(
   const message: ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
   try {
     const response = (await chrome.tabs.sendMessage(tabId, message)) as
-      | StartLearningResponse
-      | undefined;
+      StartLearningResponse | undefined;
     if (response?.ok) {
       window.close();
       return;

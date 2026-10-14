@@ -117,7 +117,8 @@ function buildSeedPayload(): Record<string, unknown[]> {
   const todayStart = new Date(now);
   todayStart.setHours(0, 0, 0, 0);
   const todayStartMs = todayStart.getTime();
-  const at = (daysAgo: number, hours: number) => todayStartMs - daysAgo * MS_PER_DAY + hours * 3600_000;
+  const at = (daysAgo: number, hours: number) =>
+    todayStartMs - daysAgo * MS_PER_DAY + hours * 3600_000;
   const todayAt = Math.max(todayStartMs, now - 60_000);
 
   const card = (
@@ -199,11 +200,7 @@ function buildSeedPayload(): Record<string, unknown[]> {
     log('log-15', 'w8', at(8, 13), false, 'natural', 'long-term'),
   ];
 
-  const session = (
-    id: string,
-    startedAt: number,
-    overrides: Record<string, unknown>,
-  ) => ({
+  const session = (id: string, startedAt: number, overrides: Record<string, unknown>) => ({
     id,
     startedAt,
     endedAt: startedAt + 5000,
@@ -221,7 +218,11 @@ function buildSeedPayload(): Record<string, unknown[]> {
       questionsAnswered: 3,
       continuousQuestionsAnswered: 3,
     }),
-    session('session-3', at(1, 13), { outcome: 'skipped', source: 'natural', initialOutcome: 'skipped' }),
+    session('session-3', at(1, 13), {
+      outcome: 'skipped',
+      source: 'natural',
+      initialOutcome: 'skipped',
+    }),
     session('session-4', at(3, 12), { source: 'natural', initialOutcome: 'submitted' }),
   ];
 
@@ -293,10 +294,7 @@ test.describe('M3c 学习统计页迁移采集', () => {
     await page.goto(pageUrl(extensionId, 'stats.html'));
 
     await page.getByRole('tablist', { name: '统计分区' }).waitFor();
-    await page
-      .getByRole('region', { name: '当前学习卡状态' })
-      .getByText('还没有学习卡')
-      .waitFor();
+    await page.getByRole('region', { name: '当前学习卡状态' }).getByText('还没有学习卡').waitFor();
     const fonts = await readFontState(page);
     expect(fonts.nunitoReady).toBe(true);
     expect(fonts.notoReady).toBe(true);
@@ -369,9 +367,7 @@ test.describe('M3c 学习统计页迁移采集', () => {
     const overview = page.getByRole('region', { name: '概览' });
     await overview.getByText('今日自然完成题目').waitFor();
     await expect(overview.getByText('5')).toBeVisible();
-    await expect(
-      page.getByRole('region', { name: '今日学习' }).getByText('67%'),
-    ).toBeVisible();
+    await expect(page.getByRole('region', { name: '今日学习' }).getByText('67%')).toBeVisible();
     const stageTags = page.getByRole('region', { name: '当前学习卡状态' });
     await expect(stageTags.getByText('短期学习')).toBeVisible();
     await expect(stageTags.getByRole('progressbar')).toHaveCount(3);

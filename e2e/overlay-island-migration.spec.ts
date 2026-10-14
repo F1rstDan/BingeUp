@@ -248,44 +248,45 @@ async function readShadowState(page: Page): Promise<ShadowState> {
     const probeStyle = probeElement ? getComputedStyle(probeElement) : null;
     return {
       hasHost: host !== null,
-      hostInline: host
-        ? { display: host.style.display, boxSizing: host.style.boxSizing }
-        : null,
+      hostInline: host ? { display: host.style.display, boxSizing: host.style.boxSizing } : null,
       hostRect: rectOf(host),
       hostTokenPrimary: host
         ? getComputedStyle(host).getPropertyValue('--animal-primary-color').trim()
         : null,
-      overlay: overlay && overlayStyle
-        ? {
-            position: overlayStyle.position,
-            display: overlayStyle.display,
-            backgroundColor: overlayStyle.backgroundColor,
-            backdropFilter: overlayStyle.backdropFilter,
-          }
-        : null,
-      card: card && cardStyle
-        ? {
-            className: String(card.className),
-            backgroundColor: cardStyle.backgroundColor,
-            borderRadius: cardStyle.borderRadius,
-            fontWeight: cardStyle.fontWeight,
-            fontFamily: cardStyle.fontFamily,
-            backdropFilter: cardStyle.backdropFilter,
-            overflowY: cardStyle.overflowY,
-            rect: rectOf(card) as RectSnapshot,
-            scrollHeight: card.scrollHeight,
-            clientHeight: card.clientHeight,
-            scrollTop: card.scrollTop,
-          }
-        : null,
-      button: button && buttonStyle
-        ? {
-            borderRadius: buttonStyle.borderRadius,
-            fontFamily: buttonStyle.fontFamily,
-            transitionDuration: buttonStyle.transitionDuration,
-            transitionTimingFunction: buttonStyle.transitionTimingFunction,
-          }
-        : null,
+      overlay:
+        overlay && overlayStyle
+          ? {
+              position: overlayStyle.position,
+              display: overlayStyle.display,
+              backgroundColor: overlayStyle.backgroundColor,
+              backdropFilter: overlayStyle.backdropFilter,
+            }
+          : null,
+      card:
+        card && cardStyle
+          ? {
+              className: String(card.className),
+              backgroundColor: cardStyle.backgroundColor,
+              borderRadius: cardStyle.borderRadius,
+              fontWeight: cardStyle.fontWeight,
+              fontFamily: cardStyle.fontFamily,
+              backdropFilter: cardStyle.backdropFilter,
+              overflowY: cardStyle.overflowY,
+              rect: rectOf(card) as RectSnapshot,
+              scrollHeight: card.scrollHeight,
+              clientHeight: card.clientHeight,
+              scrollTop: card.scrollTop,
+            }
+          : null,
+      button:
+        button && buttonStyle
+          ? {
+              borderRadius: buttonStyle.borderRadius,
+              fontFamily: buttonStyle.fontFamily,
+              transitionDuration: buttonStyle.transitionDuration,
+              transitionTimingFunction: buttonStyle.transitionTimingFunction,
+            }
+          : null,
       styleFlags: {
         hostTokens: styleText.includes(':host{--animal-primary-color'),
         noRoot: !styleText.includes(':root{'),
@@ -734,4 +735,3 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     await page.close();
   });
 });
-

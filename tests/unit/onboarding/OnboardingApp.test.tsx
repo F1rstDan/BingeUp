@@ -139,7 +139,9 @@ describe('OnboardingApp — Issue #21 学习设置', () => {
     render(<OnboardingApp />);
 
     expect(
-      screen.getByRole('radio', { name: new RegExp(LEVEL_LABELS[DEFAULT_SETTINGS.selfRatedLevel]) }),
+      screen.getByRole('radio', {
+        name: new RegExp(LEVEL_LABELS[DEFAULT_SETTINGS.selfRatedLevel]),
+      }),
     ).toBeChecked();
     expect(screen.getByRole('radio', { name: new RegExp(getDefaultDeck().name) })).toBeChecked();
   });
