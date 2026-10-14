@@ -594,3 +594,125 @@ node scripts/measure-bundle-baseline.mjs
 npx playwright test
 $env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
 ```
+
+## M5 视频遮罩全量迁移
+
+工单：#44（父 issue #36）｜分支：codex/ticket-44-m5-overlay（从集成分支 tip 559776a 切出）｜执行时间：2026-10-14。
+
+### 1. 交付概览
+
+- `src/ui/overlay/OverlayApp.tsx`：全部状态迁移为原版视觉——新词展示、选择题、拼写题、答题反馈（答对/答错）、连续学习徽标与上一题反馈、评分纠正。主卡使用库 `Card`（羊皮纸底）；操作使用库 `Button`（primary/default/dashed）；拼写输入使用库 `Input`；连续徽标使用库 `Tag`；结果与选中图标使用 naive-icons（`CheckIcon` / `CheckCircleIcon` / `XCircleIcon`），替换原 ✓/✗ Unicode 符号。选项行与已知状态区为本项目局部呈现组件，只以 `var(--animal-*)` 令牌着色。
+- `src/content/overlay-controller.tsx`：真实学习遮罩接入 M4 管线——`getIslandShadowStyleBundle()`（:root 令牌 → :host 映射 + chrome-extension 字体 URL 重写，`?raw` 方案）与 `registerIslandFontFaces()`（FontFace API，按文档幂等）。ShadowRoot 样式分三段注入：`reset`（`:host { all: initial }`）→ 库发布 CSS → 遮罩 shell；shell 只承担布局与自定义元素的令牌着色，不覆盖库组件的颜色/圆角/阴影。遮罩底层使用原版 mask 令牌 `var(--animal-mask-bg)`（实测 rgba(0, 0, 0, 0.35)）。
+- 卡片滚动与可见性：`.bingeup-overlay` 保持绝对定位铺满宿主（absolute + inset 0 + grid 居中，padding 15px）；卡片 `width: min(470px, 100%)`、`max-height: 100%`、`overflow-y: auto`、`overscroll-behavior: contain`，内容超出时只在卡片内部滚动。
+- 删除 M4 临时路径：`src/ui/island/IslandShadowPreview.tsx`、`OverlayController.openIslandPreview`、`ISLAND_POC_PREVIEW` / `ISLAND_POC_CLOSE` 扩展内部消息与 bootstrap 监听及相关测试钩子。
+- 错误边界回退界面迁移为原版 `Card` / `Button` 与 `AlertCircleIcon`（`OverlayErrorFallback`），并补充单元测试。
+- 动效：库组件自带 `--animal-motion-duration-base`（0.25s）与 `cubic-bezier(0.4, 0, 0.2, 1)`；自定义选项行使用 `--animal-motion-duration-fast`（0.15s）与同一缓动，并在 `prefers-reduced-motion: reduce` 下关闭过渡。
+
+零行为变化：OverlayAction 语义、快捷键（1–4 / A–D / Enter / Shift+Enter / Escape）、评分纠正、暂停/恢复与恢复保护、遮罩几何契约（host display:block、根节点铺满、目标矩形刷新）均未改动。
+
+### 2. 单元/集成测试更新
+
+- `tests/unit/ui/OverlayApp.test.tsx`：选中状态查询改为 `aria-pressed` 并断言选中图标存在；✓/✗ 文本断言改为 naive-icons SVG 存在性；删除冻结 CSS 类名的断言。其余行为断言保持原强度。
+- `tests/unit/content/overlay-controller.test.ts`：M4 预览用例改为真实遮罩用例——库样式注入（:host 令牌、chrome-extension 字体 URL、无 :root、无旧玻璃/旧令牌）、字体注册幂等、无宿主文档泄漏、重复打开单宿主与清理、目标矩形刷新；新增 `OverlayErrorFallback` 用例。
+- `tests/unit/content/bootstrap.test.ts`：删除 PoC 消息断言与预览组件 mock；启动诊断用例用最小库模块占位，避免每个 `vi.resetModules()` 用例重新求值完整组件图（避免全量测试下的超时）。
+
+### 3. e2e 验证矩阵（合成 Bilibili 页面，真实 MV3 产物）
+
+`e2e/overlay-island-migration.spec.ts`（替代 M4 的 `e2e/island-shadow-poc.spec.ts`；自然触发或 `START_CONTINUOUS_LEARNING` 回退打开真实遮罩）：
+
+| 验证项 | 结果 |
+| --- | --- |
+| 宿主机契约 | fixed 宿主 `display:block`、`box-sizing:border-box`，矩形与播放器一致 | 通过 |
+| ShadowRoot 计算样式 | Card rgb(247, 243, 223) / 20px 圆角 / 500 字重；Button 50px 胶囊、`transition 0.25s cubic-bezier(0.4, 0, 0.2, 1)`；:host 令牌 `--animal-primary-color` = #19c8b9 | 通过 |
+| 遮罩底层 | `.bingeup-overlay` 背景 rgba(0, 0, 0, 0.35)（mask 令牌）；`backdrop-filter: none`，无旧玻璃风格 | 通过 |
+| 字体 | Nunito 与 Noto Sans SC 进入 loaded；woff2 响应全部为 `chrome-extension://` 且 200 | 通过 |
+| 宿主页副作用 | head/body 计数、探针样式、文档滚动高度前后一致；light DOM 无 `animal-*` 节点 | 通过 |
+| 16:9 / 9:16 布局 | 卡片完整落在播放器矩形内 | 通过 |
+| 小窗滚动 | 卡片 scrollHeight > clientHeight（样例 310 > 170）；滚轮只滚动卡片（scrollTop > 0）而 window.scrollY 保持 0；滚到末端后继续滚仍为 0（overscroll-behavior: contain） | 通过 |
+| Escape 退出 | 遮罩宿主移除，页面 DOM 恢复 | 通过 |
+| CSP / 控制台 | 无 CSP / Refused to load 报错，无 pageerror | 通过 |
+
+命令：`npx playwright test e2e/overlay-island-migration.spec.ts`。
+
+### 4. 截图（docs/assets/migration-m5/）
+
+| 文件 | 状态 |
+| --- | --- |
+| overlay-16x9.png | 新词展示（合成页自然触发的单题模式） |
+| overlay-16x9-new-word.png | 连续模式新词展示（含"连续学习"徽标） |
+| overlay-16x9-question.png | 选择题（连续学习 + 选项 + 快捷键提示） |
+| overlay-16x9-question+feedback.png | 上一题反馈（答错 + 图标 + 正确答案）与下一题 |
+| overlay-9x16.png | 9:16 竖屏播放器内的卡片 |
+| overlay-small.png | 小窗内卡片（内部滚动，内容未溢出播放器） |
+
+复现命令（采集会覆盖同名 PNG，并写入 `.output/migration-m5-capture.json`）：
+
+```powershell
+$env:CAPTURE_M5='1'; npx playwright test e2e/overlay-island-migration.spec.ts
+```
+
+### 5. 体积对比（M5 vs M4 合并后）
+
+| 指标 | M4（合并后，#43） | M5 | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,303,228 B（56 文件） | 11,311,851 B（56 文件） | +8,623 B |
+| 压缩包（Chrome/Edge 一致） | 8,449,591 B | 8,451,472 B | +1,881 B |
+| content script | 346,395 B | 355,018 B | +8,623 B |
+| Popup 入口闭包 | 308,756 B | 308,756 B | 0 |
+
+增量来自遮罩 shell CSS、OverlayApp 的库组件代码与 naive-icons 引用（gzip 后约 1.9 KB）。字体双份（`assets/` 与 `files/`）为 M4 已知问题，去重属 #46，本工单未处理。
+
+### 6. 门禁执行记录
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（45 个测试文件、825 个用例） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build（含三个校验脚本） | 通过 |
+| Edge 构建 | npm run build:edge | 通过 |
+| 浏览器 E2E | npx playwright test | 10 通过 / 13 跳过 / 0 失败 |
+| M5 截图采集 | $env:CAPTURE_M5='1'; npx playwright test e2e/overlay-island-migration.spec.ts | 3 通过 |
+| 体积复测 | node scripts/measure-bundle-baseline.mjs | 见第 5 节 |
+
+### 7. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 真实 B 站/YouTube 上的遮罩呈现（宿主页 CSP 下的字体加载、全屏、竖屏、窗口缩放、真实视频暂停/恢复） | 无真实站点环境；沿用人工验收矩阵 |
+| Edge 真机字体与样式 | 仅验证 edge-mv3 构建产物 |
+| 错误边界在真实渲染异常下的触发 | 回退界面由单测覆盖；OverlayApp 正常路径无法受控注入渲染异常，未做 e2e 触发 |
+| 字体子集按需加载对首屏的影响 | 仅合成页观测；真实站点网络面板由人工确认 |
+
+### 8. 复现步骤
+
+```powershell
+git checkout codex/ticket-44-m5-overlay
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npx playwright test
+$env:CAPTURE_M5='1'; npx playwright test e2e/overlay-island-migration.spec.ts
+```
+
+### 9. 合并集成分支（含 M2）后的复测
+
+本工单推送前已合并集成分支（e69640f，含工单 #39 M2 Popup 完整迁移与共享页面基础模块）。合并后复测（Chrome 与 Edge 数字一致）：
+
+| 指标 | 集成分支（M0+M1+M4+M2） | 合并后（M0+M1+M4+M2+M5） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,318,965 B（57 文件） | +8,623 B |
+| 压缩包 zip | 8,451,396 B | 8,453,277 B | +1,881 B |
+| content script | 346,395 B | 355,018 B | +8,623 B |
+| Popup 入口闭包 | 315,708 B | 315,708 B | 0 |
+
+合并后门禁复测：typecheck 通过；npm test 47 文件 / 833 用例通过；lint 通过；Chrome/Edge 构建通过（含三个校验脚本）；npm run test:e2e 10 通过 / 18 跳过 / 0 失败。M5 增量与合并前一致（只影响内容脚本），M2 的 Popup 与共享模块未受本工单影响；M5 截图已用合并后产物重新采集并提交（截图内容随当前抽到的单词变化，仅作证据，不作像素比对基线）。
+
+相关提交（分支 codex/ticket-44-m5-overlay）：
+
+1. 遮罩迁移为 Animal Island 原版视觉并删除 M4 预览路径
+2. 重构 M4 PoC e2e 为真实遮罩迁移验证并采集 M5 截图
+3. 补充 M5 迁移证据与体积数据
