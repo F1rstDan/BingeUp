@@ -385,3 +385,71 @@ npx playwright test e2e/island-shadow-poc.spec.ts
 | Popup 入口闭包 | 166,685 B | 308,756 B | 166,685 B | 308,756 B |
 
 已知重复（合并后出现，M4 不单独引入）：M1 的页面入口由 Vite 正常打包，把 9 个 woff2 发射为 `assets/<name>-<hash>.woff2`（页面相对 URL）；M4 的内容脚本走 Vite lib/IIFE 模式，不能复用这组发射结果（lib 模式会把字体 base64 内联），因此按库内相对路径另行复制到 `files/` 并在 WAR 中开放。两套字体同时存在于产物中，约 3.4 MB 重复；无重复时 zip 预计约 4.9 MB（≈ M1 的 4.86 MB）。合并期评估过 `?no-inline` 导入：lib 模式下它发射为无哈希根路径文件，仍无法与页面资产同名去重。建议在 M5/M6 统一字体资产交付路径（一处发射、两处共用）；本工单保持两条路径各自独立、可分别回归。
+
+## M6a 附属提示迁移
+
+工单：#45（父 issue #36）｜分支：codex/ticket-45-m6a-notices（从集成分支 tip 559776a 切出）｜执行时间：2026-10-14。
+
+启用提示与播放恢复提示完成原版化：两者都改用 M4 阴影管线（工单 #43：库样式令牌映射到 `:host` + FontFace 字体注册），各自拥有独立 ShadowRoot 与自身作用域宿主；启用提示的可见控件使用库原版 `Card`/`Button`，播放恢复提示按原版通知规范以 `var(--animal-*)` 令牌实现局部呈现（Portal 组件仍禁止在内容脚本使用）。宿主页无全局样式注入，行为语义（启用/暂不/已启用刷新提示/失败恢复/单一横幅；`role=status`/6 秒消失/`pointer-events: none`/恢复行为本身）保持不变。
+
+### 1. 交付物
+
+- **启用提示** `src/content/enable-prompt.tsx`（原 `.ts` 重命名）：React + 原版 `Card`/`Button` 在独立 ShadowRoot 内渲染，宿主只承担 `fixed` 定位（内联样式，light DOM 为空）；保留启用、暂不、已启用后「请刷新」提示、失败恢复按钮、单一横幅约束与全部回调语义。
+- **播放恢复提示** `src/content/playback-recovery-notice.ts`：独立 ShadowRoot + 同一管线；容器以 `var(--animal-*)` 令牌上色（`--animal-bg-color` 羊皮纸底、`--animal-text-color` 暖棕文字、`--animal-border-color` 2px 边框、18px 圆角、`--animal-shadow-base` 阴影），不硬编码颜色；宿主 `pointer-events: none` 保证不拦截播放器。
+- **单元测试**：`tests/unit/content/enable-prompt.test.ts`（新增 7 例）与 `tests/unit/content/playback-recovery-notice.test.ts`（重写 3 例），覆盖公开回调语义、单一横幅、6 秒消失与计时器替换、ShadowRoot 隔离（light DOM 为空、无 document 级 style、无 `animal-` 节点）与管线标记（`:host` 令牌、无 `:root`、字体 chrome-extension 绝对 URL）。
+- **e2e** `e2e/island-notices.spec.ts`（新增，默认运行；截图采集用 `CAPTURE_M6A=1`）：真实 MV3 产物 + 合成 Bilibili 页面，覆盖原版计算样式、字体本地加载、启用/暂不/已启用交互、拒绝计数持久化，以及真实「视频未能自动继续」流程下的恢复提示呈现、命中测试穿透、6 秒消失与无泄漏/无 CSP 报错。
+
+### 2. 实测验证矩阵
+
+| 验证项 | 方式 | 结果 |
+| --- | --- | --- |
+| 启用提示原版计算样式 | e2e：主按钮圆角 50px、背景 `rgb(248, 248, 240)`、文字 `rgb(121, 79, 39)`、3D 阴影 `rgb(189, 174, 160) 0 5px`；Card 背景 `rgb(247, 243, 223)`、圆角 20px；字体族含 Nunito/Noto Sans SC | 通过 |
+| 播放恢复提示原版样式 | e2e：背景 `rgb(248, 248, 240)`、文字 `rgb(121, 79, 39)`、圆角 18px、边框 `rgb(220, 216, 209)`、字体族含 Nunito | 通过 |
+| 字体本地加载 | e2e：页面 woff2 请求全部为 `chrome-extension://`；Nunito 进入 loaded | 通过 |
+| Shadow 隔离与宿主页无泄漏 | 单测 + e2e：宿主 `textContent` 为空；无 document 级 style；light DOM 无 `[class^="animal-"]` 节点；body 子元素数不变 | 通过 |
+| 不拦截播放器交互 | e2e：提示中心 `elementFromPoint` 命中页面元素（DIV）且不在提示宿主内（`pointer-events: none`） | 通过 |
+| 行为语义不变 | 单测 + e2e：启用/暂不/已启用「知道了」、启用失败恢复、单一横幅；拒绝计数经真实后台持久化为 1；6 秒自动消失；恢复流程代码未改动 | 通过 |
+| 无 CSP 报错 | e2e 控制台监听（合成页） | 无报错；真实站点 CSP 未验证（见第 4 节） |
+| 门禁 | typecheck / npm test / lint / build / build:edge / e2e | typecheck 通过；46 个测试文件、832 个用例全过；lint 通过（0 warning）；Chrome/Edge 构建（含既有校验脚本）通过；e2e 11 通过 / 13 跳过（跳过为既有人工矩阵与采集占位） |
+
+### 3. 截图证据（合成 Bilibili 页面）
+
+| 场景 | 文件 |
+| --- | --- |
+| 启用提示（初始询问态） | `docs/assets/migration-m6a/enable-prompt.png` |
+| 启用提示（已启用/请刷新态） | `docs/assets/migration-m6a/enable-prompt-enabled.png` |
+| 播放恢复提示（真实恢复失败流程） | `docs/assets/migration-m6a/playback-recovery-notice.png` |
+
+采集命令：`$env:CAPTURE_M6A='1'; npx playwright test e2e/island-notices.spec.ts`（需先 `npm run build`）。
+
+### 4. 未验证项（真实站点手测项）
+
+| 项 | 原因 | 建议手测 |
+| --- | --- | --- |
+| 真实 B 站/YouTube CSP 下的提示样式注入 | 合成页无 CSP（与 M4 相同限制） | 触发提示后确认无 CSP 报错、样式与字体正常 |
+| 真实站点上提示与播放器控件的叠加表现 | 合成页无真实播放器控件 | 人工验收矩阵：暂停/恢复、全屏、缩放、多标签 |
+| Edge 真机字体与样式 | 仅验证 edge-mv3 构建产物 | 人工矩阵 |
+
+### 5. 体积影响（vs M4 合并后基线）
+
+| 指标 | M4 合并后 | M6a 后 | 差值 |
+| --- | --- | --- | --- |
+| 解包体积（56 文件） | 11,303,228 B | 11,302,738 B | −490 B |
+| 压缩包 zip | 8,449,591 B | 8,449,527 B | −64 B |
+| content script（content.js） | 346,395 B | 345,905 B | −490 B |
+| Popup 入口闭包 | 308,756 B | 308,756 B | 0（未动页面） |
+
+启用提示由内联蓝粉自绘样式改为库原版组件（React/库代码本就在内容脚本内），净减来自删除旧提示 CSS。
+
+### 6. 复现命令
+
+```powershell
+git checkout codex/ticket-45-m6a-notices
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npx playwright test e2e/island-notices.spec.ts
+$env:CAPTURE_M6A='1'; npx playwright test e2e/island-notices.spec.ts
+node scripts/measure-bundle-baseline.mjs
+```
