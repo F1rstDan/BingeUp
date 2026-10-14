@@ -1,0 +1,78 @@
+/**
+ * island 基础模块 — 页面外壳与区块布局（工单 #39）。
+ *
+ * 只负责排布、间距、文字层级与页脚语义；颜色、圆角与动效一律使用
+ * island-theme.css 的 --island-* 语义别名，不写死任何色值。
+ * 不重造 animal-island-ui 的组件：卡片、按钮、分隔线等仍由库提供。
+ */
+
+.island-page {
+  display: grid;
+  gap: var(--island-space-lg);
+  width: 100%;
+  min-width: 0;
+  padding: var(--island-space-lg);
+  color: var(--island-text-color);
+  font-family: var(--island-font-family);
+  font-size: var(--island-font-size-base);
+  line-height: 1.6;
+  background: var(--island-bg-color);
+}
+
+.island-section {
+  display: grid;
+  gap: var(--island-space-sm);
+  min-width: 0;
+}
+
+.island-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--island-space-sm);
+  min-width: 0;
+}
+
+.island-section-title {
+  margin: 0;
+  color: var(--island-text-color);
+  font-size: var(--island-font-size-base);
+  font-weight: 700;
+}
+
+.island-section-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--island-space-sm);
+}
+
+.island-footer {
+  display: grid;
+  gap: var(--island-space-sm);
+  min-width: 0;
+}
+
+.island-footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.island-link {
+  border-radius: 6px;
+  color: var(--island-text-color);
+  font-size: var(--island-font-size-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.island-link:hover {
+  text-decoration: underline;
+}
+
+.island-link:focus-visible {
+  outline: 3px solid var(--island-warning-color);
+  outline-offset: 3px;
+}
