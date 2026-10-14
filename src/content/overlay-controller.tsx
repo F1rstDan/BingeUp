@@ -1,11 +1,19 @@
 import { Component, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+import { IslandShadowPreview, ISLAND_SHADOW_PREVIEW_CSS } from '@/ui/island/IslandShadowPreview';
+import {
+  getIslandShadowStyleBundle,
+  registerIslandFontFaces,
+} from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
 import { SHADOW_DESIGN_TOKENS } from '@/ui/styles/shadow-design';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
 
 const OVERLAY_HOST_ID = 'bingeup-overlay-host';
+
+/** M4 PoC 预览宿主 id：只承载实验预览，M5 迁移完成后删除。 */
+const ISLAND_PREVIEW_HOST_ID = 'bingeup-island-preview-host';
 
 const OVERLAY_CSS = `
   ${SHADOW_DESIGN_TOKENS}
@@ -140,12 +148,57 @@ export class OverlayController implements OverlayPort {
     mode: OverlayMode,
     options?: OverlayOpenOptions,
   ): void {
+    this.mountShadow({
+      hostId: OVERLAY_HOST_ID,
+      css: OVERLAY_CSS,
+      target,
+      mode,
+      watchRecovery: true,
+      render: () => (
+        <OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}>
+          <OverlayApp
+            item={item}
+            onAction={(action) => this.actionHandler?.(action)}
+            previousFeedback={options?.previousFeedback}
+            previousQuestion={options?.previousQuestion}
+            isContinuous={options?.isContinuous}
+          />
+        </OverlayErrorBoundary>
+      ),
+    });
+  }
+  /**
+   * M4 Shadow DOM PoC（工单 #43）：用与真实遮罩相同的宿主与几何契约，在 ShadowRoot
+   * 内渲染原版 Card/Button 样例，供真实浏览器验证计算样式与字体加载；M5 迁移后删除。
+   */
+  openIslandPreview(target: HTMLElement | DOMRect, mode: OverlayMode): void {
+    const bundle = getIslandShadowStyleBundle();
+    // Chromium 不加载 ShadowRoot 内 @font-face：把字体注册到 document.fonts。
+    registerIslandFontFaces(bundle.fontFaces);
+    this.mountShadow({
+      hostId: ISLAND_PREVIEW_HOST_ID,
+      css: ISLAND_SHADOW_PREVIEW_CSS + '\n' + bundle.css,
+      target,
+      mode,
+      watchRecovery: false,
+      render: () => <IslandShadowPreview />,
+    });
+  }
+  private mountShadow(options: {
+    hostId: string;
+    css: string;
+    target: HTMLElement | DOMRect;
+    mode: OverlayMode;
+    /** 学习遮罩需要监听宿主被移除并触发 recover；实验预览不需要。 */
+    watchRecovery: boolean;
+    render: () => ReactNode;
+  }): void {
     if (this.host !== null) this.close();
-    this.target = target;
-    this.mode = mode;
+    this.target = options.target;
+    this.mode = options.mode;
     this.recoveryRequested = false;
     const host = document.createElement('div');
-    host.id = OVERLAY_HOST_ID;
+    host.id = options.hostId;
     host.style.position = 'fixed';
     host.style.display = 'block';
     host.style.boxSizing = 'border-box';
@@ -154,31 +207,23 @@ export class OverlayController implements OverlayPort {
     document.documentElement.appendChild(host);
     const shadow = host.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
-    style.textContent = OVERLAY_CSS;
+    style.textContent = options.css;
     shadow.appendChild(style);
     const mountPoint = document.createElement('div');
     shadow.appendChild(mountPoint);
     this.host = host;
     this.shadow = shadow;
-    this.hostObserver = new MutationObserver(() => {
-      if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
-        this.recoveryRequested = true;
-        this.actionHandler?.({ type: 'recover' });
-      }
-    });
-    this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
+    if (options.watchRecovery) {
+      this.hostObserver = new MutationObserver(() => {
+        if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
+          this.recoveryRequested = true;
+          this.actionHandler?.({ type: 'recover' });
+        }
+      });
+      this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
+    }
     this.root = createRoot(mountPoint);
-    this.root.render(
-      <OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}>
-        <OverlayApp
-          item={item}
-          onAction={(action) => this.actionHandler?.(action)}
-          previousFeedback={options?.previousFeedback}
-          previousQuestion={options?.previousQuestion}
-          isContinuous={options?.isContinuous}
-        />
-      </OverlayErrorBoundary>,
-    );
+    this.root.render(options.render());
     this.updatePosition();
     this.startTracking();
   }
