@@ -504,6 +504,97 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 2. Popup 完整原版化并清零旧蓝粉样式（标题栏/状态卡/今日学习/反馈页脚、单测更新与 M2 采集脚本）
 3. 新增 M2 Popup 完整迁移证据文档与截图
 
+## M3c 学习统计迁移
+
+工单：#42（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-42-m3c-stats（从集成分支 tip e69640f 切出）
+
+### 1. 改动概览
+
+统计页（src/ui/stats/StatsApp.tsx、src/entrypoints/stats/stats.css、src/entrypoints/stats/main.tsx）：
+
+- 页面外壳与区块复用 island 共享基础模块（IslandPage / IslandSection）；入口新增恰好一次的原版样式导入 `animal-island-ui/style`，导入顺序与 Popup 一致。
+- 概览 4 个指标卡改为原版 Card；今日学习明细、近 7 日趋势、默认支持网站、全期长期复习表现改为原版 Card 承载的明细行（文案与行顺序不变）。
+- 当前学习卡状态：自绘堆叠条 + 图例改为每阶段一行「原版 Tag（阶段色）+ 数量 + 原版 Progress（占全部学习卡的占比）」；空状态改用原版虚线 Card，文案不变（“还没有学习卡”）。
+- 全期长期复习“正确率”改用原版 Progress（infoFormat 保留 “—/x%” 文案）；周对比两列改为原版 Card。
+- 页面内容按原版 Tabs 分为「今日 / 趋势 / 网站」三个标签：统计口径、数值与空/非空状态不变，未引入打卡、游戏等级或虚构进度。
+- stats.css 只保留布局职责：颜色一律使用 --island-* 语义别名，旧蓝粉类清零；Tabs 按钮补原版黄色焦点环（库内 Tabs 未定义 focus-visible，否则会落到 design-tokens.css 的旧蓝色焦点环）。全局旧令牌（design-tokens.css）未删除，属工单 #46。
+- 未改：StatsService 统计口径、数据库读取链路、Popup/后台消息、任何业务语义。
+
+### 2. 测试覆盖变化
+
+- tests/unit/stats/StatsApp.test.tsx（新增，测试缝①）：6 个用例覆盖默认「今日」标签的概览/明细/卡状态、空状态（“还没有学习卡” + 概览零值）、非空状态（Tag + 3 条 Progress 的 aria-valuenow 50/25/25）、「趋势」标签（近 7 日行、周对比、全期正确率 67% 与 progressbar）、「网站」标签（已启用/已关闭 + 连续启用天数）、数据库不可用时的加载失败状态。
+- tests/unit/ui/island-theme.test.ts：追加统计页样式静态规则用例（stats.css 不含 --bingeup 旧令牌与写死颜色）。
+- e2e/stats.spec.ts：未改（h1「学习统计」保留，断言继续通过）。
+- 测试规模：47 文件 / 831 用例 → 48 文件 / 838 用例。
+
+### 3. 截图（docs/assets/migration-m3c/）
+
+| 文件 | 状态 |
+| --- | --- |
+| stats-empty-today.png | 空状态「今日」：零值概览 + 明细“—” + 虚线卡“还没有学习卡” |
+| stats-empty-today-narrow.png | 空状态「今日」，480px 窄宽度 + 键盘焦点：无横向溢出，激活标签显示原版黄色焦点环 |
+| stats-empty-trend.png | 空状态「趋势」：近 7 日零值、周对比 0/0、全期 0 与“—” |
+| stats-seeded-today.png | 非空「今日」：概览 5/6/2/6、今日学习 10 行、卡状态 Tag+Progress（7/4/2） |
+| stats-seeded-trend.png | 非空「趋势」：近 7 日、周对比（本周 9 · 78% / 上周 6 · 67%）、全期正确率 67% |
+| stats-seeded-sites.png | 非空「网站」：bilibili 已启用 · 连续启用 5 天；youtube 已关闭 · 连续启用 0 天 |
+
+复现命令（默认跳过，采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
+```
+
+采集运行时记录（.output/migration-m3c-capture.json）：Nunito 与 Noto Sans SC 均 loaded；字体响应全部为 chrome-extension:// 本地资源（空状态 7 个响应）；console error 0、pageerror 0、失败请求 0；1120px 与 480px 视口均无横向溢出；键盘 Tab 落在激活标签（●今日）上。采集脚本在截图前强制一帧并等待过渡结束（headless 下无帧时 CSS 过渡会停在起始值，导致 Tab 高亮滞后）；非空数据经真实消息链路完成引导/站点启用后直接写入 IndexedDB（仅采集用，统计读取与聚合链路不变）。
+
+### 4. 体积对比（M2 合并态 e69640f → 本次；Chrome 与 Edge 数字一致）
+
+| 指标 | 基线（e69640f） | M3c | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,313,022 B（59 文件） | +2,680 B |
+| 压缩包 zip | 8,451,396 B | 8,453,981 B | +2,585 B |
+| content script | 346,395 B | 346,395 B | 0 |
+| Popup 入口闭包 | 315,708 B | 315,924 B | +216 B |
+| Stats 入口闭包 | 177,277 B（8 文件） | 321,623 B（11 文件） | +144,346 B |
+
+说明：统计页入口首次引入原版样式与组件后，Vite 将库 CSS/JS 改为跨入口共享 chunk（dist-*.css 126,298 B、dist-*.js 10,766 B、island-*.js 2,994 B），Popup 闭包内原来的 popup.css（129,065 B）随之拆分为共享库样式 + 页面样式（2,768 B）。因此 Stats 入口闭包增幅主要来自与 Popup 共用的共享 chunk（不重复计入安装包）；包级净增仅 +2,680 B（统计页 JS +2,415 B 与新增小文件）。
+
+### 5. 门禁执行记录
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（48 文件、838 用例） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest / verify-dev-tools-production / verify-island-shadow-assets） |
+| Edge 构建 | npm run build:edge | 通过（同上） |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 4 节） |
+| 浏览器 E2E（既有用例） | npx playwright test | 8 通过 / 20 跳过（新增 2 个 M3c 采集默认跳过） |
+| M3c 采集 | $env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts | 2 通过 |
+
+### 6. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 真实浏览器（非 headless）下的 Tab 切换过渡观感 | 采集在 headless 下以帧预热补齐；真实浏览器过渡由库 CSS 决定，未人工比对 |
+| 统计页数据长期积累后的观感（大量学习卡、长日期文案） | 采集使用固定种子数据（13 张卡、15 条日志） |
+| 浏览器真实 200% 缩放 | 未采集缩放截图；仅验证 1120px 与 480px 视口 |
+| Edge 真实浏览器人工矩阵 | 仅验证 edge-mv3 构建产物（与 Chrome 字节一致） |
+| 中文字体子集在统计页的按需加载时机 | 仅记录 document.fonts 状态（Nunito 与 Noto Sans SC loaded） |
+
+### 7. 复现步骤
+
+```powershell
+git checkout codex/ticket-42-m3c-stats
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npx playwright test
+$env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
+```
+
 ## M3a 安装引导迁移
 
 工单：#40（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
@@ -607,4 +698,3 @@ $env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
 1. 安装引导全量原版化并清零旧蓝粉样式（工单 #40）
 2. 新增 M3a 引导页采集脚本与引导入口闭包测量（工单 #40）
 3. 新增 M3a 安装引导迁移证据文档与截图（工单 #40）
-
