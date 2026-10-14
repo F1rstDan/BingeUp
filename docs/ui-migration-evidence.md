@@ -289,103 +289,6 @@ $env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts
 2. 更新 Popup 单元测试匹配原版组件，内联库依赖并新增 M1 切片采集脚本
 3. 新增 M1 Popup 垂直切片证据文档与截图
 
-## M4 Shadow DOM PoC
-
-工单：#43（父 issue #36）｜分支：codex/ticket-43-m4-shadow-poc（从集成分支 tip 2844b82 切出）｜执行时间：2026-10-14。
-
-M4 为视频遮罩打通库样式与字体的 Shadow DOM 管线：只做实验渲染（临时开关控制的预览宿主），不改真实学习流程，可整体回滚。
-
-### 1. 交付物
-
-- **样式装载模块** `src/ui/island/shadow-styles.ts`：构建期以 Vite 的 `?raw` 查询把库发布 CSS 内联为字符串，运行时受控解析后产出"可直接注入 ShadowRoot 的 CSS 字符串"与字体清单：
-  - 只把顶层 `:root{--animal-*}` 令牌声明段映射为 `:host`（项目内小型受控扫描器，处理字符串/注释/括号配对；不把 postcss 打进内容脚本，也不做整表正则替换）；
-  - 相对资源 `url()` 重写为 `chrome.runtime.getURL` 的 chrome-extension 绝对路径（`data:` 与 `#fragment` 原样保留）；
-  - 提取 `@font-face` 描述，由 `registerIslandFontFaces` 以 FontFace API 注册进 `document.fonts`（按文档幂等）；
-  - 结果模块级缓存，首次注入解析一次；重复打开遮罩不重复解析、不重复注册。
-- **PoC 预览组件** `src/ui/island/IslandShadowPreview.tsx`：原版 Card + Button 样例，局部样式用 `bingeup-` 前缀。
-- **OverlayController 实验路径**：新增 `openIslandPreview(target, mode)`，与真实遮罩共用宿主创建、`display:block`、矩形刷新与清理机制；`bootstrap.ts` 新增临时的扩展内部消息 `ISLAND_POC_PREVIEW` / `ISLAND_POC_CLOSE`（仅扩展上下文可达，页面无法触发；M5 迁移后随 PoC 一并删除）。
-- **构建期字体资产**：`wxt.config.ts` 的 `build:publicAssets` 钩子把库内 9 个 woff2 按库内相对路径复制到产物 `files/<name>.woff2`；`web_accessible_resources` 新增 `files/*.woff2`，matches 仅内容脚本支持站点（`*://*.bilibili.com/*`、`*://*.youtube.com/*`）。
-- **构建产物校验** `scripts/verify-island-shadow-assets.mjs`：字体文件齐全（9 个、≥3 MB）、内容脚本内联 CSS 保留 `files/` 相对路径、无 base64 内联字体、无 Google Fonts/CDN 引用、WAR 范围正确；随 `npm run build` / `npm run build:edge` 执行。
-
-### 2. 实测验证矩阵
-
-| 验证项 | 方式 | 结果 |
-| --- | --- | --- |
-| `?inline` 在 WXT/Vite 8 的可用性与副作用 | 探针构建 + 真实构建 | 路径可用，但 **WXT 的 content script 走 Vite lib/IIFE 模式，lib 模式强制把字体资产 base64 内联**（`assetsInlineLimit` 无效）：content.js 由 208 KB 膨胀到 5.1 MB，注入样式约 4.6 MB。不可接受，改用 `?raw` + 构建期字体资产（受控方案） |
-| `?raw` + `build:publicAssets` 管线 | 真实构建 + verify 脚本（Chrome/Edge） | 9 个 woff2 复制到 `files/`（3,563,300 B），content.js 346,395 B（+138,222 B） |
-| `:root` 令牌声明段 → `:host` 受控映射 | 集成测试（输入真实库 CSS） | 输出含 `:host{--animal-primary-color …}`；无顶层 `:root{`；reset（`*{box-sizing}`、`[class^=animal-]`）保留 |
-| reset 不影响宿主页 | e2e：页面元素 box-sizing/font-family/颜色/行高、文档滚动高度前后一致；light DOM 无 `animal-` 节点；head/body 无新增 | 通过 |
-| 字体 `url()` 重写与 WAR 生效 | 集成测试 + 构建校验 + e2e | e2e 观测到 `chrome-extension://<id>/files/*.woff2` 200 响应；WAR 匹配仅支持站点 |
-| Chromium 对 ShadowRoot 内 `@font-face` 的行为 | 最小实验（独立 Playwright 探针，非仓库存档） | **Chromium 不加载 ShadowRoot 内声明的 @font-face**：不发起字体请求，`document.fonts` 中不出现该字体；字体必须以 FontFace API 注册到 `document.fonts`（本次采用的等效实现） |
-| 遮罩内原版 Button/Card 真实计算样式 | e2e（真实 Chromium + 真实 MV3 产物） | 主按钮：圆角 50px、背景 `#f8f8f0`、文字 `#794f27`、3D 阴影含 `#bdaea0 0 5px`、字体族含 Nunito/Noto Sans SC；小按钮高度 32px（`--animal-height-sm` 令牌，证明令牌映射生效）、字号 12px；Card：背景 `#f7f3df`、圆角 20px、字重 500 |
-| 字体真实加载 | e2e：`document.fonts` 中 Nunito 与 Noto Sans SC 进入 `loaded`（中文子集走 chinese-simplified woff2） | 通过 |
-| 宿主契约（display:block、根节点铺满、矩形刷新） | 既有 overlay-controller 单测 + 新增预览用例（fixed 宿主与播放器矩形一致） | 通过；真实遮罩既有测试未改动 |
-| 重复打开/销毁无重复注入或泄漏 | 单测：重复打开仅 1 个宿主、close 后断开连接、无 document 级 style、无 body 新增节点；e2e 同断言 | 通过 |
-| 注入缓存 | 集成测试：解析与资源解析只在首次调用发生 | 通过 |
-| 无 CSP 报错 | e2e 控制台监听（`Refused to load` / `Content Security Policy`），合成页 | 无报错；真实站点 CSP 未验证（见第 4 节） |
-| 门禁 | typecheck / npm test / lint / build / build:edge / e2e | 全绿：typecheck 通过；45 个测试文件、823 个用例；lint 通过；Chrome/Edge 构建（含新校验脚本）通过；e2e 8 通过 / 8 跳过（跳过为既有采集与人工矩阵占位） |
-
-### 3. go/no-go 结论
-
-**go（附带管线修正）**：库样式与字体可以在 Shadow DOM 内可靠工作，可以进入 M5 的遮罩全量迁移。管线在实测中做了两处必要修正：
-
-1. **CSS 导入方式 `:inline` → `:raw`**：`:inline` 可用，但 WXT 的 content script 构建（Vite lib/IIFE 模式）会把字体强制 base64 内联，导致 content.js 5.1 MB、单次注入样式约 4.6 MB；`:raw` + `build:publicAssets` 让字体保持独立文件、按需加载（样式串约 126 KB）。
-2. **字体注册方式 CSS `@font-face` → FontFace API**：Chromium 不处理 ShadowRoot 内声明的 `@font-face`；以 `document.fonts` 注册 FontFace（src 为 chrome-extension 绝对 URL）后，shadow 内文字可正常使用字体（e2e 实测 loaded）。注入样式里的 `@font-face` 规则保留，作为对支持该行为的实现的向前兼容。
-
-已知管线限制（PoC 范围内接受，M5 处理）：
-
-- 字体加载依赖宿主页 CSP 放行 chrome-extension 资源（真实站点未验证，见第 4 节）。
-- 临时预览与学习遮罩共用控制器槽位：预览打开会顶掉已打开的学习遮罩（仅扩展内部测试/开发开关，页面不可触发）。
-
-### 4. 未验证项（真实站点手测项）
-
-| 项 | 原因 | 建议手测 |
-| --- | --- | --- |
-| 真实 B 站/YouTube 页面 CSP 下的字体加载 | 无真实站点环境；合成页无 CSP | 打开遮罩后 DevTools 确认无 CSP 报错，`document.fonts` 中 Nunito/Noto Sans SC 为 loaded |
-| 真实站点上遮罩布局、全屏、竖屏、缩放与预览宿主一致性 | 同上 | 沿用人工验收矩阵 |
-| 遮罩进入延迟在 content script 由 208 KB 增至 346 KB 后的变化 | 未测 | 在 M5 复测 M0 的进入延迟口径 |
-| Edge 真机字体与样式 | 仅验证 edge-mv3 构建产物 | 人工矩阵 |
-| 字体子集加载时机（中文子集按需加载）对首屏的影响 | 仅合成页观测 | 真实站点网络面板确认 |
-
-### 5. 体积影响（vs M0 基线 3,580,581 B / 1,213,403 B zip）
-
-| 指标 | 基线 | M4 后 | 差值 |
-| --- | --- | --- | --- |
-| 解包体积（34 → 43 个文件） | 3,580,581 B | 7,282,192 B | +3,701,611 B（其中字体 3,563,300 B） |
-| 压缩包 zip | 1,213,403 B | 4,807,098 B | +3,593,695 B |
-| content script（content.js） | 208,173 B | 346,395 B | +138,222 B（约 126 KB 库 CSS 字符串 + 字体注册代码） |
-| Popup 入口闭包 | 166,685 B | 166,685 B | 0（未动页面） |
-
-### 6. 复现命令
-
-```powershell
-git checkout codex/ticket-43-m4-shadow-poc
-npm install
-npx wxt prepare
-npm run typecheck; npm test; npm run lint
-npm run build; npm run build:edge
-npm run zip; npm run zip -- -b edge
-node scripts/measure-bundle-baseline.mjs
-npx playwright test e2e/island-shadow-poc.spec.ts
-```
-
-### 7. 回滚说明
-
-本工单的改动面（`src/ui/island/`、OverlayController 预览方法、bootstrap 临时消息、wxt.config 字体资产与 WAR、vitest 配置内联项、构建校验脚本）均可整体回滚：`git revert` M4 提交即可恢复 M0 行为；M5 正式迁移时删除 `ISLAND_POC_*` 临时开关与预览组件，保留样式装载模块与字体管线。
-
-### 8. 合并集成分支（含 M1）后的复测与字体双份说明
-
-本工单推送前已合并集成分支（42d5979，含工单 #38 M1 Popup 垂直切片）。合并后复测（Chrome 与 Edge 数字一致）：
-
-| 指标 | M0 | M1（#38 记录） | M4 分支（仅 M0+M4） | 合并后（M0+M1+M4） |
-| --- | --- | --- | --- | --- |
-| 解包体积 | 3,580,581 B（34 文件） | 7,601,617 B（47 文件） | 7,282,192 B（43 文件） | 11,303,228 B（56 文件） |
-| 压缩包 zip | 1,213,403 B | 4,855,896 B | 4,807,098 B | 8,449,591 B |
-| content script | 208,173 B | 208,173 B | 346,395 B | 346,395 B |
-| Popup 入口闭包 | 166,685 B | 308,756 B | 166,685 B | 308,756 B |
-
-已知重复（合并后出现，M4 不单独引入）：M1 的页面入口由 Vite 正常打包，把 9 个 woff2 发射为 `assets/<name>-<hash>.woff2`（页面相对 URL）；M4 的内容脚本走 Vite lib/IIFE 模式，不能复用这组发射结果（lib 模式会把字体 base64 内联），因此按库内相对路径另行复制到 `files/` 并在 WAR 中开放。两套字体同时存在于产物中，约 3.4 MB 重复；无重复时 zip 预计约 4.9 MB（≈ M1 的 4.86 MB）。合并期评估过 `?no-inline` 导入：lib 模式下它发射为无哈希根路径文件，仍无法与页面资产同名去重。建议在 M5/M6 统一字体资产交付路径（一处发射、两处共用）；本工单保持两条路径各自独立、可分别回归。
-
 ## M2 Popup 完整迁移与基础模块
 
 工单：#39（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-39-m2-popup-complete（从集成分支 tip 42d5979 切出）
@@ -504,47 +407,125 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 2. Popup 完整原版化并清零旧蓝粉样式（标题栏/状态卡/今日学习/反馈页脚、单测更新与 M2 采集脚本）
 3. 新增 M2 Popup 完整迁移证据文档与截图
 
-## M3c 学习统计迁移
+## M3a 安装引导迁移
 
-工单：#42（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-42-m3c-stats（从集成分支 tip e69640f 切出）
+工单：#40（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
 
 ### 1. 改动概览
 
-统计页（src/ui/stats/StatsApp.tsx、src/entrypoints/stats/stats.css、src/entrypoints/stats/main.tsx）：
-
-- 页面外壳与区块复用 island 共享基础模块（IslandPage / IslandSection）；入口新增恰好一次的原版样式导入 `animal-island-ui/style`，导入顺序与 Popup 一致。
-- 概览 4 个指标卡改为原版 Card；今日学习明细、近 7 日趋势、默认支持网站、全期长期复习表现改为原版 Card 承载的明细行（文案与行顺序不变）。
-- 当前学习卡状态：自绘堆叠条 + 图例改为每阶段一行「原版 Tag（阶段色）+ 数量 + 原版 Progress（占全部学习卡的占比）」；空状态改用原版虚线 Card，文案不变（“还没有学习卡”）。
-- 全期长期复习“正确率”改用原版 Progress（infoFormat 保留 “—/x%” 文案）；周对比两列改为原版 Card。
-- 页面内容按原版 Tabs 分为「今日 / 趋势 / 网站」三个标签：统计口径、数值与空/非空状态不变，未引入打卡、游戏等级或虚构进度。
-- stats.css 只保留布局职责：颜色一律使用 --island-* 语义别名，旧蓝粉类清零；Tabs 按钮补原版黄色焦点环（库内 Tabs 未定义 focus-visible，否则会落到 design-tokens.css 的旧蓝色焦点环）。全局旧令牌（design-tokens.css）未删除，属工单 #46。
-- 未改：StatsService 统计口径、数据库读取链路、Popup/后台消息、任何业务语义。
+- `src/ui/onboarding/OnboardingApp.tsx`：欢迎、学习设置（水平与词库）、网站启用与完成状态全部换为 animal-island-ui 2.2.1 原版组件（Card/Radio/Checkbox/Button/Title），页面外壳与区块复用 @/ui/island 共享基础模块；未新增引导步骤。
+  - 欢迎区：吉祥物 + 原版 Title 飘带（外层 h1 保留一级标题语义）+ 说明文案。
+  - 学习设置：IslandSection + Card；水平与词库使用原版 Radio，选项沿用“名称 + 说明”两行文案；每组用 fieldset/legend 保留组标题语义（库 Radio 无 aria-label 透传，fieldset 是等效且标准的做法）。
+  - 网站选择：原版 Checkbox 保持多选与 checkbox 角色语义，默认选中哔哩哔哩与 YouTube。
+  - 完成状态：原版 Card + Title + Button；提交失败的错误信息改用 Card + island error 色。
+  - 未改：messageClient.completeOnboarding 调用与提交内容（hostnames/deckId/selfRatedLevel）、阶段流转与全部可见文案语义；本页迁移前没有图标字符，迁移未新增图标需求。
+- `src/entrypoints/onboarding/main.tsx`：入口新增 `import 'animal-island-ui/style'`（本入口恰好一次）。
+- `src/entrypoints/onboarding/onboarding.css`：全量重写为布局职责，颜色只用 --island-* 语义别名，旧蓝粉类清零；页面宽度 min(100% - 32px, 560px) 居中。
+- `scripts/measure-bundle-baseline.mjs`：新增 onboarding 入口闭包指标（只追加字段，既有输出不变）。
+- `e2e/migration-m3a.spec.ts`：新增采集脚本（默认跳过）。
+- 未改：全局旧令牌 src/ui/styles/design-tokens.css（#46 清理）、@/ui/island 既有导出签名、依赖与锁文件。
 
 ### 2. 测试覆盖变化
 
-- tests/unit/stats/StatsApp.test.tsx（新增，测试缝①）：6 个用例覆盖默认「今日」标签的概览/明细/卡状态、空状态（“还没有学习卡” + 概览零值）、非空状态（Tag + 3 条 Progress 的 aria-valuenow 50/25/25）、「趋势」标签（近 7 日行、周对比、全期正确率 67% 与 progressbar）、「网站」标签（已启用/已关闭 + 连续启用天数）、数据库不可用时的加载失败状态。
-- tests/unit/ui/island-theme.test.ts：追加统计页样式静态规则用例（stats.css 不含 --bingeup 旧令牌与写死颜色）。
-- e2e/stats.spec.ts：未改（h1「学习统计」保留，断言继续通过）。
-- 测试规模：47 文件 / 831 用例 → 48 文件 / 838 用例。
+- `tests/unit/onboarding/OnboardingApp.test.tsx`：标题断言改为“一级标题 + 品牌名”；默认选中断言改为按角色与名称查询 radio 的选中态（不再绑定 input[value] 实现细节）；新增“结构语义”2 例（main 地标与命名区块、完成页 main 与关闭按钮）；网站/水平/词库的选择与提交语义用例保持原样。
+- `tests/unit/ui/island-theme.test.ts`：新增 onboarding.css 静态规则（不引用 --bingeup、无写死色值）。
+- 规模：47 文件 / 834 用例（M2 合并态记录为 831，本次 +3）。
 
-### 3. 截图（docs/assets/migration-m3c/）
+### 3. 截图（docs/assets/migration-m3a/）
 
 | 文件 | 状态 |
 | --- | --- |
-| stats-empty-today.png | 空状态「今日」：零值概览 + 明细“—” + 虚线卡“还没有学习卡” |
-| stats-empty-today-narrow.png | 空状态「今日」，480px 窄宽度 + 键盘焦点：无横向溢出，激活标签显示原版黄色焦点环 |
-| stats-empty-trend.png | 空状态「趋势」：近 7 日零值、周对比 0/0、全期 0 与“—” |
-| stats-seeded-today.png | 非空「今日」：概览 5/6/2/6、今日学习 10 行、卡状态 Tag+Progress（7/4/2） |
-| stats-seeded-trend.png | 非空「趋势」：近 7 日、周对比（本周 9 · 78% / 上周 6 · 67%）、全期正确率 67% |
-| stats-seeded-sites.png | 非空「网站」：bilibili 已启用 · 连续启用 5 天；youtube 已关闭 · 连续启用 0 天 |
+| onboarding-select-760.png / onboarding-select-560.png / onboarding-select-360.png | 首屏默认状态：吉祥物 + Title 飘带 + 学习设置 Card（水平/词库 Radio）+ 默认支持网站 Card（Checkbox）+ 原版主按钮 |
+| onboarding-select-zoom200.png | 200% 缩放等效（CDP：CSS 视口 360、DSF 2 → 物理 720），无横向溢出 |
+| onboarding-focus-level-radio.png | 键盘 Tab 落点（当前选中的水平单选）的黄色焦点轮廓 |
+| onboarding-focus-primary-button.png | Tab 到主按钮、过渡结束后的薄荷焦点轮廓 |
+| onboarding-done-760.png | 完成状态：Card + Title 飘带 + 默认按钮“关闭” |
 
-复现命令（默认跳过，采集会覆盖同名 PNG）：
+复现命令（该 spec 默认跳过，不参与 npm run test:e2e 的常规执行；采集会覆盖同名 PNG）：
 
 ```powershell
-$env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
+$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
 ```
 
-+## M3b 设置页迁移
+采集运行时记录（.output/migration-m3a-capture.json）：
+
+- 字体：Nunito 与 Noto Sans SC 均 loaded；6 个字体响应全部为 chrome-extension:// 本地资源。
+- 控制台：console error 0、pageerror 0、失败请求 0。
+- 宽度：760/560/360 与缩放等效（360 @ DSF2）均 scrollWidth == clientWidth，无横向溢出。
+- 键盘：首个 Tab 落在当前选中的水平单选（roving tabindex）；ArrowDown 切换到下一档并保持焦点；焦点轮廓为原版样式——单选 rgb(245,195,28)（黄）2px、主按钮 rgb(25,200,185)（薄荷）2px（按钮带 transition: all，读取在过渡结束后进行）。
+- 完成状态：默认选择（两站启用、水平一般、词库日常高频）提交后进入完成页，文案与迁移前一致。
+
+采集脚本在打开引导页前先访问设置页做首启预热：安装后后台会自动打开引导页（onInstalled），首启直接导航会偶发 ERR_ABORTED；该处理只影响采集脚本，与产品行为无关。
+
+### 4. 体积对比（M2 合并态 → M3a，合并集成分支前；Chrome 与 Edge 数字一致）
+
+| 指标 | M2 合并态（起点 e69640f） | M3a（本分支） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,314,284 B（58 文件） | +3,942 B |
+| 压缩包 zip | 8,451,396 B | 8,453,840 B | +2,444 B |
+| Onboarding 入口闭包 | 161,015 B（9 文件） | 302,582 B（11 文件） | +141,567 B |
+| Popup 入口闭包 | 315,708 B（10 文件） | 315,856 B（11 文件） | +148 B |
+| content script | 346,395 B | 346,395 B | 0 |
+
+明细：引导页 JS 5,256 → 11,259 B（+6,003，原版 Radio/Checkbox/Title 运行时代码）；island 模块与库公共代码改为共享分块（island 5,720 B、库分块 6,579 B），供 Popup 与引导页共用；库样式成为独立共享分块 126,298 B（迁移前内联在 Popup CSS 129,065 B 中），引导页引用共享分块不新增字节；页面自身 CSS 4,059 → 1,656 B（旧样式清零）。解包净增 3,942 B，zip 净增 2,444 B。
+
+### 5. 门禁执行记录（合并集成分支前）
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（47 文件、834 用例） |
+| Lint | npm run lint | 通过（退出码 0，含新增 e2e 采集脚本） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest.mjs、verify-dev-tools-production.mjs、verify-island-shadow-assets.mjs） |
+| Edge 构建 | npm run build:edge | 通过（同上） |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 4 节） |
+| 浏览器 E2E（既有用例） | npm run test:e2e | 8 通过 / 21 跳过（人工占位 5 + M0 采集 3 + M1 采集 5 + M2 采集 5 + M3a 采集 3） |
+| M3a 采集 | $env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts | 3 通过 |
+
+### 6. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 首次安装自动打开引导页路径的人工观感 | 无头环境直接打开 onboarding.html；onInstalled 行为本身未改，采集脚本以设置页预热规避首启竞态 |
+| Edge 真机人工矩阵 | 仅验证 edge-mv3 构建产物 |
+| 深色系统主题与强制大字体的人工观感 | 仅产物浅色截图（与 M2 相同口径） |
+| 真实浏览器 200% 缩放 | 用 CDP 设备指标做布局等效模拟（与 M1/M2 口径一致） |
+
+### 7. 复现步骤
+
+```powershell
+git checkout codex/ticket-40-m3a-onboarding
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npm run test:e2e
+$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
+```
+
+### 8. 合并集成分支（含 M3c 统计页迁移）后的复测
+
+本工单推送前已合并集成分支（59b0d1f，含工单 #42 M3c 学习统计页迁移；合并提交 10a9d34）。合并后复测（Chrome 与 Edge 数字一致）：
+
+| 指标 | 基线 e69640f | M3a 分支（合并前） | 合并后（含 M3c） |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,314,284 B（58 文件） | 11,316,599 B（58 文件） |
+| 压缩包 zip | 8,451,396 B | 8,453,840 B | 8,455,734 B |
+| Onboarding 入口闭包 | 161,015 B（9 文件） | 302,582 B（11 文件） | 302,568 B（10 文件） |
+| Popup 入口闭包 | 315,708 B（10 文件） | 315,856 B（11 文件） | 315,970 B（11 文件） |
+| content script | 346,395 B | 346,395 B | 346,395 B |
+
+合并后的分块重组（island 样式并入 design-tokens 分块、公共代码分块改名）不改变页面加载内容：引导页仍加载库样式（126,298 B 共享分块）与 island 样式和交互脚本，产物内检索确认两者均在。合并后门禁复测：typecheck 通过；npm test 48 文件 / 841 用例通过；lint 通过；Chrome/Edge 构建通过（含三个校验脚本）；npm run test:e2e 8 通过 / 23 跳过（含 M3c 采集 2 项默认跳过）；M3a 采集 3 通过，并按合并后产物重新采集截图（6 个文件与合并前字节差 −2,417 至 −98 B，属渲染噪声；onboarding-done-760.png 字节一致）。
+
+相关提交（分支 codex/ticket-40-m3a-onboarding）：
+
+1. 安装引导全量原版化并清零旧蓝粉样式（工单 #40）
+2. 新增 M3a 引导页采集脚本与引导入口闭包测量（工单 #40）
+3. 新增 M3a 安装引导迁移证据文档与截图（工单 #40）
+
+## M3b 设置页迁移
 
 工单：#41（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-41-m3b-options（从集成分支 tip e69640f 切出）
 
@@ -678,6 +659,45 @@ $env:CAPTURE_M3B='1'; npx playwright test e2e/migration-m3b.spec.ts
 2. 合并集成分支 feat/animal-island-ui-migration（含 M3c 统计页迁移）
 3. 新增 M3b 设置页迁移证据与截图（工单 #41）
 
+## M3c 学习统计迁移
+
+工单：#42（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-42-m3c-stats（从集成分支 tip e69640f 切出）
+
+### 1. 改动概览
+
+统计页（src/ui/stats/StatsApp.tsx、src/entrypoints/stats/stats.css、src/entrypoints/stats/main.tsx）：
+
+- 页面外壳与区块复用 island 共享基础模块（IslandPage / IslandSection）；入口新增恰好一次的原版样式导入 `animal-island-ui/style`，导入顺序与 Popup 一致。
+- 概览 4 个指标卡改为原版 Card；今日学习明细、近 7 日趋势、默认支持网站、全期长期复习表现改为原版 Card 承载的明细行（文案与行顺序不变）。
+- 当前学习卡状态：自绘堆叠条 + 图例改为每阶段一行「原版 Tag（阶段色）+ 数量 + 原版 Progress（占全部学习卡的占比）」；空状态改用原版虚线 Card，文案不变（“还没有学习卡”）。
+- 全期长期复习“正确率”改用原版 Progress（infoFormat 保留 “—/x%” 文案）；周对比两列改为原版 Card。
+- 页面内容按原版 Tabs 分为「今日 / 趋势 / 网站」三个标签：统计口径、数值与空/非空状态不变，未引入打卡、游戏等级或虚构进度。
+- stats.css 只保留布局职责：颜色一律使用 --island-* 语义别名，旧蓝粉类清零；Tabs 按钮补原版黄色焦点环（库内 Tabs 未定义 focus-visible，否则会落到 design-tokens.css 的旧蓝色焦点环）。全局旧令牌（design-tokens.css）未删除，属工单 #46。
+- 未改：StatsService 统计口径、数据库读取链路、Popup/后台消息、任何业务语义。
+
+### 2. 测试覆盖变化
+
+- tests/unit/stats/StatsApp.test.tsx（新增，测试缝①）：6 个用例覆盖默认「今日」标签的概览/明细/卡状态、空状态（“还没有学习卡” + 概览零值）、非空状态（Tag + 3 条 Progress 的 aria-valuenow 50/25/25）、「趋势」标签（近 7 日行、周对比、全期正确率 67% 与 progressbar）、「网站」标签（已启用/已关闭 + 连续启用天数）、数据库不可用时的加载失败状态。
+- tests/unit/ui/island-theme.test.ts：追加统计页样式静态规则用例（stats.css 不含 --bingeup 旧令牌与写死颜色）。
+- e2e/stats.spec.ts：未改（h1「学习统计」保留，断言继续通过）。
+- 测试规模：47 文件 / 831 用例 → 48 文件 / 838 用例。
+
+### 3. 截图（docs/assets/migration-m3c/）
+
+| 文件 | 状态 |
+| --- | --- |
+| stats-empty-today.png | 空状态「今日」：零值概览 + 明细“—” + 虚线卡“还没有学习卡” |
+| stats-empty-today-narrow.png | 空状态「今日」，480px 窄宽度 + 键盘焦点：无横向溢出，激活标签显示原版黄色焦点环 |
+| stats-empty-trend.png | 空状态「趋势」：近 7 日零值、周对比 0/0、全期 0 与“—” |
+| stats-seeded-today.png | 非空「今日」：概览 5/6/2/6、今日学习 10 行、卡状态 Tag+Progress（7/4/2） |
+| stats-seeded-trend.png | 非空「趋势」：近 7 日、周对比（本周 9 · 78% / 上周 6 · 67%）、全期正确率 67% |
+| stats-seeded-sites.png | 非空「网站」：bilibili 已启用 · 连续启用 5 天；youtube 已关闭 · 连续启用 0 天 |
+
+复现命令（默认跳过，采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
+```
 
 采集运行时记录（.output/migration-m3c-capture.json）：Nunito 与 Noto Sans SC 均 loaded；字体响应全部为 chrome-extension:// 本地资源（空状态 7 个响应）；console error 0、pageerror 0、失败请求 0；1120px 与 480px 视口均无横向溢出；键盘 Tab 落在激活标签（●今日）上。采集脚本在截图前强制一帧并等待过渡结束（headless 下无帧时 CSS 过渡会停在起始值，导致 Tab 高亮滞后）；非空数据经真实消息链路完成引导/站点启用后直接写入 IndexedDB（仅采集用，统计读取与聚合链路不变）。
 
@@ -729,6 +749,103 @@ node scripts/measure-bundle-baseline.mjs
 npx playwright test
 $env:CAPTURE_M3C='1'; npx playwright test e2e/migration-m3c.spec.ts
 ```
+
+## M4 Shadow DOM PoC
+
+工单：#43（父 issue #36）｜分支：codex/ticket-43-m4-shadow-poc（从集成分支 tip 2844b82 切出）｜执行时间：2026-10-14。
+
+M4 为视频遮罩打通库样式与字体的 Shadow DOM 管线：只做实验渲染（临时开关控制的预览宿主），不改真实学习流程，可整体回滚。
+
+### 1. 交付物
+
+- **样式装载模块** `src/ui/island/shadow-styles.ts`：构建期以 Vite 的 `?raw` 查询把库发布 CSS 内联为字符串，运行时受控解析后产出"可直接注入 ShadowRoot 的 CSS 字符串"与字体清单：
+  - 只把顶层 `:root{--animal-*}` 令牌声明段映射为 `:host`（项目内小型受控扫描器，处理字符串/注释/括号配对；不把 postcss 打进内容脚本，也不做整表正则替换）；
+  - 相对资源 `url()` 重写为 `chrome.runtime.getURL` 的 chrome-extension 绝对路径（`data:` 与 `#fragment` 原样保留）；
+  - 提取 `@font-face` 描述，由 `registerIslandFontFaces` 以 FontFace API 注册进 `document.fonts`（按文档幂等）；
+  - 结果模块级缓存，首次注入解析一次；重复打开遮罩不重复解析、不重复注册。
+- **PoC 预览组件** `src/ui/island/IslandShadowPreview.tsx`：原版 Card + Button 样例，局部样式用 `bingeup-` 前缀。
+- **OverlayController 实验路径**：新增 `openIslandPreview(target, mode)`，与真实遮罩共用宿主创建、`display:block`、矩形刷新与清理机制；`bootstrap.ts` 新增临时的扩展内部消息 `ISLAND_POC_PREVIEW` / `ISLAND_POC_CLOSE`（仅扩展上下文可达，页面无法触发；M5 迁移后随 PoC 一并删除）。
+- **构建期字体资产**：`wxt.config.ts` 的 `build:publicAssets` 钩子把库内 9 个 woff2 按库内相对路径复制到产物 `files/<name>.woff2`；`web_accessible_resources` 新增 `files/*.woff2`，matches 仅内容脚本支持站点（`*://*.bilibili.com/*`、`*://*.youtube.com/*`）。
+- **构建产物校验** `scripts/verify-island-shadow-assets.mjs`：字体文件齐全（9 个、≥3 MB）、内容脚本内联 CSS 保留 `files/` 相对路径、无 base64 内联字体、无 Google Fonts/CDN 引用、WAR 范围正确；随 `npm run build` / `npm run build:edge` 执行。
+
+### 2. 实测验证矩阵
+
+| 验证项 | 方式 | 结果 |
+| --- | --- | --- |
+| `?inline` 在 WXT/Vite 8 的可用性与副作用 | 探针构建 + 真实构建 | 路径可用，但 **WXT 的 content script 走 Vite lib/IIFE 模式，lib 模式强制把字体资产 base64 内联**（`assetsInlineLimit` 无效）：content.js 由 208 KB 膨胀到 5.1 MB，注入样式约 4.6 MB。不可接受，改用 `?raw` + 构建期字体资产（受控方案） |
+| `?raw` + `build:publicAssets` 管线 | 真实构建 + verify 脚本（Chrome/Edge） | 9 个 woff2 复制到 `files/`（3,563,300 B），content.js 346,395 B（+138,222 B） |
+| `:root` 令牌声明段 → `:host` 受控映射 | 集成测试（输入真实库 CSS） | 输出含 `:host{--animal-primary-color …}`；无顶层 `:root{`；reset（`*{box-sizing}`、`[class^=animal-]`）保留 |
+| reset 不影响宿主页 | e2e：页面元素 box-sizing/font-family/颜色/行高、文档滚动高度前后一致；light DOM 无 `animal-` 节点；head/body 无新增 | 通过 |
+| 字体 `url()` 重写与 WAR 生效 | 集成测试 + 构建校验 + e2e | e2e 观测到 `chrome-extension://<id>/files/*.woff2` 200 响应；WAR 匹配仅支持站点 |
+| Chromium 对 ShadowRoot 内 `@font-face` 的行为 | 最小实验（独立 Playwright 探针，非仓库存档） | **Chromium 不加载 ShadowRoot 内声明的 @font-face**：不发起字体请求，`document.fonts` 中不出现该字体；字体必须以 FontFace API 注册到 `document.fonts`（本次采用的等效实现） |
+| 遮罩内原版 Button/Card 真实计算样式 | e2e（真实 Chromium + 真实 MV3 产物） | 主按钮：圆角 50px、背景 `#f8f8f0`、文字 `#794f27`、3D 阴影含 `#bdaea0 0 5px`、字体族含 Nunito/Noto Sans SC；小按钮高度 32px（`--animal-height-sm` 令牌，证明令牌映射生效）、字号 12px；Card：背景 `#f7f3df`、圆角 20px、字重 500 |
+| 字体真实加载 | e2e：`document.fonts` 中 Nunito 与 Noto Sans SC 进入 `loaded`（中文子集走 chinese-simplified woff2） | 通过 |
+| 宿主契约（display:block、根节点铺满、矩形刷新） | 既有 overlay-controller 单测 + 新增预览用例（fixed 宿主与播放器矩形一致） | 通过；真实遮罩既有测试未改动 |
+| 重复打开/销毁无重复注入或泄漏 | 单测：重复打开仅 1 个宿主、close 后断开连接、无 document 级 style、无 body 新增节点；e2e 同断言 | 通过 |
+| 注入缓存 | 集成测试：解析与资源解析只在首次调用发生 | 通过 |
+| 无 CSP 报错 | e2e 控制台监听（`Refused to load` / `Content Security Policy`），合成页 | 无报错；真实站点 CSP 未验证（见第 4 节） |
+| 门禁 | typecheck / npm test / lint / build / build:edge / e2e | 全绿：typecheck 通过；45 个测试文件、823 个用例；lint 通过；Chrome/Edge 构建（含新校验脚本）通过；e2e 8 通过 / 8 跳过（跳过为既有采集与人工矩阵占位） |
+
+### 3. go/no-go 结论
+
+**go（附带管线修正）**：库样式与字体可以在 Shadow DOM 内可靠工作，可以进入 M5 的遮罩全量迁移。管线在实测中做了两处必要修正：
+
+1. **CSS 导入方式 `:inline` → `:raw`**：`:inline` 可用，但 WXT 的 content script 构建（Vite lib/IIFE 模式）会把字体强制 base64 内联，导致 content.js 5.1 MB、单次注入样式约 4.6 MB；`:raw` + `build:publicAssets` 让字体保持独立文件、按需加载（样式串约 126 KB）。
+2. **字体注册方式 CSS `@font-face` → FontFace API**：Chromium 不处理 ShadowRoot 内声明的 `@font-face`；以 `document.fonts` 注册 FontFace（src 为 chrome-extension 绝对 URL）后，shadow 内文字可正常使用字体（e2e 实测 loaded）。注入样式里的 `@font-face` 规则保留，作为对支持该行为的实现的向前兼容。
+
+已知管线限制（PoC 范围内接受，M5 处理）：
+
+- 字体加载依赖宿主页 CSP 放行 chrome-extension 资源（真实站点未验证，见第 4 节）。
+- 临时预览与学习遮罩共用控制器槽位：预览打开会顶掉已打开的学习遮罩（仅扩展内部测试/开发开关，页面不可触发）。
+
+### 4. 未验证项（真实站点手测项）
+
+| 项 | 原因 | 建议手测 |
+| --- | --- | --- |
+| 真实 B 站/YouTube 页面 CSP 下的字体加载 | 无真实站点环境；合成页无 CSP | 打开遮罩后 DevTools 确认无 CSP 报错，`document.fonts` 中 Nunito/Noto Sans SC 为 loaded |
+| 真实站点上遮罩布局、全屏、竖屏、缩放与预览宿主一致性 | 同上 | 沿用人工验收矩阵 |
+| 遮罩进入延迟在 content script 由 208 KB 增至 346 KB 后的变化 | 未测 | 在 M5 复测 M0 的进入延迟口径 |
+| Edge 真机字体与样式 | 仅验证 edge-mv3 构建产物 | 人工矩阵 |
+| 字体子集加载时机（中文子集按需加载）对首屏的影响 | 仅合成页观测 | 真实站点网络面板确认 |
+
+### 5. 体积影响（vs M0 基线 3,580,581 B / 1,213,403 B zip）
+
+| 指标 | 基线 | M4 后 | 差值 |
+| --- | --- | --- | --- |
+| 解包体积（34 → 43 个文件） | 3,580,581 B | 7,282,192 B | +3,701,611 B（其中字体 3,563,300 B） |
+| 压缩包 zip | 1,213,403 B | 4,807,098 B | +3,593,695 B |
+| content script（content.js） | 208,173 B | 346,395 B | +138,222 B（约 126 KB 库 CSS 字符串 + 字体注册代码） |
+| Popup 入口闭包 | 166,685 B | 166,685 B | 0（未动页面） |
+
+### 6. 复现命令
+
+```powershell
+git checkout codex/ticket-43-m4-shadow-poc
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npx playwright test e2e/island-shadow-poc.spec.ts
+```
+
+### 7. 回滚说明
+
+本工单的改动面（`src/ui/island/`、OverlayController 预览方法、bootstrap 临时消息、wxt.config 字体资产与 WAR、vitest 配置内联项、构建校验脚本）均可整体回滚：`git revert` M4 提交即可恢复 M0 行为；M5 正式迁移时删除 `ISLAND_POC_*` 临时开关与预览组件，保留样式装载模块与字体管线。
+
+### 8. 合并集成分支（含 M1）后的复测与字体双份说明
+
+本工单推送前已合并集成分支（42d5979，含工单 #38 M1 Popup 垂直切片）。合并后复测（Chrome 与 Edge 数字一致）：
+
+| 指标 | M0 | M1（#38 记录） | M4 分支（仅 M0+M4） | 合并后（M0+M1+M4） |
+| --- | --- | --- | --- | --- |
+| 解包体积 | 3,580,581 B（34 文件） | 7,601,617 B（47 文件） | 7,282,192 B（43 文件） | 11,303,228 B（56 文件） |
+| 压缩包 zip | 1,213,403 B | 4,855,896 B | 4,807,098 B | 8,449,591 B |
+| content script | 208,173 B | 208,173 B | 346,395 B | 346,395 B |
+| Popup 入口闭包 | 166,685 B | 308,756 B | 166,685 B | 308,756 B |
+
+已知重复（合并后出现，M4 不单独引入）：M1 的页面入口由 Vite 正常打包，把 9 个 woff2 发射为 `assets/<name>-<hash>.woff2`（页面相对 URL）；M4 的内容脚本走 Vite lib/IIFE 模式，不能复用这组发射结果（lib 模式会把字体 base64 内联），因此按库内相对路径另行复制到 `files/` 并在 WAR 中开放。两套字体同时存在于产物中，约 3.4 MB 重复；无重复时 zip 预计约 4.9 MB（≈ M1 的 4.86 MB）。合并期评估过 `?no-inline` 导入：lib 模式下它发射为无哈希根路径文件，仍无法与页面资产同名去重。建议在 M5/M6 统一字体资产交付路径（一处发射、两处共用）；本工单保持两条路径各自独立、可分别回归。
 
 ## M5 视频遮罩全量迁移
 
@@ -932,120 +1049,60 @@ node scripts/measure-bundle-baseline.mjs
 | e2e（29 用例，含 M2 采集占位） | 11 通过 / 18 跳过（跳过为 M2/M6a 与既有采集、人工矩阵占位） |
 | 体积（Chrome，合并后） | 解包 11,309,852 B（57 文件）；zip 8,451,332 B；content.js 345,905 B；Popup 闭包 315,708 B |
 
-## M3a 安装引导迁移
+## M6b 迁移清理、许可与文档收尾
 
-工单：#40（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
+工单：#46（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-46-m6b-cleanup（从集成分支 tip ae12164 切出）｜执行时间：2026-10-14。
 
 ### 1. 改动概览
 
-- `src/ui/onboarding/OnboardingApp.tsx`：欢迎、学习设置（水平与词库）、网站启用与完成状态全部换为 animal-island-ui 2.2.1 原版组件（Card/Radio/Checkbox/Button/Title），页面外壳与区块复用 @/ui/island 共享基础模块；未新增引导步骤。
-  - 欢迎区：吉祥物 + 原版 Title 飘带（外层 h1 保留一级标题语义）+ 说明文案。
-  - 学习设置：IslandSection + Card；水平与词库使用原版 Radio，选项沿用“名称 + 说明”两行文案；每组用 fieldset/legend 保留组标题语义（库 Radio 无 aria-label 透传，fieldset 是等效且标准的做法）。
-  - 网站选择：原版 Checkbox 保持多选与 checkbox 角色语义，默认选中哔哩哔哩与 YouTube。
-  - 完成状态：原版 Card + Title + Button；提交失败的错误信息改用 Card + island error 色。
-  - 未改：messageClient.completeOnboarding 调用与提交内容（hostnames/deckId/selfRatedLevel）、阶段流转与全部可见文案语义；本页迁移前没有图标字符，迁移未新增图标需求。
-- `src/entrypoints/onboarding/main.tsx`：入口新增 `import 'animal-island-ui/style'`（本入口恰好一次）。
-- `src/entrypoints/onboarding/onboarding.css`：全量重写为布局职责，颜色只用 --island-* 语义别名，旧蓝粉类清零；页面宽度 min(100% - 32px, 560px) 居中。
-- `scripts/measure-bundle-baseline.mjs`：新增 onboarding 入口闭包指标（只追加字段，既有输出不变）。
-- `e2e/migration-m3a.spec.ts`：新增采集脚本（默认跳过）。
-- 未改：全局旧令牌 src/ui/styles/design-tokens.css（#46 清理）、@/ui/island 既有导出签名、依赖与锁文件。
+- **旧视觉清零**：删除 `src/ui/styles/design-tokens.css`（旧蓝粉令牌与自绘按钮/状态/页脚样式）与 `src/ui/styles/shadow-design.ts`（已无使用者）；新增 `src/ui/styles/base.css`，只保留与视觉体系无关的元素级基础样式（html/body 外边距、正文字体、指针状态、reduced-motion；颜色只引用库 --animal-* 令牌）。popup / onboarding / options / stats / dev-tools 五个入口改为导入 base.css。
+- **dev-tools 页面迁移**：`src/entrypoints/dev-tools/{main.tsx,dev-tools.css}` 与 `src/ui/popup/dev-tools.css` 改用 island 主题别名（--island-* → --animal-*）；开发数据页入口新增恰好一次的原版样式导入。该页面仍不进入生产构建，既有校验脚本保持通过。
+- **字体交付统一（补充验收项）**：`wxt.config.ts` 新增构建期 Vite 插件（vite:build:extendConfig），把 animal-island-ui 发布 CSS 的字体 URL 改写为 /files/ 公共路径；Vite 不再发射 assets/<hash>.woff2，扩展页面与遮罩 ShadowRoot 共用 build:publicAssets 复制的一份 files/ 字体。插件只作用于生产构建，dev 服务器行为保持原样。
+- **测试**：`tests/unit/ui/island-theme.test.ts` 新增「旧视觉清零」静态规则——src 全目录不含 --bingeup / bingeup-btn- / bingeup-status-，两个旧样式文件不存在，dev-tools 两份样式不含旧令牌与写死色值。
+- **文档与许可**：ADR 0005 勘误与更新（Modal 支持 variant（`default` / `game`）、Modal/Drawer/Image 预览用 createPortal 与 Notification 新建 React Root 的准确表述、字体体积实测、计划文档不一致清单）；新增 `THIRD-PARTY-NOTICES.md`（animal-island-ui / naive-icons 的 MIT 全文与版权声明、Nunito / Noto Sans SC 的 OFL-1.1 全文与来源）；README 更新 showcase 拼图与 hero / workflow 插画（island 配色）并在 License 节引用第三方声明；`docs/beta-acceptance-matrix.md` 增补 UI 验收项（G8 统一原版视觉、G9 字体离线加载）与自动化覆盖清单；本证据文档按 M0→M6a 重排并修复「+## M3b」先导记号（重排前后非空行数一致：797）。
+- **脚本**：`scripts/measure-bundle-baseline.mjs` 新增 Stats 入口闭包指标（只追加字段）。
 
-### 2. 测试覆盖变化
+### 2. 字体去重（工单 #46 补充验收）
 
-- `tests/unit/onboarding/OnboardingApp.test.tsx`：标题断言改为“一级标题 + 品牌名”；默认选中断言改为按角色与名称查询 radio 的选中态（不再绑定 input[value] 实现细节）；新增“结构语义”2 例（main 地标与命名区块、完成页 main 与关闭按钮）；网站/水平/词库的选择与提交语义用例保持原样。
-- `tests/unit/ui/island-theme.test.ts`：新增 onboarding.css 静态规则（不引用 --bingeup、无写死色值）。
-- 规模：47 文件 / 834 用例（M2 合并态记录为 831，本次 +3）。
-
-### 3. 截图（docs/assets/migration-m3a/）
-
-| 文件 | 状态 |
-| --- | --- |
-| onboarding-select-760.png / onboarding-select-560.png / onboarding-select-360.png | 首屏默认状态：吉祥物 + Title 飘带 + 学习设置 Card（水平/词库 Radio）+ 默认支持网站 Card（Checkbox）+ 原版主按钮 |
-| onboarding-select-zoom200.png | 200% 缩放等效（CDP：CSS 视口 360、DSF 2 → 物理 720），无横向溢出 |
-| onboarding-focus-level-radio.png | 键盘 Tab 落点（当前选中的水平单选）的黄色焦点轮廓 |
-| onboarding-focus-primary-button.png | Tab 到主按钮、过渡结束后的薄荷焦点轮廓 |
-| onboarding-done-760.png | 完成状态：Card + Title 飘带 + 默认按钮“关闭” |
-
-复现命令（该 spec 默认跳过，不参与 npm run test:e2e 的常规执行；采集会覆盖同名 PNG）：
-
-```powershell
-$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
-```
-
-采集运行时记录（.output/migration-m3a-capture.json）：
-
-- 字体：Nunito 与 Noto Sans SC 均 loaded；6 个字体响应全部为 chrome-extension:// 本地资源。
-- 控制台：console error 0、pageerror 0、失败请求 0。
-- 宽度：760/560/360 与缩放等效（360 @ DSF2）均 scrollWidth == clientWidth，无横向溢出。
-- 键盘：首个 Tab 落在当前选中的水平单选（roving tabindex）；ArrowDown 切换到下一档并保持焦点；焦点轮廓为原版样式——单选 rgb(245,195,28)（黄）2px、主按钮 rgb(25,200,185)（薄荷）2px（按钮带 transition: all，读取在过渡结束后进行）。
-- 完成状态：默认选择（两站启用、水平一般、词库日常高频）提交后进入完成页，文案与迁移前一致。
-
-采集脚本在打开引导页前先访问设置页做首启预热：安装后后台会自动打开引导页（onInstalled），首启直接导航会偶发 ERR_ABORTED；该处理只影响采集脚本，与产品行为无关。
-
-### 4. 体积对比（M2 合并态 → M3a，合并集成分支前；Chrome 与 Edge 数字一致）
-
-| 指标 | M2 合并态（起点 e69640f） | M3a（本分支） | 差值 |
+| 指标 | 去重前（集成分支 ae12164 构建） | 去重后 | 差值 |
 | --- | --- | --- | --- |
-| 解包体积 | 11,310,342 B（57 文件） | 11,314,284 B（58 文件） | +3,942 B |
-| 压缩包 zip | 8,451,396 B | 8,453,840 B | +2,444 B |
-| Onboarding 入口闭包 | 161,015 B（9 文件） | 302,582 B（11 文件） | +141,567 B |
-| Popup 入口闭包 | 315,708 B（10 文件） | 315,856 B（11 文件） | +148 B |
-| content script | 346,395 B | 346,395 B | 0 |
+| 解包体积 | 11,330,134 B（57 文件） | 7,765,057 B（48 文件） | −3,565,077 B |
+| 压缩包 zip（Chrome/Edge 一致） | 8,459,721 B | 4,892,913 B | −3,566,808 B |
 
-明细：引导页 JS 5,256 → 11,259 B（+6,003，原版 Radio/Checkbox/Title 运行时代码）；island 模块与库公共代码改为共享分块（island 5,720 B、库分块 6,579 B），供 Popup 与引导页共用；库样式成为独立共享分块 126,298 B（迁移前内联在 Popup CSS 129,065 B 中），引导页引用共享分块不新增字节；页面自身 CSS 4,059 → 1,656 B（旧样式清零）。解包净增 3,942 B，zip 净增 2,444 B。
+- 去重前：页面 CSS 引用的 9 个 woff2 被 Vite 发射为 assets/<name>-<hash>.woff2（合计 3,563,300 B），与内容脚本使用的 files/ 副本（同为 3,563,300 B）重复；其余差额约 1.7 KB 来自 base.css 替换 design-tokens.css 的分块缩减。
+- 去重后产物实测（Chrome/Edge 相同）：assets/ 下 0 个 woff2；files/ 保留 9 个（合计 3,563,300 B）；页面共享 CSS 分块与 content script 内联 CSS 均引用 /files/ 路径；content.js 字节数与去重前一致（353,351 B）。
+- 页面运行时复测（真实 MV3 产物 + 采集脚本）：Popup 的 Nunito 与 Noto Sans SC 均进入 loaded；6 个字体响应全部为 chrome-extension:// 本地资源；console error 0、pageerror 0、失败请求 0；重新采集的 9 张 M2 截图与合并态逐字节一致。
 
-### 5. 门禁执行记录（合并集成分支前）
+### 3. 最终体积（vs M0 基线，Chrome 与 Edge 数字一致）
+
+| 指标 | M0（#37） | M6b 最终 | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 3,580,581 B（34 文件） | 7,765,057 B（48 文件） | +4,184,476 B |
+| 压缩包 zip | 1,213,403 B | 4,892,913 B | +3,679,510 B |
+| Popup 入口闭包 | 166,685 B（9 文件） | 314,268 B | +147,583 B |
+| Options 入口闭包 | ——（M0 未测；M3b 起 331,993 B） | 330,709 B | — |
+| Onboarding 入口闭包 | ——（M0 未测；M3a 起 302,582 B） | 300,890 B | — |
+| Stats 入口闭包 | ——（M0 未测；M3c 起 321,623 B） | 319,971 B | — |
+| content script | 208,173 B | 353,351 B | +145,178 B |
+
+说明：最终体积已含去重后的单份字体（3,563,300 B）与全部界面（Popup / 引导 / 设置 / 统计 / 视频遮罩 / 附属提示）的库样式与组件代码；去重前双份字体使解包一度达到 11.33 MB（M3a 合并态）。Options / Onboarding / Stats 入口闭包指标分别自 M3b / M3a / M6b 起记录。
+
+### 4. 门禁执行记录
 
 | 门禁 | 命令 | 结果 |
 | --- | --- | --- |
 | 类型检查 | npm run typecheck | 通过（退出码 0） |
-| 单元/集成测试 | npm test | 通过（47 文件、834 用例） |
-| Lint | npm run lint | 通过（退出码 0，含新增 e2e 采集脚本） |
-| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest.mjs、verify-dev-tools-production.mjs、verify-island-shadow-assets.mjs） |
+| 单元/集成测试 | npm test | 通过（48 文件、856 用例） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest / verify-dev-tools-production / verify-island-shadow-assets 三个校验脚本） |
 | Edge 构建 | npm run build:edge | 通过（同上） |
-| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 4 节） |
-| 浏览器 E2E（既有用例） | npm run test:e2e | 8 通过 / 21 跳过（人工占位 5 + M0 采集 3 + M1 采集 5 + M2 采集 5 + M3a 采集 3） |
-| M3a 采集 | $env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts | 3 通过 |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（bingeup-0.0.1-chrome.zip 与 -edge.zip 均为 4,892,913 B） |
+| 浏览器 E2E | npx playwright test | 16 通过 / 26 跳过 / 0 失败（跳过为人工矩阵占位与采集脚本默认跳过） |
+| 字体与界面复测 | $env:CAPTURE_M2='1'; npx playwright test e2e/migration-m2.spec.ts | 5 通过（字体加载、无横向溢出、无控制台错误断言随采集实测；截图与合并态字节一致） |
+| 体积复测 | node scripts/measure-bundle-baseline.mjs | 见第 2、3 节 |
 
-### 6. 未验证项
+### 5. 未验证项汇总
 
-| 项 | 原因 |
-| --- | --- |
-| 首次安装自动打开引导页路径的人工观感 | 无头环境直接打开 onboarding.html；onInstalled 行为本身未改，采集脚本以设置页预热规避首启竞态 |
-| Edge 真机人工矩阵 | 仅验证 edge-mv3 构建产物 |
-| 深色系统主题与强制大字体的人工观感 | 仅产物浅色截图（与 M2 相同口径） |
-| 真实浏览器 200% 缩放 | 用 CDP 设备指标做布局等效模拟（与 M1/M2 口径一致） |
-
-### 7. 复现步骤
-
-```powershell
-git checkout codex/ticket-40-m3a-onboarding
-npm install
-npx wxt prepare
-npm run typecheck; npm test; npm run lint
-npm run build; npm run build:edge
-npm run zip; npm run zip -- -b edge
-node scripts/measure-bundle-baseline.mjs
-npm run test:e2e
-$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
-```
-
-### 8. 合并集成分支（含 M3c 统计页迁移）后的复测
-
-本工单推送前已合并集成分支（59b0d1f，含工单 #42 M3c 学习统计页迁移；合并提交 10a9d34）。合并后复测（Chrome 与 Edge 数字一致）：
-
-| 指标 | 基线 e69640f | M3a 分支（合并前） | 合并后（含 M3c） |
-| --- | --- | --- | --- |
-| 解包体积 | 11,310,342 B（57 文件） | 11,314,284 B（58 文件） | 11,316,599 B（58 文件） |
-| 压缩包 zip | 8,451,396 B | 8,453,840 B | 8,455,734 B |
-| Onboarding 入口闭包 | 161,015 B（9 文件） | 302,582 B（11 文件） | 302,568 B（10 文件） |
-| Popup 入口闭包 | 315,708 B（10 文件） | 315,856 B（11 文件） | 315,970 B（11 文件） |
-| content script | 346,395 B | 346,395 B | 346,395 B |
-
-合并后的分块重组（island 样式并入 design-tokens 分块、公共代码分块改名）不改变页面加载内容：引导页仍加载库样式（126,298 B 共享分块）与 island 样式和交互脚本，产物内检索确认两者均在。合并后门禁复测：typecheck 通过；npm test 48 文件 / 841 用例通过；lint 通过；Chrome/Edge 构建通过（含三个校验脚本）；npm run test:e2e 8 通过 / 23 跳过（含 M3c 采集 2 项默认跳过）；M3a 采集 3 通过，并按合并后产物重新采集截图（6 个文件与合并前字节差 −2,417 至 −98 B，属渲染噪声；onboarding-done-760.png 字节一致）。
-
-相关提交（分支 codex/ticket-40-m3a-onboarding）：
-
-1. 安装引导全量原版化并清零旧蓝粉样式（工单 #40）
-2. 新增 M3a 引导页采集脚本与引导入口闭包测量（工单 #40）
-3. 新增 M3a 安装引导迁移证据文档与截图（工单 #40）
+- 本工单新增未验证项：wxt dev 开发模式未在浏览器中实测（字体公共路径插件只作用于生产构建，dev 路径未改动，行为与合并前一致）；README 与文档改动不涉及运行时。
+- 跨阶段常驻未验证项（各阶段小节另列，长期有效）：真实 B 站 / YouTube 上的遮罩、启用提示与恢复提示呈现（宿主页 CSP 下的字体加载、全屏 / 竖屏 / 窗口缩放、真实视频暂停与恢复）；Edge 真机人工矩阵（各阶段仅验证 edge-mv3 产物）；浏览器原生权限弹窗；真实浏览器 200% 缩放、系统字体大小偏好与深色主题下的人工观感；屏幕阅读器真机朗读；错误边界在真实渲染异常下的 e2e 触发；遮罩进入延迟在真实站点的数字。
+- README 新 showcase 素材说明：遮罩与启用提示两张来自合成 Bilibili 测试页（已裁掉「非真实站点」说明条），其余来自扩展页面真实构建产物；hero / workflow 为手工维护的示意插画（island 配色重绘）。以上均仅作展示与证据，不作为像素比对基线。

@@ -75,6 +75,8 @@ function describeOutput(dir) {
   const options = existsSync(optionsHtml) ? htmlClosure(optionsHtml) : [];
   const onboardingHtml = join(dir, 'onboarding.html');
   const onboarding = existsSync(onboardingHtml) ? htmlClosure(onboardingHtml) : [];
+  const statsHtml = join(dir, 'stats.html');
+  const stats = existsSync(statsHtml) ? htmlClosure(statsHtml) : [];
   const contentScript = [
     join(dir, 'content-scripts', 'content.js'),
     join(dir, 'content-scripts', 'content.css'),
@@ -89,6 +91,10 @@ function describeOutput(dir) {
     onboarding: {
       bytes: onboarding.reduce((sum, item) => sum + item.bytes, 0),
       files: onboarding,
+    },
+    stats: {
+      bytes: stats.reduce((sum, item) => sum + item.bytes, 0),
+      files: stats,
     },
     contentScript: {
       bytes: contentScript.reduce((sum, item) => sum + item.bytes, 0),
