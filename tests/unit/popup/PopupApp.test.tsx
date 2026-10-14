@@ -757,3 +757,59 @@ describe('PopupApp — 加入当前网站（Issue #11 AC1/AC5）', () => {
     });
   });
 });
+
+describe('PopupApp — 标题栏固定入口（工单 #39）', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    getPopupData.mockReset();
+    mocks.getSiteState.mockReset();
+    vi.spyOn(window, 'close').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('点击“设置”打开扩展设置页', async () => {
+    const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
+    getPopupData.mockResolvedValue({
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    // 先等待加载完成，避免点击到加载分支即将被替换的按钮节点。
+    await screen.findByText('可学习');
+    fireEvent.click(screen.getByRole('button', { name: '设置' }));
+    expect(stub.runtime.openOptionsPage).toHaveBeenCalledTimes(1);
+  });
+
+  it('点击“统计”在扩展页打开学习统计', async () => {
+    const stub = installChromeStub({ url: 'https://www.bilibili.com/', id: 1 });
+    getPopupData.mockResolvedValue({
+      site: {
+        hostname: 'www.bilibili.com',
+        enabled: true,
+        mode: 'full-adaptation',
+        firstQuestionPending: false,
+      },
+      onboardingCompleted: true,
+      globalPausedUntil: 0,
+    });
+
+    render(<PopupApp />);
+
+    fireEvent.click(await screen.findByRole('button', { name: '查看统计' }));
+    expect(stub.tabs.create).toHaveBeenCalledWith({
+      url: 'chrome-extension://test-id/stats.html',
+    });
+  });
+});

@@ -1,0 +1,44 @@
+/**
+ * island 基础模块 — 主题衔接层（工单 #39）。
+ *
+ * 布局层只消费 --island-* 语义别名；每个别名都通过 var() 指向
+ * animal-island-ui 在 :root 声明的 --animal-* 运行时令牌
+ * （由各页面入口导入的 animal-island-ui/style 提供）。
+ * 兜底值取自库 2.2.1 的令牌定义，只在库样式尚未生效的瞬间使用；
+ * 本文件不定义新颜色，也不覆盖库的令牌。
+ */
+:root {
+  /* 字体与文字 */
+  --island-font-family: var(
+    --animal-font-family,
+    Nunito,
+    'Noto Sans SC',
+    -apple-system,
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif
+  );
+  --island-font-size-sm: var(--animal-font-size-sm, 12px);
+  --island-font-size-base: var(--animal-font-size-base, 14px);
+  --island-text-color: var(--animal-text-color, #794f27);
+  --island-text-color-secondary: var(--animal-text-color-secondary, #9f927d);
+  --island-text-color-disabled: var(--animal-text-color-disabled, #c4b89e);
+
+  /* 背景与状态色 */
+  --island-bg-color: var(--animal-bg-color, #f8f8f0);
+  --island-bg-color-secondary: var(--animal-bg-color-secondary, #f0e8d8);
+  --island-primary-color: var(--animal-primary-color, #19c8b9);
+  --island-primary-color-bg: var(--animal-primary-color-bg, #e6f9f6);
+  --island-warning-color: var(--animal-warning-color, #f5c31c);
+  --island-error-color: var(--animal-error-color, #e05a5a);
+  --island-border-color: var(--animal-border-color, #dcd8d1);
+  --island-border-color-light: var(--animal-border-color-light, #e8e2d6);
+
+  /* 间距、圆角与动效 */
+  --island-space-sm: var(--animal-spacing-sm, 8px);
+  --island-space-md: var(--animal-spacing-md, 12px);
+  --island-space-lg: var(--animal-spacing-lg, 16px);
+  --island-radius-sm: var(--animal-border-radius-sm, 16px);
+  --island-motion-duration: var(--animal-motion-duration-base, 0.25s);
+  --island-motion-ease: var(--animal-motion-ease, cubic-bezier(0.4, 0, 0.2, 1));
+}

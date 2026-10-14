@@ -1,5 +1,14 @@
 import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Button, Card, Switch, Tag, type TagColor } from 'animal-island-ui';
+import {
+  AlertTriangleIcon,
+  BanIcon,
+  CheckCircleIcon,
+  PauseIcon,
+  PlayIcon,
+  SettingsIcon,
+  type IconComponent,
+} from 'naive-icons';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
@@ -17,6 +26,7 @@ import type {
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
 import { FeedbackLink } from '@/ui/FeedbackLink';
+import { IslandPage, IslandSection } from '@/ui/island';
 
 /**
  * 开发工具只在开发服务器的 Popup 中加载。
@@ -38,12 +48,14 @@ function DevToolsSlot(): JSX.Element | null {
 }
 
 /**
- * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6）。
+ * Popup 面板（Issue #9 AC3 / AC4 / AC5 / Issue #21 AC3/AC6 / 工单 #39 M2 完整迁移）。
  *
  * AC3：显示当前域名、启用状态与兼容等级。
  * AC4：暂停 10 分钟 / 暂停今天 / 恢复当前全局暂停 / 开始连续学习 / 设置 / 统计。
  * AC5：受保护页面、缺少权限时提供可理解状态而非静默失败。
  * Issue #21 AC3/AC6：未完成安装引导不阻止 Popup 显示正常网站状态与控制。
+ * 工单 #39：全部可见区域采用 Animal Island UI 原版视觉（图标来自 naive-icons），
+ * 页面外壳与区块复用 @/ui/island 基础模块；消息链路与业务判定保持不变。
  */
 
 const COMPATIBILITY_LABELS: Record<PopupCompatibilityLevel, string> = {
@@ -61,7 +73,7 @@ interface PopupContext {
   tabId: number | null;
 }
 
-type PopupSiteStatusTone = 'ready' | 'paused' | 'warning' | 'inactive';
+type PopupSiteStatusTone = 'ready' | 'paused' | 'warning' | 'blocked' | 'inactive';
 type PopupPauseMode = 'none' | 'ten-minutes' | 'today';
 
 function PopupHeader(): JSX.Element {
@@ -71,15 +83,14 @@ function PopupHeader(): JSX.Element {
         <img className="bingeup-brand-mascot" src={mascotUrl} alt="" aria-hidden="true" />
         <strong>刷刷升级</strong>
       </div>
-      <button
-        className="bingeup-popup-settings"
+      <Button
+        type="text"
+        size="small"
         aria-label="设置"
         title="设置"
+        icon={<SettingsIcon size={18} color="currentColor" />}
         onClick={() => void chrome.runtime.openOptionsPage()}
-      >
-        <span className="bingeup-visually-hidden">设置</span>
-        <span aria-hidden="true">⚙</span>
-      </button>
+      />
     </header>
   );
 }
@@ -88,8 +99,18 @@ function popupSiteStatusTone(state: PopupDisplayState): PopupSiteStatusTone {
   if (state.globallyPaused) return 'paused';
   if (state.enabled) return 'ready';
   if (state.compatibilityLevel === 'needs-permission') return 'warning';
+  if (state.compatibilityLevel === 'unsupported') return 'blocked';
   return 'inactive';
 }
+
+/** 状态图标一律来自 naive-icons，颜色跟随所在行的 island 状态色。 */
+const SITE_STATUS_ICONS: Record<PopupSiteStatusTone, IconComponent> = {
+  ready: CheckCircleIcon,
+  paused: PauseIcon,
+  warning: AlertTriangleIcon,
+  blocked: BanIcon,
+  inactive: PlayIcon,
+};
 
 function popupSiteBadge(state: PopupDisplayState): string {
   if (state.globallyPaused) return '已暂停';
@@ -138,7 +159,7 @@ interface PopupSiteStatusCardProps {
 }
 
 /**
- * 站点状态卡片（M1 垂直切片）：原版 Card/Tag 承载状态，Button/Switch 承载操作。
+ * 站点状态卡片：原版 Card 承载状态，naive-icons 状态图标 + Tag 徽标 + Button/Switch 操作。
  * 只做布局与文案组装，站点判定与消息链路仍在 PopupView 中。
  */
 function PopupSiteStatusCard({
@@ -149,11 +170,14 @@ function PopupSiteStatusCard({
   badge,
   control,
 }: PopupSiteStatusCardProps): JSX.Element {
+  const StatusIcon = SITE_STATUS_ICONS[tone];
   return (
     <section className="bingeup-site-status" aria-label="当前网站状态">
       <Card className="bingeup-site-card">
         <div className="bingeup-site-status-row">
-          <i className={`bingeup-site-dot bingeup-site-dot-${tone}`} aria-hidden="true" />
+          <span className={`bingeup-site-icon bingeup-site-icon-${tone}`} aria-hidden="true">
+            <StatusIcon size={18} color="currentColor" />
+          </span>
           <div className="bingeup-site-copy">
             <strong>{hostname}</strong>
             <span>{statusLine}</span>
@@ -257,25 +281,25 @@ export function PopupApp(): JSX.Element {
 
   if (error !== null) {
     return (
-      <div className="bingeup-popup">
+      <IslandPage className="bingeup-popup">
         <PopupHeader />
-        <div className="bingeup-state-card">
+        <Card className="bingeup-state-card">
           <p className="bingeup-hint bingeup-error">{error}</p>
-        </div>
+        </Card>
         <DevToolsSlot />
-      </div>
+      </IslandPage>
     );
   }
 
   if (state === null || ctx === null) {
     return (
-      <div className="bingeup-popup">
+      <IslandPage className="bingeup-popup">
         <PopupHeader />
-        <div className="bingeup-state-card">
+        <Card className="bingeup-state-card">
           <p className="bingeup-hint">加载中…</p>
-        </div>
+        </Card>
         <DevToolsSlot />
-      </div>
+      </IslandPage>
     );
   }
 
@@ -339,17 +363,17 @@ function PopupView({
   // AC5：受保护页面
   if (state.isProtectedPage) {
     return (
-      <div className="bingeup-popup">
+      <IslandPage className="bingeup-popup">
         <PopupHeader />
-        <div className="bingeup-state-card">
+        <Card className="bingeup-state-card">
           <strong className="bingeup-state-title">当前页面不可用</strong>
           <p className="bingeup-hint">
             当前为浏览器受保护页面（{ctx.url}），刷刷升级无法在此运行。
           </p>
-        </div>
+        </Card>
         <DisabledStartLearning reason="当前页面不支持学习。" />
         <DevToolsSlot />
-      </div>
+      </IslandPage>
     );
   }
 
@@ -359,7 +383,7 @@ function PopupView({
   // AC5：缺少主机权限
   if (state.compatibilityLevel === 'needs-permission') {
     return (
-      <div className="bingeup-popup">
+      <IslandPage className="bingeup-popup">
         <PopupHeader />
         <PopupSiteStatusCard
           tone="warning"
@@ -367,7 +391,7 @@ function PopupView({
           statusLine="未启用 · 需要权限"
           badge={{ text: '需权限', color: 'app-yellow' }}
         />
-        <div className="bingeup-state-card">
+        <Card className="bingeup-state-card">
           <div className="bingeup-row">
             <span className="bingeup-label">域名</span>
             <span className="bingeup-value">{state.hostname}</span>
@@ -376,10 +400,10 @@ function PopupView({
             当前网站缺少主机权限，请在扩展管理页授予访问权限后刷新页面。
           </p>
           <p className="bingeup-hint">需要权限 · 无学习遮罩 · 不控制视频</p>
-        </div>
+        </Card>
         <DisabledStartLearning reason="请先授予当前网站访问权限。" />
         <DevToolsSlot />
-      </div>
+      </IslandPage>
     );
   }
 
@@ -407,7 +431,7 @@ function PopupView({
   ) : null;
 
   return (
-    <div className="bingeup-popup">
+    <IslandPage className="bingeup-popup">
       <PopupHeader />
 
       {/* AC3：当前网站状态 */}
@@ -432,27 +456,29 @@ function PopupView({
         control={siteControl}
       />
 
-      <section className="bingeup-block" aria-labelledby="bingeup-today-title">
-        <div className="bingeup-block-head">
-          <strong id="bingeup-today-title">今日学习</strong>
-          <button
-            className="bingeup-text-button"
+      <IslandSection
+        title="今日学习"
+        actions={
+          <Button
+            type="text"
+            size="small"
             aria-label="查看统计"
             onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
           >
             统计
-          </button>
-        </div>
+          </Button>
+        }
+      >
         <div className="bingeup-metrics">
           <div className="bingeup-metric">
             <strong>{stats?.today.completedQuestions ?? '—'}</strong>
             <span>今日自然完成题目</span>
           </div>
-          <div className="bingeup-metric bingeup-metric-green">
+          <div className="bingeup-metric">
             <strong>{stats?.today.reviewedWords ?? '—'}</strong>
             <span>今日复习词</span>
           </div>
-          <div className="bingeup-metric bingeup-metric-pink">
+          <div className="bingeup-metric">
             <strong>{stats?.today.newWords ?? '—'}</strong>
             <span>今日新词</span>
           </div>
@@ -464,11 +490,11 @@ function PopupView({
             <strong>{stats?.today.continuousQuestions ?? '—'}</strong>
             <span>今日连续完成题目</span>
           </div>
-          <div className="bingeup-metric bingeup-metric-green">
+          <div className="bingeup-metric">
             <strong>{stats?.today.longTermCompleted ?? '—'}</strong>
             <span>今日长期复习题目</span>
           </div>
-          <div className="bingeup-metric bingeup-metric-green">
+          <div className="bingeup-metric">
             <strong>
               {stats?.today.longTermAccuracy === undefined || stats.today.longTermCompleted === 0
                 ? '—'
@@ -477,14 +503,16 @@ function PopupView({
             <span>今日长期复习正确率</span>
           </div>
         </div>
-      </section>
+      </IslandSection>
 
       {/* AC4：暂停控制 / Issue #11：加入当前网站 */}
       <div className="bingeup-actions">
         {notice !== null && (
-          <p className="bingeup-hint bingeup-notice" role="status">
-            {notice}
-          </p>
+          <Card className="bingeup-notice">
+            <p className="bingeup-notice-text" role="status">
+              {notice}
+            </p>
+          </Card>
         )}
         <div className="bingeup-pause-row">
           <Button
@@ -525,7 +553,7 @@ function PopupView({
 
       <DevToolsSlot />
       <FeedbackLink />
-    </div>
+    </IslandPage>
   );
 }
 
@@ -592,7 +620,8 @@ async function handleStartContinuousLearning(
   const message: ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
   try {
     const response = (await chrome.tabs.sendMessage(tabId, message)) as
-      StartLearningResponse | undefined;
+      | StartLearningResponse
+      | undefined;
     if (response?.ok) {
       window.close();
       return;
