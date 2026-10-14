@@ -1,0 +1,206 @@
+/**
+ * 预览页外壳样式（仅本页的排布与画框；颜色沿用 animal-island-ui 的 --animal-* 令牌）。
+ * 各界面自身的样式在 preview/shadow-frame.tsx 组装的 ShadowRoot 样式里。
+ */
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--animal-text-color, #794f27);
+  background: var(--animal-bg-color-secondary, #f0e8d8);
+  font-family: var(--animal-font-family, sans-serif);
+}
+
+.preview-page {
+  display: grid;
+  gap: 28px;
+  width: min(100% - 40px, 980px);
+  margin: 0 auto;
+  padding: 32px 0 80px;
+}
+
+.preview-hero h1 {
+  margin: 12px 0 8px;
+  font-size: 30px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.preview-hero p {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--animal-text-color-secondary, #9f927d);
+  line-height: 1.8;
+}
+
+.preview-section {
+  display: grid;
+  gap: 14px;
+  scroll-margin-top: 16px;
+}
+
+.preview-section-head h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.preview-section-head p {
+  margin: 0;
+  max-width: 80ch;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.preview-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.preview-grid--two {
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+}
+
+.preview-card {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.preview-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.preview-card-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.preview-card-hint {
+  display: block;
+  margin-top: 4px;
+  max-width: 72ch;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.preview-card-actions {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.preview-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ─── 页面画框（页面本体在 ShadowRoot 内） ─────────────────── */
+
+.preview-browser-frame {
+  overflow: hidden;
+  border: 1px solid var(--animal-border-color, #dcd8d1);
+  border-radius: 14px;
+  background: var(--animal-bg-color, #f8f8f0);
+}
+
+.preview-browser-frame--popup {
+  width: 340px;
+  max-width: 100%;
+}
+
+.preview-shadow-frame {
+  display: block;
+}
+
+/* ─── 遮罩预览台上的示意视频区域 ───────────────────────────── */
+
+.preview-overlay-stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #23282f;
+}
+
+.preview-video-fake {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: space-between;
+  padding: 18px 20px;
+  color: rgb(255 255 255 / 70%);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.preview-video-fake-title {
+  font-weight: 700;
+}
+
+.preview-video-fake-controls {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+/* ─── 动作日志与状态提示 ───────────────────────────────────── */
+
+.preview-action-log {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preview-action-log li {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--animal-bg-color-secondary, #f0e8d8);
+  color: var(--animal-text-color, #794f27);
+  font-size: 11px;
+}
+
+.preview-action-log-empty {
+  opacity: 0.65;
+}
+
+.preview-status {
+  margin: 0;
+  padding: 24px 16px;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 13px;
+}
+
+.preview-status--error {
+  color: var(--animal-error-color, #e05a5a);
+  font-weight: 700;
+}
+
+.preview-footnote p {
+  margin: 0;
+  max-width: 90ch;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 12px;
+  line-height: 1.8;
+}
