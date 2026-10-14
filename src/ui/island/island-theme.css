@@ -39,6 +39,7 @@
   --island-space-md: var(--animal-spacing-md, 12px);
   --island-space-lg: var(--animal-spacing-lg, 16px);
   --island-radius-sm: var(--animal-border-radius-sm, 16px);
+  --island-radius-lg: var(--animal-border-radius-lg, 24px);
   --island-motion-duration: var(--animal-motion-duration-base, 0.25s);
   --island-motion-ease: var(--animal-motion-ease, cubic-bezier(0.4, 0, 0.2, 1));
 }
