@@ -42,6 +42,17 @@ vi.mock('@/content/enable-prompt', () => ({
   showEnablePrompt,
 }));
 
+// M4 PoC：引导/启动诊断用例不验证岛屿组件本体，避免把 animal-island-ui 的整个
+// 模块图拉进本文件的静态导入（组件与样式装载由 overlay-controller 单测与 e2e 覆盖）。
+vi.mock('@/ui/island/shadow-styles', () => ({
+  getIslandShadowStyleBundle: () => ({ css: ':host{--animal-test: 1}', fontFaces: [] }),
+  registerIslandFontFaces: () => undefined,
+}));
+vi.mock('@/ui/island/IslandShadowPreview', () => ({
+  ISLAND_SHADOW_PREVIEW_CSS: '.bingeup-island-preview{position:absolute;inset:0}',
+  IslandShadowPreview: () => null,
+}));
+
 describe('bootstrapContent — 启动诊断', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -243,6 +254,17 @@ describe('bootstrapContent — 启动诊断', () => {
     });
 
     await expect(response).resolves.toEqual({ ok: true });
+
+    // M4 Shadow DOM PoC 临时开关（工单 #43）：预览消息只在遮罩 ShadowRoot 内渲染。
+    const previewResponse = vi.fn();
+    expect(listener({ type: 'ISLAND_POC_PREVIEW' }, {}, previewResponse)).toBe(false);
+    expect(previewResponse).toHaveBeenCalledWith({ ok: true });
+    expect(document.getElementById('bingeup-island-preview-host')).not.toBeNull();
+
+    const closeResponse = vi.fn();
+    expect(listener({ type: 'ISLAND_POC_CLOSE' }, {}, closeResponse)).toBe(false);
+    expect(closeResponse).toHaveBeenCalledWith({ ok: true });
+    expect(document.getElementById('bingeup-island-preview-host')).toBeNull();
 
     const devListener = addListener.mock.calls[1]?.[0] as (
       message: unknown,
