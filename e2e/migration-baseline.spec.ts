@@ -3,6 +3,12 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Page } from '@playwright/test';
 import { pageUrl, test } from './fixtures';
+import {
+  installOverlayTiming,
+  markOverlayTimingSend,
+  readOverlayTiming,
+  waitForOverlayCard,
+} from './overlay-timing';
 
 /**
  * M0 旧界面截图基线采集（工单 #37）——证据采集工具，不是质量门禁。
@@ -52,13 +58,6 @@ interface CaptureRecord {
   detail?: string;
 }
 
-interface OverlayTiming {
-  docStart: number;
-  tSend: number | null;
-  hostAt: number | null;
-  overlayAt: number | null;
-}
-
 const records: CaptureRecord[] = [];
 
 /** 用合成页面响应替换 bilibili.com 请求；主文档返回 fixture HTML。 */
@@ -83,13 +82,6 @@ async function findSyntheticTabId(extensionPage: Page): Promise<number | null> {
     const tabs = allowed.length > 0 ? allowed : await chrome.tabs.query({});
     const matched = tabs.find((tab) => tab.url?.includes('bilibili.com'));
     return matched?.id ?? null;
-  });
-}
-
-async function readOverlayTiming(page: Page): Promise<OverlayTiming | null> {
-  return page.evaluate(() => {
-    const state = (window as unknown as { __m0Overlay?: OverlayTiming }).__m0Overlay;
-    return state ? { ...state } : null;
   });
 }
 
@@ -162,82 +154,12 @@ test.describe('M0 旧界面基线采集', () => {
       if (message.text().includes('[BingeUp]')) overlayLogs.push(message.text());
     });
     page.on('pageerror', (error) => overlayLogs.push(`pageerror: ${error.message}`));
-    await page.addInitScript(() => {
-      const state: OverlayTiming = {
-        docStart: performance.now(),
-        tSend: null,
-        hostAt: null,
-        overlayAt: null,
-      };
-      (window as unknown as { __m0Overlay?: OverlayTiming }).__m0Overlay = state;
-
-      const cardVisible = () => {
-        const host = document.getElementById('bingeup-overlay-host');
-        const card = host?.shadowRoot?.querySelector('.bingeup-card');
-        if (!card) return false;
-        const rect = card.getBoundingClientRect();
-        return rect.width > 0 && rect.height > 0;
-      };
-      const check = () => {
-        if (state.overlayAt !== null) return true;
-        if (state.hostAt === null && document.getElementById('bingeup-overlay-host')) {
-          state.hostAt = performance.now();
-        }
-        if (!cardVisible()) return false;
-        state.overlayAt = performance.now();
-        return true;
-      };
-      // MutationObserver 不会跨越 Shadow Root 边界：宿主出现后必须单独观察 shadowRoot。
-      let shadowObserver: MutationObserver | null = null;
-      let lightObserver: MutationObserver | null = null;
-      let poll: ReturnType<typeof setInterval> | null = null;
-      const cleanup = () => {
-        if (poll !== null) clearInterval(poll);
-        lightObserver?.disconnect();
-        shadowObserver?.disconnect();
-      };
-      const maybeDone = () => {
-        if (check()) cleanup();
-      };
-      const attachShadowObserver = () => {
-        const shadow = document.getElementById('bingeup-overlay-host')?.shadowRoot;
-        if (shadow && !shadowObserver) {
-          shadowObserver = new MutationObserver(maybeDone);
-          shadowObserver.observe(shadow, { childList: true, subtree: true });
-        }
-        maybeDone();
-      };
-      const arm = () => {
-        lightObserver = new MutationObserver(attachShadowObserver);
-        lightObserver.observe(document.documentElement, { childList: true, subtree: true });
-        attachShadowObserver();
-      };
-      poll = setInterval(() => {
-        attachShadowObserver();
-        maybeDone();
-      }, 100);
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', arm, { once: true });
-      } else {
-        arm();
-      }
-    });
+    await installOverlayTiming(page);
 
     await fulfillSyntheticPage(page);
     await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
 
-    const waitForOverlay = (timeout: number) =>
-      page
-        .waitForFunction(
-          () => {
-            const state = (window as unknown as { __m0Overlay?: OverlayTiming }).__m0Overlay;
-            return state?.overlayAt !== null && state?.overlayAt !== undefined;
-          },
-          undefined,
-          { timeout },
-        )
-        .then(() => true)
-        .catch(() => false);
+    const waitForOverlay = (timeout: number) => waitForOverlayCard(page, timeout);
 
     let mode: 'natural' | 'manual' | 'late' | 'none' = 'none';
     let sendResult: unknown = null;
@@ -248,10 +170,7 @@ test.describe('M0 旧界面基线采集', () => {
     } else {
       const tabId = await findSyntheticTabId(control);
       if (tabId !== null) {
-        await page.evaluate(() => {
-          const state = (window as unknown as { __m0Overlay?: OverlayTiming }).__m0Overlay;
-          if (state) state.tSend = performance.now();
-        });
+        await markOverlayTimingSend(page);
         sendResult = await control.evaluate(async (id) => {
           try {
             const response = await chrome.tabs.sendMessage(id, {
@@ -345,7 +264,7 @@ test.describe('M0 旧界面基线采集', () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await fulfillSyntheticPage(page);
     await page.goto(SYNTHETIC_URL);
-    await page.locator('#bingeup-enable-prompt-host .bingeup-prompt-card').waitFor();
+    await page.locator('#bingeup-enable-prompt-host .bingeup-enable-prompt-card').waitFor();
     await page.waitForTimeout(300);
     await page.screenshot({ path: resolve(outDir, 'enable-prompt-synthetic.png') });
     records.push({

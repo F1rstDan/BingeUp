@@ -136,6 +136,24 @@ body {
   width: 100%;
 }
 
+/* 当前词库描述（工单 #47）：恢复 M3b 记录的能力差异，Select 下方辅助文本。 */
+.bingeup-deck-control {
+  display: grid;
+  gap: 4px;
+  width: min(240px, 100%);
+}
+
+.bingeup-deck-control .bingeup-select {
+  width: 100%;
+}
+
+.bingeup-deck-description {
+  margin: 0;
+  color: var(--island-text-color-secondary);
+  font-size: var(--island-font-size-sm);
+  line-height: 1.6;
+}
+
 /* ─── 网站管理 ───────────────────────────────────────────── */
 
 .bingeup-site-add {
@@ -223,7 +241,8 @@ body {
   }
 
   .bingeup-field-control .bingeup-input,
-  .bingeup-select {
+  .bingeup-select,
+  .bingeup-deck-control {
     width: 100%;
   }
 
