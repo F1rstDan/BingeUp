@@ -485,6 +485,19 @@ npm run test:e2e
 $env:CAPTURE_M2='1'; npx playwright test e2e/migration-m2.spec.ts
 ```
 
+### 8. 合并集成分支（含 M4 Shadow DOM PoC）后的复测
+
+本工单推送前已合并集成分支（559776a，含工单 #43 M4 Shadow DOM 样式与字体 PoC）。合并后复测（Chrome 与 Edge 数字一致）：
+
+| 指标 | M0 | M1（#38） | M4 分支（仅 M0+M4） | 合并后（M0+M1+M4+M2） |
+| --- | --- | --- | --- | --- |
+| 解包体积 | 3,580,581 B（34 文件） | 7,601,617 B（47 文件） | 7,282,192 B（43 文件） | 11,310,342 B（57 文件） |
+| 压缩包 zip | 1,213,403 B | 4,855,896 B | 4,807,098 B | 8,451,396 B |
+| content script | 208,173 B | 208,173 B | 346,395 B | 346,395 B |
+| Popup 入口闭包 | 166,685 B | 308,756 B | 166,685 B | 315,708 B |
+
+M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / zip 8,449,591 B）增加 +7,114 B、1 个文件与 +1,805 B zip；Popup 入口闭包 315,708 B 与合并前 M2 相同（M4 未改动页面入口）。合并后门禁复测：typecheck 通过；npm test 47 文件 / 831 用例通过；lint 通过；Chrome/Edge 构建通过（含 M4 新增的 verify-island-shadow-assets.mjs）；npm run test:e2e 8 通过 / 18 跳过；M2 采集 5 通过，且重新采集的截图与合并前字节一致。
+
 相关提交（分支 codex/ticket-39-m2-popup-complete）：
 
 1. 新增 island 共享页面基础模块（IslandPage/IslandSection/IslandFooter、主题别名层、布局 CSS 与测试）
