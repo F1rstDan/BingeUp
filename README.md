@@ -119,6 +119,7 @@ npm run build        # Chrome 生产构建
 | --- | --- |
 | Chrome 开发模式 | `npm run dev` |
 | Edge 开发模式 | `npm run dev:edge` |
+| 本地 UI 预览页 | `npm run dev:preview` |
 | 类型检查 | `npm run typecheck` |
 | 单元 / 集成测试 | `npm test` |
 | 测试监听 | `npm run test:watch` |
@@ -129,6 +130,16 @@ npm run build        # Chrome 生产构建
 | 打包 zip | `npm run zip` |
 
 </details>
+
+### 本地 UI 预览（开发调试用）
+
+在普通网页里逐块查看 Popup / 设置页 / 统计页 / 安装引导 / 视频遮罩等全部界面，用于人工验收与批注。预览站独立于扩展构建：
+
+```bash
+npm run dev:preview   # 启动后打开 http://localhost:5174
+```
+
+预览站只复用一个明确的仿真缝——`preview/mock-message-client.ts` 替换 `@/messaging/message-client`，其余组件、样式与类型全部来自 `src/`；浏览器 API 由 `preview/chrome-shim.ts` 提供。页面只存在于开发环境，不会进入扩展产物。
 
 项目基于 [WXT](https://wxt.dev/)、React 18、TypeScript、IndexedDB、[ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs) 与 Manifest V3。领域术语见 [CONTEXT.md](./CONTEXT.md)，架构决策见 [docs/adr](./docs/adr)。
 
