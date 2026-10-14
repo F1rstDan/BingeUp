@@ -69,4 +69,12 @@ describe('开发数据页', () => {
     await waitFor(() => expect(screen.getByText('加载失败：数据库读取失败')).toBeInTheDocument());
     expect(screen.queryByText('card-fsrs')).not.toBeInTheDocument();
   });
+
+  it('主标题使用库 Title 飘带并保持一级标题语义', async () => {
+    render(<DevToolsApp />);
+
+    const heading = screen.getByRole('heading', { level: 1, name: '开发数据' });
+    expect(heading.querySelector('[class^="animal-ribbon-"]')).not.toBeNull();
+    await screen.findByText('card-fsrs');
+  });
 });

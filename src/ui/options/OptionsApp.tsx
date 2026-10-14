@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag } from 'animal-island-ui';
+import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
@@ -167,7 +167,9 @@ export function OptionsApp(): JSX.Element {
   if (error !== null) {
     return (
       <IslandPage className="bingeup-options" label="刷刷升级设置">
-        <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
         <Card className="bingeup-card">
           <p className="bingeup-error">{error.message}</p>
           {notice !== null && (
@@ -194,7 +196,9 @@ export function OptionsApp(): JSX.Element {
   if (settings === null) {
     return (
       <IslandPage className="bingeup-options" label="刷刷升级设置">
-        <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
         <Card className="bingeup-card">
           <p className="bingeup-hint">加载中…</p>
         </Card>
@@ -411,7 +415,9 @@ export function OptionsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-options" label="刷刷升级设置">
-      <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+      <h1 className="bingeup-title">
+        <Title size="large">刷刷升级 — 设置</Title>
+      </h1>
 
       {notice !== null && (
         <Card className="bingeup-notice">

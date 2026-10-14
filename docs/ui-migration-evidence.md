@@ -1225,7 +1225,33 @@ node scripts/measure-bundle-baseline.mjs
 
 hover / active 实测（设置页「保存设置」，浏览器驱动真实鼠标）：hover 背景 rgb(61, 212, 198)（primary-color-hover）、阴影 0px 6px；按住时背景 rgb(80, 185, 171)（primary-color-active）、阴影 0px 1px。遮罩内 primary 按钮在未选答案时处于 disabled（保持奶油底），选中选项启用后过渡为薄荷色——采集断言轮询到稳定值后再截图。
 
-### 4. 截图证据（docs/assets/migration-ui-fixes/）
+### 4. 主标题飘带（库 Title）
+
+各页面主标题改用库 Title 飘带（复用 OnboardingApp 已有模式：h1 包裹 <Title>，标题语义不变；默认色即库的默认绿 27d039）：
+
+- src/ui/options/OptionsApp.tsx 三处 <h1 className="bingeup-title">内容换为 <Title size="large">刷刷升级 — 设置</Title>；
+- src/ui/stats/StatsApp.tsx 三处 <h1> 换为 <Title size="large">学习统计</Title>；
+- src/ui/dev-tools/DevToolsApp.tsx <h1> 换为 <Title size="large">开发数据</Title>（h2 保持不变；该页不进生产构建，以单测覆盖）；
+- src/ui/popup/PopupApp.tsx 品牌区 <strong>刷刷升级</strong> 换为 <Title size="small">刷刷升级</Title>（popup.css 中已死的 .bingeup-brand strong 规则随替换删除）。
+
+窄视口适配（设置页专有）：Title 飘带为 nowrap，28px 下「刷刷升级 — 设置」比 320px 内容列宽更宽（实测 scrollWidth 345 > 320）。options.css 新增 @media (max-width: 420px) 覆盖：飘带字号降到 24px（库 Title 内部尺寸全部用 em，整体等比缩小；选择器基于 animal-ribbon-<hash> 前缀并带 !important，因为 size 属性以内联 font-size 下发）。修复后 320px 实测 scrollWidth = clientWidth = 320，标题完整可见。
+
+验证（真实构建）：
+
+| 场景 | 断言 | 结果 |
+| --- | --- | --- |
+| 设置页 1280px | h1 名称「刷刷升级 — 设置」；飘带字号 28px | 通过（title-options.png） |
+| 设置页 320px | 飘带字号 24px；scrollWidth = clientWidth = 320 | 通过（title-options-320.png） |
+| 统计页 1280px | h1 名称「学习统计」；飘带字号 28px | 通过（title-stats.png） |
+| Popup 品牌区 340px | 品牌区含 Title 飘带；字号 14px | 通过（title-popup-brand.png） |
+| Popup 320px | scrollWidth = clientWidth = 320 | 通过 |
+| M3b 设置页采集复跑（320/360/420/200%） | 均无横向溢出，Select 面板在视口内 | 3 通过（历史截图已恢复） |
+| M2 Popup 采集复跑（320/340/420/200%） | 均无横向溢出 | 5 通过（历史截图已恢复） |
+| M3c 统计页采集复跑 | 1120 与 480 视口均无横向溢出 | 2 通过（历史截图已恢复） |
+| options / stats / popup 既有 e2e | 标题角色与名称断言不变且通过 | 7 通过 |
+| DevToolsApp 单测 | h1 名称「开发数据」且含飘带元素 | 通过 |
+
+### 5. 截图证据（docs/assets/migration-ui-fixes/）
 
 采集命令：$env:CAPTURE_FIXES='1'; npx playwright test e2e/migration-ui-fixes.spec.ts（默认跳过，不参与常规 e2e；需先 npm run build）。
 
@@ -1237,15 +1263,20 @@ hover / active 实测（设置页「保存设置」，浏览器驱动真实鼠�
 | options-modal-danger.png | 数据操作 Modal：确认按钮保持 danger 红色填充（等待入场动效结束后截图） |
 | overlay-primary-buttons.png | 合成 B 站页遮罩：提交并继续 / 提交并结束（薄荷）与跳过（奶油） |
 | enable-prompt-primary.png | 合成 B 站页启用提示：启用（薄荷）与暂不（奶油） |
+| title-options.png / title-options-320.png | 设置页主标题飘带（1280px 与 320px，窄视口字号 24px） |
+| title-stats.png | 统计页主标题飘带 |
+| title-popup-brand.png | Popup 品牌区小号飘带 |
 
-### 5. 既有采集与断言调整
+### 6. 既有采集与断言调整
 
 - e2e/island-notices.spec.ts 的启用提示计算样式断言按新品牌色更新：primary 由奶油 rgb(248, 248, 240) 改为薄荷 rgb(25, 200, 185)、白字、active 阴影色，并新增「暂不」奶油底断言（原断言仅覆盖圆角）；
 - M1–M6b 的历史截图未重采：主按钮品牌色属预期变化，重采会覆盖各阶段历史存档；相关采集脚本默认跳过，常规 e2e 不受影响（本分支新增的采集用例默认跳过；最终门禁复跑数字见本分支最终提交报告与门禁小节）。
 
-### 6. 未验证项与风险
+### 7. 未验证项与风险
 
 - 真实 B 站 / YouTube（宿主页 CSP、真实播放器）下的品牌强调呈现未验证，证据仅为合成页口径（与 M4/M6a 相同限制）；
 - ghost 变体在扩展内没有使用点，排除逻辑为选择器层面（:not([class*='animal-btn-ghost'])），没有应用内视觉案例；text 变体以 Popup「设置」按钮实测覆盖；
 - 遮罩按钮的 hover / active 未逐一截图（与设置页同规则、同令牌，已用计算样式验证默认态）；
-- 禁用态主按钮保持库的奶油置灰外观是本实现的有意选择（任务要求未提及禁用态），如需要禁用态也使用薄荷色需另行调整。
+- 禁用态主按钮保持库的奶油置灰外观是本实现的有意选择（任务要求未提及禁用态），如需要禁用态也使用薄荷色需另行调整；
+- DevTools 开发数据页不进生产构建，其标题飘带仅由单测覆盖（未做真实浏览器采集）；
+- 窄视口标题字号 24px 为适配 320px 溢出的实现选择（阈值 420px），未覆盖更极端宽度（<280px）。

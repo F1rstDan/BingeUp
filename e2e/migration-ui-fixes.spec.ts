@@ -15,6 +15,7 @@ import { expect, pageUrl, test } from './fixtures';
  * - 设置页数字输入框聚焦态：黄色焦点环跟随 50px 胶囊圆角（原方角黄框已修复）；
  * - primary 按钮薄荷品牌强调（设置页保存/导出、遮罩提交/继续、启用提示启用），
  *   并对照 danger（红色，含 Modal 确认按钮）与 default 按钮不受影响；
+ * - 主标题飘带（设置 / 统计 / Popup 品牌区）与 320px 窄视口无横向溢出；
  * - 运行记录写入 .output/migration-ui-fixes-capture.json。
  */
 const captureEnabled = process.env.CAPTURE_FIXES === '1';
@@ -598,5 +599,125 @@ test.describe('UI 修正采集', () => {
     expect(style.boxShadow).toBe('none');
 
     await page.close();
+  });
+
+  test('主标题飘带（设置 / 统计 / Popup）：库 Title 与 320px 无溢出', async ({
+    context,
+    extensionId,
+  }) => {
+    interface TitleAreaInfo {
+      hasRibbon: boolean;
+      fontSize: string | null;
+      text: string;
+      rect: { x: number; y: number; width: number; height: number } | null;
+    }
+    async function readTitleArea(page: Page, selector: string): Promise<TitleAreaInfo> {
+      return page.evaluate((sel) => {
+        const root = document.querySelector(sel);
+        const ribbon = root?.querySelector('[class^="animal-ribbon-"]') ?? null;
+        const rect = ribbon?.getBoundingClientRect() ?? null;
+        const style = ribbon ? getComputedStyle(ribbon) : null;
+        return {
+          hasRibbon: ribbon !== null,
+          fontSize: style?.fontSize ?? null,
+          text: (root?.textContent ?? '').replace(/\s+/g, ' ').trim(),
+          rect:
+            rect === null ? null : { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+        };
+      }, selector);
+    }
+    const clipAround = (
+      rect: { x: number; y: number; width: number; height: number },
+      viewport: { width: number; height: number },
+    ) => ({
+      x: Math.max(0, rect.x - 24),
+      y: Math.max(0, rect.y - 24),
+      width: Math.min(viewport.width, rect.x + rect.width + 24) - Math.max(0, rect.x - 24),
+      height: Math.min(viewport.height, rect.y + rect.height + 24) - Math.max(0, rect.y - 24),
+    });
+
+    // 设置页：h1 包裹 Title size=large，桌面字号保持 28px。
+    const options = await context.newPage();
+    await options.setViewportSize({ width: 1280, height: 900 });
+    await options.goto(pageUrl(extensionId, 'options.html'));
+    await options.getByRole('heading', { level: 1, name: '刷刷升级 — 设置' }).waitFor();
+    const optionsTitle = await readTitleArea(options, '.bingeup-title');
+    expect(optionsTitle.hasRibbon).toBe(true);
+    expect(optionsTitle.text).toBe('刷刷升级 — 设置');
+    expect(optionsTitle.fontSize).toBe('28px');
+    await captureClip(
+      options,
+      'title-options',
+      'title-options.png',
+      clipAround(optionsTitle.rect!, { width: 1280, height: 900 }),
+      { text: optionsTitle.text, fontSize: optionsTitle.fontSize },
+    );
+    // 窄视口（320px）：飘带字号降为 24px，无横向溢出。
+    await options.setViewportSize({ width: 320, height: 800 });
+    await expect
+      .poll(async () => (await readTitleArea(options, '.bingeup-title')).fontSize, {
+        timeout: 3_000,
+        message: '窄视口飘带字号未切换到 24px',
+      })
+      .toBe('24px');
+    const optionsNarrow = await options.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(optionsNarrow.scrollWidth, 'options @320').toBeLessThanOrEqual(
+      optionsNarrow.clientWidth,
+    );
+    const optionsNarrowTitle = await readTitleArea(options, '.bingeup-title');
+    await captureClip(
+      options,
+      'title-options-320',
+      'title-options-320.png',
+      clipAround(optionsNarrowTitle.rect!, { width: 320, height: 800 }),
+      { fontSize: optionsNarrowTitle.fontSize, ...optionsNarrow },
+    );
+    await options.close();
+
+    // 统计页：h1 包裹 Title size=large。
+    const stats = await context.newPage();
+    await stats.setViewportSize({ width: 1280, height: 900 });
+    await stats.goto(pageUrl(extensionId, 'stats.html'));
+    await stats.getByRole('heading', { level: 1, name: '学习统计' }).waitFor();
+    const statsTitle = await readTitleArea(stats, '.bingeup-stats h1');
+    expect(statsTitle.hasRibbon).toBe(true);
+    expect(statsTitle.text).toBe('学习统计');
+    expect(statsTitle.fontSize).toBe('28px');
+    await captureClip(
+      stats,
+      'title-stats',
+      'title-stats.png',
+      clipAround(statsTitle.rect!, { width: 1280, height: 900 }),
+      { text: statsTitle.text, fontSize: statsTitle.fontSize },
+    );
+    await stats.close();
+
+    // Popup 品牌区：Title size=small（14px 飘带），340 与 320 均无横向溢出。
+    const popup = await context.newPage();
+    await popup.setViewportSize({ width: 340, height: 640 });
+    await popup.goto(pageUrl(extensionId, 'popup.html'));
+    await popup.locator('.bingeup-brand').waitFor();
+    const brandTitle = await readTitleArea(popup, '.bingeup-brand');
+    expect(brandTitle.hasRibbon).toBe(true);
+    expect(brandTitle.text).toContain('刷刷升级');
+    expect(brandTitle.fontSize).toBe('14px');
+    await captureClip(
+      popup,
+      'title-popup-brand',
+      'title-popup-brand.png',
+      clipAround(brandTitle.rect!, { width: 340, height: 640 }),
+      { text: brandTitle.text, fontSize: brandTitle.fontSize },
+    );
+    await popup.setViewportSize({ width: 320, height: 640 });
+    await popup.waitForTimeout(200);
+    const popupNarrow = await popup.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(popupNarrow.scrollWidth, 'popup @320').toBeLessThanOrEqual(popupNarrow.clientWidth);
+    await popup.close();
   });
 });

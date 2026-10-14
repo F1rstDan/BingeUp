@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Progress, Tabs, Tag, type TagColor } from 'animal-island-ui';
+import { Card, Progress, Tabs, Tag, Title, type TagColor } from 'animal-island-ui';
 import type { LearningStats } from '@/types';
 import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
@@ -69,7 +69,9 @@ export function StatsApp(): JSX.Element {
   if (error !== null) {
     return (
       <IslandPage className="bingeup-stats" label="学习统计">
-        <h1>学习统计</h1>
+        <h1>
+          <Title size="large">学习统计</Title>
+        </h1>
         <Card className="bingeup-stats-state-card">
           <p className="bingeup-stats-error">加载失败：{error}</p>
         </Card>
@@ -80,7 +82,9 @@ export function StatsApp(): JSX.Element {
   if (stats === null) {
     return (
       <IslandPage className="bingeup-stats" label="学习统计">
-        <h1>学习统计</h1>
+        <h1>
+          <Title size="large">学习统计</Title>
+        </h1>
         <Card className="bingeup-stats-state-card">
           <p className="bingeup-stats-loading">加载中…</p>
         </Card>
@@ -305,7 +309,9 @@ export function StatsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-stats" label="学习统计">
-      <h1>学习统计</h1>
+      <h1>
+        <Title size="large">学习统计</Title>
+      </h1>
       <Tabs className="bingeup-stats-tabs" aria-label="统计分区" items={tabsItems} />
     </IslandPage>
   );

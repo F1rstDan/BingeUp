@@ -47,12 +47,8 @@ body {
   object-fit: contain;
 }
 
-.bingeup-brand strong {
-  overflow-wrap: anywhere;
-  color: var(--island-text-color);
-  font-size: 16px;
-  font-weight: 900;
-}
+/* 品牌文字自 2026-10-14 起使用库 Title 飘带（size=small），字号与配色来自库组件，
+   本文件不再覆盖；原生 strong 规则已随替换删除。 */
 
 /* ─── 站点状态卡 ─────────────────────────────────────────── */
 
