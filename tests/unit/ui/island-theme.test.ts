@@ -38,4 +38,10 @@ describe('island 主题衔接静态规则', () => {
     expect(css).not.toContain('--bingeup');
     expect(css).not.toMatch(HEX_COLOR);
   });
+
+  it('设置页样式不引用旧蓝粉令牌与写死颜色（M3b）', () => {
+    const css = readProjectFile('src/entrypoints/options/options.css');
+    expect(css).not.toContain('--bingeup');
+    expect(css).not.toMatch(HEX_COLOR);
+  });
 });
