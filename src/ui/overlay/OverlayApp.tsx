@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, Card, Input, Tag } from 'animal-island-ui';
+import { CheckCircleIcon, CheckIcon, XCircleIcon } from 'naive-icons';
 import type {
   CorrectionResult,
   LearningItem,
@@ -32,6 +34,11 @@ function ratingLabel(rating: CorrectionResult['rating']): string {
   return rating[0]!.toUpperCase() + rating.slice(1);
 }
 
+/** 快捷键提示：按钮内的装饰性提示，用原版令牌着色，不覆盖按钮组件样式。 */
+function KeyHint({ children }: { children: string }) {
+  return <span className="bingeup-key-hint">{children}</span>;
+}
+
 interface OverlayAppProps {
   item: LearningItem;
   onAction: (action: OverlayAction) => unknown | Promise<unknown>;
@@ -44,7 +51,11 @@ interface OverlayAppProps {
 }
 
 /**
- * 学习遮罩 React 应用（Issue #6 / #7 / #8）。
+ * 学习遮罩 React 应用（Issue #6 / #7 / #8；M5 工单 #44 原版视觉迁移）。
+ *
+ * 渲染在 OverlayController 的 ShadowRoot 内，使用 animal-island-ui 的原版
+ * Card/Button/Input/Tag 与 --animal-* 令牌；自定义外壳只负责布局与令牌着色，
+ * 不覆盖库组件的颜色、圆角或阴影。
  *
  * 单题模式：根据 LearningItem 渲染新词展示或题目。
  * - 新词展示：词形、释义、例句 + "知道了"/"我认识，换一个"/"跳过"；
@@ -52,7 +63,7 @@ interface OverlayAppProps {
  * - 快捷键仅在组件挂载期间生效（document 级监听，卸载即移除）。
  *
  * 连续学习模式（Issue #8）：
- * - 顶部展示上一题的无障碍反馈（文字 + 图标，不仅依赖颜色）；
+ * - 顶部展示上一题的无障碍反馈（文字 + naive-icons 图标，不仅依赖颜色）；
  * - 选择题/拼写题动作固定为"跳过" + "提交并继续" + "提交并结束"；
  * - 新词展示动作变为"知道了，继续" / "我认识，换一个" + "结束学习"；
  * - "跳过"不提交当前题；"提交并结束"提交当前题并按完成处理。
@@ -80,7 +91,7 @@ export function OverlayApp({
   const [showExplanation, setShowExplanation] = useState(false);
   const [done, setDone] = useState(false);
   const startTimeRef = useRef<number>(Date.now());
-  const spellingInputRef = useRef<HTMLInputElement | null>(null);
+  const spellingInputRef = useRef<HTMLDivElement | null>(null);
 
   /** 终态动作：禁用所有交互并发出回调。 */
   const fireFinal = useCallback(
@@ -154,7 +165,7 @@ export function OverlayApp({
     onAction({
       type: 'submit-spelling-and-end',
       question: item.question,
-      spelledAnswer,
+      spelledAnswer: spelledAnswer,
       responseTimeMs: Date.now() - startTimeRef.current,
       answerChanges,
     });
@@ -211,30 +222,34 @@ export function OverlayApp({
     if (result === null || !result.isCorrect) return null;
     const disabled = correctionPending || correctionResult !== null;
     return (
-      <div className="bingeup-rating-correction" aria-label="评分纠正">
-        <button
-          type="button"
+      <div className="bingeup-rating-correction" role="group" aria-label="评分纠正">
+        <Button
+          size="small"
           onClick={() => void correctRating(result.reviewLogId, 'guessed')}
           disabled={disabled}
         >
           其实是蒙的
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          size="small"
           onClick={() => void correctRating(result.reviewLogId, 'too-easy')}
           disabled={disabled}
         >
           这个太简单
-        </button>
-        {correctionResult && <span>已调整为 {ratingLabel(correctionResult.rating)}</span>}
+        </Button>
+        {correctionResult && (
+          <span className="bingeup-rating-result">
+            已调整为 {ratingLabel(correctionResult.rating)}
+          </span>
+        )}
       </div>
     );
   };
 
-  // ─── 拼写题自动聚焦输入框 ──────────────────────────────────
+  // ─── 拼写题自动聚焦输入框（库 Input 不转发 ref，聚焦其内部 input） ──
   useEffect(() => {
     if (item.kind === 'spelling-question' && !submitted && !done) {
-      spellingInputRef.current?.focus();
+      spellingInputRef.current?.querySelector('input')?.focus();
     }
   }, [item, submitted, done]);
 
@@ -366,8 +381,8 @@ export function OverlayApp({
     if (!isContinuous || !previousFeedback) return null;
     const isCorrect = previousFeedback.isCorrect;
     return (
-      <div
-        className={`bingeup-previous-feedback ${isCorrect ? 'correct' : 'wrong'}`}
+      <section
+        className={`bingeup-previous-feedback ${isCorrect ? 'is-correct' : 'is-wrong'}`}
         role="status"
         aria-label={`上一题${isCorrect ? '答对' : '答错'}`}
       >
@@ -375,20 +390,15 @@ export function OverlayApp({
         {previousQuestion && (
           <div className="bingeup-previous-feedback-prompt">{previousQuestion.prompt}</div>
         )}
-        <div className={`bingeup-previous-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-          <span
-            className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
-            aria-hidden="true"
-          >
-            {isCorrect ? '✓' : '✗'}
-          </span>
-          {isCorrect ? '答对了' : '答错了'}
+        <div className={`bingeup-feedback-result ${isCorrect ? 'is-correct' : 'is-wrong'}`}>
+          {isCorrect ? <CheckCircleIcon size={22} /> : <XCircleIcon size={22} />}
+          <span>{isCorrect ? '答对了' : '答错了'}</span>
         </div>
         <div className="bingeup-previous-feedback-answer">
-          正确答案：<span className="correct-answer">{previousFeedback.correctAnswer}</span>
+          正确答案：<strong>{previousFeedback.correctAnswer}</strong>
         </div>
         {renderRatingCorrection(previousFeedback)}
-      </div>
+      </section>
     );
   };
 
@@ -415,8 +425,12 @@ export function OverlayApp({
     const { word } = item.presentation;
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
-        <div className="bingeup-card">
-          {isContinuous && <div className="bingeup-continuous-badge">连续学习</div>}
+        <Card className="bingeup-card">
+          {isContinuous && (
+            <div className="bingeup-continuous-badge">
+              <Tag size="small">连续学习</Tag>
+            </div>
+          )}
           {renderPreviousFeedback()}
           <div className="bingeup-new-word">
             <div className="bingeup-prompt">{word.word}</div>
@@ -428,63 +442,47 @@ export function OverlayApp({
           <div className="bingeup-actions bingeup-actions-new-word">
             {isContinuous ? (
               <>
-                <button
-                  type="button"
-                  className="bingeup-accept"
+                <Button
+                  type="primary"
                   onClick={() =>
                     onAction({ type: 'accept-new-word-and-continue', wordId: word.id })
                   }
                   disabled={done}
                 >
-                  知道了，继续 <span className="bingeup-key-hint">1</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-self-report"
+                  知道了，继续 <KeyHint>1</KeyHint>
+                </Button>
+                <Button
                   onClick={() => onAction({ type: 'self-report-and-continue', wordId: word.id })}
                   disabled={done}
                 >
-                  我认识，换一个 <span className="bingeup-key-hint">2</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-exit"
-                  onClick={() => fireFinal({ type: 'exit-learning' })}
-                  disabled={done}
-                >
-                  结束学习 <span className="bingeup-key-hint">Esc</span>
-                </button>
+                  我认识，换一个 <KeyHint>2</KeyHint>
+                </Button>
+                <Button onClick={() => fireFinal({ type: 'exit-learning' })} disabled={done}>
+                  结束学习 <KeyHint>Esc</KeyHint>
+                </Button>
               </>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="bingeup-accept"
+                <Button
+                  type="primary"
                   onClick={() => fireFinal({ type: 'accept-new-word', wordId: word.id })}
                   disabled={done}
                 >
-                  知道了 <span className="bingeup-key-hint">1</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-self-report"
+                  知道了 <KeyHint>1</KeyHint>
+                </Button>
+                <Button
                   onClick={() => fireFinal({ type: 'self-report', wordId: word.id })}
                   disabled={done}
                 >
-                  我认识，换一个 <span className="bingeup-key-hint">2</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-skip"
-                  onClick={() => fireFinal({ type: 'skip' })}
-                  disabled={done}
-                >
-                  跳过 <span className="bingeup-key-hint">3</span>
-                </button>
+                  我认识，换一个 <KeyHint>2</KeyHint>
+                </Button>
+                <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                  跳过 <KeyHint>3</KeyHint>
+                </Button>
               </>
             )}
           </div>
-        </div>
+        </Card>
       </div>
     );
   }
@@ -500,64 +498,61 @@ export function OverlayApp({
       (normalizedSpelled === normalizedCorrect || acceptable.includes(normalizedSpelled));
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词拼写">
-        <div className="bingeup-card">
-          {isContinuous && <div className="bingeup-continuous-badge">连续学习</div>}
+        <Card className="bingeup-card">
+          {isContinuous && (
+            <div className="bingeup-continuous-badge">
+              <Tag size="small">连续学习</Tag>
+            </div>
+          )}
           {renderPreviousFeedback()}
           <div className="bingeup-prompt">{question.prompt}</div>
           <div className="bingeup-phonetic">请输入英文单词</div>
-          <input
-            ref={spellingInputRef}
-            type="text"
-            className="bingeup-spelling-input"
-            value={spelledAnswer}
-            onChange={(e) => changeSpellingAnswer(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && spelledAnswer.trim() !== '' && !submitted && !done) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (isContinuous) {
-                  if (e.shiftKey) {
-                    doSubmitSpellingAndContinue();
+          <div className="bingeup-spelling-field" ref={spellingInputRef}>
+            <Input
+              size="large"
+              value={spelledAnswer}
+              onChange={(e) => changeSpellingAnswer(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && spelledAnswer.trim() !== '' && !submitted && !done) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isContinuous) {
+                    if (e.shiftKey) {
+                      doSubmitSpellingAndContinue();
+                    } else {
+                      doSubmitSpellingAndEnd();
+                    }
                   } else {
-                    doSubmitSpellingAndEnd();
+                    doSubmitSpelling();
                   }
-                } else {
-                  doSubmitSpelling();
                 }
-              }
-            }}
-            placeholder="输入单词..."
-            disabled={submitted || done}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-          />
+              }}
+              placeholder="输入单词..."
+              disabled={submitted || done}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+          </div>
 
           {submitted ? (
             <div className="bingeup-feedback">
-              <div className={`bingeup-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-                <span
-                  className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
-                  aria-hidden="true"
-                >
-                  {isCorrect ? '✓' : '✗'}
-                </span>
-                {isCorrect ? '答对了' : '答错了'}
+              <div
+                className={`bingeup-feedback-result ${isCorrect ? 'is-correct' : 'is-wrong'}`}
+              >
+                {isCorrect ? <CheckCircleIcon size={22} /> : <XCircleIcon size={22} />}
+                <span>{isCorrect ? '答对了' : '答错了'}</span>
               </div>
               {!isCorrect && (
                 <div className="bingeup-feedback-answer">
-                  正确答案：<span className="correct-answer">{question.correctAnswer}</span>
+                  正确答案：<strong>{question.correctAnswer}</strong>
                 </div>
               )}
               {isCorrect ? (
                 <>
-                  <button
-                    type="button"
-                    className="bingeup-explanation-toggle"
-                    onClick={() => setShowExplanation((s) => !s)}
-                  >
+                  <Button type="dashed" block onClick={() => setShowExplanation((s) => !s)}>
                     {showExplanation ? '收起' : '学习信息'}
-                  </button>
+                  </Button>
                   {showExplanation && renderExplanation(question)}
                 </>
               ) : (
@@ -570,30 +565,19 @@ export function OverlayApp({
                   role="group"
                   aria-label="题目操作"
                 >
-                  <button
-                    type="button"
-                    className="bingeup-skip"
+                  <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                    跳过 <KeyHint>Esc</KeyHint>
+                  </Button>
+                  <Button type="primary" onClick={doSubmitSpellingAndContinue} disabled={done}>
+                    继续 <KeyHint>Shift + Enter</KeyHint>
+                  </Button>
+                  <Button
+                    type="primary"
                     onClick={() => fireFinal({ type: 'skip' })}
                     disabled={done}
                   >
-                    跳过 <span className="bingeup-key-hint">Esc</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-continue"
-                    onClick={doSubmitSpellingAndContinue}
-                    disabled={done}
-                  >
-                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-submit"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    明白了 <span className="bingeup-key-hint">Enter</span>
-                  </button>
+                    明白了 <KeyHint>Enter</KeyHint>
+                  </Button>
                 </div>
               )}
             </div>
@@ -605,44 +589,36 @@ export function OverlayApp({
             >
               {isContinuous ? (
                 <>
-                  <button
-                    type="button"
-                    className="bingeup-skip"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    跳过 <span className="bingeup-key-hint">Esc</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-continue"
+                  <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                    跳过 <KeyHint>Esc</KeyHint>
+                  </Button>
+                  <Button
+                    type="primary"
                     onClick={doSubmitSpellingAndContinue}
                     disabled={spelledAnswer.trim() === '' || done}
                   >
-                    提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-exit"
+                    提交并继续 <KeyHint>Shift + Enter</KeyHint>
+                  </Button>
+                  <Button
+                    type="primary"
                     onClick={doSubmitSpellingAndEnd}
                     disabled={spelledAnswer.trim() === '' || done}
                   >
-                    提交并结束 <span className="bingeup-key-hint">Enter</span>
-                  </button>
+                    提交并结束 <KeyHint>Enter</KeyHint>
+                  </Button>
                 </>
               ) : (
-                <button
-                  type="button"
-                  className="bingeup-submit"
+                <Button
+                  type="primary"
                   onClick={doSubmitSpelling}
                   disabled={spelledAnswer.trim() === '' || done}
                 >
                   提交
-                </button>
+                </Button>
               )}
             </div>
           )}
-        </div>
+        </Card>
       </div>
     );
   }
@@ -653,53 +629,64 @@ export function OverlayApp({
 
   return (
     <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
-      <div className="bingeup-card">
-        {isContinuous && <div className="bingeup-continuous-badge">连续学习</div>}
+      <Card className="bingeup-card">
+        {isContinuous && (
+          <div className="bingeup-continuous-badge">
+            <Tag size="small">连续学习</Tag>
+          </div>
+        )}
         {renderPreviousFeedback()}
         <div className="bingeup-prompt">{question.prompt}</div>
         <div className="bingeup-options" role="group" aria-label="选项">
-          {question.options.map((option, idx) => (
-            <button
-              key={idx}
-              type="button"
-              className={`bingeup-option ${selected === idx ? 'selected' : ''} ${
-                submitted && idx === question.correctIndex ? 'correct' : ''
-              } ${submitted && selected === idx && idx !== question.correctIndex ? 'wrong' : ''}`}
-              onClick={() => !submitted && !done && selectAnswer(idx)}
-              disabled={submitted || done}
-            >
-              <span className="bingeup-option-key">{String.fromCharCode(65 + idx)}</span>
-              <span className="bingeup-option-text">{option}</span>
-            </button>
-          ))}
+          {question.options.map((option, idx) => {
+            const selectedOption = !submitted && selected === idx;
+            const showCorrect = submitted && idx === question.correctIndex;
+            const showWrong = submitted && selected === idx && idx !== question.correctIndex;
+            const optionClass = [
+              'bingeup-option',
+              selectedOption ? 'bingeup-option--selected' : '',
+              showCorrect ? 'bingeup-option--correct' : '',
+              showWrong ? 'bingeup-option--wrong' : '',
+            ]
+              .filter(Boolean)
+              .join(' ');
+            return (
+              <button
+                key={idx}
+                type="button"
+                className={optionClass}
+                aria-pressed={submitted ? undefined : selectedOption}
+                onClick={() => !submitted && !done && selectAnswer(idx)}
+                disabled={submitted || done}
+              >
+                <span className="bingeup-option-key" aria-hidden="true">
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <span className="bingeup-option-text">{option}</span>
+                {selectedOption && <CheckIcon className="bingeup-option-icon" size={18} />}
+                {showCorrect && <CheckCircleIcon className="bingeup-option-icon" size={22} />}
+                {showWrong && <XCircleIcon className="bingeup-option-icon" size={22} />}
+              </button>
+            );
+          })}
         </div>
 
         {submitted ? (
           <div className="bingeup-feedback">
-            <div className={`bingeup-feedback-result ${isCorrect ? 'correct' : 'wrong'}`}>
-              <span
-                className={`bingeup-feedback-icon ${isCorrect ? 'correct' : 'wrong'}`}
-                aria-hidden="true"
-              >
-                {isCorrect ? '✓' : '✗'}
-              </span>
-              {isCorrect ? '答对了' : '答错了'}
+            <div className={`bingeup-feedback-result ${isCorrect ? 'is-correct' : 'is-wrong'}`}>
+              {isCorrect ? <CheckCircleIcon size={22} /> : <XCircleIcon size={22} />}
+              <span>{isCorrect ? '答对了' : '答错了'}</span>
             </div>
             {!isCorrect && (
               <div className="bingeup-feedback-answer">
-                正确答案：
-                <span className="correct-answer">{question.options[question.correctIndex]}</span>
+                正确答案：<strong>{question.options[question.correctIndex]}</strong>
               </div>
             )}
             {isCorrect ? (
               <>
-                <button
-                  type="button"
-                  className="bingeup-explanation-toggle"
-                  onClick={() => setShowExplanation((s) => !s)}
-                >
+                <Button type="dashed" block onClick={() => setShowExplanation((s) => !s)}>
                   {showExplanation ? '收起' : '学习信息'}
-                </button>
+                </Button>
                 {showExplanation && renderExplanation(question)}
               </>
             ) : (
@@ -711,88 +698,15 @@ export function OverlayApp({
               role="group"
               aria-label="题目操作"
             >
-              {isContinuous ? (
-                <>
-                  <button
-                    type="button"
-                    className="bingeup-skip"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    跳过 <span className="bingeup-key-hint">Esc</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-continue"
-                    onClick={doSubmitAndContinue}
-                    disabled={done}
-                  >
-                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-submit"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    明白了 <span className="bingeup-key-hint">Enter</span>
-                  </button>
-                </>
-              ) : isCorrect ? (
-                <>
-                  <button
-                    type="button"
-                    className="bingeup-skip"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    跳过 <span className="bingeup-key-hint">Esc</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-continue"
-                    onClick={doSubmitAndContinue}
-                    disabled={done}
-                  >
-                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-submit"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    明白了 <span className="bingeup-key-hint">Enter</span>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="bingeup-skip"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    跳过 <span className="bingeup-key-hint">Esc</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-continue"
-                    onClick={doSubmitAndContinue}
-                    disabled={done}
-                  >
-                    继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="bingeup-submit"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    明白了 <span className="bingeup-key-hint">Enter</span>
-                  </button>
-                </>
-              )}
+              <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                跳过 <KeyHint>Esc</KeyHint>
+              </Button>
+              <Button type="primary" onClick={doSubmitAndContinue} disabled={done}>
+                继续 <KeyHint>Shift + Enter</KeyHint>
+              </Button>
+              <Button type="primary" onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                明白了 <KeyHint>Enter</KeyHint>
+              </Button>
             </div>
           </div>
         ) : (
@@ -803,62 +717,45 @@ export function OverlayApp({
           >
             {isContinuous ? (
               <>
-                <button
-                  type="button"
-                  className="bingeup-skip"
-                  onClick={() => fireFinal({ type: 'skip' })}
-                  disabled={done}
-                >
-                  跳过 <span className="bingeup-key-hint">Esc</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-continue"
+                <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                  跳过 <KeyHint>Esc</KeyHint>
+                </Button>
+                <Button
+                  type="primary"
                   onClick={doSubmitAndContinue}
                   disabled={selected === null || done}
                 >
-                  提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-exit"
+                  提交并继续 <KeyHint>Shift + Enter</KeyHint>
+                </Button>
+                <Button
+                  type="primary"
                   onClick={doSubmitAndEnd}
                   disabled={selected === null || done}
                 >
-                  提交并结束 <span className="bingeup-key-hint">Enter</span>
-                </button>
+                  提交并结束 <KeyHint>Enter</KeyHint>
+                </Button>
               </>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="bingeup-skip"
-                  onClick={() => fireFinal({ type: 'skip' })}
-                  disabled={done}
-                >
-                  跳过 <span className="bingeup-key-hint">Esc</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-continue"
+                <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
+                  跳过 <KeyHint>Esc</KeyHint>
+                </Button>
+                <Button
+                  type="primary"
                   onClick={doSubmitAndContinue}
                   disabled={selected === null || done}
                 >
-                  提交并继续 <span className="bingeup-key-hint">Shift + Enter</span>
-                </button>
-                <button
-                  type="button"
-                  className="bingeup-submit"
-                  onClick={doSubmit}
-                  disabled={selected === null || done}
-                >
-                  提交 <span className="bingeup-key-hint">Enter</span>
-                </button>
+                  提交并继续 <KeyHint>Shift + Enter</KeyHint>
+                </Button>
+                <Button type="primary" onClick={doSubmit} disabled={selected === null || done}>
+                  提交 <KeyHint>Enter</KeyHint>
+                </Button>
               </>
             )}
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 }
+

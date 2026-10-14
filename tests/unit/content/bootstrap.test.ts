@@ -42,15 +42,30 @@ vi.mock('@/content/enable-prompt', () => ({
   showEnablePrompt,
 }));
 
-// M4 PoC：引导/启动诊断用例不验证岛屿组件本体，避免把 animal-island-ui 的整个
-// 模块图拉进本文件的静态导入（组件与样式装载由 overlay-controller 单测与 e2e 覆盖）。
+// 引导/启动诊断用例不验证样式装载与遮罩内容本身：shadow-styles 提供最小夹具，
+// OverlayApp 替换为占位组件，避免每个用例 vi.resetModules() 后重新求值完整的
+// animal-island-ui 组件图；真实 CSS/字体管线由 overlay-controller 单测、构建产物
+// 校验与 e2e 覆盖，遮罩状态由 OverlayApp 单测覆盖。
 vi.mock('@/ui/island/shadow-styles', () => ({
   getIslandShadowStyleBundle: () => ({ css: ':host{--animal-test: 1}', fontFaces: [] }),
   registerIslandFontFaces: () => undefined,
 }));
-vi.mock('@/ui/island/IslandShadowPreview', () => ({
-  ISLAND_SHADOW_PREVIEW_CSS: '.bingeup-island-preview{position:absolute;inset:0}',
-  IslandShadowPreview: () => null,
+vi.mock('@/ui/overlay/OverlayApp', () => ({
+  OverlayApp: () => null,
+}));
+// overlay-controller 的错误边界引用库组件与图标；这里给同样形状的最小占位，
+// 避免每个用例重新求值完整组件图（真实管线由 overlay-controller 单测与 e2e 覆盖）。
+vi.mock('animal-island-ui', () => ({
+  Button: () => null,
+  Card: () => null,
+  Input: () => null,
+  Tag: () => null,
+}));
+vi.mock('naive-icons', () => ({
+  AlertCircleIcon: () => null,
+  CheckCircleIcon: () => null,
+  CheckIcon: () => null,
+  XCircleIcon: () => null,
 }));
 
 describe('bootstrapContent — 启动诊断', () => {
@@ -255,16 +270,12 @@ describe('bootstrapContent — 启动诊断', () => {
 
     await expect(response).resolves.toEqual({ ok: true });
 
-    // M4 Shadow DOM PoC 临时开关（工单 #43）：预览消息只在遮罩 ShadowRoot 内渲染。
-    const previewResponse = vi.fn();
-    expect(listener({ type: 'ISLAND_POC_PREVIEW' }, {}, previewResponse)).toBe(false);
-    expect(previewResponse).toHaveBeenCalledWith({ ok: true });
-    expect(document.getElementById('bingeup-island-preview-host')).not.toBeNull();
-
-    const closeResponse = vi.fn();
-    expect(listener({ type: 'ISLAND_POC_CLOSE' }, {}, closeResponse)).toBe(false);
-    expect(closeResponse).toHaveBeenCalledWith({ ok: true });
-    expect(document.getElementById('bingeup-island-preview-host')).toBeNull();
+    // 主动学习已在真实遮罩宿主内打开岛屿样式界面（M5 工单 #44）。
+    expect(document.getElementById('bingeup-overlay-host')).not.toBeNull();
+    // 清理：移除宿主触发恢复路径，卸载 React 树与 document 级键盘监听器。
+    document.getElementById('bingeup-overlay-host')?.remove();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(document.getElementById('bingeup-overlay-host')).toBeNull();
 
     const devListener = addListener.mock.calls[1]?.[0] as (
       message: unknown,

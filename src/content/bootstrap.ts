@@ -326,27 +326,6 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
         });
       return true; // 异步响应
     }
-    // M4 Shadow DOM PoC 临时开关（工单 #43）：只有扩展内部上下文能发送本消息，页面无法触发；
-    // 用于在真实浏览器验证遮罩 ShadowRoot 的样式与字体管线，M5 迁移完成后随 PoC 一起删除。
-    if (message?.type === 'ISLAND_POC_PREVIEW') {
-      const context = adapterPort.getCurrentLearningContext();
-      if (context === null) {
-        sendResponse({ ok: false, reason: 'no-target' });
-        return false;
-      }
-      // 与 ContentController 相同的目标回退：视频矩形或文档根（全网页遮罩）。
-      const target =
-        context.overlayTarget ??
-        (context.video !== null ? context.video.getBoundingClientRect() : document.documentElement);
-      overlay.openIslandPreview(target, context.overlayMode);
-      sendResponse({ ok: true });
-      return false;
-    }
-    if (message?.type === 'ISLAND_POC_CLOSE') {
-      overlay.close();
-      sendResponse({ ok: true });
-      return false;
-    }
     return false;
   });
 

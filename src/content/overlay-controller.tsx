@@ -1,103 +1,179 @@
 import { Component, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { IslandShadowPreview, ISLAND_SHADOW_PREVIEW_CSS } from '@/ui/island/IslandShadowPreview';
+import { Button, Card } from 'animal-island-ui';
+import { AlertCircleIcon } from 'naive-icons';
 import {
   getIslandShadowStyleBundle,
   registerIslandFontFaces,
 } from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
-import { SHADOW_DESIGN_TOKENS } from '@/ui/styles/shadow-design';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
 
 const OVERLAY_HOST_ID = 'bingeup-overlay-host';
 
-/** M4 PoC 预览宿主 id：只承载实验预览，M5 迁移完成后删除。 */
-const ISLAND_PREVIEW_HOST_ID = 'bingeup-island-preview-host';
-
-const OVERLAY_CSS = `
-  ${SHADOW_DESIGN_TOKENS}
-  .bingeup-overlay {
-    position: absolute; inset: 0; display: grid; width: 100%; height: 100%; place-items: center; overflow: visible;
-    color: var(--bingeup-ink); background: rgba(31, 41, 55, .72); font-family: var(--bingeup-font);
-  }
-  .bingeup-card {
-    box-sizing: border-box; width: min(470px, calc(100% - 30px));
-    padding: 24px 22px 20px; border: 1px solid var(--bingeup-line);
-    border-radius: var(--bingeup-radius-lg); background: rgba(255, 255, 255, .86); box-shadow: var(--bingeup-shadow);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  }
-  .bingeup-prompt { margin-bottom: 18px; color: var(--bingeup-ink); font-size: 27px; font-weight: 900; text-align: center; letter-spacing: -.06em; }
-  .bingeup-phonetic { margin-bottom: 12px; color: var(--bingeup-muted); font-size: 15px; text-align: center; }
-  .bingeup-meaning { margin-bottom: 14px; color: #4e6072; font-size: 17px; font-weight: 800; text-align: center; }
-  .bingeup-example { margin-bottom: 4px; color: #637589; font-size: 14px; font-style: italic; line-height: 1.5; }
-  .bingeup-example-translation { margin-bottom: 18px; color: var(--bingeup-muted); font-size: 13px; }
-  .bingeup-options { display: grid; gap: 9px; margin-bottom: 18px; }
-  .bingeup-option {
-    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 8px 10px;
-    border: 1.5px solid #e4ebf1; border-radius: 12px; background: #fff; color: var(--bingeup-ink);
-    font-size: 15px; font-weight: 800; text-align: left; cursor: pointer; transition: 140ms ease;
-  }
-  .bingeup-option:not(:disabled):hover { border-color: #9bd4f8; background: #f8fcff; transform: translateX(2px); }
-  .bingeup-option.selected { border-color: var(--bingeup-blue); background: var(--bingeup-blue-soft); box-shadow: 0 3px 0 #b9def6; }
-  .bingeup-option.correct { border-color: var(--bingeup-green); background: var(--bingeup-green-soft); box-shadow: 0 3px 0 #b4edcf; }
-  .bingeup-option.wrong { border-color: var(--bingeup-pink); background: var(--bingeup-pink-soft); box-shadow: 0 3px 0 #ffc8d3; }
-  .bingeup-option:disabled { cursor: default; opacity: 1; }
-  .bingeup-option-key { display: inline-flex; flex-shrink: 0; width: 28px; height: 28px; align-items: center; justify-content: center; border-radius: 8px; color: #526274; background: #f0f3f6; font-size: 12px; font-weight: 900; }
-  .bingeup-option.selected .bingeup-option-key { color: #fff; background: var(--bingeup-blue); }
-  .bingeup-option.correct .bingeup-option-key { color: #fff; background: var(--bingeup-green); }
-  .bingeup-option.wrong .bingeup-option-key { color: #fff; background: var(--bingeup-pink); }
-  .bingeup-actions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: flex-end; }
-  .bingeup-question-actions { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.55fr) minmax(0, 1.7fr); width: 100%; align-items: stretch; }
-  .bingeup-question-actions > button { box-sizing: border-box; width: 100%; min-width: 0; padding-right: 6px; padding-left: 6px; font-size: 13px; white-space: nowrap; }
-  .bingeup-question-actions > button .bingeup-key-hint { margin-left: 2px; padding-right: 3px; padding-left: 3px; font-size: 10px; }
-  .bingeup-actions-new-word { flex-direction: column; }
-  .bingeup-submit, .bingeup-skip, .bingeup-accept, .bingeup-self-report, .bingeup-continue, .bingeup-exit, .bingeup-explanation-toggle {
-    min-height: 40px; padding: 8px 14px; border: 0; border-radius: 12px; font-family: var(--bingeup-font); font-size: 14px; font-weight: 900; cursor: pointer; transition: 140ms ease;
-  }
-  .bingeup-submit, .bingeup-accept, .bingeup-continue { color: #fff; background: var(--bingeup-blue); box-shadow: 0 3px 0 var(--bingeup-blue-dark); }
-  .bingeup-skip, .bingeup-self-report, .bingeup-exit { color: #536476; background: #eef2f5; box-shadow: 0 3px 0 #dbe2e8; }
-  .bingeup-explanation-toggle { width: 100%; margin-bottom: 10px; border: 1px solid #dce5ec; background: #fff; color: #637589; }
-  .bingeup-rating-correction { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
-  .bingeup-rating-correction button { min-height: 38px; border: 1px solid var(--bingeup-line); border-radius: 10px; background: #fff; color: #536476; font-weight: 800; cursor: pointer; }
-  .bingeup-rating-correction button:disabled { cursor: default; opacity: .55; }
-  .bingeup-rating-correction span { grid-column: 1 / -1; color: var(--bingeup-blue-dark); font-size: 12px; font-weight: 800; text-align: center; }
-  .bingeup-submit:not(:disabled):hover, .bingeup-accept:not(:disabled):hover, .bingeup-continue:not(:disabled):hover { background: #2198ee; }
-  .bingeup-submit:not(:disabled):hover, .bingeup-skip:not(:disabled):hover, .bingeup-accept:not(:disabled):hover, .bingeup-self-report:not(:disabled):hover, .bingeup-continue:not(:disabled):hover, .bingeup-exit:not(:disabled):hover, .bingeup-explanation-toggle:hover { transform: translateY(-2px); }
-  .bingeup-submit:not(:disabled):active, .bingeup-skip:not(:disabled):active, .bingeup-accept:not(:disabled):active, .bingeup-self-report:not(:disabled):active, .bingeup-continue:not(:disabled):active, .bingeup-exit:not(:disabled):active, .bingeup-explanation-toggle:active { transform: translateY(1px); }
-  .bingeup-submit:disabled, .bingeup-accept:disabled, .bingeup-continue:disabled, .bingeup-skip:disabled, .bingeup-self-report:disabled, .bingeup-exit:disabled { cursor: default; opacity: .5; }
-  .bingeup-key-hint { display: inline-block; margin-left: 4px; padding: 1px 5px; border: 1px solid rgba(82, 98, 116, .18); border-radius: 4px; background: rgba(255, 255, 255, .42); color: inherit; font-size: 11px; font-weight: 800; }
-  .bingeup-feedback { margin-top: 16px; padding: 15px; border: 1px solid var(--bingeup-line); border-radius: var(--bingeup-radius-md); background: #fbfdff; }
-  .bingeup-feedback-result { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 11px; font-size: 18px; font-weight: 900; }
-  .bingeup-feedback-answer { margin-bottom: 12px; color: var(--bingeup-muted); font-size: 13px; text-align: center; }
-  .bingeup-feedback-answer .correct-answer { color: var(--bingeup-ink); font-weight: 800; }
-  .bingeup-feedback-result.correct { color: var(--bingeup-green-dark); }
-  .bingeup-feedback-result.wrong { color: var(--bingeup-pink-dark); }
-  .bingeup-feedback-icon { display: inline-flex; flex-shrink: 0; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-size: 14px; font-weight: 700; }
-  .bingeup-feedback-icon.correct { background: var(--bingeup-green); }
-  .bingeup-feedback-icon.wrong { background: var(--bingeup-pink); }
-  .bingeup-explanation { margin-bottom: 14px; padding: 12px 14px; border: 1px solid var(--bingeup-line); border-radius: 10px; background: var(--bingeup-blue-soft); color: #4e6072; font-size: 14px; line-height: 1.6; }
-  .bingeup-explanation-phonetic, .bingeup-explanation-example, .bingeup-explanation-example-translation { color: var(--bingeup-muted); }
-  .bingeup-explanation-pos { margin-bottom: 4px; color: var(--bingeup-blue-dark); font-size: 13px; font-weight: 800; }
-  .bingeup-explanation-meanings { margin-bottom: 8px; color: var(--bingeup-ink); font-weight: 800; }
-  .bingeup-explanation-example { margin-bottom: 2px; font-style: italic; }
-  .bingeup-previous-feedback { margin-bottom: 16px; padding: 12px 14px; border: 1px solid var(--bingeup-line); border-left: 5px solid #dce5ec; border-radius: 10px; background: #fbfdff; }
-  .bingeup-previous-feedback.correct { border-left-color: var(--bingeup-green); background: linear-gradient(135deg, var(--bingeup-green-soft), #fff); }
-  .bingeup-previous-feedback.wrong { border-left-color: var(--bingeup-pink); background: linear-gradient(135deg, var(--bingeup-pink-soft), #fff); }
-  .bingeup-previous-feedback-title { margin-bottom: 6px; color: var(--bingeup-muted); font-size: 12px; letter-spacing: .5px; text-transform: uppercase; }
-  .bingeup-previous-feedback-prompt { margin-bottom: 6px; color: var(--bingeup-muted); font-size: 13px; font-style: italic; }
-  .bingeup-previous-feedback-result { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 14px; font-weight: 900; }
-  .bingeup-previous-feedback-result.correct { color: var(--bingeup-green-dark); }
-  .bingeup-previous-feedback-result.wrong { color: var(--bingeup-pink-dark); }
-  .bingeup-previous-feedback-answer { color: var(--bingeup-muted); font-size: 13px; }
-  .bingeup-previous-feedback-answer .correct-answer { color: var(--bingeup-ink); font-weight: 800; }
-  .bingeup-spelling-input { width: 100%; margin-bottom: 18px; padding: 12px 14px; border: 1.5px solid #dce5ec; border-radius: 10px; background: #fff; color: var(--bingeup-ink); font-size: 18px; text-align: center; outline: none; transition: border-color 140ms ease, box-shadow 140ms ease; }
-  .bingeup-spelling-input:focus { border-color: var(--bingeup-blue); box-shadow: 0 0 0 3px rgba(10, 134, 230, .14); }
-  .bingeup-spelling-input::placeholder { color: #a9b4bd; }
-  .bingeup-continuous-badge { display: inline-block; margin-bottom: 12px; padding: 3px 9px; border-radius: 999px; color: var(--bingeup-blue-dark); background: var(--bingeup-blue-soft); font-size: 11px; font-weight: 900; }
-  .bingeup-error-card { text-align: center; }
-  .bingeup-error-card p { color: var(--bingeup-pink-dark); line-height: 1.5; }
+/**
+ * 遮罩 ShadowRoot 样式（M5 工单 #44）分三段注入：
+ * 1. reset：宿主与页面样式隔离（与 M4 相同的 :host { all: initial } 策略）；
+ * 2. 库发布 CSS：shadow-styles 装载模块提供（:root 令牌映射为 :host、字体 URL 重写）；
+ * 3. shell：遮罩外壳布局与自定义元素的令牌着色；不覆盖库组件的颜色、圆角或阴影。
+ *
+ * 令牌（--animal-*）由第 2 段注入，因此自定义元素在第 3 段中始终可用。
+ */
+const OVERLAY_RESET_CSS = `
+  :host { all: initial; }
 `;
+
+const OVERLAY_SHELL_CSS = `
+  .bingeup-overlay {
+    position: absolute; inset: 0; display: grid; width: 100%; height: 100%;
+    box-sizing: border-box; place-items: center; overflow: hidden; padding: 15px;
+    color: var(--animal-text-color); background: var(--animal-mask-bg);
+    font-family: var(--animal-font-family); font-size: var(--animal-font-size-base);
+    line-height: var(--animal-line-height-base);
+  }
+  .bingeup-overlay .bingeup-card {
+    width: min(470px, 100%); max-height: 100%; overflow-y: auto; overflow-x: auto;
+    overscroll-behavior: contain;
+  }
+  .bingeup-continuous-badge {
+    display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
+  }
+  .bingeup-prompt {
+    margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
+    letter-spacing: 0.01em; text-align: center;
+  }
+  .bingeup-phonetic {
+    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-base); text-align: center;
+  }
+  .bingeup-meaning { margin-bottom: var(--animal-spacing-sm); font-size: 17px; font-weight: 700; text-align: center; }
+  .bingeup-example {
+    margin-bottom: var(--animal-spacing-xs); font-size: var(--animal-font-size-base);
+    font-style: italic; line-height: 1.5;
+  }
+  .bingeup-example-translation {
+    margin-bottom: var(--animal-spacing-lg); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm);
+  }
+  .bingeup-options { display: grid; gap: var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-lg); }
+  .bingeup-option {
+    display: flex; align-items: center; gap: var(--animal-spacing-md); width: 100%;
+    min-height: var(--animal-height-lg); padding: var(--animal-spacing-sm) var(--animal-spacing-md);
+    border: var(--animal-border-width) solid var(--animal-border-color);
+    border-radius: var(--animal-border-radius-sm); background: var(--animal-bg-color);
+    color: var(--animal-text-color); font-family: var(--animal-font-family);
+    font-size: var(--animal-font-size-base); font-weight: 600; text-align: left; cursor: pointer;
+    transition: all var(--animal-motion-duration-fast) var(--animal-motion-ease);
+  }
+  .bingeup-option:not(:disabled):hover {
+    border-color: var(--animal-primary-color); color: var(--animal-primary-color-active);
+  }
+  .bingeup-option:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
+  .bingeup-option:disabled { cursor: default; opacity: 1; }
+  .bingeup-option--selected { border-color: var(--animal-primary-color); background: var(--animal-primary-color-bg); }
+  .bingeup-option--correct { border-color: var(--animal-success-color); }
+  .bingeup-option--wrong { border-color: var(--animal-error-color); }
+  .bingeup-option-key {
+    display: inline-flex; flex-shrink: 0; width: 28px; height: 28px; align-items: center;
+    justify-content: center; border-radius: 8px; background: var(--animal-bg-color-secondary);
+    color: var(--animal-text-color); font-size: var(--animal-font-size-sm); font-weight: 700;
+  }
+  .bingeup-option-icon { flex-shrink: 0; margin-left: auto; }
+  .bingeup-actions { display: flex; flex-wrap: wrap; gap: var(--animal-spacing-sm); }
+  .bingeup-actions-new-word { flex-direction: column; }
+  .bingeup-actions-new-word > button { width: 100%; }
+  .bingeup-question-actions { width: 100%; }
+  .bingeup-question-actions > button { flex: 1 1 auto; }
+  .bingeup-key-hint {
+    display: inline-block; padding: 1px 5px; border: 1px solid var(--animal-border-color);
+    border-radius: 8px; background: var(--animal-bg-color-secondary); color: inherit;
+    font-size: 11px; font-weight: 600;
+  }
+  .bingeup-feedback {
+    margin-top: var(--animal-spacing-lg); padding: var(--animal-spacing-md);
+    border: 1px solid var(--animal-border-color); border-radius: var(--animal-border-radius-base);
+    background: var(--animal-bg-color);
+  }
+  .bingeup-feedback-result {
+    display: flex; align-items: center; justify-content: center; gap: var(--animal-spacing-sm);
+    margin-bottom: var(--animal-spacing-md); font-size: 18px; font-weight: 800;
+  }
+  .bingeup-feedback-result.is-correct { color: var(--animal-success-color-active); }
+  .bingeup-feedback-result.is-wrong { color: var(--animal-error-color-active); }
+  .bingeup-feedback-answer {
+    margin-bottom: var(--animal-spacing-md); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); text-align: center;
+  }
+  .bingeup-feedback-answer strong { color: var(--animal-text-color); font-weight: 700; }
+  .bingeup-explanation {
+    margin-bottom: var(--animal-spacing-md); padding: var(--animal-spacing-md);
+    border: 1px dashed var(--animal-border-color); border-radius: var(--animal-border-radius-sm);
+    background: var(--animal-bg-color-secondary);
+    font-size: var(--animal-font-size-base); line-height: 1.6;
+  }
+  .bingeup-explanation-phonetic { color: var(--animal-text-color-secondary); font-size: var(--animal-font-size-sm); }
+  .bingeup-explanation-pos {
+    margin-bottom: var(--animal-spacing-xs); color: var(--animal-primary-color-active);
+    font-size: var(--animal-font-size-sm); font-weight: 700;
+  }
+  .bingeup-explanation-meanings { margin-bottom: var(--animal-spacing-sm); font-weight: 700; }
+  .bingeup-explanation-example { margin-bottom: 2px; font-style: italic; }
+  .bingeup-explanation-example-translation { color: var(--animal-text-color-secondary); }
+  .bingeup-previous-feedback {
+    margin-bottom: var(--animal-spacing-lg); padding: var(--animal-spacing-md);
+    border: 1px solid var(--animal-border-color); border-left: 4px solid var(--animal-border-color);
+    border-radius: var(--animal-border-radius-sm); background: var(--animal-bg-color);
+  }
+  .bingeup-previous-feedback.is-correct { border-left-color: var(--animal-success-color); }
+  .bingeup-previous-feedback.is-wrong { border-left-color: var(--animal-error-color); }
+  .bingeup-previous-feedback-title {
+    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); font-weight: 700;
+  }
+  .bingeup-previous-feedback-prompt {
+    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); font-style: italic;
+  }
+  .bingeup-previous-feedback-answer {
+    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm);
+  }
+  .bingeup-previous-feedback-answer strong { color: var(--animal-text-color); font-weight: 700; }
+  .bingeup-rating-correction {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--animal-spacing-sm);
+    margin: var(--animal-spacing-sm) 0;
+  }
+  .bingeup-rating-result {
+    grid-column: 1 / -1; color: var(--animal-primary-color-active);
+    font-size: var(--animal-font-size-sm); font-weight: 700; text-align: center;
+  }
+  .bingeup-spelling-field { width: 100%; margin-bottom: var(--animal-spacing-lg); }
+  .bingeup-error-card { text-align: center; }
+  .bingeup-error-icon { display: block; margin: 0 auto var(--animal-spacing-md); }
+  .bingeup-error-card p {
+    margin: 0 0 var(--animal-spacing-lg); color: var(--animal-error-color-active);
+    line-height: 1.5;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bingeup-option { transition-duration: 0.01ms; }
+  }
+`;
+
+/** 遮罩渲染失败时的回退界面（原版 Card/Button 与 naive-icons 图标）。 */
+export function OverlayErrorFallback({ onRecover }: { onRecover: () => void }) {
+  return (
+    <div className="bingeup-overlay" role="alert">
+      <Card className="bingeup-card bingeup-error-card">
+        <AlertCircleIcon className="bingeup-error-icon" size={40} />
+        <p>学习界面出现错误，视频仍可安全恢复。</p>
+        <Button type="primary" onClick={onRecover}>
+          返回视频
+        </Button>
+      </Card>
+    </div>
+  );
+}
 
 class OverlayErrorBoundary extends Component<
   { children: ReactNode; onRecover: () => void },
@@ -111,17 +187,7 @@ class OverlayErrorBoundary extends Component<
     console.error('[BingeUp] 遮罩渲染失败', error);
   }
   override render(): ReactNode {
-    if (this.state.hasError)
-      return (
-        <div className="bingeup-overlay" role="alert">
-          <div className="bingeup-card bingeup-error-card">
-            <p>学习界面出现错误，视频仍可安全恢复。</p>
-            <button className="bingeup-submit" type="button" onClick={this.props.onRecover}>
-              返回视频
-            </button>
-          </div>
-        </div>
-      );
+    if (this.state.hasError) return <OverlayErrorFallback onRecover={this.props.onRecover} />;
     return this.props.children;
   }
 }
@@ -148,12 +214,15 @@ export class OverlayController implements OverlayPort {
     mode: OverlayMode,
     options?: OverlayOpenOptions,
   ): void {
+    const bundle = getIslandShadowStyleBundle();
+    // Chromium 不加载 ShadowRoot 内声明的 @font-face：把库字体注册到 document.fonts
+    // （按文档幂等），shadow 内文字才能使用 Nunito / Noto Sans SC。
+    registerIslandFontFaces(bundle.fontFaces);
     this.mountShadow({
       hostId: OVERLAY_HOST_ID,
-      css: OVERLAY_CSS,
+      css: OVERLAY_RESET_CSS + '\n' + bundle.css + '\n' + OVERLAY_SHELL_CSS,
       target,
       mode,
-      watchRecovery: true,
       render: () => (
         <OverlayErrorBoundary onRecover={() => this.actionHandler?.({ type: 'recover' })}>
           <OverlayApp
@@ -167,30 +236,11 @@ export class OverlayController implements OverlayPort {
       ),
     });
   }
-  /**
-   * M4 Shadow DOM PoC（工单 #43）：用与真实遮罩相同的宿主与几何契约，在 ShadowRoot
-   * 内渲染原版 Card/Button 样例，供真实浏览器验证计算样式与字体加载；M5 迁移后删除。
-   */
-  openIslandPreview(target: HTMLElement | DOMRect, mode: OverlayMode): void {
-    const bundle = getIslandShadowStyleBundle();
-    // Chromium 不加载 ShadowRoot 内 @font-face：把字体注册到 document.fonts。
-    registerIslandFontFaces(bundle.fontFaces);
-    this.mountShadow({
-      hostId: ISLAND_PREVIEW_HOST_ID,
-      css: ISLAND_SHADOW_PREVIEW_CSS + '\n' + bundle.css,
-      target,
-      mode,
-      watchRecovery: false,
-      render: () => <IslandShadowPreview />,
-    });
-  }
   private mountShadow(options: {
     hostId: string;
     css: string;
     target: HTMLElement | DOMRect;
     mode: OverlayMode;
-    /** 学习遮罩需要监听宿主被移除并触发 recover；实验预览不需要。 */
-    watchRecovery: boolean;
     render: () => ReactNode;
   }): void {
     if (this.host !== null) this.close();
@@ -213,15 +263,13 @@ export class OverlayController implements OverlayPort {
     shadow.appendChild(mountPoint);
     this.host = host;
     this.shadow = shadow;
-    if (options.watchRecovery) {
-      this.hostObserver = new MutationObserver(() => {
-        if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
-          this.recoveryRequested = true;
-          this.actionHandler?.({ type: 'recover' });
-        }
-      });
-      this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
-    }
+    this.hostObserver = new MutationObserver(() => {
+      if (this.host !== null && !this.host.isConnected && !this.recoveryRequested) {
+        this.recoveryRequested = true;
+        this.actionHandler?.({ type: 'recover' });
+      }
+    });
+    this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
     this.root = createRoot(mountPoint);
     this.root.render(options.render());
     this.updatePosition();
@@ -287,3 +335,4 @@ export class OverlayController implements OverlayPort {
     }
   }
 }
+

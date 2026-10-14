@@ -1,9 +1,11 @@
-import { waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { OverlayController } from '@/content/overlay-controller';
+import { createElement } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { OverlayController, OverlayErrorFallback } from '@/content/overlay-controller';
 import type { LearningItem } from '@/types';
-// M4 PoC：vitest 默认不处理 CSS 导入（?raw 会变成空串），这里用构建产物形态的
-// 夹具替代真实内联 CSS；真实的构建期内联组合由集成测试与 e2e 覆盖。
+// M5 工单 #44：vitest 默认不处理 ?raw CSS 导入，这里用构建产物形态的夹具替代真实的
+// 构建期内联 CSS（含 :root 令牌、reset 与 @font-face）；真实内联组合由构建产物校验
+// 脚本与 e2e 覆盖。
 vi.mock('animal-island-ui/dist/index.css?raw', () => ({
   default:
     ':root{--animal-primary-color: #19c8b9;--animal-font-family: Nunito, "Noto Sans SC", sans-serif}' +
@@ -30,11 +32,21 @@ const ITEM: LearningItem = {
   },
 };
 
+/** 内容脚本的 chrome.runtime.getURL 在每个用例中提供扩展资源路径。 */
+const stubExtensionRuntime = (): void => {
+  vi.stubGlobal('chrome', {
+    runtime: { getURL: (assetPath: string) => 'chrome-extension://test-id/' + assetPath },
+  });
+};
+
+beforeEach(() => {
+  stubExtensionRuntime();
+});
+
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
   document.getElementById('bingeup-overlay-host')?.remove();
-  document.getElementById('bingeup-island-preview-host')?.remove();
 });
 
 describe('OverlayController — 视频区域布局', () => {
@@ -110,13 +122,21 @@ describe('OverlayController — 视频区域布局', () => {
   });
 });
 
-describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
-  const stubExtensionRuntime = (): void => {
-    vi.stubGlobal('chrome', {
-      runtime: { getURL: (assetPath: string) => 'chrome-extension://test-id/' + assetPath },
-    });
-  };
+describe('OverlayErrorFallback — 错误边界回退界面（M5 工单 #44）', () => {
+  it('使用原版 Card/Button 与图标呈现，并支持返回视频', () => {
+    const onRecover = vi.fn();
+    const { container } = render(createElement(OverlayErrorFallback, { onRecover }));
 
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    expect(screen.getByText('学习界面出现错误，视频仍可安全恢复。')).toBeInTheDocument();
+    // 回退界面同样使用原版图标与按钮。
+    expect(container.querySelector('svg')).not.toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: '返回视频' }));
+    expect(onRecover).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () => {
   const createTarget = (rect: { top: number; left: number; width: number; height: number }) => {
     const target = document.createElement('div');
     target.getBoundingClientRect = () => ({
@@ -134,14 +154,14 @@ describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
     return target;
   };
 
-  it('在遮罩 ShadowRoot 内注入库样式（:host 令牌与 chrome-extension 字体）并渲染原版 Button/Card', async () => {
+  it('在真实遮罩 ShadowRoot 内注入库样式（:host 令牌与 chrome-extension 字体）并渲染原版 Card/按钮', async () => {
     stubExtensionRuntime();
     const target = createTarget({ top: 40, left: 60, width: 800, height: 450 });
     const controller = new OverlayController();
 
-    controller.openIslandPreview(target, 'video-region');
+    controller.open(ITEM, target, 'video-region');
 
-    const host = document.getElementById('bingeup-island-preview-host');
+    const host = document.getElementById('bingeup-overlay-host');
     expect(host).not.toBeNull();
     expect(host?.style.display).toBe('block');
     expect(host?.style.boxSizing).toBe('border-box');
@@ -157,12 +177,48 @@ describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
       'url("chrome-extension://test-id/assets/nunito-latin-500-normal.78b3b3a4-EugFkASW.woff2")',
     );
     expect(styleText).not.toContain(':root{');
+    // 遮罩底层使用原版 mask 令牌；不保留旧玻璃风格与旧蓝粉令牌。
+    expect(styleText).toContain('var(--animal-mask-bg)');
+    expect(styleText).not.toContain('backdrop-filter');
+    expect(styleText).not.toContain('--bingeup-');
 
     await waitFor(() => {
-      expect(shadow?.querySelector('button[class*="animal-btn"]')).not.toBeNull();
+      expect(shadow?.querySelector('.bingeup-overlay')).not.toBeNull();
       expect(shadow?.querySelector('[class*="animal-card"]')).not.toBeNull();
+      expect(shadow?.querySelector('button[class*="animal-btn"]')).not.toBeNull();
+      expect(shadow?.querySelectorAll('.bingeup-option')).toHaveLength(4);
     });
 
+    controller.close();
+  });
+
+  it('打开遮罩时把库字体注册进 document.fonts，重复打开不重复注册', () => {
+    stubExtensionRuntime();
+    const added: unknown[] = [];
+    class FakeFontFace {
+      constructor(
+        readonly family: string,
+        readonly source: string,
+        readonly descriptors?: unknown,
+      ) {}
+    }
+    vi.stubGlobal('FontFace', FakeFontFace);
+    Object.defineProperty(document, 'fonts', {
+      value: { add: (face: unknown) => added.push(face) },
+      configurable: true,
+    });
+    const target = createTarget({ top: 0, left: 0, width: 640, height: 360 });
+    const controller = new OverlayController();
+
+    controller.open(ITEM, target, 'video-region');
+    expect(added).toHaveLength(1);
+    const face = added[0] as { family: string; source: string };
+    expect(face.family).toBe('Nunito');
+    expect(face.source).toContain('chrome-extension://test-id/assets/');
+
+    controller.close();
+    controller.open(ITEM, target, 'video-region');
+    expect(added).toHaveLength(1);
     controller.close();
   });
 
@@ -173,11 +229,9 @@ describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
     const headStylesBefore = document.head.querySelectorAll('style,link[rel="stylesheet"]').length;
     const controller = new OverlayController();
 
-    controller.openIslandPreview(target, 'video-region');
+    controller.open(ITEM, target, 'video-region');
     await waitFor(() => {
-      expect(
-        document.getElementById('bingeup-island-preview-host')?.shadowRoot?.querySelector('button'),
-      ).not.toBeNull();
+      expect(hostCardQuery()).not.toBeNull();
     });
 
     expect(document.head.querySelectorAll('style,link[rel="stylesheet"]').length).toBe(
@@ -190,26 +244,32 @@ describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
     controller.close();
   });
 
+  function hostCardQuery(): Element | null | undefined {
+    return document
+      .getElementById('bingeup-overlay-host')
+      ?.shadowRoot?.querySelector('[class*="animal-card"]');
+  }
+
   it('重复打开不重复注入宿主，close 后宿主断开连接', () => {
     stubExtensionRuntime();
     const target = createTarget({ top: 0, left: 0, width: 640, height: 360 });
     const rootChildrenBefore = document.documentElement.childElementCount;
     const controller = new OverlayController();
 
-    controller.openIslandPreview(target, 'video-region');
-    const firstHost = document.getElementById('bingeup-island-preview-host');
+    controller.open(ITEM, target, 'video-region');
+    const firstHost = document.getElementById('bingeup-overlay-host');
     expect(firstHost).not.toBeNull();
 
-    controller.openIslandPreview(target, 'video-region');
-    expect(document.querySelectorAll('#bingeup-island-preview-host')).toHaveLength(1);
+    controller.open(ITEM, target, 'video-region');
+    expect(document.querySelectorAll('#bingeup-overlay-host')).toHaveLength(1);
 
     controller.close();
     expect(firstHost?.isConnected).toBe(false);
-    expect(document.getElementById('bingeup-island-preview-host')).toBeNull();
+    expect(document.getElementById('bingeup-overlay-host')).toBeNull();
     expect(document.documentElement.childElementCount).toBe(rootChildrenBefore);
   });
 
-  it('滚动或布局变化后预览宿主随目标矩形刷新', () => {
+  it('滚动或布局变化后遮罩宿主随目标矩形刷新', () => {
     stubExtensionRuntime();
     vi.useFakeTimers();
     vi.stubGlobal(
@@ -238,16 +298,17 @@ describe('OverlayController — M4 岛屿样式预览（PoC）', () => {
       toJSON: () => ({}),
     });
     const controller = new OverlayController();
-    controller.openIslandPreview(target, 'video-region');
+    controller.open(ITEM, target, 'video-region');
 
     top = 120;
     left = 140;
     window.dispatchEvent(new Event('scroll'));
     vi.runAllTimers();
 
-    const host = document.getElementById('bingeup-island-preview-host');
+    const host = document.getElementById('bingeup-overlay-host');
     expect(host?.style.top).toBe('120px');
     expect(host?.style.left).toBe('140px');
     controller.close();
   });
 });
+
