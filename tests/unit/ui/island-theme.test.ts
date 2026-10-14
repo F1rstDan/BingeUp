@@ -44,4 +44,10 @@ describe('island 主题衔接静态规则', () => {
     expect(css).not.toContain('--bingeup');
     expect(css).not.toMatch(HEX_COLOR);
   });
+
+  it('统计页样式不引用旧蓝粉令牌与写死颜色', () => {
+    const css = readProjectFile('src/entrypoints/stats/stats.css');
+    expect(css).not.toContain('--bingeup');
+    expect(css).not.toMatch(HEX_COLOR);
+  });
 });
