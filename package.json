@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "wxt",
     "dev:edge": "wxt -b edge",
-    "build": "wxt build && node scripts/verify-content-script-manifest.mjs chrome-mv3 && node scripts/verify-dev-tools-production.mjs chrome-mv3",
-    "build:edge": "wxt build -b edge && node scripts/verify-content-script-manifest.mjs edge-mv3 && node scripts/verify-dev-tools-production.mjs edge-mv3",
+    "dev:preview": "vite --config vite.preview.config.ts",
+    "build": "wxt build && node scripts/verify-content-script-manifest.mjs chrome-mv3 && node scripts/verify-dev-tools-production.mjs chrome-mv3 && node scripts/verify-island-shadow-assets.mjs chrome-mv3",
+    "build:edge": "wxt build -b edge && node scripts/verify-content-script-manifest.mjs edge-mv3 && node scripts/verify-dev-tools-production.mjs edge-mv3 && node scripts/verify-island-shadow-assets.mjs edge-mv3",
     "zip": "wxt zip",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -22,6 +23,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "animal-island-ui": "2.2.1",
+    "naive-icons": "^1.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ts-fsrs": "^5.4.1"

@@ -16,10 +16,10 @@
 当你进入新视频，刷刷升级会暂停主视频并盖上一道轻量学习题。答完或跳过后，视频从原进度继续；如果你想多学几题，也可以主动进入连续学习。
 
 <p align="center">
-  <img src="./docs/assets/readme/showcase.png" width="100%" alt="刷刷升级真实产品界面合集：视频内学习、安装引导、连续答题和插件状态控制">
+  <img src="./docs/assets/readme/showcase.png" width="100%" alt="刷刷升级产品界面合集：视频内学习与连续答题、首次引导、设置页、学习统计、插件状态控制与启用提示">
 </p>
 
-<p align="center"><sub>真实运行界面：视频内学习、连续答题、首次引导与快捷控制。</sub></p>
+<p align="center"><sub>界面合集：视频内学习与连续答题、首次引导、设置页、学习统计、插件状态控制与启用提示。所有画面来自真实构建产物截图；视频场景为合成测试页。</sub></p>
 
 ## 学习被放在间隙里，而不是待办清单里
 
@@ -119,6 +119,7 @@ npm run build        # Chrome 生产构建
 | --- | --- |
 | Chrome 开发模式 | `npm run dev` |
 | Edge 开发模式 | `npm run dev:edge` |
+| 本地 UI 预览页 | `npm run dev:preview` |
 | 类型检查 | `npm run typecheck` |
 | 单元 / 集成测试 | `npm test` |
 | 测试监听 | `npm run test:watch` |
@@ -130,8 +131,23 @@ npm run build        # Chrome 生产构建
 
 </details>
 
+### 本地 UI 预览（开发调试用）
+
+在普通网页里逐块查看全部界面，用于人工验收与批注。预览站独立于扩展构建：
+
+```bash
+npm install           # 首次使用
+npm run dev:preview   # 启动后打开 http://localhost:5174
+```
+
+预览页包含：Popup（可学习 / 已暂停 / 无活动标签页 / 需权限四态）、设置页（学习设置 / 网站管理 / 数据管理）、统计页（非空与空态）、安装引导，以及视频遮罩的七个状态（新词展示、选择题、拼写题、答题正确 / 错误反馈、连续学习反馈）与启用提示、播放恢复提示。遮罩与提示通过 Shadow DOM + 真实样式管线渲染，与扩展内一致；数据来自内置演示 mock，可直接点选交互。
+
+预览站只复用一个明确的仿真缝——`preview/mock-message-client.ts` 替换 `@/messaging/message-client`，其余组件、样式与类型全部来自 `src/`；浏览器 API 由 `preview/chrome-shim.ts` 提供。页面只存在于开发环境，不会进入扩展产物（`npm run build` 仍以 `src/` 为唯一来源）。
+
+预览站适合配合 Codex 的内置浏览器使用：打开页面后按区块圈选批注或截图说明问题，回到对话里反馈即可。更多背景见 [docs/ui-migration-evidence.md](./docs/ui-migration-evidence.md) 的「本地 UI 预览站」一节。
+
 项目基于 [WXT](https://wxt.dev/)、React 18、TypeScript、IndexedDB、[ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs) 与 Manifest V3。领域术语见 [CONTEXT.md](./CONTEXT.md)，架构决策见 [docs/adr](./docs/adr)。
 
 ## License
 
-[Apache License 2.0](./LICENSE)
+本项目以 [Apache License 2.0](./LICENSE) 发布。第三方组件与字体（animal-island-ui、naive-icons、Nunito / Noto Sans SC）的版权与许可声明见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。

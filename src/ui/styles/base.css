@@ -1,0 +1,67 @@
+/**
+ * 扩展页面的元素级基础样式（工单 #46 清理后）。
+ *
+ * 旧蓝粉设计令牌与自绘按钮样式已全部删除；视觉系统统一来自 animal-island-ui。
+ * 本文件只保留与具体视觉体系无关的页面基础规则：默认外边距、正文字体、
+ * 指针状态与 reduced-motion 偏好。颜色只引用库在 :root 声明的 --animal-* 令牌，
+ * 不定义新令牌、不写死组件样式。
+ */
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body,
+button,
+input,
+select {
+  font-family: var(--animal-font-family);
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+/**
+ * 键盘焦点环（页面自有元素）。
+ *
+ * 库组件（class 以 animal- 开头）自带各自的焦点规则，必须从全局规则中排除：
+ * 例如库 Input 的内层 input 声明 outline:none，而 input:focus-visible（0,1,1）
+ * 优先级高于 .animal-input-*（0,1,0），会把焦点画成与 50px 胶囊不匹配的方角
+ * 黄框（用户反馈）。库 Input 的焦点环改由下方包裹层规则绘制。
+ */
+button:not([class^='animal-']):focus-visible,
+input:not([class^='animal-']):focus-visible,
+select:not([class^='animal-']):focus-visible {
+  outline: 2px solid var(--animal-warning-color, #f5c31c);
+  outline-offset: 2px;
+}
+
+/**
+ * 库 Input 的焦点环画在胶囊外壳上：内层 input 为 outline:none（且已被上面的
+ * 全局规则排除），用 :has() 让黄色 outline 跟随包裹层的 50px 胶囊圆角，
+ * 与原版视觉一致（用户反馈：此前的方角高亮不匹配）。
+ */
+[class^='animal-wrapper']:has(> [class^='animal-input']:focus-visible) {
+  outline: 2px solid var(--animal-warning-color, #f5c31c);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

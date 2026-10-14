@@ -1,21 +1,27 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
-import { DropdownSelect } from '@/ui/options/DropdownSelect';
 import { FeedbackLink } from '@/ui/FeedbackLink';
+import { IslandPage } from '@/ui/island';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
 /**
- * 设置页（Issue #10）。四个区域：
+ * 设置页（Issue #10；工单 #41 M3b 原版迁移）。三个分区（原版 Tabs）：
  * - 学习设置：词库、学习水平、每日新词上限、拼写题、默认冷却、长视频定时学习、跳过降频（AC1）
  * - 网站管理：查看并管理每个已启用网站的状态、兼容模式与基础网页触发选项（AC2）
  * - 数据管理：导出 / 导入 / 清除学习进度 / 清除全部数据（AC4）
  *
  * AC3 由 background 的 normalizeAppSettings 保证（保存即校验自动修正，无需重启）。
  * AC5 由 background 的 REMOVE_SITE 处理程序保证（删除自定义网站时释放可选权限）。
+ *
+ * M3b（工单 #41）：全部控件使用 animal-island-ui 原版组件（Tabs/Switch/Select/Input/
+ * Card/Button），自绘下拉被原版受控 Select 替换；危险数据操作的二次确认由
+ * window.confirm 改为原版 Modal（仅扩展独立页面使用），清除、导入导出与原子恢复的
+ * 调用链、用户可见文案与通知语义保持不变。
  */
 
 const LEVEL_LABELS: Record<SelfRatedLevel, string> = {
@@ -42,6 +48,15 @@ interface LoadError {
   databaseUnavailable: boolean;
 }
 
+/** 危险数据操作的确认请求（原版 Modal 承载）。 */
+interface ConfirmRequest {
+  title: string;
+  message: string;
+  /** 确认按钮文案（动作名）。 */
+  okLabel: string;
+  onConfirm: () => void;
+}
+
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
@@ -49,6 +64,7 @@ export function OptionsApp(): JSX.Element {
   const [siteAdding, setSiteAdding] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<LoadError | null>(null);
+  const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
@@ -81,187 +97,247 @@ export function OptionsApp(): JSX.Element {
     void load();
   }, [load]);
 
+  const closeConfirm = useCallback(() => setConfirm(null), []);
+  const acceptConfirm = useCallback(() => {
+    if (confirm === null) return;
+    const { onConfirm } = confirm;
+    setConfirm(null);
+    onConfirm();
+  }, [confirm]);
+
+  const requestClearProgress = useCallback(() => {
+    setConfirm({
+      title: '清除学习进度',
+      message:
+        '确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。',
+      okLabel: '清除学习进度',
+      onConfirm: () => void handleClearProgress(load, setNotice),
+    });
+  }, [load]);
+
+  const requestClearAll = useCallback(() => {
+    setConfirm({
+      title: '清除全部数据',
+      message:
+        '确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。',
+      okLabel: '清除全部数据',
+      onConfirm: () => void handleClearAll(load, setNotice),
+    });
+  }, [load]);
+
+  const requestRebuildDatabase = useCallback(() => {
+    setConfirm({
+      title: '清除本地数据并重建',
+      message:
+        '重建会永久删除全部本地用户数据。请先确认你已经尝试过“重试”，并关闭了其他刷刷升级页面。是否继续？',
+      okLabel: '继续',
+      onConfirm: () => {
+        // 保持原有的两步确认语义：第一步确认后仍需“最后确认”才执行重建。
+        setConfirm({
+          title: '最后确认',
+          message: '最后确认：永久清除本地用户数据并重建，且无法撤销。确定执行吗？',
+          okLabel: '确定执行',
+          onConfirm: () => void handleRebuildDatabase(load, setNotice, setError),
+        });
+      },
+    });
+  }, [load]);
+
+  const confirmModal = (
+    <Modal
+      open={confirm !== null}
+      variant="game"
+      title={confirm?.title}
+      typewriter={false}
+      maskClosable={false}
+      onClose={closeConfirm}
+      footer={
+        <>
+          <Button onClick={closeConfirm}>取消</Button>
+          <Button type="primary" danger onClick={acceptConfirm}>
+            {confirm?.okLabel ?? '确定'}
+          </Button>
+        </>
+      }
+    >
+      <p className="bingeup-confirm-message">{confirm?.message}</p>
+    </Modal>
+  );
+
   if (error !== null) {
     return (
-      <div className="bingeup-options">
-        <h1>刷刷升级 — 设置</h1>
-        <p className="bingeup-error">{error.message}</p>
-        {notice && (
-          <p className="bingeup-notice" role="status">
-            {notice}
-          </p>
-        )}
-        <div className="bingeup-actions">
-          <button className="bingeup-btn-primary" onClick={() => void load()}>
-            重试
-          </button>
-          {error.databaseUnavailable && (
-            <button
-              className="bingeup-btn-danger"
-              onClick={() => void handleRebuildDatabase(load, setNotice, setError)}
-            >
-              清除本地数据并重建
-            </button>
+      <IslandPage className="bingeup-options" label="刷刷升级设置">
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
+        <Card className="bingeup-card">
+          <p className="bingeup-error">{error.message}</p>
+          {notice !== null && (
+            <p className="bingeup-notice-text" role="status">
+              {notice}
+            </p>
           )}
-        </div>
-      </div>
+          <div className="bingeup-actions">
+            <Button type="primary" onClick={() => void load()}>
+              重试
+            </Button>
+            {error.databaseUnavailable && (
+              <Button danger onClick={requestRebuildDatabase}>
+                清除本地数据并重建
+              </Button>
+            )}
+          </div>
+        </Card>
+        {confirmModal}
+      </IslandPage>
     );
   }
 
   if (settings === null) {
     return (
-      <div className="bingeup-options">
-        <h1>刷刷升级 — 设置</h1>
-        <p className="bingeup-hint">加载中…</p>
-      </div>
+      <IslandPage className="bingeup-options" label="刷刷升级设置">
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
+        <Card className="bingeup-card">
+          <p className="bingeup-hint">加载中…</p>
+        </Card>
+      </IslandPage>
     );
   }
 
-  return (
-    <div className="bingeup-options">
-      <h1>刷刷升级 — 设置</h1>
-
-      {notice && (
-        <p className="bingeup-notice" role="status">
-          {notice}
-        </p>
-      )}
-
+  const selectedDeck = BUILT_IN_DECKS.find((deck) => deck.id === settings.selectedDeckId);
+  const learningPanel = (
+    <Card className="bingeup-card">
       {/* AC1：学习设置 */}
-      <SettingsSection title="学习设置">
-        <Field label="当前词库">
-          <DropdownSelect
-            id="bingeup-deck-select"
-            ariaLabel="当前词库"
-            value={settings.selectedDeckId}
-            options={BUILT_IN_DECKS.map((deck) => ({
-              value: deck.id,
-              label: deck.name,
-              description: deck.description,
-            }))}
-            onChange={(selectedDeckId) => setSettings({ ...settings, selectedDeckId })}
-          />
-        </Field>
+      <Field label="当前词库">
+        <div className="bingeup-deck-control">
+          <div className="bingeup-select">
+            <Select
+              aria-label="当前词库"
+              value={settings.selectedDeckId}
+              options={BUILT_IN_DECKS.map((deck) => ({ key: deck.id, label: deck.name }))}
+              onChange={(selectedDeckId) => setSettings({ ...settings, selectedDeckId })}
+            />
+          </div>
+          {selectedDeck && <p className="bingeup-deck-description">{selectedDeck.description}</p>}
+        </div>
+      </Field>
 
-        <Field label="学习水平">
-          <DropdownSelect
-            id="bingeup-level-select"
-            ariaLabel="学习水平"
+      <Field label="学习水平">
+        <div className="bingeup-select">
+          <Select
+            aria-label="学习水平"
             value={settings.selfRatedLevel}
             options={(Object.keys(LEVEL_LABELS) as SelfRatedLevel[]).map((level) => ({
-              value: level,
+              key: level,
               label: LEVEL_LABELS[level],
             }))}
-            onChange={(selfRatedLevel) => setSettings({ ...settings, selfRatedLevel })}
-          />
-        </Field>
-
-        <Field label="每日新词上限">
-          <input
-            type="number"
-            min={0}
-            max={100}
-            value={settings.dailyNewWordLimit}
-            onChange={(e) =>
-              setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })
+            onChange={(selfRatedLevel) =>
+              setSettings({ ...settings, selfRatedLevel: selfRatedLevel as SelfRatedLevel })
             }
           />
-        </Field>
-
-        <Field label="拼写题（连续学习模式）">
-          <input
-            type="checkbox"
-            role="switch"
-            aria-label="拼写题（连续学习模式）"
-            checked={settings.spellingEnabled}
-            onChange={(e) => setSettings({ ...settings, spellingEnabled: e.target.checked })}
-          />
-        </Field>
-
-        <Field label="默认冷却（分钟）">
-          <input
-            type="number"
-            min={1}
-            value={settings.defaultCooldownMinutes}
-            onChange={(e) =>
-              setSettings({ ...settings, defaultCooldownMinutes: Number(e.target.value) })
-            }
-          />
-        </Field>
-
-        <Field label="连续跳过降频（分钟，逗号分隔）">
-          <input
-            type="text"
-            value={settings.consecutiveSkipCooldowns.join(', ')}
-            onChange={(e) =>
-              setSettings({
-                ...settings,
-                consecutiveSkipCooldowns: e.target.value
-                  .split(',')
-                  .map((s) => Number(s.trim()))
-                  .filter((n) => Number.isFinite(n) && n > 0),
-              })
-            }
-          />
-        </Field>
-
-        <Field label="连续跳过自动降频">
-          <input
-            type="checkbox"
-            role="switch"
-            aria-label="连续跳过自动降频"
-            checked={settings.consecutiveSkipSlowdownEnabled}
-            onChange={(event) =>
-              setSettings({
-                ...settings,
-                consecutiveSkipSlowdownEnabled: event.target.checked,
-              })
-            }
-          />
-        </Field>
-
-        <Field label="长视频定时学习">
-          <input
-            type="checkbox"
-            role="switch"
-            aria-label="长视频定时学习"
-            checked={settings.longVideoTimedLearningEnabled}
-            onChange={(e) =>
-              setSettings({ ...settings, longVideoTimedLearningEnabled: e.target.checked })
-            }
-          />
-        </Field>
-
-        <Field label="长视频定时学习间隔（分钟）">
-          <input
-            type="number"
-            min={1}
-            value={settings.longVideoIntervalMinutes}
-            disabled={!settings.longVideoTimedLearningEnabled}
-            onChange={(e) =>
-              setSettings({ ...settings, longVideoIntervalMinutes: Number(e.target.value) })
-            }
-          />
-        </Field>
-
-        <div className="bingeup-actions">
-          <button
-            className="bingeup-btn-primary"
-            onClick={() => void handleSave(settings, load, setNotice)}
-          >
-            保存设置
-          </button>
-          <button
-            className="bingeup-btn-secondary"
-            onClick={() => void handleReset(load, setNotice)}
-          >
-            恢复默认
-          </button>
         </div>
-      </SettingsSection>
+      </Field>
 
+      <Field label="每日新词上限">
+        <Input
+          className="bingeup-input"
+          type="number"
+          min={0}
+          max={100}
+          aria-label="每日新词上限"
+          value={settings.dailyNewWordLimit}
+          onChange={(e) => setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })}
+        />
+      </Field>
+
+      <Field label="拼写题（连续学习模式）">
+        <Switch
+          aria-label="拼写题（连续学习模式）"
+          checked={settings.spellingEnabled}
+          onChange={(checked) => setSettings({ ...settings, spellingEnabled: checked })}
+        />
+      </Field>
+
+      <Field label="默认冷却（分钟）">
+        <Input
+          className="bingeup-input"
+          type="number"
+          min={1}
+          aria-label="默认冷却（分钟）"
+          value={settings.defaultCooldownMinutes}
+          onChange={(e) =>
+            setSettings({ ...settings, defaultCooldownMinutes: Number(e.target.value) })
+          }
+        />
+      </Field>
+
+      <Field label="连续跳过降频（分钟，逗号分隔）">
+        <Input
+          className="bingeup-input"
+          type="text"
+          aria-label="连续跳过降频（分钟，逗号分隔）"
+          value={settings.consecutiveSkipCooldowns.join(', ')}
+          onChange={(e) =>
+            setSettings({
+              ...settings,
+              consecutiveSkipCooldowns: e.target.value
+                .split(',')
+                .map((s) => Number(s.trim()))
+                .filter((n) => Number.isFinite(n) && n > 0),
+            })
+          }
+        />
+      </Field>
+
+      <Field label="连续跳过自动降频">
+        <Switch
+          aria-label="连续跳过自动降频"
+          checked={settings.consecutiveSkipSlowdownEnabled}
+          onChange={(checked) =>
+            setSettings({ ...settings, consecutiveSkipSlowdownEnabled: checked })
+          }
+        />
+      </Field>
+
+      <Field label="长视频定时学习">
+        <Switch
+          aria-label="长视频定时学习"
+          checked={settings.longVideoTimedLearningEnabled}
+          onChange={(checked) =>
+            setSettings({ ...settings, longVideoTimedLearningEnabled: checked })
+          }
+        />
+      </Field>
+
+      <Field label="长视频定时学习间隔（分钟）">
+        <Input
+          className="bingeup-input"
+          type="number"
+          min={1}
+          aria-label="长视频定时学习间隔（分钟）"
+          disabled={!settings.longVideoTimedLearningEnabled}
+          value={settings.longVideoIntervalMinutes}
+          onChange={(e) =>
+            setSettings({ ...settings, longVideoIntervalMinutes: Number(e.target.value) })
+          }
+        />
+      </Field>
+
+      <div className="bingeup-actions">
+        <Button type="primary" onClick={() => void handleSave(settings, load, setNotice)}>
+          保存设置
+        </Button>
+        <Button onClick={() => void handleReset(load, setNotice)}>恢复默认</Button>
+      </div>
+    </Card>
+  );
+
+  const sitesPanel = (
+    <div className="bingeup-panel">
       {/* AC2：网站管理 */}
-      <SettingsSection title="网站管理">
+      <Card className="bingeup-card">
         <form
           className="bingeup-site-add"
           onSubmit={(event) => {
@@ -269,103 +345,109 @@ export function OptionsApp(): JSX.Element {
             void handleAddWebsite(siteInput, load, setSiteInput, setSiteAdding, setNotice);
           }}
         >
-          <label htmlFor="bingeup-site-address">网站地址</label>
+          <label className="bingeup-field-label" htmlFor="bingeup-site-address">
+            网站地址
+          </label>
           <div className="bingeup-site-add-controls">
-            <input
+            <Input
               id="bingeup-site-address"
+              className="bingeup-input"
               type="text"
               value={siteInput}
               placeholder="example.com 或 https://example.com"
               onChange={(event) => setSiteInput(event.target.value)}
             />
-            <button className="bingeup-btn-primary" type="submit" disabled={siteAdding}>
+            <Button type="primary" htmlType="submit" loading={siteAdding} disabled={siteAdding}>
               {siteAdding ? '正在添加…' : '添加网站'}
-            </button>
+            </Button>
           </div>
         </form>
-        {sites.length === 0 ? (
-          <p className="bingeup-hint">
-            暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。
-          </p>
-        ) : (
-          <div className="bingeup-site-list">
-            {sites.map((entry) => (
-              <SiteRow
-                key={entry.hostname}
-                entry={entry}
-                onEnabledChange={() => void handleSiteEnabledChange(entry, load, setNotice)}
-                onTriggersChange={(triggers) =>
-                  void handleSiteTriggersChange(entry.hostname, triggers, load, setNotice)
-                }
-                onRemove={() => void handleRemoveSite(entry.hostname, load, setNotice)}
-              />
-            ))}
-          </div>
-        )}
-      </SettingsSection>
+      </Card>
+      {sites.length === 0 ? (
+        <p className="bingeup-hint">暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。</p>
+      ) : (
+        <div className="bingeup-site-list">
+          {sites.map((entry) => (
+            <SiteRow
+              key={entry.hostname}
+              entry={entry}
+              onEnabledChange={() => void handleSiteEnabledChange(entry, load, setNotice)}
+              onTriggersChange={(triggers) =>
+                void handleSiteTriggersChange(entry.hostname, triggers, load, setNotice)
+              }
+              onRemove={() => void handleRemoveSite(entry.hostname, load, setNotice)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 
+  const dataPanel = (
+    <Card className="bingeup-card">
       {/* AC4：数据管理 */}
-      <SettingsSection title="数据管理">
-        <p className="bingeup-hint">
-          恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
-        </p>
-        <div className="bingeup-actions">
-          <button className="bingeup-btn-primary" onClick={() => void handleExport(setNotice)}>
-            导出数据
-          </button>
-          <button className="bingeup-btn-secondary" onClick={() => fileInputRef.current?.click()}>
-            导入数据
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="application/json"
-            className="bingeup-file-input"
-            onChange={(e) => void handleImport(e, load, setNotice)}
-          />
-        </div>
-        <div className="bingeup-actions">
-          <button
-            className="bingeup-btn-danger"
-            onClick={() => void handleClearProgress(load, setNotice)}
-          >
-            清除学习进度
-          </button>
-          <button
-            className="bingeup-btn-danger"
-            onClick={() => void handleClearAll(load, setNotice)}
-          >
-            清除全部数据
-          </button>
-        </div>
-      </SettingsSection>
+      <p className="bingeup-hint">
+        恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
+      </p>
+      <div className="bingeup-actions">
+        <Button type="primary" onClick={() => void handleExport(setNotice)}>
+          导出数据
+        </Button>
+        <Button onClick={() => fileInputRef.current?.click()}>导入数据</Button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/json"
+          className="bingeup-file-input"
+          onChange={(e) => void handleImport(e, load, setNotice)}
+        />
+      </div>
+      <div className="bingeup-actions">
+        <Button danger onClick={requestClearProgress}>
+          清除学习进度
+        </Button>
+        <Button danger onClick={requestClearAll}>
+          清除全部数据
+        </Button>
+      </div>
+    </Card>
+  );
+
+  return (
+    <IslandPage className="bingeup-options" label="刷刷升级设置">
+      <h1 className="bingeup-title">
+        <Title size="large">刷刷升级 — 设置</Title>
+      </h1>
+
+      {notice !== null && (
+        <Card className="bingeup-notice">
+          <p className="bingeup-notice-text" role="status">
+            {notice}
+          </p>
+        </Card>
+      )}
+
+      <Tabs
+        className="bingeup-tabs"
+        items={[
+          { key: 'learning', label: '学习设置', children: learningPanel },
+          { key: 'sites', label: '网站管理', children: sitesPanel },
+          { key: 'data', label: '数据管理', children: dataPanel },
+        ]}
+      />
 
       <FeedbackLink />
-    </div>
+      {confirmModal}
+    </IslandPage>
   );
 }
 
 // ─── 子组件 ──────────────────────────────────────────────
 
-function SettingsSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}): JSX.Element {
-  return (
-    <section className="bingeup-section">
-      <h2>{title}</h2>
-      {children}
-    </section>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }): JSX.Element {
+function Field({ label, children }: { label: string; children: ReactNode }): JSX.Element {
   return (
     <div className="bingeup-field">
-      <label className="bingeup-field-label">{label}</label>
+      <span className="bingeup-field-label">{label}</span>
       <div className="bingeup-field-control">{children}</div>
     </div>
   );
@@ -386,47 +468,49 @@ function SiteRow({
   const needsPermission = settings.mode !== 'unsupported' && !hasHostPermission;
   const effectivelyEnabled = settings.enabled && !needsPermission;
   return (
-    <div className="bingeup-site-row">
+    <Card className="bingeup-site-row">
       <div className="bingeup-site-info">
         <span className="bingeup-site-host">{hostname}</span>
-        <span
-          className={
-            'bingeup-badge ' + (effectivelyEnabled ? 'bingeup-badge-ok' : 'bingeup-badge-off')
-          }
-        >
+        <Tag size="small" color={effectivelyEnabled ? 'app-teal' : 'default'}>
           {effectivelyEnabled ? '已启用' : '未启用'}
-        </span>
-        <span className="bingeup-badge">
+        </Tag>
+        <Tag size="small" color={needsPermission ? 'app-yellow' : 'default'}>
           {needsPermission ? '需要权限' : MODE_LABELS[settings.mode]}
-        </span>
+        </Tag>
       </div>
       {settings.mode === 'basic-web' && (
         <div className="bingeup-site-triggers">
-          <label>
-            <input
-              type="checkbox"
+          <span className="bingeup-site-trigger">
+            <Switch
+              size="small"
               checked={settings.pageLoadTrigger ?? true}
-              onChange={(event) => onTriggersChange({ pageLoadTrigger: event.target.checked })}
+              aria-label="页面加载触发"
+              onChange={(checked) => onTriggersChange({ pageLoadTrigger: checked })}
             />
             页面加载触发
-          </label>
-          <label>
-            <input
-              type="checkbox"
+          </span>
+          <span className="bingeup-site-trigger">
+            <Switch
+              size="small"
               checked={settings.scrollTrigger ?? true}
-              onChange={(event) => onTriggersChange({ scrollTrigger: event.target.checked })}
+              aria-label="滚动触发"
+              onChange={(checked) => onTriggersChange({ scrollTrigger: checked })}
             />
             滚动触发
-          </label>
+          </span>
         </div>
       )}
-      <button className="bingeup-btn-secondary bingeup-btn-sm" onClick={onEnabledChange}>
-        {settings.enabled ? '关闭网站' : '开启网站'}
-      </button>
-      <button className="bingeup-btn-danger bingeup-btn-sm" onClick={onRemove}>
-        删除
-      </button>
-    </div>
+      <div className="bingeup-site-controls">
+        <Switch
+          aria-label={`启用 ${hostname}`}
+          checked={settings.enabled}
+          onChange={() => onEnabledChange()}
+        />
+        <Button size="small" danger onClick={onRemove}>
+          删除
+        </Button>
+      </div>
+    </Card>
   );
 }
 
@@ -582,13 +666,6 @@ async function handleClearProgress(
   onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  if (
-    !window.confirm(
-      '确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。',
-    )
-  ) {
-    return;
-  }
   try {
     await messageClient.clearLearningProgress();
     if (!(await onReload())) {
@@ -605,13 +682,6 @@ async function handleClearAll(
   onReload: () => Promise<boolean>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
-  if (
-    !window.confirm(
-      '确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。',
-    )
-  ) {
-    return;
-  }
   try {
     const result = await messageClient.clearAllData();
     if (!(await onReload())) {
@@ -641,13 +711,6 @@ async function handleRebuildDatabase(
   onNotice: (msg: string | null) => void,
   onError: (error: LoadError | null) => void,
 ): Promise<void> {
-  if (
-    !window.confirm(
-      '重建会永久删除全部本地用户数据。请先确认你已经尝试过“重试”，并关闭了其他刷刷升级页面。是否继续？',
-    )
-  )
-    return;
-  if (!window.confirm('最后确认：永久清除本地用户数据并重建，且无法撤销。确定执行吗？')) return;
   try {
     const result = await messageClient.rebuildDatabase();
     if (!(await onReload())) {

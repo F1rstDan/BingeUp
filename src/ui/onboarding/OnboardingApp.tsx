@@ -1,16 +1,21 @@
 import { useState } from 'react';
+import { Button, Card, Checkbox, Radio, Title } from 'animal-island-ui';
+import type { CheckboxOption, RadioOption } from 'animal-island-ui';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import { siteKeysToEnable, type OnboardingSiteSelection } from '@/onboarding/onboarding-service';
 import { BUILT_IN_DECKS, getDefaultDeck } from '@/dictionary/built-in/decks';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import type { SelfRatedLevel } from '@/types';
+import { IslandPage, IslandSection } from '@/ui/island';
 
 /**
- * 安装引导（Issue #9 AC1 / Issue #21）。
+ * 安装引导（Issue #9 AC1 / Issue #21 / 工单 #40 原版视觉迁移）。
  *
  * AC1：受支持站点默认启用；用户可在引导中取消启用任一站点。
  * Issue #21：引导同时让用户选择当前词库与自评水平，选择会覆盖默认应用设置。
+ * 工单 #40：全部步骤采用 animal-island-ui 原版组件（Card/Radio/Checkbox/Button/Title），
+ * 页面外壳与区块复用 @/ui/island 基础模块；选择与提交语义保持不变，未新增引导步骤。
  *
  * 流程：
  * 1. 欢迎页 → 说明插件用途；
@@ -49,6 +54,31 @@ function LevelUpMascot(): JSX.Element {
   return <img className="bingeup-onboarding-mascot" src={mascotUrl} alt="" />;
 }
 
+/** 选项两行文案（名称 + 说明）；原版 Radio / Checkbox 的 label 支持任意 ReactNode。 */
+function optionLabel(name: string, desc: string | undefined): JSX.Element {
+  return (
+    <span className="bingeup-onboarding-option-text">
+      <span className="bingeup-onboarding-option-name">{name}</span>
+      {desc !== undefined && <span className="bingeup-onboarding-option-desc">{desc}</span>}
+    </span>
+  );
+}
+
+const LEVEL_RADIO_OPTIONS: RadioOption[] = LEVEL_OPTIONS.map((opt) => ({
+  value: opt.value,
+  label: optionLabel(opt.name, opt.desc),
+}));
+
+const DECK_RADIO_OPTIONS: RadioOption[] = BUILT_IN_DECKS.map((deck) => ({
+  value: deck.id,
+  label: optionLabel(deck.name, deck.description),
+}));
+
+const SITE_CHECKBOX_OPTIONS: CheckboxOption[] = SITE_OPTIONS.map((opt) => ({
+  value: opt.key,
+  label: optionLabel(opt.name, opt.desc),
+}));
+
 export function OnboardingApp(): JSX.Element {
   const [selected, setSelected] = useState<Set<OnboardingSiteSelection>>(
     () => new Set(SITE_OPTIONS.map(({ key }) => key)),
@@ -58,18 +88,6 @@ export function OnboardingApp(): JSX.Element {
   const [phase, setPhase] = useState<Phase>('select');
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const toggleSite = (key: OnboardingSiteSelection) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-      }
-      return next;
-    });
-  };
 
   const handleComplete = async () => {
     setSubmitting(true);
@@ -94,144 +112,91 @@ export function OnboardingApp(): JSX.Element {
 
   if (phase === 'done') {
     return (
-      <div className="bingeup-onboarding">
-        <div className="bingeup-success">
+      <IslandPage className="bingeup-onboarding">
+        <Card className="bingeup-onboarding-done">
           <LevelUpMascot />
-          <h2>引导完成</h2>
+          <h2 className="bingeup-onboarding-done-title">
+            <Title size="large">引导完成</Title>
+          </h2>
           <p className="bingeup-onboarding-copy">
             {selected.size > 0
               ? '已启用所选网站。请访问对应视频页面，刷新后即可开始学习。'
               : '未选择任何网站。之后可在 Popup 面板中随时启用。'}
           </p>
-          <button className="bingeup-btn-secondary" onClick={() => window.close()}>
+          <Button size="large" onClick={() => window.close()}>
             关闭
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Card>
+      </IslandPage>
     );
   }
 
   return (
-    <div className="bingeup-onboarding">
-      <LevelUpMascot />
-      <h1>
-        欢迎使用<span className="bingeup-onboarding-brand-name">刷刷升级</span>
-      </h1>
-      <p>在视频间隙轻量学习英语单词。先选择学习内容，再确认已为你启用的受支持网站。</p>
+    <IslandPage className="bingeup-onboarding">
+      <div className="bingeup-onboarding-hero">
+        <LevelUpMascot />
+        <h1 className="bingeup-onboarding-title">
+          <Title size="large">欢迎使用刷刷升级</Title>
+        </h1>
+        <p>在视频间隙轻量学习英语单词。先选择学习内容，再确认已为你启用的受支持网站。</p>
+      </div>
 
-      <section
-        className="bingeup-onboarding-section"
-        aria-labelledby="bingeup-onboarding-learning-title"
-      >
-        <h2 id="bingeup-onboarding-learning-title">学习设置</h2>
+      <IslandSection title="学习设置">
+        <Card className="bingeup-onboarding-card">
+          <fieldset className="bingeup-onboarding-field">
+            <legend className="bingeup-onboarding-field-label">学习水平</legend>
+            <Radio
+              options={LEVEL_RADIO_OPTIONS}
+              value={level}
+              onChange={(value) => setLevel(value as SelfRatedLevel)}
+            />
+          </fieldset>
 
-        <div className="bingeup-onboarding-field">
-          <span className="bingeup-onboarding-field-label">学习水平</span>
-          <div
-            className="bingeup-onboarding-options bingeup-onboarding-level-options"
-            role="radiogroup"
-            aria-label="学习水平"
-          >
-            {LEVEL_OPTIONS.map((opt) => {
-              const checked = level === opt.value;
-              return (
-                <label
-                  key={opt.value}
-                  className={
-                    'bingeup-onboarding-option bingeup-onboarding-option-sm' +
-                    (checked ? ' checked' : '')
-                  }
-                >
-                  <input
-                    type="radio"
-                    role="radio"
-                    aria-checked={checked}
-                    name="bingeup-onboarding-level"
-                    value={opt.value}
-                    checked={checked}
-                    onChange={() => setLevel(opt.value)}
-                  />
-                  <div className="bingeup-site-info">
-                    <span className="bingeup-site-name">{opt.name}</span>
-                    <span className="bingeup-site-desc">{opt.desc}</span>
-                  </div>
-                </label>
-              );
-            })}
-          </div>
-        </div>
+          <fieldset className="bingeup-onboarding-field">
+            <legend className="bingeup-onboarding-field-label">词库</legend>
+            <Radio
+              direction="vertical"
+              options={DECK_RADIO_OPTIONS}
+              value={deckId}
+              onChange={(value) => setDeckId(String(value))}
+            />
+          </fieldset>
 
-        <div className="bingeup-onboarding-field">
-          <span className="bingeup-onboarding-field-label">词库</span>
-          <div className="bingeup-onboarding-options" role="radiogroup" aria-label="词库">
-            {BUILT_IN_DECKS.map((deck) => {
-              const checked = deckId === deck.id;
-              return (
-                <label
-                  key={deck.id}
-                  className={
-                    'bingeup-onboarding-option bingeup-onboarding-option-sm' +
-                    (checked ? ' checked' : '')
-                  }
-                >
-                  <input
-                    type="radio"
-                    role="radio"
-                    aria-checked={checked}
-                    name="bingeup-onboarding-deck"
-                    value={deck.id}
-                    checked={checked}
-                    onChange={() => setDeckId(deck.id)}
-                  />
-                  <div className="bingeup-site-info">
-                    <span className="bingeup-site-name">{deck.name}</span>
-                    {deck.description && (
-                      <span className="bingeup-site-desc">{deck.description}</span>
-                    )}
-                  </div>
-                </label>
-              );
-            })}
-          </div>
-        </div>
+          <p className="bingeup-onboarding-hint">
+            之后可在设置页修改学习水平、词库与其他学习设置。
+          </p>
+        </Card>
+      </IslandSection>
 
-        <p className="bingeup-onboarding-hint">之后可在设置页修改学习水平、词库与其他学习设置。</p>
-      </section>
+      <IslandSection title="默认支持网站">
+        <Card className="bingeup-onboarding-card">
+          <Checkbox
+            direction="vertical"
+            options={SITE_CHECKBOX_OPTIONS}
+            value={[...selected]}
+            onChange={(values) => setSelected(new Set(values as OnboardingSiteSelection[]))}
+          />
+          <p className="bingeup-onboarding-hint">
+            取消所有网站也可以完成引导，之后可在 Popup 面板中随时重新启用。
+          </p>
+        </Card>
+      </IslandSection>
 
-      <section
-        className="bingeup-onboarding-section"
-        aria-labelledby="bingeup-onboarding-sites-title"
-      >
-        <h2 id="bingeup-onboarding-sites-title">默认支持网站</h2>
-        <div className="bingeup-site-options">
-          {SITE_OPTIONS.map((opt) => {
-            const checked = selected.has(opt.key);
-            return (
-              <label key={opt.key} className={'bingeup-site-option' + (checked ? ' checked' : '')}>
-                <input type="checkbox" checked={checked} onChange={() => toggleSite(opt.key)} />
-                <div className="bingeup-site-info">
-                  <span className="bingeup-site-name">{opt.name}</span>
-                  <span className="bingeup-site-desc">{opt.desc}</span>
-                </div>
-              </label>
-            );
-          })}
-        </div>
+      {errorMsg !== null && (
+        <Card className="bingeup-onboarding-error">
+          <p className="bingeup-onboarding-error-text">出错了：{errorMsg}</p>
+        </Card>
+      )}
 
-        <p className="bingeup-onboarding-hint">
-          取消所有网站也可以完成引导，之后可在 Popup 面板中随时重新启用。
-        </p>
-      </section>
-
-      {errorMsg !== null && <p className="bingeup-error">出错了：{errorMsg}</p>}
-
-      <button
-        className="bingeup-btn-primary"
+      <Button
+        type="primary"
+        size="large"
+        block
         disabled={submitting}
         onClick={() => void handleComplete()}
       >
         {submitting ? '处理中…' : '完成引导'}
-      </button>
-    </div>
+      </Button>
+    </IslandPage>
   );
 }

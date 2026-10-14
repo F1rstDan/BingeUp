@@ -1,463 +1,290 @@
+/**
+ * 设置页样式（工单 #41 M3b 原版迁移）。
+ *
+ * 只保留本页布局职责；颜色、圆角与间距一律使用 island 基础模块的语义别名
+ * （--island-* → animal-island-ui 的 --animal-*）。旧蓝粉样式已在本页清零，
+ * 全局旧令牌的删除仍属工单 #46。
+ */
+
 html,
 body {
-  min-width: 320px;
   min-height: 100vh;
-  color: var(--bingeup-ink);
-  background: var(--bingeup-canvas);
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
   font-size: 14px;
+  -webkit-font-smoothing: antialiased;
 }
 
-.bingeup-options {
-  width: min(100% - 40px, 760px);
+.island-page.bingeup-options {
+  width: min(100% - 32px, 760px);
   margin: 0 auto;
-  padding: 42px 0 64px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
+  padding: 32px 0 64px;
+  gap: var(--island-space-lg);
 }
-.bingeup-options h1 {
+
+.bingeup-title {
   margin: 0;
-  color: var(--bingeup-ink);
-  font-size: 32px;
+  color: var(--island-text-color);
+  font-size: 28px;
   font-weight: 900;
-  letter-spacing: -0.07em;
+  overflow-wrap: anywhere;
 }
-.bingeup-section {
+
+/* ─── 分区 Tabs 集成 ─────────────────────────────────────── */
+/* 库容器默认 overflow:hidden 会裁剪原版 Select 的侧边下拉面板；本页将其放开，
+   并把表头两角按容器内圆角补齐（仅布局，不改颜色与形状）。 */
+.island-page.bingeup-options .bingeup-tabs {
+  overflow: visible;
+}
+.bingeup-options .bingeup-tabs > [role='tablist'] {
+  border-radius: 22px 22px 0 0;
+}
+
+/* ─── 通用区块 ───────────────────────────────────────────── */
+
+.bingeup-card {
+  display: grid;
+  gap: var(--island-space-sm);
+}
+
+.bingeup-panel {
+  display: grid;
+  gap: var(--island-space-md);
+}
+
+.bingeup-actions {
   display: flex;
-  flex-direction: column;
-  gap: 13px;
-  padding: 22px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-lg);
-  background: var(--bingeup-white);
-  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
+  flex-wrap: wrap;
+  gap: var(--island-space-md);
+  padding-top: var(--island-space-sm);
 }
-.bingeup-section h2 {
-  margin: 0 0 3px;
-  color: var(--bingeup-ink);
-  font-size: 17px;
-  font-weight: 900;
-  letter-spacing: -0.04em;
+
+.bingeup-hint {
+  margin: 0;
+  color: var(--island-text-color-secondary);
+  line-height: 1.6;
 }
+
+.bingeup-notice {
+  display: grid;
+  gap: var(--island-space-sm);
+}
+
+.bingeup-notice-text {
+  margin: 0;
+  color: var(--island-text-color);
+  font-weight: 700;
+}
+
+.bingeup-error {
+  margin: 0;
+  color: var(--island-error-color);
+  font-weight: 700;
+}
+
+.bingeup-confirm-message {
+  margin: 0;
+}
+
+.bingeup-file-input {
+  display: none;
+}
+
+/* ─── 设置字段行 ─────────────────────────────────────────── */
+
 .bingeup-field {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  min-height: 43px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed #e7edf2;
+  gap: var(--island-space-md);
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--island-border-color-light);
 }
 .bingeup-field:last-of-type {
   border-bottom: 0;
   padding-bottom: 0;
 }
+
 .bingeup-field-label {
-  color: #4e6072;
-  font-weight: 800;
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--island-text-color);
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
+
 .bingeup-field-control {
   display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.bingeup-options input[type='number'],
-.bingeup-options input[type='text'] {
-  width: min(260px, 46vw);
-  min-height: 36px;
-  padding: 6px 10px;
-}
-.bingeup-options input:disabled {
-  color: #a9b4bd;
-  background: #f3f6f8;
-  opacity: 0.72;
-}
-.bingeup-options input[type='checkbox']:not([role='switch']) {
-  width: 18px;
-  height: 18px;
-}
-.bingeup-options input[role='switch'] {
-  position: relative;
   flex: 0 0 auto;
-  width: 44px;
-  height: 27px;
-  margin: 0;
-  appearance: none;
-  border: 0;
-  border-radius: 999px;
-  background: #d9e2e9;
-  box-shadow: inset 0 -3px 0 rgba(82, 100, 118, 0.12);
-  cursor: pointer;
-  transition: 160ms ease;
-}
-.bingeup-options input[role='switch']::after {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 19px;
-  height: 19px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(31, 41, 55, 0.2);
-  content: '';
-  transition: 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.bingeup-options input[role='switch']:hover:not(:disabled) {
-  background: #cbd7df;
-}
-.bingeup-options input[role='switch']:checked {
-  background: var(--bingeup-blue);
-  box-shadow: inset 0 -3px 0 var(--bingeup-blue-dark);
-}
-.bingeup-options input[role='switch']:checked:hover:not(:disabled) {
-  background: #2198ee;
-}
-.bingeup-options input[role='switch']:checked::after {
-  transform: translateX(17px);
-}
-.bingeup-options input[role='switch']:active:not(:disabled)::after {
-  width: 22px;
-}
-.bingeup-options input[role='switch']:checked:active:not(:disabled)::after {
-  transform: translateX(14px);
-}
-.bingeup-options input[role='switch']:disabled {
-  background: #edf1f4;
-  box-shadow: none;
-  cursor: not-allowed;
-  opacity: 0.75;
-}
-.bingeup-options input[role='switch']:disabled::after {
-  background: #f8fafb;
-  box-shadow: 0 1px 3px rgba(31, 41, 55, 0.1);
-}
-.bingeup-options button {
-  min-height: 38px;
-  padding: 7px 13px;
-  border: 0;
-  border-radius: 11px;
-  font-size: 13px;
-  font-weight: 900;
-  transition: 140ms ease;
-}
-.bingeup-options button:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-.bingeup-options button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-.bingeup-options button:disabled {
-  opacity: 0.5;
-}
-.bingeup-dropdown {
-  position: relative;
-  z-index: 1;
-  width: min(260px, 46vw);
-}
-.bingeup-dropdown.is-open {
-  z-index: 20;
-}
-.bingeup-options .bingeup-dropdown-trigger {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  min-height: 48px;
-  padding: 8px 10px 8px 13px;
-  border: 1.5px solid #dce6ed;
-  border-radius: 13px;
-  background: #fff;
-  box-shadow: 0 3px 0 #e5ebf0;
-  color: var(--bingeup-ink);
-  text-align: left;
-  transition: 140ms ease;
-}
-.bingeup-options .bingeup-dropdown-trigger:hover:not(:disabled) {
-  border-color: #9bd4f8;
-  background: #f8fcff;
-  transform: none;
-}
-.bingeup-options .bingeup-dropdown-trigger:active:not(:disabled) {
-  box-shadow: 0 2px 0 #e5ebf0;
-  transform: translateY(1px);
-}
-.bingeup-dropdown-value {
-  display: grid;
-  gap: 2px;
+  justify-content: flex-end;
+  gap: var(--island-space-sm);
   min-width: 0;
 }
-.bingeup-dropdown-value small {
-  color: #9aa8b5;
-  font-size: 10px;
-  font-weight: 800;
+
+.bingeup-field-control .bingeup-input {
+  width: min(240px, 100%);
 }
-.bingeup-dropdown-value strong {
-  overflow: hidden;
-  color: #435568;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+/* 原版 Select 的根节点没有对外类名，统一由本包一层容器约束宽度。 */
+.bingeup-select {
+  width: min(240px, 100%);
 }
-.bingeup-dropdown-chevron {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: #f0f6fa;
-  color: var(--bingeup-blue);
-  transition: background-color 160ms ease;
-}
-.bingeup-dropdown-chevron svg {
-  display: block;
-  width: 14px;
-  height: 14px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
-  transform-origin: center;
-  transition: transform 160ms ease;
-}
-.bingeup-dropdown.is-open .bingeup-dropdown-trigger {
-  border-color: var(--bingeup-blue);
-  box-shadow:
-    0 0 0 3px rgba(10, 134, 230, 0.12),
-    0 3px 0 #b9def6;
-}
-.bingeup-dropdown.is-open .bingeup-dropdown-chevron {
-  background: var(--bingeup-blue-soft);
-}
-.bingeup-dropdown.is-open .bingeup-dropdown-chevron svg {
-  transform: rotate(180deg);
-}
-.bingeup-dropdown-menu {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 8px);
-  left: 0;
+.bingeup-select > div {
   width: 100%;
-  padding: 6px;
-  border: 1px solid #dce6ed;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 18px 38px rgba(35, 75, 112, 0.16);
-  animation: bingeup-dropdown-in 140ms ease-out;
 }
-.bingeup-options .bingeup-dropdown-option {
+
+/* 当前词库描述（工单 #47）：恢复 M3b 记录的能力差异，Select 下方辅助文本。 */
+.bingeup-deck-control {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
+  gap: 4px;
+  width: min(240px, 100%);
+}
+
+.bingeup-deck-control .bingeup-select {
   width: 100%;
-  min-height: 45px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: transparent;
-  color: #526476;
-  text-align: left;
-  transition: 120ms ease;
 }
-.bingeup-options .bingeup-dropdown-option:hover:not(:disabled) {
-  background: #f4f9fd;
-  color: var(--bingeup-blue-dark);
-  transform: none;
-}
-.bingeup-options .bingeup-dropdown-option:active:not(:disabled) {
-  transform: none;
-}
-.bingeup-options .bingeup-dropdown-option:focus-visible {
-  outline: 2px solid rgba(10, 134, 230, 0.32);
-  outline-offset: -2px;
-  background: #f4f9fd;
-  color: var(--bingeup-blue-dark);
-}
-.bingeup-dropdown-option[aria-checked='true'] {
-  background: var(--bingeup-blue-soft);
-  color: var(--bingeup-blue-dark);
-}
-.bingeup-dropdown-option-copy {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-.bingeup-dropdown-option-copy strong {
-  font-size: 12px;
-}
-.bingeup-dropdown-option-copy small {
-  color: #96a4b2;
-  font-size: 10px;
-  line-height: 1.4;
-}
-.bingeup-dropdown-option[aria-checked='true'] .bingeup-dropdown-option-copy small {
-  color: #5b9dcc;
-}
-.bingeup-dropdown-radio {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
-  border: 1.5px solid #cfdbe4;
-  border-radius: 50%;
-  background: #fff;
-  transition: 140ms ease;
-}
-.bingeup-dropdown-radio::after {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--bingeup-blue);
-  content: '';
-  opacity: 0;
-  transform: scale(0.35);
-  transition: 140ms ease;
-}
-.bingeup-dropdown-option[aria-checked='true'] .bingeup-dropdown-radio {
-  border-color: var(--bingeup-blue);
-}
-.bingeup-dropdown-option[aria-checked='true'] .bingeup-dropdown-radio::after {
-  opacity: 1;
-  transform: scale(1);
-}
-.bingeup-btn-sm {
-  min-height: 31px !important;
-  padding: 4px 10px !important;
-  font-size: 12px !important;
-}
-.bingeup-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-.bingeup-file-input {
-  display: none;
-}
-.bingeup-hint {
+
+.bingeup-deck-description {
   margin: 0;
-  color: var(--bingeup-muted);
-  line-height: 1.55;
+  color: var(--island-text-color-secondary);
+  font-size: var(--island-font-size-sm);
+  line-height: 1.6;
 }
-.bingeup-notice {
-  margin: 0;
-  padding: 11px 13px;
-  border-left: 4px solid var(--bingeup-green);
-  border-radius: 12px;
-  color: var(--bingeup-green-dark);
-  background: var(--bingeup-green-soft);
-  font-weight: 800;
-}
-.bingeup-error {
-  margin: 0;
-  color: var(--bingeup-pink-dark);
-  font-weight: 800;
-}
+
+/* ─── 网站管理 ───────────────────────────────────────────── */
+
 .bingeup-site-add {
   display: grid;
-  gap: 7px;
-  padding-bottom: 13px;
-  border-bottom: 1px dashed #e7edf2;
+  gap: var(--island-space-sm);
 }
-.bingeup-site-add > label {
-  color: #4e6072;
-  font-weight: 800;
-}
+
 .bingeup-site-add-controls {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: var(--island-space-sm);
 }
-.bingeup-site-add-controls input {
-  flex: 1;
-  width: auto !important;
+.bingeup-site-add-controls .bingeup-input {
+  flex: 1 1 auto;
 }
+.bingeup-site-add-controls > button {
+  flex: 0 0 auto;
+}
+
 .bingeup-site-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  gap: var(--island-space-md);
 }
+
 .bingeup-site-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 13px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-md);
-  background: #fbfdff;
+  gap: var(--island-space-sm);
   flex-wrap: wrap;
 }
+
 .bingeup-site-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--island-space-sm);
+  min-width: 0;
+  flex: 1 1 auto;
   flex-wrap: wrap;
 }
+
 .bingeup-site-host {
-  color: var(--bingeup-ink);
-  font-weight: 900;
+  color: var(--island-text-color);
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
-.bingeup-badge {
-  padding: 3px 8px;
-  border-radius: 999px;
-  color: #738394;
-  background: #eef2f5;
-  font-size: 11px;
-  font-weight: 900;
-}
-.bingeup-badge-ok {
-  color: var(--bingeup-green-dark);
-  background: var(--bingeup-green-soft);
-}
-.bingeup-badge-off {
-  color: var(--bingeup-pink-dark);
-  background: var(--bingeup-pink-soft);
-}
+
 .bingeup-site-triggers {
   display: flex;
-  gap: 12px;
-  color: var(--bingeup-muted);
-  font-size: 12px;
-}
-.bingeup-site-triggers label {
-  display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--island-space-md);
+  flex-wrap: wrap;
+  color: var(--island-text-color-secondary);
+  font-size: var(--island-font-size-sm);
 }
 
-@keyframes bingeup-dropdown-in {
-  from {
-    opacity: 0;
-    transform: translateY(-5px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.bingeup-site-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
+
+.bingeup-site-controls {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--island-space-sm);
+}
+
+/* ─── 窄视口（≤540px）────────────────────────────────────── */
 
 @media (max-width: 540px) {
-  .bingeup-options {
-    width: min(100% - 28px, 760px);
-    padding-top: 28px;
+  .bingeup-options .bingeup-tabs > [role='tabpanel'] {
+    padding: 16px;
   }
+
   .bingeup-field {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    gap: var(--island-space-sm);
   }
+
+  .bingeup-field-control {
+    justify-content: flex-start;
+  }
+
+  .bingeup-field-control .bingeup-input,
+  .bingeup-select,
+  .bingeup-deck-control {
+    width: 100%;
+  }
+
   .bingeup-site-add-controls {
     align-items: stretch;
     flex-direction: column;
   }
-  .bingeup-field-control,
-  .bingeup-dropdown {
-    width: 100%;
+
+  /* 窄视口下把原版 Select 的侧边面板改为在触发区下方展开，避免面板越出视口；
+     仅重定位，不改库组件的颜色与形状。 */
+  .bingeup-select > div > [role='listbox'] {
+    left: 0 !important;
+    right: auto !important;
+    top: calc(100% + 6px) !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: none !important;
   }
-  .bingeup-options input[type='number'],
-  .bingeup-options input[type='text'] {
-    width: 100%;
+}
+
+/* 极窄视口下收紧分区表头内边距，避免三个标签换行成两行。 */
+@media (max-width: 400px) {
+  .bingeup-options .bingeup-tabs > [role='tablist'] {
+    gap: 2px;
+    padding: 8px;
+  }
+  .bingeup-options .bingeup-tabs [role='tab'] {
+    gap: 4px;
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+/* 标题飘带（2026-10-14 修正）：窄视口下「刷刷升级 — 设置」的 nowrap 飘带
+   （Title size=large 的 28px 字号）比内容列宽更宽，320px 实测横向溢出
+   （scrollWidth 345 > 320）。库 Title 的内部尺寸全部使用 em，这里把飘带
+   字号降到 24px 让整体等比缩小，标题完整可见且不产生横向滚动。
+   选择器基于库的稳定类名前缀 animal-ribbon-<hash>（内层飘带根元素；
+   animal-ribbonBack 等装饰类不匹配该前缀）；字号覆盖用 !important，
+   因为 size 属性会以内联 font-size 下发。 */
+@media (max-width: 420px) {
+  .bingeup-title [class^='animal-ribbon-'] {
+    font-size: 24px !important;
   }
 }

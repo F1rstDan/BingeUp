@@ -1,9 +1,17 @@
+/**
+ * 开发数据页样式（工单 #46 迁移）。
+ *
+ * 该页面仅存在于开发构建；视觉与扩展页面一致：色值一律使用 island 主题别名
+ * （--island-* → animal-island-ui 的 --animal-*），不再依赖已删除的旧蓝粉令牌。
+ * 只保留本页布局职责。
+ */
+
 html,
 body {
   min-width: 320px;
   min-height: 100vh;
-  color: var(--bingeup-ink);
-  background: var(--bingeup-canvas);
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
   font-size: 14px;
 }
 
@@ -30,19 +38,19 @@ body {
 
 .bingeup-dev-page-header p {
   margin: 8px 0 0;
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
 }
 
 .bingeup-dev-refreshed-at {
   display: block;
   margin-top: 8px;
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   font-size: 12px;
 }
 
 .bingeup-dev-eyebrow {
   margin: 0 0 8px !important;
-  color: var(--bingeup-blue) !important;
+  color: var(--island-primary-color) !important;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -51,17 +59,17 @@ body {
 
 .bingeup-dev-page-header button {
   min-width: 96px;
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 11px;
-  color: #fff;
-  background: var(--bingeup-blue);
-  box-shadow: 0 3px 0 var(--bingeup-blue-dark);
+  padding: 10px 18px;
+  border: 2px solid var(--island-border-color);
+  border-radius: 50px;
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
   font-weight: 900;
 }
 
 .bingeup-dev-page-header button:hover:not(:disabled) {
-  background: #2198ee;
+  border-color: var(--island-primary-color);
+  color: var(--island-primary-color);
 }
 
 .bingeup-dev-page-header button:disabled {
@@ -73,10 +81,9 @@ body {
 .bingeup-dev-data-section {
   margin-top: 18px;
   padding: 20px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-lg);
-  background: var(--bingeup-white);
-  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
+  border: 1px solid var(--island-border-color-light);
+  border-radius: var(--island-radius-lg);
+  background: var(--island-bg-color-secondary);
 }
 
 .bingeup-dev-page-section-head,
@@ -89,7 +96,7 @@ body {
 
 .bingeup-dev-page h2 {
   margin: 0 0 14px;
-  color: #4e6072;
+  color: var(--island-text-color);
   font-size: 16px;
   font-weight: 900;
   letter-spacing: -0.04em;
@@ -97,7 +104,7 @@ body {
 
 .bingeup-dev-page-section-head span,
 .bingeup-dev-data-section summary span {
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   font-size: 12px;
 }
 
@@ -112,7 +119,7 @@ body {
 }
 
 .bingeup-dev-data-section summary strong {
-  color: #4e6072;
+  color: var(--island-text-color);
   font-size: 16px;
 }
 
@@ -121,7 +128,7 @@ body {
   margin: 0;
   padding: 0 20px 20px;
   overflow: auto;
-  color: #34495b;
+  color: var(--island-text-color);
   font:
     12px/1.55 ui-monospace,
     SFMono-Regular,
@@ -135,7 +142,7 @@ body {
 .bingeup-dev-empty {
   margin: 0;
   padding: 0 20px 20px;
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   font-size: 12px;
 }
 
@@ -153,19 +160,19 @@ body {
 .bingeup-dev-table th,
 .bingeup-dev-table td {
   padding: 9px 10px;
-  border-bottom: 1px solid #edf1f5;
+  border-bottom: 1px solid var(--island-border-color-light);
   text-align: left;
   vertical-align: top;
 }
 
 .bingeup-dev-table th {
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   font-size: 11px;
   font-weight: 900;
 }
 
 .bingeup-dev-table td {
-  color: #4e6072;
+  color: var(--island-text-color);
 }
 
 .bingeup-dev-table td:first-child {
@@ -176,23 +183,23 @@ body {
 }
 
 .bingeup-dev-table code {
-  color: var(--bingeup-blue-dark);
+  color: var(--island-primary-color);
   font-size: 11px;
 }
 
 .bingeup-dev-table small {
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
 }
 
 .bingeup-dev-page-muted,
 .bingeup-dev-page-error {
   padding: 28px 0;
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   text-align: center;
 }
 
 .bingeup-dev-page-error {
-  color: var(--bingeup-pink-dark);
+  color: var(--island-error-color);
   font-weight: 800;
 }
 

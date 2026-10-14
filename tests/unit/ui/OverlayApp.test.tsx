@@ -227,7 +227,10 @@ describe('OverlayApp — 单题反馈', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
     clickSubmitButton();
-    expect(screen.getByText(/答对了|正确|答对/)).toBeInTheDocument();
+    const resultText = screen.getByText(/答对了|正确|答对/);
+    expect(resultText).toBeInTheDocument();
+    // M5：结果图标来自 naive-icons，与文字一起表达状态（不仅依赖颜色）。
+    expect(resultText.parentElement?.querySelector('svg')).not.toBeNull();
   });
 
   it('提交后显示正确性（答错）', () => {
@@ -235,7 +238,9 @@ describe('OverlayApp — 单题反馈', () => {
     renderOverlay({ kind: 'question', question: wrongQuestion });
     click('吸收'); // selectedIndex=0, correct=1
     clickSubmitButton();
-    expect(screen.getByText(/答错了|错误|答错/)).toBeInTheDocument();
+    const resultText = screen.getByText(/答错了|错误|答错/);
+    expect(resultText).toBeInTheDocument();
+    expect(resultText.parentElement?.querySelector('svg')).not.toBeNull();
   });
 
   it('答错后默认展开学习信息，并显示三项反馈操作', () => {
@@ -297,7 +302,7 @@ describe('OverlayApp — 单题反馈', () => {
     clickSubmitButton();
 
     const actionsGroup = screen.getByRole('group', { name: '题目操作' });
-    expect(actionsGroup).toHaveClass('bingeup-question-actions');
+    // 组件替换后不再冻结 CSS 类名；组语义与按钮顺序由下方断言覆盖。
     const actions = within(actionsGroup).getAllByRole('button');
     expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
       '跳过 Esc',
@@ -362,13 +367,16 @@ describe('OverlayApp — 快捷键', () => {
     it('按下数字键 1-4 选择对应选项', () => {
       renderOverlay({ kind: 'question', question: QUESTION });
       pressKey('1');
-      expect(screen.getByText('吸收').closest('button')).toHaveClass('selected');
+      const selectedOption = screen.getByText('吸收').closest('button');
+      expect(selectedOption).toHaveAttribute('aria-pressed', 'true');
+      // M5：选中状态用原版令牌样式 + naive-icons 图标表达，不仅依赖颜色。
+      expect(selectedOption?.querySelector('svg')).not.toBeNull();
     });
 
     it('按下字母键 A-D 选择对应选项', () => {
       renderOverlay({ kind: 'question', question: QUESTION });
       pressKey('b');
-      expect(screen.getByText('释放').closest('button')).toHaveClass('selected');
+      expect(screen.getByText('释放').closest('button')).toHaveAttribute('aria-pressed', 'true');
     });
 
     it('选择后按 Enter 提交', () => {
@@ -580,15 +588,16 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
   });
 
   describe('验收标准 2：无障碍反馈（不依赖颜色）', () => {
-    it('上一题反馈区包含 ✓/✗ 图标', () => {
+    it('上一题反馈区包含结果图标（不依赖颜色）', () => {
       renderOverlayContinuous(
         { kind: 'question', question: QUESTION },
         { previousFeedback: PREVIOUS_FEEDBACK },
       );
-      expect(screen.getByText('✗')).toBeInTheDocument();
+      const status = screen.getByLabelText('上一题答错');
+      expect(status.querySelector('svg')).not.toBeNull();
     });
 
-    it('上一题答对时显示 ✓ 图标', () => {
+    it('上一题答对时显示结果图标与纠正入口', () => {
       const correctFeedback: SubmissionResult = {
         ...PREVIOUS_FEEDBACK,
         isCorrect: true,
@@ -597,7 +606,8 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
         { kind: 'question', question: QUESTION },
         { previousFeedback: correctFeedback },
       );
-      expect(screen.getByText('✓')).toBeInTheDocument();
+      const status = screen.getByLabelText('上一题答对');
+      expect(status.querySelector('svg')).not.toBeNull();
       expect(screen.getByText(/答对了/)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '其实是蒙的' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '这个太简单' })).toBeInTheDocument();

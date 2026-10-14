@@ -13,6 +13,7 @@ export default tseslint.config(
       '.output/',
       '.wxt/',
       'dist/',
+      'preview/dist/',
       'node_modules/',
       'public/dictionaries/',
       'scripts/build-dictionary/.cache/',

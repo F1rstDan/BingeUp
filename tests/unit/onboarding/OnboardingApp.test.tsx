@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
 import { getDefaultDeck } from '@/dictionary/built-in/decks';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import type { SelfRatedLevel } from '@/types';
 
 const mocks = vi.hoisted(() => ({
   completeOnboarding: vi.fn(),
@@ -13,6 +14,13 @@ vi.mock('@/messaging/message-client', () => ({
     completeOnboarding: mocks.completeOnboarding,
   },
 }));
+
+/** 学习水平取值到可见文案的映射（断言默认选中项时与 DEFAULT_SETTINGS 联动）。 */
+const LEVEL_LABELS: Record<SelfRatedLevel, string> = {
+  beginner: '初学',
+  intermediate: '一般',
+  advanced: '进阶',
+};
 
 describe('OnboardingApp — Issue #9 AC1 / Issue #21', () => {
   beforeEach(() => {
@@ -26,10 +34,12 @@ describe('OnboardingApp — Issue #9 AC1 / Issue #21', () => {
     vi.restoreAllMocks();
   });
 
-  it('欢迎标题中的品牌名使用品牌色样式', () => {
+  it('欢迎标题渲染为一级标题并包含品牌名', () => {
     render(<OnboardingApp />);
 
-    expect(screen.getByText('刷刷升级')).toHaveClass('bingeup-onboarding-brand-name');
+    expect(
+      screen.getByRole('heading', { level: 1, name: /欢迎使用.*刷刷升级/ }),
+    ).toBeInTheDocument();
   });
 
   it('默认勾选所有受支持站点并在完成时启用它们', async () => {
@@ -128,17 +138,12 @@ describe('OnboardingApp — Issue #21 学习设置', () => {
   it('默认选择默认词库与默认学习水平（一般）', () => {
     render(<OnboardingApp />);
 
-    const levelGroup = screen.getByRole('radiogroup', { name: '学习水平' });
-    const defaultLevelRadio = levelGroup.querySelector(
-      `input[value="${DEFAULT_SETTINGS.selfRatedLevel}"]`,
-    ) as HTMLInputElement;
-    expect(defaultLevelRadio.checked).toBe(true);
-
-    const deckGroup = screen.getByRole('radiogroup', { name: '词库' });
-    const defaultDeckRadio = deckGroup.querySelector(
-      `input[value="${getDefaultDeck().id}"]`,
-    ) as HTMLInputElement;
-    expect(defaultDeckRadio.checked).toBe(true);
+    expect(
+      screen.getByRole('radio', {
+        name: new RegExp(LEVEL_LABELS[DEFAULT_SETTINGS.selfRatedLevel]),
+      }),
+    ).toBeChecked();
+    expect(screen.getByRole('radio', { name: new RegExp(getDefaultDeck().name) })).toBeChecked();
   });
 
   it('切换学习水平后完成时提交新水平', async () => {
@@ -202,5 +207,38 @@ describe('OnboardingApp — Issue #21 学习设置', () => {
         selfRatedLevel: 'advanced',
       });
     });
+  });
+});
+
+describe('OnboardingApp — 工单 #40 原版视觉迁移的结构语义', () => {
+  beforeEach(() => {
+    mocks.completeOnboarding.mockReset();
+    mocks.completeOnboarding.mockResolvedValue(undefined);
+    vi.spyOn(window, 'close').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('使用 island 页面外壳（main 地标）与命名区块组织引导内容', () => {
+    render(<OnboardingApp />);
+
+    expect(screen.getByRole('main')).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: '学习设置' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: '默认支持网站' })).toBeInTheDocument();
+  });
+
+  it('完成页同样使用 island 页面外壳', async () => {
+    render(<OnboardingApp />);
+
+    fireEvent.click(screen.getByText('完成引导'));
+
+    await waitFor(() => {
+      expect(screen.getByText('引导完成')).toBeInTheDocument();
+    });
+    expect(screen.getByRole('main')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '关闭' })).toBeInTheDocument();
   });
 });
