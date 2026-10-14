@@ -1296,3 +1296,14 @@ hover / active 实测（设置页「保存设置」，浏览器驱动真实鼠�
 | 既有采集复跑（比对） | CAPTURE_M3B / CAPTURE_M2 / CAPTURE_M3C | 3 / 5 / 2 通过；历史截图未入库（截图含品牌色与标题的预期变化，且存在逐次字节差异，已恢复为历史存档；断言为确定性判据） |
 
 说明：截图采集存在逐次字节差异（字体抗锯齿等），断言（计算样式、溢出、角色与名称）是确定性验证；docs/assets/migration-ui-fixes/ 中的截图保持提交时的采集版本。
+
+## 本地 UI 预览站（收尾补充）
+
+为便于人工验收与逐块批注，收尾阶段新增了独立于扩展构建的本地预览站（随 PR #47 合并）：
+
+- 启动：`npm install`（首次）后运行 `npm run dev:preview` → http://localhost:5174（Vite，端口 5174）。
+- 内容：Popup 四态（可学习 / 已暂停 / 无活动标签页 / 需权限）、设置页三标签、统计页（非空 / 空态）、安装引导、视频遮罩七态（新词展示 / 选择题 / 拼写题 / 正确反馈 / 错误反馈 / 连续学习反馈）、启用提示与播放恢复提示；遮罩与提示经 Shadow DOM + `transformIslandShadowCss` 真实样式管线渲染。
+- 设计：唯一仿真缝为 `preview/mock-message-client.ts`（替换 `@/messaging/message-client`，类型级 `satisfies` 约束与真实接口保持一致）与 `preview/chrome-shim.ts`（内存版 chrome.tabs / runtime / permissions / storage）；其余组件、样式与类型全部复用 `src/`。
+- 隔离：预览站位于 `preview/`（`vite.preview.config.ts`），不进入扩展产物；构建后产物检索不到预览代码。
+- 证据：截图见 docs/assets/ui-preview/（13 张，仅作人工验收参考，不作像素基线）。
+- 限制：仅在 Chromium 实测；chrome 垫片为内存 mock，权限与存储行为与真机扩展运行时有差异；快捷操作、评分纠正等深层交互仍建议结合真机人工矩阵验证。
