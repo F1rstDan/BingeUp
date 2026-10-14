@@ -32,6 +32,14 @@ import {
 } from './demo-data';
 
 /**
+ * 真实消息客户端的公开类型（仅在编译期使用）。
+ *
+ * mock 通过下面的 `satisfies` 约束与真实模块结构兼容：若 src/messaging/message-client.ts
+ * 新增/修改公开方法，这里会直接类型报错，避免 mock 静默漂移。
+ */
+type RealMessageClient = typeof import('@/messaging/message-client').messageClient;
+
+/**
  * 预览站的消息客户端 mock（vite.preview.config.ts 精确替换 @/messaging/message-client）。
  *
  * 公开 API 与 src/messaging/message-client.ts 一一对应；返回值使用真实类型，
@@ -328,4 +336,4 @@ export const messageClient = {
     const current = previewDemoState.sites[key] ?? unsupportedSite();
     previewDemoState.sites[key] = { ...current, mode };
   },
-};
+} satisfies RealMessageClient;
