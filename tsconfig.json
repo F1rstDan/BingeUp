@@ -14,8 +14,10 @@
   },
   "include": [
     "src/**/*",
+    "preview/**/*",
     "tests/**/*",
     "e2e/**/*",
+    "vite.preview.config.ts",
     "wxt.config.ts",
     "vitest.config.ts",
     "playwright.config.ts",
