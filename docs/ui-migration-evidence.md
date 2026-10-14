@@ -1280,3 +1280,19 @@ hover / active 实测（设置页「保存设置」，浏览器驱动真实鼠�
 - 禁用态主按钮保持库的奶油置灰外观是本实现的有意选择（任务要求未提及禁用态），如需要禁用态也使用薄荷色需另行调整；
 - DevTools 开发数据页不进生产构建，其标题飘带仅由单测覆盖（未做真实浏览器采集）；
 - 窄视口标题字号 24px 为适配 320px 溢出的实现选择（阈值 420px），未覆盖更极端宽度（<280px）。
+
+### 8. 最终门禁（codex/fix-ci-ui 分支 tip）
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 格式检查 | npm run format:check | 通过（All matched files use Prettier code style；修复前 CI 失败即此步骤） |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（48 个测试文件、858 个用例；含新增 DevTools 标题断言） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest / verify-dev-tools-production / verify-island-shadow-assets） |
+| Edge 构建 | npm run build:edge | 通过（同上，edge-mv3） |
+| 浏览器 E2E | npx playwright test | 16 通过 / 33 跳过 / 0 失败（跳过为既有人工矩阵占位与采集脚本默认跳过） |
+| 修复采集 | $env:CAPTURE_FIXES='1'; npx playwright test e2e/migration-ui-fixes.spec.ts | 6 通过 |
+| 既有采集复跑（比对） | CAPTURE_M3B / CAPTURE_M2 / CAPTURE_M3C | 3 / 5 / 2 通过；历史截图未入库（截图含品牌色与标题的预期变化，且存在逐次字节差异，已恢复为历史存档；断言为确定性判据） |
+
+说明：截图采集存在逐次字节差异（字体抗锯齿等），断言（计算样式、溢出、角色与名称）是确定性验证；docs/assets/migration-ui-fixes/ 中的截图保持提交时的采集版本。
