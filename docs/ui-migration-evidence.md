@@ -607,6 +607,19 @@ npx playwright test
 $env:CAPTURE_M5='1'; npx playwright test e2e/overlay-island-migration.spec.ts
 ```
 
+### 9. 合并集成分支（含 M2）后的复测
+
+本工单推送前已合并集成分支（e69640f，含工单 #39 M2 Popup 完整迁移与共享页面基础模块）。合并后复测（Chrome 与 Edge 数字一致）：
+
+| 指标 | 集成分支（M0+M1+M4+M2） | 合并后（M0+M1+M4+M2+M5） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,318,965 B（57 文件） | +8,623 B |
+| 压缩包 zip | 8,451,396 B | 8,453,277 B | +1,881 B |
+| content script | 346,395 B | 355,018 B | +8,623 B |
+| Popup 入口闭包 | 315,708 B | 315,708 B | 0 |
+
+合并后门禁复测：typecheck 通过；npm test 47 文件 / 833 用例通过；lint 通过；Chrome/Edge 构建通过（含三个校验脚本）；npm run test:e2e 10 通过 / 18 跳过 / 0 失败。M5 增量与合并前一致（只影响内容脚本），M2 的 Popup 与共享模块未受本工单影响；M5 截图已用合并后产物重新采集并提交（截图内容随当前抽到的单词变化，仅作证据，不作像素比对基线）。
+
 相关提交（分支 codex/ticket-44-m5-overlay）：
 
 1. 遮罩迁移为 Animal Island 原版视觉并删除 M4 预览路径
