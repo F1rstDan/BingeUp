@@ -15,10 +15,14 @@ export default defineConfig({
       jsdom: { url: 'https://www.bilibili.com/' },
     },
     globals: true,
-    // animal-island-ui 的 ES 产物按组件导入 .module.css；内容脚本测试渲染原版组件时
-    // 必须让 Vite 处理该包，否则 Node 直接加载 .css 会报 UNKNOWN_EXTENSION。
-    server: { deps: { inline: ['animal-island-ui'] } },
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
+    server: {
+      deps: {
+        // animal-island-ui 的 dist/es 组件以 .module.css 副作用导入样式；
+        // 默认外置会让 Node 直接加载 .css 而报未知扩展名，故在测试中内联该包。
+        inline: ['animal-island-ui'],
+      },
+    },
   },
 });
