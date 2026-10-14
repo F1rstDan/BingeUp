@@ -503,3 +503,108 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 1. 新增 island 共享页面基础模块（IslandPage/IslandSection/IslandFooter、主题别名层、布局 CSS 与测试）
 2. Popup 完整原版化并清零旧蓝粉样式（标题栏/状态卡/今日学习/反馈页脚、单测更新与 M2 采集脚本）
 3. 新增 M2 Popup 完整迁移证据文档与截图
+
+## M3a 安装引导迁移
+
+工单：#40（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
+
+### 1. 改动概览
+
+- `src/ui/onboarding/OnboardingApp.tsx`：欢迎、学习设置（水平与词库）、网站启用与完成状态全部换为 animal-island-ui 2.2.1 原版组件（Card/Radio/Checkbox/Button/Title），页面外壳与区块复用 @/ui/island 共享基础模块；未新增引导步骤。
+  - 欢迎区：吉祥物 + 原版 Title 飘带（外层 h1 保留一级标题语义）+ 说明文案。
+  - 学习设置：IslandSection + Card；水平与词库使用原版 Radio，选项沿用“名称 + 说明”两行文案；每组用 fieldset/legend 保留组标题语义（库 Radio 无 aria-label 透传，fieldset 是等效且标准的做法）。
+  - 网站选择：原版 Checkbox 保持多选与 checkbox 角色语义，默认选中哔哩哔哩与 YouTube。
+  - 完成状态：原版 Card + Title + Button；提交失败的错误信息改用 Card + island error 色。
+  - 未改：messageClient.completeOnboarding 调用与提交内容（hostnames/deckId/selfRatedLevel）、阶段流转与全部可见文案语义；本页迁移前没有图标字符，迁移未新增图标需求。
+- `src/entrypoints/onboarding/main.tsx`：入口新增 `import 'animal-island-ui/style'`（本入口恰好一次）。
+- `src/entrypoints/onboarding/onboarding.css`：全量重写为布局职责，颜色只用 --island-* 语义别名，旧蓝粉类清零；页面宽度 min(100% - 32px, 560px) 居中。
+- `scripts/measure-bundle-baseline.mjs`：新增 onboarding 入口闭包指标（只追加字段，既有输出不变）。
+- `e2e/migration-m3a.spec.ts`：新增采集脚本（默认跳过）。
+- 未改：全局旧令牌 src/ui/styles/design-tokens.css（#46 清理）、@/ui/island 既有导出签名、依赖与锁文件。
+
+### 2. 测试覆盖变化
+
+- `tests/unit/onboarding/OnboardingApp.test.tsx`：标题断言改为“一级标题 + 品牌名”；默认选中断言改为按角色与名称查询 radio 的选中态（不再绑定 input[value] 实现细节）；新增“结构语义”2 例（main 地标与命名区块、完成页 main 与关闭按钮）；网站/水平/词库的选择与提交语义用例保持原样。
+- `tests/unit/ui/island-theme.test.ts`：新增 onboarding.css 静态规则（不引用 --bingeup、无写死色值）。
+- 规模：47 文件 / 834 用例（M2 合并态记录为 831，本次 +3）。
+
+### 3. 截图（docs/assets/migration-m3a/）
+
+| 文件 | 状态 |
+| --- | --- |
+| onboarding-select-760.png / onboarding-select-560.png / onboarding-select-360.png | 首屏默认状态：吉祥物 + Title 飘带 + 学习设置 Card（水平/词库 Radio）+ 默认支持网站 Card（Checkbox）+ 原版主按钮 |
+| onboarding-select-zoom200.png | 200% 缩放等效（CDP：CSS 视口 360、DSF 2 → 物理 720），无横向溢出 |
+| onboarding-focus-level-radio.png | 键盘 Tab 落点（当前选中的水平单选）的黄色焦点轮廓 |
+| onboarding-focus-primary-button.png | Tab 到主按钮、过渡结束后的薄荷焦点轮廓 |
+| onboarding-done-760.png | 完成状态：Card + Title 飘带 + 默认按钮“关闭” |
+
+复现命令（该 spec 默认跳过，不参与 npm run test:e2e 的常规执行；采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
+```
+
+采集运行时记录（.output/migration-m3a-capture.json）：
+
+- 字体：Nunito 与 Noto Sans SC 均 loaded；6 个字体响应全部为 chrome-extension:// 本地资源。
+- 控制台：console error 0、pageerror 0、失败请求 0。
+- 宽度：760/560/360 与缩放等效（360 @ DSF2）均 scrollWidth == clientWidth，无横向溢出。
+- 键盘：首个 Tab 落在当前选中的水平单选（roving tabindex）；ArrowDown 切换到下一档并保持焦点；焦点轮廓为原版样式——单选 rgb(245,195,28)（黄）2px、主按钮 rgb(25,200,185)（薄荷）2px（按钮带 transition: all，读取在过渡结束后进行）。
+- 完成状态：默认选择（两站启用、水平一般、词库日常高频）提交后进入完成页，文案与迁移前一致。
+
+采集脚本在打开引导页前先访问设置页做首启预热：安装后后台会自动打开引导页（onInstalled），首启直接导航会偶发 ERR_ABORTED；该处理只影响采集脚本，与产品行为无关。
+
+### 4. 体积对比（M2 合并态 → M3a，合并集成分支前；Chrome 与 Edge 数字一致）
+
+| 指标 | M2 合并态（起点 e69640f） | M3a（本分支） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 11,310,342 B（57 文件） | 11,314,284 B（58 文件） | +3,942 B |
+| 压缩包 zip | 8,451,396 B | 8,453,840 B | +2,444 B |
+| Onboarding 入口闭包 | 161,015 B（9 文件） | 302,582 B（11 文件） | +141,567 B |
+| Popup 入口闭包 | 315,708 B（10 文件） | 315,856 B（11 文件） | +148 B |
+| content script | 346,395 B | 346,395 B | 0 |
+
+明细：引导页 JS 5,256 → 11,259 B（+6,003，原版 Radio/Checkbox/Title 运行时代码）；island 模块与库公共代码改为共享分块（island 5,720 B、库分块 6,579 B），供 Popup 与引导页共用；库样式成为独立共享分块 126,298 B（迁移前内联在 Popup CSS 129,065 B 中），引导页引用共享分块不新增字节；页面自身 CSS 4,059 → 1,656 B（旧样式清零）。解包净增 3,942 B，zip 净增 2,444 B。
+
+### 5. 门禁执行记录（合并集成分支前）
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（47 文件、834 用例） |
+| Lint | npm run lint | 通过（退出码 0，含新增 e2e 采集脚本） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest.mjs、verify-dev-tools-production.mjs、verify-island-shadow-assets.mjs） |
+| Edge 构建 | npm run build:edge | 通过（同上） |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 4 节） |
+| 浏览器 E2E（既有用例） | npm run test:e2e | 8 通过 / 21 跳过（人工占位 5 + M0 采集 3 + M1 采集 5 + M2 采集 5 + M3a 采集 3） |
+| M3a 采集 | $env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts | 3 通过 |
+
+### 6. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 首次安装自动打开引导页路径的人工观感 | 无头环境直接打开 onboarding.html；onInstalled 行为本身未改，采集脚本以设置页预热规避首启竞态 |
+| Edge 真机人工矩阵 | 仅验证 edge-mv3 构建产物 |
+| 深色系统主题与强制大字体的人工观感 | 仅产物浅色截图（与 M2 相同口径） |
+| 真实浏览器 200% 缩放 | 用 CDP 设备指标做布局等效模拟（与 M1/M2 口径一致） |
+
+### 7. 复现步骤
+
+```powershell
+git checkout codex/ticket-40-m3a-onboarding
+npm install
+npx wxt prepare
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npm run test:e2e
+$env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
+```
+
+相关提交（分支 codex/ticket-40-m3a-onboarding）：
+
+1. 安装引导全量原版化并清零旧蓝粉样式（工单 #40）
+2. 新增 M3a 引导页采集脚本与引导入口闭包测量（工单 #40）
+3. 新增 M3a 安装引导迁移证据文档与截图（工单 #40）
+
