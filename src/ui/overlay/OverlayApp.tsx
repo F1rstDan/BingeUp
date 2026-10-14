@@ -39,6 +39,35 @@ function KeyHint({ children }: { children: string }) {
   return <span className="bingeup-key-hint">{children}</span>;
 }
 
+/**
+ * 反馈阶段动作组（工单 #47 抽取）：跳过 / 继续 / 明白了。
+ * 文案、快捷键、禁用逻辑与 aria 标签与抽取前逐字一致；“继续”的处理函数
+ * 由调用方注入（拼写题与选择题分别提交各自的继续动作）。
+ */
+function FeedbackActions({
+  disabled,
+  onSkip,
+  onContinue,
+}: {
+  disabled: boolean;
+  onSkip: () => void;
+  onContinue: () => void;
+}): JSX.Element {
+  return (
+    <div className="bingeup-actions bingeup-question-actions" role="group" aria-label="题目操作">
+      <Button onClick={onSkip} disabled={disabled}>
+        跳过 <KeyHint>Esc</KeyHint>
+      </Button>
+      <Button type="primary" onClick={onContinue} disabled={disabled}>
+        继续 <KeyHint>Shift + Enter</KeyHint>
+      </Button>
+      <Button type="primary" onClick={onSkip} disabled={disabled}>
+        明白了 <KeyHint>Enter</KeyHint>
+      </Button>
+    </div>
+  );
+}
+
 interface OverlayAppProps {
   item: LearningItem;
   onAction: (action: OverlayAction) => unknown | Promise<unknown>;
@@ -560,25 +589,11 @@ export function OverlayApp({
               )}
               {renderRatingCorrection()}
               {isContinuous && (
-                <div
-                  className="bingeup-actions bingeup-question-actions"
-                  role="group"
-                  aria-label="题目操作"
-                >
-                  <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
-                    跳过 <KeyHint>Esc</KeyHint>
-                  </Button>
-                  <Button type="primary" onClick={doSubmitSpellingAndContinue} disabled={done}>
-                    继续 <KeyHint>Shift + Enter</KeyHint>
-                  </Button>
-                  <Button
-                    type="primary"
-                    onClick={() => fireFinal({ type: 'skip' })}
-                    disabled={done}
-                  >
-                    明白了 <KeyHint>Enter</KeyHint>
-                  </Button>
-                </div>
+                <FeedbackActions
+                  disabled={done}
+                  onSkip={() => fireFinal({ type: 'skip' })}
+                  onContinue={doSubmitSpellingAndContinue}
+                />
               )}
             </div>
           ) : (
@@ -693,21 +708,11 @@ export function OverlayApp({
               renderExplanation(question)
             )}
             {renderRatingCorrection()}
-            <div
-              className="bingeup-actions bingeup-question-actions"
-              role="group"
-              aria-label="题目操作"
-            >
-              <Button onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
-                跳过 <KeyHint>Esc</KeyHint>
-              </Button>
-              <Button type="primary" onClick={doSubmitAndContinue} disabled={done}>
-                继续 <KeyHint>Shift + Enter</KeyHint>
-              </Button>
-              <Button type="primary" onClick={() => fireFinal({ type: 'skip' })} disabled={done}>
-                明白了 <KeyHint>Enter</KeyHint>
-              </Button>
-            </div>
+            <FeedbackActions
+              disabled={done}
+              onSkip={() => fireFinal({ type: 'skip' })}
+              onContinue={doSubmitAndContinue}
+            />
           </div>
         ) : (
           <div
