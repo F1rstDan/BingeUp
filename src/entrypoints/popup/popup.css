@@ -1,10 +1,17 @@
+/**
+ * Popup 页面样式（工单 #39 完整迁移）。
+ *
+ * 只保留本页布局职责；颜色、圆角与间距一律使用 island 基础模块的语义别名
+ * （--island-* → animal-island-ui 的 --animal-*）。旧蓝粉样式已在本页清零，
+ * 全局旧令牌的删除仍属工单 #46。
+ */
+
 html,
 body {
   width: 340px;
   max-width: 100%;
-  color: var(--bingeup-ink);
-  /* M1 垂直切片：画布切换为原版米白底色；其余区域在 M2 继续迁移。 */
-  background: var(--animal-bg-color, #f8f8f0);
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
 }
@@ -14,25 +21,23 @@ body {
 }
 
 .bingeup-popup {
-  display: grid;
-  gap: 14px;
-  width: 100%;
   min-width: 0;
-  padding: 18px;
-  border: 0;
-  background: transparent;
 }
+
+/* ─── 标题栏 ─────────────────────────────────────────────── */
 
 .bingeup-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--island-space-sm);
 }
 
 .bingeup-brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--island-space-sm);
+  min-width: 0;
 }
 
 .bingeup-brand-mascot {
@@ -43,54 +48,14 @@ body {
 }
 
 .bingeup-brand strong {
-  color: var(--bingeup-blue);
+  overflow-wrap: anywhere;
+  color: var(--island-text-color);
   font-size: 16px;
   font-weight: 900;
-  letter-spacing: -0.06em;
 }
 
-/* 未迁移按钮（标题栏设置、统计入口）保留旧样式；原版组件样式由 animal-island-ui 提供。 */
-.bingeup-popup .bingeup-popup-settings,
-.bingeup-popup .bingeup-text-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  font-weight: 900;
-  transition: 140ms ease;
-}
+/* ─── 站点状态卡 ─────────────────────────────────────────── */
 
-.bingeup-popup .bingeup-popup-settings {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  min-height: 30px;
-  padding: 0;
-  border-radius: 9px;
-  color: var(--bingeup-blue);
-  background: var(--bingeup-blue-soft);
-  box-shadow: none;
-  font-size: 15px;
-}
-
-.bingeup-popup .bingeup-popup-settings:hover:not(:disabled) {
-  background: #d9efff;
-  transform: none;
-}
-
-.bingeup-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* M1 垂直切片：站点状态区使用原版 Card/Tag/Switch/Button（animal-island-ui 2.2.1）。 */
 .bingeup-site-status {
   min-width: 0;
 }
@@ -106,24 +71,26 @@ body {
   min-width: 0;
 }
 
-.bingeup-site-dot {
+.bingeup-site-icon {
+  display: inline-flex;
   flex: 0 0 auto;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 22%, transparent);
 }
 
-.bingeup-site-dot-ready {
-  color: var(--animal-primary-color, #19c8b9);
+.bingeup-site-icon-ready {
+  color: var(--island-primary-color);
 }
-.bingeup-site-dot-paused,
-.bingeup-site-dot-warning {
-  color: var(--animal-warning-color, #f5c31c);
+
+.bingeup-site-icon-paused,
+.bingeup-site-icon-warning {
+  color: var(--island-warning-color);
 }
-.bingeup-site-dot-inactive {
-  color: var(--animal-text-color-secondary, #9f927d);
+
+.bingeup-site-icon-blocked {
+  color: var(--island-error-color);
+}
+
+.bingeup-site-icon-inactive {
+  color: var(--island-text-color-disabled);
 }
 
 .bingeup-site-copy {
@@ -136,13 +103,13 @@ body {
 
 .bingeup-site-copy strong {
   overflow-wrap: anywhere;
-  color: var(--animal-text-color, #794f27);
+  color: var(--island-text-color);
   font-size: 14px;
 }
 
 .bingeup-site-copy span {
   overflow-wrap: anywhere;
-  color: var(--animal-text-color-secondary, #9f927d);
+  color: var(--island-text-color-secondary);
   font-size: 12px;
 }
 
@@ -151,126 +118,54 @@ body {
   flex: 0 0 auto;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: var(--island-space-sm);
 }
 
-.bingeup-block {
-  padding-top: 14px;
-  border-top: 1px solid #edf1f5;
-}
-
-.bingeup-block-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.bingeup-block-head strong {
-  color: var(--bingeup-ink);
-  font-size: 12px;
-}
-
-.bingeup-text-button {
-  min-height: 24px;
-  padding: 3px 5px;
-  border-radius: 7px;
-  color: var(--bingeup-blue);
-  background: transparent;
-  box-shadow: none;
-  font-size: 10px;
-}
-
-.bingeup-text-button::after {
-  margin-left: 3px;
-  content: '›';
-}
-
-.bingeup-text-button:hover:not(:disabled) {
-  background: var(--bingeup-blue-soft);
-  transform: none;
-}
+/* ─── 今日学习指标 ───────────────────────────────────────── */
 
 .bingeup-metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
+  gap: var(--island-space-sm);
 }
 
 .bingeup-metric {
   min-width: 0;
-  padding: 9px 5px;
-  border-radius: 10px;
+  padding: 8px 4px;
+  border-radius: var(--island-radius-sm);
   text-align: center;
-  background: #f8fbfe;
+  background: var(--island-bg-color-secondary);
 }
 
 .bingeup-metric strong {
   display: block;
-  min-height: 28px;
+  min-height: 24px;
   overflow-wrap: anywhere;
-  color: var(--bingeup-blue);
-  font-size: 14px;
-  letter-spacing: -0.04em;
-}
-
-.bingeup-metric-green strong {
-  color: var(--bingeup-green);
-}
-.bingeup-metric-pink strong {
-  color: var(--bingeup-pink);
+  color: var(--island-text-color);
+  font-size: 16px;
+  font-weight: 900;
 }
 
 .bingeup-metric span {
   display: block;
-  margin-top: 3px;
-  color: var(--bingeup-muted);
-  font-size: 8px;
+  margin-top: 2px;
+  color: var(--island-text-color-secondary);
+  font-size: 9px;
+  line-height: 1.4;
 }
 
-.bingeup-actions {
-  display: grid;
-  gap: 8px;
-}
-
-.bingeup-pause-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.bingeup-hint {
-  margin: 0;
-  color: var(--bingeup-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.bingeup-notice {
-  padding: 9px 10px;
-  border: 1px solid #ffe1e8;
-  border-radius: 10px;
-  color: var(--bingeup-pink-dark);
-  background: var(--bingeup-pink-soft);
-}
-
-.bingeup-error {
-  color: var(--bingeup-pink-dark);
-  font-weight: 800;
-}
+/* ─── 状态卡（降级 / 受保护 / 需权限） ───────────────────── */
 
 .bingeup-state-card {
   display: grid;
-  gap: 9px;
-  padding: 13px;
-  border-radius: 14px;
-  background: #f7fafc;
+  gap: var(--island-space-sm);
+  min-width: 0;
 }
 
 .bingeup-state-title {
-  color: var(--bingeup-ink);
-  font-size: 13px;
+  color: var(--island-text-color);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .bingeup-row {
@@ -281,13 +176,49 @@ body {
 }
 
 .bingeup-label {
-  color: var(--bingeup-muted);
+  color: var(--island-text-color-secondary);
   font-size: 12px;
 }
 
 .bingeup-value {
   overflow-wrap: anywhere;
-  color: #4e6072;
-  font-weight: 900;
+  color: var(--island-text-color);
+  font-weight: 700;
   text-align: right;
+}
+
+/* ─── 操作与提示 ─────────────────────────────────────────── */
+
+.bingeup-actions {
+  display: grid;
+  gap: var(--island-space-sm);
+}
+
+.bingeup-pause-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--island-space-sm);
+}
+
+.bingeup-notice {
+  display: grid;
+  gap: 4px;
+}
+
+.bingeup-notice-text {
+  margin: 0;
+  color: var(--island-text-color);
+  font-size: 12px;
+}
+
+.bingeup-hint {
+  margin: 0;
+  color: var(--island-text-color-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.bingeup-error {
+  color: var(--island-error-color);
+  font-weight: 700;
 }
