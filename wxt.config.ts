@@ -1,3 +1,5 @@
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { defineConfig } from 'wxt';
 import { SUPPORTED_CONTENT_SCRIPT_MATCHES } from './src/sites/supported-sites';
 
@@ -16,6 +18,12 @@ export default defineConfig({
       {
         resources: ['dictionaries/*.json'],
         matches: ['*://*/*'],
+      },
+      {
+        // M4（工单 #43）：视频遮罩 Shadow DOM 的 animal-island-ui 本地字体。
+        // 只开放库内字体文件，且仅限内容脚本支持站点；字体离线打包，无任何远程资源。
+        resources: ['files/*.woff2'],
+        matches: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
       },
     ],
     // 图标由 scripts/generate-icons.mjs 预渲染并提交到 public/icon/；
@@ -51,6 +59,16 @@ export default defineConfig({
       if (wxt.config.command !== 'build') return;
       const devToolsIndex = entrypoints.findIndex((entrypoint) => entrypoint.name === 'dev-tools');
       if (devToolsIndex >= 0) entrypoints.splice(devToolsIndex, 1);
+    },
+    // M4（工单 #43）：把动物岛库的字体文件按库内相对路径复制进产物（files/<name>.woff2）。
+    // 遮罩 ShadowRoot 的 @font-face 通过 chrome.runtime.getURL 以 chrome-extension 绝对
+    // 路径按需加载这些文件；只复制 woff2，保持 web_accessible_resources 最小范围。
+    'build:publicAssets': (wxt, files) => {
+      const fontDir = join(wxt.config.root, 'node_modules/animal-island-ui/dist/files');
+      for (const name of readdirSync(fontDir)) {
+        if (!name.endsWith('.woff2')) continue;
+        files.push({ absoluteSrc: join(fontDir, name), relativeDest: `files/${name}` });
+      }
     },
     // Vite 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
     // WXT 的扩展 dev client 可能未携带该 token。仅在本机开发服务器中跳过校验。
