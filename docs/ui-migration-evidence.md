@@ -1060,7 +1060,7 @@ node scripts/measure-bundle-baseline.mjs
 - **字体交付统一（补充验收项）**：`wxt.config.ts` 新增构建期 Vite 插件（vite:build:extendConfig），把 animal-island-ui 发布 CSS 的字体 URL 改写为 /files/ 公共路径；Vite 不再发射 assets/<hash>.woff2，扩展页面与遮罩 ShadowRoot 共用 build:publicAssets 复制的一份 files/ 字体。插件只作用于生产构建，dev 服务器行为保持原样。
 - **测试**：`tests/unit/ui/island-theme.test.ts` 新增「旧视觉清零」静态规则——src 全目录不含 --bingeup / bingeup-btn- / bingeup-status-，两个旧样式文件不存在，dev-tools 两份样式不含旧令牌与写死色值。
 - **文档与许可**：ADR 0005 勘误与更新（Modal 支持 variant（`default` / `game`）、Modal/Drawer/Image 预览用 createPortal 与 Notification 新建 React Root 的准确表述、字体体积实测、计划文档不一致清单）；新增 `THIRD-PARTY-NOTICES.md`（animal-island-ui / naive-icons 的 MIT 全文与版权声明、Nunito / Noto Sans SC 的 OFL-1.1 全文与来源）；README 更新 showcase 拼图与 hero / workflow 插画（island 配色）并在 License 节引用第三方声明；`docs/beta-acceptance-matrix.md` 增补 UI 验收项（G8 统一原版视觉、G9 字体离线加载）与自动化覆盖清单；本证据文档按 M0→M6a 重排并修复「+## M3b」先导记号（重排前后非空行数一致：797）。
-- **脚本**：`scripts/measure-bundle-baseline.mjs` 新增 Stats 入口闭包指标（只追加字段）。
+- **脚本**：`scripts/measure-bundle-baseline.mjs` 新增 Stats 入口闭包指标（只追加字段）；`scripts/verify-island-shadow-assets.mjs` 新增单一字体交付断言（assets/ 下不得出现 woff2；页面 CSS 必须引用 /files/ 公共路径），随 build / build:edge 执行。
 
 ### 2. 字体去重（工单 #46 补充验收）
 
@@ -1071,6 +1071,7 @@ node scripts/measure-bundle-baseline.mjs
 
 - 去重前：页面 CSS 引用的 9 个 woff2 被 Vite 发射为 assets/<name>-<hash>.woff2（合计 3,563,300 B），与内容脚本使用的 files/ 副本（同为 3,563,300 B）重复；其余差额约 1.7 KB 来自 base.css 替换 design-tokens.css 的分块缩减。
 - 去重后产物实测（Chrome/Edge 相同）：assets/ 下 0 个 woff2；files/ 保留 9 个（合计 3,563,300 B）；页面共享 CSS 分块与 content script 内联 CSS 均引用 /files/ 路径；content.js 字节数与去重前一致（353,351 B）。
+- 单一交付路径已纳入构建校验：verify-island-shadow-assets.mjs 同时断言 assets/ 无 woff2 与页面 CSS 引用 /files/ 路径，Chrome/Edge 构建均通过。
 - 页面运行时复测（真实 MV3 产物 + 采集脚本）：Popup 的 Nunito 与 Noto Sans SC 均进入 loaded；6 个字体响应全部为 chrome-extension:// 本地资源；console error 0、pageerror 0、失败请求 0；重新采集的 9 张 M2 截图与合并态逐字节一致。
 
 ### 3. 最终体积（vs M0 基线，Chrome 与 Edge 数字一致）
