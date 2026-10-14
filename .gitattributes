@@ -1,0 +1,2 @@
+# 文本文件统一使用 LF 换行。Windows 检出与 CI 的格式化检查结果保持一致。
+* text=auto eol=lf

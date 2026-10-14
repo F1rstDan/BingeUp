@@ -126,6 +126,7 @@ npm run build        # Chrome 生产构建
 | 浏览器 E2E（本地手动） | `npm run test:e2e` |
 | Lint 检查 / 修复 | `npm run lint` / `npm run lint:fix` |
 | 格式化 / 检查 | `npm run format` / `npm run format:check` |
+| 推送前检查（等价 CI 门禁） | `npm run check` |
 | Chrome / Edge 构建 | `npm run build` / `npm run build:edge` |
 | 打包 zip | `npm run zip` |
 
