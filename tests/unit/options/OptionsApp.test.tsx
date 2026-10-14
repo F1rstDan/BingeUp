@@ -205,6 +205,22 @@ describe('OptionsApp — Issue #10', () => {
     expect(saved.selectedDeckId).toBe('deck-cet4');
   });
 
+  it('所选词库的描述在 Select 下方可见并随选择更新（工单 #47）', async () => {
+    renderOptions();
+
+    const deckSelect = await screen.findByRole('combobox', { name: '当前词库' });
+    expect(screen.getByText('基于现代英语语料库词频排序的高频常用词汇')).toBeInTheDocument();
+
+    fireEvent.click(deckSelect);
+    const deckOption = await screen.findByRole('option', { name: '四级' });
+    fireEvent.click(deckOption);
+
+    expect(screen.getByText('大学英语四级考试（CET-4）核心词汇')).toBeInTheDocument();
+    expect(
+      screen.queryByText('基于现代英语语料库词频排序的高频常用词汇'),
+    ).not.toBeInTheDocument();
+  });
+
   it('下拉选择支持键盘：方向键移动、Enter 选中、Escape 关闭并返回触发区', async () => {
     renderOptions();
 

@@ -202,17 +202,21 @@ export function OptionsApp(): JSX.Element {
     );
   }
 
+  const selectedDeck = BUILT_IN_DECKS.find((deck) => deck.id === settings.selectedDeckId);
   const learningPanel = (
     <Card className="bingeup-card">
       {/* AC1：学习设置 */}
       <Field label="当前词库">
-        <div className="bingeup-select">
-          <Select
-            aria-label="当前词库"
-            value={settings.selectedDeckId}
-            options={BUILT_IN_DECKS.map((deck) => ({ key: deck.id, label: deck.name }))}
-            onChange={(selectedDeckId) => setSettings({ ...settings, selectedDeckId })}
-          />
+        <div className="bingeup-deck-control">
+          <div className="bingeup-select">
+            <Select
+              aria-label="当前词库"
+              value={settings.selectedDeckId}
+              options={BUILT_IN_DECKS.map((deck) => ({ key: deck.id, label: deck.name }))}
+              onChange={(selectedDeckId) => setSettings({ ...settings, selectedDeckId })}
+            />
+          </div>
+          {selectedDeck && <p className="bingeup-deck-description">{selectedDeck.description}</p>}
         </div>
       </Field>
 
