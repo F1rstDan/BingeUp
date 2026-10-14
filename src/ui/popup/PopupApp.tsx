@@ -1,4 +1,5 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { Button, Card, Switch, Tag, type TagColor } from 'animal-island-ui';
 import mascotUrl from '@/assets/level-up-mascot.png';
 import { messageClient } from '@/messaging/message-client';
 import {
@@ -98,6 +99,14 @@ function popupSiteBadge(state: PopupDisplayState): string {
   return '待启用';
 }
 
+/** 站点状态 Tag 颜色：保持暖色/薄荷原版观感，不用旧蓝粉。 */
+function popupSiteTagColor(state: PopupDisplayState): TagColor {
+  if (state.globallyPaused) return 'app-yellow';
+  if (state.enabled) return 'app-teal';
+  if (state.compatibilityLevel === 'unsupported') return 'app-red';
+  return 'default';
+}
+
 function popupCapabilitySummary(state: PopupDisplayState): string {
   const overlay =
     state.overlayMode === 'video-region'
@@ -119,16 +128,57 @@ function startLearningUnavailableReason(
   return null;
 }
 
+interface PopupSiteStatusCardProps {
+  tone: PopupSiteStatusTone;
+  hostname: string;
+  statusLine: ReactNode;
+  capabilityLine?: string;
+  badge?: { text: string; color: TagColor };
+  control?: ReactNode;
+}
+
+/**
+ * 站点状态卡片（M1 垂直切片）：原版 Card/Tag 承载状态，Button/Switch 承载操作。
+ * 只做布局与文案组装，站点判定与消息链路仍在 PopupView 中。
+ */
+function PopupSiteStatusCard({
+  tone,
+  hostname,
+  statusLine,
+  capabilityLine,
+  badge,
+  control,
+}: PopupSiteStatusCardProps): JSX.Element {
+  return (
+    <section className="bingeup-site-status" aria-label="当前网站状态">
+      <Card className="bingeup-site-card">
+        <div className="bingeup-site-status-row">
+          <i className={`bingeup-site-dot bingeup-site-dot-${tone}`} aria-hidden="true" />
+          <div className="bingeup-site-copy">
+            <strong>{hostname}</strong>
+            <span>{statusLine}</span>
+            {capabilityLine !== undefined && <span>{capabilityLine}</span>}
+          </div>
+          <div className="bingeup-site-control">
+            {badge !== undefined && (
+              <Tag size="small" color={badge.color}>
+                {badge.text}
+              </Tag>
+            )}
+            {control}
+          </div>
+        </div>
+      </Card>
+    </section>
+  );
+}
+
 function DisabledStartLearning({ reason }: { reason: string }): JSX.Element {
   return (
     <div className="bingeup-actions">
-      <button
-        className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
-        disabled
-        aria-describedby="bingeup-start-reason"
-      >
+      <Button type="primary" size="large" block disabled aria-describedby="bingeup-start-reason">
         开始学习
-      </button>
+      </Button>
       <p id="bingeup-start-reason" className="bingeup-hint">
         {reason}
       </p>
@@ -311,14 +361,12 @@ function PopupView({
     return (
       <div className="bingeup-popup">
         <PopupHeader />
-        <div className="bingeup-site-status bingeup-site-status-warning">
-          <i className="bingeup-site-dot" />
-          <div className="bingeup-site-copy">
-            <strong>{state.hostname}</strong>
-            <span>未启用 · 需要权限</span>
-          </div>
-          <span className="bingeup-site-badge bingeup-site-badge-warning">需权限</span>
-        </div>
+        <PopupSiteStatusCard
+          tone="warning"
+          hostname={state.hostname}
+          statusLine="未启用 · 需要权限"
+          badge={{ text: '需权限', color: 'app-yellow' }}
+        />
         <div className="bingeup-state-card">
           <div className="bingeup-row">
             <span className="bingeup-label">域名</span>
@@ -340,48 +388,49 @@ function PopupView({
     state.globallyPaused === isPaused ? state : { ...state, globallyPaused: isPaused };
   const siteStatusTone = popupSiteStatusTone(displayState);
   const startUnavailableReason = startLearningUnavailableReason(displayState, isPaused);
+  const siteControl = displayState.canAddCustomSite ? (
+    <Button
+      size="small"
+      type="primary"
+      onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
+    >
+      加入当前网站
+    </Button>
+  ) : displayState.compatibilityLevel !== 'unsupported' ? (
+    <Switch
+      checked={displayState.enabled}
+      aria-label={displayState.enabled ? '关闭当前网站' : '开启当前网站'}
+      onChange={(checked) =>
+        void handleSiteEnabledChange(ctx.hostname, checked, onReload, onNotice)
+      }
+    />
+  ) : null;
 
   return (
     <div className="bingeup-popup">
       <PopupHeader />
 
       {/* AC3：当前网站状态 */}
-      <section
-        className={`bingeup-site-status bingeup-site-status-${siteStatusTone}`}
-        aria-label="当前网站状态"
-      >
-        <i className="bingeup-site-dot" />
-        <div className="bingeup-site-copy">
-          <strong>{displayState.hostname || '当前页面'}</strong>
-          <span>
+      <PopupSiteStatusCard
+        tone={siteStatusTone}
+        hostname={displayState.hostname || '当前页面'}
+        statusLine={
+          <>
             <b>
               {displayState.globallyPaused ? '已暂停' : displayState.enabled ? '已启用' : '未启用'}
             </b>
             {' · '}
             <span>{COMPATIBILITY_LABELS[displayState.compatibilityLevel]}</span>
-          </span>
-          <span>{popupCapabilitySummary(displayState)}</span>
-        </div>
-        {displayState.canAddCustomSite ? (
-          <button
-            className="bingeup-site-badge bingeup-site-join"
-            onClick={() => void handleAddCustomSite(ctx.hostname, onReload, onNotice)}
-          >
-            加入当前网站
-          </button>
-        ) : displayState.compatibilityLevel !== 'unsupported' ? (
-          <button
-            className="bingeup-site-badge bingeup-site-join"
-            onClick={() =>
-              void handleSiteEnabledChange(ctx.hostname, displayState.enabled, onReload, onNotice)
-            }
-          >
-            {displayState.enabled ? '关闭当前网站' : '开启当前网站'}
-          </button>
-        ) : (
-          <span className="bingeup-site-badge">{popupSiteBadge(displayState)}</span>
-        )}
-      </section>
+          </>
+        }
+        capabilityLine={popupCapabilitySummary(displayState)}
+        badge={
+          displayState.canAddCustomSite
+            ? undefined
+            : { text: popupSiteBadge(displayState), color: popupSiteTagColor(displayState) }
+        }
+        control={siteControl}
+      />
 
       <section className="bingeup-block" aria-labelledby="bingeup-today-title">
         <div className="bingeup-block-head">
@@ -438,8 +487,8 @@ function PopupView({
           </p>
         )}
         <div className="bingeup-pause-row">
-          <button
-            className="bingeup-btn-secondary"
+          <Button
+            block
             onClick={() =>
               void handlePauseTenMinutes(pauseMode === 'ten-minutes', applyPauseStateChange)
             }
@@ -447,24 +496,26 @@ function PopupView({
             {pauseMode === 'ten-minutes'
               ? `恢复 ${formatCountdown(state.globalPausedUntil, clockNow)}`
               : '暂停 10 分钟'}
-          </button>
-          <button
-            className="bingeup-btn-secondary"
+          </Button>
+          <Button
+            block
             onClick={() => void handlePauseToday(pauseMode === 'today', applyPauseStateChange)}
           >
             {pauseMode === 'today' ? '今天恢复' : '暂停今天'}
-          </button>
+          </Button>
         </div>
 
         {/* AC4：入口按钮 */}
-        <button
-          className="bingeup-btn-primary bingeup-btn-full bingeup-start-action"
+        <Button
+          type="primary"
+          size="large"
+          block
           disabled={startUnavailableReason !== null}
           aria-describedby={startUnavailableReason === null ? undefined : 'bingeup-start-reason'}
           onClick={() => void handleStartContinuousLearning(ctx.tabId, onNotice)}
         >
           开始学习
-        </button>
+        </Button>
         {startUnavailableReason !== null && (
           <p id="bingeup-start-reason" className="bingeup-hint">
             {startUnavailableReason}
@@ -500,13 +551,13 @@ async function handleAddCustomSite(
 
 async function handleSiteEnabledChange(
   hostname: string,
-  isEnabled: boolean,
+  nextEnabled: boolean,
   onReload: () => Promise<void>,
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
-    await messageClient.setSiteEnabled(hostname, !isEnabled);
-    onNotice(isEnabled ? '已关闭当前网站。' : '已开启当前网站。');
+    await messageClient.setSiteEnabled(hostname, nextEnabled);
+    onNotice(nextEnabled ? '已开启当前网站。' : '已关闭当前网站。');
     await onReload();
   } catch (error) {
     onNotice(`网站状态更新失败：${error instanceof Error ? error.message : String(error)}`);
