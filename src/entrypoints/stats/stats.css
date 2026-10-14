@@ -1,167 +1,196 @@
+/**
+ * 统计页样式（工单 #42 完整迁移）。
+ *
+ * 只保留本页布局职责；颜色、圆角与间距一律使用 island 基础模块的语义别名
+ * （--island-* → animal-island-ui 的 --animal-*）。旧蓝粉样式已在本页清零，
+ * 全局旧令牌的删除仍属工单 #46。
+ */
+
 html,
 body {
   min-width: 320px;
   min-height: 100vh;
-  color: var(--bingeup-ink);
-  background: var(--bingeup-canvas);
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
+  font-family: var(--island-font-family);
   font-size: 14px;
 }
 
-.bingeup-stats {
+.island-page.bingeup-stats {
   width: min(100% - 40px, 760px);
   margin: 0 auto;
   padding: 42px 0 64px;
-  display: flex;
-  flex-direction: column;
-  gap: 23px;
+  gap: 20px;
 }
+
 .bingeup-stats h1 {
   margin: 0;
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: -0.07em;
+  color: var(--island-text-color);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
 }
-.bingeup-stats section {
-  padding: 21px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-lg);
-  background: var(--bingeup-white);
-  box-shadow: 0 8px 28px rgba(35, 75, 112, 0.045);
+
+.bingeup-stats-state-card,
+.bingeup-stats-empty {
+  display: grid;
 }
-.bingeup-stats h2 {
-  margin: 0 0 14px;
-  color: #4e6072;
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: -0.04em;
+
+.bingeup-stats-empty p {
+  margin: 0;
 }
+
 .bingeup-stats-loading,
 .bingeup-stats-error {
   margin: 0;
-  padding: 40px 0;
-  color: var(--bingeup-muted);
+  padding: 24px 0;
+  color: var(--island-text-color-secondary);
   text-align: center;
 }
+
 .bingeup-stats-error {
-  color: var(--bingeup-pink-dark);
-  font-weight: 800;
+  color: var(--island-error-color);
+  font-weight: 700;
 }
+
+/* 标签页内的区块排布；tab 按钮的焦点环使用原版黄色（库内 Tabs 未定义焦点样式）。 */
+.bingeup-stats-panel {
+  display: grid;
+  gap: 20px;
+}
+
+.bingeup-stats-tabs button:focus-visible {
+  outline: 3px solid var(--island-warning-color);
+  outline-offset: 2px;
+}
+
+/* ─── 概览指标 ───────────────────────────────────────────── */
+
 .bingeup-stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
+
 .bingeup-stat-card {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 16px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-md);
-  background: linear-gradient(145deg, #fff, var(--bingeup-blue-soft));
 }
+
 .bingeup-stat-value {
-  color: var(--bingeup-blue);
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: -0.06em;
-}
-.bingeup-stat-label {
-  color: var(--bingeup-muted);
-  font-size: 12px;
+  color: var(--island-text-color);
+  font-size: 28px;
   font-weight: 800;
 }
+
+.bingeup-stat-label {
+  color: var(--island-text-color-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ─── 明细行 ─────────────────────────────────────────────── */
+
 .bingeup-stats-detail {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
+
 .bingeup-stats-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 9px 0;
-  border-bottom: 1px dashed #e7edf2;
+  border-bottom: 1px dashed var(--island-border-color-light);
 }
+
 .bingeup-stats-row:last-child {
   border-bottom: 0;
 }
+
 .bingeup-stats-row-label {
-  color: var(--bingeup-muted);
-}
-.bingeup-stats-row-value {
-  color: #4e6072;
-  font-weight: 900;
-}
-.bingeup-stats-bar {
-  display: flex;
-  height: 11px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eef2f5;
-}
-.bingeup-stats-bar-segment {
-  height: 100%;
-}
-.bingeup-stats-bar-short {
-  background: var(--bingeup-blue);
-}
-.bingeup-stats-bar-long {
-  background: var(--bingeup-green);
-}
-.bingeup-stats-bar-self {
-  background: var(--bingeup-yellow);
-}
-.bingeup-stats-bar-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  margin-top: 11px;
-  color: var(--bingeup-muted);
-  font-size: 12px;
-}
-.bingeup-stats-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.bingeup-stats-legend-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-.bingeup-stats-comparison {
-  display: flex;
-  gap: 12px;
-}
-.bingeup-stats-comparison-col {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px;
-  border: 1px solid var(--bingeup-line);
-  border-radius: var(--bingeup-radius-md);
-  background: #fbfdff;
-}
-.bingeup-stats-comparison-label,
-.bingeup-stats-comparison-sub {
-  color: var(--bingeup-muted);
-  font-size: 12px;
-}
-.bingeup-stats-comparison-value {
-  color: var(--bingeup-ink);
-  font-size: 22px;
-  font-weight: 900;
+  color: var(--island-text-color-secondary);
 }
 
-@media (max-width: 480px) {
-  .bingeup-stats {
+.bingeup-stats-row-value {
+  color: var(--island-text-color);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ─── 学习卡阶段占比 ─────────────────────────────────────── */
+
+.bingeup-stats-stage-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.bingeup-stats-stage-count {
+  min-width: 2ch;
+  color: var(--island-text-color);
+  font-weight: 700;
+  text-align: right;
+}
+
+.bingeup-stats-stage-bar {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── 全期正确率进度 ─────────────────────────────────────── */
+
+.bingeup-stats-progress {
+  flex: 1;
+  min-width: 120px;
+  max-width: 360px;
+}
+
+/* ─── 周对比 ─────────────────────────────────────────────── */
+
+.bingeup-stats-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bingeup-stats-comparison-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bingeup-stats-comparison-label,
+.bingeup-stats-comparison-sub {
+  color: var(--island-text-color-secondary);
+  font-size: 12px;
+}
+
+.bingeup-stats-comparison-value {
+  color: var(--island-text-color);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* ─── 网站状态 ───────────────────────────────────────────── */
+
+.bingeup-stats-site-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 560px) {
+  .island-page.bingeup-stats {
     width: min(100% - 28px, 760px);
     padding-top: 28px;
   }
+
   .bingeup-stats-comparison {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
