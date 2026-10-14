@@ -122,7 +122,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
       expect(screen.getByText('未启用')).toBeInTheDocument();
       expect(screen.getByText('完整适配')).toBeInTheDocument();
       const status = screen.getByRole('region', { name: '当前网站状态' });
-      expect(within(status).getByRole('button', { name: '开启当前网站' })).toBeInTheDocument();
+      expect(within(status).getByRole('switch', { name: '开启当前网站' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
     });
   });
@@ -159,15 +159,15 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
 
     render(<PopupApp />);
     const status = await screen.findByRole('region', { name: '当前网站状态' });
-    fireEvent.click(within(status).getByRole('button', { name: '关闭当前网站' }));
+    fireEvent.click(within(status).getByRole('switch', { name: '关闭当前网站' }));
 
     await waitFor(() => {
       expect(setSiteEnabled).toHaveBeenCalledWith('www.bilibili.com', false);
       expect(
-        within(screen.getByRole('region', { name: '当前网站状态' })).getByRole('button', {
+        within(screen.getByRole('region', { name: '当前网站状态' })).getByRole('switch', {
           name: '开启当前网站',
         }),
-      ).toBeInTheDocument();
+      ).toHaveAttribute('aria-checked', 'false');
     });
   });
 
@@ -237,6 +237,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
 
     expect(await screen.findByText(/缺少主机权限/)).toBeInTheDocument();
     expect(screen.getByText('需要权限 · 无学习遮罩 · 不控制视频')).toBeInTheDocument();
+    expect(screen.getByText('需权限')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '开始学习' })).toBeDisabled();
     expect(screen.getByText('开发工具')).toBeInTheDocument();
   });
@@ -282,6 +283,7 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     await waitFor(() => {
       expect(screen.getByText('www.bilibili.com')).toBeInTheDocument();
       expect(screen.getByText('已启用')).toBeInTheDocument();
+      expect(screen.getByText('可学习')).toBeInTheDocument();
       expect(screen.getByText('今日学习')).toBeInTheDocument();
       expect(screen.getByText('12')).toBeInTheDocument();
       expect(screen.getByText('9')).toBeInTheDocument();
@@ -292,24 +294,52 @@ describe('PopupApp — 状态显示（Issue #9 AC3/AC5）', () => {
     });
   });
 
-  it('未启用但可提示时显示"开启当前网站"按钮', async () => {
+  it('未启用但可提示时显示"开启当前网站"开关，切换后调用 setSiteEnabled(true)', async () => {
     installChromeStub({ url: 'https://www.youtube.com/watch?v=x', id: 1 });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.youtube.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 0,
-      },
-      onboardingCompleted: true,
-      globalPausedUntil: 0,
+    getPopupData
+      .mockResolvedValueOnce({
+        site: {
+          hostname: 'www.youtube.com',
+          enabled: false,
+          mode: 'full-adaptation',
+          firstQuestionPending: false,
+          promptDeclineCount: 0,
+        },
+        onboardingCompleted: true,
+        globalPausedUntil: 0,
+      })
+      .mockResolvedValueOnce({
+        site: {
+          hostname: 'www.youtube.com',
+          enabled: true,
+          mode: 'full-adaptation',
+          firstQuestionPending: false,
+          promptDeclineCount: 0,
+        },
+        onboardingCompleted: true,
+        globalPausedUntil: 0,
+      });
+    setSiteEnabled.mockResolvedValue({
+      hostname: 'www.youtube.com',
+      enabled: true,
+      mode: 'full-adaptation',
+      firstQuestionPending: false,
     });
 
     render(<PopupApp />);
 
+    const toggle = await screen.findByRole('switch', { name: '开启当前网站' });
+    expect(toggle).toHaveAttribute('aria-checked', 'false');
+    fireEvent.click(toggle);
+
     await waitFor(() => {
-      expect(screen.getByText('开启当前网站')).toBeInTheDocument();
+      expect(setSiteEnabled).toHaveBeenCalledWith('www.youtube.com', true);
+    });
+    await waitFor(() => {
+      expect(screen.getByRole('switch', { name: '关闭当前网站' })).toHaveAttribute(
+        'aria-checked',
+        'true',
+      );
     });
   });
 });
@@ -351,7 +381,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('暂停 10 分钟');
+    const btn = await screen.findByRole('button', { name: '暂停 10 分钟' });
     fireEvent.click(btn);
 
     await waitFor(() => {
@@ -549,7 +579,7 @@ describe('PopupApp — 暂停控制（Issue #9 AC4）', () => {
 
     render(<PopupApp />);
 
-    const btn = await screen.findByText('开始学习');
+    const btn = await screen.findByRole('button', { name: '开始学习' });
     expect(btn).toBeDisabled();
   });
 

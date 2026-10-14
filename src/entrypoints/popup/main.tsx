@@ -1,4 +1,6 @@
 import { createRoot } from 'react-dom/client';
+// 原版样式入口（animal-island-ui 2.2.1）：整个 Popup 入口恰好导入一次。
+import 'animal-island-ui/style';
 import { PopupApp } from '@/ui/popup/PopupApp';
 import '@/ui/styles/design-tokens.css';
 import './popup.css';

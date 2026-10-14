@@ -174,3 +174,117 @@ $env:CAPTURE_BASELINE='1'; npx playwright test e2e/migration-baseline.spec.ts
 1. 锁定 animal-island-ui 2.2.1 与 naive-icons ^1.6.0，更新锁文件
 2. 新增基线截图采集测试与构建体积测量脚本
 3. 新增 M0 迁移基线证据文档与旧界面截图
+
+## M1 Popup 垂直切片
+
+工单：#38（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-38-m1-popup-slice（从集成分支 tip 2844b82 切出）
+
+### 1. 改动概览
+
+- `src/entrypoints/popup/main.tsx`：入口新增 `import 'animal-island-ui/style'`（Popup 入口恰好一次；全仓库当前唯一导入点），页面可正常加载。
+- `src/ui/popup/PopupApp.tsx`：站点状态区与主操作区换为原版组件（animal-island-ui 2.2.1），组件样式全部来自库产物，未覆盖库组件的颜色/圆角/阴影：
+  - Card：站点状态外壳（羊皮纸底）；Tag：状态徽标（可学习/已暂停/待启用/不可用/需权限，size=small、soft）。
+  - Switch：网站启用开关（受控；`aria-label` 沿用“开启/关闭当前网站”动作语义；onChange 仍走既有 `messageClient.setSiteEnabled` 链路）。
+  - Button：加入当前网站（primary/small）、暂停 10 分钟 / 暂停今天 / 今天恢复（default/block）、开始学习（primary/large/block，禁用入口同款）、暂停倒计时（default/block）。
+  - 站点判定、暂停/倒计时状态逻辑、消息链路、用户可见文案与 `OverlayAction` 语义均未改；其余区域（标题栏、今日学习、状态卡、反馈）保留旧样式（本工单明确允许混合）。
+  - 备注：库 2.2.1 的 `type="primary"` 即奶油底 3D 堆叠按钮（薄荷色只用于 danger/ghost 变体），切片与原版一致，未自创主题。
+- `src/entrypoints/popup/popup.css`：切片布局（`.bingeup-site-card/.bingeup-site-status-row/.bingeup-site-control` 等）与画布底色切换为原版米白；旧泛型 `button` 规则收敛为只作用于未迁移的两个按钮（标题栏设置、统计入口），避免覆盖原版组件的胶囊圆角/堆叠阴影；删除随切片下线的旧类（站点徽标、加入按钮、开始学习箭头等）。未改组件内边距/圆角/阴影。
+- `vitest.config.ts`：`server.deps.inline` 内联 animal-island-ui（其 dist/es 以 `.module.css` 副作用导入样式，默认外置时 Node 直接加载 .css 报未知扩展名）。
+- `tests/unit/popup/PopupApp.test.tsx`：仅做组件替换导致的断言更新（按钮→开关、`aria-checked`、Tag 文案；暂停倒计时的按钮身份断言改为 role 查询），未弱化行为断言；测试规模不变（44 文件 / 809 用例）。未改全局旧设计令牌文件（M6 才删）。
+
+### 2. 字体与 CSP（e2e 实测）
+
+采集加载真实 MV3 产物（`--load-extension`），在 Popup 页监听 console、pageerror 与网络请求：
+
+| 项 | 结果 |
+| --- | --- |
+| 字体家族 | Nunito 与 Noto Sans SC 均进入 loaded（`document.fonts`；`check('14px Nunito')`、`check('14px "Noto Sans SC"')` 均为 true） |
+| 字体请求 | 5 个 woff2 响应 200，URL 全部为 `chrome-extension://<id>/assets/...`（无远程字体） |
+| CSP / 控制台 | console error 0、pageerror 0、失败请求 0 |
+
+产物内字体：9 个 woff2（3 个中文子集约 1.14–1.17 MB，3 个 Noto 拉丁约 13.3 KB，3 个 Nunito 约 16 KB）；Popup CSS 内 `@font-face` 9 条，URL 均为扩展本地相对路径。
+
+### 3. 320–420px 与 200% 缩放（无横向溢出）
+
+采集断言 `document.documentElement.scrollWidth ≤ clientWidth`：
+
+| 场景 | scrollWidth / clientWidth |
+| --- | --- |
+| 视口 320px | 320 / 320 |
+| 视口 340px | 340 / 340 |
+| 视口 420px | 420 / 420 |
+| 200% 缩放等效（CDP 设备指标：CSS 视口 320、deviceScaleFactor 2，物理 640） | 320 / 320 |
+
+布局调整（页面侧，未动组件）：`html, body` 保持 340px 并加 `max-width: 100%`（移除原 `min-width: 320px`），切片行内使用 `min-width: 0` 与 `overflow-wrap: anywhere`，长域名与说明文本换行不撑宽。
+
+### 4. 截图（docs/assets/migration-m1/）
+
+| 文件 | 状态 |
+| --- | --- |
+| popup-learnable-340.png / popup-learnable-320.png / popup-learnable-420.png | 可学习：Card + Tag“可学习” + Switch 开启 + 原版主操作按钮 |
+| popup-learnable-zoom200.png | 可学习，200% 缩放等效（物理 640px 宽） |
+| popup-paused-340.png | 全局暂停：Tag“已暂停” + 倒计时“恢复 10:00” + 禁用开始学习 |
+| popup-needs-permission-340.png | 需权限：Card + Tag“需权限” + 禁用入口 |
+| popup-join-site-340.png | HTTPS 未加入站点：原版 primary“加入当前网站” |
+| popup-degraded-340.png | 无活动标签页降级状态 |
+| popup-protected-340.png | 受保护页面（chrome://settings/） |
+
+复现命令（该 spec 默认跳过，不参与 npm run test:e2e 的常规执行；采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts
+```
+
+采集说明（e2e/migration-m1.spec.ts）：仅在采集页内替换 `chrome.tabs.query` 与 `chrome.permissions.contains` 以进入各状态；站点启用/暂停等仍通过真实后台消息准备，渲染使用真实构建产物。采集结果同时写入 `.output/migration-m1-capture.json`。
+
+### 5. 体积对比（M0 → M1；Chrome 与 Edge 数字一致）
+
+| 指标 | M0（#37） | M1（本次） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 3,580,581 B（34 文件） | 7,601,617 B（47 文件） | +4,021,036 B |
+| 压缩包 zip | 1,213,403 B | 4,855,896 B | +3,642,493 B |
+| Popup 入口闭包 | 166,685 B（9 文件） | 308,756 B（9 文件） | +142,071 B |
+| content script | 208,173 B | 208,173 B | 0 |
+
+Popup 闭包明细变化：popup JS 12,932 → 29,315 B；popup CSS 5,087 → 130,287 B（新增库样式约 126 KB）；design-tokens JS 140,594 → 141,082 B；design-tokens CSS 2,132 B 不变。新增字体合计约 3.49 MB；另有库样式引用的 4 个场景 SVG（约 315 KB，属包内 CSS 资产）。content script 字节数不变。
+
+### 6. 门禁执行记录
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（44 个测试文件、809 个用例） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest.mjs、verify-dev-tools-production.mjs） |
+| Edge 构建 | npm run build:edge | 通过 |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 5 节） |
+| 浏览器 E2E（既有用例） | npx playwright test | 7 通过 / 13 跳过（含 M1 采集默认跳过 5 项） |
+| M1 切片采集 | $env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts | 5 通过 |
+
+### 7. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 真实工具栏点击打开的 Popup（activeTab 上下文）与真实状态切换 | 无头环境无法驱动浏览器工具栏；采集以受控上下文替换进入各状态，业务链路未改 |
+| 真实浏览器 200% 缩放 | 用 CDP 设备指标做布局等效模拟（CSS 视口 320 / DSF 2），非浏览器缩放设置本身 |
+| Edge 真实浏览器人工矩阵 | 仅验证 edge-mv3 构建产物 |
+| Popup 未迁移区域（标题栏、今日学习、状态卡、反馈入口）的原版化 | 本工单允许混合，M2 处理；切片内库组件自身的 focus-visible 规则（按钮薄荷、开关黄色）生效 |
+| 真实站点行为回归 | 本次未改站点适配、触发/冷却、遮罩与学习链路；维持 M0 的人工矩阵口径 |
+
+### 8. 复现步骤
+
+```powershell
+git checkout codex/ticket-38-m1-popup-slice
+npm install
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+$env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts
+```
+
+相关提交（分支 codex/ticket-38-m1-popup-slice）：
+
+1. Popup 入口导入原版样式，以原版 Button/Card/Tag/Switch 替换站点状态区与主操作区
+2. 更新 Popup 单元测试匹配原版组件，内联库依赖并新增 M1 切片采集脚本
+3. 新增 M1 Popup 垂直切片证据文档与截图

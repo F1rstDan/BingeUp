@@ -1,9 +1,10 @@
 html,
 body {
   width: 340px;
-  min-width: 320px;
+  max-width: 100%;
   color: var(--bingeup-ink);
-  background: var(--bingeup-canvas);
+  /* M1 垂直切片：画布切换为原版米白底色；其余区域在 M2 继续迁移。 */
+  background: var(--animal-bg-color, #f8f8f0);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
 }
@@ -16,11 +17,10 @@ body {
   display: grid;
   gap: 14px;
   width: 100%;
+  min-width: 0;
   padding: 18px;
   border: 0;
-  border-radius: 20px;
-  background: var(--bingeup-white);
-  box-shadow: var(--bingeup-shadow);
+  background: transparent;
 }
 
 .bingeup-header {
@@ -49,27 +49,15 @@ body {
   letter-spacing: -0.06em;
 }
 
-.bingeup-popup button {
+/* 未迁移按钮（标题栏设置、统计入口）保留旧样式；原版组件样式由 animal-island-ui 提供。 */
+.bingeup-popup .bingeup-popup-settings,
+.bingeup-popup .bingeup-text-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 10px 14px;
   border: 0;
-  border-radius: 13px;
-  font-size: 12px;
   font-weight: 900;
   transition: 140ms ease;
-}
-
-.bingeup-popup button:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-.bingeup-popup button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-.bingeup-popup button:disabled {
-  opacity: 0.5;
 }
 
 .bingeup-popup .bingeup-popup-settings {
@@ -102,24 +90,20 @@ body {
   border: 0;
 }
 
+/* M1 垂直切片：站点状态区使用原版 Card/Tag/Switch/Button（animal-island-ui 2.2.1）。 */
 .bingeup-site-status {
+  min-width: 0;
+}
+
+.bingeup-site-card {
+  min-width: 0;
+}
+
+.bingeup-site-status-row {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
-  padding: 13px;
-  border-radius: 14px;
-  background: #f7fafc;
-}
-
-.bingeup-site-status-warning {
-  background: var(--bingeup-yellow-soft);
-}
-.bingeup-site-status-inactive {
-  background: #f8fafc;
-}
-.bingeup-site-status-paused {
-  background: var(--bingeup-yellow-soft);
 }
 
 .bingeup-site-dot {
@@ -127,19 +111,19 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--bingeup-green);
-  box-shadow: 0 0 0 5px var(--bingeup-green-soft);
+  background: currentColor;
+  box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 22%, transparent);
 }
 
-.bingeup-site-status-warning .bingeup-site-dot,
-.bingeup-site-status-paused .bingeup-site-dot {
-  background: var(--bingeup-yellow);
-  box-shadow: 0 0 0 5px var(--bingeup-yellow-soft);
+.bingeup-site-dot-ready {
+  color: var(--animal-primary-color, #19c8b9);
 }
-
-.bingeup-site-status-inactive .bingeup-site-dot {
-  background: var(--bingeup-pink);
-  box-shadow: 0 0 0 5px var(--bingeup-pink-soft);
+.bingeup-site-dot-paused,
+.bingeup-site-dot-warning {
+  color: var(--animal-warning-color, #f5c31c);
+}
+.bingeup-site-dot-inactive {
+  color: var(--animal-text-color-secondary, #9f927d);
 }
 
 .bingeup-site-copy {
@@ -152,46 +136,22 @@ body {
 
 .bingeup-site-copy strong {
   overflow-wrap: anywhere;
-  color: var(--bingeup-ink);
-  font-size: 12px;
+  color: var(--animal-text-color, #794f27);
+  font-size: 14px;
 }
 
 .bingeup-site-copy span {
-  color: var(--bingeup-muted);
-  font-size: 10px;
+  overflow-wrap: anywhere;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 12px;
 }
 
-.bingeup-site-badge {
+.bingeup-site-control {
+  display: flex;
   flex: 0 0 auto;
-  padding: 4px 6px;
-  border-radius: 6px;
-  color: var(--bingeup-green-dark);
-  background: var(--bingeup-green-soft);
-  font-size: 9px;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.bingeup-popup .bingeup-site-join {
-  min-height: 28px;
-  padding: 5px 8px;
-  border: 1px solid currentColor;
-  border-radius: 8px;
-  color: var(--bingeup-pink-dark);
-  background: var(--bingeup-white);
-  font-size: 9px;
-}
-
-.bingeup-site-status-warning .bingeup-site-badge,
-.bingeup-site-status-paused .bingeup-site-badge,
-.bingeup-site-badge-warning {
-  color: #9a6810;
-  background: var(--bingeup-yellow-soft);
-}
-
-.bingeup-site-status-inactive .bingeup-site-badge {
-  color: var(--bingeup-pink-dark);
-  background: var(--bingeup-pink-soft);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
 
 .bingeup-block {
@@ -213,13 +173,13 @@ body {
 }
 
 .bingeup-text-button {
-  min-height: 24px !important;
-  padding: 3px 5px !important;
-  border-radius: 7px !important;
+  min-height: 24px;
+  padding: 3px 5px;
+  border-radius: 7px;
   color: var(--bingeup-blue);
   background: transparent;
   box-shadow: none;
-  font-size: 10px !important;
+  font-size: 10px;
 }
 
 .bingeup-text-button::after {
@@ -278,15 +238,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-}
-
-.bingeup-btn-full {
-  width: 100%;
-}
-
-.bingeup-start-action::after {
-  margin-left: 3px;
-  content: '→';
 }
 
 .bingeup-hint {
