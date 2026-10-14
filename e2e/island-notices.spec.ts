@@ -266,14 +266,16 @@ test.describe('M6a 附属提示（合成 Bilibili 页面）', () => {
       };
     });
 
-    // 原版 Button/Card 计算样式（与 M4 遮罩内实测一致的库外观）。
+    // 原版 Button/Card 计算样式；primary 按钮自 2026-10-14 品牌强调起为薄荷主色
+    // （库默认奶油底见下方「暂不」的 background 断言）。
     expect(details.primary?.borderRadius).toBe('50px');
-    expect(details.primary?.backgroundColor).toBe('rgb(248, 248, 240)');
-    expect(details.primary?.color).toBe('rgb(121, 79, 39)');
-    expect(details.primary?.boxShadow).toContain('rgb(189, 174, 160)');
+    expect(details.primary?.backgroundColor).toBe('rgb(25, 200, 185)');
+    expect(details.primary?.color).toBe('rgb(255, 255, 255)');
+    expect(details.primary?.boxShadow).toContain('rgb(80, 185, 171)');
     expect(details.primary?.fontFamily).toContain('Nunito');
     expect(details.primary?.fontFamily).toContain('Noto Sans SC');
     expect(details.secondary?.borderRadius).toBe('50px');
+    expect(details.secondary?.backgroundColor).toBe('rgb(248, 248, 240)');
     expect(details.card?.backgroundColor).toBe('rgb(247, 243, 223)');
     expect(details.card?.borderRadius).toBe('20px');
 

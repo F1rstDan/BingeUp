@@ -1178,3 +1178,74 @@ node scripts/measure-bundle-baseline.mjs
 - 真实 B 站 / YouTube 手测证据仍缺失：本修复未在真实站点验证遮罩、启用提示与恢复提示的呈现；6.2 的延迟数字均为合成站点口径，不代表真实站点。
 - 浏览器「字体大小 / 最小字号」偏好未测；系统字体大小偏好、深色主题、200% 缩放的人工观感与屏幕阅读器真机朗读同样保持未验证。
 - 以上与 M6b 第 5 节（未验证项汇总）一致；本次修复未新增真机人工验证，也未改变上述未验证状态。
+
+## 修复：CI 与 UI 调整（2026-10-14）
+
+工单外修正（CI 失败 + 三处 UI）｜分支：codex/fix-ci-ui（从集成分支 tip 30dcc63 切出）｜执行时间：2026-10-14。
+
+### 1. CI Format check 失败修复
+
+根因（GitHub Actions 运行 38555469095，Ubuntu 检出）：npm run format:check（prettier --check .）报 25 个文件存在真实格式问题（换行、缩进与行尾），Build 两个 job 不受影响。文件分布：e2e/ 的 migration-baseline、migration-m3a、migration-m3b、migration-m3c、migration-m6b-latency、options、overlay-island-migration 三份 spec 与 overlay-timing.ts；src/ 的 content/overlay-controller.tsx、entrypoints/{dev-tools,onboarding,options} 页面样式、ui/island/{IslandPage.tsx,shadow-styles.ts}、ui/onboarding/OnboardingApp.tsx、ui/options/OptionsApp.tsx、ui/overlay/OverlayApp.tsx、ui/popup/{PopupApp.tsx,dev-tools.css}、ui/stats/StatsApp.tsx；tests/ 的 integration/island-shadow-styles.test.ts、unit/content/overlay-controller.test.ts、unit/onboarding/OnboardingApp.test.tsx、unit/options/OptionsApp.test.tsx、unit/stats/StatsApp.test.tsx。
+
+本地 Windows 检出因 core.autocrlf=true 全部为 CRLF 行尾，prettier --check 会报全部 175 个文本文件；两处告警是同一规则的不同表现，prettier endOfLine=lf 的写法才是目标状态。修复：运行 npm run format（prettier --write .）；提交只包含上述 25 个文件的格式化变化（+96 / −124 行），抽查 IslandPage.tsx 与 OptionsApp.tsx 的 diff 均为换行与空行规范化，无逻辑改动。修复后本地 npm run format:check 通过（All matched files use Prettier code style）。
+
+### 2. 数字输入框聚焦高亮：方角黄框 → 胶囊圆角焦点环
+
+根因：库 Input 的内层 input（class animal-input-*）自带 outline:none；base.css 的全局 input:focus-visible{outline:2px solid var(--animal-warning-color); outline-offset:2} 优先级更高（0,1,1 > 0,1,0），把聚焦画成与 50px 胶囊不匹配的方角黄框（用户反馈）。
+
+修复（src/ui/styles/base.css）：
+
+- 全局焦点规则排除库管元素：button/input/select 加 :not([class^='animal-'])，库组件各自的焦点规则继续生效（Switch/Checkbox/Radio 等均有自身规则，计算值不变）；页面自有原生元素与尚未迁移的入口按钮仍走全局规则，不失去可见焦点；
+- 新增 [class^='animal-wrapper']:has(> [class^='animal-input']:focus-visible)，把与原版一致的黄色 outline（2px、offset 2）画在胶囊外壳上，跟随 50px 圆角。
+
+实测（真实构建 + CAPTURE_FIXES 采集）：聚焦「每日新词上限」时，内层 input 的 computed outline-style = none（方角黄框消失）；外壳 outline = rgb(245, 195, 28) solid 2px、offset 2px、border-radius 50px（胶囊外壳带 transition:all .25s，采集断言轮询到过渡稳定值）。局部与整页截图见下表 options-input-focus.png / options-input-focus-full.png。
+
+### 3. primary 按钮品牌强调（薄荷主色）
+
+需求（用户 2026-10-14）：非 danger 的 primary 按钮使用薄荷主色（--animal-primary-color），提升主操作辨识度。库 2.2.1 的 type="primary" 默认是奶油底 3D 堆叠按钮（薄荷只用于 danger/ghost 变体），本项是对库默认的有意偏离；3D 堆叠、hover 抬升（translateY(-1px) + 0 6px 阴影）与 active 下压（translateY(2px) + 0 1px 阴影）沿用库的结构与动效，只替换颜色令牌。
+
+- 页面侧：src/ui/island/island-theme.css 末尾新增「品牌强调（用户 2026-10-14 要求）」段（复用 --animal-primary-color / -hover / -active 令牌，Island 页面入口共用）；
+- Shadow 侧：src/ui/island/shadow-styles.ts 在库发布 CSS 之后追加同一段；遮罩、启用提示与播放恢复提示三个 Shadow 界面都经该模块装配样式，因此同时生效；
+- 选择器基于 dist CSS 的稳定前缀 animal-btn-primary-<hash>： [class^='animal-btn-primary'] 与 [class*=' animal-btn-primary']，并以 :not() 排除 danger、ghost 与 disabled（禁用主按钮保持库的置灰奶油观感，不点亮薄荷色）。
+
+实测计算样式（真实构建 + CAPTURE_FIXES，CAPTURE_FIXES 采集同时断言）：
+
+| 场景 | 按钮 | 背景 | 文字 | 阴影 |
+| --- | --- | --- | --- | --- |
+| 设置页 | 保存设置（primary） | rgb(25, 200, 185) | rgb(255, 255, 255) | rgb(80, 185, 171) 0px 5px 0px 0px |
+| 设置页 | 恢复默认（default） | rgb(248, 248, 240)（不变） | rgb(121, 79, 39) | rgba(61, 52, 40, 0.06) 0px 2px 4px 0px |
+| 设置页 | 导出数据（primary） | rgb(25, 200, 185) | 白 | 同保存设置 |
+| 设置页 | 清除学习进度（danger default） | rgb(248, 248, 240)（不变） | rgb(224, 90, 90)（红） | 同 default |
+| 数据 Modal | 清除学习进度（danger primary） | rgb(224, 90, 90)（红，不变） | 白 | rgb(201, 68, 68) 0px 5px 0px 0px |
+| 遮罩（合成页） | 提交并继续 / 提交并结束（primary） | rgb(25, 200, 185) | 白 | rgb(80, 185, 171) 0px 5px 0px 0px |
+| 遮罩（合成页） | 跳过（default） | rgb(248, 248, 240)（不变） | — | — |
+| 启用提示（合成页） | 启用（primary） | rgb(25, 200, 185) | 白 | rgb(80, 185, 171) 0px 5px 0px 0px |
+| 启用提示（合成页） | 暂不（default） | rgb(248, 248, 240)（不变） | — | — |
+| Popup | 设置（text） | rgba(0, 0, 0, 0)（不变） | — | none |
+
+hover / active 实测（设置页「保存设置」，浏览器驱动真实鼠标）：hover 背景 rgb(61, 212, 198)（primary-color-hover）、阴影 0px 6px；按住时背景 rgb(80, 185, 171)（primary-color-active）、阴影 0px 1px。遮罩内 primary 按钮在未选答案时处于 disabled（保持奶油底），选中选项启用后过渡为薄荷色——采集断言轮询到稳定值后再截图。
+
+### 4. 截图证据（docs/assets/migration-ui-fixes/）
+
+采集命令：$env:CAPTURE_FIXES='1'; npx playwright test e2e/migration-ui-fixes.spec.ts（默认跳过，不参与常规 e2e；需先 npm run build）。
+
+| 文件 | 内容 |
+| --- | --- |
+| options-input-focus.png / options-input-focus-full.png | 数字输入框聚焦态：黄色圆角胶囊焦点环（局部 / 整页） |
+| options-primary-buttons.png | 保存设置（薄荷）与恢复默认（奶油）对照 |
+| options-danger-buttons.png | 导出数据（薄荷）与 danger 红字按钮（清除学习进度 / 清除全部数据）并列对照 |
+| options-modal-danger.png | 数据操作 Modal：确认按钮保持 danger 红色填充（等待入场动效结束后截图） |
+| overlay-primary-buttons.png | 合成 B 站页遮罩：提交并继续 / 提交并结束（薄荷）与跳过（奶油） |
+| enable-prompt-primary.png | 合成 B 站页启用提示：启用（薄荷）与暂不（奶油） |
+
+### 5. 既有采集与断言调整
+
+- e2e/island-notices.spec.ts 的启用提示计算样式断言按新品牌色更新：primary 由奶油 rgb(248, 248, 240) 改为薄荷 rgb(25, 200, 185)、白字、active 阴影色，并新增「暂不」奶油底断言（原断言仅覆盖圆角）；
+- M1–M6b 的历史截图未重采：主按钮品牌色属预期变化，重采会覆盖各阶段历史存档；相关采集脚本默认跳过，常规 e2e 不受影响（本分支新增的采集用例默认跳过；最终门禁复跑数字见本分支最终提交报告与门禁小节）。
+
+### 6. 未验证项与风险
+
+- 真实 B 站 / YouTube（宿主页 CSP、真实播放器）下的品牌强调呈现未验证，证据仅为合成页口径（与 M4/M6a 相同限制）；
+- ghost 变体在扩展内没有使用点，排除逻辑为选择器层面（:not([class*='animal-btn-ghost'])），没有应用内视觉案例；text 变体以 Popup「设置」按钮实测覆盖；
+- 遮罩按钮的 hover / active 未逐一截图（与设置页同规则、同令牌，已用计算样式验证默认态）；
+- 禁用态主按钮保持库的奶油置灰外观是本实现的有意选择（任务要求未提及禁用态），如需要禁用态也使用薄荷色需另行调整。

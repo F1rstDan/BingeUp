@@ -43,3 +43,43 @@
   --island-motion-duration: var(--animal-motion-duration-base, 0.25s);
   --island-motion-ease: var(--animal-motion-ease, cubic-bezier(0.4, 0, 0.2, 1));
 }
+
+/* ─── 品牌强调（用户 2026-10-14 要求）────────────────────────
+   非 danger 的 primary 按钮统一使用薄荷主色（--animal-primary-color），
+   提高主操作辨识度。这是对库默认奶油主按钮（#f8f8f0 底 + 暖棕文字）的有意偏离：
+   3D 堆叠、hover 抬升、active 下压的结构与动效沿用库的实现，只替换颜色。
+   库没有按钮级令牌，选择器基于 dist CSS 的稳定前缀 animal-btn-primary-<hash>
+   （首类名与后续类名两种形态都覆盖）。disabled 按钮保持库的置灰观感，不加此覆盖。 */
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled),
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled) {
+  color: #fff;
+  background: var(--animal-primary-color);
+  border-color: var(--animal-primary-color);
+  box-shadow: 0 5px 0 0 var(--animal-primary-color-active);
+}
+
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled):hover,
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled):hover {
+  background: var(--animal-primary-color-hover);
+  border-color: var(--animal-primary-color-hover);
+  box-shadow: 0 6px 0 0 var(--animal-primary-color-active);
+}
+
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled):active,
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not(
+    [class*='animal-btn-ghost']
+  ):not(:disabled):active {
+  background: var(--animal-primary-color-active);
+  border-color: var(--animal-primary-color-active);
+  box-shadow: 0 1px 0 0 var(--animal-primary-color-active);
+}
