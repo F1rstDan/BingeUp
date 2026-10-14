@@ -6,12 +6,7 @@ import { idbReplaceAll, openDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { startOfLocalDay } from '@/stats/stats-service';
-import type {
-  BehaviorEventRecord,
-  CardRecord,
-  ReviewLogRecord,
-  SessionLogRecord,
-} from '@/types';
+import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 /**
  * 统计页渲染（工单 #42，测试缝①：页面 App 渲染）。
@@ -38,7 +33,9 @@ function makeCard(overrides: Partial<CardRecord> & { id: string; wordId: string 
   };
 }
 
-function makeLog(overrides: Partial<ReviewLogRecord> & { id: string; wordId: string }): ReviewLogRecord {
+function makeLog(
+  overrides: Partial<ReviewLogRecord> & { id: string; wordId: string },
+): ReviewLogRecord {
   return {
     cardId: `card-${overrides.wordId}`,
     questionType: 'en-to-zh',

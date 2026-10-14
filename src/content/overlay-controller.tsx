@@ -2,10 +2,7 @@ import { Component, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { Button, Card } from 'animal-island-ui';
 import { AlertCircleIcon } from 'naive-icons';
-import {
-  getIslandShadowStyleBundle,
-  registerIslandFontFaces,
-} from '@/ui/island/shadow-styles';
+import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
@@ -335,4 +332,3 @@ export class OverlayController implements OverlayPort {
     }
   }
 }
-

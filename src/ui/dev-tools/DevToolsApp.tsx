@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Title } from 'animal-island-ui';
 import type { CardRecord, SchedulerState } from '@/types';
 import type { DevDataSnapshot } from '@/dev-tools/messages';
 import { getDevDataSnapshot } from '@/dev-tools/message-client';
@@ -33,7 +34,9 @@ export function DevToolsApp(): JSX.Element {
       <header className="bingeup-dev-page-header">
         <div>
           <p className="bingeup-dev-eyebrow">BingeUp / development</p>
-          <h1>开发数据</h1>
+          <h1>
+            <Title size="large">开发数据</Title>
+          </h1>
           <p>只读查看当前本地学习卡、复习日志、会话日志与 FSRS 状态。</p>
           {refreshedAt !== null && (
             <small className="bingeup-dev-refreshed-at">

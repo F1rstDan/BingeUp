@@ -566,9 +566,7 @@ export function OverlayApp({
 
           {submitted ? (
             <div className="bingeup-feedback">
-              <div
-                className={`bingeup-feedback-result ${isCorrect ? 'is-correct' : 'is-wrong'}`}
-              >
+              <div className={`bingeup-feedback-result ${isCorrect ? 'is-correct' : 'is-wrong'}`}>
                 {isCorrect ? <CheckCircleIcon size={22} /> : <XCircleIcon size={22} />}
                 <span>{isCorrect ? '答对了' : '答错了'}</span>
               </div>
@@ -763,4 +761,3 @@ export function OverlayApp({
     </div>
   );
 }
-

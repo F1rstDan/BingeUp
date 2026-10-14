@@ -72,10 +72,7 @@ test.describe('设置页', () => {
     await page.close();
   });
 
-  test('清除数据确认使用原版 Modal：Escape 取消、确认后执行', async ({
-    context,
-    extensionId,
-  }) => {
+  test('清除数据确认使用原版 Modal：Escape 取消、确认后执行', async ({ context, extensionId }) => {
     const page = await context.newPage();
     await page.goto(pageUrl(extensionId, 'options.html'));
     await page.getByRole('tab', { name: '数据管理' }).click();
@@ -114,4 +111,3 @@ test.describe('设置页', () => {
     await page.close();
   });
 });
-

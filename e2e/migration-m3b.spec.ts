@@ -142,10 +142,7 @@ test.describe('M3b 设置页原版迁移采集', () => {
     console.log(JSON.stringify(records, null, 2));
   });
 
-  test('学习设置：字体、控制台、窄宽度、下拉面板与 200% 缩放', async ({
-    context,
-    extensionId,
-  }) => {
+  test('学习设置：字体、控制台、窄宽度、下拉面板与 200% 缩放', async ({ context, extensionId }) => {
     const control = await context.newPage();
     await seedBackground(control, extensionId);
     await control.close();
@@ -282,4 +279,3 @@ test.describe('M3b 设置页原版迁移采集', () => {
     await page.close();
   });
 });
-

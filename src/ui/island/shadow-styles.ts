@@ -20,6 +20,8 @@ import islandCss from 'animal-island-ui/dist/index.css?raw';
  *   实测 content.js 由 208 KB 膨胀到 5.1 MB，且每次注入 ShadowRoot 的样式多达约 4.6 MB）；
  *   ?raw 保持字体为独立文件、按需加载，样式串仅约 126 KB；
  * - 结果缓存：首次注入解析一次，重复打开遮罩不重复解析。
+ * - 品牌强调（2026-10-14）：在库 CSS 之后追加非 danger primary 按钮的薄荷覆盖段；
+ *   遮罩 / 启用提示 / 播放恢复提示三个 Shadow 界面都经本模块装配样式，因此同时生效。
  */
 
 export interface IslandShadowStyleDeps {
@@ -326,13 +328,43 @@ export function collectIslandFontFaces(
   return faces;
 }
 
+/**
+ * 品牌强调（用户 2026-10-14 要求）：非 danger 的 primary 按钮统一使用薄荷主色
+ * （--animal-primary-color），提高主操作辨识度。这是对库默认奶油主按钮
+ * （#f8f8f0 底 + 暖棕文字）的有意偏离；3D 堆叠、hover 抬升、active 下压的
+ * 结构与动效沿用库的实现，只替换颜色。与页面侧 island-theme.css 的品牌强调段
+ * 保持一致。选择器基于 dist CSS 的稳定前缀 animal-btn-primary-<hash>；
+ * disabled 按钮保持库的置灰观感，不加此覆盖。
+ */
+const ISLAND_BRAND_OVERRIDE_CSS = `
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled),
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled) {
+  color: #fff;
+  background: var(--animal-primary-color);
+  border-color: var(--animal-primary-color);
+  box-shadow: 0 5px 0 0 var(--animal-primary-color-active);
+}
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled):hover,
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled):hover {
+  background: var(--animal-primary-color-hover);
+  border-color: var(--animal-primary-color-hover);
+  box-shadow: 0 6px 0 0 var(--animal-primary-color-active);
+}
+[class^='animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled):active,
+[class*=' animal-btn-primary']:not([class*='animal-btn-danger']):not([class*='animal-btn-ghost']):not(:disabled):active {
+  background: var(--animal-primary-color-active);
+  border-color: var(--animal-primary-color-active);
+  box-shadow: 0 1px 0 0 var(--animal-primary-color-active);
+}
+`;
+
 /** 解析库构建 CSS，产出注入样式串与字体清单（单次解析）。 */
 export function buildIslandShadowStyleBundle(
   css: string,
   toExtensionUrl: (assetPath: string) => string,
 ): IslandShadowStyleBundle {
   return {
-    css: transformIslandShadowCss(css, toExtensionUrl),
+    css: transformIslandShadowCss(css, toExtensionUrl) + '\n' + ISLAND_BRAND_OVERRIDE_CSS,
     fontFaces: collectIslandFontFaces(css, toExtensionUrl),
   };
 }

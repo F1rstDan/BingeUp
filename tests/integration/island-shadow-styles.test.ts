@@ -21,8 +21,7 @@ const require = createRequire(import.meta.url);
 /** 库发布产物本身就是构建结果：与构建期内联导入的是同一份 CSS 文件。 */
 const LIBRARY_CSS = readFileSync(require.resolve('animal-island-ui/dist/index.css'), 'utf8');
 
-const toExtensionUrl = (assetPath: string): string =>
-  'chrome-extension://test-id/' + assetPath;
+const toExtensionUrl = (assetPath: string): string => 'chrome-extension://test-id/' + assetPath;
 
 describe('transformIslandShadowCss — 令牌映射（:root 到 :host）', () => {
   it('只把库 CSS 的 :root 令牌声明段映射为 :host，其余选择器保持原样', () => {
@@ -182,7 +181,9 @@ describe('registerIslandFontFaces — FontFace API 注册', () => {
 
     expect(added).toHaveLength(1);
     expect(added[0]?.family).toBe('Nunito');
-    expect(added[0]?.source).toBe('url("chrome-extension://test-id/files/nunito.woff2") format("woff2")');
+    expect(added[0]?.source).toBe(
+      'url("chrome-extension://test-id/files/nunito.woff2") format("woff2")',
+    );
     expect(added[0]?.options?.weight).toBe('500');
 
     registerIslandFontFaces(descriptors);

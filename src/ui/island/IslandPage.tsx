@@ -16,7 +16,10 @@ export interface IslandPageProps {
  */
 export function IslandPage({ children, label, className }: IslandPageProps): JSX.Element {
   return (
-    <main className={className === undefined ? 'island-page' : `island-page ${className}`} aria-label={label}>
+    <main
+      className={className === undefined ? 'island-page' : `island-page ${className}`}
+      aria-label={label}
+    >
       {children}
     </main>
   );

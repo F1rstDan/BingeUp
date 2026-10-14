@@ -276,3 +276,15 @@ body {
   }
 }
 
+/* 标题飘带（2026-10-14 修正）：窄视口下「刷刷升级 — 设置」的 nowrap 飘带
+   （Title size=large 的 28px 字号）比内容列宽更宽，320px 实测横向溢出
+   （scrollWidth 345 > 320）。库 Title 的内部尺寸全部使用 em，这里把飘带
+   字号降到 24px 让整体等比缩小，标题完整可见且不产生横向滚动。
+   选择器基于库的稳定类名前缀 animal-ribbon-<hash>（内层飘带根元素；
+   animal-ribbonBack 等装饰类不匹配该前缀）；字号覆盖用 !important，
+   因为 size 属性会以内联 font-size 下发。 */
+@media (max-width: 420px) {
+  .bingeup-title [class^='animal-ribbon-'] {
+    font-size: 24px !important;
+  }
+}

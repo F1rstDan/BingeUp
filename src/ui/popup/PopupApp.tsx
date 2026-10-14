@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
-import { Button, Card, Switch, Tag, type TagColor } from 'animal-island-ui';
+import { Button, Card, Switch, Tag, Title, type TagColor } from 'animal-island-ui';
 import {
   AlertTriangleIcon,
   BanIcon,
@@ -81,7 +81,7 @@ function PopupHeader(): JSX.Element {
     <header className="bingeup-header">
       <div className="bingeup-brand" aria-label="刷刷升级">
         <img className="bingeup-brand-mascot" src={mascotUrl} alt="" aria-hidden="true" />
-        <strong>刷刷升级</strong>
+        <Title size="small">刷刷升级</Title>
       </div>
       <Button
         type="text"
@@ -620,8 +620,7 @@ async function handleStartContinuousLearning(
   const message: ContentMessage = { type: 'START_CONTINUOUS_LEARNING' };
   try {
     const response = (await chrome.tabs.sendMessage(tabId, message)) as
-      | StartLearningResponse
-      | undefined;
+      StartLearningResponse | undefined;
     if (response?.ok) {
       window.close();
       return;

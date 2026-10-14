@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Progress, Tabs, Tag, type TagColor } from 'animal-island-ui';
+import { Card, Progress, Tabs, Tag, Title, type TagColor } from 'animal-island-ui';
 import type { LearningStats } from '@/types';
 import { StatsService } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
@@ -69,7 +69,9 @@ export function StatsApp(): JSX.Element {
   if (error !== null) {
     return (
       <IslandPage className="bingeup-stats" label="学习统计">
-        <h1>学习统计</h1>
+        <h1>
+          <Title size="large">学习统计</Title>
+        </h1>
         <Card className="bingeup-stats-state-card">
           <p className="bingeup-stats-error">加载失败：{error}</p>
         </Card>
@@ -80,7 +82,9 @@ export function StatsApp(): JSX.Element {
   if (stats === null) {
     return (
       <IslandPage className="bingeup-stats" label="学习统计">
-        <h1>学习统计</h1>
+        <h1>
+          <Title size="large">学习统计</Title>
+        </h1>
         <Card className="bingeup-stats-state-card">
           <p className="bingeup-stats-loading">加载中…</p>
         </Card>
@@ -217,8 +221,8 @@ export function StatsApp(): JSX.Element {
                   </span>
                   <span className="bingeup-stats-row-value">
                     自然 {day.naturalCompletedQuestions} · 跳过 {pct(day.naturalSkipRate)} · 暂停{' '}
-                    {day.activePauseCount} · 连续 {day.continuousSessions}/{day.continuousQuestions} ·
-                    长期 {day.longTermReview.completed}/
+                    {day.activePauseCount} · 连续 {day.continuousSessions}/{day.continuousQuestions}{' '}
+                    · 长期 {day.longTermReview.completed}/
                     {performancePct(day.longTermReview.completed, day.longTermReview.accuracy)}
                   </span>
                 </div>
@@ -291,8 +295,7 @@ export function StatsApp(): JSX.Element {
                   <span className="bingeup-stats-row-value bingeup-stats-site-value">
                     <Tag size="small" color={site.currentEnabled ? 'app-teal' : 'default'}>
                       {site.currentEnabled ? '已启用' : '已关闭'}
-                    </Tag>
-                    {' '}
+                    </Tag>{' '}
                     <span>· 连续启用 {site.continuousEnabledDays} 天</span>
                   </span>
                 </div>
@@ -306,7 +309,9 @@ export function StatsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-stats" label="学习统计">
-      <h1>学习统计</h1>
+      <h1>
+        <Title size="large">学习统计</Title>
+      </h1>
       <Tabs className="bingeup-stats-tabs" aria-label="统计分区" items={tabsItems} />
     </IslandPage>
   );

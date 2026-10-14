@@ -124,12 +124,7 @@ async function readActiveElement(page: Page): Promise<ActiveElementState> {
   });
 }
 
-async function capture(
-  page: Page,
-  name: string,
-  file: string,
-  detail?: unknown,
-): Promise<void> {
+async function capture(page: Page, name: string, file: string, detail?: unknown): Promise<void> {
   await page.screenshot({ path: resolve(outDir, file), fullPage: true });
   records.push({
     name,
@@ -269,7 +264,12 @@ test.describe('M3a 安装引导迁移采集', () => {
     const focusedButton = await readActiveElement(page);
     expect(focusedButton.outlineStyle).not.toBe('none');
     expect(focusedButton.outlineWidth).not.toBe('0px');
-    await capture(page, 'focus-primary-button', 'onboarding-focus-primary-button.png', focusedButton);
+    await capture(
+      page,
+      'focus-primary-button',
+      'onboarding-focus-primary-button.png',
+      focusedButton,
+    );
 
     records.push({
       name: 'keyboard',
@@ -297,4 +297,3 @@ test.describe('M3a 安装引导迁移采集', () => {
     await page.close();
   });
 });
-

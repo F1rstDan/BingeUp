@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag } from 'animal-island-ui';
+import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
@@ -167,7 +167,9 @@ export function OptionsApp(): JSX.Element {
   if (error !== null) {
     return (
       <IslandPage className="bingeup-options" label="刷刷升级设置">
-        <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
         <Card className="bingeup-card">
           <p className="bingeup-error">{error.message}</p>
           {notice !== null && (
@@ -194,7 +196,9 @@ export function OptionsApp(): JSX.Element {
   if (settings === null) {
     return (
       <IslandPage className="bingeup-options" label="刷刷升级设置">
-        <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
         <Card className="bingeup-card">
           <p className="bingeup-hint">加载中…</p>
         </Card>
@@ -244,9 +248,7 @@ export function OptionsApp(): JSX.Element {
           max={100}
           aria-label="每日新词上限"
           value={settings.dailyNewWordLimit}
-          onChange={(e) =>
-            setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })
-          }
+          onChange={(e) => setSettings({ ...settings, dailyNewWordLimit: Number(e.target.value) })}
         />
       </Field>
 
@@ -355,21 +357,14 @@ export function OptionsApp(): JSX.Element {
               placeholder="example.com 或 https://example.com"
               onChange={(event) => setSiteInput(event.target.value)}
             />
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={siteAdding}
-              disabled={siteAdding}
-            >
+            <Button type="primary" htmlType="submit" loading={siteAdding} disabled={siteAdding}>
               {siteAdding ? '正在添加…' : '添加网站'}
             </Button>
           </div>
         </form>
       </Card>
       {sites.length === 0 ? (
-        <p className="bingeup-hint">
-          暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。
-        </p>
+        <p className="bingeup-hint">暂无已配置的网站。在引导页或 Popup 中启用网站后此处会显示。</p>
       ) : (
         <div className="bingeup-site-list">
           {sites.map((entry) => (
@@ -420,7 +415,9 @@ export function OptionsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-options" label="刷刷升级设置">
-      <h1 className="bingeup-title">刷刷升级 — 设置</h1>
+      <h1 className="bingeup-title">
+        <Title size="large">刷刷升级 — 设置</Title>
+      </h1>
 
       {notice !== null && (
         <Card className="bingeup-notice">
@@ -730,4 +727,3 @@ async function handleRebuildDatabase(
     onNotice(`重建失败：${error instanceof Error ? error.message : String(error)}`);
   }
 }
-
