@@ -528,7 +528,7 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 | 不拦截播放器交互 | e2e：提示中心 `elementFromPoint` 命中页面元素（DIV）且不在提示宿主内（`pointer-events: none`） | 通过 |
 | 行为语义不变 | 单测 + e2e：启用/暂不/已启用「知道了」、启用失败恢复、单一横幅；拒绝计数经真实后台持久化为 1；6 秒自动消失；恢复流程代码未改动 | 通过 |
 | 无 CSP 报错 | e2e 控制台监听（合成页） | 无报错；真实站点 CSP 未验证（见第 4 节） |
-| 门禁 | typecheck / npm test / lint / build / build:edge / e2e | typecheck 通过；46 个测试文件、832 个用例全过；lint 通过（0 warning）；Chrome/Edge 构建（含既有校验脚本）通过；e2e 11 通过 / 13 跳过（跳过为既有人工矩阵与采集占位） |
+| 门禁 | typecheck / npm test / lint / build / build:edge / e2e | 本分支复测（合并集成分支前）：typecheck 通过；46 个测试文件、832 个用例全过；lint 通过（0 warning）；Chrome/Edge 构建（含既有校验脚本）通过；e2e 11 通过 / 13 跳过（跳过为既有人工矩阵与采集占位）。合并 M2 后的最终复测见第 7 节 |
 
 ### 3. 截图证据（合成 Bilibili 页面）
 
@@ -550,14 +550,14 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 
 ### 5. 体积影响（vs M4 合并后基线）
 
-| 指标 | M4 合并后 | M6a 后 | 差值 |
+| 指标 | M4 合并后基线 | M6a 最终（合并 M2 后） | 差值 |
 | --- | --- | --- | --- |
-| 解包体积（56 文件） | 11,303,228 B | 11,302,738 B | −490 B |
-| 压缩包 zip | 8,449,591 B | 8,449,527 B | −64 B |
+| 解包体积 | 11,303,228 B（56 文件） | 11,309,852 B（57 文件） | +6,624 B |
+| 压缩包 zip | 8,449,591 B | 8,451,332 B | +1,741 B |
 | content script（content.js） | 346,395 B | 345,905 B | −490 B |
-| Popup 入口闭包 | 308,756 B | 308,756 B | 0（未动页面） |
+| Popup 入口闭包 | 308,756 B | 315,708 B | +6,952 B |
 
-启用提示由内联蓝粉自绘样式改为库原版组件（React/库代码本就在内容脚本内），净减来自删除旧提示 CSS。
+本分支单独的 M6a 改动净减 content.js 490 B（合并前实测）：启用提示由内联蓝粉自绘样式改为库原版组件（React/库代码本就在内容脚本内），差量被删除的旧提示 CSS 抵消。解包体积与 Popup 闭包的其余增量来自合并 M2（新共享页面基础模块与 Popup 完整迁移），不属于本工单改动面。
 
 ### 6. 复现命令
 
@@ -571,3 +571,15 @@ npx playwright test e2e/island-notices.spec.ts
 $env:CAPTURE_M6A='1'; npx playwright test e2e/island-notices.spec.ts
 node scripts/measure-bundle-baseline.mjs
 ```
+
+### 7. 合并集成分支（含 M2）后的复测
+
+推送前已合并集成分支最新 tip e69640f（合并工单 #39：M2 Popup 完整迁移与共享页面基础模块），合并提交为「Merge branch 'feat/animal-island-ui-migration' into codex/ticket-45-m6a-notices」。证据文档冲突为双方尾部追加，已解决为 M2 小节在前、M6a 小节在后。合并后复测：
+
+| 验证项 | 结果 |
+| --- | --- |
+| typecheck / lint | 通过（0 warning） |
+| npm test | 48 个测试文件、840 个用例全过 |
+| build / build:edge | 通过（含 WXT 构建与三个校验脚本） |
+| e2e（29 用例，含 M2 采集占位） | 11 通过 / 18 跳过（跳过为 M2/M6a 与既有采集、人工矩阵占位） |
+| 体积（Chrome，合并后） | 解包 11,309,852 B（57 文件）；zip 8,451,332 B；content.js 345,905 B；Popup 闭包 315,708 B |
