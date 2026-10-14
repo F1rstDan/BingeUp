@@ -76,6 +76,12 @@ function renderOptions() {
   return render(<OptionsApp />);
 }
 
+/** 渲染设置页并切换到指定分区（工单 #41 M3b：三个分区由原版 Tabs 承载）。 */
+async function renderOptionsAndOpenTab(name: '学习设置' | '网站管理' | '数据管理'): Promise<void> {
+  renderOptions();
+  fireEvent.click(await screen.findByRole('tab', { name }));
+}
+
 describe('OptionsApp — Issue #10', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -159,13 +165,12 @@ describe('OptionsApp — Issue #10', () => {
     renderOptions();
 
     await waitFor(() => {
-      expect(screen.getByText('学习设置')).toBeInTheDocument();
+      expect(screen.getByRole('tab', { name: '学习设置' })).toBeInTheDocument();
     });
 
-    // 词库选择
-    expect(screen.getByRole('button', { name: '当前词库：日常高频' })).toBeInTheDocument();
-    // 学习水平
-    expect(screen.getByRole('button', { name: '学习水平：一般' })).toBeInTheDocument();
+    // 词库与学习水平：原版受控 Select（combobox）直接显示当前值文本
+    expect(screen.getByRole('combobox', { name: '当前词库' })).toHaveTextContent('日常高频');
+    expect(screen.getByRole('combobox', { name: '学习水平' })).toHaveTextContent('一般');
     // 每日新词上限
     expect(screen.getByDisplayValue('5')).toBeInTheDocument();
     // 默认冷却
@@ -175,6 +180,57 @@ describe('OptionsApp — Issue #10', () => {
     expect(screen.getByRole('switch', { name: '连续跳过自动降频' })).toBeChecked();
     // 长视频定时学习间隔
     expect(screen.getByDisplayValue('10')).toBeInTheDocument();
+  });
+
+  it('下拉选择使用原版受控 Select：点击选项更新显示并在保存时写回（AC1）', async () => {
+    renderOptions();
+
+    const deckSelect = await screen.findByRole('combobox', { name: '当前词库' });
+    expect(deckSelect).toHaveAttribute('aria-expanded', 'false');
+
+    fireEvent.click(deckSelect);
+    expect(deckSelect).toHaveAttribute('aria-expanded', 'true');
+    const deckOption = await screen.findByRole('option', { name: '四级' });
+    fireEvent.click(deckOption);
+
+    expect(deckSelect).toHaveTextContent('四级');
+    expect(deckSelect).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: '保存设置' }));
+    await waitFor(() => {
+      expect(mocks.setAppSettings).toHaveBeenCalledTimes(1);
+    });
+    const saved = mocks.setAppSettings.mock.calls[0]![0] as AppSettings;
+    expect(saved.selectedDeckId).toBe('deck-cet4');
+  });
+
+  it('下拉选择支持键盘：方向键移动、Enter 选中、Escape 关闭并返回触发区', async () => {
+    renderOptions();
+
+    const levelSelect = await screen.findByRole('combobox', { name: '学习水平' });
+    levelSelect.focus();
+
+    fireEvent.keyDown(levelSelect, { key: 'ArrowDown' });
+    const listbox = await screen.findByRole('listbox');
+    expect(levelSelect).toHaveAttribute('aria-activedescendant');
+    expect(within(listbox).getByRole('option', { name: '一般' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+
+    fireEvent.keyDown(levelSelect, { key: 'ArrowDown' });
+    fireEvent.keyDown(levelSelect, { key: 'Enter' });
+
+    expect(levelSelect).toHaveTextContent('进阶');
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+    fireEvent.keyDown(levelSelect, { key: 'ArrowDown' });
+    await screen.findByRole('listbox');
+    fireEvent.keyDown(levelSelect, { key: 'Escape' });
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    expect(levelSelect).toHaveFocus();
   });
 
   it('修改设置后点击保存调用 setAppSettings（AC1 / AC3）', async () => {
@@ -258,7 +314,7 @@ describe('OptionsApp — Issue #10', () => {
       ],
     });
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: ' https://Example.COM/learn?q=1 ' } });
@@ -293,7 +349,7 @@ describe('OptionsApp — Issue #10', () => {
       ],
     });
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'https://www.youtube.com/watch?v=x' } });
@@ -320,7 +376,7 @@ describe('OptionsApp — Issue #10', () => {
       ],
     });
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const hostname = await screen.findByText('example.com');
     const row = hostname.closest('.bingeup-site-row');
@@ -330,7 +386,7 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('非 HTTPS 地址显示拒绝原因且不申请权限', async () => {
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'http://example.com/page' } });
@@ -341,7 +397,7 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('非法地址显示校验原因且不读取或写入站点', async () => {
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'not a valid host /' } });
@@ -371,7 +427,7 @@ describe('OptionsApp — Issue #10', () => {
         },
       ],
     });
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'example.com' } });
@@ -385,7 +441,7 @@ describe('OptionsApp — Issue #10', () => {
   it('拒绝网站权限时显示失败原因且不写入站点', async () => {
     permissionsContains.mockResolvedValue(false);
     permissionsRequest.mockResolvedValue(false);
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'example.com' } });
@@ -398,7 +454,7 @@ describe('OptionsApp — Issue #10', () => {
   it('站点写入失败时显示错误并撤销本次新授予的精确权限', async () => {
     permissionsContains.mockResolvedValue(false);
     mocks.addCustomSite.mockRejectedValue(new Error('storage 不可用'));
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
 
     const input = await screen.findByRole('textbox', { name: '网站地址' });
     fireEvent.change(input, { target: { value: 'example.com' } });
@@ -413,7 +469,7 @@ describe('OptionsApp — Issue #10', () => {
   it('显示已配置的网站列表与兼容模式（AC2）', async () => {
     mocks.listSites.mockResolvedValue(SAMPLE_SITES);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
     await waitFor(() => {
       expect(screen.getByText('bilibili.com')).toBeInTheDocument();
     });
@@ -426,7 +482,7 @@ describe('OptionsApp — Issue #10', () => {
   it('基础网页模式显示触发开关（AC2）', async () => {
     mocks.listSites.mockResolvedValue(SAMPLE_SITES);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
     await waitFor(() => {
       expect(screen.getByText('example.com')).toBeInTheDocument();
     });
@@ -444,10 +500,10 @@ describe('OptionsApp — Issue #10', () => {
       ),
     });
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
     const host = await screen.findByText('bilibili.com');
     const row = host.closest('.bingeup-site-row') as HTMLElement;
-    fireEvent.click(within(row).getByRole('button', { name: '关闭网站' }));
+    fireEvent.click(within(row).getByRole('switch', { name: '启用 bilibili.com' }));
 
     await waitFor(() => {
       expect(mocks.setSiteEnabled).toHaveBeenCalledWith('bilibili.com', false);
@@ -458,11 +514,11 @@ describe('OptionsApp — Issue #10', () => {
   it('基础网页模式的页面加载与滚动触发可以独立保存', async () => {
     mocks.listSites.mockResolvedValue(SAMPLE_SITES);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
     const host = await screen.findByText('example.com');
     const row = host.closest('.bingeup-site-row') as HTMLElement;
-    const pageLoad = within(row).getByRole('checkbox', { name: '页面加载触发' });
-    const scroll = within(row).getByRole('checkbox', { name: '滚动触发' });
+    const pageLoad = within(row).getByRole('switch', { name: '页面加载触发' });
+    const scroll = within(row).getByRole('switch', { name: '滚动触发' });
 
     expect(pageLoad).toBeEnabled();
     expect(scroll).toBeEnabled();
@@ -483,13 +539,13 @@ describe('OptionsApp — Issue #10', () => {
     mocks.listSites.mockResolvedValue(SAMPLE_SITES);
     mocks.removeSite.mockResolvedValue({ released: false });
 
-    renderOptions();
+    await renderOptionsAndOpenTab('网站管理');
     await waitFor(() => {
       expect(screen.getByText('bilibili.com')).toBeInTheDocument();
     });
 
     // bilibili.com 对应的删除按钮
-    const deleteButtons = screen.getAllByText('删除');
+    const deleteButtons = screen.getAllByRole('button', { name: '删除' });
     fireEvent.click(deleteButtons[0]!);
 
     await waitFor(() => {
@@ -513,7 +569,7 @@ describe('OptionsApp — Issue #10', () => {
     };
     mocks.exportData.mockResolvedValue(payload);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('数据管理');
     await waitFor(() => {
       expect(screen.getByText('导出数据')).toBeInTheDocument();
     });
@@ -527,63 +583,51 @@ describe('OptionsApp — Issue #10', () => {
     expect(clickSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('清除学习进度需要二次确认（AC4）', async () => {
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+  it('清除学习进度需要原版 Modal 二次确认，取消不执行（AC4）', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除学习进度' }));
 
-    renderOptions();
-    await waitFor(() => {
-      expect(screen.getByText('清除学习进度')).toBeInTheDocument();
-    });
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText(/确定要清除所有学习进度吗/)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('清除学习进度'));
+    fireEvent.click(within(dialog).getByRole('button', { name: '取消' }));
 
-    await waitFor(() => {
-      expect(confirmSpy).toHaveBeenCalledTimes(1);
-    });
-    // 用户取消时不应调用清除
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(mocks.clearLearningProgress).not.toHaveBeenCalled();
   });
 
   it('确认后清除学习进度调用 clearLearningProgress（AC4）', async () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除学习进度' }));
 
-    renderOptions();
-    await waitFor(() => {
-      expect(screen.getByText('清除学习进度')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('清除学习进度'));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '清除学习进度' }));
 
     await waitFor(() => {
       expect(mocks.clearLearningProgress).toHaveBeenCalledTimes(1);
     });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('清除全部数据需要二次确认（AC4）', async () => {
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除全部数据' }));
 
-    renderOptions();
-    await waitFor(() => {
-      expect(screen.getByText('清除全部数据')).toBeInTheDocument();
-    });
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText(/确定要清除全部本地数据吗/)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('清除全部数据'));
+    fireEvent.click(within(dialog).getByRole('button', { name: '取消' }));
 
-    await waitFor(() => {
-      expect(confirmSpy).toHaveBeenCalledTimes(1);
-    });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(mocks.clearAllData).not.toHaveBeenCalled();
   });
 
   it('确认后清除全部数据调用 clearAllData（AC4）', async () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除全部数据' }));
 
-    renderOptions();
-    await waitFor(() => {
-      expect(screen.getByText('清除全部数据')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('清除全部数据'));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '清除全部数据' }));
 
     await waitFor(() => {
       expect(mocks.clearAllData).toHaveBeenCalledTimes(1);
@@ -598,7 +642,7 @@ describe('OptionsApp — Issue #10', () => {
     };
     mocks.importData.mockResolvedValue(importResult);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('数据管理');
     await waitFor(() => {
       expect(screen.getByText('导入数据')).toBeInTheDocument();
     });
@@ -623,7 +667,7 @@ describe('OptionsApp — Issue #10', () => {
     const importResult: ImportResult = { ok: true, errors: [], warnings: [] };
     mocks.importData.mockResolvedValue(importResult);
 
-    renderOptions();
+    await renderOptionsAndOpenTab('数据管理');
     await waitFor(() => {
       expect(screen.getByText('导入数据')).toBeInTheDocument();
     });
@@ -642,17 +686,38 @@ describe('OptionsApp — Issue #10', () => {
     });
   });
 
-  it('数据库加载失败时先提供重试，并仅在明确确认后执行重建', async () => {
+  it('数据库加载失败时先提供重试，并仅在两步确认后执行重建', async () => {
     mocks.getAppSettings.mockRejectedValueOnce(new Error('数据库打开失败'));
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
     renderOptions();
     await screen.findByText(/加载失败：数据库打开失败/);
 
-    fireEvent.click(screen.getByText('清除本地数据并重建'));
+    fireEvent.click(screen.getByRole('button', { name: '清除本地数据并重建' }));
 
-    await waitFor(() => expect(confirmSpy).toHaveBeenCalledTimes(2));
+    const firstDialog = await screen.findByRole('dialog');
+    expect(within(firstDialog).getByText(/重建会永久删除全部本地用户数据/)).toBeInTheDocument();
+
+    fireEvent.click(within(firstDialog).getByRole('button', { name: '继续' }));
+    await screen.findByText(/最后确认：永久清除本地用户数据并重建/);
+
+    const secondDialog = screen.getByRole('dialog');
+    fireEvent.click(within(secondDialog).getByRole('button', { name: '确定执行' }));
+
     await waitFor(() => expect(mocks.rebuildDatabase).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(screen.getByText('本地数据已清除并重建')).toBeInTheDocument());
+  });
+
+  it('重建第一步取消时不执行重建', async () => {
+    mocks.getAppSettings.mockRejectedValueOnce(new Error('数据库打开失败'));
+    renderOptions();
+    await screen.findByText(/加载失败：数据库打开失败/);
+
+    fireEvent.click(screen.getByRole('button', { name: '清除本地数据并重建' }));
+
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '取消' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(mocks.rebuildDatabase).not.toHaveBeenCalled();
   });
 
   it('非数据库加载错误不提供破坏性重建入口', async () => {
@@ -663,3 +728,4 @@ describe('OptionsApp — Issue #10', () => {
     expect(screen.getByText('重试')).toBeInTheDocument();
   });
 });
+

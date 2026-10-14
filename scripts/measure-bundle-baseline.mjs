@@ -71,6 +71,8 @@ function describeOutput(dir) {
   const unpacked = directoryStats(dir);
   const popupHtml = join(dir, 'popup.html');
   const popup = existsSync(popupHtml) ? htmlClosure(popupHtml) : [];
+  const optionsHtml = join(dir, 'options.html');
+  const options = existsSync(optionsHtml) ? htmlClosure(optionsHtml) : [];
   const contentScript = [
     join(dir, 'content-scripts', 'content.js'),
     join(dir, 'content-scripts', 'content.css'),
@@ -81,6 +83,7 @@ function describeOutput(dir) {
     dir: relative(projectRoot, dir),
     unpacked,
     popup: { bytes: popup.reduce((sum, item) => sum + item.bytes, 0), files: popup },
+    options: { bytes: options.reduce((sum, item) => sum + item.bytes, 0), files: options },
     contentScript: {
       bytes: contentScript.reduce((sum, item) => sum + item.bytes, 0),
       files: contentScript,
