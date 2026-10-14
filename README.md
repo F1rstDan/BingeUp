@@ -16,10 +16,10 @@
 当你进入新视频，刷刷升级会暂停主视频并盖上一道轻量学习题。答完或跳过后，视频从原进度继续；如果你想多学几题，也可以主动进入连续学习。
 
 <p align="center">
-  <img src="./docs/assets/readme/showcase.png" width="100%" alt="刷刷升级真实产品界面合集：视频内学习、安装引导、连续答题和插件状态控制">
+  <img src="./docs/assets/readme/showcase.png" width="100%" alt="刷刷升级产品界面合集：视频内学习与连续答题、首次引导、设置页、学习统计、插件状态控制与启用提示">
 </p>
 
-<p align="center"><sub>真实运行界面：视频内学习、连续答题、首次引导与快捷控制。</sub></p>
+<p align="center"><sub>界面合集：视频内学习与连续答题、首次引导、设置页、学习统计、插件状态控制与启用提示。所有画面来自真实构建产物截图；视频场景为合成测试页。</sub></p>
 
 ## 学习被放在间隙里，而不是待办清单里
 
@@ -134,4 +134,4 @@ npm run build        # Chrome 生产构建
 
 ## License
 
-[Apache License 2.0](./LICENSE)
+本项目以 [Apache License 2.0](./LICENSE) 发布。第三方组件与字体（animal-island-ui、naive-icons、Nunito / Noto Sans SC）的版权与许可声明见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。

@@ -1,0 +1,49 @@
+/**
+ * 扩展页面的元素级基础样式（工单 #46 清理后）。
+ *
+ * 旧蓝粉设计令牌与自绘按钮样式已全部删除；视觉系统统一来自 animal-island-ui。
+ * 本文件只保留与具体视觉体系无关的页面基础规则：默认外边距、正文字体、
+ * 指针状态与 reduced-motion 偏好。颜色只引用库在 :root 声明的 --animal-* 令牌，
+ * 不定义新令牌、不写死组件样式。
+ */
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body,
+button,
+input,
+select {
+  font-family: var(--animal-font-family);
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--animal-warning-color, #f5c31c);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

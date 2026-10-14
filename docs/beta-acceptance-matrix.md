@@ -39,6 +39,10 @@ npm run test:e2e     # 自动先构建 chrome-mv3，再运行 Playwright
 
 以下由 `npm run test:e2e` 自动验证，人工无需重复；作为「已验证」证据引用。
 
+UI 原版视觉迁移（Issue #36）的阶段证据、体积与未验证项见
+[ui-migration-evidence.md](./ui-migration-evidence.md)；其中截图采集脚本默认跳过，
+用 `CAPTURE_*=1` 运行，仅作证据、不参与像素比对。
+
 | 用例文件 | 覆盖点 |
 | --- | --- |
 | `e2e/extension.spec.ts` | MV3 扩展加载、service worker 注册、manifest 名称/版本/四档图标、图标资源随包 |
@@ -46,6 +50,9 @@ npm run test:e2e     # 自动先构建 chrome-mv3，再运行 Playwright
 | `e2e/options.spec.ts` | 设置修改→保存→刷新持久化（经 background + IndexedDB 端到端）、反馈入口指向 GitHub Issues |
 | `e2e/stats.spec.ts` | 统计页渲染且无页面错误 |
 | `e2e/site-scenarios.spec.ts` | 站点相关场景占位（skip），逐项指向下方人工矩阵 |
+| `e2e/overlay-island-migration.spec.ts` | 视频遮罩（合成 B 站页、真实 MV3 产物）：Shadow DOM 原版计算样式、字体本地加载、16:9/9:16/小窗布局与卡片内滚动、Escape 退出、无宿主页样式泄漏 |
+| `e2e/island-notices.spec.ts` | 启用提示与播放恢复提示：原版计算样式、字体本地加载、启用/暂不/已启用交互与拒绝计数、提示不拦截播放器、6 秒消失 |
+| `e2e/migration-*.spec.ts`（默认跳过） | 各阶段界面截图采集（`CAPTURE_M1/M2/M3A/M3B/M3C/M5/M6A=1` 运行），仅作证据 |
 
 **E2E 未覆盖、需人工的原因**：无头 E2E 无法可靠驱动浏览器原生权限对话框，也不宜依赖
 第三方线上站点（Bilibili/YouTube）与真实视频/直播/广告；这些均在下方矩阵人工记录。
@@ -65,6 +72,8 @@ npm run test:e2e     # 自动先构建 chrome-mv3，再运行 Playwright
 | G5 | 视频区域遮罩 | 支持站点普通视频 | 触发学习 | 遮罩覆盖视频区域，答/跳后从原进度继续 | ☐ | ☐ | |
 | G6 | 全网页遮罩 | basic-web 自定义站点 | 触发学习 | 全页遮罩，完成后恢复页面 | ☐ | ☐ | |
 | G7 | 无视频主动学习 | 支持站点无视频页 | Popup「开始学习」 | 进入连续学习，无需视频 | ☐ | ☐ | |
+| G8 | 统一原版视觉 | 扩展页面（Popup/设置/统计/引导）与支持站点视频页 | 逐页打开查看，并触发一次视频遮罩 | 全部界面为 Animal Island 原版视觉（奶油底、薄荷主色、胶囊控件、暖棕文字），无旧蓝粉元素残留 | ☐ | ☐ | |
+| G9 | 字体离线加载 | 支持站点视频页与扩展页面 | 打开扩展页面与遮罩（可在 DevTools 勾选 Offline 后刷新） | Nunito 与 Noto Sans SC 均由扩展本地加载，无 Google Fonts/CDN 等远程字体请求 | ☐ | ☐ | |
 
 ---
 
