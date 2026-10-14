@@ -61,7 +61,7 @@
 }
 
 .island-link {
-  border-radius: 6px;
+  border-radius: var(--island-radius-sm);
   color: var(--island-text-color);
   font-size: var(--island-font-size-sm);
   font-weight: 500;
