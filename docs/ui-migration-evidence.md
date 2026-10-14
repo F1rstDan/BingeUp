@@ -288,3 +288,108 @@ $env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts
 1. Popup 入口导入原版样式，以原版 Button/Card/Tag/Switch 替换站点状态区与主操作区
 2. 更新 Popup 单元测试匹配原版组件，内联库依赖并新增 M1 切片采集脚本
 3. 新增 M1 Popup 垂直切片证据文档与截图
+
+## M2 Popup 完整迁移与基础模块
+
+工单：#39（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-39-m2-popup-complete（从集成分支 tip 42d5979 切出）
+
+### 1. 改动概览
+
+共享基础模块（新增，src/ui/island/；测试缝①）：
+
+- IslandPage：页面外壳，渲染 <main>，可选可访问名称；IslandSection：区块容器，渲染带可见二级标题的 <section aria-labelledby>，标题行右侧提供操作插槽；IslandFooter：页脚，使用原版 Divider type="thin" 分隔并显式 role="contentinfo"。
+- island-theme.css：--island-* 语义别名层。每个别名都通过 var() 桥接 animal-island-ui 在 :root 声明的 --animal-* 运行时令牌（兜底值取库 2.2.1 默认值，只用于库样式尚未生效的瞬间）；不新增颜色，不覆盖库令牌。
+- island-layout.css：只做排布、间距与文字层级，颜色一律使用别名，不写死色值。
+- 从 @/ui/island 入口导入时自动引入两份 CSS；只封装业务布局与语义，不重造库组件，供 #40/#41/#42 直接引用。
+
+Popup 完整迁移（src/ui/popup/PopupApp.tsx、src/entrypoints/popup/popup.css）：
+
+- 标题栏：设置入口从齿轮 Unicode 字符改为原版 Button type="text" + naive-icons SettingsIcon（aria-label/title 仍为“设置”，点击语义不变）。
+- 站点状态卡：自绘彩色圆点改为 naive-icons 状态图标（可学习 CheckCircle、暂停 Pause、需权限 AlertTriangle、不可用 Ban、待启用 Play），颜色使用 island 状态色；补上“不可用”独立色调。
+- 今日学习：改用 IslandSection（二级标题 + 原版文字按钮“统计”），删除旧 “›” 字符与自绘文本按钮；7 个指标卡改用 island 底色与文字令牌，删除绿/粉着色类。
+- 降级/加载失败/受保护/需权限状态卡与操作通知：由旧自绘块改为原版 Card；错误与提示文字改用 island 文案色与 error 色。
+- 反馈页脚：FeedbackLink 改用 IslandFooter + island-link（原版分隔线；文案、href 与 target=_blank 语义不变）。该组件同时被设置页页脚使用，设置页页脚随之变为 island 样式，设置页正文迁移仍属 #41。
+- popup.css 只保留布局职责：全部色值改用 --island-* 别名，删除旧蓝粉类（bingeup-popup-settings、bingeup-text-button、bingeup-block*、bingeup-site-dot*、bingeup-metric-green/-pink、bingeup-visually-hidden 等）。全局旧令牌（src/ui/styles/design-tokens.css）按范围要求未删除，仍由 #46 清理。
+- 未改：消息链路、暂停/倒计时状态逻辑、站点判定、OverlayAction、用户可见文案语义、dev-tools 行为与生产排除规则。
+
+### 2. 测试覆盖变化
+
+- tests/unit/popup/PopupApp.test.tsx：新增 2 个用例（设置入口调用 chrome.runtime.openOptionsPage；“统计”在扩展页打开 stats.html），既有用例全部保留，未弱化断言。
+- tests/unit/ui/island.test.tsx（新增，渲染测试）：主区域、区块 aria-labelledby 与标题语义、操作插槽、页脚 contentinfo、追加类名。
+- tests/unit/ui/island-theme.test.ts（新增，静态规则）：island 布局 CSS 与 popup.css 不含 --bingeup 旧令牌与写死色值；别名层只桥接 --animal-*。
+- 测试规模：44 文件 / 809 用例 → 46 文件 / 817 用例。
+
+### 3. 截图（docs/assets/migration-m2/）
+
+| 文件 | 状态 |
+| --- | --- |
+| popup-learnable-320.png / popup-learnable-340.png / popup-learnable-420.png | 可学习：图标状态卡 + Switch + 今日学习指标 + 原版按钮 + island 页脚 |
+| popup-learnable-zoom200.png | 可学习，200% 缩放等效（物理 640px 宽） |
+| popup-paused-340.png | 全局暂停：暂停图标 + Tag“已暂停” + 恢复倒计时 + 禁用开始学习 |
+| popup-needs-permission-340.png | 需权限：警告图标 + 域名 Card + 禁用开始学习 |
+| popup-join-site-340.png | 未加入 HTTPS 网站：不可用图标 + 原版“加入当前网站” |
+| popup-degraded-340.png | 无活动标签页降级（error 色文案） |
+| popup-protected-340.png | 受保护页面（chrome://settings/） |
+
+复现命令（默认跳过，采集会覆盖同名 PNG）：
+
+```powershell
+$env:CAPTURE_M2='1'; npx playwright test e2e/migration-m2.spec.ts
+```
+
+采集运行时记录（.output/migration-m2-capture.json）：Nunito 与 Noto Sans SC 均 loaded；6 个字体响应全部为 chrome-extension:// 本地资源；320/340/420 与 200% 缩放均无横向溢出；console error 0、pageerror 0、失败请求 0。
+
+### 4. 体积对比（M1 → M2；Chrome 与 Edge 数字一致）
+
+| 指标 | M1（#38） | M2（本次） | 差值 |
+| --- | --- | --- | --- |
+| 解包体积 | 7,601,617 B（47 文件） | 7,608,731 B（48 文件） | +7,114 B |
+| 压缩包 zip | 4,855,896 B | 4,857,701 B | +1,805 B |
+| Popup 入口闭包 | 308,756 B（9 文件） | 315,708 B（10 文件） | +6,952 B |
+| content script | 208,173 B | 208,173 B | 0 |
+
+Popup 闭包明细：popup JS 29,315 → 32,440 B（+3,125，新增 naive-icons 图标与 island 组件）；FeedbackLink JS 2,512 → 5,193 B（+2,681，引入原版 Divider 与 island 模块）；新增 FeedbackLink CSS 分块 2,368 B（island 主题与布局样式）；popup CSS 130,287 → 129,065 B（-1,222，旧样式清零）；design-tokens JS/CSS 不变。范围外成本（字体约 3.49 MB）与 M1 相同。
+
+### 5. 门禁执行记录
+
+| 门禁 | 命令 | 结果 |
+| --- | --- | --- |
+| 类型检查 | npm run typecheck | 通过（退出码 0） |
+| 单元/集成测试 | npm test | 通过（46 文件、817 用例） |
+| Lint | npm run lint | 通过（退出码 0） |
+| Chrome 构建 | npm run build | 通过（含 verify-content-script-manifest.mjs、verify-dev-tools-production.mjs） |
+| Edge 构建 | npm run build:edge | 通过（同上） |
+| 打包 | npm run zip / npm run zip -- -b edge | 通过（体积见第 4 节） |
+| 浏览器 E2E（既有用例） | npm run test:e2e | 7 通过 / 18 跳过（人工占位 5 + M0 采集 3 + M1 采集 5 + M2 采集 5） |
+| M2 采集 | $env:CAPTURE_M2='1'; npx playwright test e2e/migration-m2.spec.ts | 5 通过 |
+
+### 6. 未验证项
+
+| 项 | 原因 |
+| --- | --- |
+| 真实工具栏点击打开的 Popup（activeTab 上下文）与真实状态切换 | 与 M0/M1 相同：无头环境无法驱动浏览器工具栏；采集以受控上下文替换进入各状态，业务链路未改 |
+| 真实浏览器 200% 缩放 | 用 CDP 设备指标做布局等效模拟，非浏览器缩放设置本身 |
+| Edge 真实浏览器人工矩阵 | 仅验证 edge-mv3 构建产物 |
+| 设置页页脚随 FeedbackLink 变为 island 样式后的全页视觉 | 设置页整体迁移属 #41，本轮只验证链接语义与渲染（含 e2e 反馈入口用例） |
+| naive-icons 图标在深色系统主题、高倍缩放下的人工观感 | 本轮仅产物浅色截图 |
+| 真实站点行为回归 | 本轮未改站点适配、触发/冷却、遮罩与学习链路；维持 M0 的人工矩阵口径 |
+
+### 7. 复现步骤
+
+```powershell
+git checkout codex/ticket-39-m2-popup-complete
+npm install
+npx wxt prepare   # 生成 .wxt/tsconfig.json（未入库，vitest 与 tsc 依赖它）
+npm run typecheck; npm test; npm run lint
+npm run build; npm run build:edge
+npm run zip; npm run zip -- -b edge
+node scripts/measure-bundle-baseline.mjs
+npm run test:e2e
+$env:CAPTURE_M2='1'; npx playwright test e2e/migration-m2.spec.ts
+```
+
+相关提交（分支 codex/ticket-39-m2-popup-complete）：
+
+1. 新增 island 共享页面基础模块（IslandPage/IslandSection/IslandFooter、主题别名层、布局 CSS 与测试）
+2. Popup 完整原版化并清零旧蓝粉样式（标题栏/状态卡/今日学习/反馈页脚、单测更新与 M2 采集脚本）
+3. 新增 M2 Popup 完整迁移证据文档与截图
