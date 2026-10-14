@@ -1,7 +1,27 @@
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import type { Plugin } from 'vite';
 import { defineConfig } from 'wxt';
 import { SUPPORTED_CONTENT_SCRIPT_MATCHES } from './src/sites/supported-sites';
+
+/**
+ * M6b（工单 #46）：把 animal-island-ui 发布 CSS 里的字体相对路径改为 /files/ 公共路径。
+ *
+ * 只处理该库的 CSS（跳过 ?raw / ?inline 等查询导入），在 Vite 解析资产前执行；
+ * 字体文件本身仍由 build:publicAssets 复制到产物 files/，页面与遮罩 ShadowRoot 共用。
+ */
+function islandFontPublicPathPlugin(): Plugin {
+  return {
+    name: 'bingeup:island-font-public-path',
+    enforce: 'pre',
+    transform(code, id) {
+      if (!id.includes('animal-island-ui') || id.includes('?') || !id.endsWith('.css')) {
+        return null;
+      }
+      return code.replace(/url\((['"]?)files\//g, 'url($1/files/');
+    },
+  };
+}
 
 export default defineConfig({
   manifest: {
@@ -69,6 +89,15 @@ export default defineConfig({
         if (!name.endsWith('.woff2')) continue;
         files.push({ absoluteSrc: join(fontDir, name), relativeDest: `files/${name}` });
       }
+    },
+    // M6b（工单 #46）：页面与内容脚本共用一套字体交付路径。
+    // 库发布 CSS 的字体是相对路径 url("files/x.woff2")；页面构建时 Vite 会把它们
+    // 另发射为 assets/<hash>.woff2，与 build:publicAssets 复制出的 files/ 副本重复
+    // （约 3.4 MB）。构建期把库 CSS 的字体 URL 改写为 /files/ 公共路径后，Vite 不再
+    // 发射字体资产，扩展页面与遮罩 ShadowRoot 都从同一份 files/ 文件加载。
+    // 仅作用于生产构建（vite:build:extendConfig）；dev 服务器行为保持原样。
+    'vite:build:extendConfig': (_entrypoints, viteConfig) => {
+      viteConfig.plugins = [...(viteConfig.plugins ?? []), islandFontPublicPathPlugin()];
     },
     // Vite 在检测到 Origin 头时要求 HMR WebSocket URL 携带 token 查询参数，
     // WXT 的扩展 dev client 可能未携带该 token。仅在本机开发服务器中跳过校验。
