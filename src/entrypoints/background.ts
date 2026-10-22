@@ -12,16 +12,19 @@ export default defineBackground(() => {
   // Issue #10 AC4：打开 IDB 供导出/导入/清除操作使用。
   // 立即发起打开请求；数据操作消息到达时 await 该 Promise。
   let dbPromise: Promise<IDBDatabase> | null = null;
+  let router: ReturnType<typeof createMessageRouter> | null = null;
+  const prepareDatabase = (db: IDBDatabase): IDBDatabase => {
+    db.onversionchange = () => {
+      db.close();
+      dbPromise = null;
+      router = null;
+    };
+    return db;
+  };
   const getDatabase = (): Promise<IDBDatabase> => {
     if (dbPromise === null) {
       dbPromise = openDatabase(DATABASE_NAME, MIGRATIONS)
-        .then((db) => {
-          db.onversionchange = () => {
-            db.close();
-            dbPromise = null;
-          };
-          return db;
-        })
+        .then(prepareDatabase)
         .catch((error) => {
           // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
           dbPromise = null;
@@ -59,7 +62,8 @@ export default defineBackground(() => {
         }
         if (message?.type === 'REBUILD_DATABASE') {
           const rebuilt = await rebuildDatabase(DATABASE_NAME, MIGRATIONS);
-          dbPromise = Promise.resolve(rebuilt);
+          dbPromise = Promise.resolve(prepareDatabase(rebuilt));
+          router = null;
           const rebuiltStore = new LocalSettingsStore(rebuilt);
           const warnings: string[] = [];
           try {
@@ -80,7 +84,8 @@ export default defineBackground(() => {
           return;
         }
         const db = await getDatabase();
-        const router = createMessageRouter(new LocalSettingsStore(db), db);
+        // 同一后台与数据库共享实例，保留提交去重、运行状态写入锁和基线初始化状态。
+        router ??= createMessageRouter(new LocalSettingsStore(db), db);
         sendResponse(await router.handle(message, sender));
       } catch (error) {
         console.error('[BingeUp] background message error', error);

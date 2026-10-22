@@ -1,4 +1,5 @@
 import { STORES, type Migration } from '@/storage/database';
+import type { CardRecord, ReviewLogRecord } from '@/types';
 
 /** ADR-0003 直接切换后的数据空间；旧开发数据库不做运行时迁移。 */
 export const DATABASE_NAME = 'bingeup-v1';
@@ -10,7 +11,7 @@ export const DATABASE_NAME = 'bingeup-v1';
  * 版本 2：新增 sessionLogs 仓库（带 startedAt 索引），用于本地学习统计（Issue #12）。
  * 版本 3：新增权威状态仓库；开发期数据不迁移（ADR-0003）。
  * 版本 4：将 cards.byWordId 索引升级为唯一索引，持久化层强制一单词一卡（Issue #19 AC1）。
- *         升级前先按 wordId 去重，保留 createdAt 最早的卡片，避免历史脏数据阻塞索引创建。
+ *         按 wordId 合并：保留最早学习关系、最新进度，并将全部复习日志重绑到保留卡。
  */
 export const MIGRATIONS: Migration[] = [
   {
@@ -47,37 +48,63 @@ export const MIGRATIONS: Migration[] = [
     description: 'cards.byWordId 升级为唯一索引，持久化层强制一单词一卡（Issue #19 AC1）',
     run: (db, transaction) => {
       const cardsStore = transaction.objectStore(STORES.cards);
-      // 先按 wordId 去重：保留 createdAt 最早的卡片，清理历史脏数据，避免唯一索引创建失败。
+      // 最早创建的卡定义学习关系，最近更新的卡提供学习进度；日志随卡一起合并。
       // 迁移事务中无法 await，使用 openCursor + onsuccess 回调链在事务范围内同步推进。
       const keepByWordId = new Map<
         string,
-        { record: Record<string, unknown>; createdAt: number }
+        { first: CardRecord; latest: CardRecord; ids: string[] }
       >();
       const cursorRequest = cardsStore.openCursor();
       cursorRequest.onsuccess = () => {
         const cursor = cursorRequest.result;
         if (cursor === null) {
-          // 游标遍历完成：清空仓库并写回去重后的记录。
-          cardsStore.clear();
-          for (const { record } of keepByWordId.values()) {
-            cardsStore.put(record);
+          const redirectedCardIds = new Map<string, string>();
+          for (const { first, latest, ids } of keepByWordId.values()) {
+            if (first !== latest) {
+              cardsStore.put({
+                ...latest,
+                id: first.id,
+                deckId: first.deckId,
+                createdAt: first.createdAt,
+                origin: first.origin,
+              });
+            }
+            for (const id of ids) {
+              if (id !== first.id) {
+                cardsStore.delete(id);
+                redirectedCardIds.set(id, first.id);
+              }
+            }
           }
-          // 重建唯一索引。
-          if (cardsStore.indexNames.contains('byWordId')) {
-            cardsStore.deleteIndex('byWordId');
-          }
-          cardsStore.createIndex('byWordId', 'wordId', { unique: true });
+
+          // 等卡片写入完成后再重建唯一索引，仍在同一升级事务内。
+          cardsStore.count().onsuccess = () => {
+            if (cardsStore.indexNames.contains('byWordId')) {
+              cardsStore.deleteIndex('byWordId');
+            }
+            cardsStore.createIndex('byWordId', 'wordId', { unique: true });
+
+            // 重绑日志，保留日志 id、来源、评分及调度快照。
+            const logsRequest = transaction.objectStore(STORES.reviewLogs).openCursor();
+            logsRequest.onsuccess = () => {
+              const logCursor = logsRequest.result;
+              if (logCursor === null) return;
+              const log = logCursor.value as ReviewLogRecord;
+              const cardId = redirectedCardIds.get(log.cardId);
+              if (cardId !== undefined) logCursor.update({ ...log, cardId });
+              logCursor.continue();
+            };
+          };
           return;
         }
-        const value = cursor.value as Record<string, unknown>;
-        const wordId = String(value.wordId ?? '');
-        const createdAt = typeof value.createdAt === 'number' ? value.createdAt : 0;
-        const existing = keepByWordId.get(wordId);
+        const card = cursor.value as CardRecord;
+        const existing = keepByWordId.get(card.wordId);
         if (existing === undefined) {
-          keepByWordId.set(wordId, { record: value, createdAt });
-        } else if (createdAt < existing.createdAt) {
-          existing.record = value;
-          existing.createdAt = createdAt;
+          keepByWordId.set(card.wordId, { first: card, latest: card, ids: [card.id] });
+        } else {
+          existing.ids.push(card.id);
+          if (card.createdAt < existing.first.createdAt) existing.first = card;
+          if (card.updatedAt > existing.latest.updatedAt) existing.latest = card;
         }
         cursor.continue();
       };
