@@ -17,12 +17,7 @@ import {
   type LocalSettingsStore,
 } from '@/storage/local-settings';
 import { validateAppSettings } from '@/settings/validator';
-import {
-  BUILT_IN_DECKS,
-  getBuiltInDeck,
-  getBuiltInWord,
-  listBuiltInWords,
-} from '@/dictionary/built-in/decks';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 
 /** 首次公开备份格式；开发期格式不兼容。 */
 export const EXPORT_VERSION = 1;
@@ -51,6 +46,26 @@ export interface DataOperationResult {
 }
 export type ImportResult = DataOperationResult;
 
+interface BuiltInContent {
+  wordIds: Set<string>;
+  decksById: Map<string, DeckRecord>;
+}
+
+/** 与学习服务读取同一份运行时 JSON，不把内置词库打进备份或后台 bundle。 */
+async function loadBuiltInContent(deckIds: string[]): Promise<BuiltInContent> {
+  const wordBank = new BuiltInWordBank();
+  const [words, decks] = await Promise.all([
+    wordBank.listWords(),
+    Promise.all([...new Set(deckIds)].map((id) => wordBank.getDeck(id))),
+  ]);
+  return {
+    wordIds: new Set(words.map(({ id }) => id)),
+    decksById: new Map(
+      decks.filter((deck): deck is DeckRecord => deck !== null).map((deck) => [deck.id, deck]),
+    ),
+  };
+}
+
 export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
   const db = store.database;
   const [state, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] = await Promise.all([
@@ -63,8 +78,7 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
     idbGetAll<DeckRecord>(db, STORES.decks),
   ]);
   const { id: _id, ...authoritativeState } = state;
-  const builtInWordIds = new Set(listBuiltInWords().map(({ id }) => id));
-  const builtInDeckIds = new Set(BUILT_IN_DECKS.map(({ id }) => id));
+  const builtIn = await loadBuiltInContent(decks.map(({ id }) => id));
   return {
     version: EXPORT_VERSION,
     exportedAt: Date.now(),
@@ -74,8 +88,8 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
       reviewLogs,
       sessionLogs,
       behaviorEvents,
-      words: words.filter(({ id }) => !builtInWordIds.has(id)),
-      decks: decks.filter(({ id }) => !builtInDeckIds.has(id)),
+      words: words.filter(({ id }) => !builtIn.wordIds.has(id)),
+      decks: decks.filter(({ id }) => !builtIn.decksById.has(id)),
     },
   };
 }
@@ -277,16 +291,20 @@ function validateEntities(data: ExportedData, errors: string[]): void {
   });
 }
 
-function validateReferences(payload: ExportPayload, errors: string[]): void {
+function validateReferences(
+  payload: ExportPayload,
+  builtIn: BuiltInContent,
+  errors: string[],
+): void {
   const { data, authoritativeState } = payload;
   const wordIds = new Set(data.words.map(({ id }) => id));
   const deckIds = new Set(data.decks.map(({ id }) => id));
   const cardsById = new Map(data.cards.map((card) => [card.id, card]));
   data.words.forEach(({ id }, index) => {
-    if (getBuiltInWord(id)) errors.push(`data.words[${index}] 与内置单词 id 冲突：${id}`);
+    if (builtIn.wordIds.has(id)) errors.push(`data.words[${index}] 与内置单词 id 冲突：${id}`);
   });
   data.decks.forEach(({ id }, index) => {
-    if (getBuiltInDeck(id)) errors.push(`data.decks[${index}] 与内置词库 id 冲突：${id}`);
+    if (builtIn.decksById.has(id)) errors.push(`data.decks[${index}] 与内置词库 id 冲突：${id}`);
   });
   for (const [collection, ids] of [
     ['words', data.words.map(({ id }) => id)],
@@ -303,16 +321,17 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
   }
   data.decks.forEach((deck, index) =>
     deck.wordIds.forEach((wordId) => {
-      if (!wordIds.has(wordId) && !getBuiltInWord(wordId))
+      if (!wordIds.has(wordId) && !builtIn.wordIds.has(wordId))
         errors.push(`data.decks[${index}] 引用不存在的单词：${wordId}`);
     }),
   );
   data.cards.forEach((card, index) => {
-    if (!wordIds.has(card.wordId) && !getBuiltInWord(card.wordId))
+    if (!wordIds.has(card.wordId) && !builtIn.wordIds.has(card.wordId))
       errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
-    if (!deckIds.has(card.deckId) && !getBuiltInDeck(card.deckId))
+    if (!deckIds.has(card.deckId) && !builtIn.decksById.has(card.deckId))
       errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
-    const deck = data.decks.find(({ id }) => id === card.deckId) ?? getBuiltInDeck(card.deckId);
+    const deck =
+      data.decks.find(({ id }) => id === card.deckId) ?? builtIn.decksById.get(card.deckId);
     if (deck && !deck.wordIds.includes(card.wordId)) {
       errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
     }
@@ -322,18 +341,18 @@ function validateReferences(payload: ExportPayload, errors: string[]): void {
     if (!card) errors.push(`data.reviewLogs[${index}] 引用不存在的学习卡：${log.cardId}`);
     else if (card.wordId !== log.wordId)
       errors.push(`data.reviewLogs[${index}] 的单词引用与学习卡不一致`);
-    if (!wordIds.has(log.wordId) && !getBuiltInWord(log.wordId))
+    if (!wordIds.has(log.wordId) && !builtIn.wordIds.has(log.wordId))
       errors.push(`data.reviewLogs[${index}] 引用不存在的单词：${log.wordId}`);
   });
   const selectedDeckId = authoritativeState.appSettings.selectedDeckId;
-  if (!deckIds.has(selectedDeckId) && !getBuiltInDeck(selectedDeckId)) {
+  if (!deckIds.has(selectedDeckId) && !builtIn.decksById.has(selectedDeckId)) {
     errors.push(
       `authoritativeState.appSettings.selectedDeckId 引用不存在的词库：${selectedDeckId}`,
     );
   }
 }
 
-export function validateExportPayload(input: unknown): string[] {
+export async function validateExportPayload(input: unknown): Promise<string[]> {
   if (!isRecord(input)) return ['payload 不是对象'];
   if (input.version !== EXPORT_VERSION) {
     return [`不支持的备份版本：${String(input.version)}（当前支持版本：1）`];
@@ -347,7 +366,23 @@ export function validateExportPayload(input: unknown): string[] {
       if (!Array.isArray(input.data[collection])) errors.push(`data.${collection} 必须为数组`);
     }
   if (errors.length === 0) validateEntities(input.data as unknown as ExportedData, errors);
-  if (errors.length === 0) validateReferences(input as unknown as ExportPayload, errors);
+  if (errors.length === 0) {
+    const payload = input as unknown as ExportPayload;
+    let builtIn: BuiltInContent;
+    try {
+      builtIn = await loadBuiltInContent([
+        payload.authoritativeState.appSettings.selectedDeckId,
+        ...payload.data.cards.map(({ deckId }) => deckId),
+        ...payload.data.decks.map(({ id }) => id),
+      ]);
+    } catch (error) {
+      errors.push(
+        `内置词库加载失败，无法校验备份：${error instanceof Error ? error.message : String(error)}`,
+      );
+      return errors;
+    }
+    validateReferences(payload, builtIn, errors);
+  }
   return errors;
 }
 
@@ -371,7 +406,7 @@ export async function importLocalData(
   input: unknown,
 ): Promise<ImportResult> {
   const db = store.database;
-  const errors = validateExportPayload(input);
+  const errors = await validateExportPayload(input);
   if (errors.length > 0) return { ok: false, errors, warnings: [] };
   const payload = input as ExportPayload;
   try {

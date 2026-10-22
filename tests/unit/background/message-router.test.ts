@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
@@ -6,8 +7,12 @@ import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { CardRepository } from '@/storage/repositories/card-repository';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import type { AppSettings, BehaviorEventRecord, CardRecord, ReviewLogRecord } from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
+
+const DICTIONARY_WORDS_JSON = readFileSync('public/dictionaries/words.json', 'utf8');
+const DICTIONARY_DECKS_JSON = readFileSync('public/dictionaries/decks.json', 'utf8');
 
 /** 内存态 chrome.storage.local + permissions，模拟浏览器持久化。 */
 function installChromeStorageMock() {
@@ -497,6 +502,12 @@ describe('message-router — Issue #10 新增消息', () => {
 
   beforeEach(async () => {
     installChromeStorageMock();
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
+      const url = String(input);
+      if (url.endsWith('/words.json')) return new Response(DICTIONARY_WORDS_JSON);
+      if (url.endsWith('/decks.json')) return new Response(DICTIONARY_DECKS_JSON);
+      throw new Error(`未预期的词库请求：${url}`);
+    });
     permissionsRemove = (
       globalThis as unknown as { chrome: { permissions: { remove: ReturnType<typeof vi.fn> } } }
     ).chrome.permissions.remove;
@@ -511,6 +522,7 @@ describe('message-router — Issue #10 新增消息', () => {
   afterEach(async () => {
     db?.close();
     await deleteDatabase(TEST_DB);
+    vi.restoreAllMocks();
     cleanup?.();
     cleanup = null;
   });
@@ -833,6 +845,63 @@ describe('message-router — Issue #10 新增消息', () => {
     const cards = await idbGetAll<CardRecord>(db, STORES.cards);
     expect(cards).toHaveLength(1);
     expect(cards[0]!.id).toBe('c1');
+  });
+
+  it('实际词库进度恢复后，冷启动仍排除已接受和自报认识词的新词展示', async () => {
+    const now = Date.now();
+    const clockSpy = vi.spyOn(Date, 'now').mockReturnValue(now);
+    try {
+      await store.setAppSettings({ ...DEFAULT_SETTINGS, selfRatedLevel: 'beginner' });
+      const acceptedWordIds = ['w-high', 'w-help', 'w-three'];
+      const knownWordId = 'w-benefit';
+      const learnedWordIds = [...acceptedWordIds, knownWordId];
+      for (const wordId of acceptedWordIds) {
+        await router.handle(
+          { type: 'LEARNING_ACCEPT_NEW_WORD', wordId },
+          {} as chrome.runtime.MessageSender,
+        );
+      }
+      await router.handle(
+        { type: 'LEARNING_SELF_REPORT_KNOWN', wordId: knownWordId },
+        {} as chrome.runtime.MessageSender,
+      );
+      const payload = (await router.handle(
+        { type: 'EXPORT_DATA' },
+        {} as chrome.runtime.MessageSender,
+      )) as ExportPayload;
+      expect(payload.data.cards).toHaveLength(4);
+      expect(payload.data.cards.find(({ wordId }) => wordId === knownWordId)).toMatchObject({
+        stage: 'self-reported-known',
+        origin: 'self-reported',
+      });
+
+      await router.handle({ type: 'CLEAR_LEARNING_PROGRESS' }, {} as chrome.runtime.MessageSender);
+      expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+      expect(
+        await router.handle({ type: 'IMPORT_DATA', payload }, {} as chrome.runtime.MessageSender),
+      ).toEqual({ ok: true, errors: [], warnings: [] });
+
+      db.close();
+      db = await openDatabase(TEST_DB, MIGRATIONS);
+      store = new LocalSettingsStore(db);
+      router = createMessageRouter(store, db);
+      expect(await new CardRepository(db).getAll()).toEqual(
+        expect.arrayContaining(payload.data.cards),
+      );
+      const deck = (await new BuiltInWordBank().getDeck(DEFAULT_SETTINGS.selectedDeckId))!;
+      const next = await router.handle(
+        {
+          type: 'LEARNING_GET_NEXT',
+          options: {
+            excludedWordIds: deck.wordIds.filter((wordId) => !learnedWordIds.includes(wordId)),
+          },
+        },
+        {} as chrome.runtime.MessageSender,
+      );
+      expect(next).toBeNull();
+    } finally {
+      clockSpy.mockRestore();
+    }
   });
 
   it('IMPORT_DATA：非法 payload 被拒绝，不写入（AC4 先校验再写入）', async () => {

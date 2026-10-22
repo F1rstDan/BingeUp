@@ -182,7 +182,7 @@ export class LearningService {
    *
    * 连续学习模式（Issue #8 验收标准 3、5）：
    * - `allowSpelling` 为 true 时，长期复习词有概率出现拼写题；
-   * - `excludedWordIds` 中的单词不会被选为候选新词，避免连续模式中重复展示。
+   * - `excludedWordIds` 中的单词不会被选为新词或复习题，避免同一轮重复展示。
    */
   async getNextItem(options?: {
     excludedWordIds?: Set<string>;
@@ -196,30 +196,31 @@ export class LearningService {
     ]);
     const allowSpelling = (options?.allowSpelling ?? false) && settings.spellingEnabled;
     const excludedWordIds = options?.excludedWordIds;
+    const availableCards = allCards.filter((card) => !excludedWordIds?.has(card.wordId));
 
     // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
-    const dueWrongLongTerm = this.findDueLongTermWithRecentError(allCards, now);
+    const dueWrongLongTerm = this.findDueLongTermWithRecentError(availableCards, now);
     if (dueWrongLongTerm) {
       const question = await this.makeQuestionForCard(dueWrongLongTerm, allowSpelling);
       if (question) return this.wrapQuestion(question);
     }
 
     // 2. 其他到期长期复习词（无近期答错记录）
-    const dueLongTerm = this.findDueLongTermWithoutRecentError(allCards, now);
+    const dueLongTerm = this.findDueLongTermWithoutRecentError(availableCards, now);
     if (dueLongTerm) {
       const question = await this.makeQuestionForCard(dueLongTerm, allowSpelling);
       if (question) return this.wrapQuestion(question);
     }
 
     // 3. 到期自报认识词验证题
-    const dueVerification = this.findDueCard(allCards, 'self-reported-known', now);
+    const dueVerification = this.findDueCard(availableCards, 'self-reported-known', now);
     if (dueVerification) {
       const question = await this.makeQuestionForCard(dueVerification, allowSpelling);
       if (question) return this.wrapQuestion(question);
     }
 
     // 4. 到期短期学习词
-    const dueShortTerm = this.findDueCard(allCards, 'short-term', now);
+    const dueShortTerm = this.findDueCard(availableCards, 'short-term', now);
     if (dueShortTerm) {
       const question = await this.makeQuestionForCard(dueShortTerm, allowSpelling);
       if (question) return this.wrapQuestion(question);
@@ -738,21 +739,22 @@ export class LearningService {
   ): Promise<Question | null> {
     const targetWord = await this.deps.words.getWord(card.wordId);
     if (!targetWord) return null;
-    const allWords = await this.deps.words.listWords();
-    const distractors = allWords.filter((w) => w.id !== card.wordId);
-    if (distractors.length < 3) return null;
 
     let questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
 
-    // context-choice 需要例句作为题干；单词无例句时回退到 zh-to-en（ECDICT 基础版 detail 字段普遍为空）。
-    if (questionType === 'context-choice' && !targetWord.exampleSentence) {
+    // 拼写只依赖释义和词形；先决定是否出拼写，不能被缺少例句的语境题回退挡住。
+    if (allowSpelling && questionType === 'context-choice' && this.random() < 0.5) {
+      return generateSpellingQuestion({ targetWord, distractors: [], cardId: card.id });
+    }
+
+    // 语境题需要例句；缺少例句时仍可做中选英与连续模式拼写。
+    if (questionType === 'context-choice' && !targetWord.exampleSentence?.trim()) {
       questionType = 'zh-to-en';
     }
 
-    // 连续学习模式：长期复习词有概率出现拼写题（Issue #8 验收标准 3）
-    if (allowSpelling && questionType === 'context-choice' && this.random() < 0.5) {
-      questionType = 'spelling';
-    }
+    const allWords = await this.deps.words.listWords();
+    const distractors = allWords.filter((w) => w.id !== card.wordId);
+    if (distractors.length < 3) return null;
 
     const baseInput = {
       targetWord,

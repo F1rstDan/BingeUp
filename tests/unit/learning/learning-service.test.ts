@@ -169,6 +169,14 @@ class FakeWordBank implements WordBankPort {
   }
 }
 
+/** 与当前 ECDICT 产出一致：词形、释义存在，但没有例句。 */
+class WordBankWithoutExamples extends FakeWordBank {
+  override async getWord(wordId: string): Promise<WordRecord | null> {
+    const word = await super.getWord(wordId);
+    return word ? { ...word, exampleSentence: undefined, exampleTranslation: undefined } : null;
+  }
+}
+
 const MS_PER_MIN = 60_000;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -1712,9 +1720,147 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
       expect(item!.kind).toBe('question');
       expect(questionOf(item).type).toBe('zh-to-en');
     });
+
+    it('无例句的熟悉词仍可在连续模式出拼写题', async () => {
+      const now = 1_000_000;
+      const cards = new FakeCardRepository();
+      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const { service } = makeService({
+        cards,
+        words: new WordBankWithoutExamples(),
+        now,
+        random: () => 0,
+      });
+
+      const item = await service.getNextItem({ allowSpelling: true });
+
+      expect(spellingQuestionOf(item).correctAnswer).toBe('abandon');
+      expect(spellingQuestionOf(item).explanation.exampleSentence).toBeUndefined();
+    });
+
+    it('无例句且未选中拼写时出中选英题', async () => {
+      const now = 1_000_000;
+      const cards = new FakeCardRepository();
+      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const { service } = makeService({
+        cards,
+        words: new WordBankWithoutExamples(),
+        now,
+        random: () => 0.6,
+      });
+
+      const item = await service.getNextItem({ allowSpelling: true });
+
+      expect(questionOf(item).type).toBe('zh-to-en');
+    });
+
+    it('关闭拼写设置后，无例句的熟悉词仍出中选英题', async () => {
+      const now = 1_000_000;
+      const cards = new FakeCardRepository();
+      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const { service, setLearningSettings } = makeService({
+        cards,
+        words: new WordBankWithoutExamples(),
+        now,
+        random: () => 0,
+      });
+      setLearningSettings({ spellingEnabled: false });
+
+      expect(questionOf(await service.getNextItem({ allowSpelling: true })).type).toBe('zh-to-en');
+    });
+
+    it('拼写题不需要读取或凑齐选择题干扰项', async () => {
+      const now = 1_000_000;
+      const cards = new FakeCardRepository();
+      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const words = new WordBankWithoutExamples();
+      words.listWords = async () => {
+        throw new Error('拼写题不应读取干扰项池');
+      };
+      const { service } = makeService({ cards, words, now, random: () => 0 });
+
+      expect((await service.getNextItem({ allowSpelling: true }))?.kind).toBe('spelling-question');
+    });
+
+    it('没有例句的新词随实际答题从英选中进阶到中选英和拼写', async () => {
+      const env = makeService({
+        now: 1_000_000,
+        words: new WordBankWithoutExamples(),
+        random: () => 0,
+      });
+      const first = await env.service.getNextItem();
+      const wordId = presentationOf(first).word.id;
+      await env.service.acceptNewWord(wordId);
+      env.advance(10 * MS_PER_MIN);
+
+      const recognition = questionOf(await env.service.getNextItem());
+      expect(recognition.type).toBe('en-to-zh');
+      const firstResult = await env.service.submitAnswer({
+        question: recognition,
+        selectedIndex: recognition.correctIndex,
+        responseTimeMs: 3_000,
+      });
+      env.setNow(firstResult.nextReviewAt!);
+
+      const recall = questionOf(await env.service.getNextItem());
+      expect(recall.wordId).toBe(wordId);
+      expect(recall.type).toBe('zh-to-en');
+      const secondResult = await env.service.submitAnswer({
+        question: recall,
+        selectedIndex: recall.correctIndex,
+        responseTimeMs: 3_000,
+      });
+      env.setNow(secondResult.nextReviewAt!);
+
+      const spelling = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+      expect(spelling.wordId).toBe(wordId);
+    });
   });
 
   describe('验收标准 5：excludedWordIds 排除已展示单词', () => {
+    it.each([
+      ['long-term', true],
+      ['long-term', false],
+      ['self-reported-known', false],
+      ['short-term', false],
+    ] as const)(
+      '已展示的 %s 复习词（近期答错=%s）不在同一轮重复出现',
+      async (stage, recentError) => {
+        const now = 1_000_000;
+        const cards = new FakeCardRepository();
+        for (const wordId of ['w-abandon', 'w-benefit']) {
+          await cards.save({
+            ...makeDueLongTermCard(wordId, now, { reps: 1 }),
+            stage,
+            lastWrongAt: recentError ? now - 100 : undefined,
+          });
+        }
+        const { service } = makeService({ cards, now });
+        const first = questionOf(await service.getNextItem());
+        const before = await cards.getByWordId(first.wordId);
+
+        const second = questionOf(
+          await service.getNextItem({ excludedWordIds: new Set([first.wordId]) }),
+        );
+
+        expect(second.wordId).not.toBe(first.wordId);
+        expect(await cards.getByWordId(first.wordId)).toEqual(before);
+      },
+    );
+
+    it('排除已展示复习词不会释放当日新词额度或更改复习时间', async () => {
+      const now = 1_000_000;
+      const env = makeService({ now, dailyNewWordLimit: 1, random: () => 0 });
+      await env.service.acceptNewWord('w-abandon');
+      env.advance(10 * MS_PER_MIN);
+      const before = await env.cards.getByWordId('w-abandon');
+
+      const item = await env.service.getNextItem({ excludedWordIds: new Set(['w-abandon']) });
+
+      expect(item).toBeNull();
+      expect(await env.cards.getByWordId('w-abandon')).toEqual(before);
+    });
+
     it('连续模式排除已展示的新词', async () => {
       const { service } = makeService({ now: 1_000_000 });
       const first = await service.getNextItem();

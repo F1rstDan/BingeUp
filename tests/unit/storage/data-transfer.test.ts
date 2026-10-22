@@ -1,10 +1,11 @@
 import 'fake-indexeddb/auto';
+import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { openDatabase, idbGetAll, idbPut, STORES } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
-import { getBuiltInDeck, getBuiltInWord } from '@/dictionary/built-in/decks';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { StatsService } from '@/stats/stats-service';
 import {
   clearAllLocalData,
@@ -13,12 +14,22 @@ import {
   importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
+import type {
+  BehaviorEventRecord,
+  CardRecord,
+  DeckRecord,
+  ReviewLogRecord,
+  SessionLogRecord,
+  WordRecord,
+} from '@/types';
+
+const DICTIONARY_WORDS_JSON = readFileSync('public/dictionaries/words.json', 'utf8');
+const DICTIONARY_DECKS_JSON = readFileSync('public/dictionaries/decks.json', 'utf8');
 
 const TEST_DB = 'test-issue-18-data-lifecycle';
 const CARD: CardRecord = {
   id: 'card-1',
-  wordId: 'w-abandon',
+  wordId: 'w-high',
   deckId: 'deck-daily-high-frequency',
   stage: 'short-term',
   createdAt: 1_000,
@@ -31,7 +42,7 @@ const LOG: ReviewLogRecord = {
   wordId: CARD.wordId,
   questionType: 'en-to-zh',
   selectedAnswer: '错',
-  correctAnswer: '放弃',
+  correctAnswer: '高的',
   isCorrect: false,
   responseTimeMs: 300,
   reviewedAt: 1_500,
@@ -56,6 +67,9 @@ function installRuntimeStorageMock() {
   const values: Record<string, unknown> = {};
   let failNextWrite = false;
   const chromeStub = {
+    runtime: {
+      getURL: (path: string) => `chrome-extension://test/${path}`,
+    },
     storage: {
       local: {
         get: vi.fn(async (key: string) => ({ [key]: values[key] })),
@@ -90,9 +104,20 @@ describe('本地用户数据生命周期 — Issue #18', () => {
   let db: IDBDatabase;
   let store: LocalSettingsStore;
   let runtime: ReturnType<typeof installRuntimeStorageMock>;
+  let words: BuiltInWordBank;
 
   beforeEach(async () => {
     runtime = installRuntimeStorageMock();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url.endsWith('/words.json')) return new Response(DICTIONARY_WORDS_JSON);
+        if (url.endsWith('/decks.json')) return new Response(DICTIONARY_DECKS_JSON);
+        throw new Error(`未预期的词库请求：${url}`);
+      }),
+    );
+    words = new BuiltInWordBank();
     db = await openDatabase(TEST_DB, MIGRATIONS);
     store = new LocalSettingsStore(db);
   });
@@ -100,6 +125,8 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     db.close();
     await deleteDatabase();
     delete (globalThis as { chrome?: unknown }).chrome;
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   async function populatedBackup(): Promise<ExportPayload> {
@@ -117,8 +144,10 @@ describe('本地用户数据生命周期 — Issue #18', () => {
 
   it('首次公开 v1 备份包含全部权威源数据，不包含临时运行状态或内置学习内容', async () => {
     await store.setCooldown({ nextAllowedAt: 9_999, consecutiveSkipCount: 2 });
-    await idbPut(db, STORES.words, getBuiltInWord('w-abandon'));
-    await idbPut(db, STORES.decks, getBuiltInDeck('deck-daily-high-frequency'));
+    for (const wordId of ['w-high', 'w-help', 'w-three']) {
+      await idbPut(db, STORES.words, await words.getWord(wordId));
+    }
+    await idbPut(db, STORES.decks, await words.getDeck('deck-daily-high-frequency'));
     const payload = await populatedBackup();
 
     expect(payload.version).toBe(1);
@@ -142,8 +171,12 @@ describe('本地用户数据生命周期 — Issue #18', () => {
 
   it('导入拒绝以自定义内容覆盖内置单词或词库 id', async () => {
     const payload = await populatedBackup();
-    payload.data.words.push(getBuiltInWord('w-abandon')!);
-    payload.data.decks.push(getBuiltInDeck('deck-daily-high-frequency')!);
+    payload.data.words.push({
+      ...(await words.getWord('w-high'))!,
+      exampleSentence: 'The mountain is high.',
+      exampleTranslation: '这座山很高。',
+    });
+    payload.data.decks.push((await words.getDeck('deck-daily-high-frequency'))!);
     const result = await importLocalData(store, payload);
     expect(result.errors).toEqual(
       expect.arrayContaining([
@@ -224,6 +257,115 @@ describe('本地用户数据生命周期 — Issue #18', () => {
         expect.stringContaining('引用不存在的学习卡'),
       ]),
     );
+  });
+
+  it.each(['学习卡词库', '词库成员', '当前词库'])('导入仍拒绝非法%s引用', async (kind) => {
+    const payload = await populatedBackup();
+    if (kind === '学习卡词库') payload.data.cards[0]!.deckId = 'missing-deck';
+    if (kind === '词库成员') {
+      const deck = (await words.getDeck(CARD.deckId))!;
+      const outsideWord = (await words.listWords()).find(
+        (word) => !deck.wordIds.includes(word.id),
+      )!;
+      payload.data.cards[0]!.wordId = outsideWord.id;
+      payload.data.reviewLogs[0]!.wordId = outsideWord.id;
+    }
+    if (kind === '当前词库') {
+      payload.authoritativeState.appSettings.selectedDeckId = 'missing-deck';
+    }
+
+    const result = await importLocalData(store, payload);
+
+    expect(result.ok).toBe(false);
+    expect(result.errors.join(' ')).toContain(kind === '词库成员' ? '不属于' : '不存在的词库');
+    expect(await idbGetAll<CardRecord>(db, STORES.cards)).toEqual([CARD]);
+  });
+
+  it('实际词库的 high/help/three 和自报认识卡均能完整恢复', async () => {
+    const payload = await populatedBackup();
+    payload.data.cards = [
+      CARD,
+      { ...CARD, id: 'card-help', wordId: 'w-help' },
+      { ...CARD, id: 'card-three', wordId: 'w-three' },
+      {
+        ...CARD,
+        id: 'card-known',
+        wordId: 'w-benefit',
+        origin: 'self-reported',
+        stage: 'self-reported-known',
+        nextReviewAt: 86_401_000,
+      },
+    ];
+
+    const result = await importLocalData(store, payload);
+
+    expect(result).toEqual({ ok: true, errors: [], warnings: [] });
+    expect(await idbGetAll<CardRecord>(db, STORES.cards)).toEqual(
+      expect.arrayContaining(payload.data.cards),
+    );
+    expect(await idbGetAll<CardRecord>(db, STORES.cards)).toHaveLength(4);
+    expect(await idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs)).toEqual(
+      payload.data.reviewLogs,
+    );
+  });
+
+  it('导出仅过滤实际内置内容，自定义单词和词库仍能恢复', async () => {
+    const customWord: WordRecord = {
+      ...(await words.getWord('w-high'))!,
+      id: 'user-word',
+      exampleSentence: 'The mountain is high.',
+      exampleTranslation: '这座山很高。',
+      source: 'user',
+    };
+    const customDeck: DeckRecord = {
+      id: 'user-deck',
+      name: '用户词库',
+      source: 'user',
+      license: 'user',
+      wordIds: [customWord.id],
+    };
+    await idbPut(db, STORES.words, await words.getWord('w-help'));
+    await idbPut(db, STORES.words, customWord);
+    await idbPut(db, STORES.decks, await words.getDeck('deck-cet4'));
+    await idbPut(db, STORES.decks, customDeck);
+    const payload = await populatedBackup();
+
+    expect(payload.data.words).toEqual([customWord]);
+    expect(payload.data.decks).toEqual([customDeck]);
+    expect(await importLocalData(store, payload)).toEqual({ ok: true, errors: [], warnings: [] });
+    expect(await idbGetAll<WordRecord>(db, STORES.words)).toEqual([customWord]);
+    expect(await idbGetAll<DeckRecord>(db, STORES.decks)).toEqual([customDeck]);
+  });
+
+  it('词库加载失败时拒绝恢复并保留全部现有数据，随后可重试', async () => {
+    const payload = await populatedBackup();
+    const before = await exportLocalData(store);
+    await store.setCooldown({ nextAllowedAt: 9_999, consecutiveSkipCount: 2 });
+    payload.data.cards = [];
+    payload.data.reviewLogs = [];
+    payload.authoritativeState.appSettings.dailyNewWordLimit = 20;
+    vi.mocked(fetch).mockRejectedValueOnce(new Error('模拟词库读取失败'));
+
+    const result = await importLocalData(store, payload);
+
+    expect(result).toEqual({
+      ok: false,
+      errors: [expect.stringContaining('词库加载失败')],
+      warnings: [],
+    });
+    const after = await exportLocalData(store);
+    expect(after.authoritativeState).toEqual(before.authoritativeState);
+    expect(after.data).toEqual(before.data);
+    expect(await store.getCooldown()).toEqual({ nextAllowedAt: 9_999, consecutiveSkipCount: 2 });
+    expect(await importLocalData(store, payload)).toEqual({ ok: true, errors: [], warnings: [] });
+  });
+
+  it('导出时词库 HTTP 加载失败会报错并保留现有数据', async () => {
+    await populatedBackup();
+    vi.mocked(fetch).mockResolvedValueOnce(new Response('', { status: 503 }));
+
+    await expect(exportLocalData(store)).rejects.toThrow('词库加载失败');
+    expect(await idbGetAll<CardRecord>(db, STORES.cards)).toEqual([CARD]);
   });
 
   it('恢复在一个事务中完整替换全部权威数据，并将临时状态归零', async () => {
@@ -312,6 +454,6 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     expect(await store.isOnboardingCompleted()).toBe(false);
     expect(await store.listSites()).toEqual([]);
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
-    expect(getBuiltInDeck(DEFAULT_SETTINGS.selectedDeckId)).not.toBeNull();
+    expect(await words.getDeck(DEFAULT_SETTINGS.selectedDeckId)).not.toBeNull();
   });
 });

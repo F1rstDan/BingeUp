@@ -35,6 +35,14 @@ const DISTRACTORS: WordRecord[] = [
   makeWord({ id: 'w-capable', word: 'capable', coreMeaningZh: ['有能力的；能干的'] }),
   makeWord({ id: 'w-deliberate', word: 'deliberate', coreMeaningZh: ['故意的；深思熟虑的'] }),
 ];
+const ALPHABETICAL_POOL: WordRecord[] = [
+  ['accept', '接受'],
+  ['achieve', '实现'],
+  ['advance', '前进'],
+  ['benefit', '受益'],
+  ['consider', '考虑'],
+  ['decide', '决定'],
+].map(([word, meaning]) => makeWord({ id: `w-${word}`, word, coreMeaningZh: [meaning!] }));
 
 describe('meaningText — 释义文本', () => {
   it('将 coreMeaningZh 数组用分号连接', () => {
@@ -177,7 +185,7 @@ describe('generateEnToZhQuestion — 英文选中文题目（Issue #5 验收标�
   });
 
   it('使用注入的随机函数时结果确定', () => {
-    // 固定随机函数：总是返回 0，打乱后顺序不变
+    // 固定随机函数：总是返回 0，使打乱结果可复现
     const noShuffle = () => 0;
     const q1 = generateEnToZhQuestion({
       targetWord: TARGET,
@@ -344,27 +352,122 @@ describe('generateContextChoiceQuestion — 例句语境题（Issue #7 验收标
   });
 });
 
+describe.each([
+  { type: 'en-to-zh', generate: generateEnToZhQuestion, optionText: meaningText },
+  {
+    type: 'zh-to-en',
+    generate: generateZhToEnQuestion,
+    optionText: (word: WordRecord) => word.word,
+  },
+  {
+    type: 'context-choice',
+    generate: generateContextChoiceQuestion,
+    optionText: (word: WordRecord) => word.word,
+  },
+])('$type — 干扰项回归', ({ type, generate, optionText }) => {
+  const correctText = type === 'context-choice' ? TARGET.surfaceFormInExample! : optionText(TARGET);
+
+  it('注入的随机源同时决定干扰项选取和选项顺序', () => {
+    const input = { targetWord: TARGET, distractors: ALPHABETICAL_POOL, cardId: 'card-1' };
+    const question = generate({ ...input, random: () => 0.5 });
+    const repeated = generate({ ...input, random: () => 0.5 });
+    const different = generate({ ...input, random: () => 0.999999 });
+
+    expect(question.options).toContain(optionText(ALPHABETICAL_POOL[5]!));
+    expect(question.options).toEqual(repeated.options);
+    expect(question.correctIndex).toBe(repeated.correctIndex);
+    expect([...question.options].sort()).not.toEqual([...different.options].sort());
+    expect(question.options[question.correctIndex]).toBe(correctText);
+  });
+
+  it('过滤目标同词形、同释义和语境答案后，仍从有效候选中补足选项', () => {
+    const invalid = [
+      TARGET,
+      makeWord({ id: 'w-same-form', word: ' Abandon ', coreMeaningZh: ['其他释义'] }),
+      makeWord({ id: 'w-synonym', word: 'forsake', coreMeaningZh: TARGET.coreMeaningZh }),
+      makeWord({ id: 'w-surface', word: 'ABANDONED', coreMeaningZh: ['其他释义'] }),
+    ];
+    const question = generate({
+      targetWord: TARGET,
+      distractors: [...invalid, ...DISTRACTORS.map((word) => ({ ...word, difficulty: 3 }))],
+      cardId: 'card-1',
+      random: () => 0.999999,
+    });
+
+    expect([...question.options].sort()).toEqual(
+      [correctText, ...DISTRACTORS.map(optionText)].sort(),
+    );
+    expect(question.options[question.correctIndex]).toBe(correctText);
+  });
+
+  it('先跳过重复词形和释义，再选择剩余的有效干扰项', () => {
+    const duplicateForm = makeWord({
+      id: 'w-duplicate-form',
+      word: ' BENEFIT ',
+      coreMeaningZh: ['收益'],
+    });
+    const duplicateMeaning = makeWord({
+      id: 'w-duplicate-meaning',
+      word: 'profit',
+      coreMeaningZh: DISTRACTORS[0]!.coreMeaningZh,
+    });
+    const question = generate({
+      targetWord: TARGET,
+      distractors: [
+        DISTRACTORS[0]!,
+        duplicateForm,
+        duplicateMeaning,
+        ...DISTRACTORS.slice(1).map((word) => ({ ...word, difficulty: 3 })),
+      ],
+      cardId: 'card-1',
+      random: () => 0.999999,
+    });
+
+    expect([...question.options].sort()).toEqual(
+      [correctText, ...DISTRACTORS.map(optionText)].sort(),
+    );
+    expect(new Set(question.options.map((option) => option.trim().toLowerCase())).size).toBe(4);
+  });
+
+  it('过滤和去重后不足三个时抛出错误，不从原始池补回无效项', () => {
+    expect(() =>
+      generate({
+        targetWord: TARGET,
+        distractors: [
+          TARGET,
+          makeWord({ id: 'w-synonym', word: 'forsake' }),
+          DISTRACTORS[0]!,
+          { ...DISTRACTORS[0]!, id: 'w-duplicate' },
+          DISTRACTORS[1]!,
+        ],
+        cardId: 'card-1',
+        random: () => 0.999999,
+      }),
+    ).toThrow('干扰项不足：需要 3 个，实际有效 2 个');
+  });
+});
+
 // ─── Issue #7 验收标准 2：符合词性/难度的干扰项 ───────────────
 
 describe('pickDistractors — 符合词性/难度的干扰项（Issue #7 验收标准 2）', () => {
   it('优先选择与目标词共享词性的干扰项', () => {
     const target = makeWord({ id: 'w-target', partOfSpeech: ['v.'], difficulty: 2 });
-    const samePos = makeWord({ id: 'w-same-pos', partOfSpeech: ['v.'], difficulty: 2 });
-    const diffPos = makeWord({ id: 'w-diff-pos', partOfSpeech: ['n.'], difficulty: 2 });
+    const samePos = { ...DISTRACTORS[0]!, partOfSpeech: ['v.'], difficulty: 4 };
+    const diffPos = { ...DISTRACTORS[1]!, partOfSpeech: ['n.'], difficulty: 2 };
     const pool = [diffPos, samePos];
 
     const picked = pickDistractors(target, pool, 1);
-    expect(picked[0]!.id).toBe('w-same-pos');
+    expect(picked[0]!.id).toBe(samePos.id);
   });
 
   it('词性相同时优先选择难度相近的干扰项', () => {
     const target = makeWord({ id: 'w-target', partOfSpeech: ['v.'], difficulty: 3 });
-    const closeDiff = makeWord({ id: 'w-close-diff', partOfSpeech: ['v.'], difficulty: 4 });
-    const farDiff = makeWord({ id: 'w-far-diff', partOfSpeech: ['v.'], difficulty: 1 });
+    const closeDiff = { ...DISTRACTORS[0]!, difficulty: 4 };
+    const farDiff = { ...DISTRACTORS[1]!, difficulty: 1 };
     const pool = [farDiff, closeDiff];
 
     const picked = pickDistractors(target, pool, 1);
-    expect(picked[0]!.id).toBe('w-close-diff');
+    expect(picked[0]!.id).toBe(closeDiff.id);
   });
 
   it('排除目标词自身', () => {
@@ -379,6 +482,37 @@ describe('pickDistractors — 符合词性/难度的干扰项（Issue #7 验收�
     const pool = [DISTRACTORS[0]!, DISTRACTORS[1]!];
     const picked = pickDistractors(target, pool, 3);
     expect(picked).toHaveLength(2);
+  });
+
+  it('同分候选随机选取，不固定使用字母序池的前三个', () => {
+    const picked = pickDistractors(TARGET, ALPHABETICAL_POOL, 3, () => 0.5);
+    const unchangedOrder = pickDistractors(TARGET, ALPHABETICAL_POOL, 3, () => 0.999999);
+
+    expect(picked).toHaveLength(3);
+    expect(picked).toContain(ALPHABETICAL_POOL[5]);
+    expect(new Set(picked.map((word) => word.id)).size).toBe(3);
+    expect(picked).not.toEqual(unchangedOrder);
+    expect(pickDistractors(TARGET, ALPHABETICAL_POOL, 3, () => 0.5)).toEqual(picked);
+    expect(ALPHABETICAL_POOL.map((word) => word.word)).toEqual([
+      'accept',
+      'achieve',
+      'advance',
+      'benefit',
+      'consider',
+      'decide',
+    ]);
+  });
+
+  it('随机选取同分候选时仍保留词性和难度的优先级', () => {
+    const lessSimilar = [
+      { ...DISTRACTORS[0]!, id: 'w-different-pos', partOfSpeech: ['n.'] },
+      { ...DISTRACTORS[1]!, id: 'w-far-difficulty', difficulty: 5 },
+    ];
+    const pool = [...lessSimilar, ...ALPHABETICAL_POOL];
+    const picked = pickDistractors(TARGET, pool, 3, () => 0.5);
+
+    expect(picked).toHaveLength(3);
+    expect(picked.every((word) => ALPHABETICAL_POOL.includes(word))).toBe(true);
   });
 });
 

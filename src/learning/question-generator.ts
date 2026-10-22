@@ -13,7 +13,7 @@ export function meaningText(word: WordRecord): string {
 
 export interface GenerateQuestionInput {
   targetWord: WordRecord;
-  /** 干扰词候选池，至少三个有效项（与目标释义不同的）。 */
+  /** 干扰词候选池，至少三个词形和释义均不同的有效项。 */
   distractors: WordRecord[];
   cardId: string;
   /** 可选的随机函数，默认 Math.random，便于测试注入。 */
@@ -23,7 +23,7 @@ export interface GenerateQuestionInput {
 const REQUIRED_DISTRACTORS = 3;
 
 /**
- * Fisher-Yates 打乱：使用注入的随机函数，in-place 修改数组。
+ * Fisher-Yates 打乱：使用注入的随机函数，返回打乱后的副本。
  */
 function shuffle<T>(arr: T[], random: () => number): T[] {
   const result = [...arr];
@@ -42,7 +42,7 @@ function shuffle<T>(arr: T[], random: () => number): T[] {
  * 按词性相似度评分干扰项（Issue #7 验收标准 2：符合词性的干扰项）。
  *
  * 优先选择与目标词共享至少一个词性的干扰项；其次选词性数量相同的；
- * 其余按原始顺序。返回评分越小越优先。
+ * 其余候选的优先级最低。返回评分越小越优先。
  */
 function scoreByPartOfSpeech(target: WordRecord, candidate: WordRecord): number {
   const shared = target.partOfSpeech.some((p) => candidate.partOfSpeech.includes(p));
@@ -63,24 +63,52 @@ function scoreByDifficulty(target: WordRecord, candidate: WordRecord): number {
  * 选取符合词性/难度的干扰词（Issue #7 验收标准 2）。
  *
  * 规则：
- * - 排除目标词自身；
+ * - 排除目标词自身、同词形（含例句表层词形）和同释义项；
  * - 优先选择与目标词共享词性、难度相近的词；
- * - 候选不足时回退到任意有效词。
+ * - 同分候选随机选取，结果按词形和释义去重；
+ * - 相似候选不足时，继续选取排名靠后的有效词。
  */
 export function pickDistractors(
   targetWord: WordRecord,
   pool: WordRecord[],
   count: number = REQUIRED_DISTRACTORS,
+  random: () => number = Math.random,
 ): WordRecord[] {
-  const candidates = pool.filter((w) => w.id !== targetWord.id);
-  const scored = candidates
+  const seenIds = new Set([targetWord.id]);
+  const seenWords = new Set(
+    [targetWord.word, targetWord.surfaceFormInExample ?? '', ''].map((word) =>
+      word.trim().toLowerCase(),
+    ),
+  );
+  const seenMeanings = new Set([meaningText(targetWord).trim(), '']);
+  const candidates = pool.filter(
+    (word) =>
+      !seenIds.has(word.id) &&
+      !seenWords.has(word.word.trim().toLowerCase()) &&
+      !seenMeanings.has(meaningText(word).trim()),
+  );
+  // 稳定排序保留打乱后的同分顺序，避免总是选中原始词库的开头。
+  const scored = shuffle(candidates, random)
     .map((w) => ({
       word: w,
       posScore: scoreByPartOfSpeech(targetWord, w),
       diffScore: scoreByDifficulty(targetWord, w),
     }))
     .sort((a, b) => a.posScore - b.posScore || a.diffScore - b.diffScore);
-  return scored.slice(0, count).map((s) => s.word);
+  const picked: WordRecord[] = [];
+  for (const { word } of scored) {
+    if (picked.length >= count) break;
+    const wordForm = word.word.trim().toLowerCase();
+    const meaning = meaningText(word).trim();
+    if (seenIds.has(word.id) || seenWords.has(wordForm) || seenMeanings.has(meaning)) {
+      continue;
+    }
+    seenIds.add(word.id);
+    seenWords.add(wordForm);
+    seenMeanings.add(meaning);
+    picked.push(word);
+  }
+  return picked;
 }
 
 /**
@@ -112,35 +140,12 @@ export function generateEnToZhQuestion(input: GenerateQuestionInput): MultipleCh
   const random = input.random ?? Math.random;
 
   const correctText = meaningText(targetWord);
-  const rankedDistractors = pickDistractors(targetWord, distractors);
-
-  // 过滤掉与目标释义相同的干扰项，并去重
-  const seen = new Set<string>([correctText]);
-  const validDistractors: string[] = [];
-  for (const d of rankedDistractors) {
-    const text = meaningText(d);
-    if (!seen.has(text)) {
-      seen.add(text);
-      validDistractors.push(text);
-    }
-    if (validDistractors.length === REQUIRED_DISTRACTORS) {
-      break;
-    }
-  }
-
-  // 回退：如果按词性/难度筛选后不足，从原始池补充
-  if (validDistractors.length < REQUIRED_DISTRACTORS) {
-    for (const d of distractors) {
-      const text = meaningText(d);
-      if (!seen.has(text)) {
-        seen.add(text);
-        validDistractors.push(text);
-      }
-      if (validDistractors.length === REQUIRED_DISTRACTORS) {
-        break;
-      }
-    }
-  }
+  const validDistractors = pickDistractors(
+    targetWord,
+    distractors,
+    REQUIRED_DISTRACTORS,
+    random,
+  ).map(meaningText);
 
   if (validDistractors.length < REQUIRED_DISTRACTORS) {
     throw new Error(
@@ -177,31 +182,12 @@ export function generateZhToEnQuestion(input: GenerateQuestionInput): MultipleCh
   const random = input.random ?? Math.random;
 
   const correctText = targetWord.word;
-  const rankedDistractors = pickDistractors(targetWord, distractors);
-
-  const seen = new Set<string>([correctText]);
-  const validDistractors: string[] = [];
-  for (const d of rankedDistractors) {
-    if (!seen.has(d.word)) {
-      seen.add(d.word);
-      validDistractors.push(d.word);
-    }
-    if (validDistractors.length === REQUIRED_DISTRACTORS) {
-      break;
-    }
-  }
-
-  if (validDistractors.length < REQUIRED_DISTRACTORS) {
-    for (const d of distractors) {
-      if (!seen.has(d.word)) {
-        seen.add(d.word);
-        validDistractors.push(d.word);
-      }
-      if (validDistractors.length === REQUIRED_DISTRACTORS) {
-        break;
-      }
-    }
-  }
+  const validDistractors = pickDistractors(
+    targetWord,
+    distractors,
+    REQUIRED_DISTRACTORS,
+    random,
+  ).map((word) => word.word);
 
   if (validDistractors.length < REQUIRED_DISTRACTORS) {
     throw new Error(
@@ -242,31 +228,12 @@ export function generateContextChoiceQuestion(
 
   // 使用 surfaceFormInExample 作为正确答案（Issue #25）
   const correctText = targetWord.surfaceFormInExample || targetWord.word;
-  const rankedDistractors = pickDistractors(targetWord, distractors);
-
-  const seen = new Set<string>([correctText]);
-  const validDistractors: string[] = [];
-  for (const d of rankedDistractors) {
-    if (!seen.has(d.word)) {
-      seen.add(d.word);
-      validDistractors.push(d.word);
-    }
-    if (validDistractors.length === REQUIRED_DISTRACTORS) {
-      break;
-    }
-  }
-
-  if (validDistractors.length < REQUIRED_DISTRACTORS) {
-    for (const d of distractors) {
-      if (!seen.has(d.word)) {
-        seen.add(d.word);
-        validDistractors.push(d.word);
-      }
-      if (validDistractors.length === REQUIRED_DISTRACTORS) {
-        break;
-      }
-    }
-  }
+  const validDistractors = pickDistractors(
+    targetWord,
+    distractors,
+    REQUIRED_DISTRACTORS,
+    random,
+  ).map((word) => word.word);
 
   if (validDistractors.length < REQUIRED_DISTRACTORS) {
     throw new Error(
