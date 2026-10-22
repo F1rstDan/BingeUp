@@ -334,7 +334,7 @@ export interface SpellingSubmission {
   source?: LearningItemSource;
 }
 
-/** 提交后的判定结果（含可展开的学习信息，Issue #6 验收标准 5）。 */
+/** 答案保存后的判定结果，供轻量反馈展示词形和释义。 */
 export interface SubmissionResult {
   isCorrect: boolean;
   /** 选择题的正确选项索引；拼写题缺省。 */
@@ -343,6 +343,8 @@ export interface SubmissionResult {
   correctAnswer: string;
   cardId: string;
   reviewLogId: string;
+  /** 用户本次选择或输入的原始答案，用于答错时对照。 */
+  submittedAnswer?: string;
   /** 提交后展示给用户的单词详情（词形、词性、释义、例句等）。 */
   explanation: QuestionExplanation;
   /** 自动评分结果（Issue #7 验收标准 5）。 */
@@ -368,10 +370,10 @@ export interface CorrectionResult {
  * 覆盖层发出的用户动作（Issue #6 / #7 / #8）。
  * 控制器据此调用 LearningService 并决定冷却结果。
  *
- * 软动作（不关闭遮罩）：
- * - `submit-answer`：提交选择题答案，进入反馈阶段；
- * - `submit-spelling`：提交拼写题答案，进入反馈阶段（Issue #8）；
- * - `correct-rating`：用户纠正评分，保持在反馈阶段。
+ * 普通提交：保存答案后关闭题卡、恢复视频并显示 Modal 反馈。
+ * - `submit-answer`：提交选择题答案；
+ * - `submit-spelling`：提交拼写题答案；
+ * - `correct-rating`：调用学习服务纠正评分；当前轻量反馈不显示此入口。
  *
  * 连续学习动作（Issue #8 验收标准 1）：
  * - `submit-and-continue`：提交选择题并加载下一题，保留暂停状态；
@@ -381,8 +383,8 @@ export interface CorrectionResult {
  * - `self-report-and-continue`：自报认识并加载下一题。
  *
  * 终态动作（关闭遮罩、恢复视频、记录冷却）：
- * - `accept-new-word` / `self-report`：单题模式接受/自报；
- * - `skip`：跳过（未提交为真跳过，已提交为完成）；
+ * - `accept-new-word`：单题模式接受新词并结束；`self-report` 自报后换下一个词；
+ * - `skip`：不提交当前题目并返回视频；
  * - `exit-learning`：结束连续学习，不提交当前题，不算跳过，应用默认冷却（Issue #8 验收标准 4）。
  * - `recover`：发生界面或提交错误时，明确返回视频（Issue #13）。
  */

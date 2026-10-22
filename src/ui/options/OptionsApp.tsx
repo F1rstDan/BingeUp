@@ -415,9 +415,19 @@ export function OptionsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-options" label="刷刷升级设置">
-      <h1 className="bingeup-title">
-        <Title size="large">刷刷升级 — 设置</Title>
-      </h1>
+      <div className="bingeup-actions">
+        <h1 className="bingeup-title">
+          <Title size="large">刷刷升级 — 设置</Title>
+        </h1>
+        <Button
+          type="text"
+          size="small"
+          aria-label="查看学习统计"
+          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
+        >
+          查看学习统计
+        </Button>
+      </div>
 
       {notice !== null && (
         <Card className="bingeup-notice">

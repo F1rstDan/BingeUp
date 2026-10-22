@@ -23,6 +23,7 @@ import type { CooldownState, InteractionOutcome, SiteSettings, VideoChangeEvent 
 import { isGloballyPaused } from '@/pause/pause-rules';
 import { normalizeLearningContext } from '@/content/learning-context';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
+import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
 import type { DevCardType, PrepareDevCardResult } from '@/dev-tools/messages';
 
 /**
@@ -309,6 +310,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     learningService: new MessageLearningService(),
     sessionLogger: new MessageSessionLogger(),
     playbackRecoveryNotice: new MessagePlaybackRecoveryNotice(),
+    learningFeedbackNotice: new LearningFeedbackNotice(),
   });
   controller.start();
 

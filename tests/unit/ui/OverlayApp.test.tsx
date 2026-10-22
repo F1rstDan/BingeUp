@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { act, render, screen, fireEvent, within } from '@testing-library/react';
 import type {
   LearningItem,
   MultipleChoiceQuestion,
@@ -46,9 +46,22 @@ const QUESTION: MultipleChoiceQuestion = {
   },
 };
 
-function makeQuestion(overrides: Partial<MultipleChoiceQuestion> = {}): MultipleChoiceQuestion {
-  return { ...QUESTION, ...overrides };
-}
+const SPELLING_QUESTION: SpellingQuestion = {
+  id: 'q-spell-1',
+  type: 'spelling',
+  cardId: 'card-spell',
+  wordId: 'w-spell',
+  prompt: '吸收',
+  correctAnswer: 'absorb',
+  explanation: {
+    word: 'absorb',
+    phonetic: '/əbˈzɔːrb/',
+    partOfSpeech: ['v.'],
+    meanings: ['吸收'],
+    exampleSentence: 'Plants absorb sunlight.',
+    exampleTranslation: '植物吸收阳光。',
+  },
+};
 
 function renderOverlay(item: LearningItem, onAction = vi.fn()) {
   render(<OverlayApp item={item} onAction={onAction} />);
@@ -75,6 +88,31 @@ function clickSubmitButton() {
 function pressKey(key: string, init: KeyboardEventInit = {}) {
   fireEvent.keyDown(document, { key, ...init });
 }
+
+const FEEDBACK_NOTICE_ATTRIBUTE = 'data-test-learning-feedback-notice';
+
+/** 模拟右下角的真实反馈形态：独立 Shadow DOM、非模态 status，不抢焦点。 */
+function showLearningFeedbackNotice() {
+  const host = document.createElement('div');
+  host.setAttribute(FEEDBACK_NOTICE_ATTRIBUTE, '');
+  Object.assign(host.style, {
+    position: 'fixed',
+    right: '24px',
+    bottom: '24px',
+  });
+  const shadowRoot = host.attachShadow({ mode: 'open' });
+  const notice = document.createElement('div');
+  notice.setAttribute('role', 'status');
+  notice.setAttribute('aria-live', 'polite');
+  notice.textContent = '答题反馈：本题已完成';
+  shadowRoot.append(notice);
+  document.documentElement.append(host);
+  return host;
+}
+
+afterEach(() => {
+  for (const host of document.querySelectorAll(`[${FEEDBACK_NOTICE_ATTRIBUTE}]`)) host.remove();
+});
 
 // ─── 新词展示 ────────────────────────────────────────────────
 
@@ -209,126 +247,154 @@ describe('OverlayApp — 题目交互', () => {
     expect(onAction).toHaveBeenCalledWith({ type: 'skip' });
   });
 
-  it('提交后禁用选项，提交和跳过按钮替换为反馈区', () => {
+  it('提交后禁用选项和全部题目操作', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     click('吸收');
     clickSubmitButton();
     expect(screen.getByText('吸收').closest('button')).toBeDisabled();
-    // 提交和跳过按钮消失，被"继续"替代
-    expect(screen.queryByRole('button', { name: /^提交$/ })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /^跳过$/ })).not.toBeInTheDocument();
+    expect(submitButton()).toBeDisabled();
+    expect(screen.getByRole('button', { name: /提交并继续/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /跳过/ })).toBeDisabled();
   });
 });
 
-// ─── 单题反馈（验收标准 5） ──────────────────────────────────
+// ─── 提交后等待控制器处理 ────────────────────────────────────
 
-describe('OverlayApp — 单题反馈', () => {
-  it('提交后显示正确性（答对）', () => {
-    renderOverlay({ kind: 'question', question: QUESTION });
-    click('吸收');
-    clickSubmitButton();
-    const resultText = screen.getByText(/答对了|正确|答对/);
-    expect(resultText).toBeInTheDocument();
-    // M5：结果图标来自 naive-icons，与文字一起表达状态（不仅依赖颜色）。
-    expect(resultText.parentElement?.querySelector('svg')).not.toBeNull();
-  });
+describe('OverlayApp — 提交锁定', () => {
+  it.each([
+    { kind: 'question', isCorrect: true },
+    { kind: 'question', isCorrect: false },
+    { kind: 'spelling-question', isCorrect: true },
+    { kind: 'spelling-question', isCorrect: false },
+  ] as const)('$kind 提交结果为 $isCorrect 时不在遮罩中追加反馈', async ({ kind, isCorrect }) => {
+    const result: SubmissionResult = {
+      isCorrect,
+      correctAnswer: 'absorb',
+      cardId: 'card-1',
+      reviewLogId: 'log-1',
+      explanation: QUESTION.explanation,
+    };
+    const onAction = vi.fn().mockResolvedValue(result);
+    const item: LearningItem =
+      kind === 'question' ? { kind, question: QUESTION } : { kind, question: SPELLING_QUESTION };
+    renderOverlay(item, onAction);
+    if (kind === 'question') {
+      click(isCorrect ? '吸收' : '释放');
+    } else {
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: isCorrect ? 'absorb' : 'wrong' },
+      });
+    }
 
-  it('提交后显示正确性（答错）', () => {
-    const wrongQuestion = makeQuestion({ correctIndex: 1 });
-    renderOverlay({ kind: 'question', question: wrongQuestion });
-    click('吸收'); // selectedIndex=0, correct=1
-    clickSubmitButton();
-    const resultText = screen.getByText(/答错了|错误|答错/);
-    expect(resultText).toBeInTheDocument();
-    expect(resultText.parentElement?.querySelector('svg')).not.toBeNull();
-  });
+    await act(async () => clickSubmitButton());
 
-  it('答错后默认展开学习信息，并显示三项反馈操作', () => {
-    const wrongQuestion = makeQuestion({ correctIndex: 1 });
-    renderOverlay({ kind: 'question', question: wrongQuestion });
-    click('吸收');
-    clickSubmitButton();
-
-    expect(screen.getByText('Plants absorb sunlight.')).toBeInTheDocument();
-    expect(screen.getByText('植物吸收阳光。')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /学习信息/ })).not.toBeInTheDocument();
-
-    const actions = within(screen.getByRole('group', { name: '题目操作' })).getAllByRole('button');
-    expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
-      '跳过 Esc',
-      '继续 Shift + Enter',
-      '明白了 Enter',
-    ]);
-  });
-
-  it('答错反馈中的继续加载下一道题', () => {
-    const onAction = renderOverlay({
-      kind: 'question',
-      question: makeQuestion({ correctIndex: 1 }),
-    });
-    click('吸收');
-    clickSubmitButton();
-    clickButton(/^继续/);
-
-    const call = onAction.mock.calls[onAction.mock.calls.length - 1]![0] as OverlayAction;
-    expect(call.type).toBe('submit-and-continue');
-  });
-
-  it('答错反馈中的明白了结束当前反馈', () => {
-    const onAction = renderOverlay({
-      kind: 'question',
-      question: makeQuestion({ correctIndex: 1 }),
-    });
-    click('吸收');
-    clickSubmitButton();
-    clickButton(/^明白了/);
-
-    expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
-  });
-
-  it('反馈区默认折叠，点击可展开学习信息', () => {
-    renderOverlay({ kind: 'question', question: QUESTION });
-    click('吸收');
-    clickSubmitButton();
+    expect(screen.queryByText(/答对了|答错了|正确答案|上一题反馈/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /学习信息|其实是蒙的|这个太简单|明白了|^继续/ }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: '评分纠正' })).not.toBeInTheDocument();
     expect(screen.queryByText('Plants absorb sunlight.')).not.toBeInTheDocument();
-    clickButton(/学习信息|详情|展开/);
-    expect(screen.getByText('Plants absorb sunlight.')).toBeInTheDocument();
-    expect(screen.getByText('植物吸收阳光。')).toBeInTheDocument();
+    expect(onAction).toHaveBeenCalledTimes(1);
+    for (const button of screen.getAllByRole('button')) expect(button).toBeDisabled();
   });
 
-  it('答对反馈显示三项反馈操作（与答错对称）', () => {
-    renderOverlay({ kind: 'question', question: QUESTION });
-    click('吸收');
-    clickSubmitButton();
+  it.each([
+    ['单题选择提交', 'question', false, false, 'submit-answer'],
+    ['单题选择继续', 'question', false, true, 'submit-and-continue'],
+    ['连续选择结束', 'question', true, false, 'submit-and-end'],
+    ['连续选择继续', 'question', true, true, 'submit-and-continue'],
+    ['单题拼写提交', 'spelling-question', false, false, 'submit-spelling'],
+    ['单题拼写继续', 'spelling-question', false, true, 'submit-spelling-and-continue'],
+    ['连续拼写结束', 'spelling-question', true, false, 'submit-spelling-and-end'],
+    ['连续拼写继续', 'spelling-question', true, true, 'submit-spelling-and-continue'],
+  ] as const)(
+    '%s 保存期间禁用全部操作，重复点击和快捷键不会再次提交或跳过',
+    async (_label, kind, isContinuous, continueLearning, type) => {
+      let finish!: () => void;
+      const pending = new Promise<void>((resolve) => {
+        finish = resolve;
+      });
+      const onAction = vi.fn(() => pending);
+      const item: LearningItem =
+        kind === 'question' ? { kind, question: QUESTION } : { kind, question: SPELLING_QUESTION };
+      render(<OverlayApp item={item} onAction={onAction} isContinuous={isContinuous} />);
+      if (kind === 'question') {
+        click('吸收');
+      } else {
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'absorb' } });
+      }
 
-    const actionsGroup = screen.getByRole('group', { name: '题目操作' });
-    // 组件替换后不再冻结 CSS 类名；组语义与按钮顺序由下方断言覆盖。
-    const actions = within(actionsGroup).getAllByRole('button');
-    expect(actions.map((button) => button.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
-      '跳过 Esc',
-      '继续 Shift + Enter',
-      '明白了 Enter',
-    ]);
-  });
+      if (continueLearning) clickButton(/提交并继续/);
+      else if (isContinuous) clickButton(/提交并结束/);
+      else clickSubmitButton();
 
-  it('答对反馈中的继续加载下一道题', () => {
-    const onAction = renderOverlay({ kind: 'question', question: QUESTION });
-    click('吸收');
-    clickSubmitButton();
-    clickButton(/^继续/);
+      for (const button of screen.getAllByRole('button')) {
+        expect(button).toBeDisabled();
+        fireEvent.click(button);
+      }
+      pressKey('Escape');
+      expect(fireEvent.keyDown(document, { key: 'Enter', cancelable: true })).toBe(true);
+      expect(fireEvent.keyDown(document, { key: 'Enter', shiftKey: true, cancelable: true })).toBe(
+        true,
+      );
+      pressKey('2');
+      pressKey('b');
+      if (kind === 'spelling-question') {
+        const input = screen.getByRole('textbox');
+        expect(input).toBeDisabled();
+        expect(fireEvent.keyDown(input, { key: 'Enter', cancelable: true })).toBe(true);
+        fireEvent.change(input, { target: { value: 'changed' } });
+        expect(input).toHaveValue('absorb');
+      } else {
+        expect(screen.getByRole('button', { name: '吸收' })).toHaveAttribute(
+          'aria-pressed',
+          'true',
+        );
+        expect(screen.getByRole('button', { name: '释放' })).toHaveAttribute(
+          'aria-pressed',
+          'false',
+        );
+      }
+      expect(onAction).toHaveBeenCalledTimes(1);
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({ type, answerChanges: 0, responseTimeMs: expect.any(Number) }),
+      );
 
-    const call = onAction.mock.calls[onAction.mock.calls.length - 1]![0] as OverlayAction;
-    expect(call.type).toBe('submit-and-continue');
-  });
+      await act(async () => {
+        finish();
+        await pending;
+      });
 
-  it('答对反馈中的明白了结束当前反馈', () => {
-    const onAction = renderOverlay({ kind: 'question', question: QUESTION });
-    click('吸收');
-    clickSubmitButton();
-    clickButton(/^明白了/);
+      pressKey('Escape');
+      expect(onAction).toHaveBeenCalledTimes(1);
+      for (const button of screen.getAllByRole('button')) expect(button).toBeDisabled();
+    },
+  );
 
-    expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
-  });
+  it.each(['question', 'spelling-question'] as const)(
+    '%s 提交回调内同步触发快捷键和点击，也只提交一次',
+    (kind) => {
+      const onAction = vi.fn().mockImplementationOnce(() => {
+        pressKey('Escape');
+        pressKey('Enter', { shiftKey: true });
+        clickButton(/提交并继续/);
+      });
+      const item: LearningItem =
+        kind === 'question' ? { kind, question: QUESTION } : { kind, question: SPELLING_QUESTION };
+      renderOverlay(item, onAction);
+      if (kind === 'question') click('吸收');
+      else fireEvent.change(screen.getByRole('textbox'), { target: { value: 'absorb' } });
+
+      clickSubmitButton();
+
+      expect(onAction).toHaveBeenCalledTimes(1);
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: kind === 'question' ? 'submit-answer' : 'submit-spelling',
+        }),
+      );
+    },
+  );
 });
 
 // ─── 快捷键仅限学习界面（验收标准 5） ──────────────────────
@@ -409,42 +475,6 @@ describe('OverlayApp — 快捷键', () => {
     });
   });
 
-  describe('反馈阶段快捷键', () => {
-    it('提交后按 Enter 触发明白了（发出 skip）', () => {
-      const onAction = renderOverlay({ kind: 'question', question: QUESTION });
-      pressKey('1');
-      pressKey('Enter'); // 提交
-      pressKey('Enter'); // 明白了
-      expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
-    });
-
-    it('答错反馈按 Shift + Enter 触发继续', () => {
-      const onAction = renderOverlay({
-        kind: 'question',
-        question: makeQuestion({ correctIndex: 1 }),
-      });
-      pressKey('1');
-      pressKey('Enter'); // 提交
-      pressKey('Enter', { shiftKey: true }); // 继续
-
-      expect(onAction).toHaveBeenLastCalledWith(
-        expect.objectContaining({ type: 'submit-and-continue' }),
-      );
-    });
-
-    it('答错反馈按 Escape 跳过', () => {
-      const onAction = renderOverlay({
-        kind: 'question',
-        question: makeQuestion({ correctIndex: 1 }),
-      });
-      pressKey('1');
-      pressKey('Enter'); // 提交
-      pressKey('Escape');
-
-      expect(onAction).toHaveBeenLastCalledWith({ type: 'skip' });
-    });
-  });
-
   describe('快捷键防重复', () => {
     it('操作后快捷键不再触发动作', () => {
       const onAction = renderOverlay({
@@ -457,7 +487,7 @@ describe('OverlayApp — 快捷键', () => {
     });
   });
 
-  describe('Issue #26：答案修改与评分纠正', () => {
+  describe('Issue #26：答案修改计数', () => {
     it('选择题只统计首次选择后的改选', () => {
       const onAction = renderOverlay({ kind: 'question', question: QUESTION });
       click('吸收');
@@ -470,32 +500,16 @@ describe('OverlayApp — 快捷键', () => {
       );
     });
 
-    it('答对后可纠正一次评分并显示结果', async () => {
-      const onAction = vi.fn(async (action: OverlayAction) => {
-        if (action.type === 'submit-answer') {
-          return {
-            isCorrect: true,
-            correctAnswer: '吸收',
-            cardId: 'card-1',
-            reviewLogId: 'log-1',
-            explanation: QUESTION.explanation,
-            rating: 'good' as const,
-          };
-        }
-        if (action.type === 'correct-rating') {
-          return { cardId: 'card-1', reviewLogId: 'log-1', rating: 'again' as const };
-        }
-        return undefined;
-      });
-      renderOverlay({ kind: 'question', question: QUESTION }, onAction);
+    it('重复选择同一选项不增加改选计数', () => {
+      const onAction = renderOverlay({ kind: 'question', question: QUESTION });
       click('吸收');
+      click('吸收');
+      pressKey('1');
       clickSubmitButton();
 
-      await waitFor(() => expect(screen.getByRole('button', { name: '其实是蒙的' })).toBeEnabled());
-      fireEvent.click(screen.getByRole('button', { name: '其实是蒙的' }));
-
-      await waitFor(() => expect(screen.getByText('已调整为 Again')).toBeInTheDocument());
-      expect(screen.getByRole('button', { name: '这个太简单' })).toBeDisabled();
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'submit-answer', answerChanges: 0 }),
+      );
     });
 
     it('拼写题只统计删除或替换已有内容的纠错操作', () => {
@@ -516,109 +530,22 @@ describe('OverlayApp — 快捷键', () => {
 
 // ─── Issue #8：连续学习模式与拼写题 ──────────────────────────────
 
-const SPELLING_QUESTION: SpellingQuestion = {
-  id: 'q-spell-1',
-  type: 'spelling',
-  cardId: 'card-spell',
-  wordId: 'w-spell',
-  prompt: '吸收',
-  correctAnswer: 'absorb',
-  explanation: {
-    word: 'absorb',
-    phonetic: '/əbˈzɔːrb/',
-    partOfSpeech: ['v.'],
-    meanings: ['吸收'],
-    exampleSentence: 'Plants absorb sunlight.',
-    exampleTranslation: '植物吸收阳光。',
-  },
-};
-
-const PREVIOUS_FEEDBACK: SubmissionResult = {
-  isCorrect: false,
-  correctAnswer: 'abandon',
-  cardId: 'card-1',
-  reviewLogId: 'log-prev',
-  explanation: {
-    word: 'abandon',
-    partOfSpeech: ['v.'],
-    meanings: ['放弃'],
-  },
-};
-
-function renderOverlayContinuous(
-  item: LearningItem,
-  options: {
-    previousFeedback?: SubmissionResult;
-    onAction?: ReturnType<typeof vi.fn<(action: OverlayAction) => void>>;
-  } = {},
-) {
-  const onAction = options.onAction ?? vi.fn<(action: OverlayAction) => void>();
-  render(
-    <OverlayApp
-      item={item}
-      onAction={onAction}
-      isContinuous
-      previousFeedback={options.previousFeedback}
-    />,
-  );
+function renderOverlayContinuous(item: LearningItem, onAction = vi.fn()) {
+  render(<OverlayApp item={item} onAction={onAction} isContinuous />);
   return onAction;
 }
 
-describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', () => {
-  describe('连续模式标记与上一题反馈', () => {
+describe('OverlayApp — 连续学习模式（Issue #8）', () => {
+  describe('连续模式标记', () => {
     it('连续模式渲染"连续学习"标记', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
       expect(screen.getByText('连续学习')).toBeInTheDocument();
     });
 
-    it('连续模式渲染上一题反馈区（含正确答案文本）', () => {
-      renderOverlayContinuous(
-        { kind: 'question', question: QUESTION },
-        { previousFeedback: PREVIOUS_FEEDBACK },
-      );
-      expect(screen.getByText('上一题反馈')).toBeInTheDocument();
-      expect(screen.getByText(/答错了/)).toBeInTheDocument();
-      expect(screen.getByText('abandon')).toBeInTheDocument();
-    });
-
-    it('无上一题反馈时不渲染反馈区', () => {
+    it('连续答题界面不显示上一题反馈或评分操作', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
       expect(screen.queryByText('上一题反馈')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('验收标准 2：无障碍反馈（不依赖颜色）', () => {
-    it('上一题反馈区包含结果图标（不依赖颜色）', () => {
-      renderOverlayContinuous(
-        { kind: 'question', question: QUESTION },
-        { previousFeedback: PREVIOUS_FEEDBACK },
-      );
-      const status = screen.getByLabelText('上一题答错');
-      expect(status.querySelector('svg')).not.toBeNull();
-    });
-
-    it('上一题答对时显示结果图标与纠正入口', () => {
-      const correctFeedback: SubmissionResult = {
-        ...PREVIOUS_FEEDBACK,
-        isCorrect: true,
-      };
-      renderOverlayContinuous(
-        { kind: 'question', question: QUESTION },
-        { previousFeedback: correctFeedback },
-      );
-      const status = screen.getByLabelText('上一题答对');
-      expect(status.querySelector('svg')).not.toBeNull();
-      expect(screen.getByText(/答对了/)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '其实是蒙的' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '这个太简单' })).toBeInTheDocument();
-    });
-
-    it('反馈区有 aria-label 描述结果', () => {
-      renderOverlayContinuous(
-        { kind: 'question', question: QUESTION },
-        { previousFeedback: PREVIOUS_FEEDBACK },
-      );
-      expect(screen.getByLabelText('上一题答错')).toBeInTheDocument();
+      expect(screen.queryByRole('group', { name: '评分纠正' })).not.toBeInTheDocument();
     });
   });
 
@@ -702,6 +629,115 @@ describe('OverlayApp — 连续学习模式（Issue #8 验收标准 1、2）', (
         wordId: 'w-1',
       });
     });
+
+    it.each([
+      ['知道了，继续', 'accept-new-word-and-continue'],
+      ['我认识，换一个', 'self-report-and-continue'],
+      ['结束学习', 'exit-learning'],
+    ] as const)('%s 在同步重复点击和快捷键下也只触发一次', (label, type) => {
+      const onAction = renderOverlayContinuous({
+        kind: 'new-word-presentation',
+        presentation: NEW_WORD_PRESENTATION,
+      });
+      const button = screen.getByRole('button', { name: new RegExp(label) });
+      onAction.mockImplementationOnce(() => {
+        pressKey('1');
+        pressKey('2');
+        pressKey('Escape');
+        fireEvent.click(button);
+      });
+
+      fireEvent.click(button);
+      fireEvent.click(button);
+      pressKey('1');
+      pressKey('2');
+      pressKey('Escape');
+
+      expect(onAction).toHaveBeenCalledTimes(1);
+      expect(onAction).toHaveBeenCalledWith(
+        type === 'exit-learning' ? { type } : { type, wordId: 'w-1' },
+      );
+      for (const action of screen.getAllByRole('button')) expect(action).toBeDisabled();
+    });
+  });
+});
+
+describe('OverlayApp — 右下角非模态反馈存在时', () => {
+  it('反馈是右下角 Shadow DOM status，数字与字母键仍选择下一题答案', () => {
+    renderOverlay({ kind: 'question', question: QUESTION });
+    const feedbackHost = showLearningFeedbackNotice();
+    const feedbackStatus = feedbackHost.shadowRoot?.querySelector('[role="status"]');
+
+    expect(feedbackHost.style.position).toBe('fixed');
+    expect(feedbackHost.style.right).toBe('24px');
+    expect(feedbackHost.style.bottom).toBe('24px');
+    expect(feedbackStatus).toHaveTextContent('答题反馈：本题已完成');
+    expect(feedbackStatus).not.toHaveAttribute('aria-modal');
+
+    pressKey('2');
+    expect(screen.getByRole('button', { name: '释放' })).toHaveAttribute('aria-pressed', 'true');
+
+    pressKey('d');
+    expect(screen.getByRole('button', { name: '聚集' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('Enter 仍提交当前下一题', () => {
+    const onAction = renderOverlay({ kind: 'question', question: QUESTION });
+    showLearningFeedbackNotice();
+    click('吸收');
+    pressKey('Enter');
+
+    expect(onAction).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'submit-answer', selectedIndex: 0 }),
+    );
+  });
+
+  it('Shift + Enter 仍提交并继续', () => {
+    const onAction = renderOverlayContinuous({ kind: 'question', question: QUESTION });
+    showLearningFeedbackNotice();
+    click('吸收');
+    pressKey('Enter', { shiftKey: true });
+
+    expect(onAction).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'submit-and-continue', selectedIndex: 0 }),
+    );
+  });
+
+  it('拼写输入保持焦点，输入后 Enter 仍提交当前下一题', () => {
+    const onAction = vi.fn();
+    render(
+      <OverlayApp
+        item={{ kind: 'spelling-question', question: SPELLING_QUESTION }}
+        onAction={onAction}
+        isContinuous
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveFocus();
+    showLearningFeedbackNotice();
+    expect(input).toHaveFocus();
+
+    fireEvent.change(input, { target: { value: 'absorb' } });
+    expect(fireEvent.keyDown(input, { key: 'Enter', cancelable: true })).toBe(false);
+
+    expect(onAction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'submit-spelling-and-end',
+        spelledAnswer: 'absorb',
+      }),
+    );
+  });
+
+  it.each(['question', 'spelling-question'] as const)('%s 中 Escape 仍跳过下一题', (kind) => {
+    const onAction = vi.fn();
+    const item: LearningItem =
+      kind === 'question' ? { kind, question: QUESTION } : { kind, question: SPELLING_QUESTION };
+    render(<OverlayApp item={item} onAction={onAction} isContinuous />);
+    showLearningFeedbackNotice();
+
+    pressKey('Escape');
+
+    expect(onAction).toHaveBeenCalledExactlyOnceWith({ type: 'skip' });
   });
 });
 
@@ -770,9 +806,72 @@ describe('OverlayApp — 拼写题（Issue #8 验收标准 3）', () => {
     expect(screen.getByRole('button', { name: /提交并结束/ })).toBeInTheDocument();
   });
 
-  it('非连续模式显示"提交"按钮（单题模式不会出现拼写题，但 UI 兼容）', () => {
+  it('非连续模式显示提交、提交并继续和跳过按钮', () => {
     renderSpelling({ continuous: false });
-    expect(screen.getByRole('button', { name: /^提交$/ })).toBeInTheDocument();
+    expect(submitButton()).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /提交并继续/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /跳过/ })).toBeEnabled();
+  });
+
+  it('拼写题挂载时自动聚焦输入框', () => {
+    renderSpelling();
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
+
+  it.each([
+    [false, false, 'submit-spelling'],
+    [false, true, 'submit-spelling-and-continue'],
+    [true, false, 'submit-spelling-and-end'],
+    [true, true, 'submit-spelling-and-continue'],
+  ] as const)(
+    '拼写输入框在连续模式 %s、Shift %s 时只触发 %s 一次',
+    (continuous, shiftKey, type) => {
+      const onAction = renderSpelling({ continuous });
+      const input = screen.getByRole('textbox');
+      fireEvent.change(input, { target: { value: 'absorb' } });
+
+      fireEvent.keyDown(input, { key: 'Enter', shiftKey });
+
+      expect(onAction).toHaveBeenCalledTimes(1);
+      expect(onAction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type,
+          question: SPELLING_QUESTION,
+          spelledAnswer: 'absorb',
+          responseTimeMs: expect.any(Number),
+          answerChanges: 0,
+        }),
+      );
+    },
+  );
+
+  it.each([
+    [false, 'submit-spelling'],
+    [true, 'submit-spelling-and-continue'],
+  ] as const)('单题拼写 document 级 Enter（Shift %s）触发 %s', (shiftKey, type) => {
+    const onAction = renderSpelling();
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'absorb' } });
+
+    pressKey('Enter', { shiftKey });
+
+    expect(onAction).toHaveBeenCalledTimes(1);
+    expect(onAction).toHaveBeenCalledWith(expect.objectContaining({ type }));
+  });
+
+  it('只有空白输入时点击和快捷键均不提交，也不锁定跳过操作', () => {
+    const onAction = renderSpelling();
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '  ' } });
+
+    clickSubmitButton();
+    clickButton(/提交并继续/);
+    pressKey('Enter');
+    pressKey('Enter', { shiftKey: true });
+
+    expect(onAction).not.toHaveBeenCalled();
+    expect(submitButton()).toBeDisabled();
+    expect(screen.getByRole('button', { name: /提交并继续/ })).toBeDisabled();
+    pressKey('Escape');
+    expect(onAction).toHaveBeenCalledExactlyOnceWith({ type: 'skip' });
   });
 });
 

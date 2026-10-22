@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import islandCss from 'animal-island-ui/dist/index.css?raw';
+import islandCss from 'animal-island-ui/style?raw';
 import baseCss from '@/ui/styles/base.css?raw';
 import themeCss from '@/ui/island/island-theme.css?raw';
 import layoutCss from '@/ui/island/island-layout.css?raw';

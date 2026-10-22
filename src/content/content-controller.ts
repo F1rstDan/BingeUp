@@ -1,12 +1,12 @@
 import type {
   AnswerSubmission,
   CooldownState,
+  CorrectionResult,
   InteractionOutcome,
   LearningItem,
   OverlayAction,
   OverlayMode,
   PlaybackSnapshot,
-  Question,
   SessionLogRecord,
   SpellingSubmission,
   SubmissionResult,
@@ -17,6 +17,7 @@ import { isReady } from '@/cooldown/cooldown-rules';
 import { pauseForInteraction, restore, type VideoPlaybackPort } from '@/video/playback-controller';
 import type { StartLearningResponse } from '@/messaging/messages';
 import type { DevCardType, PrepareDevCardResult, DevShowCardResult } from '@/dev-tools/messages';
+import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
 
 /** 站点适配器端口：内容控制器只通过它接收视频变化事件。 */
 export interface SiteAdapterPort {
@@ -30,14 +31,9 @@ export interface SiteAdapterPort {
 
 /**
  * 学习遮罩端口：控制器通过它打开/关闭界面并接收用户动作（Issue #6 / #8）。
- * open 需要传入 LearningItem；submit-answer 不关闭遮罩，其余动作关闭。
- * 连续学习模式下通过 options 传入上一题反馈（Issue #8 验收标准 2）。
+ * 普通提交后关闭遮罩；提交并继续时替换为下一题。答题结果由独立提示承载。
  */
 export interface OverlayOpenOptions {
-  /** 连续学习模式：上一题的提交反馈，在下一题上方展示。 */
-  previousFeedback?: SubmissionResult;
-  /** 上一题的题目（用于反馈区展示题干与正确答案）。 */
-  previousQuestion?: Question;
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
 }
@@ -66,7 +62,7 @@ export interface LearningServicePort {
   /** 提交拼写题答案（Issue #8 验收标准 3）。 */
   submitSpellingAnswer(submission: SpellingSubmission): Promise<SubmissionResult>;
   /** 用户在反馈阶段纠正评分（Issue #7）。 */
-  correctRating(reviewLogId: string, correction: UserCorrection): Promise<unknown>;
+  correctRating(reviewLogId: string, correction: UserCorrection): Promise<CorrectionResult>;
   /** 开发题卡准备；开发构建之外的适配器可以不提供此能力。 */
   prepareDevCard?(cardType: DevCardType): Promise<PrepareDevCardResult>;
 }
@@ -121,6 +117,8 @@ export interface ContentControllerDeps {
   sessionLogger?: SessionLoggerPort;
   /** 自动恢复播放失败后的限频、非模态用户提示。 */
   playbackRecoveryNotice?: { show(): Promise<void> };
+  /** 已保存答案的独立反馈；不重复提交答案或改变视频恢复结果。 */
+  learningFeedbackNotice?: LearningFeedbackNoticePort;
 }
 
 interface ActiveInteraction {
@@ -162,12 +160,12 @@ function pauseIfPlaying(playback: VideoPlaybackPort | null): void {
 
 /**
  * 内容侧学习会话控制器。协调：视频变化 → 触发判定 → 暂停 → 获取学习项目 →
- * 打开遮罩 → 用户动作 →（软动作反馈 / 连续加载下一题 / 终态关闭）→ 恢复视频 → 更新冷却。
+ * 打开遮罩 → 保存答案 →（连续加载下一题 / 关闭并恢复视频）→ 轻量反馈。
  *
  * 该控制器是核心编排边界，不包含网站选择器、FSRS、题目生成、冷却计算等细节。
  *
  * 连续学习模式（Issue #8）：
- * - 用户在反馈阶段选择"提交并继续"后进入连续模式，视频保持暂停；
+ * - 用户选择"提交并继续"后进入连续模式，视频保持暂停；
  * - 连续模式中"结束学习"不提交当前题、不算跳过、应用默认冷却；
  * - 连续模式不会突破每日新词上限，且新词不会紧接着被重复测试。
  */
@@ -177,15 +175,11 @@ export class ContentController {
   private active: ActiveInteraction | null = null;
   private pendingVideoChange: VideoChangeEvent | null = null;
   private triggerInProgress = false;
-  private hasSubmitted = false;
+  private actionInProgress = false;
   private unsubscribe: (() => void) | null = null;
 
   /** 连续学习中已展示过的单词 ID，避免重复展示（Issue #8 验收标准 5）。 */
   private readonly sessionWordIds = new Set<string>();
-  /** 上一题的提交反馈，用于连续模式下一帧展示。 */
-  private lastFeedback: SubmissionResult | null = null;
-  /** 上一题的题目，用于连续模式下一帧展示。 */
-  private lastQuestion: Question | null = null;
 
   constructor(deps: ContentControllerDeps) {
     this.deps = deps;
@@ -198,17 +192,25 @@ export class ContentController {
         void this.recoverFromFailure(error);
       });
     });
-    this.deps.overlay.onAction((action) =>
-      this.handleAction(action).catch(async (error) => {
+    this.deps.overlay.onAction(async (action) => {
+      if (this.actionInProgress) return;
+      this.actionInProgress = true;
+      try {
+        return await this.handleAction(action);
+      } catch (error) {
         await this.recoverFromFailure(error);
         return undefined;
-      }),
-    );
+      } finally {
+        this.actionInProgress = false;
+        if (this.active === null) await this.drainPendingVideoChange();
+      }
+    });
   }
 
   stop(): void {
     this.unsubscribe?.();
     this.unsubscribe = null;
+    this.deps.learningFeedbackNotice?.close();
   }
 
   /**
@@ -223,7 +225,7 @@ export class ContentController {
    */
   async startContinuousLearning(): Promise<StartLearningResponse> {
     // 已有交互或另一次触发仍在异步准备：避免并发覆盖学习会话。
-    if (this.active !== null || this.triggerInProgress) {
+    if (this.active !== null || this.triggerInProgress || this.actionInProgress) {
       return { ok: false, reason: 'interaction-active' };
     }
     this.triggerInProgress = true;
@@ -269,6 +271,7 @@ export class ContentController {
         (event.video === null ? document.documentElement : event.video.getBoundingClientRect());
       try {
         pauseIfPlaying(playback);
+        this.deps.learningFeedbackNotice?.close();
         this.deps.overlay.open(item, target, event.overlayMode, { isContinuous: true });
       } catch (error) {
         console.error('[BingeUp] 主动连续学习打开遮罩失败，恢复视频', error);
@@ -292,7 +295,6 @@ export class ContentController {
         effects: 'standard',
       };
       this.lastObservedIdentity = event.identity;
-      this.hasSubmitted = false;
       this.trackWordId(item);
       return { ok: true };
     } finally {
@@ -310,7 +312,7 @@ export class ContentController {
     // 正在交互中或并发触发：忽略。triggerInProgress 同步保证一次只处理一个触发，
     // 避免并发事件在 await 之间双双重入。
     // 注意：基础网页模式（Issue #11）允许 event.video === null，不在此处拦截。
-    if (this.active !== null || this.triggerInProgress) {
+    if (this.active !== null || this.triggerInProgress || this.actionInProgress) {
       this.pendingVideoChange = event;
       return;
     }
@@ -360,6 +362,7 @@ export class ContentController {
 
     try {
       pauseIfPlaying(playback);
+      this.deps.learningFeedbackNotice?.close();
       this.deps.overlay.open(item, target, event.overlayMode);
     } catch (error) {
       console.error('[BingeUp] 打开遮罩失败，恢复视频', error);
@@ -385,7 +388,6 @@ export class ContentController {
       allowEarlyShortTermReview: false,
       effects: 'standard',
     };
-    this.hasSubmitted = false;
     this.trackWordId(item);
     this.triggerInProgress = false;
   }
@@ -395,7 +397,7 @@ export class ContentController {
    * 题卡准备仍由 Background 的开发模块负责，提交动作继续复用正式学习服务。
    */
   async showDevCard(cardType: DevCardType): Promise<DevShowCardResult> {
-    if (this.active !== null || this.triggerInProgress) {
+    if (this.active !== null || this.triggerInProgress || this.actionInProgress) {
       return { ok: false, reason: 'interaction-active' };
     }
     if (this.deps.learningService.prepareDevCard === undefined) {
@@ -408,6 +410,7 @@ export class ContentController {
       if (!prepared.ok) return prepared;
 
       const target = document.documentElement;
+      this.deps.learningFeedbackNotice?.close();
       this.deps.overlay.open(prepared.item, target, 'full-page', { isContinuous: false });
       this.active = {
         identity: `dev:${crypto.randomUUID()}`,
@@ -425,13 +428,11 @@ export class ContentController {
         allowEarlyShortTermReview: false,
         effects: 'dev',
       };
-      this.hasSubmitted = false;
       this.trackWordId(prepared.item);
       return { ok: true };
     } catch (error) {
       console.error('[BingeUp] 开发题卡打开失败', error);
       this.active = null;
-      this.hasSubmitted = false;
       this.sessionWordIds.clear();
       try {
         this.deps.overlay.close();
@@ -457,30 +458,49 @@ export class ContentController {
       return;
     }
 
-    // ─── 软动作：不关闭遮罩 ──────────────────────────────
-    if (action.type === 'submit-answer') {
-      const result = await this.deps.learningService.submitAnswer({
-        question: action.question,
-        selectedIndex: action.selectedIndex,
-        responseTimeMs: action.responseTimeMs,
-        answerChanges: action.answerChanges,
-        source: active.currentSource,
+    const choiceSubmission =
+      action.type === 'submit-answer' ||
+      action.type === 'submit-and-continue' ||
+      action.type === 'submit-and-end';
+    const spellingSubmission =
+      action.type === 'submit-spelling' ||
+      action.type === 'submit-spelling-and-continue' ||
+      action.type === 'submit-spelling-and-end';
+    if (choiceSubmission || spellingSubmission) {
+      // 保存完成后才显示结果；所有提交路径共用同一计数和播放恢复逻辑。
+      const result = choiceSubmission
+        ? await this.deps.learningService.submitAnswer({
+            question: action.question,
+            selectedIndex: action.selectedIndex,
+            responseTimeMs: action.responseTimeMs,
+            answerChanges: action.answerChanges,
+            source: active.currentSource,
+          })
+        : await this.deps.learningService.submitSpellingAnswer({
+            question: action.question,
+            spelledAnswer: action.spelledAnswer,
+            responseTimeMs: action.responseTimeMs,
+            answerChanges: action.answerChanges,
+            source: active.currentSource,
+          });
+      this.recordSubmittedQuestion(active);
+      const continueLearning =
+        action.type === 'submit-and-continue' || action.type === 'submit-spelling-and-continue';
+      if (continueLearning && active.effects === 'standard') {
+        await this.loadNextContinuous(active);
+      } else {
+        await this.endInteraction(active, 'submitted');
+      }
+      this.deps.learningFeedbackNotice?.show(result, {
+        // 普通提交已经结束原会话；按钮从当前页面重新取上下文并开始主动学习。
+        onContinue:
+          this.active === null && active.effects === 'standard'
+            ? () => this.startContinuousLearning()
+            : undefined,
+        onTooEasy: result.isCorrect
+          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
+          : undefined,
       });
-      this.hasSubmitted = true;
-      this.recordSubmittedQuestion(active, result, action.question);
-      return result;
-    }
-
-    if (action.type === 'submit-spelling') {
-      const result = await this.deps.learningService.submitSpellingAnswer({
-        question: action.question,
-        spelledAnswer: action.spelledAnswer,
-        responseTimeMs: action.responseTimeMs,
-        answerChanges: action.answerChanges,
-        source: active.currentSource,
-      });
-      this.hasSubmitted = true;
-      this.recordSubmittedQuestion(active, result, action.question);
       return result;
     }
 
@@ -488,82 +508,9 @@ export class ContentController {
       return this.deps.learningService.correctRating(action.reviewLogId, action.correction);
     }
 
-    // ─── 连续学习动作：提交并加载下一题（Issue #8 验收标准 1） ───
-    if (action.type === 'submit-and-continue') {
-      if (!this.hasSubmitted) {
-        const result = await this.deps.learningService.submitAnswer({
-          question: action.question,
-          selectedIndex: action.selectedIndex,
-          responseTimeMs: action.responseTimeMs,
-          answerChanges: action.answerChanges,
-          source: active.currentSource,
-        });
-        this.recordSubmittedQuestion(active, result, action.question);
-      }
-      if (active.effects === 'dev') {
-        await this.endInteraction(active, 'submitted');
-        return;
-      }
-      await this.loadNextContinuous(active);
-      return;
-    }
-
-    if (action.type === 'submit-spelling-and-continue') {
-      if (!this.hasSubmitted) {
-        const result = await this.deps.learningService.submitSpellingAnswer({
-          question: action.question,
-          spelledAnswer: action.spelledAnswer,
-          responseTimeMs: action.responseTimeMs,
-          answerChanges: action.answerChanges,
-          source: active.currentSource,
-        });
-        this.recordSubmittedQuestion(active, result, action.question);
-      }
-      if (active.effects === 'dev') {
-        await this.endInteraction(active, 'submitted');
-        return;
-      }
-      await this.loadNextContinuous(active);
-      return;
-    }
-
-    if (action.type === 'submit-and-end') {
-      if (!this.hasSubmitted) {
-        const result = await this.deps.learningService.submitAnswer({
-          question: action.question,
-          selectedIndex: action.selectedIndex,
-          responseTimeMs: action.responseTimeMs,
-          answerChanges: action.answerChanges,
-          source: active.currentSource,
-        });
-        this.hasSubmitted = true;
-        this.recordSubmittedQuestion(active, result, action.question);
-      }
-      await this.endInteraction(active, 'submitted');
-      return;
-    }
-
-    if (action.type === 'submit-spelling-and-end') {
-      if (!this.hasSubmitted) {
-        const result = await this.deps.learningService.submitSpellingAnswer({
-          question: action.question,
-          spelledAnswer: action.spelledAnswer,
-          responseTimeMs: action.responseTimeMs,
-          answerChanges: action.answerChanges,
-          source: active.currentSource,
-        });
-        this.hasSubmitted = true;
-        this.recordSubmittedQuestion(active, result, action.question);
-      }
-      await this.endInteraction(active, 'submitted');
-      return;
-    }
-
     if (action.type === 'accept-new-word-and-continue') {
       await this.deps.learningService.acceptNewWord(action.wordId);
       active.initialOutcome ??= 'accepted-new';
-      this.lastFeedback = null;
-      this.lastQuestion = null;
       await this.loadNextContinuous(active);
       return;
     }
@@ -571,8 +518,6 @@ export class ContentController {
     if (action.type === 'self-report-and-continue') {
       await this.deps.learningService.selfReportKnown(action.wordId);
       active.initialOutcome ??= 'self-reported';
-      this.lastFeedback = null;
-      this.lastQuestion = null;
       await this.loadNextContinuous(active);
       return;
     }
@@ -584,8 +529,6 @@ export class ContentController {
         await this.endInteraction(active, 'submitted');
         return;
       }
-      this.lastFeedback = null;
-      this.lastQuestion = null;
       pauseIfPlaying(active.playback);
       const nextItem = await this.deps.learningService.getNextItem({
         excludedWordIds: this.sessionWordIds,
@@ -595,10 +538,7 @@ export class ContentController {
         return;
       }
       this.trackWordId(nextItem);
-      this.hasSubmitted = false;
       this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
-        previousFeedback: this.lastFeedback ?? undefined,
-        previousQuestion: this.lastQuestion ?? undefined,
         isContinuous: false,
       });
       return;
@@ -622,30 +562,23 @@ export class ContentController {
         outcome = 'submitted';
         break;
       case 'skip':
-        // 提交后点"继续"视为完成题目；未提交直接跳过才是真正的跳过。
-        outcome = this.hasSubmitted ? 'submitted' : 'skipped';
-        active.initialOutcome ??= this.hasSubmitted ? 'submitted' : 'skipped';
+        outcome = 'skipped';
+        active.initialOutcome ??= 'skipped';
         break;
     }
 
     await this.endInteraction(active, outcome);
   }
 
-  private recordSubmittedQuestion(
-    active: ActiveInteraction,
-    result: SubmissionResult,
-    question: Question,
-  ): void {
+  private recordSubmittedQuestion(active: ActiveInteraction): void {
     active.questionsAnswered += 1;
     if (active.mode === 'continuous') active.continuousQuestionsAnswered += 1;
     active.initialOutcome ??= 'submitted';
-    this.lastFeedback = result;
-    this.lastQuestion = question;
   }
 
   /**
    * 加载下一道连续学习题目（Issue #8 验收标准 1）。
-   * 视频保持暂停，遮罩更新为"上一题反馈 + 下一题"。
+   * 视频保持暂停，遮罩更新为下一题，结果由独立提示展示。
    * 若无更多内容，自动结束连续学习。
    */
   private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
@@ -667,12 +600,9 @@ export class ContentController {
     active.currentSource = 'continuous';
 
     this.trackWordId(nextItem);
-    this.hasSubmitted = false;
 
     pauseIfPlaying(active.playback);
     this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
-      previousFeedback: this.lastFeedback ?? undefined,
-      previousQuestion: this.lastQuestion ?? undefined,
       isContinuous: true,
     });
   }
@@ -692,10 +622,7 @@ export class ContentController {
     sessionOutcome: 'submitted' | 'skipped' | 'exit' = outcome,
   ): Promise<void> {
     this.active = null;
-    this.hasSubmitted = false;
     this.sessionWordIds.clear();
-    this.lastFeedback = null;
-    this.lastQuestion = null;
     try {
       this.deps.overlay.close();
     } catch (error) {
@@ -750,10 +677,7 @@ export class ContentController {
   /** 内部恢复不是用户跳过：只解除界面并恢复播放，不写冷却或会话结果。 */
   private async clearFailedInteraction(active: ActiveInteraction): Promise<void> {
     this.active = null;
-    this.hasSubmitted = false;
     this.sessionWordIds.clear();
-    this.lastFeedback = null;
-    this.lastQuestion = null;
     try {
       this.deps.overlay.close();
     } catch (closeError) {
@@ -767,7 +691,8 @@ export class ContentController {
 
   private async drainPendingVideoChange(): Promise<void> {
     const pending = this.pendingVideoChange;
-    if (pending === null || this.active !== null || this.triggerInProgress) return;
+    if (pending === null || this.active !== null || this.triggerInProgress || this.actionInProgress)
+      return;
     this.pendingVideoChange = null;
     await this.handleVideoChange(pending, true);
   }

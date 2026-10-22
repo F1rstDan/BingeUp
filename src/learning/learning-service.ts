@@ -500,6 +500,7 @@ export class LearningService {
       correctAnswer,
       cardId: question.cardId,
       reviewLogId: reviewLog.id,
+      submittedAnswer: selectedAnswer,
       explanation: question.explanation,
       rating,
       nextReviewAt,

@@ -1,4 +1,4 @@
-import islandCss from 'animal-island-ui/dist/index.css?raw';
+import islandCss from 'animal-island-ui/style?raw';
 
 /**
  * M4 Shadow DOM 样式与字体装载（工单 #43）。

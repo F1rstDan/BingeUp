@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-// 原版样式入口（animal-island-ui 2.2.1）：整个统计页入口恰好导入一次。
+// 原版样式入口（animal-island-ui 2.3.0）：整个统计页入口恰好导入一次。
 import 'animal-island-ui/style';
 import { StatsApp } from '@/ui/stats/StatsApp';
 import '@/ui/styles/base.css';

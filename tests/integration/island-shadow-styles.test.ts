@@ -19,7 +19,7 @@ import {
 
 const require = createRequire(import.meta.url);
 /** 库发布产物本身就是构建结果：与构建期内联导入的是同一份 CSS 文件。 */
-const LIBRARY_CSS = readFileSync(require.resolve('animal-island-ui/dist/index.css'), 'utf8');
+const LIBRARY_CSS = readFileSync(require.resolve('animal-island-ui/style'), 'utf8');
 
 const toExtensionUrl = (assetPath: string): string => 'chrome-extension://test-id/' + assetPath;
 

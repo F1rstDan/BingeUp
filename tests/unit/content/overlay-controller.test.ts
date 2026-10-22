@@ -6,7 +6,7 @@ import type { LearningItem } from '@/types';
 // M5 工单 #44：vitest 默认不处理 ?raw CSS 导入，这里用构建产物形态的夹具替代真实的
 // 构建期内联 CSS（含 :root 令牌、reset 与 @font-face）；真实内联组合由构建产物校验
 // 脚本与 e2e 覆盖。
-vi.mock('animal-island-ui/dist/index.css?raw', () => ({
+vi.mock('animal-island-ui/style?raw', () => ({
   default:
     ':root{--animal-primary-color: #19c8b9;--animal-font-family: Nunito, "Noto Sans SC", sans-serif}' +
     '*,*:before,*:after{box-sizing:border-box}' +

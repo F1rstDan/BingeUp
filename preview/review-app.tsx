@@ -6,6 +6,7 @@ import popupCss from '@/entrypoints/popup/popup.css?raw';
 import statsCss from '@/entrypoints/stats/stats.css?raw';
 import { showEnablePrompt } from '@/content/enable-prompt';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
+import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { PopupApp } from '@/ui/popup/PopupApp';
@@ -32,7 +33,7 @@ import { clearStatsDemoData, seedStatsDemoData } from './stats-fixtures';
  * - Popup / Options / Stats / Onboarding：真实 App 组件 + 各自入口 CSS，隔离在
  *   独立 ShadowRoot 内（页面之间类名相同但布局不同，避免互相覆盖）；
  * - 视频遮罩：复刻 overlay-controller 的 Shadow DOM 挂载与样式管线；
- * - 启用提示 / 播放恢复提示：调用真实入口函数（同一 Shadow 管线）。
+ * - 启用提示 / 答题反馈提示 / 播放恢复提示：调用真实入口函数（同一 Shadow 管线）。
  * 消息链路来自 preview/mock-message-client.ts，浏览器 API 来自 preview/chrome-shim.ts。
  */
 
@@ -362,11 +363,18 @@ function formatOverlayAction(action: OverlayAction): string {
 function demoOverlayActionHandler(action: OverlayAction): unknown {
   switch (action.type) {
     case 'submit-answer':
-      return makeDemoSubmissionResult(
-        action.question,
-        action.selectedIndex === action.question.correctIndex,
-      );
-    case 'submit-spelling': {
+    case 'submit-and-continue':
+    case 'submit-and-end':
+      return {
+        ...makeDemoSubmissionResult(
+          action.question,
+          action.selectedIndex === action.question.correctIndex,
+        ),
+        submittedAnswer: action.question.options[action.selectedIndex],
+      };
+    case 'submit-spelling':
+    case 'submit-spelling-and-continue':
+    case 'submit-spelling-and-end': {
       const normalized = action.spelledAnswer.trim().toLowerCase();
       const acceptable = (action.question.acceptableAnswers ?? []).map((answer) =>
         answer.trim().toLowerCase(),
@@ -374,7 +382,10 @@ function demoOverlayActionHandler(action: OverlayAction): unknown {
       const isCorrect =
         normalized === action.question.correctAnswer.trim().toLowerCase() ||
         acceptable.includes(normalized);
-      return makeDemoSubmissionResult(action.question, isCorrect);
+      return {
+        ...makeDemoSubmissionResult(action.question, isCorrect),
+        submittedAnswer: action.spelledAnswer,
+      };
     }
     case 'correct-rating': {
       const result: CorrectionResult = {
@@ -390,43 +401,17 @@ function demoOverlayActionHandler(action: OverlayAction): unknown {
   }
 }
 
-function driveChoice(shadow: ShadowRoot, outcome: 'correct' | 'wrong'): () => void {
-  const correctIndex = choiceQuestion.correctIndex;
-  return scheduleClicks([
-    () => {
-      const options = Array.from(shadow.querySelectorAll<HTMLButtonElement>('.bingeup-option'));
-      const targetIndex =
-        outcome === 'correct' ? correctIndex : (correctIndex + 1) % options.length;
-      options[targetIndex]?.click();
-    },
-    () => {
-      const buttons = Array.from(
-        shadow.querySelectorAll<HTMLButtonElement>('.bingeup-question-actions button'),
-      );
-      const submit = buttons.find((button) => {
-        const text = button.textContent?.trim() ?? '';
-        return text.startsWith('提交') && !text.includes('继续') && !text.includes('结束');
-      });
-      submit?.click();
-    },
-  ]);
-}
-
 function OverlayStage({
   title,
   hint,
   item,
   isContinuous,
-  previousFeedback,
-  previousQuestion,
   driver,
 }: {
   title: string;
   hint: string;
   item: LearningItem;
   isContinuous?: boolean;
-  previousFeedback?: ReturnType<typeof makeDemoSubmissionResult>;
-  previousQuestion?: ReturnType<typeof makeDemoChoiceQuestion>;
   driver?: (shadow: ShadowRoot) => () => void;
 }): JSX.Element {
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -439,8 +424,6 @@ function OverlayStage({
     const mount = mountOverlayShadow(stage, {
       item,
       isContinuous,
-      previousFeedback,
-      previousQuestion,
       onAction: (action) => {
         setLog((entries) => [formatOverlayAction(action), ...entries].slice(0, 5));
         return demoOverlayActionHandler(action);
@@ -484,8 +467,6 @@ const choiceQuestion = makeDemoChoiceQuestion();
 const spellingQuestion = makeDemoSpellingQuestion();
 const choiceItem: LearningItem = { kind: 'question', question: choiceQuestion };
 const spellingItem: LearningItem = { kind: 'spelling-question', question: spellingQuestion };
-const previousCorrect = makeDemoSubmissionResult(choiceQuestion, true);
-const previousWrong = makeDemoSubmissionResult(choiceQuestion, false);
 
 function OverlayStages(): JSX.Element {
   return (
@@ -506,39 +487,13 @@ function OverlayStages(): JSX.Element {
         item={spellingItem}
         isContinuous
       />
-      <OverlayStage
-        title="遮罩 · 答题反馈（答对）"
-        hint="自动选中正确答案并提交，展示反馈、学习信息与评分纠正"
-        item={choiceItem}
-        driver={(shadow) => driveChoice(shadow, 'correct')}
-      />
-      <OverlayStage
-        title="遮罩 · 答题反馈（答错）"
-        hint="自动选中错误答案并提交，展示正确答案与学习信息"
-        item={choiceItem}
-        driver={(shadow) => driveChoice(shadow, 'wrong')}
-      />
-      <OverlayStage
-        title="遮罩 · 连续学习上一题反馈（答对）"
-        hint="连续模式：顶部上一题反馈区（答对）+ 连续学习徽标"
-        item={choiceItem}
-        isContinuous
-        previousFeedback={previousCorrect}
-        previousQuestion={choiceQuestion}
-      />
-      <OverlayStage
-        title="遮罩 · 连续学习上一题反馈（答错）"
-        hint="连续模式：上一题答错反馈 + 正确答案 + 评分纠正入口"
-        item={choiceItem}
-        isContinuous
-        previousFeedback={previousWrong}
-        previousQuestion={choiceQuestion}
-      />
     </div>
   );
 }
 
 // ─── 启用提示与播放恢复提示（真实入口函数） ──────────────────
+
+const previewFeedbackNotice = new LearningFeedbackNotice();
 
 function NoticesStage(): JSX.Element {
   return (
@@ -559,6 +514,23 @@ function NoticesStage(): JSX.Element {
           >
             触发启用提示
           </Button>
+        </div>
+      </PreviewCard>
+      <PreviewCard
+        title="右下角答题反馈提示"
+        hint="纸片风格非模态 status，位于独立 Shadow DOM：无遮罩、不锁滚动、不抢焦点；5 秒后自动关闭，悬停或聚焦提示内按钮时暂停计时。"
+      >
+        <div className="preview-actions">
+          {[true, false].map((isCorrect) => (
+            <Button
+              key={String(isCorrect)}
+              onClick={() => {
+                previewFeedbackNotice.show(makeDemoSubmissionResult(choiceQuestion, isCorrect));
+              }}
+            >
+              {isCorrect ? '查看答对提示' : '查看答错提示'}
+            </Button>
+          ))}
         </div>
       </PreviewCard>
       <PreviewCard
@@ -637,7 +609,7 @@ export function ReviewApp(): JSX.Element {
       <Section
         id="notices"
         title="6 · 附属提示"
-        description="启用提示与播放恢复提示直接调用内容脚本的真实入口函数，挂到预览页右上角 / 右下角（与真实站点一致的固定定位）。"
+        description="直接调用内容脚本的真实入口：答题反馈显示为右下角非模态提示，不遮挡或阻断页面操作；启用和播放恢复提示也显示在页面角落。"
       >
         <NoticesStage />
       </Section>

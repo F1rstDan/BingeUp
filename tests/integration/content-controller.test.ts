@@ -1,15 +1,18 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
+import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import { TimedLearningAdapter, type VisibilityPort } from '@/adapters/timed-learning';
 import type { VideoSiteAdapter } from '@/adapters/types';
 import { normalizeLearningContext } from '@/content/learning-context';
 import type {
   CooldownState,
+  CorrectionResult,
   LearningItem,
   OverlayAction,
   OverlayMode,
   SessionLogRecord,
+  UserCorrection,
   VideoChangeEvent,
 } from '@/types';
 import type { VideoPlaybackPort } from '@/video/playback-controller';
@@ -142,7 +145,7 @@ function fakeOverlay() {
       state.closeCalls += 1;
     },
     fireAction(a: OverlayAction) {
-      actionHandler?.(a);
+      return actionHandler?.(a);
     },
   };
   return state;
@@ -251,9 +254,16 @@ function fakeLearningService(item: LearningItem | null = LEARNING_ITEM) {
         explanation: { word: 'abandon', partOfSpeech: ['v.'], meanings: ['放弃'] },
       };
     },
-    async correctRating() {
+    async correctRating(
+      reviewLogId: string,
+      correction: UserCorrection,
+    ): Promise<CorrectionResult> {
       svc.correctRatingCalls += 1;
-      return { cardId: 'card-1', reviewLogId: 'log-1', rating: 'good' as const };
+      return {
+        cardId: 'card-1',
+        reviewLogId,
+        rating: correction === 'too-easy' ? 'easy' : 'again',
+      };
     },
     async prepareDevCard() {
       svc.devPrepareCalls += 1;
@@ -294,6 +304,10 @@ function makeController(
   const videoPortFor = vi.fn(() => playback);
   const learningService = fakeLearningService(opts.item);
   const sessionLogger = opts.withSessionLogger ? fakeSessionLogger() : undefined;
+  const learningFeedbackNotice = {
+    show: vi.fn<LearningFeedbackNoticePort['show']>(),
+    close: vi.fn(),
+  };
   const pauseState = {
     async isGloballyPaused() {
       return opts.globallyPaused ?? false;
@@ -311,6 +325,7 @@ function makeController(
     sessionLogger,
     pauseState,
     playbackRecoveryNotice: opts.playbackRecoveryNotice,
+    learningFeedbackNotice,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -325,6 +340,7 @@ function makeController(
     videoPortFor,
     learningService,
     sessionLogger,
+    learningFeedbackNotice,
   };
 }
 
@@ -366,6 +382,10 @@ function makeContinuousController(
   learningService.items = opts.items;
   learningService.itemIndex = 0;
   const sessionLogger = opts.withSessionLogger ? fakeSessionLogger() : undefined;
+  const learningFeedbackNotice = {
+    show: vi.fn<LearningFeedbackNoticePort['show']>(),
+    close: vi.fn(),
+  };
 
   const controller = new ContentController({
     adapter,
@@ -381,6 +401,7 @@ function makeContinuousController(
     siteState,
     learningService,
     sessionLogger,
+    learningFeedbackNotice,
   });
   controller.start();
 
@@ -394,6 +415,7 @@ function makeContinuousController(
     videoPortFor,
     learningService,
     sessionLogger,
+    learningFeedbackNotice,
   };
 }
 
@@ -547,10 +569,149 @@ describe('ContentController — 核心闭环编排', () => {
   });
 
   describe('提交后恢复与冷却', () => {
-    it('提交答案 → 不关闭遮罩（进入反馈阶段）', async () => {
-      const { adapter, overlay, learningService } = makeController({
-        playback: fakePlayback({ playing: true }),
+    it.each(['single', 'continuous'] as const)(
+      '答对后的太简单操作纠正已保存日志，不新增答题或结束 %s 模式的下一题',
+      async (mode) => {
+        const harness =
+          mode === 'single'
+            ? makeController({ withSessionLogger: true })
+            : makeContinuousController({
+                items: [LEARNING_ITEM, SPELLING_ITEM],
+                withSessionLogger: true,
+              });
+        const {
+          adapter,
+          overlay,
+          learningService,
+          learningFeedbackNotice,
+          sessionLogger,
+          playback,
+          cooldownStore,
+        } = harness;
+        const correction = vi.spyOn(learningService, 'correctRating');
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction({
+          type: mode === 'single' ? 'submit-answer' : 'submit-and-continue',
+          question: LEARNING_ITEM.question,
+          selectedIndex: 0,
+          responseTimeMs: 3000,
+        });
+        await flush();
+        const onTooEasy = learningFeedbackNotice.show.mock.lastCall?.[1]?.onTooEasy;
+        expect(onTooEasy).toBeDefined();
+        expect(await onTooEasy!()).toMatchObject({ reviewLogId: 'log-1', rating: 'easy' });
+        expect(correction).toHaveBeenCalledExactlyOnceWith('log-1', 'too-easy');
+        expect(learningService.submitCalls).toBe(1);
+        expect(sessionLogger?.logs).toHaveLength(mode === 'single' ? 1 : 0);
+        expect(playback.playCalls).toBe(mode === 'single' ? 1 : 0);
+        expect(cooldownStore.recordCalls).toBe(mode === 'single' ? 1 : 0);
+        expect(overlay.openCalls).toBe(mode === 'single' ? 1 : 2);
+      },
+    );
+
+    it('保存未完成时不显示反馈，重复提交和跳过不会打断保存', async () => {
+      const { adapter, overlay, learningService, playback, learningFeedbackNotice, sessionLogger } =
+        makeController({ withSessionLogger: true });
+      const result = await learningService.submitAnswer();
+      learningService.submitCalls = 0;
+      let resolveSave!: (value: typeof result) => void;
+      const saving = new Promise<typeof result>((resolve) => {
+        resolveSave = resolve;
       });
+      const submit = vi.spyOn(learningService, 'submitAnswer').mockReturnValue(saving);
+      adapter.emit('bv-1', {});
+      await flush();
+      const action: OverlayAction = {
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1500,
+      };
+      overlay.fireAction(action);
+      overlay.fireAction(action);
+      overlay.fireAction({ type: 'skip' });
+      await flush();
+      expect(submit).toHaveBeenCalledTimes(1);
+      expect(overlay.closeCalls).toBe(0);
+      expect(playback.playCalls).toBe(0);
+      expect(learningFeedbackNotice.show).not.toHaveBeenCalled();
+      resolveSave(result);
+      await flush();
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(learningFeedbackNotice.show).toHaveBeenCalledTimes(1);
+      expect(sessionLogger?.logs).toEqual([
+        expect.objectContaining({ questionsAnswered: 1, outcome: 'submitted' }),
+      ]);
+    });
+
+    it('保存失败时返回视频，不显示已答题反馈或写入完成日志', async () => {
+      const {
+        adapter,
+        overlay,
+        learningService,
+        playback,
+        learningFeedbackNotice,
+        sessionLogger,
+        cooldownStore,
+      } = makeController({ withSessionLogger: true });
+      vi.spyOn(learningService, 'submitAnswer').mockRejectedValue(new Error('保存失败'));
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction({
+          type: 'submit-answer',
+          question: LEARNING_ITEM.question,
+          selectedIndex: 0,
+          responseTimeMs: 1000,
+        });
+        await flush();
+        expect(overlay.closeCalls).toBe(1);
+        expect(playback.playCalls).toBe(1);
+        expect(learningFeedbackNotice.show).not.toHaveBeenCalled();
+        expect(sessionLogger?.logs).toHaveLength(0);
+        expect(cooldownStore.recordCalls).toBe(0);
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it('拼写题答错也在保存后结束交互，并显示正确词形与释义', async () => {
+      const { adapter, overlay, learningService, playback, learningFeedbackNotice } =
+        makeController({ item: SPELLING_ITEM });
+      const result = {
+        ...(await learningService.submitSpellingAnswer()),
+        isCorrect: false,
+        correctAnswer: 'absorb',
+        explanation: SPELLING_ITEM.question.explanation,
+      };
+      learningService.submitSpellingCalls = 0;
+      const submit = vi.spyOn(learningService, 'submitSpellingAnswer').mockResolvedValue(result);
+      adapter.emit('bv-1', {});
+      await flush();
+      overlay.fireAction({
+        type: 'submit-spelling',
+        question: SPELLING_ITEM.question,
+        spelledAnswer: 'absrob',
+        responseTimeMs: 1200,
+      });
+      await flush();
+      expect(submit).toHaveBeenCalledTimes(1);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(learningFeedbackNotice.show).toHaveBeenCalledWith(result, {
+        onContinue: expect.any(Function),
+        onTooEasy: undefined,
+      });
+    });
+
+    it('答案保存后关闭遮罩、恢复视频并显示独立反馈', async () => {
+      const { adapter, overlay, learningService, playback, learningFeedbackNotice } =
+        makeController({
+          playback: fakePlayback({ playing: true }),
+        });
 
       adapter.emit('bv-1', {});
       await flush();
@@ -564,11 +725,15 @@ describe('ContentController — 核心闭环编排', () => {
       await flush();
 
       expect(learningService.submitCalls).toBe(1);
-      // submit-answer 是软动作：不关闭遮罩
-      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.closeCalls).toBe(1);
+      expect(playback.playCalls).toBe(1);
+      expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
+        expect.objectContaining({ isCorrect: true, reviewLogId: 'log-1' }),
+        { onContinue: expect.any(Function), onTooEasy: expect.any(Function) },
+      );
     });
 
-    it('提交后继续 → 关闭遮罩、恢复播放、应用默认冷却', async () => {
+    it('普通提交直接结束交互，旧遮罩的后续动作不重复写入冷却', async () => {
       const { adapter, overlay, playback, cooldownStore } = makeController({
         playback: fakePlayback({ playing: true }),
       });
@@ -842,8 +1007,8 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(learningService.nextItemOptions[1]!.excludedWordIds!.has('w-1')).toBe(true);
     });
 
-    it('submit-and-continue 传入 previousFeedback 和 isContinuous', async () => {
-      const { adapter, overlay } = makeContinuousController();
+    it('提交并继续：题目只接收连续模式，结果由独立提示显示', async () => {
+      const { adapter, overlay, playback, learningFeedbackNotice } = makeContinuousController();
 
       adapter.emit('bv-1', {});
       await flush();
@@ -856,19 +1021,25 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       });
       await flush();
 
-      const options = overlay.lastOptions as { previousFeedback?: unknown; isContinuous?: boolean };
-      expect(options).toBeDefined();
-      expect(options.isContinuous).toBe(true);
-      expect(options.previousFeedback).toBeDefined();
+      expect(overlay.lastOptions).toEqual({ isContinuous: true });
+      expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
+        expect.objectContaining({ reviewLogId: 'log-1' }),
+        { onContinue: undefined, onTooEasy: expect.any(Function) },
+      );
+      expect(playback.playCalls).toBe(0);
     });
 
-    it('从单题反馈进入连续模式：submit-answer 后 submit-and-continue 不重复提交', async () => {
-      const { adapter, overlay, learningService } = makeContinuousController();
+    it('反馈按钮从当前视频开启主动学习，不再次提交上一题', async () => {
+      const { adapter, overlay, learningService, playback, learningFeedbackNotice, sessionLogger } =
+        makeContinuousController({
+          items: [LEARNING_ITEM, SPELLING_ITEM],
+          withSessionLogger: true,
+        });
 
       adapter.emit('bv-1', {});
       await flush();
 
-      // 单题模式：先提交答案（软动作，进入反馈阶段）
+      // 普通提交先返回视频，原会话已记为完成。
       overlay.fireAction({
         type: 'submit-answer',
         question: LEARNING_ITEM.question,
@@ -878,19 +1049,20 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       await flush();
       expect(learningService.submitCalls).toBe(1);
 
-      // 反馈阶段选择"提交并继续"进入连续模式
-      overlay.fireAction({
-        type: 'submit-and-continue',
-        question: LEARNING_ITEM.question,
-        selectedIndex: 0,
-        responseTimeMs: 1500,
-      });
+      expect(playback.playCalls).toBe(1);
+      expect(sessionLogger?.logs).toHaveLength(1);
+      const onContinue = learningFeedbackNotice.show.mock.lastCall?.[1]?.onContinue;
+      expect(onContinue).toBeDefined();
+      adapter.setCurrentEvent('bv-new', {}, { current: true });
+      expect(await onContinue!()).toEqual({ ok: true });
       await flush();
 
       // 不应重复提交
       expect(learningService.submitCalls).toBe(1);
-      expect(overlay.closeCalls).toBe(0);
+      expect(overlay.closeCalls).toBe(1);
       expect(overlay.openCalls).toBe(2);
+      expect(overlay.lastTarget).toEqual({ current: true });
+      expect(playback.pauseCalls).toBe(2);
       const options = overlay.lastOptions as { isContinuous?: boolean };
       expect(options?.isContinuous).toBe(true);
     });
@@ -1127,14 +1299,14 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
     });
   });
 
-  describe('已提交后 submit-and-continue 不重复提交', () => {
-    it('先 submit-answer 再 submit-and-continue 只提交一次', async () => {
+  describe('已结束交互不再接受旧题动作', () => {
+    it('普通提交结束后忽略旧题的提交并继续', async () => {
       const { adapter, overlay, learningService } = makeContinuousController();
 
       adapter.emit('bv-1', {});
       await flush();
 
-      // 先提交（软动作）
+      // 普通提交已结束原交互。
       overlay.fireAction({
         type: 'submit-answer',
         question: LEARNING_ITEM.question,
@@ -1153,7 +1325,8 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       await flush();
 
       expect(learningService.submitCalls).toBe(1); // 只提交一次
-      expect(overlay.openCalls).toBe(2); // 加载了下一题
+      expect(overlay.openCalls).toBe(1);
+      expect(overlay.closeCalls).toBe(1);
     });
   });
 });

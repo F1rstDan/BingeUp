@@ -84,66 +84,8 @@ const OVERLAY_SHELL_CSS = `
   .bingeup-question-actions > button { flex: 1 1 auto; }
   .bingeup-key-hint {
     display: inline-block; padding: 1px 5px; border: 1px solid var(--animal-border-color);
-    border-radius: 8px; background: var(--animal-bg-color-secondary); color: inherit;
-    font-size: 11px; font-weight: 600;
-  }
-  .bingeup-feedback {
-    margin-top: var(--animal-spacing-lg); padding: var(--animal-spacing-md);
-    border: 1px solid var(--animal-border-color); border-radius: var(--animal-border-radius-base);
-    background: var(--animal-bg-color);
-  }
-  .bingeup-feedback-result {
-    display: flex; align-items: center; justify-content: center; gap: var(--animal-spacing-sm);
-    margin-bottom: var(--animal-spacing-md); font-size: 18px; font-weight: 800;
-  }
-  .bingeup-feedback-result.is-correct { color: var(--animal-success-color-active); }
-  .bingeup-feedback-result.is-wrong { color: var(--animal-error-color-active); }
-  .bingeup-feedback-answer {
-    margin-bottom: var(--animal-spacing-md); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm); text-align: center;
-  }
-  .bingeup-feedback-answer strong { color: var(--animal-text-color); font-weight: 700; }
-  .bingeup-explanation {
-    margin-bottom: var(--animal-spacing-md); padding: var(--animal-spacing-md);
-    border: 1px dashed var(--animal-border-color); border-radius: var(--animal-border-radius-sm);
-    background: var(--animal-bg-color-secondary);
-    font-size: var(--animal-font-size-base); line-height: 1.6;
-  }
-  .bingeup-explanation-phonetic { color: var(--animal-text-color-secondary); font-size: var(--animal-font-size-sm); }
-  .bingeup-explanation-pos {
-    margin-bottom: var(--animal-spacing-xs); color: var(--animal-primary-color-active);
-    font-size: var(--animal-font-size-sm); font-weight: 700;
-  }
-  .bingeup-explanation-meanings { margin-bottom: var(--animal-spacing-sm); font-weight: 700; }
-  .bingeup-explanation-example { margin-bottom: 2px; font-style: italic; }
-  .bingeup-explanation-example-translation { color: var(--animal-text-color-secondary); }
-  .bingeup-previous-feedback {
-    margin-bottom: var(--animal-spacing-lg); padding: var(--animal-spacing-md);
-    border: 1px solid var(--animal-border-color); border-left: 4px solid var(--animal-border-color);
-    border-radius: var(--animal-border-radius-sm); background: var(--animal-bg-color);
-  }
-  .bingeup-previous-feedback.is-correct { border-left-color: var(--animal-success-color); }
-  .bingeup-previous-feedback.is-wrong { border-left-color: var(--animal-error-color); }
-  .bingeup-previous-feedback-title {
-    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm); font-weight: 700;
-  }
-  .bingeup-previous-feedback-prompt {
-    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm); font-style: italic;
-  }
-  .bingeup-previous-feedback-answer {
-    margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm);
-  }
-  .bingeup-previous-feedback-answer strong { color: var(--animal-text-color); font-weight: 700; }
-  .bingeup-rating-correction {
-    display: grid; grid-template-columns: 1fr 1fr; gap: var(--animal-spacing-sm);
-    margin: var(--animal-spacing-sm) 0;
-  }
-  .bingeup-rating-result {
-    grid-column: 1 / -1; color: var(--animal-primary-color-active);
-    font-size: var(--animal-font-size-sm); font-weight: 700; text-align: center;
+    border-radius: 8px; background: var(--animal-bg-color-secondary); color: var(--animal-text-color);
+    font-size: 12px; font-weight: 700; white-space: nowrap;
   }
   .bingeup-spelling-field { width: 100%; margin-bottom: var(--animal-spacing-lg); }
   .bingeup-error-card { text-align: center; }
@@ -225,8 +167,6 @@ export class OverlayController implements OverlayPort {
           <OverlayApp
             item={item}
             onAction={(action) => this.actionHandler?.(action)}
-            previousFeedback={options?.previousFeedback}
-            previousQuestion={options?.previousQuestion}
             isContinuous={options?.isContinuous}
           />
         </OverlayErrorBoundary>
@@ -249,7 +189,7 @@ export class OverlayController implements OverlayPort {
     host.style.position = 'fixed';
     host.style.display = 'block';
     host.style.boxSizing = 'border-box';
-    host.style.zIndex = '2147483647';
+    host.style.zIndex = '2147483646';
     host.style.pointerEvents = 'auto';
     document.documentElement.appendChild(host);
     const shadow = host.attachShadow({ mode: 'open' });

@@ -3,7 +3,7 @@ import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
 
 // M6a：vitest 默认不处理 CSS 导入（?raw 会变成空串），这里用构建产物形态的夹具替代
 // 真实内联 CSS；真实的构建期内联组合由集成测试与 e2e 覆盖。
-vi.mock('animal-island-ui/dist/index.css?raw', () => ({
+vi.mock('animal-island-ui/style?raw', () => ({
   default:
     ':root{--animal-primary-color: #19c8b9;--animal-font-family: Nunito, "Noto Sans SC", sans-serif}' +
     '*,*:before,*:after{box-sizing:border-box}' +

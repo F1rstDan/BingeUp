@@ -134,6 +134,12 @@ describe('OptionsApp — Issue #10', () => {
     vi.stubGlobal('URL', TestURL);
 
     vi.stubGlobal('chrome', {
+      tabs: {
+        create: vi.fn().mockResolvedValue(undefined),
+      },
+      runtime: {
+        getURL: vi.fn((path: string) => `chrome-extension://test-id${path}`),
+      },
       permissions: {
         contains: permissionsContains,
         request: permissionsRequest,
@@ -157,6 +163,16 @@ describe('OptionsApp — Issue #10', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
+  });
+
+  it('点击查看学习统计在新标签页打开扩展统计页面', async () => {
+    renderOptions();
+
+    fireEvent.click(await screen.findByRole('button', { name: '查看学习统计' }));
+
+    expect(chrome.tabs.create).toHaveBeenCalledWith({
+      url: 'chrome-extension://test-id/stats.html',
+    });
   });
 
   // ── AC1：学习设置 ──────────────────────────────────────

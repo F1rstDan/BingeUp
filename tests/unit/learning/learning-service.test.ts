@@ -701,6 +701,9 @@ describe('LearningService — submitAnswer 反馈（Issue #6 验收标准 5）',
 
     expect(result.isCorrect).toBe(false);
     expect(result.explanation.word).toBe(question.explanation.word);
+    expect(result.submittedAnswer).toBe(question.options[wrongIndex]);
+    const log = await env.logs.getById(result.reviewLogId);
+    expect(result.submittedAnswer).toBe(log?.selectedAnswer);
   });
 
   it('提交后持久化复习日志', async () => {
@@ -1937,6 +1940,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         responseTimeMs: 3000,
       });
       expect(result.isCorrect).toBe(false);
+      expect(result.submittedAnswer).toBe('abandn');
     });
 
     it('提交后持久化复习日志', async () => {
