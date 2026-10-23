@@ -5874,7 +5874,7 @@
       ],
       "outputHash": "ffc04119010e7f5ca43e69c688008ea2246ef5f471c4e99521f075129aac13bb",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 5,
       "generation": {
         "provider": "opencode-go",
@@ -5883,7 +5883,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "ffc04119010e7f5ca43e69c688008ea2246ef5f471c4e99521f075129aac13bb",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-abortion",
+          "w-absorption",
+          "w-abuse",
+          "w-acceleration",
+          "w-accent",
+          "w-accept",
+          "w-accommodation"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-001",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -5931,7 +5946,7 @@
       ],
       "outputHash": "be646187ad27561f99b1cee992957677c0944354fb9ee1ad12b3bbd238e049b1",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -5940,7 +5955,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "be646187ad27561f99b1cee992957677c0944354fb9ee1ad12b3bbd238e049b1",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-accomplish",
+          "w-acquaint",
+          "w-activist",
+          "w-activity"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-002",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -5993,7 +6020,7 @@
       ],
       "outputHash": "e54bd89cbd891239db7ff4e4db5a02b0e8e72923c8ed9422d4234756d5f1f560",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -6002,7 +6029,24 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "e54bd89cbd891239db7ff4e4db5a02b0e8e72923c8ed9422d4234756d5f1f560",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-actor",
+          "w-actually",
+          "w-addict",
+          "w-address",
+          "w-adjective",
+          "w-admission",
+          "w-admit",
+          "w-adult",
+          "w-adventure"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-003",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6054,10 +6098,10 @@
         "w-african",
         "w-against"
       ],
-      "outputHash": "d24537aec69d082db2d92380de665391ca4dde31ac993ab811cb4ac6686c5eb8",
+      "outputHash": "44f1bf0626a5f52773efa1309b5ddabb2c44402cf0aca3df0f96d4366d067feb",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "needs-fix",
-      "attempts": 4,
+      "attempts": 5,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -6112,7 +6156,7 @@
       ],
       "outputHash": "5716b10606bfee5e5848dbc617d5ff22bd98f2c0d0115b0347365151143d896c",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -6121,7 +6165,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "5716b10606bfee5e5848dbc617d5ff22bd98f2c0d0115b0347365151143d896c",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-agree",
+          "w-album",
+          "w-alcohol"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-005",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6171,7 +6226,7 @@
       ],
       "outputHash": "58c26f8df7548fe0c8b907aae9c87b8fd6254f2ac4e0cb1425ff6e2aebf70ee1",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 5,
       "generation": {
         "provider": "opencode-go",
@@ -6180,7 +6235,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "58c26f8df7548fe0c8b907aae9c87b8fd6254f2ac4e0cb1425ff6e2aebf70ee1",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-alleviate",
+          "w-ally",
+          "w-already",
+          "w-aluminium",
+          "w-always",
+          "w-amateur"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-006",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6230,7 +6299,7 @@
       ],
       "outputHash": "d3a393be91d72f2fe490d5bf9bafcb87f34d3b64652dd0b14921c651dc99bb82",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 5,
       "generation": {
         "provider": "opencode-go",
@@ -6239,7 +6308,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "d3a393be91d72f2fe490d5bf9bafcb87f34d3b64652dd0b14921c651dc99bb82",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-american",
+          "w-amongst",
+          "w-ampere",
+          "w-analyse",
+          "w-analysis",
+          "w-analyze"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-007",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6288,7 +6371,7 @@
       ],
       "outputHash": "2b17a9720dc571845f018e12ad67948d8b9491904589bffe70639fdf8680e9f1",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -6297,7 +6380,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "2b17a9720dc571845f018e12ad67948d8b9491904589bffe70639fdf8680e9f1",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-annual",
+          "w-anxiety",
+          "w-anyone",
+          "w-anywhere",
+          "w-apartment"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-008",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6344,7 +6440,7 @@
       ],
       "outputHash": "f91a3ad6ae56cb681f6eb58a87a0282c936f9d4c9078a77930d6f72af2fc0006",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -6353,7 +6449,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "f91a3ad6ae56cb681f6eb58a87a0282c936f9d4c9078a77930d6f72af2fc0006",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-appreciation",
+          "w-approval",
+          "w-approximately"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-009",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -6403,10 +6510,10 @@
         "w-artist",
         "w-ash"
       ],
-      "outputHash": "d0d46111da0ce264a524eb77507d4df035d327c7e7f406e38cce366fcae079fc",
+      "outputHash": "fdc321a6c8b65d6e6c933c59a9b09ac5765d55f7d2051093fcd49ad376611af7",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "needs-fix",
-      "attempts": 5,
+      "attempts": 6,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8688,17 +8795,24 @@
         "w-depth",
         "w-deputy"
       ],
-      "outputHash": null,
+      "outputHash": "55cc4f49fa346863f76bdf8398cc0fb4dbb992e2c5df93e030afce3921ce0b2c",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "df8e2234df8036f07cafdb34429833ec6758a3e86f669b2e10b3f6633c2d39f5"
     },
     {
       "id": "main-050",
@@ -8743,17 +8857,24 @@
         "w-destine",
         "w-detach"
       ],
-      "outputHash": null,
+      "outputHash": "557bfb26ffd2bf1471d714b422c0ad67463af8ae3f7644698722d49e31ccca23",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "6334ad0ad065ac020e7905d6a8696699743f5c0a6035071c11b7eec999ee89fd"
     },
     {
       "id": "main-051",
@@ -8796,17 +8917,24 @@
         "w-devotion",
         "w-dial"
       ],
-      "outputHash": null,
+      "outputHash": "58c914f26b780748a825f1950b8613fab791c2a9cdc9ce4339c33df7466e02c6",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "83490c064090693c714d464f6fcb83a2b80bbf51de7c4286e3249354b0fe3e00"
     },
     {
       "id": "main-052",
@@ -8853,17 +8981,24 @@
         "w-dilute",
         "w-diminish"
       ],
-      "outputHash": null,
+      "outputHash": "a2c835a410665ddea7df2a74a0892ac8ea6aa123fea58cc26a88374a109d1f93",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "155aaf7f61b5188ff1201b8b7a228f8081e6572763ebbe79e1ae106ca04a1571"
     },
     {
       "id": "main-053",
@@ -8911,17 +9046,24 @@
         "w-discount",
         "w-discourage"
       ],
-      "outputHash": null,
+      "outputHash": "9dfc9527eaac09a7729a78c3cda493dd8788790c044bb2fea76055f503a60973",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "ddd4af46fd4881d6b36ca8a1b4e15bf8426888dc3e63f661c41c07bdb5c6eae2"
     },
     {
       "id": "main-054",
@@ -8963,17 +9105,24 @@
         "w-disorient",
         "w-dispatch"
       ],
-      "outputHash": null,
+      "outputHash": "5ea21dd11b8ef5e10fbdf94024d8976d95c87dde5c1e6cc90a7d696577660a02",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "cab93fc073ab2ee91f4ade0b40f4441dbd2e2a6c938c12b3523962e5ed3d9e3d"
     },
     {
       "id": "main-055",
@@ -9012,17 +9161,24 @@
         "w-distract",
         "w-distress"
       ],
-      "outputHash": null,
+      "outputHash": "008722ec36f08389f289f5220e6ae2e2c0d41a67fbcbedf30bda6308fbae6162",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 1,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "79b098828decf1e73dbf07f7b6bbe20771c7d2c1fe526d62448466ba265128e3"
     },
     {
       "id": "main-056",
@@ -9068,17 +9224,24 @@
         "w-donkey",
         "w-doom"
       ],
-      "outputHash": null,
+      "outputHash": "759b7a6c843581bc0f58adaf627ce62a104443781cac5906e089cc7ab67818ab",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "cceffe1f8d82d2bfacd2be1d579adf3ec2d527744a255c973ddfeeabd11d196b"
     },
     {
       "id": "main-057",
@@ -9118,17 +9281,24 @@
         "w-dream",
         "w-driver"
       ],
-      "outputHash": null,
+      "outputHash": "82238f29b3b6d3160180a637756ec6f7ae896aeaaa9a729d47605ba43e4a3778",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 1,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "b9339a2e718b569c4fe372ca0215606073c14975a6120a08e60bbce84b4c0bd2"
     },
     {
       "id": "main-058",
@@ -9172,17 +9342,24 @@
         "w-dwarf",
         "w-ear"
       ],
-      "outputHash": null,
+      "outputHash": "ed557ea5ac20a9fce9227a9d5d5e266618c230e3f63b96bdf1811d16d557170d",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "66f375383c7a8c0d6d0fbe6e8db3b21c61bf053adcf57e5a8ae3750005d195bf"
     },
     {
       "id": "main-059",
@@ -9231,17 +9408,24 @@
         "w-editor",
         "w-educate"
       ],
-      "outputHash": null,
+      "outputHash": "02114872fb6cf392c37063f5bca55f8c8a4a3c0bf2e36403ab1665ffe32e51e5",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 1,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "fe55999be5bd5482d8d95680145de0f99b34311739c9c402e8e0e5cd96aa7b48"
     },
     {
       "id": "main-060",
@@ -9285,17 +9469,24 @@
         "w-election",
         "w-electronics"
       ],
-      "outputHash": null,
+      "outputHash": "92d5b1cc8abca86fb81766dfc6952a13246f86282ddda7416297b26e2eaf3770",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "4fe5439f64e3e588df84b4ad02178922f32f37970fb41a8aad8da21f20d1bbfd"
     },
     {
       "id": "main-061",
@@ -9340,17 +9531,24 @@
         "w-emphasis",
         "w-employ"
       ],
-      "outputHash": null,
+      "outputHash": "2c1f517a3181b17ada121ce0a5de6c8fb478b1d9f9816c8cf8fb0aaafb013e54",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "03a0b70b698bf13a2c25d10d4c0f44ab6b64cb469c5d6d5ea7de210f710a6142"
     },
     {
       "id": "main-062",
@@ -9396,17 +9594,24 @@
         "w-enemy",
         "w-engine"
       ],
-      "outputHash": null,
+      "outputHash": "eadfb0522fb3ffc60d1f86ce4b6f332244a4aeeb907411f1e983fb0bcbf732f8",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 1,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "b0eb705f035065692c049b5f4da2348c362d93c040c695bcec59915314b3b534"
     },
     {
       "id": "main-063",
@@ -9458,17 +9663,24 @@
         "w-entreat",
         "w-entrepreneur"
       ],
-      "outputHash": null,
+      "outputHash": "1c8822d74ca19bfbbc5c3a087dd37df6d53a9f231988d4b319f95c9ed8e8659f",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "140cf3f8be782317307de3e7c09159f3050fa46bd054947ab88c055bef857cb8"
     },
     {
       "id": "main-064",
@@ -9512,17 +9724,24 @@
         "w-eradicate",
         "w-erupt"
       ],
-      "outputHash": null,
+      "outputHash": "1bae3277f8e8a6963b20bac4578c692321e5c92a9fb1f660a2a5e4b8af851e2e",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "14cadc2966180f8b691167331aa6be0208686f7008043c5b59bb1dbb18d36cd1"
     },
     {
       "id": "main-065",
@@ -9573,17 +9792,24 @@
         "w-event",
         "w-eventually"
       ],
-      "outputHash": null,
+      "outputHash": "43614c5697dbff243ab264d342d0b72f8c9b7ed0d66c2a3bfede7fef6a2490d2",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "dec9675633def1c49f34894d4b108fbe7948f2748ddc0ee65d6c9e9bd5535f30"
     },
     {
       "id": "main-066",
@@ -9627,17 +9853,24 @@
         "w-excess",
         "w-excitement"
       ],
-      "outputHash": null,
+      "outputHash": "abf2914e465291ce2b3a8e702884a4ad0183956afef0defe31b81d21b2c2367d",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "82d28956052779b6325d06a8d175a0550a15a4c9b768fb5ab0b07fefc9927875"
     },
     {
       "id": "main-067",
@@ -9681,17 +9914,24 @@
         "w-expect",
         "w-expenditure"
       ],
-      "outputHash": null,
+      "outputHash": "8818f1992440ee7c3e15d9fd2ab0d3b55a0e6a35c739808da15e29ea26e049b4",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 1,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "435908d44dd86bb400aeb25bfd05cdca91865f23536442e0cc092fc2a05dccd0"
     },
     {
       "id": "main-068",
@@ -9732,17 +9972,24 @@
         "w-express",
         "w-expression"
       ],
-      "outputHash": null,
+      "outputHash": "f60316be90229aece33e13d98b435863d2a3e6d8d3a9ae2f7c104844da34972b",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "8bfdb198ec0e0caab4e1e6d25c8181b410efb6a33532b1ddf6c138afe0f43543"
     },
     {
       "id": "main-069",
@@ -9783,17 +10030,24 @@
         "w-fabric",
         "w-facilitate"
       ],
-      "outputHash": null,
+      "outputHash": "bc16efcdeb784ca6f68e20c96947d9c4d4e4ad8c318bb7cd1a46898a2e0d40dd",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "6271cb6602420770a644b8e4a84b49cf7d0dc715248343ab58a8f0a1233cd4dc"
     },
     {
       "id": "main-070",
@@ -9989,17 +10243,24 @@
         "w-flat",
         "w-flavour"
       ],
-      "outputHash": null,
+      "outputHash": "e47aa2ea0d98bf928946af9ce3ba992a86f3a34c7edc247e883381237a29bcba",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "pending",
-      "attempts": 0,
-      "generation": null,
+      "status": "needs-fix",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
+        }
+      },
       "review": null,
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "59c2f7f2eca989b7101032cb5de940164333302f1fd13acbb4ea1680a1afad79"
     },
     {
       "id": "main-074",
@@ -22423,6 +22684,2206 @@
       "attempts": 1
     },
     "w-deficiency": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-displacement": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-display": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-displease": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disposal": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dispose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disposition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dispute": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disregard": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dissatisfaction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dissatisfy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disservice": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dissipate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dissolve": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distil": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distinction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distinctly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distinguish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distort": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distortion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distract": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distress": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distribute": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-distribution": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-district": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diameter": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diamond": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diary": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dictate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dictation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dictator": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-die": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diesel": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diet": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-differ": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-difference": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-difficulty": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diffuse": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dig": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-digest": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dignity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dilemma": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diligence": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dilute": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dimension": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diminish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dining": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dinner": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dioxide": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-demography": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-demonstrate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-denial": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-denote": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-denounce": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-density": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dentist": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deny": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depart": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-department": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-departure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depend": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dependant": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dependent": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depict": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deploy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deportation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deposit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deposition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depress": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depression": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deprive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-depth": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deputy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-derivation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-derive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-descend": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-descendant": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-descent": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-describe": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-description": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-desert": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deserve": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-design": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-designate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-designer": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-desire": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-desk": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-despair": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-despatch": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-desperately": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-despise": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-despite": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dessert": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-destination": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-destine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-destiny": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-destroy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-destruction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detach": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dip": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diploma": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-direction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-directly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-director": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-directory": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dirt": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disability": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disable": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disadvantage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disagree": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disagreement": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disappear": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disappearance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disappoint": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disapproval": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disapprove": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disaster": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discard": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discern": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discharge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discipline": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disclose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discount": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discourage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discourse": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discover": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discovery": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discrepancy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discrimination": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discuss": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-discussion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disease": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disgrace": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disguise": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disgust": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dishonour": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disillusion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disk": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dislike": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dismay": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dismiss": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disobedience": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disorder": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disorient": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dispatch": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dispense": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disperse": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-displace": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-disturbance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ditch": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diverge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diversify": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diversity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-divert": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-divide": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-division": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-divorce": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dock": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-doctor": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-doctrine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-document": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-documentary": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dog": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-domain": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dome": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dominate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-donate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-donkey": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-doom": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-door": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dorm": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dormitory": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dot": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-double": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-doubt": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-downstairs": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-downturn": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dozen": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-draft": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drag": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dragon": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drain": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drainage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drama": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-draw": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drawback": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drawer": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dread": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dream": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dress": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drift": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drill": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drink": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drip": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-driver": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detail": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detain": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detection": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detective": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-detector": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deteriorate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-determination": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-determine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-develop": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-development": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deviate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-deviation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-device": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-devil": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-devise": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-devote": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-devotion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-devour": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dew": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diagnose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-diagram": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dial": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dialect": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dialog": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dialogue": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earth": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earthenware": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earthquake": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ease": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-easily": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-east": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eastern": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eastward": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eat": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eccentric": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-echo": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eclipse": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ecology": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-economically": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-economics": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-economist": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-economy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ecosystem": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-edge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-edible": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-edit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-edition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-editor": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-editorial": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-educate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-employee": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-employer": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-employment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enable": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enchant": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enclose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enclosure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-encounter": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-encourage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-end": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endanger": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endeavor": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endeavour": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endow": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endurance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-endure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enemy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-energize": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-energy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enforce": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enforcement": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-engage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-engagement": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-engine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-engineer": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drought": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drown": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drug": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-drum": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-duck": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-due": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-duke": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dully": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dump": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-duplicate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-duration": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-during": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dusk": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dust": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-duty": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dwarf": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dwell": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dwelling": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dye": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-dynamo": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eagle": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ear": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earn": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earnest": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-earnings": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-education": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-educator": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-effect": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-effectively": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-efficiency": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-effort": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-egg": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ego": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-egyptian": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eight": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eighteen": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eighty": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eject": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elapse": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elastic": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elbow": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elder": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elect": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-election": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-electrician": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-electricity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-electrode": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-electron": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-electronics": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-element": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elephant": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elevate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elevation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elevator": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elicit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eliminate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elimination": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elite": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eloquence": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-elsewhere": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embark": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embarrass": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embassy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embody": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embrace": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-embroidery": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emerge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emigrate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emission": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emperor": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emphasis": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-emphasize": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-empire": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-employ": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-engineering": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-english": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-englishman": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enhance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enjoy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enlarge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enlighten": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enough": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enrich": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enroll": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ensue": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ensure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entail": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enter": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enterprise": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entertain": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entertainment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-enthusiasm": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entire": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entirely": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entitle": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entrance": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entreat": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entrepreneur": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-entry": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-envelope": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-environment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-envisage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-envy": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-epidemic": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-episode": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-epoch": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equal": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equality": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equally": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equator": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equilibrium": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equip": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equipe": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equipment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-equivalent": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-era": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eradicate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-erosion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-errand": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-error": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-erupt": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eruption": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-escort": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-especially": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-essay": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-essential": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-essentially": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-establish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-establishment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-estate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-estimate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ethics": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-european": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evacuate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evaluate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evaluation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evaporate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evaporation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eve": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-even": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evenly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-event": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eventually": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-ever": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-everybody": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-everyone": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-everything": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-everywhere": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evidence": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evil": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evoke": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evolution": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-evolve": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exactly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exaggerate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-examination": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-examine": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-example": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exceed": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exceedingly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excel": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-except": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exception": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excess": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excessively": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exchange": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excite": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excitement": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exclaim": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exclamation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exclude": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exclusively": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excrete": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-excursion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-execute": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-execution": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-executive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exemplify": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exempt": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exercise": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exert": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exhaustion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exhibit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exhibition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exile": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exist": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-existence": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expand": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expansion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expect": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expectation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expedition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expel": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expend": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expenditure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expense": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-experience": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-experiment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-experimentally": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-experimentation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expert": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expire": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explain": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explanation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explode": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exploit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exploitation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exploration": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explore": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explosion": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-explosive": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-export": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expose": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exposition": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exposure": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-express": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-expression": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extend": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extension": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extent": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-exterior": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-external": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extinction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extinguish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extra": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extract": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extraction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extraordinarily": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extreme": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-extremely": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eye": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-eyesight": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fable": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fabric": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fabricate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fabrication": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-face": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-facet": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-facilitate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-facility": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fact": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-faction": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-factor": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-factory": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-faculty": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-firmness": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fisherman": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fission": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fist": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fitness": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-five": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fix": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fixture": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flag": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flake": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flame": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flank": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flannel": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flap": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flare": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flash": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flask": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flat": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flatten": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flavour": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flaw": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-flee": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-fleet": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "attempts": 1
     }

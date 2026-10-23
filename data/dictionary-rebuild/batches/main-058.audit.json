@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-drought",
+    "enToZh": [
+      {
+        "wordId": "w-angel",
+        "reason": "选项「天使」不是「drought」的主释义「干旱」或其他义项。"
+      },
+      {
+        "wordId": "w-charm",
+        "reason": "选项「魅力」不是「drought」的主释义「干旱」或其他义项。"
+      },
+      {
+        "wordId": "w-appetite",
+        "reason": "选项「食欲」不是「drought」的主释义「干旱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-angel",
+        "reason": "英文「angel」的常见义项「天使」不符合主释义「干旱」。"
+      },
+      {
+        "wordId": "w-charm",
+        "reason": "英文「charm」的常见义项「魅力」不符合主释义「干旱」。"
+      },
+      {
+        "wordId": "w-appetite",
+        "reason": "英文「appetite」的常见义项「食欲」不符合主释义「干旱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-angel",
+        "surfaceForm": "angel",
+        "reason": "将「angel」代入可见句子后不表达主释义「干旱」。"
+      },
+      {
+        "wordId": "w-charm",
+        "surfaceForm": "charm",
+        "reason": "将「charm」代入可见句子后不表达主释义「干旱」。"
+      },
+      {
+        "wordId": "w-appetite",
+        "surfaceForm": "appetite",
+        "reason": "将「appetite」代入可见句子后不表达主释义「干旱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-drown",
+    "enToZh": [
+      {
+        "wordId": "w-denounce",
+        "reason": "选项「谴责」不是「drown」的主释义「溺水死亡」或其他义项。"
+      },
+      {
+        "wordId": "w-dictate",
+        "reason": "选项「口述」不是「drown」的主释义「溺水死亡」或其他义项。"
+      },
+      {
+        "wordId": "w-correlate",
+        "reason": "选项「相关联」不是「drown」的主释义「溺水死亡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-denounce",
+        "reason": "英文「denounce」的常见义项「谴责」不符合主释义「溺水死亡」。"
+      },
+      {
+        "wordId": "w-dictate",
+        "reason": "英文「dictate」的常见义项「口述」不符合主释义「溺水死亡」。"
+      },
+      {
+        "wordId": "w-correlate",
+        "reason": "英文「correlate」的常见义项「相关联」不符合主释义「溺水死亡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-denounce",
+        "surfaceForm": "denounce",
+        "reason": "将「denounce」代入可见句子后不表达主释义「溺水死亡」。"
+      },
+      {
+        "wordId": "w-dictate",
+        "surfaceForm": "dictate",
+        "reason": "将「dictate」代入可见句子后不表达主释义「溺水死亡」。"
+      },
+      {
+        "wordId": "w-correlate",
+        "surfaceForm": "correlate",
+        "reason": "将「correlate」代入可见句子后不表达主释义「溺水死亡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-drug",
+    "enToZh": [
+      {
+        "wordId": "w-aircraft",
+        "reason": "选项「飞机」不是「drug」的主释义「药物」或其他义项。"
+      },
+      {
+        "wordId": "w-ceiling",
+        "reason": "选项「天花板」不是「drug」的主释义「药物」或其他义项。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "选项「统计数据」不是「drug」的主释义「药物」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aircraft",
+        "reason": "英文「aircraft」的常见义项「飞机」不符合主释义「药物」。"
+      },
+      {
+        "wordId": "w-ceiling",
+        "reason": "英文「ceiling」的常见义项「天花板」不符合主释义「药物」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "英文「statistics」的常见义项「统计数据」不符合主释义「药物」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aircraft",
+        "surfaceForm": "aircraft",
+        "reason": "将「aircraft」代入可见句子后不表达主释义「药物」。"
+      },
+      {
+        "wordId": "w-ceiling",
+        "surfaceForm": "ceiling",
+        "reason": "将「ceiling」代入可见句子后不表达主释义「药物」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "surfaceForm": "statistics",
+        "reason": "将「statistics」代入可见句子后不表达主释义「药物」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-drum",
+    "enToZh": [
+      {
+        "wordId": "w-campus",
+        "reason": "选项「校园」不是「drum」的主释义「鼓」或其他义项。"
+      },
+      {
+        "wordId": "w-disorder",
+        "reason": "选项「混乱」不是「drum」的主释义「鼓」或其他义项。"
+      },
+      {
+        "wordId": "w-court",
+        "reason": "选项「法院」不是「drum」的主释义「鼓」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-campus",
+        "reason": "英文「campus」的常见义项「校园」不符合主释义「鼓」。"
+      },
+      {
+        "wordId": "w-disorder",
+        "reason": "英文「disorder」的常见义项「混乱」不符合主释义「鼓」。"
+      },
+      {
+        "wordId": "w-court",
+        "reason": "英文「court」的常见义项「法院」不符合主释义「鼓」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-campus",
+        "surfaceForm": "campus",
+        "reason": "将「campus」代入可见句子后不表达主释义「鼓」。"
+      },
+      {
+        "wordId": "w-disorder",
+        "surfaceForm": "disorder",
+        "reason": "将「disorder」代入可见句子后不表达主释义「鼓」。"
+      },
+      {
+        "wordId": "w-court",
+        "surfaceForm": "court",
+        "reason": "将「court」代入可见句子后不表达主释义「鼓」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-duck",
+    "enToZh": [
+      {
+        "wordId": "w-compensation",
+        "reason": "选项「补偿」不是「duck」的主释义「鸭子」或其他义项。"
+      },
+      {
+        "wordId": "w-constitution",
+        "reason": "选项「宪法」不是「duck」的主释义「鸭子」或其他义项。"
+      },
+      {
+        "wordId": "w-crystal",
+        "reason": "选项「水晶」不是「duck」的主释义「鸭子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-compensation",
+        "reason": "英文「compensation」的常见义项「补偿」不符合主释义「鸭子」。"
+      },
+      {
+        "wordId": "w-constitution",
+        "reason": "英文「constitution」的常见义项「宪法」不符合主释义「鸭子」。"
+      },
+      {
+        "wordId": "w-crystal",
+        "reason": "英文「crystal」的常见义项「水晶」不符合主释义「鸭子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-compensation",
+        "surfaceForm": "compensation",
+        "reason": "将「compensation」代入可见句子后不表达主释义「鸭子」。"
+      },
+      {
+        "wordId": "w-constitution",
+        "surfaceForm": "constitution",
+        "reason": "将「constitution」代入可见句子后不表达主释义「鸭子」。"
+      },
+      {
+        "wordId": "w-crystal",
+        "surfaceForm": "crystal",
+        "reason": "将「crystal」代入可见句子后不表达主释义「鸭子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-due",
+    "enToZh": [
+      {
+        "wordId": "w-dark",
+        "reason": "选项「黑暗的」不是「due」的主释义「到期的」或其他义项。"
+      },
+      {
+        "wordId": "w-calm",
+        "reason": "选项「平静的」不是「due」的主释义「到期的」或其他义项。"
+      },
+      {
+        "wordId": "w-black",
+        "reason": "选项「黑色的」不是「due」的主释义「到期的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dark",
+        "reason": "英文「dark」的常见义项「黑暗的」不符合主释义「到期的」。"
+      },
+      {
+        "wordId": "w-calm",
+        "reason": "英文「calm」的常见义项「平静的」不符合主释义「到期的」。"
+      },
+      {
+        "wordId": "w-black",
+        "reason": "英文「black」的常见义项「黑色的」不符合主释义「到期的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dark",
+        "surfaceForm": "dark",
+        "reason": "将「dark」代入可见句子后不表达主释义「到期的」。"
+      },
+      {
+        "wordId": "w-calm",
+        "surfaceForm": "calm",
+        "reason": "将「calm」代入可见句子后不表达主释义「到期的」。"
+      },
+      {
+        "wordId": "w-black",
+        "surfaceForm": "black",
+        "reason": "将「black」代入可见句子后不表达主释义「到期的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-duke",
+    "enToZh": [
+      {
+        "wordId": "w-ax",
+        "reason": "选项「斧头」不是「duke」的主释义「公爵」或其他义项。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "选项「严重错误」不是「duke」的主释义「公爵」或其他义项。"
+      },
+      {
+        "wordId": "w-coil",
+        "reason": "选项「卷」不是「duke」的主释义「公爵」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ax",
+        "reason": "英文「ax」的常见义项「斧头」不符合主释义「公爵」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「公爵」。"
+      },
+      {
+        "wordId": "w-coil",
+        "reason": "英文「coil」的常见义项「卷」不符合主释义「公爵」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ax",
+        "surfaceForm": "ax",
+        "reason": "将「ax」代入可见句子后不表达主释义「公爵」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "surfaceForm": "blunder",
+        "reason": "将「blunder」代入可见句子后不表达主释义「公爵」。"
+      },
+      {
+        "wordId": "w-coil",
+        "surfaceForm": "coil",
+        "reason": "将「coil」代入可见句子后不表达主释义「公爵」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dully",
+    "enToZh": [
+      {
+        "wordId": "w-instinctively",
+        "reason": "选项「本能地」不是「dully」的主释义「迟钝地」或其他义项。"
+      },
+      {
+        "wordId": "w-ashore",
+        "reason": "选项「到岸上」不是「dully」的主释义「迟钝地」或其他义项。"
+      },
+      {
+        "wordId": "w-distinctly",
+        "reason": "选项「清楚地」不是「dully」的主释义「迟钝地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-instinctively",
+        "reason": "英文「instinctively」的常见义项「本能地」不符合主释义「迟钝地」。"
+      },
+      {
+        "wordId": "w-ashore",
+        "reason": "英文「ashore」的常见义项「到岸上」不符合主释义「迟钝地」。"
+      },
+      {
+        "wordId": "w-distinctly",
+        "reason": "英文「distinctly」的常见义项「清楚地」不符合主释义「迟钝地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-instinctively",
+        "surfaceForm": "instinctively",
+        "reason": "将「instinctively」代入可见句子后不表达主释义「迟钝地」。"
+      },
+      {
+        "wordId": "w-ashore",
+        "surfaceForm": "ashore",
+        "reason": "将「ashore」代入可见句子后不表达主释义「迟钝地」。"
+      },
+      {
+        "wordId": "w-distinctly",
+        "surfaceForm": "distinctly",
+        "reason": "将「distinctly」代入可见句子后不表达主释义「迟钝地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dump",
+    "enToZh": [
+      {
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「dump」的主释义「倾倒」或其他义项。"
+      },
+      {
+        "wordId": "w-adjust",
+        "reason": "选项「调整」不是「dump」的主释义「倾倒」或其他义项。"
+      },
+      {
+        "wordId": "w-compete",
+        "reason": "选项「竞争」不是「dump」的主释义「倾倒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「倾倒」。"
+      },
+      {
+        "wordId": "w-adjust",
+        "reason": "英文「adjust」的常见义项「调整」不符合主释义「倾倒」。"
+      },
+      {
+        "wordId": "w-compete",
+        "reason": "英文「compete」的常见义项「竞争」不符合主释义「倾倒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「倾倒」。"
+      },
+      {
+        "wordId": "w-adjust",
+        "surfaceForm": "adjust",
+        "reason": "将「adjust」代入可见句子后不表达主释义「倾倒」。"
+      },
+      {
+        "wordId": "w-compete",
+        "surfaceForm": "compete",
+        "reason": "将「compete」代入可见句子后不表达主释义「倾倒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-duplicate",
+    "enToZh": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "选项「耻辱」不是「duplicate」的主释义「复制品」或其他义项。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "选项「驳船」不是「duplicate」的主释义「复制品」或其他义项。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "选项「木匠」不是「duplicate」的主释义「复制品」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "英文「disgrace」的常见义项「耻辱」不符合主释义「复制品」。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "英文「barge」的常见义项「驳船」不符合主释义「复制品」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "英文「carpenter」的常见义项「木匠」不符合主释义「复制品」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disgrace",
+        "surfaceForm": "disgrace",
+        "reason": "将「disgrace」代入可见句子后不表达主释义「复制品」。"
+      },
+      {
+        "wordId": "w-barge",
+        "surfaceForm": "barge",
+        "reason": "将「barge」代入可见句子后不表达主释义「复制品」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "surfaceForm": "carpenter",
+        "reason": "将「carpenter」代入可见句子后不表达主释义「复制品」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-duration",
+    "enToZh": [
+      {
+        "wordId": "w-cavity",
+        "reason": "选项「龋洞」不是「duration」的主释义「持续时间」或其他义项。"
+      },
+      {
+        "wordId": "w-aggression",
+        "reason": "选项「攻击性」不是「duration」的主释义「持续时间」或其他义项。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「duration」的主释义「持续时间」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cavity",
+        "reason": "英文「cavity」的常见义项「龋洞」不符合主释义「持续时间」。"
+      },
+      {
+        "wordId": "w-aggression",
+        "reason": "英文「aggression」的常见义项「攻击性」不符合主释义「持续时间」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「持续时间」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cavity",
+        "surfaceForm": "cavity",
+        "reason": "将「cavity」代入可见句子后不表达主释义「持续时间」。"
+      },
+      {
+        "wordId": "w-aggression",
+        "surfaceForm": "aggression",
+        "reason": "将「aggression」代入可见句子后不表达主释义「持续时间」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「持续时间」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-during",
+    "enToZh": [
+      {
+        "wordId": "w-below",
+        "reason": "选项「在…下面」不是「during」的主释义「在…期间」或其他义项。"
+      },
+      {
+        "wordId": "w-above",
+        "reason": "选项「在……上方」不是「during」的主释义「在…期间」或其他义项。"
+      },
+      {
+        "wordId": "w-alongside",
+        "reason": "选项「在……旁边」不是「during」的主释义「在…期间」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-below",
+        "reason": "英文「below」的常见义项「在…下面」不符合主释义「在…期间」。"
+      },
+      {
+        "wordId": "w-above",
+        "reason": "英文「above」的常见义项「在……上方」不符合主释义「在…期间」。"
+      },
+      {
+        "wordId": "w-alongside",
+        "reason": "英文「alongside」的常见义项「在……旁边」不符合主释义「在…期间」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-below",
+        "surfaceForm": "below",
+        "reason": "将「below」代入可见句子后不表达主释义「在…期间」。"
+      },
+      {
+        "wordId": "w-above",
+        "surfaceForm": "above",
+        "reason": "将「above」代入可见句子后不表达主释义「在…期间」。"
+      },
+      {
+        "wordId": "w-alongside",
+        "surfaceForm": "alongside",
+        "reason": "将「alongside」代入可见句子后不表达主释义「在…期间」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dusk",
+    "enToZh": [
+      {
+        "wordId": "w-banker",
+        "reason": "选项「银行家」不是「dusk」的主释义「黄昏」或其他义项。"
+      },
+      {
+        "wordId": "w-anchor",
+        "reason": "选项「锚」不是「dusk」的主释义「黄昏」或其他义项。"
+      },
+      {
+        "wordId": "w-configuration",
+        "reason": "选项「配置」不是「dusk」的主释义「黄昏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-banker",
+        "reason": "英文「banker」的常见义项「银行家」不符合主释义「黄昏」。"
+      },
+      {
+        "wordId": "w-anchor",
+        "reason": "英文「anchor」的常见义项「锚」不符合主释义「黄昏」。"
+      },
+      {
+        "wordId": "w-configuration",
+        "reason": "英文「configuration」的常见义项「配置」不符合主释义「黄昏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-banker",
+        "surfaceForm": "banker",
+        "reason": "将「banker」代入可见句子后不表达主释义「黄昏」。"
+      },
+      {
+        "wordId": "w-anchor",
+        "surfaceForm": "anchor",
+        "reason": "将「anchor」代入可见句子后不表达主释义「黄昏」。"
+      },
+      {
+        "wordId": "w-configuration",
+        "surfaceForm": "configuration",
+        "reason": "将「configuration」代入可见句子后不表达主释义「黄昏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dust",
+    "enToZh": [
+      {
+        "wordId": "w-debate",
+        "reason": "选项「辩论」不是「dust」的主释义「灰尘」或其他义项。"
+      },
+      {
+        "wordId": "w-account",
+        "reason": "选项「账户」不是「dust」的主释义「灰尘」或其他义项。"
+      },
+      {
+        "wordId": "w-ear",
+        "reason": "选项「耳朵」不是「dust」的主释义「灰尘」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-debate",
+        "reason": "英文「debate」的常见义项「辩论」不符合主释义「灰尘」。"
+      },
+      {
+        "wordId": "w-account",
+        "reason": "英文「account」的常见义项「账户」不符合主释义「灰尘」。"
+      },
+      {
+        "wordId": "w-ear",
+        "reason": "英文「ear」的常见义项「耳朵」不符合主释义「灰尘」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-debate",
+        "surfaceForm": "debate",
+        "reason": "将「debate」代入可见句子后不表达主释义「灰尘」。"
+      },
+      {
+        "wordId": "w-account",
+        "surfaceForm": "account",
+        "reason": "将「account」代入可见句子后不表达主释义「灰尘」。"
+      },
+      {
+        "wordId": "w-ear",
+        "surfaceForm": "ear",
+        "reason": "将「ear」代入可见句子后不表达主释义「灰尘」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-duty",
+    "enToZh": [
+      {
+        "wordId": "w-culture",
+        "reason": "选项「文化」不是「duty」的主释义「责任」或其他义项。"
+      },
+      {
+        "wordId": "w-angle",
+        "reason": "选项「角度」不是「duty」的主释义「责任」或其他义项。"
+      },
+      {
+        "wordId": "w-band",
+        "reason": "选项「乐队」不是「duty」的主释义「责任」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-culture",
+        "reason": "英文「culture」的常见义项「文化」不符合主释义「责任」。"
+      },
+      {
+        "wordId": "w-angle",
+        "reason": "英文「angle」的常见义项「角度」不符合主释义「责任」。"
+      },
+      {
+        "wordId": "w-band",
+        "reason": "英文「band」的常见义项「乐队」不符合主释义「责任」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-culture",
+        "surfaceForm": "culture",
+        "reason": "将「culture」代入可见句子后不表达主释义「责任」。"
+      },
+      {
+        "wordId": "w-angle",
+        "surfaceForm": "angle",
+        "reason": "将「angle」代入可见句子后不表达主释义「责任」。"
+      },
+      {
+        "wordId": "w-band",
+        "surfaceForm": "band",
+        "reason": "将「band」代入可见句子后不表达主释义「责任」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dwarf",
+    "enToZh": [
+      {
+        "wordId": "w-crust",
+        "reason": "选项「面包皮」不是「dwarf」的主释义「矮人」或其他义项。"
+      },
+      {
+        "wordId": "w-architect",
+        "reason": "选项「建筑师」不是「dwarf」的主释义「矮人」或其他义项。"
+      },
+      {
+        "wordId": "w-disposal",
+        "reason": "选项「处理」不是「dwarf」的主释义「矮人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-crust",
+        "reason": "英文「crust」的常见义项「面包皮」不符合主释义「矮人」。"
+      },
+      {
+        "wordId": "w-architect",
+        "reason": "英文「architect」的常见义项「建筑师」不符合主释义「矮人」。"
+      },
+      {
+        "wordId": "w-disposal",
+        "reason": "英文「disposal」的常见义项「处理」不符合主释义「矮人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-crust",
+        "surfaceForm": "crust",
+        "reason": "将「crust」代入可见句子后不表达主释义「矮人」。"
+      },
+      {
+        "wordId": "w-architect",
+        "surfaceForm": "architect",
+        "reason": "将「architect」代入可见句子后不表达主释义「矮人」。"
+      },
+      {
+        "wordId": "w-disposal",
+        "surfaceForm": "disposal",
+        "reason": "将「disposal」代入可见句子后不表达主释义「矮人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dwell",
+    "enToZh": [
+      {
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「dwell」的主释义「居住」或其他义项。"
+      },
+      {
+        "wordId": "w-drown",
+        "reason": "选项「溺水死亡」不是「dwell」的主释义「居住」或其他义项。"
+      },
+      {
+        "wordId": "w-concede",
+        "reason": "选项「承认」不是「dwell」的主释义「居住」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「居住」。"
+      },
+      {
+        "wordId": "w-drown",
+        "reason": "英文「drown」的常见义项「溺水死亡」不符合主释义「居住」。"
+      },
+      {
+        "wordId": "w-concede",
+        "reason": "英文「concede」的常见义项「承认」不符合主释义「居住」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-preside",
+        "surfaceForm": "preside",
+        "reason": "将「preside」代入可见句子后不表达主释义「居住」。"
+      },
+      {
+        "wordId": "w-drown",
+        "surfaceForm": "drown",
+        "reason": "将「drown」代入可见句子后不表达主释义「居住」。"
+      },
+      {
+        "wordId": "w-concede",
+        "surfaceForm": "concede",
+        "reason": "将「concede」代入可见句子后不表达主释义「居住」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dwelling",
+    "enToZh": [
+      {
+        "wordId": "w-brim",
+        "reason": "选项「边缘」不是「dwelling」的主释义「住宅」或其他义项。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "选项「附录」不是「dwelling」的主释义「住宅」或其他义项。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "选项「严重错误」不是「dwelling」的主释义「住宅」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brim",
+        "reason": "英文「brim」的常见义项「边缘」不符合主释义「住宅」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "英文「appendix」的常见义项「附录」不符合主释义「住宅」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「住宅」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brim",
+        "surfaceForm": "brim",
+        "reason": "将「brim」代入可见句子后不表达主释义「住宅」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "surfaceForm": "appendix",
+        "reason": "将「appendix」代入可见句子后不表达主释义「住宅」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "surfaceForm": "blunder",
+        "reason": "将「blunder」代入可见句子后不表达主释义「住宅」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dye",
+    "enToZh": [
+      {
+        "wordId": "w-backbone",
+        "reason": "选项「脊柱」不是「dye」的主释义「染料」或其他义项。"
+      },
+      {
+        "wordId": "w-burner",
+        "reason": "选项「炉头」不是「dye」的主释义「染料」或其他义项。"
+      },
+      {
+        "wordId": "w-blaze",
+        "reason": "选项「大火」不是「dye」的主释义「染料」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-backbone",
+        "reason": "英文「backbone」的常见义项「脊柱」不符合主释义「染料」。"
+      },
+      {
+        "wordId": "w-burner",
+        "reason": "英文「burner」的常见义项「炉头」不符合主释义「染料」。"
+      },
+      {
+        "wordId": "w-blaze",
+        "reason": "英文「blaze」的常见义项「大火」不符合主释义「染料」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-backbone",
+        "surfaceForm": "backbone",
+        "reason": "将「backbone」代入可见句子后不表达主释义「染料」。"
+      },
+      {
+        "wordId": "w-burner",
+        "surfaceForm": "burner",
+        "reason": "将「burner」代入可见句子后不表达主释义「染料」。"
+      },
+      {
+        "wordId": "w-blaze",
+        "surfaceForm": "blaze",
+        "reason": "将「blaze」代入可见句子后不表达主释义「染料」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dynamo",
+    "enToZh": [
+      {
+        "wordId": "w-bough",
+        "reason": "选项「大树枝」不是「dynamo」的主释义「发电机」或其他义项。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "reason": "选项「祝贺」不是「dynamo」的主释义「发电机」或其他义项。"
+      },
+      {
+        "wordId": "w-bridle",
+        "reason": "选项「马笼头」不是「dynamo」的主释义「发电机」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bough",
+        "reason": "英文「bough」的常见义项「大树枝」不符合主释义「发电机」。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "reason": "英文「congratulation」的常见义项「祝贺」不符合主释义「发电机」。"
+      },
+      {
+        "wordId": "w-bridle",
+        "reason": "英文「bridle」的常见义项「马笼头」不符合主释义「发电机」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bough",
+        "surfaceForm": "bough",
+        "reason": "将「bough」代入可见句子后不表达主释义「发电机」。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "surfaceForm": "congratulation",
+        "reason": "将「congratulation」代入可见句子后不表达主释义「发电机」。"
+      },
+      {
+        "wordId": "w-bridle",
+        "surfaceForm": "bridle",
+        "reason": "将「bridle」代入可见句子后不表达主释义「发电机」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-eagle",
+    "enToZh": [
+      {
+        "wordId": "w-capacitance",
+        "reason": "选项「电容」不是「eagle」的主释义「鹰」或其他义项。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "reason": "选项「陶器」不是「eagle」的主释义「鹰」或其他义项。"
+      },
+      {
+        "wordId": "w-disservice",
+        "reason": "选项「损害」不是「eagle」的主释义「鹰」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-capacitance",
+        "reason": "英文「capacitance」的常见义项「电容」不符合主释义「鹰」。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "reason": "英文「earthenware」的常见义项「陶器」不符合主释义「鹰」。"
+      },
+      {
+        "wordId": "w-disservice",
+        "reason": "英文「disservice」的常见义项「损害」不符合主释义「鹰」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-capacitance",
+        "surfaceForm": "capacitance",
+        "reason": "将「capacitance」代入可见句子后不表达主释义「鹰」。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "surfaceForm": "earthenware",
+        "reason": "将「earthenware」代入可见句子后不表达主释义「鹰」。"
+      },
+      {
+        "wordId": "w-disservice",
+        "surfaceForm": "disservice",
+        "reason": "将「disservice」代入可见句子后不表达主释义「鹰」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ear",
+    "enToZh": [
+      {
+        "wordId": "w-energy",
+        "reason": "选项「能量」不是「ear」的主释义「耳朵」或其他义项。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "选项「防御」不是「ear」的主释义「耳朵」或其他义项。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "选项「饼干」不是「ear」的主释义「耳朵」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-energy",
+        "reason": "英文「energy」的常见义项「能量」不符合主释义「耳朵」。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "英文「defence」的常见义项「防御」不符合主释义「耳朵」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "英文「biscuit」的常见义项「饼干」不符合主释义「耳朵」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-energy",
+        "surfaceForm": "energy",
+        "reason": "将「energy」代入可见句子后不表达主释义「耳朵」。"
+      },
+      {
+        "wordId": "w-defence",
+        "surfaceForm": "defence",
+        "reason": "将「defence」代入可见句子后不表达主释义「耳朵」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "surfaceForm": "biscuit",
+        "reason": "将「biscuit」代入可见句子后不表达主释义「耳朵」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-earn",
+    "enToZh": [
+      {
+        "wordId": "w-constitute",
+        "reason": "选项「构成」不是「earn」的主释义「挣钱」或其他义项。"
+      },
+      {
+        "wordId": "w-confuse",
+        "reason": "选项「使困惑」不是「earn」的主释义「挣钱」或其他义项。"
+      },
+      {
+        "wordId": "w-anticipate",
+        "reason": "选项「预料」不是「earn」的主释义「挣钱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-constitute",
+        "reason": "英文「constitute」的常见义项「构成」不符合主释义「挣钱」。"
+      },
+      {
+        "wordId": "w-confuse",
+        "reason": "英文「confuse」的常见义项「使困惑」不符合主释义「挣钱」。"
+      },
+      {
+        "wordId": "w-anticipate",
+        "reason": "英文「anticipate」的常见义项「预料」不符合主释义「挣钱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-constitute",
+        "surfaceForm": "constitute",
+        "reason": "将「constitute」代入可见句子后不表达主释义「挣钱」。"
+      },
+      {
+        "wordId": "w-confuse",
+        "surfaceForm": "confuse",
+        "reason": "将「confuse」代入可见句子后不表达主释义「挣钱」。"
+      },
+      {
+        "wordId": "w-anticipate",
+        "surfaceForm": "anticipate",
+        "reason": "将「anticipate」代入可见句子后不表达主释义「挣钱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-earnest",
+    "enToZh": [
+      {
+        "wordId": "w-atlantic",
+        "reason": "选项「大西洋的」不是「earnest」的主释义「认真的」或其他义项。"
+      },
+      {
+        "wordId": "w-dairy",
+        "reason": "选项「乳制的」不是「earnest」的主释义「认真的」或其他义项。"
+      },
+      {
+        "wordId": "w-gross",
+        "reason": "选项「总的」不是「earnest」的主释义「认真的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-atlantic",
+        "reason": "英文「Atlantic」的常见义项「大西洋的」不符合主释义「认真的」。"
+      },
+      {
+        "wordId": "w-dairy",
+        "reason": "英文「dairy」的常见义项「乳制的」不符合主释义「认真的」。"
+      },
+      {
+        "wordId": "w-gross",
+        "reason": "英文「gross」的常见义项「总的」不符合主释义「认真的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-atlantic",
+        "surfaceForm": "Atlantic",
+        "reason": "将「Atlantic」代入可见句子后不表达主释义「认真的」。"
+      },
+      {
+        "wordId": "w-dairy",
+        "surfaceForm": "dairy",
+        "reason": "将「dairy」代入可见句子后不表达主释义「认真的」。"
+      },
+      {
+        "wordId": "w-gross",
+        "surfaceForm": "gross",
+        "reason": "将「gross」代入可见句子后不表达主释义「认真的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-earnings",
+    "enToZh": [
+      {
+        "wordId": "w-crisis",
+        "reason": "选项「危机」不是「earnings」的主释义「收入」或其他义项。"
+      },
+      {
+        "wordId": "w-breast",
+        "reason": "选项「乳房」不是「earnings」的主释义「收入」或其他义项。"
+      },
+      {
+        "wordId": "w-chemical",
+        "reason": "选项「化学品」不是「earnings」的主释义「收入」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-crisis",
+        "reason": "英文「crisis」的常见义项「危机」不符合主释义「收入」。"
+      },
+      {
+        "wordId": "w-breast",
+        "reason": "英文「breast」的常见义项「乳房」不符合主释义「收入」。"
+      },
+      {
+        "wordId": "w-chemical",
+        "reason": "英文「chemical」的常见义项「化学品」不符合主释义「收入」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-crisis",
+        "surfaceForm": "crisis",
+        "reason": "将「crisis」代入可见句子后不表达主释义「收入」。"
+      },
+      {
+        "wordId": "w-breast",
+        "surfaceForm": "breast",
+        "reason": "将「breast」代入可见句子后不表达主释义「收入」。"
+      },
+      {
+        "wordId": "w-chemical",
+        "surfaceForm": "chemical",
+        "reason": "将「chemical」代入可见句子后不表达主释义「收入」。"
+      }
+    ],
+    "spelling": null
+  }
+]

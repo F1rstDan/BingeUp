@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-education",
+    "enToZh": [
+      {
+        "wordId": "w-defense",
+        "reason": "选项「防御」不是「education」的主释义「教育」或其他义项。"
+      },
+      {
+        "wordId": "w-corner",
+        "reason": "选项「角落」不是「education」的主释义「教育」或其他义项。"
+      },
+      {
+        "wordId": "w-comfort",
+        "reason": "选项「舒适」不是「education」的主释义「教育」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-defense",
+        "reason": "英文「defense」的常见义项「防御」不符合主释义「教育」。"
+      },
+      {
+        "wordId": "w-corner",
+        "reason": "英文「corner」的常见义项「角落」不符合主释义「教育」。"
+      },
+      {
+        "wordId": "w-comfort",
+        "reason": "英文「comfort」的常见义项「舒适」不符合主释义「教育」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-defense",
+        "surfaceForm": "defense",
+        "reason": "将「defense」代入可见句子后不表达主释义「教育」。"
+      },
+      {
+        "wordId": "w-corner",
+        "surfaceForm": "corner",
+        "reason": "将「corner」代入可见句子后不表达主释义「教育」。"
+      },
+      {
+        "wordId": "w-comfort",
+        "surfaceForm": "comfort",
+        "reason": "将「comfort」代入可见句子后不表达主释义「教育」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-educator",
+    "enToZh": [
+      {
+        "wordId": "w-west",
+        "reason": "选项「西方」不是「educator」的主释义「教育工作者」或其他义项。"
+      },
+      {
+        "wordId": "w-amount",
+        "reason": "选项「数量」不是「educator」的主释义「教育工作者」或其他义项。"
+      },
+      {
+        "wordId": "w-channel",
+        "reason": "选项「频道」不是「educator」的主释义「教育工作者」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-west",
+        "reason": "英文「west」的常见义项「西方」不符合主释义「教育工作者」。"
+      },
+      {
+        "wordId": "w-amount",
+        "reason": "英文「amount」的常见义项「数量」不符合主释义「教育工作者」。"
+      },
+      {
+        "wordId": "w-channel",
+        "reason": "英文「channel」的常见义项「频道」不符合主释义「教育工作者」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-west",
+        "surfaceForm": "west",
+        "reason": "将「west」代入可见句子后不表达主释义「教育工作者」。"
+      },
+      {
+        "wordId": "w-amount",
+        "surfaceForm": "amount",
+        "reason": "将「amount」代入可见句子后不表达主释义「教育工作者」。"
+      },
+      {
+        "wordId": "w-channel",
+        "surfaceForm": "channel",
+        "reason": "将「channel」代入可见句子后不表达主释义「教育工作者」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-effect",
+    "enToZh": [
+      {
+        "wordId": "w-cop",
+        "reason": "选项「警察」不是「effect」的主释义「影响」或其他义项。"
+      },
+      {
+        "wordId": "w-communication",
+        "reason": "选项「沟通」不是「effect」的主释义「影响」或其他义项。"
+      },
+      {
+        "wordId": "w-core",
+        "reason": "选项「核心」不是「effect」的主释义「影响」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cop",
+        "reason": "英文「cop」的常见义项「警察」不符合主释义「影响」。"
+      },
+      {
+        "wordId": "w-communication",
+        "reason": "英文「communication」的常见义项「沟通」不符合主释义「影响」。"
+      },
+      {
+        "wordId": "w-core",
+        "reason": "英文「CORE」的常见义项「核心」不符合主释义「影响」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cop",
+        "surfaceForm": "cop",
+        "reason": "将「cop」代入可见句子后不表达主释义「影响」。"
+      },
+      {
+        "wordId": "w-communication",
+        "surfaceForm": "communication",
+        "reason": "将「communication」代入可见句子后不表达主释义「影响」。"
+      },
+      {
+        "wordId": "w-core",
+        "surfaceForm": "CORE",
+        "reason": "将「CORE」代入可见句子后不表达主释义「影响」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-effectively",
+    "enToZh": [
+      {
+        "wordId": "w-basically",
+        "reason": "选项「基本上」不是「effectively」的主释义「有效地」或其他义项。"
+      },
+      {
+        "wordId": "w-aloud",
+        "reason": "选项「出声地」不是「effectively」的主释义「有效地」或其他义项。"
+      },
+      {
+        "wordId": "w-anyway",
+        "reason": "选项「无论如何」不是「effectively」的主释义「有效地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-basically",
+        "reason": "英文「basically」的常见义项「基本上」不符合主释义「有效地」。"
+      },
+      {
+        "wordId": "w-aloud",
+        "reason": "英文「aloud」的常见义项「出声地」不符合主释义「有效地」。"
+      },
+      {
+        "wordId": "w-anyway",
+        "reason": "英文「anyway」的常见义项「无论如何」不符合主释义「有效地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-basically",
+        "surfaceForm": "basically",
+        "reason": "将「basically」代入可见句子后不表达主释义「有效地」。"
+      },
+      {
+        "wordId": "w-aloud",
+        "surfaceForm": "aloud",
+        "reason": "将「aloud」代入可见句子后不表达主释义「有效地」。"
+      },
+      {
+        "wordId": "w-anyway",
+        "surfaceForm": "anyway",
+        "reason": "将「anyway」代入可见句子后不表达主释义「有效地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-efficiency",
+    "enToZh": [
+      {
+        "wordId": "w-chess",
+        "reason": "选项「国际象棋」不是「efficiency」的主释义「效率」或其他义项。"
+      },
+      {
+        "wordId": "w-aviation",
+        "reason": "选项「航空」不是「efficiency」的主释义「效率」或其他义项。"
+      },
+      {
+        "wordId": "w-attendance",
+        "reason": "选项「出勤」不是「efficiency」的主释义「效率」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chess",
+        "reason": "英文「chess」的常见义项「国际象棋」不符合主释义「效率」。"
+      },
+      {
+        "wordId": "w-aviation",
+        "reason": "英文「aviation」的常见义项「航空」不符合主释义「效率」。"
+      },
+      {
+        "wordId": "w-attendance",
+        "reason": "英文「attendance」的常见义项「出勤」不符合主释义「效率」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chess",
+        "surfaceForm": "chess",
+        "reason": "将「chess」代入可见句子后不表达主释义「效率」。"
+      },
+      {
+        "wordId": "w-aviation",
+        "surfaceForm": "aviation",
+        "reason": "将「aviation」代入可见句子后不表达主释义「效率」。"
+      },
+      {
+        "wordId": "w-attendance",
+        "surfaceForm": "attendance",
+        "reason": "将「attendance」代入可见句子后不表达主释义「效率」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-effort",
+    "enToZh": [
+      {
+        "wordId": "w-chief",
+        "reason": "选项「首领」不是「effort」的主释义「努力」或其他义项。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "选项「对话」不是「effort」的主释义「努力」或其他义项。"
+      },
+      {
+        "wordId": "w-cancer",
+        "reason": "选项「癌症」不是「effort」的主释义「努力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chief",
+        "reason": "英文「chief」的常见义项「首领」不符合主释义「努力」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "英文「dialogue」的常见义项「对话」不符合主释义「努力」。"
+      },
+      {
+        "wordId": "w-cancer",
+        "reason": "英文「cancer」的常见义项「癌症」不符合主释义「努力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chief",
+        "surfaceForm": "chief",
+        "reason": "将「chief」代入可见句子后不表达主释义「努力」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "surfaceForm": "dialogue",
+        "reason": "将「dialogue」代入可见句子后不表达主释义「努力」。"
+      },
+      {
+        "wordId": "w-cancer",
+        "surfaceForm": "cancer",
+        "reason": "将「cancer」代入可见句子后不表达主释义「努力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-egg",
+    "enToZh": [
+      {
+        "wordId": "w-bandage",
+        "reason": "选项「绷带」不是「egg」的主释义「鸡蛋」或其他义项。"
+      },
+      {
+        "wordId": "w-appearance",
+        "reason": "选项「外表」不是「egg」的主释义「鸡蛋」或其他义项。"
+      },
+      {
+        "wordId": "w-customer",
+        "reason": "选项「顾客」不是「egg」的主释义「鸡蛋」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bandage",
+        "reason": "英文「bandage」的常见义项「绷带」不符合主释义「鸡蛋」。"
+      },
+      {
+        "wordId": "w-appearance",
+        "reason": "英文「appearance」的常见义项「外表」不符合主释义「鸡蛋」。"
+      },
+      {
+        "wordId": "w-customer",
+        "reason": "英文「customer」的常见义项「顾客」不符合主释义「鸡蛋」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bandage",
+        "surfaceForm": "bandage",
+        "reason": "将「bandage」代入可见句子后不表达主释义「鸡蛋」。"
+      },
+      {
+        "wordId": "w-appearance",
+        "surfaceForm": "appearance",
+        "reason": "将「appearance」代入可见句子后不表达主释义「鸡蛋」。"
+      },
+      {
+        "wordId": "w-customer",
+        "surfaceForm": "customer",
+        "reason": "将「customer」代入可见句子后不表达主释义「鸡蛋」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ego",
+    "enToZh": [
+      {
+        "wordId": "w-competence",
+        "reason": "选项「能力」不是「ego」的主释义「自尊心」或其他义项。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "选项「专业知识」不是「ego」的主释义「自尊心」或其他义项。"
+      },
+      {
+        "wordId": "w-analogy",
+        "reason": "选项「类比」不是「ego」的主释义「自尊心」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-competence",
+        "reason": "英文「competence」的常见义项「能力」不符合主释义「自尊心」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "英文「expertise」的常见义项「专业知识」不符合主释义「自尊心」。"
+      },
+      {
+        "wordId": "w-analogy",
+        "reason": "英文「analogy」的常见义项「类比」不符合主释义「自尊心」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-competence",
+        "surfaceForm": "competence",
+        "reason": "将「competence」代入可见句子后不表达主释义「自尊心」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "surfaceForm": "expertise",
+        "reason": "将「expertise」代入可见句子后不表达主释义「自尊心」。"
+      },
+      {
+        "wordId": "w-analogy",
+        "surfaceForm": "analogy",
+        "reason": "将「analogy」代入可见句子后不表达主释义「自尊心」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-egyptian",
+    "enToZh": [
+      {
+        "wordId": "w-dairy",
+        "reason": "选项「乳制的」不是「Egyptian」的主释义「埃及的」或其他义项。"
+      },
+      {
+        "wordId": "w-elder",
+        "reason": "选项「年长的」不是「Egyptian」的主释义「埃及的」或其他义项。"
+      },
+      {
+        "wordId": "w-earnest",
+        "reason": "选项「认真的」不是「Egyptian」的主释义「埃及的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dairy",
+        "reason": "英文「dairy」的常见义项「乳制的」不符合主释义「埃及的」。"
+      },
+      {
+        "wordId": "w-elder",
+        "reason": "英文「elder」的常见义项「年长的」不符合主释义「埃及的」。"
+      },
+      {
+        "wordId": "w-earnest",
+        "reason": "英文「earnest」的常见义项「认真的」不符合主释义「埃及的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dairy",
+        "surfaceForm": "dairy",
+        "reason": "将「dairy」代入可见句子后不表达主释义「埃及的」。"
+      },
+      {
+        "wordId": "w-elder",
+        "surfaceForm": "elder",
+        "reason": "将「elder」代入可见句子后不表达主释义「埃及的」。"
+      },
+      {
+        "wordId": "w-earnest",
+        "surfaceForm": "earnest",
+        "reason": "将「earnest」代入可见句子后不表达主释义「埃及的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-eight",
+    "enToZh": [
+      {
+        "wordId": "w-dozen",
+        "reason": "选项「十二个」不是「eight」的主释义「八」或其他义项。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "选项「十亿」不是「eight」的主释义「八」或其他义项。"
+      },
+      {
+        "wordId": "w-eighty",
+        "reason": "选项「八十」不是「eight」的主释义「八」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dozen",
+        "reason": "英文「dozen」的常见义项「十二个」不符合主释义「八」。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "英文「billion」的常见义项「十亿」不符合主释义「八」。"
+      },
+      {
+        "wordId": "w-eighty",
+        "reason": "英文「eighty」的常见义项「八十」不符合主释义「八」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dozen",
+        "surfaceForm": "dozen",
+        "reason": "将「dozen」代入可见句子后不表达主释义「八」。"
+      },
+      {
+        "wordId": "w-billion",
+        "surfaceForm": "billion",
+        "reason": "将「billion」代入可见句子后不表达主释义「八」。"
+      },
+      {
+        "wordId": "w-eighty",
+        "surfaceForm": "eighty",
+        "reason": "将「eighty」代入可见句子后不表达主释义「八」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-eighteen",
+    "enToZh": [
+      {
+        "wordId": "w-eighty",
+        "reason": "选项「八十」不是「eighteen」的主释义「十八」或其他义项。"
+      },
+      {
+        "wordId": "w-eight",
+        "reason": "选项「八」不是「eighteen」的主释义「十八」或其他义项。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "选项「十亿」不是「eighteen」的主释义「十八」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eighty",
+        "reason": "英文「eighty」的常见义项「八十」不符合主释义「十八」。"
+      },
+      {
+        "wordId": "w-eight",
+        "reason": "英文「eight」的常见义项「八」不符合主释义「十八」。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "英文「billion」的常见义项「十亿」不符合主释义「十八」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eighty",
+        "surfaceForm": "eighty",
+        "reason": "将「eighty」代入可见句子后不表达主释义「十八」。"
+      },
+      {
+        "wordId": "w-eight",
+        "surfaceForm": "eight",
+        "reason": "将「eight」代入可见句子后不表达主释义「十八」。"
+      },
+      {
+        "wordId": "w-billion",
+        "surfaceForm": "billion",
+        "reason": "将「billion」代入可见句子后不表达主释义「十八」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-eighty",
+    "enToZh": [
+      {
+        "wordId": "w-eighteen",
+        "reason": "选项「十八」不是「eighty」的主释义「八十」或其他义项。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "选项「十亿」不是「eighty」的主释义「八十」或其他义项。"
+      },
+      {
+        "wordId": "w-dozen",
+        "reason": "选项「十二个」不是「eighty」的主释义「八十」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eighteen",
+        "reason": "英文「eighteen」的常见义项「十八」不符合主释义「八十」。"
+      },
+      {
+        "wordId": "w-billion",
+        "reason": "英文「billion」的常见义项「十亿」不符合主释义「八十」。"
+      },
+      {
+        "wordId": "w-dozen",
+        "reason": "英文「dozen」的常见义项「十二个」不符合主释义「八十」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eighteen",
+        "surfaceForm": "eighteen",
+        "reason": "将「eighteen」代入可见句子后不表达主释义「八十」。"
+      },
+      {
+        "wordId": "w-billion",
+        "surfaceForm": "billion",
+        "reason": "将「billion」代入可见句子后不表达主释义「八十」。"
+      },
+      {
+        "wordId": "w-dozen",
+        "surfaceForm": "dozen",
+        "reason": "将「dozen」代入可见句子后不表达主释义「八十」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-eject",
+    "enToZh": [
+      {
+        "wordId": "w-enclose",
+        "reason": "选项「围住」不是「eject」的主释义「弹出」或其他义项。"
+      },
+      {
+        "wordId": "w-revolt",
+        "reason": "选项「反抗」不是「eject」的主释义「弹出」或其他义项。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "reason": "选项「扩散」不是「eject」的主释义「弹出」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-enclose",
+        "reason": "英文「enclose」的常见义项「围住」不符合主释义「弹出」。"
+      },
+      {
+        "wordId": "w-revolt",
+        "reason": "英文「revolt」的常见义项「反抗」不符合主释义「弹出」。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "reason": "英文「diffuse」的常见义项「扩散」不符合主释义「弹出」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-enclose",
+        "surfaceForm": "enclose",
+        "reason": "将「enclose」代入可见句子后不表达主释义「弹出」。"
+      },
+      {
+        "wordId": "w-revolt",
+        "surfaceForm": "revolt",
+        "reason": "将「revolt」代入可见句子后不表达主释义「弹出」。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "surfaceForm": "diffuse",
+        "reason": "将「diffuse」代入可见句子后不表达主释义「弹出」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-elapse",
+    "enToZh": [
+      {
+        "wordId": "w-bewilder",
+        "reason": "选项「使困惑」不是「elapse」的主释义「流逝」或其他义项。"
+      },
+      {
+        "wordId": "w-decompose",
+        "reason": "选项「分解」不是「elapse」的主释义「流逝」或其他义项。"
+      },
+      {
+        "wordId": "w-centralize",
+        "reason": "选项「集中管理」不是「elapse」的主释义「流逝」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bewilder",
+        "reason": "英文「bewilder」的常见义项「使困惑」不符合主释义「流逝」。"
+      },
+      {
+        "wordId": "w-decompose",
+        "reason": "英文「decompose」的常见义项「分解」不符合主释义「流逝」。"
+      },
+      {
+        "wordId": "w-centralize",
+        "reason": "英文「centralize」的常见义项「集中管理」不符合主释义「流逝」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bewilder",
+        "surfaceForm": "bewilder",
+        "reason": "将「bewilder」代入可见句子后不表达主释义「流逝」。"
+      },
+      {
+        "wordId": "w-decompose",
+        "surfaceForm": "decompose",
+        "reason": "将「decompose」代入可见句子后不表达主释义「流逝」。"
+      },
+      {
+        "wordId": "w-centralize",
+        "surfaceForm": "centralize",
+        "reason": "将「centralize」代入可见句子后不表达主释义「流逝」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-elastic",
+    "enToZh": [
+      {
+        "wordId": "w-bankrupt",
+        "reason": "选项「破产的」不是「elastic」的主释义「有弹性的」或其他义项。"
+      },
+      {
+        "wordId": "w-eccentric",
+        "reason": "选项「古怪的」不是「elastic」的主释义「有弹性的」或其他义项。"
+      },
+      {
+        "wordId": "w-commonplace",
+        "reason": "选项「平常的」不是「elastic」的主释义「有弹性的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bankrupt",
+        "reason": "英文「bankrupt」的常见义项「破产的」不符合主释义「有弹性的」。"
+      },
+      {
+        "wordId": "w-eccentric",
+        "reason": "英文「eccentric」的常见义项「古怪的」不符合主释义「有弹性的」。"
+      },
+      {
+        "wordId": "w-commonplace",
+        "reason": "英文「commonplace」的常见义项「平常的」不符合主释义「有弹性的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bankrupt",
+        "surfaceForm": "bankrupt",
+        "reason": "将「bankrupt」代入可见句子后不表达主释义「有弹性的」。"
+      },
+      {
+        "wordId": "w-eccentric",
+        "surfaceForm": "eccentric",
+        "reason": "将「eccentric」代入可见句子后不表达主释义「有弹性的」。"
+      },
+      {
+        "wordId": "w-commonplace",
+        "surfaceForm": "commonplace",
+        "reason": "将「commonplace」代入可见句子后不表达主释义「有弹性的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-elbow",
+    "enToZh": [
+      {
+        "wordId": "w-designer",
+        "reason": "选项「设计师」不是「elbow」的主释义「肘部」或其他义项。"
+      },
+      {
+        "wordId": "w-affair",
+        "reason": "选项「事情」不是「elbow」的主释义「肘部」或其他义项。"
+      },
+      {
+        "wordId": "w-centimetre",
+        "reason": "选项「厘米」不是「elbow」的主释义「肘部」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-designer",
+        "reason": "英文「designer」的常见义项「设计师」不符合主释义「肘部」。"
+      },
+      {
+        "wordId": "w-affair",
+        "reason": "英文「affair」的常见义项「事情」不符合主释义「肘部」。"
+      },
+      {
+        "wordId": "w-centimetre",
+        "reason": "英文「centimetre」的常见义项「厘米」不符合主释义「肘部」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-designer",
+        "surfaceForm": "designer",
+        "reason": "将「designer」代入可见句子后不表达主释义「肘部」。"
+      },
+      {
+        "wordId": "w-affair",
+        "surfaceForm": "affair",
+        "reason": "将「affair」代入可见句子后不表达主释义「肘部」。"
+      },
+      {
+        "wordId": "w-centimetre",
+        "surfaceForm": "centimetre",
+        "reason": "将「centimetre」代入可见句子后不表达主释义「肘部」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-elder",
+    "enToZh": [
+      {
+        "wordId": "w-dairy",
+        "reason": "选项「乳制的」不是「elder」的主释义「年长的」或其他义项。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "reason": "选项「大西洋的」不是「elder」的主释义「年长的」或其他义项。"
+      },
+      {
+        "wordId": "w-earnest",
+        "reason": "选项「认真的」不是「elder」的主释义「年长的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dairy",
+        "reason": "英文「dairy」的常见义项「乳制的」不符合主释义「年长的」。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "reason": "英文「Atlantic」的常见义项「大西洋的」不符合主释义「年长的」。"
+      },
+      {
+        "wordId": "w-earnest",
+        "reason": "英文「earnest」的常见义项「认真的」不符合主释义「年长的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dairy",
+        "surfaceForm": "dairy",
+        "reason": "将「dairy」代入可见句子后不表达主释义「年长的」。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "surfaceForm": "Atlantic",
+        "reason": "将「Atlantic」代入可见句子后不表达主释义「年长的」。"
+      },
+      {
+        "wordId": "w-earnest",
+        "surfaceForm": "earnest",
+        "reason": "将「earnest」代入可见句子后不表达主释义「年长的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-elect",
+    "enToZh": [
+      {
+        "wordId": "w-dig",
+        "reason": "选项「挖掘」不是「elect」的主释义「选举」或其他义项。"
+      },
+      {
+        "wordId": "w-compete",
+        "reason": "选项「竞争」不是「elect」的主释义「选举」或其他义项。"
+      },
+      {
+        "wordId": "w-concentrate",
+        "reason": "选项「集中注意力」不是「elect」的主释义「选举」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dig",
+        "reason": "英文「dig」的常见义项「挖掘」不符合主释义「选举」。"
+      },
+      {
+        "wordId": "w-compete",
+        "reason": "英文「compete」的常见义项「竞争」不符合主释义「选举」。"
+      },
+      {
+        "wordId": "w-concentrate",
+        "reason": "英文「concentrate」的常见义项「集中注意力」不符合主释义「选举」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dig",
+        "surfaceForm": "dig",
+        "reason": "将「dig」代入可见句子后不表达主释义「选举」。"
+      },
+      {
+        "wordId": "w-compete",
+        "surfaceForm": "compete",
+        "reason": "将「compete」代入可见句子后不表达主释义「选举」。"
+      },
+      {
+        "wordId": "w-concentrate",
+        "surfaceForm": "concentrate",
+        "reason": "将「concentrate」代入可见句子后不表达主释义「选举」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-election",
+    "enToZh": [
+      {
+        "wordId": "w-depth",
+        "reason": "选项「深度」不是「election」的主释义「选举」或其他义项。"
+      },
+      {
+        "wordId": "w-director",
+        "reason": "选项「主管」不是「election」的主释义「选举」或其他义项。"
+      },
+      {
+        "wordId": "w-chamber",
+        "reason": "选项「房间」不是「election」的主释义「选举」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-depth",
+        "reason": "英文「depth」的常见义项「深度」不符合主释义「选举」。"
+      },
+      {
+        "wordId": "w-director",
+        "reason": "英文「director」的常见义项「主管」不符合主释义「选举」。"
+      },
+      {
+        "wordId": "w-chamber",
+        "reason": "英文「chamber」的常见义项「房间」不符合主释义「选举」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-depth",
+        "surfaceForm": "depth",
+        "reason": "将「depth」代入可见句子后不表达主释义「选举」。"
+      },
+      {
+        "wordId": "w-director",
+        "surfaceForm": "director",
+        "reason": "将「director」代入可见句子后不表达主释义「选举」。"
+      },
+      {
+        "wordId": "w-chamber",
+        "surfaceForm": "chamber",
+        "reason": "将「chamber」代入可见句子后不表达主释义「选举」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-electrician",
+    "enToZh": [
+      {
+        "wordId": "w-brute",
+        "reason": "选项「残暴的人」不是「electrician」的主释义「电工」或其他义项。"
+      },
+      {
+        "wordId": "w-alloy",
+        "reason": "选项「合金」不是「electrician」的主释义「电工」或其他义项。"
+      },
+      {
+        "wordId": "w-radish",
+        "reason": "选项「萝卜」不是「electrician」的主释义「电工」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brute",
+        "reason": "英文「brute」的常见义项「残暴的人」不符合主释义「电工」。"
+      },
+      {
+        "wordId": "w-alloy",
+        "reason": "英文「alloy」的常见义项「合金」不符合主释义「电工」。"
+      },
+      {
+        "wordId": "w-radish",
+        "reason": "英文「radish」的常见义项「萝卜」不符合主释义「电工」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brute",
+        "surfaceForm": "brute",
+        "reason": "将「brute」代入可见句子后不表达主释义「电工」。"
+      },
+      {
+        "wordId": "w-alloy",
+        "surfaceForm": "alloy",
+        "reason": "将「alloy」代入可见句子后不表达主释义「电工」。"
+      },
+      {
+        "wordId": "w-radish",
+        "surfaceForm": "radish",
+        "reason": "将「radish」代入可见句子后不表达主释义「电工」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-electricity",
+    "enToZh": [
+      {
+        "wordId": "w-bar",
+        "reason": "选项「酒吧」不是「electricity」的主释义「电力」或其他义项。"
+      },
+      {
+        "wordId": "w-alternative",
+        "reason": "选项「替代方案」不是「electricity」的主释义「电力」或其他义项。"
+      },
+      {
+        "wordId": "w-coverage",
+        "reason": "选项「新闻报道」不是「electricity」的主释义「电力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bar",
+        "reason": "英文「bar」的常见义项「酒吧」不符合主释义「电力」。"
+      },
+      {
+        "wordId": "w-alternative",
+        "reason": "英文「alternative」的常见义项「替代方案」不符合主释义「电力」。"
+      },
+      {
+        "wordId": "w-coverage",
+        "reason": "英文「coverage」的常见义项「新闻报道」不符合主释义「电力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bar",
+        "surfaceForm": "bar",
+        "reason": "将「bar」代入可见句子后不表达主释义「电力」。"
+      },
+      {
+        "wordId": "w-alternative",
+        "surfaceForm": "alternative",
+        "reason": "将「alternative」代入可见句子后不表达主释义「电力」。"
+      },
+      {
+        "wordId": "w-coverage",
+        "surfaceForm": "coverage",
+        "reason": "将「coverage」代入可见句子后不表达主释义「电力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-electrode",
+    "enToZh": [
+      {
+        "wordId": "w-accordance",
+        "reason": "选项「一致」不是「electrode」的主释义「电极」或其他义项。"
+      },
+      {
+        "wordId": "w-bosom",
+        "reason": "选项「胸部」不是「electrode」的主释义「电极」或其他义项。"
+      },
+      {
+        "wordId": "w-colonist",
+        "reason": "选项「殖民者」不是「electrode」的主释义「电极」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accordance",
+        "reason": "英文「accordance」的常见义项「一致」不符合主释义「电极」。"
+      },
+      {
+        "wordId": "w-bosom",
+        "reason": "英文「bosom」的常见义项「胸部」不符合主释义「电极」。"
+      },
+      {
+        "wordId": "w-colonist",
+        "reason": "英文「colonist」的常见义项「殖民者」不符合主释义「电极」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accordance",
+        "surfaceForm": "accordance",
+        "reason": "将「accordance」代入可见句子后不表达主释义「电极」。"
+      },
+      {
+        "wordId": "w-bosom",
+        "surfaceForm": "bosom",
+        "reason": "将「bosom」代入可见句子后不表达主释义「电极」。"
+      },
+      {
+        "wordId": "w-colonist",
+        "surfaceForm": "colonist",
+        "reason": "将「colonist」代入可见句子后不表达主释义「电极」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-electron",
+    "enToZh": [
+      {
+        "wordId": "w-constraint",
+        "reason": "选项「限制」不是「electron」的主释义「电子」或其他义项。"
+      },
+      {
+        "wordId": "w-conviction",
+        "reason": "选项「定罪」不是「electron」的主释义「电子」或其他义项。"
+      },
+      {
+        "wordId": "w-brightness",
+        "reason": "选项「亮度」不是「electron」的主释义「电子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-constraint",
+        "reason": "英文「constraint」的常见义项「限制」不符合主释义「电子」。"
+      },
+      {
+        "wordId": "w-conviction",
+        "reason": "英文「conviction」的常见义项「定罪」不符合主释义「电子」。"
+      },
+      {
+        "wordId": "w-brightness",
+        "reason": "英文「brightness」的常见义项「亮度」不符合主释义「电子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-constraint",
+        "surfaceForm": "constraint",
+        "reason": "将「constraint」代入可见句子后不表达主释义「电子」。"
+      },
+      {
+        "wordId": "w-conviction",
+        "surfaceForm": "conviction",
+        "reason": "将「conviction」代入可见句子后不表达主释义「电子」。"
+      },
+      {
+        "wordId": "w-brightness",
+        "surfaceForm": "brightness",
+        "reason": "将「brightness」代入可见句子后不表达主释义「电子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-electronics",
+    "enToZh": [
+      {
+        "wordId": "w-carbon",
+        "reason": "选项「碳」不是「electronics」的主释义「电子学」或其他义项。"
+      },
+      {
+        "wordId": "w-comprehension",
+        "reason": "选项「理解」不是「electronics」的主释义「电子学」或其他义项。"
+      },
+      {
+        "wordId": "w-conscience",
+        "reason": "选项「良心」不是「electronics」的主释义「电子学」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-carbon",
+        "reason": "英文「carbon」的常见义项「碳」不符合主释义「电子学」。"
+      },
+      {
+        "wordId": "w-comprehension",
+        "reason": "英文「comprehension」的常见义项「理解」不符合主释义「电子学」。"
+      },
+      {
+        "wordId": "w-conscience",
+        "reason": "英文「conscience」的常见义项「良心」不符合主释义「电子学」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-carbon",
+        "surfaceForm": "carbon",
+        "reason": "将「carbon」代入可见句子后不表达主释义「电子学」。"
+      },
+      {
+        "wordId": "w-comprehension",
+        "surfaceForm": "comprehension",
+        "reason": "将「comprehension」代入可见句子后不表达主释义「电子学」。"
+      },
+      {
+        "wordId": "w-conscience",
+        "surfaceForm": "conscience",
+        "reason": "将「conscience」代入可见句子后不表达主释义「电子学」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-element",
+    "enToZh": [
+      {
+        "wordId": "w-bean",
+        "reason": "选项「豆子」不是「element」的主释义「要素」或其他义项。"
+      },
+      {
+        "wordId": "w-dad",
+        "reason": "选项「爸爸」不是「element」的主释义「要素」或其他义项。"
+      },
+      {
+        "wordId": "w-combination",
+        "reason": "选项「组合」不是「element」的主释义「要素」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bean",
+        "reason": "英文「bean」的常见义项「豆子」不符合主释义「要素」。"
+      },
+      {
+        "wordId": "w-dad",
+        "reason": "英文「dad」的常见义项「爸爸」不符合主释义「要素」。"
+      },
+      {
+        "wordId": "w-combination",
+        "reason": "英文「combination」的常见义项「组合」不符合主释义「要素」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bean",
+        "surfaceForm": "bean",
+        "reason": "将「bean」代入可见句子后不表达主释义「要素」。"
+      },
+      {
+        "wordId": "w-dad",
+        "surfaceForm": "dad",
+        "reason": "将「dad」代入可见句子后不表达主释义「要素」。"
+      },
+      {
+        "wordId": "w-combination",
+        "surfaceForm": "combination",
+        "reason": "将「combination」代入可见句子后不表达主释义「要素」。"
+      }
+    ],
+    "spelling": null
+  }
+]
