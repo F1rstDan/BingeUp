@@ -150,47 +150,47 @@
     "wordId": "w-shape",
     "enToZh": [
       {
-        "wordId": "w-west",
-        "reason": "选项「西方」不是「shape」的主释义「形状」或其他义项。"
+        "wordId": "w-writer",
+        "reason": "选项「作家」不是「shape」的主释义「形状」或其他义项。"
       },
       {
-        "wordId": "w-hat",
-        "reason": "选项「帽子」不是「shape」的主释义「形状」或其他义项。"
+        "wordId": "w-virus",
+        "reason": "选项「病毒」不是「shape」的主释义「形状」或其他义项。"
       },
       {
-        "wordId": "w-interview",
-        "reason": "选项「面试」不是「shape」的主释义「形状」或其他义项。"
+        "wordId": "w-town",
+        "reason": "选项「城镇」不是「shape」的主释义「形状」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-west",
-        "reason": "英文「west」的常见义项「西方」不符合主释义「形状」。"
+        "wordId": "w-writer",
+        "reason": "英文「writer」的常见义项「作家」不符合主释义「形状」。"
       },
       {
-        "wordId": "w-hat",
-        "reason": "英文「hat」的常见义项「帽子」不符合主释义「形状」。"
+        "wordId": "w-virus",
+        "reason": "英文「virus」的常见义项「病毒」不符合主释义「形状」。"
       },
       {
-        "wordId": "w-interview",
-        "reason": "英文「interview」的常见义项「面试」不符合主释义「形状」。"
+        "wordId": "w-town",
+        "reason": "英文「town」的常见义项「城镇」不符合主释义「形状」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-west",
-        "surfaceForm": "west",
-        "reason": "将「west」代入可见句子后不表达主释义「形状」。"
+        "wordId": "w-writer",
+        "surfaceForm": "writer",
+        "reason": "将「writer」代入可见句子后不表达主释义「形状」。"
       },
       {
-        "wordId": "w-hat",
-        "surfaceForm": "hat",
-        "reason": "将「hat」代入可见句子后不表达主释义「形状」。"
+        "wordId": "w-virus",
+        "surfaceForm": "virus",
+        "reason": "将「virus」代入可见句子后不表达主释义「形状」。"
       },
       {
-        "wordId": "w-interview",
-        "surfaceForm": "interview",
-        "reason": "将「interview」代入可见句子后不表达主释义「形状」。"
+        "wordId": "w-town",
+        "surfaceForm": "town",
+        "reason": "将「town」代入可见句子后不表达主释义「形状」。"
       }
     ],
     "spelling": null
@@ -207,8 +207,8 @@
         "reason": "选项「比较」不是「share」的主释义「分享」或其他义项。"
       },
       {
-        "wordId": "w-respect",
-        "reason": "选项「尊重」不是「share」的主释义「分享」或其他义项。"
+        "wordId": "w-swing",
+        "reason": "选项「摇摆」不是「share」的主释义「分享」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -221,8 +221,8 @@
         "reason": "英文「compare」的常见义项「比较」不符合主释义「分享」。"
       },
       {
-        "wordId": "w-respect",
-        "reason": "英文「respect」的常见义项「尊重」不符合主释义「分享」。"
+        "wordId": "w-swing",
+        "reason": "英文「swing」的常见义项「摇摆」不符合主释义「分享」。"
       }
     ],
     "contextChoice": [
@@ -237,9 +237,9 @@
         "reason": "将「compare」代入可见句子后不表达主释义「分享」。"
       },
       {
-        "wordId": "w-respect",
-        "surfaceForm": "respect",
-        "reason": "将「respect」代入可见句子后不表达主释义「分享」。"
+        "wordId": "w-swing",
+        "surfaceForm": "swing",
+        "reason": "将「swing」代入可见句子后不表达主释义「分享」。"
       }
     ],
     "spelling": null
@@ -305,8 +305,8 @@
         "reason": "选项「下一个」不是「sharp」的主释义「锋利的」或其他义项。"
       },
       {
-        "wordId": "w-loose",
-        "reason": "选项「松的」不是「sharp」的主释义「锋利的」或其他义项。"
+        "wordId": "w-steep",
+        "reason": "选项「陡峭的」不是「sharp」的主释义「锋利的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -319,8 +319,8 @@
         "reason": "英文「next」的常见义项「下一个」不符合主释义「锋利的」。"
       },
       {
-        "wordId": "w-loose",
-        "reason": "英文「loose」的常见义项「松的」不符合主释义「锋利的」。"
+        "wordId": "w-steep",
+        "reason": "英文「steep」的常见义项「陡峭的」不符合主释义「锋利的」。"
       }
     ],
     "contextChoice": [
@@ -335,9 +335,9 @@
         "reason": "将「next」代入可见句子后不表达主释义「锋利的」。"
       },
       {
-        "wordId": "w-loose",
-        "surfaceForm": "loose",
-        "reason": "将「loose」代入可见句子后不表达主释义「锋利的」。"
+        "wordId": "w-steep",
+        "surfaceForm": "steep",
+        "reason": "将「steep」代入可见句子后不表达主释义「锋利的」。"
       }
     ],
     "spelling": null
@@ -395,19 +395,23 @@
     "wordId": "w-sharply",
     "enToZh": [
       {
+        "wordId": "w-violently",
+        "reason": "选项「猛烈地」不是「sharply」的主释义「急剧地」或其他义项。"
+      },
+      {
         "wordId": "w-somewhere",
         "reason": "选项「在某处」不是「sharply」的主释义「急剧地」或其他义项。"
       },
       {
         "wordId": "w-probably",
         "reason": "选项「很可能」不是「sharply」的主释义「急剧地」或其他义项。"
-      },
-      {
-        "wordId": "w-again",
-        "reason": "选项「再次」不是「sharply」的主释义「急剧地」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-violently",
+        "reason": "英文「violently」的常见义项「猛烈地」不符合主释义「急剧地」。"
+      },
       {
         "wordId": "w-somewhere",
         "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「急剧地」。"
@@ -415,13 +419,14 @@
       {
         "wordId": "w-probably",
         "reason": "英文「probably」的常见义项「很可能」不符合主释义「急剧地」。"
-      },
-      {
-        "wordId": "w-again",
-        "reason": "英文「again」的常见义项「再次」不符合主释义「急剧地」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-violently",
+        "surfaceForm": "violently",
+        "reason": "将「violently」代入可见句子后不表达主释义「急剧地」。"
+      },
       {
         "wordId": "w-somewhere",
         "surfaceForm": "somewhere",
@@ -431,11 +436,6 @@
         "wordId": "w-probably",
         "surfaceForm": "probably",
         "reason": "将「probably」代入可见句子后不表达主释义「急剧地」。"
-      },
-      {
-        "wordId": "w-again",
-        "surfaceForm": "again",
-        "reason": "将「again」代入可见句子后不表达主释义「急剧地」。"
       }
     ],
     "spelling": null
@@ -689,47 +689,47 @@
     "wordId": "w-shelf",
     "enToZh": [
       {
+        "wordId": "w-speech",
+        "reason": "选项「演讲」不是「shelf」的主释义「架子」或其他义项。"
+      },
+      {
+        "wordId": "w-trouble",
+        "reason": "选项「麻烦」不是「shelf」的主释义「架子」或其他义项。"
+      },
+      {
         "wordId": "w-analysis",
         "reason": "选项「分析」不是「shelf」的主释义「架子」或其他义项。"
-      },
-      {
-        "wordId": "w-revision",
-        "reason": "选项「修改」不是「shelf」的主释义「架子」或其他义项。"
-      },
-      {
-        "wordId": "w-addition",
-        "reason": "选项「增加」不是「shelf」的主释义「架子」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-speech",
+        "reason": "英文「speech」的常见义项「演讲」不符合主释义「架子」。"
+      },
+      {
+        "wordId": "w-trouble",
+        "reason": "英文「trouble」的常见义项「麻烦」不符合主释义「架子」。"
+      },
+      {
         "wordId": "w-analysis",
         "reason": "英文「analysis」的常见义项「分析」不符合主释义「架子」。"
-      },
-      {
-        "wordId": "w-revision",
-        "reason": "英文「revision」的常见义项「修改」不符合主释义「架子」。"
-      },
-      {
-        "wordId": "w-addition",
-        "reason": "英文「addition」的常见义项「增加」不符合主释义「架子」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-speech",
+        "surfaceForm": "speech",
+        "reason": "将「speech」代入可见句子后不表达主释义「架子」。"
+      },
+      {
+        "wordId": "w-trouble",
+        "surfaceForm": "trouble",
+        "reason": "将「trouble」代入可见句子后不表达主释义「架子」。"
+      },
+      {
         "wordId": "w-analysis",
         "surfaceForm": "analysis",
         "reason": "将「analysis」代入可见句子后不表达主释义「架子」。"
-      },
-      {
-        "wordId": "w-revision",
-        "surfaceForm": "revision",
-        "reason": "将「revision」代入可见句子后不表达主释义「架子」。"
-      },
-      {
-        "wordId": "w-addition",
-        "surfaceForm": "addition",
-        "reason": "将「addition」代入可见句子后不表达主释义「架子」。"
       }
     ],
     "spelling": null
@@ -836,19 +836,23 @@
     "wordId": "w-shepherd",
     "enToZh": [
       {
+        "wordId": "w-villa",
+        "reason": "选项「别墅」不是「shepherd」的主释义「牧羊人」或其他义项。"
+      },
+      {
         "wordId": "w-haste",
         "reason": "选项「匆忙」不是「shepherd」的主释义「牧羊人」或其他义项。"
       },
       {
         "wordId": "w-banquet",
         "reason": "选项「宴会」不是「shepherd」的主释义「牧羊人」或其他义项。"
-      },
-      {
-        "wordId": "w-refreshment",
-        "reason": "选项「茶点」不是「shepherd」的主释义「牧羊人」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-villa",
+        "reason": "英文「villa」的常见义项「别墅」不符合主释义「牧羊人」。"
+      },
       {
         "wordId": "w-haste",
         "reason": "英文「haste」的常见义项「匆忙」不符合主释义「牧羊人」。"
@@ -856,13 +860,14 @@
       {
         "wordId": "w-banquet",
         "reason": "英文「banquet」的常见义项「宴会」不符合主释义「牧羊人」。"
-      },
-      {
-        "wordId": "w-refreshment",
-        "reason": "英文「refreshment」的常见义项「茶点」不符合主释义「牧羊人」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-villa",
+        "surfaceForm": "villa",
+        "reason": "将「villa」代入可见句子后不表达主释义「牧羊人」。"
+      },
       {
         "wordId": "w-haste",
         "surfaceForm": "haste",
@@ -872,11 +877,6 @@
         "wordId": "w-banquet",
         "surfaceForm": "banquet",
         "reason": "将「banquet」代入可见句子后不表达主释义「牧羊人」。"
-      },
-      {
-        "wordId": "w-refreshment",
-        "surfaceForm": "refreshment",
-        "reason": "将「refreshment」代入可见句子后不表达主释义「牧羊人」。"
       }
     ],
     "spelling": null
@@ -1032,47 +1032,47 @@
     "wordId": "w-shilling",
     "enToZh": [
       {
+        "wordId": "w-storey",
+        "reason": "选项「楼层」不是「shilling」的主释义「先令」或其他义项。"
+      },
+      {
         "wordId": "w-dictation",
         "reason": "选项「听写」不是「shilling」的主释义「先令」或其他义项。"
       },
       {
-        "wordId": "w-dynamo",
-        "reason": "选项「发电机」不是「shilling」的主释义「先令」或其他义项。"
-      },
-      {
-        "wordId": "w-sightseeing",
-        "reason": "选项「观光」不是「shilling」的主释义「先令」或其他义项。"
+        "wordId": "w-sophisticate",
+        "reason": "选项「见多识广的人」不是「shilling」的主释义「先令」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-storey",
+        "reason": "英文「storey」的常见义项「楼层」不符合主释义「先令」。"
+      },
       {
         "wordId": "w-dictation",
         "reason": "英文「dictation」的常见义项「听写」不符合主释义「先令」。"
       },
       {
-        "wordId": "w-dynamo",
-        "reason": "英文「dynamo」的常见义项「发电机」不符合主释义「先令」。"
-      },
-      {
-        "wordId": "w-sightseeing",
-        "reason": "英文「sightseeing」的常见义项「观光」不符合主释义「先令」。"
+        "wordId": "w-sophisticate",
+        "reason": "英文「sophisticate」的常见义项「见多识广的人」不符合主释义「先令」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-storey",
+        "surfaceForm": "storey",
+        "reason": "将「storey」代入可见句子后不表达主释义「先令」。"
+      },
       {
         "wordId": "w-dictation",
         "surfaceForm": "dictation",
         "reason": "将「dictation」代入可见句子后不表达主释义「先令」。"
       },
       {
-        "wordId": "w-dynamo",
-        "surfaceForm": "dynamo",
-        "reason": "将「dynamo」代入可见句子后不表达主释义「先令」。"
-      },
-      {
-        "wordId": "w-sightseeing",
-        "surfaceForm": "sightseeing",
-        "reason": "将「sightseeing」代入可见句子后不表达主释义「先令」。"
+        "wordId": "w-sophisticate",
+        "surfaceForm": "sophisticate",
+        "reason": "将「sophisticate」代入可见句子后不表达主释义「先令」。"
       }
     ],
     "spelling": null
@@ -1134,12 +1134,12 @@
         "reason": "选项「格架」不是「shipbuilding」的主释义「造船」或其他义项。"
       },
       {
-        "wordId": "w-analogue",
-        "reason": "选项「类似物」不是「shipbuilding」的主释义「造船」或其他义项。"
+        "wordId": "w-theorem",
+        "reason": "选项「定理」不是「shipbuilding」的主释义「造船」或其他义项。"
       },
       {
-        "wordId": "w-plutocrat",
-        "reason": "选项「财阀」不是「shipbuilding」的主释义「造船」或其他义项。"
+        "wordId": "w-analogue",
+        "reason": "选项「类似物」不是「shipbuilding」的主释义「造船」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1148,12 +1148,12 @@
         "reason": "英文「lattice」的常见义项「格架」不符合主释义「造船」。"
       },
       {
-        "wordId": "w-analogue",
-        "reason": "英文「analogue」的常见义项「类似物」不符合主释义「造船」。"
+        "wordId": "w-theorem",
+        "reason": "英文「theorem」的常见义项「定理」不符合主释义「造船」。"
       },
       {
-        "wordId": "w-plutocrat",
-        "reason": "英文「plutocrat」的常见义项「财阀」不符合主释义「造船」。"
+        "wordId": "w-analogue",
+        "reason": "英文「analogue」的常见义项「类似物」不符合主释义「造船」。"
       }
     ],
     "contextChoice": [
@@ -1163,14 +1163,14 @@
         "reason": "将「lattice」代入可见句子后不表达主释义「造船」。"
       },
       {
+        "wordId": "w-theorem",
+        "surfaceForm": "theorem",
+        "reason": "将「theorem」代入可见句子后不表达主释义「造船」。"
+      },
+      {
         "wordId": "w-analogue",
         "surfaceForm": "analogue",
         "reason": "将「analogue」代入可见句子后不表达主释义「造船」。"
-      },
-      {
-        "wordId": "w-plutocrat",
-        "surfaceForm": "plutocrat",
-        "reason": "将「plutocrat」代入可见句子后不表达主释义「造船」。"
       }
     ],
     "spelling": null
@@ -1179,19 +1179,23 @@
     "wordId": "w-shipment",
     "enToZh": [
       {
+        "wordId": "w-torch",
+        "reason": "选项「手电筒」不是「shipment」的主释义「货物」或其他义项。"
+      },
+      {
         "wordId": "w-electron",
         "reason": "选项「电子」不是「shipment」的主释义「货物」或其他义项。"
       },
       {
         "wordId": "w-detection",
         "reason": "选项「检测」不是「shipment」的主释义「货物」或其他义项。"
-      },
-      {
-        "wordId": "w-maple",
-        "reason": "选项「枫树」不是「shipment」的主释义「货物」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-torch",
+        "reason": "英文「torch」的常见义项「手电筒」不符合主释义「货物」。"
+      },
       {
         "wordId": "w-electron",
         "reason": "英文「electron」的常见义项「电子」不符合主释义「货物」。"
@@ -1199,13 +1203,14 @@
       {
         "wordId": "w-detection",
         "reason": "英文「detection」的常见义项「检测」不符合主释义「货物」。"
-      },
-      {
-        "wordId": "w-maple",
-        "reason": "英文「maple」的常见义项「枫树」不符合主释义「货物」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-torch",
+        "surfaceForm": "torch",
+        "reason": "将「torch」代入可见句子后不表达主释义「货物」。"
+      },
       {
         "wordId": "w-electron",
         "surfaceForm": "electron",
@@ -1215,11 +1220,6 @@
         "wordId": "w-detection",
         "surfaceForm": "detection",
         "reason": "将「detection」代入可见句子后不表达主释义「货物」。"
-      },
-      {
-        "wordId": "w-maple",
-        "surfaceForm": "maple",
-        "reason": "将「maple」代入可见句子后不表达主释义「货物」。"
       }
     ],
     "spelling": null

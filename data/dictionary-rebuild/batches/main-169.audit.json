@@ -158,8 +158,8 @@
         "reason": "选项「英语」不是「shock」的主释义「震惊」或其他义项。"
       },
       {
-        "wordId": "w-classroom",
-        "reason": "选项「教室」不是「shock」的主释义「震惊」或其他义项。"
+        "wordId": "w-tablespoon",
+        "reason": "选项「一汤匙」不是「shock」的主释义「震惊」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「English」的常见义项「英语」不符合主释义「震惊」。"
       },
       {
-        "wordId": "w-classroom",
-        "reason": "英文「classroom」的常见义项「教室」不符合主释义「震惊」。"
+        "wordId": "w-tablespoon",
+        "reason": "英文「tablespoon」的常见义项「一汤匙」不符合主释义「震惊」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「English」代入可见句子后不表达主释义「震惊」。"
       },
       {
-        "wordId": "w-classroom",
-        "surfaceForm": "classroom",
-        "reason": "将「classroom」代入可见句子后不表达主释义「震惊」。"
+        "wordId": "w-tablespoon",
+        "surfaceForm": "tablespoon",
+        "reason": "将「tablespoon」代入可见句子后不表达主释义「震惊」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-shop",
     "enToZh": [
       {
+        "wordId": "w-spoon",
+        "reason": "选项「勺子」不是「shop」的主释义「商店」或其他义项。"
+      },
+      {
         "wordId": "w-scientist",
         "reason": "选项「科学家」不是「shop」的主释义「商店」或其他义项。"
       },
       {
         "wordId": "w-gesture",
         "reason": "选项「手势」不是「shop」的主释义「商店」或其他义项。"
-      },
-      {
-        "wordId": "w-labor",
-        "reason": "选项「劳动」不是「shop」的主释义「商店」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-spoon",
+        "reason": "英文「spoon」的常见义项「勺子」不符合主释义「商店」。"
+      },
       {
         "wordId": "w-scientist",
         "reason": "英文「scientist」的常见义项「科学家」不符合主释义「商店」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-gesture",
         "reason": "英文「gesture」的常见义项「手势」不符合主释义「商店」。"
-      },
-      {
-        "wordId": "w-labor",
-        "reason": "英文「labor」的常见义项「劳动」不符合主释义「商店」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-spoon",
+        "surfaceForm": "spoon",
+        "reason": "将「spoon」代入可见句子后不表达主释义「商店」。"
+      },
       {
         "wordId": "w-scientist",
         "surfaceForm": "scientist",
@@ -333,11 +338,6 @@
         "wordId": "w-gesture",
         "surfaceForm": "gesture",
         "reason": "将「gesture」代入可见句子后不表达主释义「商店」。"
-      },
-      {
-        "wordId": "w-labor",
-        "surfaceForm": "labor",
-        "reason": "将「labor」代入可见句子后不表达主释义「商店」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「露水」不是「shortfall」的主释义「缺口」或其他义项。"
       },
       {
-        "wordId": "w-cannon",
-        "reason": "选项「大炮」不是「shortfall」的主释义「缺口」或其他义项。"
+        "wordId": "w-souvenir",
+        "reason": "选项「纪念品」不是「shortfall」的主释义「缺口」或其他义项。"
       },
       {
-        "wordId": "w-boiler",
-        "reason": "选项「锅炉」不是「shortfall」的主释义「缺口」或其他义项。"
+        "wordId": "w-cannon",
+        "reason": "选项「大炮」不是「shortfall」的主释义「缺口」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「dew」的常见义项「露水」不符合主释义「缺口」。"
       },
       {
-        "wordId": "w-cannon",
-        "reason": "英文「cannon」的常见义项「大炮」不符合主释义「缺口」。"
+        "wordId": "w-souvenir",
+        "reason": "英文「souvenir」的常见义项「纪念品」不符合主释义「缺口」。"
       },
       {
-        "wordId": "w-boiler",
-        "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「缺口」。"
+        "wordId": "w-cannon",
+        "reason": "英文「cannon」的常见义项「大炮」不符合主释义「缺口」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「dew」代入可见句子后不表达主释义「缺口」。"
       },
       {
+        "wordId": "w-souvenir",
+        "surfaceForm": "souvenir",
+        "reason": "将「souvenir」代入可见句子后不表达主释义「缺口」。"
+      },
+      {
         "wordId": "w-cannon",
         "surfaceForm": "cannon",
         "reason": "将「cannon」代入可见句子后不表达主释义「缺口」。"
-      },
-      {
-        "wordId": "w-boiler",
-        "surfaceForm": "boiler",
-        "reason": "将「boiler」代入可见句子后不表达主释义「缺口」。"
       }
     ],
     "spelling": null
@@ -644,12 +644,12 @@
         "reason": "选项「消防员」不是「shorthand」的主释义「速记」或其他义项。"
       },
       {
-        "wordId": "w-shutter",
-        "reason": "选项「百叶窗」不是「shorthand」的主释义「速记」或其他义项。"
-      },
-      {
         "wordId": "w-axle",
         "reason": "选项「车轴」不是「shorthand」的主释义「速记」或其他义项。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "reason": "选项「加速」不是「shorthand」的主释义「速记」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -658,12 +658,12 @@
         "reason": "英文「fireman」的常见义项「消防员」不符合主释义「速记」。"
       },
       {
-        "wordId": "w-shutter",
-        "reason": "英文「shutter」的常见义项「百叶窗」不符合主释义「速记」。"
-      },
-      {
         "wordId": "w-axle",
         "reason": "英文「axle」的常见义项「车轴」不符合主释义「速记」。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「速记」。"
       }
     ],
     "contextChoice": [
@@ -673,14 +673,14 @@
         "reason": "将「fireman」代入可见句子后不表达主释义「速记」。"
       },
       {
-        "wordId": "w-shutter",
-        "surfaceForm": "shutter",
-        "reason": "将「shutter」代入可见句子后不表达主释义「速记」。"
-      },
-      {
         "wordId": "w-axle",
         "surfaceForm": "axle",
         "reason": "将「axle」代入可见句子后不表达主释义「速记」。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "surfaceForm": "acceleration",
+        "reason": "将「acceleration」代入可见句子后不表达主释义「速记」。"
       }
     ],
     "spelling": null
@@ -786,8 +786,8 @@
         "reason": "选项「自行车」不是「shoulder」的主释义「肩膀」或其他义项。"
       },
       {
-        "wordId": "w-bench",
-        "reason": "选项「长椅」不是「shoulder」的主释义「肩膀」或其他义项。"
+        "wordId": "w-text",
+        "reason": "选项「文本」不是「shoulder」的主释义「肩膀」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -800,8 +800,8 @@
         "reason": "英文「bicycle」的常见义项「自行车」不符合主释义「肩膀」。"
       },
       {
-        "wordId": "w-bench",
-        "reason": "英文「bench」的常见义项「长椅」不符合主释义「肩膀」。"
+        "wordId": "w-text",
+        "reason": "英文「text」的常见义项「文本」不符合主释义「肩膀」。"
       }
     ],
     "contextChoice": [
@@ -816,9 +816,9 @@
         "reason": "将「bicycle」代入可见句子后不表达主释义「肩膀」。"
       },
       {
-        "wordId": "w-bench",
-        "surfaceForm": "bench",
-        "reason": "将「bench」代入可见句子后不表达主释义「肩膀」。"
+        "wordId": "w-text",
+        "surfaceForm": "text",
+        "reason": "将「text」代入可见句子后不表达主释义「肩膀」。"
       }
     ],
     "spelling": null
@@ -827,47 +827,47 @@
     "wordId": "w-shout",
     "enToZh": [
       {
+        "wordId": "w-wish",
+        "reason": "选项「希望」不是「shout」的主释义「喊叫」或其他义项。"
+      },
+      {
+        "wordId": "w-wait",
+        "reason": "选项「等待」不是「shout」的主释义「喊叫」或其他义项。"
+      },
+      {
         "wordId": "w-accept",
         "reason": "选项「接受」不是「shout」的主释义「喊叫」或其他义项。"
-      },
-      {
-        "wordId": "w-bend",
-        "reason": "选项「弯曲」不是「shout」的主释义「喊叫」或其他义项。"
-      },
-      {
-        "wordId": "w-handle",
-        "reason": "选项「处理」不是「shout」的主释义「喊叫」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-wish",
+        "reason": "英文「wish」的常见义项「希望」不符合主释义「喊叫」。"
+      },
+      {
+        "wordId": "w-wait",
+        "reason": "英文「wait」的常见义项「等待」不符合主释义「喊叫」。"
+      },
+      {
         "wordId": "w-accept",
         "reason": "英文「accept」的常见义项「接受」不符合主释义「喊叫」。"
-      },
-      {
-        "wordId": "w-bend",
-        "reason": "英文「bend」的常见义项「弯曲」不符合主释义「喊叫」。"
-      },
-      {
-        "wordId": "w-handle",
-        "reason": "英文「handle」的常见义项「处理」不符合主释义「喊叫」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-wish",
+        "surfaceForm": "wish",
+        "reason": "将「wish」代入可见句子后不表达主释义「喊叫」。"
+      },
+      {
+        "wordId": "w-wait",
+        "surfaceForm": "wait",
+        "reason": "将「wait」代入可见句子后不表达主释义「喊叫」。"
+      },
+      {
         "wordId": "w-accept",
         "surfaceForm": "accept",
         "reason": "将「accept」代入可见句子后不表达主释义「喊叫」。"
-      },
-      {
-        "wordId": "w-bend",
-        "surfaceForm": "bend",
-        "reason": "将「bend」代入可见句子后不表达主释义「喊叫」。"
-      },
-      {
-        "wordId": "w-handle",
-        "surfaceForm": "handle",
-        "reason": "将「handle」代入可见句子后不表达主释义「喊叫」。"
       }
     ],
     "spelling": null
@@ -880,12 +880,12 @@
         "reason": "选项「禁止」不是「shove」的主释义「猛推」或其他义项。"
       },
       {
-        "wordId": "w-plead",
-        "reason": "选项「恳求」不是「shove」的主释义「猛推」或其他义项。"
+        "wordId": "w-submit",
+        "reason": "选项「提交」不是「shove」的主释义「猛推」或其他义项。"
       },
       {
-        "wordId": "w-evacuate",
-        "reason": "选项「疏散」不是「shove」的主释义「猛推」或其他义项。"
+        "wordId": "w-plead",
+        "reason": "选项「恳求」不是「shove」的主释义「猛推」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -894,12 +894,12 @@
         "reason": "英文「prohibit」的常见义项「禁止」不符合主释义「猛推」。"
       },
       {
-        "wordId": "w-plead",
-        "reason": "英文「plead」的常见义项「恳求」不符合主释义「猛推」。"
+        "wordId": "w-submit",
+        "reason": "英文「submit」的常见义项「提交」不符合主释义「猛推」。"
       },
       {
-        "wordId": "w-evacuate",
-        "reason": "英文「evacuate」的常见义项「疏散」不符合主释义「猛推」。"
+        "wordId": "w-plead",
+        "reason": "英文「plead」的常见义项「恳求」不符合主释义「猛推」。"
       }
     ],
     "contextChoice": [
@@ -909,14 +909,14 @@
         "reason": "将「prohibit」代入可见句子后不表达主释义「猛推」。"
       },
       {
+        "wordId": "w-submit",
+        "surfaceForm": "submit",
+        "reason": "将「submit」代入可见句子后不表达主释义「猛推」。"
+      },
+      {
         "wordId": "w-plead",
         "surfaceForm": "plead",
         "reason": "将「plead」代入可见句子后不表达主释义「猛推」。"
-      },
-      {
-        "wordId": "w-evacuate",
-        "surfaceForm": "evacuate",
-        "reason": "将「evacuate」代入可见句子后不表达主释义「猛推」。"
       }
     ],
     "spelling": null
@@ -929,12 +929,12 @@
         "reason": "选项「固定装置」不是「shovel」的主释义「铲子」或其他义项。"
       },
       {
-        "wordId": "w-ash",
-        "reason": "选项「灰烬」不是「shovel」的主释义「铲子」或其他义项。"
+        "wordId": "w-viewpoint",
+        "reason": "选项「观点」不是「shovel」的主释义「铲子」或其他义项。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "选项「评估」不是「shovel」的主释义「铲子」或其他义项。"
+        "wordId": "w-ash",
+        "reason": "选项「灰烬」不是「shovel」的主释义「铲子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -943,12 +943,12 @@
         "reason": "英文「fixture」的常见义项「固定装置」不符合主释义「铲子」。"
       },
       {
-        "wordId": "w-ash",
-        "reason": "英文「ash」的常见义项「灰烬」不符合主释义「铲子」。"
+        "wordId": "w-viewpoint",
+        "reason": "英文「viewpoint」的常见义项「观点」不符合主释义「铲子」。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「铲子」。"
+        "wordId": "w-ash",
+        "reason": "英文「ash」的常见义项「灰烬」不符合主释义「铲子」。"
       }
     ],
     "contextChoice": [
@@ -958,14 +958,14 @@
         "reason": "将「fixture」代入可见句子后不表达主释义「铲子」。"
       },
       {
+        "wordId": "w-viewpoint",
+        "surfaceForm": "viewpoint",
+        "reason": "将「viewpoint」代入可见句子后不表达主释义「铲子」。"
+      },
+      {
         "wordId": "w-ash",
         "surfaceForm": "ash",
         "reason": "将「ash」代入可见句子后不表达主释义「铲子」。"
-      },
-      {
-        "wordId": "w-appraisal",
-        "surfaceForm": "appraisal",
-        "reason": "将「appraisal」代入可见句子后不表达主释义「铲子」。"
       }
     ],
     "spelling": null
@@ -1121,19 +1121,23 @@
     "wordId": "w-shrill",
     "enToZh": [
       {
+        "wordId": "w-violet",
+        "reason": "选项「紫色的」不是「shrill」的主释义「尖锐的」或其他义项。"
+      },
+      {
         "wordId": "w-illiterate",
         "reason": "选项「不识字的」不是「shrill」的主释义「尖锐的」或其他义项。"
       },
       {
         "wordId": "w-perpendicular",
         "reason": "选项「垂直的」不是「shrill」的主释义「尖锐的」或其他义项。"
-      },
-      {
-        "wordId": "w-scarlet",
-        "reason": "选项「鲜红色的」不是「shrill」的主释义「尖锐的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-violet",
+        "reason": "英文「violet」的常见义项「紫色的」不符合主释义「尖锐的」。"
+      },
       {
         "wordId": "w-illiterate",
         "reason": "英文「illiterate」的常见义项「不识字的」不符合主释义「尖锐的」。"
@@ -1141,13 +1145,14 @@
       {
         "wordId": "w-perpendicular",
         "reason": "英文「perpendicular」的常见义项「垂直的」不符合主释义「尖锐的」。"
-      },
-      {
-        "wordId": "w-scarlet",
-        "reason": "英文「scarlet」的常见义项「鲜红色的」不符合主释义「尖锐的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-violet",
+        "surfaceForm": "violet",
+        "reason": "将「violet」代入可见句子后不表达主释义「尖锐的」。"
+      },
       {
         "wordId": "w-illiterate",
         "surfaceForm": "illiterate",
@@ -1157,11 +1162,6 @@
         "wordId": "w-perpendicular",
         "surfaceForm": "perpendicular",
         "reason": "将「perpendicular」代入可见句子后不表达主释义「尖锐的」。"
-      },
-      {
-        "wordId": "w-scarlet",
-        "surfaceForm": "scarlet",
-        "reason": "将「scarlet」代入可见句子后不表达主释义「尖锐的」。"
       }
     ],
     "spelling": null

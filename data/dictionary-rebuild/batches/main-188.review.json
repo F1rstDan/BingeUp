@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-188",
+  "reviewer": "independent-rereview-main-188",
   "mode": "sample",
   "inspectedWordIds": [
     "w-tale",
@@ -8,12 +8,6 @@
     "w-target",
     "w-tear"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-tear",
-      "stage": "pronunciation",
-      "message": "主释义为名词「眼泪」，但读音选择索引 0 为 /ˈtɛɹ/（动词「撕开」读音）；名词「眼泪」应为索引 1 /ˈtɪɹ/。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

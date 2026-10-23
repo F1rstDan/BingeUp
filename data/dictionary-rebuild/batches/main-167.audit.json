@@ -11,8 +11,8 @@
         "reason": "选项「相当地」不是「separately」的主释义「分别地」或其他义项。"
       },
       {
-        "wordId": "w-forth",
-        "reason": "选项「向前」不是「separately」的主释义「分别地」或其他义项。"
+        "wordId": "w-specially",
+        "reason": "选项「专门地」不是「separately」的主释义「分别地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「fairly」的常见义项「相当地」不符合主释义「分别地」。"
       },
       {
-        "wordId": "w-forth",
-        "reason": "英文「forth」的常见义项「向前」不符合主释义「分别地」。"
+        "wordId": "w-specially",
+        "reason": "英文「specially」的常见义项「专门地」不符合主释义「分别地」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「fairly」代入可见句子后不表达主释义「分别地」。"
       },
       {
-        "wordId": "w-forth",
-        "surfaceForm": "forth",
-        "reason": "将「forth」代入可见句子后不表达主释义「分别地」。"
+        "wordId": "w-specially",
+        "surfaceForm": "specially",
+        "reason": "将「specially」代入可见句子后不表达主释义「分别地」。"
       }
     ],
     "spelling": null
@@ -101,19 +101,23 @@
     "wordId": "w-sequence",
     "enToZh": [
       {
+        "wordId": "w-soccer",
+        "reason": "选项「足球」不是「sequence」的主释义「顺序」或其他义项。"
+      },
+      {
         "wordId": "w-script",
         "reason": "选项「剧本」不是「sequence」的主释义「顺序」或其他义项。"
       },
       {
         "wordId": "w-discrepancy",
         "reason": "选项「差异」不是「sequence」的主释义「顺序」或其他义项。"
-      },
-      {
-        "wordId": "w-consumption",
-        "reason": "选项「消耗」不是「sequence」的主释义「顺序」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-soccer",
+        "reason": "英文「soccer」的常见义项「足球」不符合主释义「顺序」。"
+      },
       {
         "wordId": "w-script",
         "reason": "英文「script」的常见义项「剧本」不符合主释义「顺序」。"
@@ -121,13 +125,14 @@
       {
         "wordId": "w-discrepancy",
         "reason": "英文「discrepancy」的常见义项「差异」不符合主释义「顺序」。"
-      },
-      {
-        "wordId": "w-consumption",
-        "reason": "英文「consumption」的常见义项「消耗」不符合主释义「顺序」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-soccer",
+        "surfaceForm": "soccer",
+        "reason": "将「soccer」代入可见句子后不表达主释义「顺序」。"
+      },
       {
         "wordId": "w-script",
         "surfaceForm": "script",
@@ -137,11 +142,6 @@
         "wordId": "w-discrepancy",
         "surfaceForm": "discrepancy",
         "reason": "将「discrepancy」代入可见句子后不表达主释义「顺序」。"
-      },
-      {
-        "wordId": "w-consumption",
-        "surfaceForm": "consumption",
-        "reason": "将「consumption」代入可见句子后不表达主释义「顺序」。"
       }
     ],
     "spelling": null
@@ -158,8 +158,8 @@
         "reason": "选项「讨论」不是「series」的主释义「系列」或其他义项。"
       },
       {
-        "wordId": "w-fault",
-        "reason": "选项「过错」不是「series」的主释义「系列」或其他义项。"
+        "wordId": "w-ton",
+        "reason": "选项「吨」不是「series」的主释义「系列」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「discussion」的常见义项「讨论」不符合主释义「系列」。"
       },
       {
-        "wordId": "w-fault",
-        "reason": "英文「fault」的常见义项「过错」不符合主释义「系列」。"
+        "wordId": "w-ton",
+        "reason": "英文「ton」的常见义项「吨」不符合主释义「系列」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「discussion」代入可见句子后不表达主释义「系列」。"
       },
       {
-        "wordId": "w-fault",
-        "surfaceForm": "fault",
-        "reason": "将「fault」代入可见句子后不表达主释义「系列」。"
+        "wordId": "w-ton",
+        "surfaceForm": "ton",
+        "reason": "将「ton」代入可见句子后不表达主释义「系列」。"
       }
     ],
     "spelling": null
@@ -199,47 +199,47 @@
     "wordId": "w-seriously",
     "enToZh": [
       {
+        "wordId": "w-therefore",
+        "reason": "选项「因此」不是「seriously」的主释义「认真地」或其他义项。"
+      },
+      {
+        "wordId": "w-suddenly",
+        "reason": "选项「突然」不是「seriously」的主释义「认真地」或其他义项。"
+      },
+      {
         "wordId": "w-approximately",
         "reason": "选项「大约」不是「seriously」的主释义「认真地」或其他义项。"
-      },
-      {
-        "wordId": "w-desperately",
-        "reason": "选项「拼命地」不是「seriously」的主释义「认真地」或其他义项。"
-      },
-      {
-        "wordId": "w-fairly",
-        "reason": "选项「相当地」不是「seriously」的主释义「认真地」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-therefore",
+        "reason": "英文「therefore」的常见义项「因此」不符合主释义「认真地」。"
+      },
+      {
+        "wordId": "w-suddenly",
+        "reason": "英文「suddenly」的常见义项「突然」不符合主释义「认真地」。"
+      },
+      {
         "wordId": "w-approximately",
         "reason": "英文「approximately」的常见义项「大约」不符合主释义「认真地」。"
-      },
-      {
-        "wordId": "w-desperately",
-        "reason": "英文「desperately」的常见义项「拼命地」不符合主释义「认真地」。"
-      },
-      {
-        "wordId": "w-fairly",
-        "reason": "英文「fairly」的常见义项「相当地」不符合主释义「认真地」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-therefore",
+        "surfaceForm": "therefore",
+        "reason": "将「therefore」代入可见句子后不表达主释义「认真地」。"
+      },
+      {
+        "wordId": "w-suddenly",
+        "surfaceForm": "suddenly",
+        "reason": "将「suddenly」代入可见句子后不表达主释义「认真地」。"
+      },
+      {
         "wordId": "w-approximately",
         "surfaceForm": "approximately",
         "reason": "将「approximately」代入可见句子后不表达主释义「认真地」。"
-      },
-      {
-        "wordId": "w-desperately",
-        "surfaceForm": "desperately",
-        "reason": "将「desperately」代入可见句子后不表达主释义「认真地」。"
-      },
-      {
-        "wordId": "w-fairly",
-        "surfaceForm": "fairly",
-        "reason": "将「fairly」代入可见句子后不表达主释义「认真地」。"
       }
     ],
     "spelling": null
@@ -444,47 +444,47 @@
     "wordId": "w-service",
     "enToZh": [
       {
+        "wordId": "w-volunteer",
+        "reason": "选项「志愿者」不是「service」的主释义「服务」或其他义项。"
+      },
+      {
         "wordId": "w-drug",
         "reason": "选项「药物」不是「service」的主释义「服务」或其他义项。"
       },
       {
-        "wordId": "w-bunch",
-        "reason": "选项「一串」不是「service」的主释义「服务」或其他义项。"
-      },
-      {
-        "wordId": "w-assault",
-        "reason": "选项「袭击」不是「service」的主释义「服务」或其他义项。"
+        "wordId": "w-symptom",
+        "reason": "选项「症状」不是「service」的主释义「服务」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-volunteer",
+        "reason": "英文「volunteer」的常见义项「志愿者」不符合主释义「服务」。"
+      },
       {
         "wordId": "w-drug",
         "reason": "英文「drug」的常见义项「药物」不符合主释义「服务」。"
       },
       {
-        "wordId": "w-bunch",
-        "reason": "英文「bunch」的常见义项「一串」不符合主释义「服务」。"
-      },
-      {
-        "wordId": "w-assault",
-        "reason": "英文「assault」的常见义项「袭击」不符合主释义「服务」。"
+        "wordId": "w-symptom",
+        "reason": "英文「symptom」的常见义项「症状」不符合主释义「服务」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-volunteer",
+        "surfaceForm": "volunteer",
+        "reason": "将「volunteer」代入可见句子后不表达主释义「服务」。"
+      },
       {
         "wordId": "w-drug",
         "surfaceForm": "drug",
         "reason": "将「drug」代入可见句子后不表达主释义「服务」。"
       },
       {
-        "wordId": "w-bunch",
-        "surfaceForm": "bunch",
-        "reason": "将「bunch」代入可见句子后不表达主释义「服务」。"
-      },
-      {
-        "wordId": "w-assault",
-        "surfaceForm": "assault",
-        "reason": "将「assault」代入可见句子后不表达主释义「服务」。"
+        "wordId": "w-symptom",
+        "surfaceForm": "symptom",
+        "reason": "将「symptom」代入可见句子后不表达主释义「服务」。"
       }
     ],
     "spelling": null
@@ -648,8 +648,8 @@
         "reason": "选项「保护」不是「settle」的主释义「解决」或其他义项。"
       },
       {
-        "wordId": "w-manage",
-        "reason": "选项「管理」不是「settle」的主释义「解决」或其他义项。"
+        "wordId": "w-suspect",
+        "reason": "选项「怀疑」不是「settle」的主释义「解决」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -662,8 +662,8 @@
         "reason": "英文「protect」的常见义项「保护」不符合主释义「解决」。"
       },
       {
-        "wordId": "w-manage",
-        "reason": "英文「manage」的常见义项「管理」不符合主释义「解决」。"
+        "wordId": "w-suspect",
+        "reason": "英文「suspect」的常见义项「怀疑」不符合主释义「解决」。"
       }
     ],
     "contextChoice": [
@@ -678,9 +678,9 @@
         "reason": "将「protect」代入可见句子后不表达主释义「解决」。"
       },
       {
-        "wordId": "w-manage",
-        "surfaceForm": "manage",
-        "reason": "将「manage」代入可见句子后不表达主释义「解决」。"
+        "wordId": "w-suspect",
+        "surfaceForm": "suspect",
+        "reason": "将「suspect」代入可见句子后不表达主释义「解决」。"
       }
     ],
     "spelling": null
@@ -738,23 +738,19 @@
     "wordId": "w-seven",
     "enToZh": [
       {
-        "wordId": "w-six",
-        "reason": "选项「六」不是「seven」的主释义「七」或其他义项。"
-      },
-      {
         "wordId": "w-fifth",
         "reason": "选项「第五」不是「seven」的主释义「七」或其他义项。"
       },
       {
         "wordId": "w-nine",
         "reason": "选项「九」不是「seven」的主释义「七」或其他义项。"
+      },
+      {
+        "wordId": "w-twenty",
+        "reason": "选项「二十」不是「seven」的主释义「七」或其他义项。"
       }
     ],
     "zhToEn": [
-      {
-        "wordId": "w-six",
-        "reason": "英文「six」的常见义项「六」不符合主释义「七」。"
-      },
       {
         "wordId": "w-fifth",
         "reason": "英文「fifth」的常见义项「第五」不符合主释义「七」。"
@@ -762,14 +758,13 @@
       {
         "wordId": "w-nine",
         "reason": "英文「nine」的常见义项「九」不符合主释义「七」。"
+      },
+      {
+        "wordId": "w-twenty",
+        "reason": "英文「twenty」的常见义项「二十」不符合主释义「七」。"
       }
     ],
     "contextChoice": [
-      {
-        "wordId": "w-six",
-        "surfaceForm": "six",
-        "reason": "将「six」代入可见句子后不表达主释义「七」。"
-      },
       {
         "wordId": "w-fifth",
         "surfaceForm": "fifth",
@@ -779,6 +774,11 @@
         "wordId": "w-nine",
         "surfaceForm": "nine",
         "reason": "将「nine」代入可见句子后不表达主释义「七」。"
+      },
+      {
+        "wordId": "w-twenty",
+        "surfaceForm": "twenty",
+        "reason": "将「twenty」代入可见句子后不表达主释义「七」。"
       }
     ],
     "spelling": null
@@ -795,8 +795,8 @@
         "reason": "选项「八十」不是「seventeen」的主释义「十七」或其他义项。"
       },
       {
-        "wordId": "w-sixty",
-        "reason": "选项「六十」不是「seventeen」的主释义「十七」或其他义项。"
+        "wordId": "w-nineteen",
+        "reason": "选项「十九」不是「seventeen」的主释义「十七」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -809,8 +809,8 @@
         "reason": "英文「eighty」的常见义项「八十」不符合主释义「十七」。"
       },
       {
-        "wordId": "w-sixty",
-        "reason": "英文「sixty」的常见义项「六十」不符合主释义「十七」。"
+        "wordId": "w-nineteen",
+        "reason": "英文「nineteen」的常见义项「十九」不符合主释义「十七」。"
       }
     ],
     "contextChoice": [
@@ -825,9 +825,9 @@
         "reason": "将「eighty」代入可见句子后不表达主释义「十七」。"
       },
       {
-        "wordId": "w-sixty",
-        "surfaceForm": "sixty",
-        "reason": "将「sixty」代入可见句子后不表达主释义「十七」。"
+        "wordId": "w-nineteen",
+        "surfaceForm": "nineteen",
+        "reason": "将「nineteen」代入可见句子后不表达主释义「十七」。"
       }
     ],
     "spelling": null
@@ -836,23 +836,19 @@
     "wordId": "w-seventy",
     "enToZh": [
       {
-        "wordId": "w-sixty",
-        "reason": "选项「六十」不是「seventy」的主释义「七十」或其他义项。"
-      },
-      {
         "wordId": "w-seventeen",
         "reason": "选项「十七」不是「seventy」的主释义「七十」或其他义项。"
       },
       {
         "wordId": "w-nineteen",
         "reason": "选项「十九」不是「seventy」的主释义「七十」或其他义项。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "reason": "选项「十八」不是「seventy」的主释义「七十」或其他义项。"
       }
     ],
     "zhToEn": [
-      {
-        "wordId": "w-sixty",
-        "reason": "英文「sixty」的常见义项「六十」不符合主释义「七十」。"
-      },
       {
         "wordId": "w-seventeen",
         "reason": "英文「seventeen」的常见义项「十七」不符合主释义「七十」。"
@@ -860,14 +856,13 @@
       {
         "wordId": "w-nineteen",
         "reason": "英文「nineteen」的常见义项「十九」不符合主释义「七十」。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "reason": "英文「eighteen」的常见义项「十八」不符合主释义「七十」。"
       }
     ],
     "contextChoice": [
-      {
-        "wordId": "w-sixty",
-        "surfaceForm": "sixty",
-        "reason": "将「sixty」代入可见句子后不表达主释义「七十」。"
-      },
       {
         "wordId": "w-seventeen",
         "surfaceForm": "seventeen",
@@ -877,6 +872,11 @@
         "wordId": "w-nineteen",
         "surfaceForm": "nineteen",
         "reason": "将「nineteen」代入可见句子后不表达主释义「七十」。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "surfaceForm": "eighteen",
+        "reason": "将「eighteen」代入可见句子后不表达主释义「七十」。"
       }
     ],
     "spelling": null
@@ -893,8 +893,8 @@
         "reason": "选项「迅速地」不是「severely」的主释义「严重地」或其他义项。"
       },
       {
-        "wordId": "w-originally",
-        "reason": "选项「最初」不是「severely」的主释义「严重地」或其他义项。"
+        "wordId": "w-typically",
+        "reason": "选项「通常」不是「severely」的主释义「严重地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -907,8 +907,8 @@
         "reason": "英文「promptly」的常见义项「迅速地」不符合主释义「严重地」。"
       },
       {
-        "wordId": "w-originally",
-        "reason": "英文「originally」的常见义项「最初」不符合主释义「严重地」。"
+        "wordId": "w-typically",
+        "reason": "英文「typically」的常见义项「通常」不符合主释义「严重地」。"
       }
     ],
     "contextChoice": [
@@ -923,9 +923,9 @@
         "reason": "将「promptly」代入可见句子后不表达主释义「严重地」。"
       },
       {
-        "wordId": "w-originally",
-        "surfaceForm": "originally",
-        "reason": "将「originally」代入可见句子后不表达主释义「严重地」。"
+        "wordId": "w-typically",
+        "surfaceForm": "typically",
+        "reason": "将「typically」代入可见句子后不表达主释义「严重地」。"
       }
     ],
     "spelling": null
@@ -1036,12 +1036,12 @@
         "reason": "选项「豆子」不是「shade」的主释义「阴凉处」或其他义项。"
       },
       {
-        "wordId": "w-anniversary",
-        "reason": "选项「周年纪念日」不是「shade」的主释义「阴凉处」或其他义项。"
+        "wordId": "w-teacher",
+        "reason": "选项「老师」不是「shade」的主释义「阴凉处」或其他义项。"
       },
       {
-        "wordId": "w-engine",
-        "reason": "选项「发动机」不是「shade」的主释义「阴凉处」或其他义项。"
+        "wordId": "w-trust",
+        "reason": "选项「信任」不是「shade」的主释义「阴凉处」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1050,12 +1050,12 @@
         "reason": "英文「bean」的常见义项「豆子」不符合主释义「阴凉处」。"
       },
       {
-        "wordId": "w-anniversary",
-        "reason": "英文「anniversary」的常见义项「周年纪念日」不符合主释义「阴凉处」。"
+        "wordId": "w-teacher",
+        "reason": "英文「teacher」的常见义项「老师」不符合主释义「阴凉处」。"
       },
       {
-        "wordId": "w-engine",
-        "reason": "英文「engine」的常见义项「发动机」不符合主释义「阴凉处」。"
+        "wordId": "w-trust",
+        "reason": "英文「trust」的常见义项「信任」不符合主释义「阴凉处」。"
       }
     ],
     "contextChoice": [
@@ -1065,14 +1065,14 @@
         "reason": "将「bean」代入可见句子后不表达主释义「阴凉处」。"
       },
       {
-        "wordId": "w-anniversary",
-        "surfaceForm": "anniversary",
-        "reason": "将「anniversary」代入可见句子后不表达主释义「阴凉处」。"
+        "wordId": "w-teacher",
+        "surfaceForm": "teacher",
+        "reason": "将「teacher」代入可见句子后不表达主释义「阴凉处」。"
       },
       {
-        "wordId": "w-engine",
-        "surfaceForm": "engine",
-        "reason": "将「engine」代入可见句子后不表达主释义「阴凉处」。"
+        "wordId": "w-trust",
+        "surfaceForm": "trust",
+        "reason": "将「trust」代入可见句子后不表达主释义「阴凉处」。"
       }
     ],
     "spelling": null
@@ -1085,12 +1085,12 @@
         "reason": "选项「惩罚」不是「shadow」的主释义「影子」或其他义项。"
       },
       {
-        "wordId": "w-awareness",
-        "reason": "选项「意识」不是「shadow」的主释义「影子」或其他义项。"
+        "wordId": "w-tea",
+        "reason": "选项「茶」不是「shadow」的主释义「影子」或其他义项。"
       },
       {
-        "wordId": "w-motor",
-        "reason": "选项「发动机」不是「shadow」的主释义「影子」或其他义项。"
+        "wordId": "w-sound",
+        "reason": "选项「声音」不是「shadow」的主释义「影子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1099,12 +1099,12 @@
         "reason": "英文「punishment」的常见义项「惩罚」不符合主释义「影子」。"
       },
       {
-        "wordId": "w-awareness",
-        "reason": "英文「awareness」的常见义项「意识」不符合主释义「影子」。"
+        "wordId": "w-tea",
+        "reason": "英文「tea」的常见义项「茶」不符合主释义「影子」。"
       },
       {
-        "wordId": "w-motor",
-        "reason": "英文「motor」的常见义项「发动机」不符合主释义「影子」。"
+        "wordId": "w-sound",
+        "reason": "英文「sound」的常见义项「声音」不符合主释义「影子」。"
       }
     ],
     "contextChoice": [
@@ -1114,14 +1114,14 @@
         "reason": "将「punishment」代入可见句子后不表达主释义「影子」。"
       },
       {
-        "wordId": "w-awareness",
-        "surfaceForm": "awareness",
-        "reason": "将「awareness」代入可见句子后不表达主释义「影子」。"
+        "wordId": "w-tea",
+        "surfaceForm": "tea",
+        "reason": "将「tea」代入可见句子后不表达主释义「影子」。"
       },
       {
-        "wordId": "w-motor",
-        "surfaceForm": "motor",
-        "reason": "将「motor」代入可见句子后不表达主释义「影子」。"
+        "wordId": "w-sound",
+        "surfaceForm": "sound",
+        "reason": "将「sound」代入可见句子后不表达主释义「影子」。"
       }
     ],
     "spelling": null
@@ -1138,8 +1138,8 @@
         "reason": "选项「小羊」不是「shaft」的主释义「轴」或其他义项。"
       },
       {
-        "wordId": "w-contamination",
-        "reason": "选项「污染」不是「shaft」的主释义「轴」或其他义项。"
+        "wordId": "w-transit",
+        "reason": "选项「运输」不是「shaft」的主释义「轴」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1152,8 +1152,8 @@
         "reason": "英文「lamb」的常见义项「小羊」不符合主释义「轴」。"
       },
       {
-        "wordId": "w-contamination",
-        "reason": "英文「contamination」的常见义项「污染」不符合主释义「轴」。"
+        "wordId": "w-transit",
+        "reason": "英文「transit」的常见义项「运输」不符合主释义「轴」。"
       }
     ],
     "contextChoice": [
@@ -1168,9 +1168,9 @@
         "reason": "将「lamb」代入可见句子后不表达主释义「轴」。"
       },
       {
-        "wordId": "w-contamination",
-        "surfaceForm": "contamination",
-        "reason": "将「contamination」代入可见句子后不表达主释义「轴」。"
+        "wordId": "w-transit",
+        "surfaceForm": "transit",
+        "reason": "将「transit」代入可见句子后不表达主释义「轴」。"
       }
     ],
     "spelling": null

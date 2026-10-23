@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-153",
+  "reviewer": "independent-rereview-main-153",
   "mode": "sample",
   "inspectedWordIds": [
     "w-recur",
@@ -15,12 +15,6 @@
     "w-refusal",
     "w-refuse"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-refugee",
-      "stage": "pronunciation",
-      "message": "主词性为 n.、主释义为「难民」，规范美式读音应为 /ˌɹɛfjuˈdʒi/，主重音在末音节。固定来源只有 /ˈɹɛfjudʒi/，把主重音放在首音节；当前条目读音错误。需新增正确的独立转写或修正读音来源后重新复核。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

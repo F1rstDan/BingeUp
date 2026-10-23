@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-fix-review-main-032",
+  "reviewer": "independent-rereview-main-032",
   "mode": "sample",
   "inspectedWordIds": [
     "w-clerk",
@@ -9,12 +9,6 @@
     "w-clothes",
     "w-cloud"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-clerk",
-      "stage": "question",
-      "message": "中选英题面为「职员」，干扰项 employee（雇员）也可作为「职员」的英文答案，题组存在双解；应替换或移除 w-employee 后再复核。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

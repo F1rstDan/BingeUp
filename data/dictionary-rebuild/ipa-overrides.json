@@ -182,6 +182,11 @@
       "reason": "固定美式来源缺项；按动词「播种」和规范词元独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-somewhat": {
+      "ipa": "/ˈsʌmˌwʌt/",
+      "reason": "固定来源候选在两个音节上均标主重音；按副词「有点」改为首音节主重音、次音节次重音。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-southwards": {
       "ipa": "/ˈsaʊθwɚdz/",
       "reason": "固定美式来源缺项；按副词「向南」和规范词元独立转写。",
@@ -190,6 +195,16 @@
     "w-tradesman": {
       "ipa": "/ˈtɹeɪdzmən/",
       "reason": "固定美式来源缺项；按名词「商人」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-underestimate": {
+      "ipa": "/ˌəndɝˈɛstəˌmeɪt/",
+      "reason": "动词「低估」的主重音在 -es-，un- 为次重音；修正固定来源的双主重音。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-vapour": {
+      "ipa": "/ˈveɪpɚ/",
+      "reason": "固定来源缺项；按名词「蒸汽」的常见美式读音独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
     "w-vigour": {

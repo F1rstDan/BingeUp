@@ -101,47 +101,47 @@
     "wordId": "w-similarly",
     "enToZh": [
       {
+        "wordId": "w-yesterday",
+        "reason": "选项「昨天」不是「similarly」的主释义「同样地」或其他义项。"
+      },
+      {
         "wordId": "w-increasingly",
-        "reason": "选项「越来越多地」不是「similarly」的主释义「类似地」或其他义项。"
+        "reason": "选项「越来越多地」不是「similarly」的主释义「同样地」或其他义项。"
       },
       {
         "wordId": "w-largely",
-        "reason": "选项「主要地」不是「similarly」的主释义「类似地」或其他义项。"
-      },
-      {
-        "wordId": "w-forth",
-        "reason": "选项「向前」不是「similarly」的主释义「类似地」或其他义项。"
+        "reason": "选项「主要地」不是「similarly」的主释义「同样地」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-yesterday",
+        "reason": "英文「yesterday」的常见义项「昨天」不符合主释义「同样地」。"
+      },
+      {
         "wordId": "w-increasingly",
-        "reason": "英文「increasingly」的常见义项「越来越多地」不符合主释义「类似地」。"
+        "reason": "英文「increasingly」的常见义项「越来越多地」不符合主释义「同样地」。"
       },
       {
         "wordId": "w-largely",
-        "reason": "英文「largely」的常见义项「主要地」不符合主释义「类似地」。"
-      },
-      {
-        "wordId": "w-forth",
-        "reason": "英文「forth」的常见义项「向前」不符合主释义「类似地」。"
+        "reason": "英文「largely」的常见义项「主要地」不符合主释义「同样地」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-yesterday",
+        "surfaceForm": "yesterday",
+        "reason": "将「yesterday」代入可见句子后不表达主释义「同样地」。"
+      },
+      {
         "wordId": "w-increasingly",
         "surfaceForm": "increasingly",
-        "reason": "将「increasingly」代入可见句子后不表达主释义「类似地」。"
+        "reason": "将「increasingly」代入可见句子后不表达主释义「同样地」。"
       },
       {
         "wordId": "w-largely",
         "surfaceForm": "largely",
-        "reason": "将「largely」代入可见句子后不表达主释义「类似地」。"
-      },
-      {
-        "wordId": "w-forth",
-        "surfaceForm": "forth",
-        "reason": "将「forth」代入可见句子后不表达主释义「类似地」。"
+        "reason": "将「largely」代入可见句子后不表达主释义「同样地」。"
       }
     ],
     "spelling": null
@@ -151,46 +151,46 @@
     "enToZh": [
       {
         "wordId": "w-astronomy",
-        "reason": "选项「天文学」不是「simplicity」的主释义「简单」或其他义项。"
+        "reason": "选项「天文学」不是「simplicity」的主释义「简洁」或其他义项。"
       },
       {
         "wordId": "w-ranch",
-        "reason": "选项「牧场」不是「simplicity」的主释义「简单」或其他义项。"
+        "reason": "选项「牧场」不是「simplicity」的主释义「简洁」或其他义项。"
       },
       {
-        "wordId": "w-brightness",
-        "reason": "选项「亮度」不是「simplicity」的主释义「简单」或其他义项。"
+        "wordId": "w-spectator",
+        "reason": "选项「观众」不是「simplicity」的主释义「简洁」或其他义项。"
       }
     ],
     "zhToEn": [
       {
         "wordId": "w-astronomy",
-        "reason": "英文「astronomy」的常见义项「天文学」不符合主释义「简单」。"
+        "reason": "英文「astronomy」的常见义项「天文学」不符合主释义「简洁」。"
       },
       {
         "wordId": "w-ranch",
-        "reason": "英文「ranch」的常见义项「牧场」不符合主释义「简单」。"
+        "reason": "英文「ranch」的常见义项「牧场」不符合主释义「简洁」。"
       },
       {
-        "wordId": "w-brightness",
-        "reason": "英文「brightness」的常见义项「亮度」不符合主释义「简单」。"
+        "wordId": "w-spectator",
+        "reason": "英文「spectator」的常见义项「观众」不符合主释义「简洁」。"
       }
     ],
     "contextChoice": [
       {
         "wordId": "w-astronomy",
         "surfaceForm": "astronomy",
-        "reason": "将「astronomy」代入可见句子后不表达主释义「简单」。"
+        "reason": "将「astronomy」代入可见句子后不表达主释义「简洁」。"
       },
       {
         "wordId": "w-ranch",
         "surfaceForm": "ranch",
-        "reason": "将「ranch」代入可见句子后不表达主释义「简单」。"
+        "reason": "将「ranch」代入可见句子后不表达主释义「简洁」。"
       },
       {
-        "wordId": "w-brightness",
-        "surfaceForm": "brightness",
-        "reason": "将「brightness」代入可见句子后不表达主释义「简单」。"
+        "wordId": "w-spectator",
+        "surfaceForm": "spectator",
+        "reason": "将「spectator」代入可见句子后不表达主释义「简洁」。"
       }
     ],
     "spelling": null
@@ -199,47 +199,47 @@
     "wordId": "w-simplify",
     "enToZh": [
       {
-        "wordId": "w-dread",
-        "reason": "选项「害怕」不是「simplify」的主释义「简化」或其他义项。"
+        "wordId": "w-submerge",
+        "reason": "选项「淹没」不是「simplify」的主释义「简化」或其他义项。"
       },
       {
-        "wordId": "w-appraise",
-        "reason": "选项「估价」不是「simplify」的主释义「简化」或其他义项。"
+        "wordId": "w-stiffen",
+        "reason": "选项「变僵硬」不是「simplify」的主释义「简化」或其他义项。"
       },
       {
-        "wordId": "w-quicken",
-        "reason": "选项「加快」不是「simplify」的主释义「简化」或其他义项。"
+        "wordId": "w-stitch",
+        "reason": "选项「缝补」不是「simplify」的主释义「简化」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-dread",
-        "reason": "英文「dread」的常见义项「害怕」不符合主释义「简化」。"
+        "wordId": "w-submerge",
+        "reason": "英文「submerge」的常见义项「淹没」不符合主释义「简化」。"
       },
       {
-        "wordId": "w-appraise",
-        "reason": "英文「appraise」的常见义项「估价」不符合主释义「简化」。"
+        "wordId": "w-stiffen",
+        "reason": "英文「stiffen」的常见义项「变僵硬」不符合主释义「简化」。"
       },
       {
-        "wordId": "w-quicken",
-        "reason": "英文「quicken」的常见义项「加快」不符合主释义「简化」。"
+        "wordId": "w-stitch",
+        "reason": "英文「stitch」的常见义项「缝补」不符合主释义「简化」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-dread",
-        "surfaceForm": "dread",
-        "reason": "将「dread」代入可见句子后不表达主释义「简化」。"
+        "wordId": "w-submerge",
+        "surfaceForm": "submerge",
+        "reason": "将「submerge」代入可见句子后不表达主释义「简化」。"
       },
       {
-        "wordId": "w-appraise",
-        "surfaceForm": "appraise",
-        "reason": "将「appraise」代入可见句子后不表达主释义「简化」。"
+        "wordId": "w-stiffen",
+        "surfaceForm": "stiffen",
+        "reason": "将「stiffen」代入可见句子后不表达主释义「简化」。"
       },
       {
-        "wordId": "w-quicken",
-        "surfaceForm": "quicken",
-        "reason": "将「quicken」代入可见句子后不表达主释义「简化」。"
+        "wordId": "w-stitch",
+        "surfaceForm": "stitch",
+        "reason": "将「stitch」代入可见句子后不表达主释义「简化」。"
       }
     ],
     "spelling": null
@@ -302,7 +302,7 @@
       },
       {
         "wordId": "w-sift",
-        "reason": "选项「筛选」不是「simulate」的主释义「模拟」或其他义项。"
+        "reason": "选项「筛」不是「simulate」的主释义「模拟」或其他义项。"
       },
       {
         "wordId": "w-divert",
@@ -316,7 +316,7 @@
       },
       {
         "wordId": "w-sift",
-        "reason": "英文「sift」的常见义项「筛选」不符合主释义「模拟」。"
+        "reason": "英文「sift」的常见义项「筛」不符合主释义「模拟」。"
       },
       {
         "wordId": "w-divert",
@@ -347,46 +347,46 @@
     "enToZh": [
       {
         "wordId": "w-undoubtedly",
-        "reason": "选项「毫无疑问」不是「simultaneously」的主释义「同时」或其他义项。"
+        "reason": "选项「毫无疑问」不是「simultaneously」的主释义「同时地」或其他义项。"
       },
       {
         "wordId": "w-afterward",
-        "reason": "选项「之后」不是「simultaneously」的主释义「同时」或其他义项。"
+        "reason": "选项「之后」不是「simultaneously」的主释义「同时地」或其他义项。"
       },
       {
-        "wordId": "w-fortunately",
-        "reason": "选项「幸运地」不是「simultaneously」的主释义「同时」或其他义项。"
+        "wordId": "w-wholly",
+        "reason": "选项「完全地」不是「simultaneously」的主释义「同时地」或其他义项。"
       }
     ],
     "zhToEn": [
       {
         "wordId": "w-undoubtedly",
-        "reason": "英文「undoubtedly」的常见义项「毫无疑问」不符合主释义「同时」。"
+        "reason": "英文「undoubtedly」的常见义项「毫无疑问」不符合主释义「同时地」。"
       },
       {
         "wordId": "w-afterward",
-        "reason": "英文「afterward」的常见义项「之后」不符合主释义「同时」。"
+        "reason": "英文「afterward」的常见义项「之后」不符合主释义「同时地」。"
       },
       {
-        "wordId": "w-fortunately",
-        "reason": "英文「fortunately」的常见义项「幸运地」不符合主释义「同时」。"
+        "wordId": "w-wholly",
+        "reason": "英文「wholly」的常见义项「完全地」不符合主释义「同时地」。"
       }
     ],
     "contextChoice": [
       {
         "wordId": "w-undoubtedly",
         "surfaceForm": "undoubtedly",
-        "reason": "将「undoubtedly」代入可见句子后不表达主释义「同时」。"
+        "reason": "将「undoubtedly」代入可见句子后不表达主释义「同时地」。"
       },
       {
         "wordId": "w-afterward",
         "surfaceForm": "afterward",
-        "reason": "将「afterward」代入可见句子后不表达主释义「同时」。"
+        "reason": "将「afterward」代入可见句子后不表达主释义「同时地」。"
       },
       {
-        "wordId": "w-fortunately",
-        "surfaceForm": "fortunately",
-        "reason": "将「fortunately」代入可见句子后不表达主释义「同时」。"
+        "wordId": "w-wholly",
+        "surfaceForm": "wholly",
+        "reason": "将「wholly」代入可见句子后不表达主释义「同时地」。"
       }
     ],
     "spelling": null
@@ -403,8 +403,8 @@
         "reason": "选项「龙」不是「sin」的主释义「罪」或其他义项。"
       },
       {
-        "wordId": "w-picnic",
-        "reason": "选项「野餐」不是「sin」的主释义「罪」或其他义项。"
+        "wordId": "w-vinegar",
+        "reason": "选项「醋」不是「sin」的主释义「罪」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -417,8 +417,8 @@
         "reason": "英文「dragon」的常见义项「龙」不符合主释义「罪」。"
       },
       {
-        "wordId": "w-picnic",
-        "reason": "英文「picnic」的常见义项「野餐」不符合主释义「罪」。"
+        "wordId": "w-vinegar",
+        "reason": "英文「vinegar」的常见义项「醋」不符合主释义「罪」。"
       }
     ],
     "contextChoice": [
@@ -433,9 +433,9 @@
         "reason": "将「dragon」代入可见句子后不表达主释义「罪」。"
       },
       {
-        "wordId": "w-picnic",
-        "surfaceForm": "picnic",
-        "reason": "将「picnic」代入可见句子后不表达主释义「罪」。"
+        "wordId": "w-vinegar",
+        "surfaceForm": "vinegar",
+        "reason": "将「vinegar」代入可见句子后不表达主释义「罪」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「在…旁边」不是「since」的主释义「自从」或其他义项。"
       },
       {
-        "wordId": "w-per",
-        "reason": "选项「每」不是「since」的主释义「自从」或其他义项。"
+        "wordId": "w-underneath",
+        "reason": "选项「在……下面」不是「since」的主释义「自从」或其他义项。"
       },
       {
-        "wordId": "w-outside",
-        "reason": "选项「在……外面」不是「since」的主释义「自从」或其他义项。"
+        "wordId": "w-toward",
+        "reason": "选项「朝向」不是「since」的主释义「自从」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「beside」的常见义项「在…旁边」不符合主释义「自从」。"
       },
       {
-        "wordId": "w-per",
-        "reason": "英文「per」的常见义项「每」不符合主释义「自从」。"
+        "wordId": "w-underneath",
+        "reason": "英文「underneath」的常见义项「在……下面」不符合主释义「自从」。"
       },
       {
-        "wordId": "w-outside",
-        "reason": "英文「outside」的常见义项「在……外面」不符合主释义「自从」。"
+        "wordId": "w-toward",
+        "reason": "英文「toward」的常见义项「朝向」不符合主释义「自从」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「beside」代入可见句子后不表达主释义「自从」。"
       },
       {
-        "wordId": "w-per",
-        "surfaceForm": "per",
-        "reason": "将「per」代入可见句子后不表达主释义「自从」。"
+        "wordId": "w-underneath",
+        "surfaceForm": "underneath",
+        "reason": "将「underneath」代入可见句子后不表达主释义「自从」。"
       },
       {
-        "wordId": "w-outside",
-        "surfaceForm": "outside",
-        "reason": "将「outside」代入可见句子后不表达主释义「自从」。"
+        "wordId": "w-toward",
+        "surfaceForm": "toward",
+        "reason": "将「toward」代入可见句子后不表达主释义「自从」。"
       }
     ],
     "spelling": null
@@ -493,47 +493,47 @@
     "wordId": "w-sincerity",
     "enToZh": [
       {
+        "wordId": "w-swarm",
+        "reason": "选项「蜂群」不是「sincerity」的主释义「真诚」或其他义项。"
+      },
+      {
+        "wordId": "w-treason",
+        "reason": "选项「叛国」不是「sincerity」的主释义「真诚」或其他义项。"
+      },
+      {
         "wordId": "w-scripture",
         "reason": "选项「经文」不是「sincerity」的主释义「真诚」或其他义项。"
-      },
-      {
-        "wordId": "w-hospitality",
-        "reason": "选项「好客」不是「sincerity」的主释义「真诚」或其他义项。"
-      },
-      {
-        "wordId": "w-persuasion",
-        "reason": "选项「说服」不是「sincerity」的主释义「真诚」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-swarm",
+        "reason": "英文「swarm」的常见义项「蜂群」不符合主释义「真诚」。"
+      },
+      {
+        "wordId": "w-treason",
+        "reason": "英文「treason」的常见义项「叛国」不符合主释义「真诚」。"
+      },
+      {
         "wordId": "w-scripture",
         "reason": "英文「scripture」的常见义项「经文」不符合主释义「真诚」。"
-      },
-      {
-        "wordId": "w-hospitality",
-        "reason": "英文「hospitality」的常见义项「好客」不符合主释义「真诚」。"
-      },
-      {
-        "wordId": "w-persuasion",
-        "reason": "英文「persuasion」的常见义项「说服」不符合主释义「真诚」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-swarm",
+        "surfaceForm": "swarm",
+        "reason": "将「swarm」代入可见句子后不表达主释义「真诚」。"
+      },
+      {
+        "wordId": "w-treason",
+        "surfaceForm": "treason",
+        "reason": "将「treason」代入可见句子后不表达主释义「真诚」。"
+      },
+      {
         "wordId": "w-scripture",
         "surfaceForm": "scripture",
         "reason": "将「scripture」代入可见句子后不表达主释义「真诚」。"
-      },
-      {
-        "wordId": "w-hospitality",
-        "surfaceForm": "hospitality",
-        "reason": "将「hospitality」代入可见句子后不表达主释义「真诚」。"
-      },
-      {
-        "wordId": "w-persuasion",
-        "surfaceForm": "persuasion",
-        "reason": "将「persuasion」代入可见句子后不表达主释义「真诚」。"
       }
     ],
     "spelling": null
@@ -550,8 +550,8 @@
         "reason": "选项「褪色」不是「sing」的主释义「唱歌」或其他义项。"
       },
       {
-        "wordId": "w-import",
-        "reason": "选项「进口」不是「sing」的主释义「唱歌」或其他义项。"
+        "wordId": "w-suppose",
+        "reason": "选项「认为」不是「sing」的主释义「唱歌」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -564,8 +564,8 @@
         "reason": "英文「fade」的常见义项「褪色」不符合主释义「唱歌」。"
       },
       {
-        "wordId": "w-import",
-        "reason": "英文「import」的常见义项「进口」不符合主释义「唱歌」。"
+        "wordId": "w-suppose",
+        "reason": "英文「suppose」的常见义项「认为」不符合主释义「唱歌」。"
       }
     ],
     "contextChoice": [
@@ -580,9 +580,9 @@
         "reason": "将「fade」代入可见句子后不表达主释义「唱歌」。"
       },
       {
-        "wordId": "w-import",
-        "surfaceForm": "import",
-        "reason": "将「import」代入可见句子后不表达主释义「唱歌」。"
+        "wordId": "w-suppose",
+        "surfaceForm": "suppose",
+        "reason": "将「suppose」代入可见句子后不表达主释义「唱歌」。"
       }
     ],
     "spelling": null
@@ -795,8 +795,8 @@
         "reason": "选项「航空」不是「siren」的主释义「警报器」或其他义项。"
       },
       {
-        "wordId": "w-preservation",
-        "reason": "选项「保存」不是「siren」的主释义「警报器」或其他义项。"
+        "wordId": "w-tub",
+        "reason": "选项「浴缸」不是「siren」的主释义「警报器」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -809,8 +809,8 @@
         "reason": "英文「aviation」的常见义项「航空」不符合主释义「警报器」。"
       },
       {
-        "wordId": "w-preservation",
-        "reason": "英文「preservation」的常见义项「保存」不符合主释义「警报器」。"
+        "wordId": "w-tub",
+        "reason": "英文「tub」的常见义项「浴缸」不符合主释义「警报器」。"
       }
     ],
     "contextChoice": [
@@ -825,9 +825,9 @@
         "reason": "将「aviation」代入可见句子后不表达主释义「警报器」。"
       },
       {
-        "wordId": "w-preservation",
-        "surfaceForm": "preservation",
-        "reason": "将「preservation」代入可见句子后不表达主释义「警报器」。"
+        "wordId": "w-tub",
+        "surfaceForm": "tub",
+        "reason": "将「tub」代入可见句子后不表达主释义「警报器」。"
       }
     ],
     "spelling": null
@@ -1040,8 +1040,8 @@
         "reason": "选项「四」不是「six」的主释义「六」或其他义项。"
       },
       {
-        "wordId": "w-billion",
-        "reason": "选项「十亿」不是「six」的主释义「六」或其他义项。"
+        "wordId": "w-third",
+        "reason": "选项「第三」不是「six」的主释义「六」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1054,8 +1054,8 @@
         "reason": "英文「four」的常见义项「四」不符合主释义「六」。"
       },
       {
-        "wordId": "w-billion",
-        "reason": "英文「billion」的常见义项「十亿」不符合主释义「六」。"
+        "wordId": "w-third",
+        "reason": "英文「third」的常见义项「第三」不符合主释义「六」。"
       }
     ],
     "contextChoice": [
@@ -1070,9 +1070,9 @@
         "reason": "将「four」代入可见句子后不表达主释义「六」。"
       },
       {
-        "wordId": "w-billion",
-        "surfaceForm": "billion",
-        "reason": "将「billion」代入可见句子后不表达主释义「六」。"
+        "wordId": "w-third",
+        "surfaceForm": "third",
+        "reason": "将「third」代入可见句子后不表达主释义「六」。"
       }
     ],
     "spelling": null
@@ -1089,8 +1089,8 @@
         "reason": "选项「十八」不是「sixty」的主释义「六十」或其他义项。"
       },
       {
-        "wordId": "w-eighty",
-        "reason": "选项「八十」不是「sixty」的主释义「六十」或其他义项。"
+        "wordId": "w-seventy",
+        "reason": "选项「七十」不是「sixty」的主释义「六十」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1103,8 +1103,8 @@
         "reason": "英文「eighteen」的常见义项「十八」不符合主释义「六十」。"
       },
       {
-        "wordId": "w-eighty",
-        "reason": "英文「eighty」的常见义项「八十」不符合主释义「六十」。"
+        "wordId": "w-seventy",
+        "reason": "英文「seventy」的常见义项「七十」不符合主释义「六十」。"
       }
     ],
     "contextChoice": [
@@ -1119,9 +1119,9 @@
         "reason": "将「eighteen」代入可见句子后不表达主释义「六十」。"
       },
       {
-        "wordId": "w-eighty",
-        "surfaceForm": "eighty",
-        "reason": "将「eighty」代入可见句子后不表达主释义「六十」。"
+        "wordId": "w-seventy",
+        "surfaceForm": "seventy",
+        "reason": "将「seventy」代入可见句子后不表达主释义「六十」。"
       }
     ],
     "spelling": null
@@ -1131,46 +1131,46 @@
     "enToZh": [
       {
         "wordId": "w-error",
-        "reason": "选项「错误」不是「size」的主释义「尺寸」或其他义项。"
+        "reason": "选项「错误」不是「size」的主释义「大小」或其他义项。"
+      },
+      {
+        "wordId": "w-soil",
+        "reason": "选项「土壤」不是「size」的主释义「大小」或其他义项。"
       },
       {
         "wordId": "w-curve",
-        "reason": "选项「曲线」不是「size」的主释义「尺寸」或其他义项。"
-      },
-      {
-        "wordId": "w-nest",
-        "reason": "选项「巢」不是「size」的主释义「尺寸」或其他义项。"
+        "reason": "选项「曲线」不是「size」的主释义「大小」或其他义项。"
       }
     ],
     "zhToEn": [
       {
         "wordId": "w-error",
-        "reason": "英文「error」的常见义项「错误」不符合主释义「尺寸」。"
+        "reason": "英文「error」的常见义项「错误」不符合主释义「大小」。"
+      },
+      {
+        "wordId": "w-soil",
+        "reason": "英文「soil」的常见义项「土壤」不符合主释义「大小」。"
       },
       {
         "wordId": "w-curve",
-        "reason": "英文「curve」的常见义项「曲线」不符合主释义「尺寸」。"
-      },
-      {
-        "wordId": "w-nest",
-        "reason": "英文「nest」的常见义项「巢」不符合主释义「尺寸」。"
+        "reason": "英文「curve」的常见义项「曲线」不符合主释义「大小」。"
       }
     ],
     "contextChoice": [
       {
         "wordId": "w-error",
         "surfaceForm": "error",
-        "reason": "将「error」代入可见句子后不表达主释义「尺寸」。"
+        "reason": "将「error」代入可见句子后不表达主释义「大小」。"
+      },
+      {
+        "wordId": "w-soil",
+        "surfaceForm": "soil",
+        "reason": "将「soil」代入可见句子后不表达主释义「大小」。"
       },
       {
         "wordId": "w-curve",
         "surfaceForm": "curve",
-        "reason": "将「curve」代入可见句子后不表达主释义「尺寸」。"
-      },
-      {
-        "wordId": "w-nest",
-        "surfaceForm": "nest",
-        "reason": "将「nest」代入可见句子后不表达主释义「尺寸」。"
+        "reason": "将「curve」代入可见句子后不表达主释义「大小」。"
       }
     ],
     "spelling": null

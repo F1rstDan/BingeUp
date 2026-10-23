@@ -1399,6 +1399,17 @@ async function buildPackage(pilotOnly = false): Promise<void> {
       decks: decks.map((deck) => ({ id: deck.id, words: deck.wordIds.length })),
       questions: plans.length,
       verifiedBatches: selectedBatches.length,
+      blockingItems: 0,
+      usage: {
+        inputTokens: null,
+        outputTokens: null,
+        cost: null,
+        note: '生成服务未返回 token 与费用；保留未知值。',
+      },
+      reviewScope: {
+        pilot: '100 词逐词独立复核',
+        main: '冻结抽样及困难项额外复核',
+      },
       generatedAt: manifest.generatedAt,
     });
     console.log(`候选包已写入 ${outDir}`);

@@ -52,19 +52,23 @@
     "wordId": "w-slope",
     "enToZh": [
       {
+        "wordId": "w-team",
+        "reason": "选项「团队」不是「slope」的主释义「斜坡」或其他义项。"
+      },
+      {
         "wordId": "w-mirror",
         "reason": "选项「镜子」不是「slope」的主释义「斜坡」或其他义项。"
       },
       {
         "wordId": "w-beach",
         "reason": "选项「海滩」不是「slope」的主释义「斜坡」或其他义项。"
-      },
-      {
-        "wordId": "w-profile",
-        "reason": "选项「个人资料」不是「slope」的主释义「斜坡」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-team",
+        "reason": "英文「team」的常见义项「团队」不符合主释义「斜坡」。"
+      },
       {
         "wordId": "w-mirror",
         "reason": "英文「mirror」的常见义项「镜子」不符合主释义「斜坡」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-beach",
         "reason": "英文「beach」的常见义项「海滩」不符合主释义「斜坡」。"
-      },
-      {
-        "wordId": "w-profile",
-        "reason": "英文「profile」的常见义项「个人资料」不符合主释义「斜坡」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-team",
+        "surfaceForm": "team",
+        "reason": "将「team」代入可见句子后不表达主释义「斜坡」。"
+      },
       {
         "wordId": "w-mirror",
         "surfaceForm": "mirror",
@@ -88,11 +93,6 @@
         "wordId": "w-beach",
         "surfaceForm": "beach",
         "reason": "将「beach」代入可见句子后不表达主释义「斜坡」。"
-      },
-      {
-        "wordId": "w-profile",
-        "surfaceForm": "profile",
-        "reason": "将「profile」代入可见句子后不表达主释义「斜坡」。"
       }
     ],
     "spelling": null
@@ -101,47 +101,47 @@
     "wordId": "w-slot",
     "enToZh": [
       {
+        "wordId": "w-worm",
+        "reason": "选项「蠕虫」不是「slot」的主释义「狭槽」或其他义项。"
+      },
+      {
         "wordId": "w-flaw",
-        "reason": "选项「瑕疵」不是「slot」的主释义「时段」或其他义项。"
+        "reason": "选项「瑕疵」不是「slot」的主释义「狭槽」或其他义项。"
       },
       {
         "wordId": "w-cargo",
-        "reason": "选项「货物」不是「slot」的主释义「时段」或其他义项。"
-      },
-      {
-        "wordId": "w-gulf",
-        "reason": "选项「海湾」不是「slot」的主释义「时段」或其他义项。"
+        "reason": "选项「货物」不是「slot」的主释义「狭槽」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-worm",
+        "reason": "英文「worm」的常见义项「蠕虫」不符合主释义「狭槽」。"
+      },
+      {
         "wordId": "w-flaw",
-        "reason": "英文「flaw」的常见义项「瑕疵」不符合主释义「时段」。"
+        "reason": "英文「flaw」的常见义项「瑕疵」不符合主释义「狭槽」。"
       },
       {
         "wordId": "w-cargo",
-        "reason": "英文「cargo」的常见义项「货物」不符合主释义「时段」。"
-      },
-      {
-        "wordId": "w-gulf",
-        "reason": "英文「gulf」的常见义项「海湾」不符合主释义「时段」。"
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「狭槽」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-worm",
+        "surfaceForm": "worm",
+        "reason": "将「worm」代入可见句子后不表达主释义「狭槽」。"
+      },
+      {
         "wordId": "w-flaw",
         "surfaceForm": "flaw",
-        "reason": "将「flaw」代入可见句子后不表达主释义「时段」。"
+        "reason": "将「flaw」代入可见句子后不表达主释义「狭槽」。"
       },
       {
         "wordId": "w-cargo",
         "surfaceForm": "cargo",
-        "reason": "将「cargo」代入可见句子后不表达主释义「时段」。"
-      },
-      {
-        "wordId": "w-gulf",
-        "surfaceForm": "gulf",
-        "reason": "将「gulf」代入可见句子后不表达主释义「时段」。"
+        "reason": "将「cargo」代入可见句子后不表达主释义「狭槽」。"
       }
     ],
     "spelling": null
@@ -252,12 +252,12 @@
         "reason": "选项「变形」不是「slumber」的主释义「睡眠」或其他义项。"
       },
       {
-        "wordId": "w-mould",
-        "reason": "选项「霉菌」不是「slumber」的主释义「睡眠」或其他义项。"
+        "wordId": "w-waggon",
+        "reason": "选项「马车」不是「slumber」的主释义「睡眠」或其他义项。"
       },
       {
-        "wordId": "w-porridge",
-        "reason": "选项「粥」不是「slumber」的主释义「睡眠」或其他义项。"
+        "wordId": "w-mould",
+        "reason": "选项「霉菌」不是「slumber」的主释义「睡眠」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -266,12 +266,12 @@
         "reason": "英文「deformation」的常见义项「变形」不符合主释义「睡眠」。"
       },
       {
-        "wordId": "w-mould",
-        "reason": "英文「mould」的常见义项「霉菌」不符合主释义「睡眠」。"
+        "wordId": "w-waggon",
+        "reason": "英文「waggon」的常见义项「马车」不符合主释义「睡眠」。"
       },
       {
-        "wordId": "w-porridge",
-        "reason": "英文「porridge」的常见义项「粥」不符合主释义「睡眠」。"
+        "wordId": "w-mould",
+        "reason": "英文「mould」的常见义项「霉菌」不符合主释义「睡眠」。"
       }
     ],
     "contextChoice": [
@@ -281,14 +281,14 @@
         "reason": "将「deformation」代入可见句子后不表达主释义「睡眠」。"
       },
       {
+        "wordId": "w-waggon",
+        "surfaceForm": "waggon",
+        "reason": "将「waggon」代入可见句子后不表达主释义「睡眠」。"
+      },
+      {
         "wordId": "w-mould",
         "surfaceForm": "mould",
         "reason": "将「mould」代入可见句子后不表达主释义「睡眠」。"
-      },
-      {
-        "wordId": "w-porridge",
-        "surfaceForm": "porridge",
-        "reason": "将「porridge」代入可见句子后不表达主释义「睡眠」。"
       }
     ],
     "spelling": null
@@ -493,19 +493,23 @@
     "wordId": "w-smoke",
     "enToZh": [
       {
+        "wordId": "w-theatre",
+        "reason": "选项「剧院」不是「smoke」的主释义「烟」或其他义项。"
+      },
+      {
         "wordId": "w-shadow",
         "reason": "选项「影子」不是「smoke」的主释义「烟」或其他义项。"
       },
       {
         "wordId": "w-expression",
         "reason": "选项「表达」不是「smoke」的主释义「烟」或其他义项。"
-      },
-      {
-        "wordId": "w-hole",
-        "reason": "选项「洞」不是「smoke」的主释义「烟」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-theatre",
+        "reason": "英文「theatre」的常见义项「剧院」不符合主释义「烟」。"
+      },
       {
         "wordId": "w-shadow",
         "reason": "英文「shadow」的常见义项「影子」不符合主释义「烟」。"
@@ -513,13 +517,14 @@
       {
         "wordId": "w-expression",
         "reason": "英文「expression」的常见义项「表达」不符合主释义「烟」。"
-      },
-      {
-        "wordId": "w-hole",
-        "reason": "英文「hole」的常见义项「洞」不符合主释义「烟」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-theatre",
+        "surfaceForm": "theatre",
+        "reason": "将「theatre」代入可见句子后不表达主释义「烟」。"
+      },
       {
         "wordId": "w-shadow",
         "surfaceForm": "shadow",
@@ -529,11 +534,6 @@
         "wordId": "w-expression",
         "surfaceForm": "expression",
         "reason": "将「expression」代入可见句子后不表达主释义「烟」。"
-      },
-      {
-        "wordId": "w-hole",
-        "surfaceForm": "hole",
-        "reason": "将「hole」代入可见句子后不表达主释义「烟」。"
       }
     ],
     "spelling": null
@@ -644,12 +644,12 @@
         "reason": "选项「危险」不是「snack」的主释义「零食」或其他义项。"
       },
       {
-        "wordId": "w-perfume",
-        "reason": "选项「香水」不是「snack」的主释义「零食」或其他义项。"
+        "wordId": "w-textile",
+        "reason": "选项「纺织品」不是「snack」的主释义「零食」或其他义项。"
       },
       {
-        "wordId": "w-railroad",
-        "reason": "选项「铁路」不是「snack」的主释义「零食」或其他义项。"
+        "wordId": "w-perfume",
+        "reason": "选项「香水」不是「snack」的主释义「零食」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -658,12 +658,12 @@
         "reason": "英文「peril」的常见义项「危险」不符合主释义「零食」。"
       },
       {
-        "wordId": "w-perfume",
-        "reason": "英文「perfume」的常见义项「香水」不符合主释义「零食」。"
+        "wordId": "w-textile",
+        "reason": "英文「textile」的常见义项「纺织品」不符合主释义「零食」。"
       },
       {
-        "wordId": "w-railroad",
-        "reason": "英文「railroad」的常见义项「铁路」不符合主释义「零食」。"
+        "wordId": "w-perfume",
+        "reason": "英文「perfume」的常见义项「香水」不符合主释义「零食」。"
       }
     ],
     "contextChoice": [
@@ -673,14 +673,14 @@
         "reason": "将「peril」代入可见句子后不表达主释义「零食」。"
       },
       {
+        "wordId": "w-textile",
+        "surfaceForm": "textile",
+        "reason": "将「textile」代入可见句子后不表达主释义「零食」。"
+      },
+      {
         "wordId": "w-perfume",
         "surfaceForm": "perfume",
         "reason": "将「perfume」代入可见句子后不表达主释义「零食」。"
-      },
-      {
-        "wordId": "w-railroad",
-        "surfaceForm": "railroad",
-        "reason": "将「railroad」代入可见句子后不表达主释义「零食」。"
       }
     ],
     "spelling": null
@@ -1036,12 +1036,12 @@
         "reason": "选项「泄漏」不是「sniff」的主释义「闻」或其他义项。"
       },
       {
-        "wordId": "w-dispatch",
-        "reason": "选项「派遣」不是「sniff」的主释义「闻」或其他义项。"
+        "wordId": "w-sway",
+        "reason": "选项「摇摆」不是「sniff」的主释义「闻」或其他义项。"
       },
       {
-        "wordId": "w-enforce",
-        "reason": "选项「执行」不是「sniff」的主释义「闻」或其他义项。"
+        "wordId": "w-dispatch",
+        "reason": "选项「派遣」不是「sniff」的主释义「闻」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1050,12 +1050,12 @@
         "reason": "英文「leak」的常见义项「泄漏」不符合主释义「闻」。"
       },
       {
-        "wordId": "w-dispatch",
-        "reason": "英文「dispatch」的常见义项「派遣」不符合主释义「闻」。"
+        "wordId": "w-sway",
+        "reason": "英文「sway」的常见义项「摇摆」不符合主释义「闻」。"
       },
       {
-        "wordId": "w-enforce",
-        "reason": "英文「enforce」的常见义项「执行」不符合主释义「闻」。"
+        "wordId": "w-dispatch",
+        "reason": "英文「dispatch」的常见义项「派遣」不符合主释义「闻」。"
       }
     ],
     "contextChoice": [
@@ -1065,14 +1065,14 @@
         "reason": "将「leak」代入可见句子后不表达主释义「闻」。"
       },
       {
+        "wordId": "w-sway",
+        "surfaceForm": "sway",
+        "reason": "将「sway」代入可见句子后不表达主释义「闻」。"
+      },
+      {
         "wordId": "w-dispatch",
         "surfaceForm": "dispatch",
         "reason": "将「dispatch」代入可见句子后不表达主释义「闻」。"
-      },
-      {
-        "wordId": "w-enforce",
-        "surfaceForm": "enforce",
-        "reason": "将「enforce」代入可见句子后不表达主释义「闻」。"
       }
     ],
     "spelling": null

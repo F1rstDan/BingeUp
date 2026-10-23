@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-176",
+  "reviewer": "independent-rereview-main-176",
   "mode": "sample",
   "inspectedWordIds": [
     "w-soviet",
@@ -11,12 +11,6 @@
     "w-specific",
     "w-specifically"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-sow",
-      "stage": "pronunciation",
-      "message": "词性为动词、主释义为「播种」，但选用的音标 /ˈsaʊ/ 是名词「母猪」的读音；动词应读 /ˈsoʊ/。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

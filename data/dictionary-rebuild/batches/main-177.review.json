@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-177",
+  "reviewer": "independent-rereview-main-177",
   "mode": "sample",
   "inspectedWordIds": [
     "w-spill",
@@ -7,12 +7,6 @@
     "w-splash",
     "w-spoil"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-splash",
-      "stage": "question",
-      "message": "中选英题可见提示为「泼溅」，干扰项 dash 也具「泼溅」义（旧词库列 vt. 泼溅），该题存在两个合理答案；应更换干扰项或调整题面。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

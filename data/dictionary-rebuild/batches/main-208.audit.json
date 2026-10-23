@@ -3,12 +3,12 @@
     "wordId": "w-whereas",
     "enToZh": [
       {
-        "wordId": "w-though",
-        "reason": "选项「虽然」不是「whereas」的主释义「然而」或其他义项。"
+        "wordId": "w-unless",
+        "reason": "选项「除非」不是「whereas」的主释义「然而」或其他义项。"
       },
       {
-        "wordId": "w-while",
-        "reason": "选项「当……时」不是「whereas」的主释义「然而」或其他义项。"
+        "wordId": "w-though",
+        "reason": "选项「虽然」不是「whereas」的主释义「然而」或其他义项。"
       },
       {
         "wordId": "w-whether",
@@ -17,12 +17,12 @@
     ],
     "zhToEn": [
       {
-        "wordId": "w-though",
-        "reason": "英文「though」的常见义项「虽然」不符合主释义「然而」。"
+        "wordId": "w-unless",
+        "reason": "英文「unless」的常见义项「除非」不符合主释义「然而」。"
       },
       {
-        "wordId": "w-while",
-        "reason": "英文「while」的常见义项「当……时」不符合主释义「然而」。"
+        "wordId": "w-though",
+        "reason": "英文「though」的常见义项「虽然」不符合主释义「然而」。"
       },
       {
         "wordId": "w-whether",
@@ -31,14 +31,14 @@
     ],
     "contextChoice": [
       {
+        "wordId": "w-unless",
+        "surfaceForm": "unless",
+        "reason": "将「unless」代入可见句子后不表达主释义「然而」。"
+      },
+      {
         "wordId": "w-though",
         "surfaceForm": "though",
         "reason": "将「though」代入可见句子后不表达主释义「然而」。"
-      },
-      {
-        "wordId": "w-while",
-        "surfaceForm": "while",
-        "reason": "将「while」代入可见句子后不表达主释义「然而」。"
       },
       {
         "wordId": "w-whether",
@@ -101,19 +101,23 @@
     "wordId": "w-wherever",
     "enToZh": [
       {
+        "wordId": "w-unless",
+        "reason": "选项「除非」不是「wherever」的主释义「无论哪里」或其他义项。"
+      },
+      {
         "wordId": "w-while",
         "reason": "选项「当……时」不是「wherever」的主释义「无论哪里」或其他义项。"
       },
       {
         "wordId": "w-whenever",
         "reason": "选项「每当」不是「wherever」的主释义「无论哪里」或其他义项。"
-      },
-      {
-        "wordId": "w-although",
-        "reason": "选项「虽然」不是「wherever」的主释义「无论哪里」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-unless",
+        "reason": "英文「unless」的常见义项「除非」不符合主释义「无论哪里」。"
+      },
       {
         "wordId": "w-while",
         "reason": "英文「while」的常见义项「当……时」不符合主释义「无论哪里」。"
@@ -121,13 +125,14 @@
       {
         "wordId": "w-whenever",
         "reason": "英文「whenever」的常见义项「每当」不符合主释义「无论哪里」。"
-      },
-      {
-        "wordId": "w-although",
-        "reason": "英文「although」的常见义项「虽然」不符合主释义「无论哪里」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-unless",
+        "surfaceForm": "unless",
+        "reason": "将「unless」代入可见句子后不表达主释义「无论哪里」。"
+      },
       {
         "wordId": "w-while",
         "surfaceForm": "while",
@@ -137,11 +142,6 @@
         "wordId": "w-whenever",
         "surfaceForm": "whenever",
         "reason": "将「whenever」代入可见句子后不表达主释义「无论哪里」。"
-      },
-      {
-        "wordId": "w-although",
-        "surfaceForm": "although",
-        "reason": "将「although」代入可见句子后不表达主释义「无论哪里」。"
       }
     ],
     "spelling": null
@@ -248,23 +248,19 @@
     "wordId": "w-while",
     "enToZh": [
       {
-        "wordId": "w-whereas",
-        "reason": "选项「然而」不是「while」的主释义「当……时」或其他义项。"
-      },
-      {
         "wordId": "w-nor",
         "reason": "选项「也不」不是「while」的主释义「当……时」或其他义项。"
       },
       {
         "wordId": "w-whether",
         "reason": "选项「是否」不是「while」的主释义「当……时」或其他义项。"
+      },
+      {
+        "wordId": "w-unless",
+        "reason": "选项「除非」不是「while」的主释义「当……时」或其他义项。"
       }
     ],
     "zhToEn": [
-      {
-        "wordId": "w-whereas",
-        "reason": "英文「whereas」的常见义项「然而」不符合主释义「当……时」。"
-      },
       {
         "wordId": "w-nor",
         "reason": "英文「nor」的常见义项「也不」不符合主释义「当……时」。"
@@ -272,14 +268,13 @@
       {
         "wordId": "w-whether",
         "reason": "英文「whether」的常见义项「是否」不符合主释义「当……时」。"
+      },
+      {
+        "wordId": "w-unless",
+        "reason": "英文「unless」的常见义项「除非」不符合主释义「当……时」。"
       }
     ],
     "contextChoice": [
-      {
-        "wordId": "w-whereas",
-        "surfaceForm": "whereas",
-        "reason": "将「whereas」代入可见句子后不表达主释义「当……时」。"
-      },
       {
         "wordId": "w-nor",
         "surfaceForm": "nor",
@@ -289,6 +284,11 @@
         "wordId": "w-whether",
         "surfaceForm": "whether",
         "reason": "将「whether」代入可见句子后不表达主释义「当……时」。"
+      },
+      {
+        "wordId": "w-unless",
+        "surfaceForm": "unless",
+        "reason": "将「unless」代入可见句子后不表达主释义「当……时」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-whilst",
     "enToZh": [
       {
+        "wordId": "w-unless",
+        "reason": "选项「除非」不是「whilst」的主释义「当……时」或其他义项。"
+      },
+      {
         "wordId": "w-whenever",
         "reason": "选项「每当」不是「whilst」的主释义「当……时」或其他义项。"
       },
       {
         "wordId": "w-nor",
         "reason": "选项「也不」不是「whilst」的主释义「当……时」或其他义项。"
-      },
-      {
-        "wordId": "w-whereas",
-        "reason": "选项「然而」不是「whilst」的主释义「当……时」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-unless",
+        "reason": "英文「unless」的常见义项「除非」不符合主释义「当……时」。"
+      },
       {
         "wordId": "w-whenever",
         "reason": "英文「whenever」的常见义项「每当」不符合主释义「当……时」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-nor",
         "reason": "英文「nor」的常见义项「也不」不符合主释义「当……时」。"
-      },
-      {
-        "wordId": "w-whereas",
-        "reason": "英文「whereas」的常见义项「然而」不符合主释义「当……时」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-unless",
+        "surfaceForm": "unless",
+        "reason": "将「unless」代入可见句子后不表达主释义「当……时」。"
+      },
       {
         "wordId": "w-whenever",
         "surfaceForm": "whenever",
@@ -333,11 +338,6 @@
         "wordId": "w-nor",
         "surfaceForm": "nor",
         "reason": "将「nor」代入可见句子后不表达主释义「当……时」。"
-      },
-      {
-        "wordId": "w-whereas",
-        "surfaceForm": "whereas",
-        "reason": "将「whereas」代入可见句子后不表达主释义「当……时」。"
       }
     ],
     "spelling": null

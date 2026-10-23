@@ -11,8 +11,8 @@
         "reason": "选项「野兽」不是「skeleton」的主释义「骨骼」或其他义项。"
       },
       {
-        "wordId": "w-bait",
-        "reason": "选项「诱饵」不是「skeleton」的主释义「骨骼」或其他义项。"
+        "wordId": "w-sodium",
+        "reason": "选项「钠」不是「skeleton」的主释义「骨骼」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「beast」的常见义项「野兽」不符合主释义「骨骼」。"
       },
       {
-        "wordId": "w-bait",
-        "reason": "英文「bait」的常见义项「诱饵」不符合主释义「骨骼」。"
+        "wordId": "w-sodium",
+        "reason": "英文「sodium」的常见义项「钠」不符合主释义「骨骼」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「beast」代入可见句子后不表达主释义「骨骼」。"
       },
       {
-        "wordId": "w-bait",
-        "surfaceForm": "bait",
-        "reason": "将「bait」代入可见句子后不表达主释义「骨骼」。"
+        "wordId": "w-sodium",
+        "surfaceForm": "sodium",
+        "reason": "将「sodium」代入可见句子后不表达主释义「骨骼」。"
       }
     ],
     "spelling": null
@@ -52,19 +52,23 @@
     "wordId": "w-sketch",
     "enToZh": [
       {
+        "wordId": "w-stimulus",
+        "reason": "选项「刺激物」不是「sketch」的主释义「素描」或其他义项。"
+      },
+      {
         "wordId": "w-siren",
         "reason": "选项「警报器」不是「sketch」的主释义「素描」或其他义项。"
       },
       {
         "wordId": "w-kingdom",
         "reason": "选项「王国」不是「sketch」的主释义「素描」或其他义项。"
-      },
-      {
-        "wordId": "w-mechanic",
-        "reason": "选项「修理工」不是「sketch」的主释义「素描」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-stimulus",
+        "reason": "英文「stimulus」的常见义项「刺激物」不符合主释义「素描」。"
+      },
       {
         "wordId": "w-siren",
         "reason": "英文「siren」的常见义项「警报器」不符合主释义「素描」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-kingdom",
         "reason": "英文「kingdom」的常见义项「王国」不符合主释义「素描」。"
-      },
-      {
-        "wordId": "w-mechanic",
-        "reason": "英文「mechanic」的常见义项「修理工」不符合主释义「素描」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-stimulus",
+        "surfaceForm": "stimulus",
+        "reason": "将「stimulus」代入可见句子后不表达主释义「素描」。"
+      },
       {
         "wordId": "w-siren",
         "surfaceForm": "siren",
@@ -88,11 +93,6 @@
         "wordId": "w-kingdom",
         "surfaceForm": "kingdom",
         "reason": "将「kingdom」代入可见句子后不表达主释义「素描」。"
-      },
-      {
-        "wordId": "w-mechanic",
-        "surfaceForm": "mechanic",
-        "reason": "将「mechanic」代入可见句子后不表达主释义「素描」。"
       }
     ],
     "spelling": null
@@ -109,8 +109,8 @@
         "reason": "选项「滑冰」不是「ski」的主释义「滑雪」或其他义项。"
       },
       {
-        "wordId": "w-gaze",
-        "reason": "选项「凝视」不是「ski」的主释义「滑雪」或其他义项。"
+        "wordId": "w-undergo",
+        "reason": "选项「经历」不是「ski」的主释义「滑雪」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -123,8 +123,8 @@
         "reason": "英文「skate」的常见义项「滑冰」不符合主释义「滑雪」。"
       },
       {
-        "wordId": "w-gaze",
-        "reason": "英文「gaze」的常见义项「凝视」不符合主释义「滑雪」。"
+        "wordId": "w-undergo",
+        "reason": "英文「undergo」的常见义项「经历」不符合主释义「滑雪」。"
       }
     ],
     "contextChoice": [
@@ -139,9 +139,9 @@
         "reason": "将「skate」代入可见句子后不表达主释义「滑雪」。"
       },
       {
-        "wordId": "w-gaze",
-        "surfaceForm": "gaze",
-        "reason": "将「gaze」代入可见句子后不表达主释义「滑雪」。"
+        "wordId": "w-undergo",
+        "surfaceForm": "undergo",
+        "reason": "将「undergo」代入可见句子后不表达主释义「滑雪」。"
       }
     ],
     "spelling": null
@@ -154,12 +154,12 @@
         "reason": "选项「节目」不是「skill」的主释义「技能」或其他义项。"
       },
       {
-        "wordId": "w-conference",
-        "reason": "选项「会议」不是「skill」的主释义「技能」或其他义项。"
+        "wordId": "w-trust",
+        "reason": "选项「信任」不是「skill」的主释义「技能」或其他义项。"
       },
       {
-        "wordId": "w-age",
-        "reason": "选项「年龄」不是「skill」的主释义「技能」或其他义项。"
+        "wordId": "w-conference",
+        "reason": "选项「会议」不是「skill」的主释义「技能」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -168,12 +168,12 @@
         "reason": "英文「program」的常见义项「节目」不符合主释义「技能」。"
       },
       {
-        "wordId": "w-conference",
-        "reason": "英文「conference」的常见义项「会议」不符合主释义「技能」。"
+        "wordId": "w-trust",
+        "reason": "英文「trust」的常见义项「信任」不符合主释义「技能」。"
       },
       {
-        "wordId": "w-age",
-        "reason": "英文「age」的常见义项「年龄」不符合主释义「技能」。"
+        "wordId": "w-conference",
+        "reason": "英文「conference」的常见义项「会议」不符合主释义「技能」。"
       }
     ],
     "contextChoice": [
@@ -183,14 +183,14 @@
         "reason": "将「program」代入可见句子后不表达主释义「技能」。"
       },
       {
+        "wordId": "w-trust",
+        "surfaceForm": "trust",
+        "reason": "将「trust」代入可见句子后不表达主释义「技能」。"
+      },
+      {
         "wordId": "w-conference",
         "surfaceForm": "conference",
         "reason": "将「conference」代入可见句子后不表达主释义「技能」。"
-      },
-      {
-        "wordId": "w-age",
-        "surfaceForm": "age",
-        "reason": "将「age」代入可见句子后不表达主释义「技能」。"
       }
     ],
     "spelling": null
@@ -199,19 +199,23 @@
     "wordId": "w-skim",
     "enToZh": [
       {
+        "wordId": "w-repeal",
+        "reason": "选项「废除」不是「skim」的主释义「快速浏览」或其他义项。"
+      },
+      {
         "wordId": "w-immerse",
         "reason": "选项「使沉浸于」不是「skim」的主释义「快速浏览」或其他义项。"
       },
       {
         "wordId": "w-imprison",
         "reason": "选项「监禁」不是「skim」的主释义「快速浏览」或其他义项。"
-      },
-      {
-        "wordId": "w-mislead",
-        "reason": "选项「误导」不是「skim」的主释义「快速浏览」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-repeal",
+        "reason": "英文「repeal」的常见义项「废除」不符合主释义「快速浏览」。"
+      },
       {
         "wordId": "w-immerse",
         "reason": "英文「immerse」的常见义项「使沉浸于」不符合主释义「快速浏览」。"
@@ -219,13 +223,14 @@
       {
         "wordId": "w-imprison",
         "reason": "英文「imprison」的常见义项「监禁」不符合主释义「快速浏览」。"
-      },
-      {
-        "wordId": "w-mislead",
-        "reason": "英文「mislead」的常见义项「误导」不符合主释义「快速浏览」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-repeal",
+        "surfaceForm": "repeal",
+        "reason": "将「repeal」代入可见句子后不表达主释义「快速浏览」。"
+      },
       {
         "wordId": "w-immerse",
         "surfaceForm": "immerse",
@@ -235,11 +240,6 @@
         "wordId": "w-imprison",
         "surfaceForm": "imprison",
         "reason": "将「imprison」代入可见句子后不表达主释义「快速浏览」。"
-      },
-      {
-        "wordId": "w-mislead",
-        "surfaceForm": "mislead",
-        "reason": "将「mislead」代入可见句子后不表达主释义「快速浏览」。"
       }
     ],
     "spelling": null
@@ -252,12 +252,12 @@
         "reason": "选项「干预」不是「skin」的主释义「皮肤」或其他义项。"
       },
       {
-        "wordId": "w-excitement",
-        "reason": "选项「兴奋」不是「skin」的主释义「皮肤」或其他义项。"
+        "wordId": "w-traffic",
+        "reason": "选项「交通」不是「skin」的主释义「皮肤」或其他义项。"
       },
       {
-        "wordId": "w-problem",
-        "reason": "选项「问题」不是「skin」的主释义「皮肤」或其他义项。"
+        "wordId": "w-excitement",
+        "reason": "选项「兴奋」不是「skin」的主释义「皮肤」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -266,12 +266,12 @@
         "reason": "英文「intervention」的常见义项「干预」不符合主释义「皮肤」。"
       },
       {
-        "wordId": "w-excitement",
-        "reason": "英文「excitement」的常见义项「兴奋」不符合主释义「皮肤」。"
+        "wordId": "w-traffic",
+        "reason": "英文「traffic」的常见义项「交通」不符合主释义「皮肤」。"
       },
       {
-        "wordId": "w-problem",
-        "reason": "英文「problem」的常见义项「问题」不符合主释义「皮肤」。"
+        "wordId": "w-excitement",
+        "reason": "英文「excitement」的常见义项「兴奋」不符合主释义「皮肤」。"
       }
     ],
     "contextChoice": [
@@ -281,14 +281,14 @@
         "reason": "将「intervention」代入可见句子后不表达主释义「皮肤」。"
       },
       {
+        "wordId": "w-traffic",
+        "surfaceForm": "traffic",
+        "reason": "将「traffic」代入可见句子后不表达主释义「皮肤」。"
+      },
+      {
         "wordId": "w-excitement",
         "surfaceForm": "excitement",
         "reason": "将「excitement」代入可见句子后不表达主释义「皮肤」。"
-      },
-      {
-        "wordId": "w-problem",
-        "surfaceForm": "problem",
-        "reason": "将「problem」代入可见句子后不表达主释义「皮肤」。"
       }
     ],
     "spelling": null
@@ -305,8 +305,8 @@
         "reason": "选项「擅长」不是「skip」的主释义「略过」或其他义项。"
       },
       {
-        "wordId": "w-sprinkle",
-        "reason": "选项「撒」不是「skip」的主释义「略过」或其他义项。"
+        "wordId": "w-utilize",
+        "reason": "选项「利用」不是「skip」的主释义「略过」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -319,8 +319,8 @@
         "reason": "英文「excel」的常见义项「擅长」不符合主释义「略过」。"
       },
       {
-        "wordId": "w-sprinkle",
-        "reason": "英文「sprinkle」的常见义项「撒」不符合主释义「略过」。"
+        "wordId": "w-utilize",
+        "reason": "英文「utilize」的常见义项「利用」不符合主释义「略过」。"
       }
     ],
     "contextChoice": [
@@ -335,9 +335,9 @@
         "reason": "将「excel」代入可见句子后不表达主释义「略过」。"
       },
       {
-        "wordId": "w-sprinkle",
-        "surfaceForm": "sprinkle",
-        "reason": "将「sprinkle」代入可见句子后不表达主释义「略过」。"
+        "wordId": "w-utilize",
+        "surfaceForm": "utilize",
+        "reason": "将「utilize」代入可见句子后不表达主释义「略过」。"
       }
     ],
     "spelling": null
@@ -497,12 +497,12 @@
         "reason": "选项「缩写」不是「slander」的主释义「诽谤」或其他义项。"
       },
       {
-        "wordId": "w-consultancy",
-        "reason": "选项「咨询公司」不是「slander」的主释义「诽谤」或其他义项。"
+        "wordId": "w-tropic",
+        "reason": "选项「回归线」不是「slander」的主释义「诽谤」或其他义项。"
       },
       {
-        "wordId": "w-fastener",
-        "reason": "选项「扣件」不是「slander」的主释义「诽谤」或其他义项。"
+        "wordId": "w-consultancy",
+        "reason": "选项「咨询公司」不是「slander」的主释义「诽谤」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -511,12 +511,12 @@
         "reason": "英文「abbreviation」的常见义项「缩写」不符合主释义「诽谤」。"
       },
       {
-        "wordId": "w-consultancy",
-        "reason": "英文「consultancy」的常见义项「咨询公司」不符合主释义「诽谤」。"
+        "wordId": "w-tropic",
+        "reason": "英文「tropic」的常见义项「回归线」不符合主释义「诽谤」。"
       },
       {
-        "wordId": "w-fastener",
-        "reason": "英文「fastener」的常见义项「扣件」不符合主释义「诽谤」。"
+        "wordId": "w-consultancy",
+        "reason": "英文「consultancy」的常见义项「咨询公司」不符合主释义「诽谤」。"
       }
     ],
     "contextChoice": [
@@ -526,14 +526,14 @@
         "reason": "将「abbreviation」代入可见句子后不表达主释义「诽谤」。"
       },
       {
+        "wordId": "w-tropic",
+        "surfaceForm": "tropic",
+        "reason": "将「tropic」代入可见句子后不表达主释义「诽谤」。"
+      },
+      {
         "wordId": "w-consultancy",
         "surfaceForm": "consultancy",
         "reason": "将「consultancy」代入可见句子后不表达主释义「诽谤」。"
-      },
-      {
-        "wordId": "w-fastener",
-        "surfaceForm": "fastener",
-        "reason": "将「fastener」代入可见句子后不表达主释义「诽谤」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「努力」不是「slave」的主释义「奴隶」或其他义项。"
       },
       {
-        "wordId": "w-signature",
-        "reason": "选项「签名」不是「slave」的主释义「奴隶」或其他义项。"
+        "wordId": "w-storage",
+        "reason": "选项「储存」不是「slave」的主释义「奴隶」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「effort」的常见义项「努力」不符合主释义「奴隶」。"
       },
       {
-        "wordId": "w-signature",
-        "reason": "英文「signature」的常见义项「签名」不符合主释义「奴隶」。"
+        "wordId": "w-storage",
+        "reason": "英文「storage」的常见义项「储存」不符合主释义「奴隶」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「effort」代入可见句子后不表达主释义「奴隶」。"
       },
       {
-        "wordId": "w-signature",
-        "surfaceForm": "signature",
-        "reason": "将「signature」代入可见句子后不表达主释义「奴隶」。"
+        "wordId": "w-storage",
+        "surfaceForm": "storage",
+        "reason": "将「storage」代入可见句子后不表达主释义「奴隶」。"
       }
     ],
     "spelling": null
@@ -983,19 +983,23 @@
     "wordId": "w-slight",
     "enToZh": [
       {
+        "wordId": "w-tidy",
+        "reason": "选项「整洁的」不是「slight」的主释义「轻微的」或其他义项。"
+      },
+      {
         "wordId": "w-fundamental",
         "reason": "选项「基本的」不是「slight」的主释义「轻微的」或其他义项。"
       },
       {
         "wordId": "w-fine",
         "reason": "选项「很好的」不是「slight」的主释义「轻微的」或其他义项。"
-      },
-      {
-        "wordId": "w-faint",
-        "reason": "选项「微弱的」不是「slight」的主释义「轻微的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-tidy",
+        "reason": "英文「tidy」的常见义项「整洁的」不符合主释义「轻微的」。"
+      },
       {
         "wordId": "w-fundamental",
         "reason": "英文「fundamental」的常见义项「基本的」不符合主释义「轻微的」。"
@@ -1003,13 +1007,14 @@
       {
         "wordId": "w-fine",
         "reason": "英文「fine」的常见义项「很好的」不符合主释义「轻微的」。"
-      },
-      {
-        "wordId": "w-faint",
-        "reason": "英文「faint」的常见义项「微弱的」不符合主释义「轻微的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-tidy",
+        "surfaceForm": "tidy",
+        "reason": "将「tidy」代入可见句子后不表达主释义「轻微的」。"
+      },
       {
         "wordId": "w-fundamental",
         "surfaceForm": "fundamental",
@@ -1019,11 +1024,6 @@
         "wordId": "w-fine",
         "surfaceForm": "fine",
         "reason": "将「fine」代入可见句子后不表达主释义「轻微的」。"
-      },
-      {
-        "wordId": "w-faint",
-        "surfaceForm": "faint",
-        "reason": "将「faint」代入可见句子后不表达主释义「轻微的」。"
       }
     ],
     "spelling": null
@@ -1040,8 +1040,8 @@
         "reason": "选项「完美地」不是「slightly」的主释义「稍微」或其他义项。"
       },
       {
-        "wordId": "w-equally",
-        "reason": "选项「同样地」不是「slightly」的主释义「稍微」或其他义项。"
+        "wordId": "w-today",
+        "reason": "选项「今天」不是「slightly」的主释义「稍微」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1054,8 +1054,8 @@
         "reason": "英文「perfectly」的常见义项「完美地」不符合主释义「稍微」。"
       },
       {
-        "wordId": "w-equally",
-        "reason": "英文「equally」的常见义项「同样地」不符合主释义「稍微」。"
+        "wordId": "w-today",
+        "reason": "英文「today」的常见义项「今天」不符合主释义「稍微」。"
       }
     ],
     "contextChoice": [
@@ -1070,9 +1070,9 @@
         "reason": "将「perfectly」代入可见句子后不表达主释义「稍微」。"
       },
       {
-        "wordId": "w-equally",
-        "surfaceForm": "equally",
-        "reason": "将「equally」代入可见句子后不表达主释义「稍微」。"
+        "wordId": "w-today",
+        "surfaceForm": "today",
+        "reason": "将「today」代入可见句子后不表达主释义「稍微」。"
       }
     ],
     "spelling": null
@@ -1130,19 +1130,23 @@
     "wordId": "w-slipper",
     "enToZh": [
       {
+        "wordId": "w-token",
+        "reason": "选项「象征」不是「slipper」的主释义「拖鞋」或其他义项。"
+      },
+      {
         "wordId": "w-mischief",
         "reason": "选项「恶作剧」不是「slipper」的主释义「拖鞋」或其他义项。"
       },
       {
         "wordId": "w-ounce",
         "reason": "选项「盎司」不是「slipper」的主释义「拖鞋」或其他义项。"
-      },
-      {
-        "wordId": "w-conformity",
-        "reason": "选项「遵从」不是「slipper」的主释义「拖鞋」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-token",
+        "reason": "英文「token」的常见义项「象征」不符合主释义「拖鞋」。"
+      },
       {
         "wordId": "w-mischief",
         "reason": "英文「mischief」的常见义项「恶作剧」不符合主释义「拖鞋」。"
@@ -1150,13 +1154,14 @@
       {
         "wordId": "w-ounce",
         "reason": "英文「ounce」的常见义项「盎司」不符合主释义「拖鞋」。"
-      },
-      {
-        "wordId": "w-conformity",
-        "reason": "英文「conformity」的常见义项「遵从」不符合主释义「拖鞋」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-token",
+        "surfaceForm": "token",
+        "reason": "将「token」代入可见句子后不表达主释义「拖鞋」。"
+      },
       {
         "wordId": "w-mischief",
         "surfaceForm": "mischief",
@@ -1166,11 +1171,6 @@
         "wordId": "w-ounce",
         "surfaceForm": "ounce",
         "reason": "将「ounce」代入可见句子后不表达主释义「拖鞋」。"
-      },
-      {
-        "wordId": "w-conformity",
-        "surfaceForm": "conformity",
-        "reason": "将「conformity」代入可见句子后不表达主释义「拖鞋」。"
       }
     ],
     "spelling": null

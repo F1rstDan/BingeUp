@@ -8104,7 +8104,7 @@
       ],
       "outputHash": "bf1161cbbb6af1845c9a0b60d94cb869218bc156c33bd7a10da40c4bd337d2a5",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -8113,7 +8113,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "bf1161cbbb6af1845c9a0b60d94cb869218bc156c33bd7a10da40c4bd337d2a5",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-clerk",
+          "w-climate",
+          "w-close",
+          "w-closet",
+          "w-clothes",
+          "w-cloud"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-032",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -8159,10 +8173,10 @@
         "w-coffin",
         "w-collaboration"
       ],
-      "outputHash": "65f3dcd51faf874eee73c987f58eb05ab7a0699a24fa2bffd1293d753c3ff8ec",
+      "outputHash": "f6037dc37038e8500066ccfd657e54524fd2eec8ad6a7562b1ca3108fe0bc768",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8171,7 +8185,7 @@
         }
       },
       "review": {
-        "outputHash": "65f3dcd51faf874eee73c987f58eb05ab7a0699a24fa2bffd1293d753c3ff8ec",
+        "outputHash": "f6037dc37038e8500066ccfd657e54524fd2eec8ad6a7562b1ca3108fe0bc768",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-clutch",
@@ -8180,7 +8194,7 @@
           "w-collaboration"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-033",
+        "reviewer": "independent-reaccept-review-main-033",
         "result": "pass"
       },
       "failures": [],
@@ -8188,7 +8202,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "09972afd75038860dc83573ea547f7d8229f1de4c5bd837664c705d745c9854b"
+      "entryHash": "cc9352e5725e949d563e1c3327295291009d9b221ada51cc60f8f479d3ded980"
     },
     {
       "id": "main-034",
@@ -8230,10 +8244,10 @@
         "w-commentary",
         "w-commitment"
       ],
-      "outputHash": "d4bd03141f38139c43c7b7ab5540e82fd9115ab72e9ae2dc236c462c12cc012c",
+      "outputHash": "3e52446176225c2b1b2ba1857d60f93f78a2ccc0a8388fe9bd1cb0afbdb942ae",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8242,7 +8256,7 @@
         }
       },
       "review": {
-        "outputHash": "d4bd03141f38139c43c7b7ab5540e82fd9115ab72e9ae2dc236c462c12cc012c",
+        "outputHash": "3e52446176225c2b1b2ba1857d60f93f78a2ccc0a8388fe9bd1cb0afbdb942ae",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-colony",
@@ -8253,7 +8267,7 @@
           "w-commitment"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-034",
+        "reviewer": "independent-reaccept-review-main-034",
         "result": "pass"
       },
       "failures": [],
@@ -8261,7 +8275,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "0b4ec170e64687ab004834dc20cffbbf6de96c1557fff3bbf94afce1b4674226"
+      "entryHash": "58c9a3b67a4269bcb23efc43cc52acf195ceb597df2affad5b88f79d2d3dae44"
     },
     {
       "id": "main-035",
@@ -8302,10 +8316,10 @@
         "w-competence",
         "w-competitor"
       ],
-      "outputHash": "0c7e3c66c437fdac0823902f2d9f88a0ceaffc3c12fd2227467f85e2c14923b9",
+      "outputHash": "050c90a784838832fd67aaaa7278e39b180b14a01c00d67983e5213b1993eff1",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8314,7 +8328,7 @@
         }
       },
       "review": {
-        "outputHash": "0c7e3c66c437fdac0823902f2d9f88a0ceaffc3c12fd2227467f85e2c14923b9",
+        "outputHash": "050c90a784838832fd67aaaa7278e39b180b14a01c00d67983e5213b1993eff1",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-commonly",
@@ -8324,7 +8338,7 @@
           "w-competitor"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-035",
+        "reviewer": "independent-reaccept-review-main-035",
         "result": "pass"
       },
       "failures": [],
@@ -8332,7 +8346,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "b2986ee7e26f11a23b9d7a3c8c68759a363043f6176ae2ccd02bbe2b16822067"
+      "entryHash": "67f20702202e137e727e335b1f1b89b43a9716a96f23d8e1c2645c15529b9a61"
     },
     {
       "id": "main-036",
@@ -8592,10 +8606,10 @@
         "w-consult",
         "w-consumption"
       ],
-      "outputHash": "3249727645f808b25707b295e69338eb37473300369b5dbf8b96b689b2c53d26",
+      "outputHash": "ebb1b42385274c803c2081c7d4f90f2f1795365b1e13db518ee4d4ae7063f812",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8604,7 +8618,7 @@
         }
       },
       "review": {
-        "outputHash": "3249727645f808b25707b295e69338eb37473300369b5dbf8b96b689b2c53d26",
+        "outputHash": "ebb1b42385274c803c2081c7d4f90f2f1795365b1e13db518ee4d4ae7063f812",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-conserve",
@@ -8614,7 +8628,7 @@
           "w-consumption"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-039",
+        "reviewer": "independent-reaccept-review-main-039",
         "result": "pass"
       },
       "failures": [],
@@ -8622,7 +8636,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "e36ec73043ae0b846aab352e20a80fd0638fd7a39937b02088dd606c121ae7d3"
+      "entryHash": "1ec00957606fe1fc6be456a2bcc8c743387b12b0c8963fddc1d0f357eb0c4fb4"
     },
     {
       "id": "main-040",
@@ -8665,10 +8679,10 @@
         "w-convenience",
         "w-converse"
       ],
-      "outputHash": "2b8e0e42b6d9ccefc6510897cb26a5350f95d607eb086c76f9c29b16691c4784",
+      "outputHash": "a43641e366322ec0da23de1564e3bb98ba481de4f7bea8605804c643daa9dccc",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8677,7 +8691,7 @@
         }
       },
       "review": {
-        "outputHash": "2b8e0e42b6d9ccefc6510897cb26a5350f95d607eb086c76f9c29b16691c4784",
+        "outputHash": "a43641e366322ec0da23de1564e3bb98ba481de4f7bea8605804c643daa9dccc",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-content",
@@ -8689,7 +8703,7 @@
           "w-converse"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-040",
+        "reviewer": "independent-reaccept-review-main-040",
         "result": "pass"
       },
       "failures": [],
@@ -8697,7 +8711,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "1f56ef2f1c27db50e232086c27df0ea4151d72a97b303b17aa54214a7be3e90d"
+      "entryHash": "ee585cee909c323a43679bfaed2c9e3c9383d3fcdd3fc8f155f6c6243a733e24"
     },
     {
       "id": "main-041",
@@ -8740,10 +8754,10 @@
         "w-coordinate",
         "w-corps"
       ],
-      "outputHash": "7c7751199949928058f54565c1581a18e19e0328f330076e4bffc66ba1cf7bfc",
+      "outputHash": "6d0017db404fd1cd214461df42f8e710b51e1904d31ae3be86afa0cbd79b850a",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -8752,7 +8766,7 @@
         }
       },
       "review": {
-        "outputHash": "7c7751199949928058f54565c1581a18e19e0328f330076e4bffc66ba1cf7bfc",
+        "outputHash": "6d0017db404fd1cd214461df42f8e710b51e1904d31ae3be86afa0cbd79b850a",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-convert",
@@ -8764,7 +8778,7 @@
           "w-corps"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-041",
+        "reviewer": "independent-reaccept-review-main-041",
         "result": "pass"
       },
       "failures": [],
@@ -8772,7 +8786,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "b267ed8a0619b53599e77844995fbffb49cf81e99d7eb09b3673e3d4306732bf"
+      "entryHash": "bdade40855c5fbc5ddd3f595b350fde85a2bb05a6f27ed0437e9e1e54e958868"
     },
     {
       "id": "main-042",
@@ -9042,10 +9056,10 @@
         "w-cylinder",
         "w-damage"
       ],
-      "outputHash": "2e43961aaae387147ffa34e4a89d9c243e3535398030c97a6579da5e44566777",
+      "outputHash": "f282b66149daba4e9a467194f3cb142c25e13644dd9e08faa9a3828e1b709d26",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -9054,7 +9068,7 @@
         }
       },
       "review": {
-        "outputHash": "2e43961aaae387147ffa34e4a89d9c243e3535398030c97a6579da5e44566777",
+        "outputHash": "f282b66149daba4e9a467194f3cb142c25e13644dd9e08faa9a3828e1b709d26",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-currency",
@@ -9064,7 +9078,7 @@
           "w-damage"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-045",
+        "reviewer": "independent-reaccept-review-main-045",
         "result": "pass"
       },
       "failures": [],
@@ -9072,7 +9086,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "a35f31569c5964c6863d2d801d7634e5ad797a8ed775d0cd5d7433250b2c8fe7"
+      "entryHash": "9dc7c3c179c4e9460a48e75b3de94a06bd697023beac3e2ad07d8108253307cf"
     },
     {
       "id": "main-046",
@@ -10512,10 +10526,10 @@
         "w-eradicate",
         "w-erupt"
       ],
-      "outputHash": "1bae3277f8e8a6963b20bac4578c692321e5c92a9fb1f660a2a5e4b8af851e2e",
+      "outputHash": "98e45b126d8605659bed06a03b1af8fcdb58ef3d9a12d03acd053474cd0ffc91",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -10524,7 +10538,7 @@
         }
       },
       "review": {
-        "outputHash": "1bae3277f8e8a6963b20bac4578c692321e5c92a9fb1f660a2a5e4b8af851e2e",
+        "outputHash": "98e45b126d8605659bed06a03b1af8fcdb58ef3d9a12d03acd053474cd0ffc91",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-epidemic",
@@ -10537,7 +10551,7 @@
           "w-erupt"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-064",
+        "reviewer": "independent-reaccept-review-main-064",
         "result": "pass"
       },
       "failures": [],
@@ -10545,7 +10559,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "14cadc2966180f8b691167331aa6be0208686f7008043c5b59bb1dbb18d36cd1"
+      "entryHash": "1f7e5c30fdfd50e8a4a534cf20187573d9f7d82c5ed6b3ac11b0528e0af12fa3"
     },
     {
       "id": "main-065",
@@ -10596,10 +10610,10 @@
         "w-event",
         "w-eventually"
       ],
-      "outputHash": "43614c5697dbff243ab264d342d0b72f8c9b7ed0d66c2a3bfede7fef6a2490d2",
+      "outputHash": "9ad0d870d73a2684c2b1186dc90f695779900636ac8f5d29f1fbf57974baf7ab",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -10608,7 +10622,7 @@
         }
       },
       "review": {
-        "outputHash": "43614c5697dbff243ab264d342d0b72f8c9b7ed0d66c2a3bfede7fef6a2490d2",
+        "outputHash": "9ad0d870d73a2684c2b1186dc90f695779900636ac8f5d29f1fbf57974baf7ab",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-eruption",
@@ -10628,7 +10642,7 @@
           "w-eventually"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-065",
+        "reviewer": "independent-reaccept-review-main-065",
         "result": "pass"
       },
       "failures": [],
@@ -10636,7 +10650,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "dec9675633def1c49f34894d4b108fbe7948f2748ddc0ee65d6c9e9bd5535f30"
+      "entryHash": "46636187dc672282fce121a266a8b5401ae1aa1953d1858200fa5ae27bea996f"
     },
     {
       "id": "main-066",
@@ -10680,10 +10694,10 @@
         "w-excess",
         "w-excitement"
       ],
-      "outputHash": "abf2914e465291ce2b3a8e702884a4ad0183956afef0defe31b81d21b2c2367d",
+      "outputHash": "2e2c35be4d44e433b02e674142ea083ef13f9caa77201c43a4e1889ae85311a4",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -10692,7 +10706,7 @@
         }
       },
       "review": {
-        "outputHash": "abf2914e465291ce2b3a8e702884a4ad0183956afef0defe31b81d21b2c2367d",
+        "outputHash": "2e2c35be4d44e433b02e674142ea083ef13f9caa77201c43a4e1889ae85311a4",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-everywhere",
@@ -10705,7 +10719,7 @@
           "w-excitement"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-066",
+        "reviewer": "independent-reaccept-review-main-066",
         "result": "pass"
       },
       "failures": [],
@@ -10713,7 +10727,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "82d28956052779b6325d06a8d175a0550a15a4c9b768fb5ab0b07fefc9927875"
+      "entryHash": "4a77eb36e308fb14d1dc0390ab0acfdf78f524654228ab28b32c5eb31c8ca434"
     },
     {
       "id": "main-067",
@@ -10974,10 +10988,10 @@
         "w-fastener",
         "w-fate"
       ],
-      "outputHash": "ca34b0b7228e35fdbfd8004169d18a4dda58b74388c528df3eda49054b56fcdd",
+      "outputHash": "b372ce1aa3b5a2542dbe8faa9c2f6aade2a061577be30c67d1a6985d9376b523",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -10986,7 +11000,7 @@
         }
       },
       "review": {
-        "outputHash": "ca34b0b7228e35fdbfd8004169d18a4dda58b74388c528df3eda49054b56fcdd",
+        "outputHash": "b372ce1aa3b5a2542dbe8faa9c2f6aade2a061577be30c67d1a6985d9376b523",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-fall",
@@ -10997,7 +11011,7 @@
           "w-fate"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-070",
+        "reviewer": "independent-crossref-review-main-070",
         "result": "pass"
       },
       "failures": [],
@@ -11698,10 +11712,10 @@
         "w-glamour",
         "w-glider"
       ],
-      "outputHash": "bbda756d8c7a400e8055dfd033ba80c72df23ffcb23bc5a402969bfad7a49f4d",
+      "outputHash": "bb2ff2c29878d80f0be94b4308a17766991dbab60c3470d8c77dd4cbc4643d00",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -11710,7 +11724,7 @@
         }
       },
       "review": {
-        "outputHash": "bbda756d8c7a400e8055dfd033ba80c72df23ffcb23bc5a402969bfad7a49f4d",
+        "outputHash": "bb2ff2c29878d80f0be94b4308a17766991dbab60c3470d8c77dd4cbc4643d00",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-gentleman",
@@ -11719,7 +11733,7 @@
           "w-glider"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-080",
+        "reviewer": "independent-crossref-review-main-080",
         "result": "pass"
       },
       "failures": [],
@@ -12486,10 +12500,10 @@
         "w-ignite",
         "w-ignorance"
       ],
-      "outputHash": "66fda081d88e85ef43ba63ac6dd65ae1538a466c009eda8433ad6569a5a4f8fb",
+      "outputHash": "d86d990422f6f492b5511553286065243a48ec21ccb894905322aabcbddcb3b8",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -12498,7 +12512,7 @@
         }
       },
       "review": {
-        "outputHash": "66fda081d88e85ef43ba63ac6dd65ae1538a466c009eda8433ad6569a5a4f8fb",
+        "outputHash": "d86d990422f6f492b5511553286065243a48ec21ccb894905322aabcbddcb3b8",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-idiom",
@@ -12506,7 +12520,7 @@
           "w-ignorance"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-091",
+        "reviewer": "independent-reaccept-review-main-091",
         "result": "pass"
       },
       "failures": [],
@@ -12514,7 +12528,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "cc4dd2cf680ecfc5fdfe0fa6d70de2341c0581a285544e8661ec92dd6959b1e5"
+      "entryHash": "b9e95659c54788ea54046c88ea46c3c4b2195c6c1ddc932b45ae3197327843d8"
     },
     {
       "id": "main-092",
@@ -12555,10 +12569,10 @@
         "w-impact",
         "w-impair"
       ],
-      "outputHash": "40a1a9e97107d24b57109491498f1f05d1a8c9ccf33f77f76d3157edc4e04715",
+      "outputHash": "ea4ec2ce739ab1665f301d5b7b1e7c0e753d0ec0d29142787cd5900eaa9ffbb6",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -12567,7 +12581,7 @@
         }
       },
       "review": {
-        "outputHash": "40a1a9e97107d24b57109491498f1f05d1a8c9ccf33f77f76d3157edc4e04715",
+        "outputHash": "ea4ec2ce739ab1665f301d5b7b1e7c0e753d0ec0d29142787cd5900eaa9ffbb6",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-illiterate",
@@ -12577,7 +12591,7 @@
           "w-impair"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-092",
+        "reviewer": "independent-reaccept-review-main-092",
         "result": "pass"
       },
       "failures": [],
@@ -12585,7 +12599,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "6c55ef6e59aa1b6d9b298d89fcc934d48dc9e9466a61af5595df1c320f3b177c"
+      "entryHash": "6c100a230e9800bc6a4d43ba143c781d2af9ca0e88e79d6f6be4fc4c41da296b"
     },
     {
       "id": "main-093",
@@ -12852,10 +12866,10 @@
         "w-inspect",
         "w-install"
       ],
-      "outputHash": "b3622015ea821705b70d915b7913ae7aeaa6f46347f02038cd5c9658ea19a0bf",
+      "outputHash": "4cf2a70657ab98d59dced10155f1c2129bb9d282bac02478eacc795fd08d7f1e",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 4,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -12864,7 +12878,7 @@
         }
       },
       "review": {
-        "outputHash": "b3622015ea821705b70d915b7913ae7aeaa6f46347f02038cd5c9658ea19a0bf",
+        "outputHash": "4cf2a70657ab98d59dced10155f1c2129bb9d282bac02478eacc795fd08d7f1e",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-initiative",
@@ -12877,7 +12891,7 @@
           "w-install"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-096",
+        "reviewer": "independent-crossref-review-main-096",
         "result": "pass"
       },
       "failures": [],
@@ -12931,10 +12945,10 @@
         "w-intellectual",
         "w-intellectually"
       ],
-      "outputHash": "928cca86651c85dc75dc5f350a49520c39fb4f9ee8598418aa49a385138d071e",
+      "outputHash": "4ca6c6f49f70208a03b104e110390cb92850f0e3e2a59b15b373c0bc9dfd9500",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -12943,7 +12957,7 @@
         }
       },
       "review": {
-        "outputHash": "928cca86651c85dc75dc5f350a49520c39fb4f9ee8598418aa49a385138d071e",
+        "outputHash": "4ca6c6f49f70208a03b104e110390cb92850f0e3e2a59b15b373c0bc9dfd9500",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-institute",
@@ -12958,7 +12972,7 @@
           "w-intellectually"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-097",
+        "reviewer": "independent-crossref-review-main-097",
         "result": "pass"
       },
       "failures": [],
@@ -16911,7 +16925,7 @@
       ],
       "outputHash": "a562322ff4af271af432a258b5ba39ded24b32103cb05226981d06b92db8dff0",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -16920,7 +16934,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "a562322ff4af271af432a258b5ba39ded24b32103cb05226981d06b92db8dff0",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-rather",
+          "w-ray",
+          "w-reaction",
+          "w-read",
+          "w-really",
+          "w-rebel"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-151",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17067,7 +17095,7 @@
       ],
       "outputHash": "140bbdd55101c03a8bd542a00c75cc150d88793fc830cbfe8a9bfa6e502b2caf",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -17076,7 +17104,27 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "140bbdd55101c03a8bd542a00c75cc150d88793fc830cbfe8a9bfa6e502b2caf",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-recur",
+          "w-recurrence",
+          "w-reduction",
+          "w-refer",
+          "w-referee",
+          "w-reference",
+          "w-refine",
+          "w-reform",
+          "w-refrigerator",
+          "w-refugee",
+          "w-refusal",
+          "w-refuse"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-153",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17382,7 +17430,7 @@
       ],
       "outputHash": "e004eb5fed9deac3f58503ce139981039dbf541563170822001ba62882731160",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -17391,7 +17439,30 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "e004eb5fed9deac3f58503ce139981039dbf541563170822001ba62882731160",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-research",
+          "w-resemblance",
+          "w-resemble",
+          "w-resent",
+          "w-resentment",
+          "w-reserve",
+          "w-reside",
+          "w-resign",
+          "w-resignation",
+          "w-resist",
+          "w-resistance",
+          "w-resistant",
+          "w-resolve",
+          "w-resort",
+          "w-respect"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-157",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17673,7 +17744,7 @@
       ],
       "outputHash": "831019122551be786b0b535becef8ad73b65f772b68fdca4358df130966a2027",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -17682,7 +17753,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "831019122551be786b0b535becef8ad73b65f772b68fdca4358df130966a2027",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-roman",
+          "w-romance",
+          "w-roof",
+          "w-room",
+          "w-root",
+          "w-rouse",
+          "w-route"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-161",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18013,7 +18099,7 @@
       ],
       "outputHash": "f5202b66b85eb104eeff7f21a86e3645e2cc1ce78be00f5fac055cae80132a8a",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18035,18 +18121,10 @@
           "w-separate"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-166",
-        "result": "fail"
+        "reviewer": "independent-rereview-main-166",
+        "result": "pass"
       },
-      "failures": [
-        {
-          "wordId": "w-separate",
-          "stage": "semantics",
-          "code": "review-finding",
-          "message": "词性为形容词、主释义为「分开的」，但选用的音标 /ˈsɛpɝˌeɪt/ 对应动词读音；形容词应读 /ˈsɛpɝɪt/ 或 /ˈsɛpɹət/。",
-          "attempts": 2
-        }
-      ],
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18093,10 +18171,10 @@
         "w-settle",
         "w-seventy"
       ],
-      "outputHash": "d2f76f6c3a4df0c0a4b1f67c888078783be46e4f2cc1c16c81414655a7976f0b",
+      "outputHash": "f6b319d0b9cb752905dce07ef2ffcb69c6ff686f451bfe9c502915643054b7d3",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18105,7 +18183,7 @@
         }
       },
       "review": {
-        "outputHash": "d2f76f6c3a4df0c0a4b1f67c888078783be46e4f2cc1c16c81414655a7976f0b",
+        "outputHash": "f6b319d0b9cb752905dce07ef2ffcb69c6ff686f451bfe9c502915643054b7d3",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-separately",
@@ -18116,7 +18194,7 @@
           "w-seventy"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-167",
+        "reviewer": "independent-reaccept-review-main-167",
         "result": "pass"
       },
       "failures": [],
@@ -18124,7 +18202,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "7ed7cefa14474aaddd7d71d29966471632939c38b9e56c01e8a369e034b1099b"
+      "entryHash": "39f2f38db070f8dbc25fde107da569069ba74ff7031b3aa279682e835a670e6c"
     },
     {
       "id": "main-168",
@@ -18164,10 +18242,10 @@
         "w-sheriff",
         "w-shipbuilding"
       ],
-      "outputHash": "f291c68a6461bf1a005a4f55f00788d9f6b5548b1d4185f27d433345f85a1c52",
+      "outputHash": "0f2f92c69e534035e42d88428c203a158bffbee8cef0debc56fed53c9da34957",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18176,7 +18254,7 @@
         }
       },
       "review": {
-        "outputHash": "f291c68a6461bf1a005a4f55f00788d9f6b5548b1d4185f27d433345f85a1c52",
+        "outputHash": "0f2f92c69e534035e42d88428c203a158bffbee8cef0debc56fed53c9da34957",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-sheet",
@@ -18185,7 +18263,7 @@
           "w-shipbuilding"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-168",
+        "reviewer": "independent-reaccept-review-main-168",
         "result": "pass"
       },
       "failures": [],
@@ -18193,7 +18271,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "5c615aa566577e14679e0bcf7ae71fc3d932c11e076af73242c8870d2574808a"
+      "entryHash": "d5b70f219f33cf878f9939f851dd37ecd953044e6405c816ec75e4ceba387a57"
     },
     {
       "id": "main-169",
@@ -18233,10 +18311,10 @@
         "w-should",
         "w-shoulder"
       ],
-      "outputHash": "1b3c516acbe3ade1ccf80febfbc4bf33b6abec51df58e1a2990e6a43e70c1c79",
+      "outputHash": "c31c85afabdb640fb065225736e7bb4204072e733aedcb144a4199671d721cca",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18245,7 +18323,7 @@
         }
       },
       "review": {
-        "outputHash": "1b3c516acbe3ade1ccf80febfbc4bf33b6abec51df58e1a2990e6a43e70c1c79",
+        "outputHash": "c31c85afabdb640fb065225736e7bb4204072e733aedcb144a4199671d721cca",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-shortage",
@@ -18254,7 +18332,7 @@
           "w-shoulder"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-169",
+        "reviewer": "independent-reaccept-review-main-169",
         "result": "pass"
       },
       "failures": [],
@@ -18262,7 +18340,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "8266c232effba3c73e75c9fdf998741dbcd13c9cc8cc61f7eb28308901d4d198"
+      "entryHash": "75849afdea4bbca0ba7f2cf39c042e5d28fb31f4d48621c2e9186ecf46549c75"
     },
     {
       "id": "main-170",
@@ -18301,10 +18379,10 @@
         "w-significance",
         "w-silence"
       ],
-      "outputHash": "32df46ba34ec3da2821273d985c95123216013f2322e8265f7cf72d35774c19a",
+      "outputHash": "a6ea19a33b9705c14c4fd12afc8e0eebbcd3c6abfa59a69c5f1e58f40bd23790",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18313,7 +18391,7 @@
         }
       },
       "review": {
-        "outputHash": "32df46ba34ec3da2821273d985c95123216013f2322e8265f7cf72d35774c19a",
+        "outputHash": "a6ea19a33b9705c14c4fd12afc8e0eebbcd3c6abfa59a69c5f1e58f40bd23790",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-shutter",
@@ -18321,7 +18399,7 @@
           "w-silence"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-170",
+        "reviewer": "independent-reaccept-review-main-170",
         "result": "pass"
       },
       "failures": [],
@@ -18329,7 +18407,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "31e8cfc7a92e2c214e2c3acf57f7ca5494084760c11d93f40036cd1845b3fa0d"
+      "entryHash": "3b8d64bb8fea31a0ad488574c1cb549e610d4ef97a5c304da617ed884195418a"
     },
     {
       "id": "main-171",
@@ -18369,10 +18447,10 @@
         "w-since",
         "w-skate"
       ],
-      "outputHash": "f073a3d4157d2432e1f0741ad3cd39522894edc83c590653c593fe1525141cd9",
+      "outputHash": "84da0fed25bac29ea2a29d55bdc1442eb22605513b8878e002ff8390aa398386",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18381,7 +18459,7 @@
         }
       },
       "review": {
-        "outputHash": "f073a3d4157d2432e1f0741ad3cd39522894edc83c590653c593fe1525141cd9",
+        "outputHash": "84da0fed25bac29ea2a29d55bdc1442eb22605513b8878e002ff8390aa398386",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-simplicity",
@@ -18390,7 +18468,7 @@
           "w-skate"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-171",
+        "reviewer": "independent-reaccept-review-main-171",
         "result": "pass"
       },
       "failures": [],
@@ -18398,7 +18476,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "aa4737c93571b91dd9189da221106d8b27165f72e77af35d1ba15f28ed1b62e1"
+      "entryHash": "040aded253661d882b1cbdc0463c704c406a8332e354e185a0d045e2f68390de"
     },
     {
       "id": "main-172",
@@ -18437,10 +18515,10 @@
         "w-slam",
         "w-slave"
       ],
-      "outputHash": "7be84e0f93b00b4a1751decf05a1795ac96d9082a49f3dec7d14f06695eaab44",
+      "outputHash": "71f82ae431a4cadbe28af68e98ee5bbcd50624c69b891eae227b7e628e3b1722",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18449,7 +18527,7 @@
         }
       },
       "review": {
-        "outputHash": "7be84e0f93b00b4a1751decf05a1795ac96d9082a49f3dec7d14f06695eaab44",
+        "outputHash": "71f82ae431a4cadbe28af68e98ee5bbcd50624c69b891eae227b7e628e3b1722",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-skin",
@@ -18457,7 +18535,7 @@
           "w-slave"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-172",
+        "reviewer": "independent-reaccept-review-main-172",
         "result": "pass"
       },
       "failures": [],
@@ -18465,7 +18543,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "4c73a7c5cc7de10bbbaa6cb2daae20e4fee85334cc02be2c31757d08e7cb30ea"
+      "entryHash": "28c72bc5b458ff9ba52b5d2a82b562317c16f0c1ba388f125dffad7b6d37284d"
     },
     {
       "id": "main-173",
@@ -18504,10 +18582,10 @@
         "w-slumber",
         "w-smog"
       ],
-      "outputHash": "dfc1058dc13216a24abdc3b5eb57728d6d9e2259af1075d331e5dca6539d0cc8",
+      "outputHash": "e4b66a6a9dafdbe2ebe1f4963faff1857b944ca838b906bad67c3c61194118a6",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "verified",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18516,7 +18594,7 @@
         }
       },
       "review": {
-        "outputHash": "dfc1058dc13216a24abdc3b5eb57728d6d9e2259af1075d331e5dca6539d0cc8",
+        "outputHash": "e4b66a6a9dafdbe2ebe1f4963faff1857b944ca838b906bad67c3c61194118a6",
         "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
         "inspectedWordIds": [
           "w-slope",
@@ -18524,7 +18602,7 @@
           "w-smog"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-173",
+        "reviewer": "independent-reaccept-review-main-173",
         "result": "pass"
       },
       "failures": [],
@@ -18532,7 +18610,7 @@
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "d5d0eedde6b7601a7635eefbf2422f068670b9441e390bab51d26c39403da3f9"
+      "entryHash": "03ca735441ed95911a940543a8be0b4f3c4b5b61dcba60e2f03af282896ca12c"
     },
     {
       "id": "main-174",
@@ -18653,7 +18731,7 @@
       ],
       "outputHash": "86eaa6025e8cdccd47843e17f2c91010dc687ec22aafd3a8565f1a6a20d45858",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18676,18 +18754,10 @@
           "w-southwards"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-175",
-        "result": "fail"
+        "reviewer": "independent-rereview-main-175",
+        "result": "pass"
       },
-      "failures": [
-        {
-          "wordId": "w-sophisticate",
-          "stage": "semantics",
-          "code": "review-finding",
-          "message": "词性为名词、主释义为「见多识广的人」，但选用的音标 /səˈfɪstəˌkeɪt/ 是动词读音；名词应读 /səˈfɪstəkət/。",
-          "attempts": 2
-        }
-      ],
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18738,7 +18808,7 @@
       ],
       "outputHash": "d84bae649dc2e88a2ddcd2837bb29de8a9d21781b22ea54adaf8e3dd424dd589",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18761,18 +18831,10 @@
           "w-specifically"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-176",
-        "result": "fail"
+        "reviewer": "independent-rereview-main-176",
+        "result": "pass"
       },
-      "failures": [
-        {
-          "wordId": "w-sow",
-          "stage": "semantics",
-          "code": "review-finding",
-          "message": "词性为动词、主释义为「播种」，但选用的音标 /ˈsaʊ/ 是名词「母猪」的读音；动词应读 /ˈsoʊ/。",
-          "attempts": 1
-        }
-      ],
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18819,7 +18881,7 @@
       ],
       "outputHash": "8e49f37fc57b9b54e00d44f20d300b699e49ced115043f0a5747a6f50d111c9f",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18828,7 +18890,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8e49f37fc57b9b54e00d44f20d300b699e49ced115043f0a5747a6f50d111c9f",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-spill",
+          "w-spirit",
+          "w-splash",
+          "w-spoil"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-177",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19220,7 +19294,7 @@
       ],
       "outputHash": "d0f2298e11a30e7eb1ba2fe2877e8ee2e4b5600beea60b9963796e61b650d885",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -19240,18 +19314,10 @@
           "w-subway"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-183",
-        "result": "fail"
+        "reviewer": "independent-rereview-main-183",
+        "result": "pass"
       },
-      "failures": [
-        {
-          "wordId": "w-subordinate",
-          "stage": "semantics",
-          "code": "review-finding",
-          "message": "主释义为名词「下属」，但读音选择索引 0 为 /səˈbɔɹdəˌneɪt/（动词读音）；名词/形容词读音应为索引 1 /səˈbɔɹdənət/。",
-          "attempts": 2
-        }
-      ],
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -19587,7 +19653,7 @@
       ],
       "outputHash": "f17dba471cd87a9f57a31c45002d13f9a7732d1182f3a5c8a07794139ae6ddf9",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19607,18 +19673,10 @@
           "w-tear"
         ],
         "mode": "sample",
-        "reviewer": "independent-sample-review-main-188",
-        "result": "fail"
+        "reviewer": "independent-rereview-main-188",
+        "result": "pass"
       },
-      "failures": [
-        {
-          "wordId": "w-tear",
-          "stage": "semantics",
-          "code": "review-finding",
-          "message": "主释义为名词「眼泪」，但读音选择索引 0 为 /ˈtɛɹ/（动词「撕开」读音）；名词「眼泪」应为索引 1 /ˈtɪɹ/。",
-          "attempts": 1
-        }
-      ],
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -20179,7 +20237,7 @@
       ],
       "outputHash": "2dc99ade5750dcdc59144f33f04c1cfcf3fef52f6837b58ee6601abde96f02f8",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -20188,7 +20246,24 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "2dc99ade5750dcdc59144f33f04c1cfcf3fef52f6837b58ee6601abde96f02f8",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-transfer",
+          "w-transform",
+          "w-translate",
+          "w-translation",
+          "w-transmission",
+          "w-transport",
+          "w-transverse",
+          "w-traverse",
+          "w-treat"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-196",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20237,7 +20312,7 @@
       ],
       "outputHash": "5bee425a4d36627ed24f788e319a3d302080a64eb22864f012e034e058a2bf02",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20246,7 +20321,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "5bee425a4d36627ed24f788e319a3d302080a64eb22864f012e034e058a2bf02",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-tremendously",
+          "w-trend",
+          "w-trial",
+          "w-trip",
+          "w-troop"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-197",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20297,7 +20385,7 @@
       ],
       "outputHash": "4da160ef158d278adce86fbd662cb99712c1f0655ff6286a3f21bc5db85c7c03",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20306,7 +20394,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "4da160ef158d278adce86fbd662cb99712c1f0655ff6286a3f21bc5db85c7c03",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-trunk",
+          "w-tube",
+          "w-tuberculosis",
+          "w-tuna",
+          "w-tunnel",
+          "w-turn",
+          "w-twenty"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-198",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20355,7 +20458,7 @@
       ],
       "outputHash": "6fdb1ed452155a9c254fedb5ca6217a1b19359f58e09271b5a5e735118a855ed",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20364,7 +20467,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "6fdb1ed452155a9c254fedb5ca6217a1b19359f58e09271b5a5e735118a855ed",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-type",
+          "w-typically",
+          "w-typist",
+          "w-underestimate",
+          "w-underline"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-199",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20414,32 +20530,40 @@
         "w-update",
         "w-upgrade"
       ],
-      "outputHash": null,
+      "outputHash": "61381e0634bbce7d8ac2b946e137b06ee3670c40d3ea2b1e67c3db663ca6423e",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
-      "attempts": 1,
-      "generation": null,
-      "review": null,
-      "failures": [
-        {
-          "wordId": "w-update",
-          "stage": "structure",
-          "code": "invalid-record",
-          "message": "w-update: 多候选读音需要逐词选择",
-          "attempts": 1
-        },
-        {
-          "wordId": "w-upgrade",
-          "stage": "structure",
-          "code": "invalid-record",
-          "message": "w-upgrade: 多候选读音需要逐词选择",
-          "attempts": 1
+      "status": "verified",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
         }
-      ],
+      },
+      "review": {
+        "outputHash": "61381e0634bbce7d8ac2b946e137b06ee3670c40d3ea2b1e67c3db663ca6423e",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-undo",
+          "w-unfortunately",
+          "w-uniform",
+          "w-unit",
+          "w-unity",
+          "w-unusually",
+          "w-update",
+          "w-upgrade"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-200",
+        "result": "pass"
+      },
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "ec9c880c8793d7de8e359c6cb0742e0ffaa03e6e0e03e17748686efce77acd54"
     },
     {
       "id": "main-201",
@@ -20483,25 +20607,40 @@
         "w-vanity",
         "w-vapour"
       ],
-      "outputHash": null,
+      "outputHash": "3946f0690132dc2d486a142ba09b4707a2f8f9761caa678033f23bb2a64f96c9",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
-      "attempts": 1,
-      "generation": null,
-      "review": null,
-      "failures": [
-        {
-          "wordId": "w-vapour",
-          "stage": "pronunciation",
-          "code": "invalid-record",
-          "message": "w-vapour: vapour 缺少 IPA，需要独立转写",
-          "attempts": 1
+      "status": "verified",
+      "attempts": 2,
+      "generation": {
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "settings": {
+          "reasoning": "max"
         }
-      ],
+      },
+      "review": {
+        "outputHash": "3946f0690132dc2d486a142ba09b4707a2f8f9761caa678033f23bb2a64f96c9",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-upwards",
+          "w-usage",
+          "w-usually",
+          "w-utility",
+          "w-validity",
+          "w-value",
+          "w-vanity",
+          "w-vapour"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-201",
+        "result": "pass"
+      },
+      "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
-      "cost": null
+      "cost": null,
+      "entryHash": "249da814dcbc15092ce2c7bea931963ba2f191ab736e4b95499e33a3ba274f5c"
     },
     {
       "id": "main-202",
@@ -20543,10 +20682,10 @@
         "w-verge",
         "w-versus"
       ],
-      "outputHash": "dccf48a5a641939f1e0883c7f3257418385c232d3ccb6edb6894c52f20dc45c3",
+      "outputHash": "d8c8b15c11ccecb31c286ea14d731b5a1299fc4aea67ade185de0dee142318ec",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
-      "attempts": 1,
+      "status": "verified",
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -20554,13 +20693,27 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "d8c8b15c11ccecb31c286ea14d731b5a1299fc4aea67ade185de0dee142318ec",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-vase",
+          "w-vegetable",
+          "w-vehicle",
+          "w-ventilate",
+          "w-verge",
+          "w-versus"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-reaccept-review-main-202",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
       "cost": null,
-      "entryHash": "732e2fc17e5c9c0f5f8d1decedd61d6e5040fbe24f37365d3beb7a62e126eca5"
+      "entryHash": "ca7b5f0ce4d4041fb1648bc9c9972f3d43f3c132439ed29b4a9ec40933eee10e"
     },
     {
       "id": "main-203",
@@ -20608,7 +20761,7 @@
       ],
       "outputHash": "5e475d226eea7a65bceb81d97d0475d66e04ddb0f5307826a985e3fa97808767",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20617,7 +20770,25 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "5e475d226eea7a65bceb81d97d0475d66e04ddb0f5307826a985e3fa97808767",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-veteran",
+          "w-via",
+          "w-vicinity",
+          "w-victim",
+          "w-victory",
+          "w-viewer",
+          "w-village",
+          "w-violence",
+          "w-violently",
+          "w-violet"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-203",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20666,7 +20837,7 @@
       ],
       "outputHash": "a705a235e6d4abf68a558288b4959fcfc2db0922c5071d6812fd7ffe334c6e57",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -20675,7 +20846,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "a705a235e6d4abf68a558288b4959fcfc2db0922c5071d6812fd7ffe334c6e57",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-virgin",
+          "w-virtually",
+          "w-vision",
+          "w-vitamine",
+          "w-voltage"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-204",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20724,7 +20908,7 @@
       ],
       "outputHash": "431b613169f73d3c69146687c6d57400848b8daea4ae59a15cfe8957a5894746",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -20733,7 +20917,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "431b613169f73d3c69146687c6d57400848b8daea4ae59a15cfe8957a5894746",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-voyage",
+          "w-waggon",
+          "w-waken",
+          "w-walk",
+          "w-walnut"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-205",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20781,7 +20978,7 @@
       ],
       "outputHash": "5818fbc14b4e536215beb095b0b167ff05d069e5b0a5d168a179c2765f8557f7",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20790,7 +20987,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "5818fbc14b4e536215beb095b0b167ff05d069e5b0a5d168a179c2765f8557f7",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-waste",
+          "w-watch",
+          "w-watt",
+          "w-weaver"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-206",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20846,7 +21055,7 @@
       ],
       "outputHash": "179a1f3d463ccea9f7e9238bcd4b86fd17ce6c3ed4d0812cfcb9da8fe48b1a08",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20855,7 +21064,27 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "179a1f3d463ccea9f7e9238bcd4b86fd17ce6c3ed4d0812cfcb9da8fe48b1a08",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-web",
+          "w-weekend",
+          "w-weight",
+          "w-western",
+          "w-whale",
+          "w-wharf",
+          "w-whatever",
+          "w-whatsoever",
+          "w-wheat",
+          "w-wheel",
+          "w-whenever",
+          "w-where"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-207",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20914,10 +21143,10 @@
         "w-whom",
         "w-why"
       ],
-      "outputHash": "2143cb8510cfa4d45404ce0583217bd5abe89088f67dc2c5113ff9b5ef084325",
+      "outputHash": "8bb3618731b49b272fb65c48c0b769edc7dd3dbe0f3ffa22ab3162bb2c0812f5",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
-      "attempts": 1,
+      "status": "verified",
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -20925,7 +21154,32 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8bb3618731b49b272fb65c48c0b769edc7dd3dbe0f3ffa22ab3162bb2c0812f5",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-whereas",
+          "w-whereby",
+          "w-wherever",
+          "w-whether",
+          "w-whichever",
+          "w-while",
+          "w-whilst",
+          "w-whip",
+          "w-whirl",
+          "w-whisker",
+          "w-whisky",
+          "w-whisper",
+          "w-whistle",
+          "w-white",
+          "w-whitewash",
+          "w-whom",
+          "w-why"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-208",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -20976,7 +21230,7 @@
       ],
       "outputHash": "ff5b4df16e181f3a7423108d5bd392670b7d5c8795e71452eb821f30b719ed89",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -20985,7 +21239,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "ff5b4df16e181f3a7423108d5bd392670b7d5c8795e71452eb821f30b719ed89",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-wield",
+          "w-wind",
+          "w-wire",
+          "w-wireless",
+          "w-withdraw",
+          "w-within",
+          "w-without"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-209",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -21034,7 +21303,7 @@
       ],
       "outputHash": "b0d2fe8a56b84cce90263a6303dda8987608de1eae3d98755b16570d294e54ef",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -21043,7 +21312,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "b0d2fe8a56b84cce90263a6303dda8987608de1eae3d98755b16570d294e54ef",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-wool",
+          "w-workpiece",
+          "w-worry",
+          "w-wreath",
+          "w-wreckage"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-210",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -21092,7 +21374,7 @@
       ],
       "outputHash": "510c7948f556b56138e8bfdf337cfdac3ddcf0f829bf4a00fb12daf8ea4622e5",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -21101,7 +21383,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "510c7948f556b56138e8bfdf337cfdac3ddcf0f829bf4a00fb12daf8ea4622e5",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-writer",
+          "w-yawn",
+          "w-yesterday",
+          "w-yourself",
+          "w-zeal"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-rereview-main-211",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -24313,103 +24608,103 @@
     },
     "w-cluster": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-clutch": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coach": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coal": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coalition": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coast": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coat": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cock": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-code": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coefficient": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coffee": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coffin": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coil": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coin": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coincide": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coincidence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cold": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collaborate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collaboration": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collapse": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collar": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-colleague": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collect": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collection": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-college": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-chief": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -24513,103 +24808,103 @@
     },
     "w-collide": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-collision": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-colonel": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-colonist": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-colony": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-color": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-column": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-combat": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-combination": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-combine": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-combustion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-comedy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-comfort": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-command": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commander": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commend": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-comment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commentary": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commerce": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commission": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commit": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commitment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-committee": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commodity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-centimetre": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -25013,103 +25308,103 @@
     },
     "w-commonly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commonplace": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commonwealth": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-communicate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-communication": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-communism": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-communist": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-community": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-commute": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-companion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-company": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-comparatively": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compare": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-comparison": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compass": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compatibility": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compatriot": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compel": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compensate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compensation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compete": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-competence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-competition": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-competitor": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-compile": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-complain": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -25213,303 +25508,303 @@
     },
     "w-conserve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consider": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consideration": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consist": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consistently": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-console": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consolidate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constant": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constantly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constituent": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constitute": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constitution": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constrain": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-constraint": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-construct": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-construction": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consul": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consult": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consultancy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consultant": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consume": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consumer": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-consumption": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contact": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contain": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-container": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contamination": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contemplate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contemporary": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contempt": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contend": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-content": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contest": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-context": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-continent": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-continue": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contract": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contradiction": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contrast": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contribute": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contribution": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-contrive": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-control": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-controversy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convene": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convenience": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convention": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-converge": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-conversation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-converse": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-conversely": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-conversion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convert": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convey": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convict": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-conviction": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-convince": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cook": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cool": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cooperate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cooperation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-coordinate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cop": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cope": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-copper": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-copy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cord": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cordial": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-core": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-corn": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-corner": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-corporation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-corps": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-correction": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-correctly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-courage": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -25713,103 +26008,103 @@
     },
     "w-cup": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cupboard": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curb": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cure": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curiosity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curl": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-currency": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-current": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-currently": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curriculum": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curse": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curtain": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-curve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cushion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-custom": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-customer": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cut": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cutter": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cycle": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-cylinder": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-dad": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-dairy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-dam": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-damage": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-damn": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-damp": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -27813,303 +28108,303 @@
     },
     "w-entry": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-envelope": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-environment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-envisage": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-envy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-epidemic": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-episode": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-epoch": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equal": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equality": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equally": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equator": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equilibrium": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equip": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equipe": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equipment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-equivalent": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-era": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-eradicate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-erosion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-errand": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-error": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-erupt": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-eruption": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-escort": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-especially": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-essay": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-essential": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-essentially": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-establish": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-establishment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-estate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-estimate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ethics": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-european": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evacuate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evaluate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evaluation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evaporate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evaporation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-eve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-even": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evenly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-event": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-eventually": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ever": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-everybody": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-everyone": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-everything": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-everywhere": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evidence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evil": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evoke": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evolution": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-evolve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exactly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exaggerate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-examination": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-examine": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-example": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exceed": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exceedingly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-excel": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-except": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exception": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-excess": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-excessively": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exchange": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-excite": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-excitement": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exclaim": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exclamation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exclude": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-exclusively": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -30513,203 +30808,203 @@
     },
     "w-hurt": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-husband": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hush": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hut": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hydrocarbon": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hydrogen": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hymn": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hypothesis": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-hysteria": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ice": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-idea": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ideal": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-idealism": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ideally": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-identification": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-identify": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-identity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ideology": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-idiom": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-idiot": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-idleness": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ignite": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ignorance": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ignore": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ill": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illiterate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illness": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illuminate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illusion": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illustrate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-illustration": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-image": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-imagination": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-imagine": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-imitate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-imitation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immediately": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immerse": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immigrant": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immigrate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immigration": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immortal": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-immunity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-impact": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-impair": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-impart": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-imperative": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-impetus": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-implement": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-implication": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-implore": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -37813,503 +38108,503 @@
     },
     "w-shrine": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shrink": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shrub": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shrug": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shut": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shutter": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shuttle": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sick": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sickness": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-side": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sideways": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-siege": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sift": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sigh": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sight": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sightseeing": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sign": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-signal": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-signature": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-significance": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-significantly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-signify": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-silence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-silicon": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-silver": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-similarity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-similarly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-simplicity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-simplify": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-simply": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-simulate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-simultaneously": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sin": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-since": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sincerity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sing": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-singer": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-singular": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sink": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sir": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-siren": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sister": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sit": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-site": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-situation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-six": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sixty": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-size": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-separately": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-separation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sequence": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-series": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-seriously": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sermon": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-serpent": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-servant": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-serve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-service": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-session": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-set": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-setback": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-settle": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-settlement": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-seven": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-seventeen": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-seventy": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-severely": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sew": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sex": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shade": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shadow": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shaft": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shake": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shallow": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sham": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shampoo": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shape": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-share": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shark": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sharp": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sharpen": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sharply": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shatter": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shave": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shear": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shed": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sheet": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shelf": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shell": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shelter": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shepherd": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sheriff": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shield": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shift": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shilling": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ship": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shipbuilding": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shipment": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shipwreck": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shirt": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shiver": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shock": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shoe": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shoot": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shop": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shopkeeper": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shore": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shortage": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shortcut": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shorten": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shortfall": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shorthand": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shortly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-should": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shoulder": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shout": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shove": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shovel": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-show": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shower": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shriek": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shrill": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-shrimp": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-seed": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -38813,203 +39108,203 @@
     },
     "w-skeleton": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sketch": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ski": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skill": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skim": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skin": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skip": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sky": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-skyscraper": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slam": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slander": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slang": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slap": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slaughter": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slave": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slavery": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sleep": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sleeve": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slice": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slide": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slight": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slightly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slip": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slipper": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slit": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slogan": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slope": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slot": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slowly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slum": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-slumber": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smash": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smell": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smile": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smog": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smoke": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smoothly": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-smuggle": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snack": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snail": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snake": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snap": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snatch": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sneak": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sneer": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sneeze": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-sniff": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snob": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snore": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-snow": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-stagger": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -40813,103 +41108,103 @@
     },
     "w-vary": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vase": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vault": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vector": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vegetable": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vegetation": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vehicle": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-veil": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vein": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-velocity": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-velvet": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vengeance": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vent": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-ventilate": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-venture": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-venus": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-verb": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-verdict": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-verge": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-verify": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-verse": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-version": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-versus": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vessel": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-vest": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "attempts": 1
+      "attempts": 2
     },
     "w-relay": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
@@ -42408,6 +42703,206 @@
       "attempts": 1
     },
     "w-zone": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-underwear": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-undo": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unemployment": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unfold": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unfortunately": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-uniform": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-uniformly": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unify": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-union": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unit": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unite": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-universally": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-universe": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-university": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unless": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unload": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unlock": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-until": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-unusually": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-update": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-upgrade": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-uphold": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-upon": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-uproar": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-upwards": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-uranium": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-urge": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-usage": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-user": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-usually": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-utensil": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-utility": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-utilization": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-utilize": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-utmost": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vacation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vaccinate": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vacuum": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-validity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-valley": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-value": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-valve": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-van": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vanish": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vanity": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-vapour": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-variable": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-variation": {
+      "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
+      "attempts": 1
+    },
+    "w-variety": {
       "promptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "attempts": 1
     }

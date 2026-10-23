@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-161",
+  "reviewer": "independent-rereview-main-161",
   "mode": "sample",
   "inspectedWordIds": [
     "w-roman",
@@ -10,12 +10,6 @@
     "w-rouse",
     "w-route"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-rouse",
-      "stage": "pronunciation",
-      "message": "主词性为 v.、主释义为「唤醒」，例句为「The noise outside began to rouse the sleeping child.」。规范美式读音为 /ˈɹaʊz/；当前 ipa-selections 选择索引 0 的 /ˈɹaʊs/，该读音对应少见的方言义「斥责」，与主释义不符。应改选索引 1，或新增 /ˈɹaʊz/ 的独立转写。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

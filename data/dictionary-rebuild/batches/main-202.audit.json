@@ -52,19 +52,23 @@
     "wordId": "w-vase",
     "enToZh": [
       {
+        "wordId": "w-remnant",
+        "reason": "选项「残迹」不是「vase」的主释义「花瓶」或其他义项。"
+      },
+      {
         "wordId": "w-disposition",
         "reason": "选项「性情」不是「vase」的主释义「花瓶」或其他义项。"
       },
       {
         "wordId": "w-sunrise",
         "reason": "选项「日出」不是「vase」的主释义「花瓶」或其他义项。"
-      },
-      {
-        "wordId": "w-chess",
-        "reason": "选项「国际象棋」不是「vase」的主释义「花瓶」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-remnant",
+        "reason": "英文「remnant」的常见义项「残迹」不符合主释义「花瓶」。"
+      },
       {
         "wordId": "w-disposition",
         "reason": "英文「disposition」的常见义项「性情」不符合主释义「花瓶」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-sunrise",
         "reason": "英文「sunrise」的常见义项「日出」不符合主释义「花瓶」。"
-      },
-      {
-        "wordId": "w-chess",
-        "reason": "英文「chess」的常见义项「国际象棋」不符合主释义「花瓶」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-remnant",
+        "surfaceForm": "remnant",
+        "reason": "将「remnant」代入可见句子后不表达主释义「花瓶」。"
+      },
       {
         "wordId": "w-disposition",
         "surfaceForm": "disposition",
@@ -88,11 +93,6 @@
         "wordId": "w-sunrise",
         "surfaceForm": "sunrise",
         "reason": "将「sunrise」代入可见句子后不表达主释义「花瓶」。"
-      },
-      {
-        "wordId": "w-chess",
-        "surfaceForm": "chess",
-        "reason": "将「chess」代入可见句子后不表达主释义「花瓶」。"
       }
     ],
     "spelling": null
@@ -101,19 +101,23 @@
     "wordId": "w-vault",
     "enToZh": [
       {
+        "wordId": "w-wrath",
+        "reason": "选项「愤怒」不是「vault」的主释义「金库」或其他义项。"
+      },
+      {
         "wordId": "w-radius",
         "reason": "选项「半径」不是「vault」的主释义「金库」或其他义项。"
       },
       {
         "wordId": "w-hymn",
         "reason": "选项「赞美诗」不是「vault」的主释义「金库」或其他义项。"
-      },
-      {
-        "wordId": "w-tempo",
-        "reason": "选项「节奏」不是「vault」的主释义「金库」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-wrath",
+        "reason": "英文「wrath」的常见义项「愤怒」不符合主释义「金库」。"
+      },
       {
         "wordId": "w-radius",
         "reason": "英文「radius」的常见义项「半径」不符合主释义「金库」。"
@@ -121,13 +125,14 @@
       {
         "wordId": "w-hymn",
         "reason": "英文「hymn」的常见义项「赞美诗」不符合主释义「金库」。"
-      },
-      {
-        "wordId": "w-tempo",
-        "reason": "英文「tempo」的常见义项「节奏」不符合主释义「金库」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-wrath",
+        "surfaceForm": "wrath",
+        "reason": "将「wrath」代入可见句子后不表达主释义「金库」。"
+      },
       {
         "wordId": "w-radius",
         "surfaceForm": "radius",
@@ -137,11 +142,6 @@
         "wordId": "w-hymn",
         "surfaceForm": "hymn",
         "reason": "将「hymn」代入可见句子后不表达主释义「金库」。"
-      },
-      {
-        "wordId": "w-tempo",
-        "surfaceForm": "tempo",
-        "reason": "将「tempo」代入可见句子后不表达主释义「金库」。"
       }
     ],
     "spelling": null
@@ -305,8 +305,8 @@
         "reason": "选项「逻辑」不是「vehicle」的主释义「车辆」或其他义项。"
       },
       {
-        "wordId": "w-gun",
-        "reason": "选项「枪」不是「vehicle」的主释义「车辆」或其他义项。"
+        "wordId": "w-wind",
+        "reason": "选项「风」不是「vehicle」的主释义「车辆」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -319,8 +319,8 @@
         "reason": "英文「logic」的常见义项「逻辑」不符合主释义「车辆」。"
       },
       {
-        "wordId": "w-gun",
-        "reason": "英文「gun」的常见义项「枪」不符合主释义「车辆」。"
+        "wordId": "w-wind",
+        "reason": "英文「wind」的常见义项「风」不符合主释义「车辆」。"
       }
     ],
     "contextChoice": [
@@ -335,9 +335,9 @@
         "reason": "将「logic」代入可见句子后不表达主释义「车辆」。"
       },
       {
-        "wordId": "w-gun",
-        "surfaceForm": "gun",
-        "reason": "将「gun」代入可见句子后不表达主释义「车辆」。"
+        "wordId": "w-wind",
+        "surfaceForm": "wind",
+        "reason": "将「wind」代入可见句子后不表达主释义「车辆」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「海绵」不是「verb」的主释义「动词」或其他义项。"
       },
       {
-        "wordId": "w-synthesis",
-        "reason": "选项「综合」不是「verb」的主释义「动词」或其他义项。"
+        "wordId": "w-yolk",
+        "reason": "选项「蛋黄」不是「verb」的主释义「动词」或其他义项。"
       },
       {
-        "wordId": "w-ion",
-        "reason": "选项「离子」不是「verb」的主释义「动词」或其他义项。"
+        "wordId": "w-synthesis",
+        "reason": "选项「综合」不是「verb」的主释义「动词」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「sponge」的常见义项「海绵」不符合主释义「动词」。"
       },
       {
-        "wordId": "w-synthesis",
-        "reason": "英文「synthesis」的常见义项「综合」不符合主释义「动词」。"
+        "wordId": "w-yolk",
+        "reason": "英文「yolk」的常见义项「蛋黄」不符合主释义「动词」。"
       },
       {
-        "wordId": "w-ion",
-        "reason": "英文「ion」的常见义项「离子」不符合主释义「动词」。"
+        "wordId": "w-synthesis",
+        "reason": "英文「synthesis」的常见义项「综合」不符合主释义「动词」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「sponge」代入可见句子后不表达主释义「动词」。"
       },
       {
+        "wordId": "w-yolk",
+        "surfaceForm": "yolk",
+        "reason": "将「yolk」代入可见句子后不表达主释义「动词」。"
+      },
+      {
         "wordId": "w-synthesis",
         "surfaceForm": "synthesis",
         "reason": "将「synthesis」代入可见句子后不表达主释义「动词」。"
-      },
-      {
-        "wordId": "w-ion",
-        "surfaceForm": "ion",
-        "reason": "将「ion」代入可见句子后不表达主释义「动词」。"
       }
     ],
     "spelling": null
@@ -840,12 +840,12 @@
         "reason": "选项「主张」不是「verdict」的主释义「裁决」或其他义项。"
       },
       {
-        "wordId": "w-scrap",
-        "reason": "选项「碎片」不是「verdict」的主释义「裁决」或其他义项。"
+        "wordId": "w-workshop",
+        "reason": "选项「研讨会」不是「verdict」的主释义「裁决」或其他义项。"
       },
       {
-        "wordId": "w-vigour",
-        "reason": "选项「活力」不是「verdict」的主释义「裁决」或其他义项。"
+        "wordId": "w-scrap",
+        "reason": "选项「碎片」不是「verdict」的主释义「裁决」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -854,12 +854,12 @@
         "reason": "英文「proposition」的常见义项「主张」不符合主释义「裁决」。"
       },
       {
-        "wordId": "w-scrap",
-        "reason": "英文「scrap」的常见义项「碎片」不符合主释义「裁决」。"
+        "wordId": "w-workshop",
+        "reason": "英文「workshop」的常见义项「研讨会」不符合主释义「裁决」。"
       },
       {
-        "wordId": "w-vigour",
-        "reason": "英文「vigour」的常见义项「活力」不符合主释义「裁决」。"
+        "wordId": "w-scrap",
+        "reason": "英文「scrap」的常见义项「碎片」不符合主释义「裁决」。"
       }
     ],
     "contextChoice": [
@@ -869,14 +869,14 @@
         "reason": "将「proposition」代入可见句子后不表达主释义「裁决」。"
       },
       {
+        "wordId": "w-workshop",
+        "surfaceForm": "workshop",
+        "reason": "将「workshop」代入可见句子后不表达主释义「裁决」。"
+      },
+      {
         "wordId": "w-scrap",
         "surfaceForm": "scrap",
         "reason": "将「scrap」代入可见句子后不表达主释义「裁决」。"
-      },
-      {
-        "wordId": "w-vigour",
-        "surfaceForm": "vigour",
-        "reason": "将「vigour」代入可见句子后不表达主释义「裁决」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「铲子」不是「verse」的主释义「诗句」或其他义项。"
       },
       {
-        "wordId": "w-quilt",
-        "reason": "选项「被子」不是「verse」的主释义「诗句」或其他义项。"
+        "wordId": "w-tub",
+        "reason": "选项「浴缸」不是「verse」的主释义「诗句」或其他义项。"
       },
       {
-        "wordId": "w-scrap",
-        "reason": "选项「碎片」不是「verse」的主释义「诗句」或其他义项。"
+        "wordId": "w-quilt",
+        "reason": "选项「被子」不是「verse」的主释义「诗句」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「shovel」的常见义项「铲子」不符合主释义「诗句」。"
       },
       {
-        "wordId": "w-quilt",
-        "reason": "英文「quilt」的常见义项「被子」不符合主释义「诗句」。"
+        "wordId": "w-tub",
+        "reason": "英文「tub」的常见义项「浴缸」不符合主释义「诗句」。"
       },
       {
-        "wordId": "w-scrap",
-        "reason": "英文「scrap」的常见义项「碎片」不符合主释义「诗句」。"
+        "wordId": "w-quilt",
+        "reason": "英文「quilt」的常见义项「被子」不符合主释义「诗句」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「shovel」代入可见句子后不表达主释义「诗句」。"
       },
       {
+        "wordId": "w-tub",
+        "surfaceForm": "tub",
+        "reason": "将「tub」代入可见句子后不表达主释义「诗句」。"
+      },
+      {
         "wordId": "w-quilt",
         "surfaceForm": "quilt",
         "reason": "将「quilt」代入可见句子后不表达主释义「诗句」。"
-      },
-      {
-        "wordId": "w-scrap",
-        "surfaceForm": "scrap",
-        "reason": "将「scrap」代入可见句子后不表达主释义「诗句」。"
       }
     ],
     "spelling": null
