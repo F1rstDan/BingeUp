@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent-sample-review-main-032",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-clerk",
+    "w-climate",
+    "w-close",
+    "w-closet",
+    "w-clothes",
+    "w-cloud"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-close",
+      "stage": "pronunciation",
+      "message": "主词性为 v.、主释义为「关闭」，应读 /kloʊz/；当前 ipa-selections 选择索引 0 的 /ˈkɫoʊs/，对应形容词或副词「近的」，与主词性和主释义不符。应改为索引 1 或添加 /kloʊz/ 的独立转写。"
+    }
+  ]
+}

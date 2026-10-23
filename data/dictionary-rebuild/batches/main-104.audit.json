@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-lab",
+    "enToZh": [
+      {
+        "wordId": "w-craft",
+        "reason": "选项「手艺」不是「lab」的主释义「实验室」或其他义项。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "选项「现金」不是「lab」的主释义「实验室」或其他义项。"
+      },
+      {
+        "wordId": "w-answer",
+        "reason": "选项「答案」不是「lab」的主释义「实验室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-craft",
+        "reason": "英文「craft」的常见义项「手艺」不符合主释义「实验室」。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "英文「cash」的常见义项「现金」不符合主释义「实验室」。"
+      },
+      {
+        "wordId": "w-answer",
+        "reason": "英文「answer」的常见义项「答案」不符合主释义「实验室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-craft",
+        "surfaceForm": "craft",
+        "reason": "将「craft」代入可见句子后不表达主释义「实验室」。"
+      },
+      {
+        "wordId": "w-cash",
+        "surfaceForm": "cash",
+        "reason": "将「cash」代入可见句子后不表达主释义「实验室」。"
+      },
+      {
+        "wordId": "w-answer",
+        "surfaceForm": "answer",
+        "reason": "将「answer」代入可见句子后不表达主释义「实验室」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-label",
+    "enToZh": [
+      {
+        "wordId": "w-home",
+        "reason": "选项「家」不是「label」的主释义「标签」或其他义项。"
+      },
+      {
+        "wordId": "w-camera",
+        "reason": "选项「照相机」不是「label」的主释义「标签」或其他义项。"
+      },
+      {
+        "wordId": "w-baggage",
+        "reason": "选项「行李」不是「label」的主释义「标签」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-home",
+        "reason": "英文「home」的常见义项「家」不符合主释义「标签」。"
+      },
+      {
+        "wordId": "w-camera",
+        "reason": "英文「camera」的常见义项「照相机」不符合主释义「标签」。"
+      },
+      {
+        "wordId": "w-baggage",
+        "reason": "英文「baggage」的常见义项「行李」不符合主释义「标签」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-home",
+        "surfaceForm": "home",
+        "reason": "将「home」代入可见句子后不表达主释义「标签」。"
+      },
+      {
+        "wordId": "w-camera",
+        "surfaceForm": "camera",
+        "reason": "将「camera」代入可见句子后不表达主释义「标签」。"
+      },
+      {
+        "wordId": "w-baggage",
+        "surfaceForm": "baggage",
+        "reason": "将「baggage」代入可见句子后不表达主释义「标签」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-labor",
+    "enToZh": [
+      {
+        "wordId": "w-hole",
+        "reason": "选项「洞」不是「labor」的主释义「劳动」或其他义项。"
+      },
+      {
+        "wordId": "w-commitment",
+        "reason": "选项「承诺」不是「labor」的主释义「劳动」或其他义项。"
+      },
+      {
+        "wordId": "w-city",
+        "reason": "选项「城市」不是「labor」的主释义「劳动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hole",
+        "reason": "英文「hole」的常见义项「洞」不符合主释义「劳动」。"
+      },
+      {
+        "wordId": "w-commitment",
+        "reason": "英文「commitment」的常见义项「承诺」不符合主释义「劳动」。"
+      },
+      {
+        "wordId": "w-city",
+        "reason": "英文「city」的常见义项「城市」不符合主释义「劳动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hole",
+        "surfaceForm": "hole",
+        "reason": "将「hole」代入可见句子后不表达主释义「劳动」。"
+      },
+      {
+        "wordId": "w-commitment",
+        "surfaceForm": "commitment",
+        "reason": "将「commitment」代入可见句子后不表达主释义「劳动」。"
+      },
+      {
+        "wordId": "w-city",
+        "surfaceForm": "city",
+        "reason": "将「city」代入可见句子后不表达主释义「劳动」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-laboratory",
+    "enToZh": [
+      {
+        "wordId": "w-initiative",
+        "reason": "选项「倡议」不是「laboratory」的主释义「实验室」或其他义项。"
+      },
+      {
+        "wordId": "w-course",
+        "reason": "选项「课程」不是「laboratory」的主释义「实验室」或其他义项。"
+      },
+      {
+        "wordId": "w-death",
+        "reason": "选项「死亡」不是「laboratory」的主释义「实验室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-initiative",
+        "reason": "英文「initiative」的常见义项「倡议」不符合主释义「实验室」。"
+      },
+      {
+        "wordId": "w-course",
+        "reason": "英文「course」的常见义项「课程」不符合主释义「实验室」。"
+      },
+      {
+        "wordId": "w-death",
+        "reason": "英文「death」的常见义项「死亡」不符合主释义「实验室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-initiative",
+        "surfaceForm": "initiative",
+        "reason": "将「initiative」代入可见句子后不表达主释义「实验室」。"
+      },
+      {
+        "wordId": "w-course",
+        "surfaceForm": "course",
+        "reason": "将「course」代入可见句子后不表达主释义「实验室」。"
+      },
+      {
+        "wordId": "w-death",
+        "surfaceForm": "death",
+        "reason": "将「death」代入可见句子后不表达主释义「实验室」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-labour",
+    "enToZh": [
+      {
+        "wordId": "w-fact",
+        "reason": "选项「事实」不是「labour」的主释义「劳动」或其他义项。"
+      },
+      {
+        "wordId": "w-congress",
+        "reason": "选项「国会」不是「labour」的主释义「劳动」或其他义项。"
+      },
+      {
+        "wordId": "w-interruption",
+        "reason": "选项「打扰」不是「labour」的主释义「劳动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fact",
+        "reason": "英文「fact」的常见义项「事实」不符合主释义「劳动」。"
+      },
+      {
+        "wordId": "w-congress",
+        "reason": "英文「congress」的常见义项「国会」不符合主释义「劳动」。"
+      },
+      {
+        "wordId": "w-interruption",
+        "reason": "英文「interruption」的常见义项「打扰」不符合主释义「劳动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fact",
+        "surfaceForm": "fact",
+        "reason": "将「fact」代入可见句子后不表达主释义「劳动」。"
+      },
+      {
+        "wordId": "w-congress",
+        "surfaceForm": "congress",
+        "reason": "将「congress」代入可见句子后不表达主释义「劳动」。"
+      },
+      {
+        "wordId": "w-interruption",
+        "surfaceForm": "interruption",
+        "reason": "将「interruption」代入可见句子后不表达主释义「劳动」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lace",
+    "enToZh": [
+      {
+        "wordId": "w-integrity",
+        "reason": "选项「正直」不是「lace」的主释义「花边」或其他义项。"
+      },
+      {
+        "wordId": "w-architecture",
+        "reason": "选项「建筑风格」不是「lace」的主释义「花边」或其他义项。"
+      },
+      {
+        "wordId": "w-frequency",
+        "reason": "选项「频率」不是「lace」的主释义「花边」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-integrity",
+        "reason": "英文「integrity」的常见义项「正直」不符合主释义「花边」。"
+      },
+      {
+        "wordId": "w-architecture",
+        "reason": "英文「architecture」的常见义项「建筑风格」不符合主释义「花边」。"
+      },
+      {
+        "wordId": "w-frequency",
+        "reason": "英文「frequency」的常见义项「频率」不符合主释义「花边」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-integrity",
+        "surfaceForm": "integrity",
+        "reason": "将「integrity」代入可见句子后不表达主释义「花边」。"
+      },
+      {
+        "wordId": "w-architecture",
+        "surfaceForm": "architecture",
+        "reason": "将「architecture」代入可见句子后不表达主释义「花边」。"
+      },
+      {
+        "wordId": "w-frequency",
+        "surfaceForm": "frequency",
+        "reason": "将「frequency」代入可见句子后不表达主释义「花边」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lack",
+    "enToZh": [
+      {
+        "wordId": "w-heart",
+        "reason": "选项「心脏」不是「lack」的主释义「缺乏」或其他义项。"
+      },
+      {
+        "wordId": "w-king",
+        "reason": "选项「国王」不是「lack」的主释义「缺乏」或其他义项。"
+      },
+      {
+        "wordId": "w-advertisement",
+        "reason": "选项「广告」不是「lack」的主释义「缺乏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-heart",
+        "reason": "英文「heart」的常见义项「心脏」不符合主释义「缺乏」。"
+      },
+      {
+        "wordId": "w-king",
+        "reason": "英文「king」的常见义项「国王」不符合主释义「缺乏」。"
+      },
+      {
+        "wordId": "w-advertisement",
+        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「缺乏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-heart",
+        "surfaceForm": "heart",
+        "reason": "将「heart」代入可见句子后不表达主释义「缺乏」。"
+      },
+      {
+        "wordId": "w-king",
+        "surfaceForm": "king",
+        "reason": "将「king」代入可见句子后不表达主释义「缺乏」。"
+      },
+      {
+        "wordId": "w-advertisement",
+        "surfaceForm": "advertisement",
+        "reason": "将「advertisement」代入可见句子后不表达主释义「缺乏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ladder",
+    "enToZh": [
+      {
+        "wordId": "w-harvest",
+        "reason": "选项「收获」不是「ladder」的主释义「梯子」或其他义项。"
+      },
+      {
+        "wordId": "w-compound",
+        "reason": "选项「化合物」不是「ladder」的主释义「梯子」或其他义项。"
+      },
+      {
+        "wordId": "w-jet",
+        "reason": "选项「喷气式飞机」不是「ladder」的主释义「梯子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-harvest",
+        "reason": "英文「harvest」的常见义项「收获」不符合主释义「梯子」。"
+      },
+      {
+        "wordId": "w-compound",
+        "reason": "英文「compound」的常见义项「化合物」不符合主释义「梯子」。"
+      },
+      {
+        "wordId": "w-jet",
+        "reason": "英文「jet」的常见义项「喷气式飞机」不符合主释义「梯子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-harvest",
+        "surfaceForm": "harvest",
+        "reason": "将「harvest」代入可见句子后不表达主释义「梯子」。"
+      },
+      {
+        "wordId": "w-compound",
+        "surfaceForm": "compound",
+        "reason": "将「compound」代入可见句子后不表达主释义「梯子」。"
+      },
+      {
+        "wordId": "w-jet",
+        "surfaceForm": "jet",
+        "reason": "将「jet」代入可见句子后不表达主释义「梯子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lady",
+    "enToZh": [
+      {
+        "wordId": "w-hill",
+        "reason": "选项「小山」不是「lady」的主释义「女士」或其他义项。"
+      },
+      {
+        "wordId": "w-fiction",
+        "reason": "选项「小说」不是「lady」的主释义「女士」或其他义项。"
+      },
+      {
+        "wordId": "w-continent",
+        "reason": "选项「大陆」不是「lady」的主释义「女士」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hill",
+        "reason": "英文「hill」的常见义项「小山」不符合主释义「女士」。"
+      },
+      {
+        "wordId": "w-fiction",
+        "reason": "英文「fiction」的常见义项「小说」不符合主释义「女士」。"
+      },
+      {
+        "wordId": "w-continent",
+        "reason": "英文「continent」的常见义项「大陆」不符合主释义「女士」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hill",
+        "surfaceForm": "hill",
+        "reason": "将「hill」代入可见句子后不表达主释义「女士」。"
+      },
+      {
+        "wordId": "w-fiction",
+        "surfaceForm": "fiction",
+        "reason": "将「fiction」代入可见句子后不表达主释义「女士」。"
+      },
+      {
+        "wordId": "w-continent",
+        "surfaceForm": "continent",
+        "reason": "将「continent」代入可见句子后不表达主释义「女士」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lag",
+    "enToZh": [
+      {
+        "wordId": "w-dispense",
+        "reason": "选项「分发」不是「lag」的主释义「落后」或其他义项。"
+      },
+      {
+        "wordId": "w-insulate",
+        "reason": "选项「使绝缘」不是「lag」的主释义「落后」或其他义项。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "选项「倾斜」不是「lag」的主释义「落后」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dispense",
+        "reason": "英文「dispense」的常见义项「分发」不符合主释义「落后」。"
+      },
+      {
+        "wordId": "w-insulate",
+        "reason": "英文「insulate」的常见义项「使绝缘」不符合主释义「落后」。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "英文「incline」的常见义项「倾斜」不符合主释义「落后」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dispense",
+        "surfaceForm": "dispense",
+        "reason": "将「dispense」代入可见句子后不表达主释义「落后」。"
+      },
+      {
+        "wordId": "w-insulate",
+        "surfaceForm": "insulate",
+        "reason": "将「insulate」代入可见句子后不表达主释义「落后」。"
+      },
+      {
+        "wordId": "w-incline",
+        "surfaceForm": "incline",
+        "reason": "将「incline」代入可见句子后不表达主释义「落后」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lake",
+    "enToZh": [
+      {
+        "wordId": "w-affection",
+        "reason": "选项「喜爱」不是「lake」的主释义「湖」或其他义项。"
+      },
+      {
+        "wordId": "w-door",
+        "reason": "选项「门」不是「lake」的主释义「湖」或其他义项。"
+      },
+      {
+        "wordId": "w-assessment",
+        "reason": "选项「评估」不是「lake」的主释义「湖」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-affection",
+        "reason": "英文「affection」的常见义项「喜爱」不符合主释义「湖」。"
+      },
+      {
+        "wordId": "w-door",
+        "reason": "英文「door」的常见义项「门」不符合主释义「湖」。"
+      },
+      {
+        "wordId": "w-assessment",
+        "reason": "英文「assessment」的常见义项「评估」不符合主释义「湖」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-affection",
+        "surfaceForm": "affection",
+        "reason": "将「affection」代入可见句子后不表达主释义「湖」。"
+      },
+      {
+        "wordId": "w-door",
+        "surfaceForm": "door",
+        "reason": "将「door」代入可见句子后不表达主释义「湖」。"
+      },
+      {
+        "wordId": "w-assessment",
+        "surfaceForm": "assessment",
+        "reason": "将「assessment」代入可见句子后不表达主释义「湖」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lamb",
+    "enToZh": [
+      {
+        "wordId": "w-elevation",
+        "reason": "选项「海拔」不是「lamb」的主释义「小羊」或其他义项。"
+      },
+      {
+        "wordId": "w-courtesy",
+        "reason": "选项「礼貌」不是「lamb」的主释义「小羊」或其他义项。"
+      },
+      {
+        "wordId": "w-confirmation",
+        "reason": "选项「确认」不是「lamb」的主释义「小羊」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-elevation",
+        "reason": "英文「elevation」的常见义项「海拔」不符合主释义「小羊」。"
+      },
+      {
+        "wordId": "w-courtesy",
+        "reason": "英文「courtesy」的常见义项「礼貌」不符合主释义「小羊」。"
+      },
+      {
+        "wordId": "w-confirmation",
+        "reason": "英文「confirmation」的常见义项「确认」不符合主释义「小羊」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-elevation",
+        "surfaceForm": "elevation",
+        "reason": "将「elevation」代入可见句子后不表达主释义「小羊」。"
+      },
+      {
+        "wordId": "w-courtesy",
+        "surfaceForm": "courtesy",
+        "reason": "将「courtesy」代入可见句子后不表达主释义「小羊」。"
+      },
+      {
+        "wordId": "w-confirmation",
+        "surfaceForm": "confirmation",
+        "reason": "将「confirmation」代入可见句子后不表达主释义「小羊」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lamentation",
+    "enToZh": [
+      {
+        "wordId": "w-hindrance",
+        "reason": "选项「阻碍」不是「lamentation」的主释义「悲叹」或其他义项。"
+      },
+      {
+        "wordId": "w-insulator",
+        "reason": "选项「绝缘体」不是「lamentation」的主释义「悲叹」或其他义项。"
+      },
+      {
+        "wordId": "w-conceit",
+        "reason": "选项「自负」不是「lamentation」的主释义「悲叹」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hindrance",
+        "reason": "英文「hindrance」的常见义项「阻碍」不符合主释义「悲叹」。"
+      },
+      {
+        "wordId": "w-insulator",
+        "reason": "英文「insulator」的常见义项「绝缘体」不符合主释义「悲叹」。"
+      },
+      {
+        "wordId": "w-conceit",
+        "reason": "英文「conceit」的常见义项「自负」不符合主释义「悲叹」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hindrance",
+        "surfaceForm": "hindrance",
+        "reason": "将「hindrance」代入可见句子后不表达主释义「悲叹」。"
+      },
+      {
+        "wordId": "w-insulator",
+        "surfaceForm": "insulator",
+        "reason": "将「insulator」代入可见句子后不表达主释义「悲叹」。"
+      },
+      {
+        "wordId": "w-conceit",
+        "surfaceForm": "conceit",
+        "reason": "将「conceit」代入可见句子后不表达主释义「悲叹」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lamp",
+    "enToZh": [
+      {
+        "wordId": "w-album",
+        "reason": "选项「音乐专辑」不是「lamp」的主释义「灯」或其他义项。"
+      },
+      {
+        "wordId": "w-category",
+        "reason": "选项「类别」不是「lamp」的主释义「灯」或其他义项。"
+      },
+      {
+        "wordId": "w-character",
+        "reason": "选项「性格」不是「lamp」的主释义「灯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-album",
+        "reason": "英文「album」的常见义项「音乐专辑」不符合主释义「灯」。"
+      },
+      {
+        "wordId": "w-category",
+        "reason": "英文「category」的常见义项「类别」不符合主释义「灯」。"
+      },
+      {
+        "wordId": "w-character",
+        "reason": "英文「character」的常见义项「性格」不符合主释义「灯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-album",
+        "surfaceForm": "album",
+        "reason": "将「album」代入可见句子后不表达主释义「灯」。"
+      },
+      {
+        "wordId": "w-category",
+        "surfaceForm": "category",
+        "reason": "将「category」代入可见句子后不表达主释义「灯」。"
+      },
+      {
+        "wordId": "w-character",
+        "surfaceForm": "character",
+        "reason": "将「character」代入可见句子后不表达主释义「灯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-land",
+    "enToZh": [
+      {
+        "wordId": "w-board",
+        "reason": "选项「木板」不是「land」的主释义「陆地」或其他义项。"
+      },
+      {
+        "wordId": "w-company",
+        "reason": "选项「公司」不是「land」的主释义「陆地」或其他义项。"
+      },
+      {
+        "wordId": "w-honor",
+        "reason": "选项「荣誉」不是「land」的主释义「陆地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-board",
+        "reason": "英文「board」的常见义项「木板」不符合主释义「陆地」。"
+      },
+      {
+        "wordId": "w-company",
+        "reason": "英文「company」的常见义项「公司」不符合主释义「陆地」。"
+      },
+      {
+        "wordId": "w-honor",
+        "reason": "英文「honor」的常见义项「荣誉」不符合主释义「陆地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-board",
+        "surfaceForm": "board",
+        "reason": "将「board」代入可见句子后不表达主释义「陆地」。"
+      },
+      {
+        "wordId": "w-company",
+        "surfaceForm": "company",
+        "reason": "将「company」代入可见句子后不表达主释义「陆地」。"
+      },
+      {
+        "wordId": "w-honor",
+        "surfaceForm": "honor",
+        "reason": "将「honor」代入可见句子后不表达主释义「陆地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-landlady",
+    "enToZh": [
+      {
+        "wordId": "w-dialog",
+        "reason": "选项「对话」不是「landlady」的主释义「女房东」或其他义项。"
+      },
+      {
+        "wordId": "w-equipe",
+        "reason": "选项「团队」不是「landlady」的主释义「女房东」或其他义项。"
+      },
+      {
+        "wordId": "w-intonation",
+        "reason": "选项「语调」不是「landlady」的主释义「女房东」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dialog",
+        "reason": "英文「dialog」的常见义项「对话」不符合主释义「女房东」。"
+      },
+      {
+        "wordId": "w-equipe",
+        "reason": "英文「equipe」的常见义项「团队」不符合主释义「女房东」。"
+      },
+      {
+        "wordId": "w-intonation",
+        "reason": "英文「intonation」的常见义项「语调」不符合主释义「女房东」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dialog",
+        "surfaceForm": "dialog",
+        "reason": "将「dialog」代入可见句子后不表达主释义「女房东」。"
+      },
+      {
+        "wordId": "w-equipe",
+        "surfaceForm": "equipe",
+        "reason": "将「equipe」代入可见句子后不表达主释义「女房东」。"
+      },
+      {
+        "wordId": "w-intonation",
+        "surfaceForm": "intonation",
+        "reason": "将「intonation」代入可见句子后不表达主释义「女房东」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-landlord",
+    "enToZh": [
+      {
+        "wordId": "w-disposal",
+        "reason": "选项「处理」不是「landlord」的主释义「房东」或其他义项。"
+      },
+      {
+        "wordId": "w-cathedral",
+        "reason": "选项「大教堂」不是「landlord」的主释义「房东」或其他义项。"
+      },
+      {
+        "wordId": "w-conception",
+        "reason": "选项「构想」不是「landlord」的主释义「房东」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disposal",
+        "reason": "英文「disposal」的常见义项「处理」不符合主释义「房东」。"
+      },
+      {
+        "wordId": "w-cathedral",
+        "reason": "英文「cathedral」的常见义项「大教堂」不符合主释义「房东」。"
+      },
+      {
+        "wordId": "w-conception",
+        "reason": "英文「conception」的常见义项「构想」不符合主释义「房东」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disposal",
+        "surfaceForm": "disposal",
+        "reason": "将「disposal」代入可见句子后不表达主释义「房东」。"
+      },
+      {
+        "wordId": "w-cathedral",
+        "surfaceForm": "cathedral",
+        "reason": "将「cathedral」代入可见句子后不表达主释义「房东」。"
+      },
+      {
+        "wordId": "w-conception",
+        "surfaceForm": "conception",
+        "reason": "将「conception」代入可见句子后不表达主释义「房东」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-landscape",
+    "enToZh": [
+      {
+        "wordId": "w-anxiety",
+        "reason": "选项「焦虑」不是「landscape」的主释义「风景」或其他义项。"
+      },
+      {
+        "wordId": "w-behavior",
+        "reason": "选项「行为」不是「landscape」的主释义「风景」或其他义项。"
+      },
+      {
+        "wordId": "w-clinic",
+        "reason": "选项「诊所」不是「landscape」的主释义「风景」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-anxiety",
+        "reason": "英文「anxiety」的常见义项「焦虑」不符合主释义「风景」。"
+      },
+      {
+        "wordId": "w-behavior",
+        "reason": "英文「behavior」的常见义项「行为」不符合主释义「风景」。"
+      },
+      {
+        "wordId": "w-clinic",
+        "reason": "英文「clinic」的常见义项「诊所」不符合主释义「风景」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-anxiety",
+        "surfaceForm": "anxiety",
+        "reason": "将「anxiety」代入可见句子后不表达主释义「风景」。"
+      },
+      {
+        "wordId": "w-behavior",
+        "surfaceForm": "behavior",
+        "reason": "将「behavior」代入可见句子后不表达主释义「风景」。"
+      },
+      {
+        "wordId": "w-clinic",
+        "surfaceForm": "clinic",
+        "reason": "将「clinic」代入可见句子后不表达主释义「风景」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lane",
+    "enToZh": [
+      {
+        "wordId": "w-dad",
+        "reason": "选项「爸爸」不是「lane」的主释义「车道」或其他义项。"
+      },
+      {
+        "wordId": "w-beard",
+        "reason": "选项「胡须」不是「lane」的主释义「车道」或其他义项。"
+      },
+      {
+        "wordId": "w-bowl",
+        "reason": "选项「碗」不是「lane」的主释义「车道」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dad",
+        "reason": "英文「dad」的常见义项「爸爸」不符合主释义「车道」。"
+      },
+      {
+        "wordId": "w-beard",
+        "reason": "英文「beard」的常见义项「胡须」不符合主释义「车道」。"
+      },
+      {
+        "wordId": "w-bowl",
+        "reason": "英文「bowl」的常见义项「碗」不符合主释义「车道」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dad",
+        "surfaceForm": "dad",
+        "reason": "将「dad」代入可见句子后不表达主释义「车道」。"
+      },
+      {
+        "wordId": "w-beard",
+        "surfaceForm": "beard",
+        "reason": "将「beard」代入可见句子后不表达主释义「车道」。"
+      },
+      {
+        "wordId": "w-bowl",
+        "surfaceForm": "bowl",
+        "reason": "将「bowl」代入可见句子后不表达主释义「车道」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-language",
+    "enToZh": [
+      {
+        "wordId": "w-god",
+        "reason": "选项「上帝」不是「language」的主释义「语言」或其他义项。"
+      },
+      {
+        "wordId": "w-earnings",
+        "reason": "选项「收入」不是「language」的主释义「语言」或其他义项。"
+      },
+      {
+        "wordId": "w-agent",
+        "reason": "选项「代理人」不是「language」的主释义「语言」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-god",
+        "reason": "英文「God」的常见义项「上帝」不符合主释义「语言」。"
+      },
+      {
+        "wordId": "w-earnings",
+        "reason": "英文「earnings」的常见义项「收入」不符合主释义「语言」。"
+      },
+      {
+        "wordId": "w-agent",
+        "reason": "英文「agent」的常见义项「代理人」不符合主释义「语言」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-god",
+        "surfaceForm": "God",
+        "reason": "将「God」代入可见句子后不表达主释义「语言」。"
+      },
+      {
+        "wordId": "w-earnings",
+        "surfaceForm": "earnings",
+        "reason": "将「earnings」代入可见句子后不表达主释义「语言」。"
+      },
+      {
+        "wordId": "w-agent",
+        "surfaceForm": "agent",
+        "reason": "将「agent」代入可见句子后不表达主释义「语言」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lantern",
+    "enToZh": [
+      {
+        "wordId": "w-leaflet",
+        "reason": "选项「传单」不是「lantern」的主释义「灯笼」或其他义项。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "reason": "选项「兼容性」不是「lantern」的主释义「灯笼」或其他义项。"
+      },
+      {
+        "wordId": "w-biotech",
+        "reason": "选项「生物技术」不是「lantern」的主释义「灯笼」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-leaflet",
+        "reason": "英文「leaflet」的常见义项「传单」不符合主释义「灯笼」。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "reason": "英文「compatibility」的常见义项「兼容性」不符合主释义「灯笼」。"
+      },
+      {
+        "wordId": "w-biotech",
+        "reason": "英文「biotech」的常见义项「生物技术」不符合主释义「灯笼」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-leaflet",
+        "surfaceForm": "leaflet",
+        "reason": "将「leaflet」代入可见句子后不表达主释义「灯笼」。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "surfaceForm": "compatibility",
+        "reason": "将「compatibility」代入可见句子后不表达主释义「灯笼」。"
+      },
+      {
+        "wordId": "w-biotech",
+        "surfaceForm": "biotech",
+        "reason": "将「biotech」代入可见句子后不表达主释义「灯笼」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-lap",
+    "enToZh": [
+      {
+        "wordId": "w-crystal",
+        "reason": "选项「水晶」不是「lap」的主释义「大腿部」或其他义项。"
+      },
+      {
+        "wordId": "w-echo",
+        "reason": "选项「回声」不是「lap」的主释义「大腿部」或其他义项。"
+      },
+      {
+        "wordId": "w-contamination",
+        "reason": "选项「污染」不是「lap」的主释义「大腿部」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-crystal",
+        "reason": "英文「crystal」的常见义项「水晶」不符合主释义「大腿部」。"
+      },
+      {
+        "wordId": "w-echo",
+        "reason": "英文「echo」的常见义项「回声」不符合主释义「大腿部」。"
+      },
+      {
+        "wordId": "w-contamination",
+        "reason": "英文「contamination」的常见义项「污染」不符合主释义「大腿部」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-crystal",
+        "surfaceForm": "crystal",
+        "reason": "将「crystal」代入可见句子后不表达主释义「大腿部」。"
+      },
+      {
+        "wordId": "w-echo",
+        "surfaceForm": "echo",
+        "reason": "将「echo」代入可见句子后不表达主释义「大腿部」。"
+      },
+      {
+        "wordId": "w-contamination",
+        "surfaceForm": "contamination",
+        "reason": "将「contamination」代入可见句子后不表达主释义「大腿部」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-largely",
+    "enToZh": [
+      {
+        "wordId": "w-hence",
+        "reason": "选项「因此」不是「largely」的主释义「主要地」或其他义项。"
+      },
+      {
+        "wordId": "w-finely",
+        "reason": "选项「精细地」不是「largely」的主释义「主要地」或其他义项。"
+      },
+      {
+        "wordId": "w-effectively",
+        "reason": "选项「有效地」不是「largely」的主释义「主要地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hence",
+        "reason": "英文「hence」的常见义项「因此」不符合主释义「主要地」。"
+      },
+      {
+        "wordId": "w-finely",
+        "reason": "英文「finely」的常见义项「精细地」不符合主释义「主要地」。"
+      },
+      {
+        "wordId": "w-effectively",
+        "reason": "英文「effectively」的常见义项「有效地」不符合主释义「主要地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hence",
+        "surfaceForm": "hence",
+        "reason": "将「hence」代入可见句子后不表达主释义「主要地」。"
+      },
+      {
+        "wordId": "w-finely",
+        "surfaceForm": "finely",
+        "reason": "将「finely」代入可见句子后不表达主释义「主要地」。"
+      },
+      {
+        "wordId": "w-effectively",
+        "surfaceForm": "effectively",
+        "reason": "将「effectively」代入可见句子后不表达主释义「主要地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-laser",
+    "enToZh": [
+      {
+        "wordId": "w-fax",
+        "reason": "选项「传真」不是「laser」的主释义「激光」或其他义项。"
+      },
+      {
+        "wordId": "w-fracture",
+        "reason": "选项「骨折」不是「laser」的主释义「激光」或其他义项。"
+      },
+      {
+        "wordId": "w-brow",
+        "reason": "选项「额头」不是「laser」的主释义「激光」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fax",
+        "reason": "英文「FAX」的常见义项「传真」不符合主释义「激光」。"
+      },
+      {
+        "wordId": "w-fracture",
+        "reason": "英文「fracture」的常见义项「骨折」不符合主释义「激光」。"
+      },
+      {
+        "wordId": "w-brow",
+        "reason": "英文「brow」的常见义项「额头」不符合主释义「激光」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fax",
+        "surfaceForm": "FAX",
+        "reason": "将「FAX」代入可见句子后不表达主释义「激光」。"
+      },
+      {
+        "wordId": "w-fracture",
+        "surfaceForm": "fracture",
+        "reason": "将「fracture」代入可见句子后不表达主释义「激光」。"
+      },
+      {
+        "wordId": "w-brow",
+        "surfaceForm": "brow",
+        "reason": "将「brow」代入可见句子后不表达主释义「激光」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-late",
+    "enToZh": [
+      {
+        "wordId": "w-brown",
+        "reason": "选项「棕色的」不是「late」的主释义「晚的」或其他义项。"
+      },
+      {
+        "wordId": "w-horizontal",
+        "reason": "选项「水平的」不是「late」的主释义「晚的」或其他义项。"
+      },
+      {
+        "wordId": "w-kind",
+        "reason": "选项「友善的」不是「late」的主释义「晚的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brown",
+        "reason": "英文「brown」的常见义项「棕色的」不符合主释义「晚的」。"
+      },
+      {
+        "wordId": "w-horizontal",
+        "reason": "英文「horizontal」的常见义项「水平的」不符合主释义「晚的」。"
+      },
+      {
+        "wordId": "w-kind",
+        "reason": "英文「kind」的常见义项「友善的」不符合主释义「晚的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brown",
+        "surfaceForm": "brown",
+        "reason": "将「brown」代入可见句子后不表达主释义「晚的」。"
+      },
+      {
+        "wordId": "w-horizontal",
+        "surfaceForm": "horizontal",
+        "reason": "将「horizontal」代入可见句子后不表达主释义「晚的」。"
+      },
+      {
+        "wordId": "w-kind",
+        "surfaceForm": "kind",
+        "reason": "将「kind」代入可见句子后不表达主释义「晚的」。"
+      }
+    ],
+    "spelling": null
+  }
+]

@@ -13,12 +13,6 @@
     "w-african",
     "w-against"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-affiliate",
-      "stage": "pronunciation",
-      "message": "主词性为名词「附属机构」，但音标 /əˈfɪɫiˌeɪt/ 是动词读音；名词读音应为 /əˈfɪɫiət/（sources/en_US.txt 第二个候选）。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

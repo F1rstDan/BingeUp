@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent-sample-review-main-018",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-besides",
+    "w-betray",
+    "w-between",
+    "w-beyond",
+    "w-bird",
+    "w-bishop"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-beyond",
+      "stage": "question",
+      "message": "英选中把「除…之外」（except）列为干扰项，但 beyond 本身也可表示「除…之外」（如 beyond that）；「超出」与「除…之外」都可作为 beyond 的合理释义，题面存在双解。应排除 except 或停用该方向的固定题组。"
+    }
+  ]
+}

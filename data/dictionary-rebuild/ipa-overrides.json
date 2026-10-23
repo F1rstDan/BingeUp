@@ -12,6 +12,11 @@
       "reason": "固定美式来源未收录英式拼写 analyse；按规范词元与常见美式读音独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-beyond": {
+      "ipa": "/bɪˈjɑnd/",
+      "reason": "固定美式来源三个候选均缺少 /j/；按规范词元与常见美式读音独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-cigaret": {
       "ipa": "/ˌsɪɡəˈrɛt/",
       "reason": "固定美式来源未收录 cigaret 变体；按香烟义和规范词元独立转写。",
@@ -55,6 +60,31 @@
     "w-flavour": {
       "ipa": "/ˈfleɪvɚ/",
       "reason": "固定美式来源未收录英式拼写 flavour；按味道义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-gaol": {
+      "ipa": "/dʒeɪl/",
+      "reason": "固定美式来源未收录英式拼写 gaol；按监狱义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-gramme": {
+      "ipa": "/ɡræm/",
+      "reason": "固定美式来源未收录英式拼写 gramme；按克义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-gramophone": {
+      "ipa": "/ˈɡræməfoʊn/",
+      "reason": "固定美式来源缺项；按留声机义和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-jewellery": {
+      "ipa": "/ˈdʒuːəlri/",
+      "reason": "固定美式来源未收录英式拼写 jewellery；按珠宝义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-lamentation": {
+      "ipa": "/ˌlæmənˈteɪʃən/",
+      "reason": "固定美式来源缺项；按名词「哀叹」和规范词元独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
     "w-vigour": {

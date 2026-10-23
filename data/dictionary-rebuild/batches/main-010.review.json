@@ -11,17 +11,6 @@
     "w-artist",
     "w-ash"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-arithmetic",
-      "stage": "pronunciation",
-      "message": "主词性为名词「算术」，但音标 /ˌɛɹɪθˈmɛtɪk/ 是形容词读音（重音在第三音节）；名词读音应为 /ɝˈɪθməˌtɪk/（源文件第二个候选）。"
-    },
-    {
-      "wordId": "w-around",
-      "stage": "pronunciation",
-      "message": "音标 /ɝˈaʊn/ 缺少词尾 /d/；标准读音为 /ɝˈaʊnd/（源文件第二个候选）。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

@@ -1,0 +1,15 @@
+{
+  "reviewer": "independent-sample-review-main-013",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-automatic",
+    "w-automatically",
+    "w-automobile",
+    "w-auxiliary",
+    "w-availability",
+    "w-average",
+    "w-awfully"
+  ],
+  "result": "pass",
+  "findings": []
+}

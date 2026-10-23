@@ -17,6 +17,8 @@
     "w-right": { "contextChoice": false, "reason": "plain 可自然代入同一句。" },
     "w-refuge": { "contextChoice": false, "reason": "acceptance 可自然代入同一句。" },
     "w-again": { "contextChoice": false, "reason": "somewhere、instinctively 可自然代入同一句。" },
+    "w-between": { "excludeDistractors": ["w-among"], "reason": "among 可同时满足 between 的中英文题面。" },
+    "w-beyond": { "excludeDistractors": ["w-except"], "reason": "except 的「除…之外」与 beyond 的介词义冲突。" },
     "w-seaman": { "spelling": false, "reason": "sailor 可满足同一拼写提示。" },
     "w-comb": { "contextChoice": false, "reason": "bow、catalog 可自然代入同一句。" }
   }

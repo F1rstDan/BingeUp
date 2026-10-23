@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-increasingly",
+    "enToZh": [
+      {
+        "wordId": "w-ever",
+        "reason": "选项「曾经」不是「increasingly」的主释义「越来越多地」或其他义项。"
+      },
+      {
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「increasingly」的主释义「越来越多地」或其他义项。"
+      },
+      {
+        "wordId": "w-immediately",
+        "reason": "选项「立即」不是「increasingly」的主释义「越来越多地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ever",
+        "reason": "英文「ever」的常见义项「曾经」不符合主释义「越来越多地」。"
+      },
+      {
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「越来越多地」。"
+      },
+      {
+        "wordId": "w-immediately",
+        "reason": "英文「immediately」的常见义项「立即」不符合主释义「越来越多地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ever",
+        "surfaceForm": "ever",
+        "reason": "将「ever」代入可见句子后不表达主释义「越来越多地」。"
+      },
+      {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「越来越多地」。"
+      },
+      {
+        "wordId": "w-immediately",
+        "surfaceForm": "immediately",
+        "reason": "将「immediately」代入可见句子后不表达主释义「越来越多地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-incur",
+    "enToZh": [
+      {
+        "wordId": "w-imprison",
+        "reason": "选项「监禁」不是「incur」的主释义「招致」或其他义项。"
+      },
+      {
+        "wordId": "w-flutter",
+        "reason": "选项「飘动」不是「incur」的主释义「招致」或其他义项。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "reason": "选项「波动」不是「incur」的主释义「招致」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-imprison",
+        "reason": "英文「imprison」的常见义项「监禁」不符合主释义「招致」。"
+      },
+      {
+        "wordId": "w-flutter",
+        "reason": "英文「flutter」的常见义项「飘动」不符合主释义「招致」。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "reason": "英文「fluctuate」的常见义项「波动」不符合主释义「招致」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-imprison",
+        "surfaceForm": "imprison",
+        "reason": "将「imprison」代入可见句子后不表达主释义「招致」。"
+      },
+      {
+        "wordId": "w-flutter",
+        "surfaceForm": "flutter",
+        "reason": "将「flutter」代入可见句子后不表达主释义「招致」。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "surfaceForm": "fluctuate",
+        "reason": "将「fluctuate」代入可见句子后不表达主释义「招致」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indeed",
+    "enToZh": [
+      {
+        "wordId": "w-inevitably",
+        "reason": "选项「不可避免地」不是「indeed」的主释义「确实」或其他义项。"
+      },
+      {
+        "wordId": "w-finally",
+        "reason": "选项「终于」不是「indeed」的主释义「确实」或其他义项。"
+      },
+      {
+        "wordId": "w-easily",
+        "reason": "选项「容易地」不是「indeed」的主释义「确实」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-inevitably",
+        "reason": "英文「inevitably」的常见义项「不可避免地」不符合主释义「确实」。"
+      },
+      {
+        "wordId": "w-finally",
+        "reason": "英文「finally」的常见义项「终于」不符合主释义「确实」。"
+      },
+      {
+        "wordId": "w-easily",
+        "reason": "英文「easily」的常见义项「容易地」不符合主释义「确实」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-inevitably",
+        "surfaceForm": "inevitably",
+        "reason": "将「inevitably」代入可见句子后不表达主释义「确实」。"
+      },
+      {
+        "wordId": "w-finally",
+        "surfaceForm": "finally",
+        "reason": "将「finally」代入可见句子后不表达主释义「确实」。"
+      },
+      {
+        "wordId": "w-easily",
+        "surfaceForm": "easily",
+        "reason": "将「easily」代入可见句子后不表达主释义「确实」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indefinitely",
+    "enToZh": [
+      {
+        "wordId": "w-anyhow",
+        "reason": "选项「无论如何」不是「indefinitely」的主释义「无限期地」或其他义项。"
+      },
+      {
+        "wordId": "w-comparatively",
+        "reason": "选项「相对地」不是「indefinitely」的主释义「无限期地」或其他义项。"
+      },
+      {
+        "wordId": "w-excessively",
+        "reason": "选项「过度地」不是「indefinitely」的主释义「无限期地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-anyhow",
+        "reason": "英文「anyhow」的常见义项「无论如何」不符合主释义「无限期地」。"
+      },
+      {
+        "wordId": "w-comparatively",
+        "reason": "英文「comparatively」的常见义项「相对地」不符合主释义「无限期地」。"
+      },
+      {
+        "wordId": "w-excessively",
+        "reason": "英文「excessively」的常见义项「过度地」不符合主释义「无限期地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-anyhow",
+        "surfaceForm": "anyhow",
+        "reason": "将「anyhow」代入可见句子后不表达主释义「无限期地」。"
+      },
+      {
+        "wordId": "w-comparatively",
+        "surfaceForm": "comparatively",
+        "reason": "将「comparatively」代入可见句子后不表达主释义「无限期地」。"
+      },
+      {
+        "wordId": "w-excessively",
+        "surfaceForm": "excessively",
+        "reason": "将「excessively」代入可见句子后不表达主释义「无限期地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-independence",
+    "enToZh": [
+      {
+        "wordId": "w-chemistry",
+        "reason": "选项「化学」不是「independence」的主释义「独立」或其他义项。"
+      },
+      {
+        "wordId": "w-freedom",
+        "reason": "选项「自由」不是「independence」的主释义「独立」或其他义项。"
+      },
+      {
+        "wordId": "w-assault",
+        "reason": "选项「袭击」不是「independence」的主释义「独立」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chemistry",
+        "reason": "英文「chemistry」的常见义项「化学」不符合主释义「独立」。"
+      },
+      {
+        "wordId": "w-freedom",
+        "reason": "英文「freedom」的常见义项「自由」不符合主释义「独立」。"
+      },
+      {
+        "wordId": "w-assault",
+        "reason": "英文「assault」的常见义项「袭击」不符合主释义「独立」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chemistry",
+        "surfaceForm": "chemistry",
+        "reason": "将「chemistry」代入可见句子后不表达主释义「独立」。"
+      },
+      {
+        "wordId": "w-freedom",
+        "surfaceForm": "freedom",
+        "reason": "将「freedom」代入可见句子后不表达主释义「独立」。"
+      },
+      {
+        "wordId": "w-assault",
+        "surfaceForm": "assault",
+        "reason": "将「assault」代入可见句子后不表达主释义「独立」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-independent",
+    "enToZh": [
+      {
+        "wordId": "w-constant",
+        "reason": "选项「持续的」不是「independent」的主释义「独立的」或其他义项。"
+      },
+      {
+        "wordId": "w-concrete",
+        "reason": "选项「具体的」不是「independent」的主释义「独立的」或其他义项。"
+      },
+      {
+        "wordId": "w-fine",
+        "reason": "选项「很好的」不是「independent」的主释义「独立的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-constant",
+        "reason": "英文「constant」的常见义项「持续的」不符合主释义「独立的」。"
+      },
+      {
+        "wordId": "w-concrete",
+        "reason": "英文「concrete」的常见义项「具体的」不符合主释义「独立的」。"
+      },
+      {
+        "wordId": "w-fine",
+        "reason": "英文「fine」的常见义项「很好的」不符合主释义「独立的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-constant",
+        "surfaceForm": "constant",
+        "reason": "将「constant」代入可见句子后不表达主释义「独立的」。"
+      },
+      {
+        "wordId": "w-concrete",
+        "surfaceForm": "concrete",
+        "reason": "将「concrete」代入可见句子后不表达主释义「独立的」。"
+      },
+      {
+        "wordId": "w-fine",
+        "surfaceForm": "fine",
+        "reason": "将「fine」代入可见句子后不表达主释义「独立的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-index",
+    "enToZh": [
+      {
+        "wordId": "w-hand",
+        "reason": "选项「手」不是「index」的主释义「索引」或其他义项。"
+      },
+      {
+        "wordId": "w-implication",
+        "reason": "选项「含义」不是「index」的主释义「索引」或其他义项。"
+      },
+      {
+        "wordId": "w-envelope",
+        "reason": "选项「信封」不是「index」的主释义「索引」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hand",
+        "reason": "英文「hand」的常见义项「手」不符合主释义「索引」。"
+      },
+      {
+        "wordId": "w-implication",
+        "reason": "英文「implication」的常见义项「含义」不符合主释义「索引」。"
+      },
+      {
+        "wordId": "w-envelope",
+        "reason": "英文「envelope」的常见义项「信封」不符合主释义「索引」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hand",
+        "surfaceForm": "hand",
+        "reason": "将「hand」代入可见句子后不表达主释义「索引」。"
+      },
+      {
+        "wordId": "w-implication",
+        "surfaceForm": "implication",
+        "reason": "将「implication」代入可见句子后不表达主释义「索引」。"
+      },
+      {
+        "wordId": "w-envelope",
+        "surfaceForm": "envelope",
+        "reason": "将「envelope」代入可见句子后不表达主释义「索引」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-india",
+    "enToZh": [
+      {
+        "wordId": "w-charity",
+        "reason": "选项「慈善机构」不是「India」的主释义「印度」或其他义项。"
+      },
+      {
+        "wordId": "w-cable",
+        "reason": "选项「电缆」不是「India」的主释义「印度」或其他义项。"
+      },
+      {
+        "wordId": "w-alarm",
+        "reason": "选项「警报」不是「India」的主释义「印度」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-charity",
+        "reason": "英文「charity」的常见义项「慈善机构」不符合主释义「印度」。"
+      },
+      {
+        "wordId": "w-cable",
+        "reason": "英文「cable」的常见义项「电缆」不符合主释义「印度」。"
+      },
+      {
+        "wordId": "w-alarm",
+        "reason": "英文「alarm」的常见义项「警报」不符合主释义「印度」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-charity",
+        "surfaceForm": "charity",
+        "reason": "将「charity」代入可见句子后不表达主释义「印度」。"
+      },
+      {
+        "wordId": "w-cable",
+        "surfaceForm": "cable",
+        "reason": "将「cable」代入可见句子后不表达主释义「印度」。"
+      },
+      {
+        "wordId": "w-alarm",
+        "surfaceForm": "alarm",
+        "reason": "将「alarm」代入可见句子后不表达主释义「印度」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indian",
+    "enToZh": [
+      {
+        "wordId": "w-brown",
+        "reason": "选项「棕色的」不是「Indian」的主释义「印度的」或其他义项。"
+      },
+      {
+        "wordId": "w-independent",
+        "reason": "选项「独立的」不是「Indian」的主释义「印度的」或其他义项。"
+      },
+      {
+        "wordId": "w-damp",
+        "reason": "选项「潮湿的」不是「Indian」的主释义「印度的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brown",
+        "reason": "英文「brown」的常见义项「棕色的」不符合主释义「印度的」。"
+      },
+      {
+        "wordId": "w-independent",
+        "reason": "英文「independent」的常见义项「独立的」不符合主释义「印度的」。"
+      },
+      {
+        "wordId": "w-damp",
+        "reason": "英文「damp」的常见义项「潮湿的」不符合主释义「印度的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brown",
+        "surfaceForm": "brown",
+        "reason": "将「brown」代入可见句子后不表达主释义「印度的」。"
+      },
+      {
+        "wordId": "w-independent",
+        "surfaceForm": "independent",
+        "reason": "将「independent」代入可见句子后不表达主释义「印度的」。"
+      },
+      {
+        "wordId": "w-damp",
+        "surfaceForm": "damp",
+        "reason": "将「damp」代入可见句子后不表达主释义「印度的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indicate",
+    "enToZh": [
+      {
+        "wordId": "w-steer",
+        "reason": "选项「驾驶」不是「indicate」的主释义「表明」或其他义项。"
+      },
+      {
+        "wordId": "w-cry",
+        "reason": "选项「哭」不是「indicate」的主释义「表明」或其他义项。"
+      },
+      {
+        "wordId": "w-guarantee",
+        "reason": "选项「保证」不是「indicate」的主释义「表明」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-steer",
+        "reason": "英文「steer」的常见义项「驾驶」不符合主释义「表明」。"
+      },
+      {
+        "wordId": "w-cry",
+        "reason": "英文「cry」的常见义项「哭」不符合主释义「表明」。"
+      },
+      {
+        "wordId": "w-guarantee",
+        "reason": "英文「guarantee」的常见义项「保证」不符合主释义「表明」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-steer",
+        "surfaceForm": "steer",
+        "reason": "将「steer」代入可见句子后不表达主释义「表明」。"
+      },
+      {
+        "wordId": "w-cry",
+        "surfaceForm": "cry",
+        "reason": "将「cry」代入可见句子后不表达主释义「表明」。"
+      },
+      {
+        "wordId": "w-guarantee",
+        "surfaceForm": "guarantee",
+        "reason": "将「guarantee」代入可见句子后不表达主释义「表明」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indication",
+    "enToZh": [
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「indication」的主释义「迹象」或其他义项。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "选项「现金」不是「indication」的主释义「迹象」或其他义项。"
+      },
+      {
+        "wordId": "w-comedy",
+        "reason": "选项「喜剧」不是「indication」的主释义「迹象」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「迹象」。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "英文「cash」的常见义项「现金」不符合主释义「迹象」。"
+      },
+      {
+        "wordId": "w-comedy",
+        "reason": "英文「comedy」的常见义项「喜剧」不符合主释义「迹象」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「迹象」。"
+      },
+      {
+        "wordId": "w-cash",
+        "surfaceForm": "cash",
+        "reason": "将「cash」代入可见句子后不表达主释义「迹象」。"
+      },
+      {
+        "wordId": "w-comedy",
+        "surfaceForm": "comedy",
+        "reason": "将「comedy」代入可见句子后不表达主释义「迹象」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indignation",
+    "enToZh": [
+      {
+        "wordId": "w-fuss",
+        "reason": "选项「大惊小怪」不是「indignation」的主释义「愤慨」或其他义项。"
+      },
+      {
+        "wordId": "w-brood",
+        "reason": "选项「一窝雏鸟」不是「indignation」的主释义「愤慨」或其他义项。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "选项「木匠」不是「indignation」的主释义「愤慨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fuss",
+        "reason": "英文「fuss」的常见义项「大惊小怪」不符合主释义「愤慨」。"
+      },
+      {
+        "wordId": "w-brood",
+        "reason": "英文「brood」的常见义项「一窝雏鸟」不符合主释义「愤慨」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "英文「carpenter」的常见义项「木匠」不符合主释义「愤慨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fuss",
+        "surfaceForm": "fuss",
+        "reason": "将「fuss」代入可见句子后不表达主释义「愤慨」。"
+      },
+      {
+        "wordId": "w-brood",
+        "surfaceForm": "brood",
+        "reason": "将「brood」代入可见句子后不表达主释义「愤慨」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "surfaceForm": "carpenter",
+        "reason": "将「carpenter」代入可见句子后不表达主释义「愤慨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indiscriminately",
+    "enToZh": [
+      {
+        "wordId": "w-dully",
+        "reason": "选项「迟钝地」不是「indiscriminately」的主释义「不加区分地」或其他义项。"
+      },
+      {
+        "wordId": "w-fro",
+        "reason": "选项「往返」不是「indiscriminately」的主释义「不加区分地」或其他义项。"
+      },
+      {
+        "wordId": "w-henceforth",
+        "reason": "选项「从今以后」不是「indiscriminately」的主释义「不加区分地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dully",
+        "reason": "英文「dully」的常见义项「迟钝地」不符合主释义「不加区分地」。"
+      },
+      {
+        "wordId": "w-fro",
+        "reason": "英文「fro」的常见义项「往返」不符合主释义「不加区分地」。"
+      },
+      {
+        "wordId": "w-henceforth",
+        "reason": "英文「henceforth」的常见义项「从今以后」不符合主释义「不加区分地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dully",
+        "surfaceForm": "dully",
+        "reason": "将「dully」代入可见句子后不表达主释义「不加区分地」。"
+      },
+      {
+        "wordId": "w-fro",
+        "surfaceForm": "fro",
+        "reason": "将「fro」代入可见句子后不表达主释义「不加区分地」。"
+      },
+      {
+        "wordId": "w-henceforth",
+        "surfaceForm": "henceforth",
+        "reason": "将「henceforth」代入可见句子后不表达主释义「不加区分地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indispensable",
+    "enToZh": [
+      {
+        "wordId": "w-immortal",
+        "reason": "选项「不朽的」不是「indispensable」的主释义「不可或缺的」或其他义项。"
+      },
+      {
+        "wordId": "w-clear",
+        "reason": "选项「清楚的」不是「indispensable」的主释义「不可或缺的」或其他义项。"
+      },
+      {
+        "wordId": "w-edible",
+        "reason": "选项「可食用的」不是「indispensable」的主释义「不可或缺的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-immortal",
+        "reason": "英文「immortal」的常见义项「不朽的」不符合主释义「不可或缺的」。"
+      },
+      {
+        "wordId": "w-clear",
+        "reason": "英文「clear」的常见义项「清楚的」不符合主释义「不可或缺的」。"
+      },
+      {
+        "wordId": "w-edible",
+        "reason": "英文「edible」的常见义项「可食用的」不符合主释义「不可或缺的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-immortal",
+        "surfaceForm": "immortal",
+        "reason": "将「immortal」代入可见句子后不表达主释义「不可或缺的」。"
+      },
+      {
+        "wordId": "w-clear",
+        "surfaceForm": "clear",
+        "reason": "将「clear」代入可见句子后不表达主释义「不可或缺的」。"
+      },
+      {
+        "wordId": "w-edible",
+        "surfaceForm": "edible",
+        "reason": "将「edible」代入可见句子后不表达主释义「不可或缺的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-individual",
+    "enToZh": [
+      {
+        "wordId": "w-breast",
+        "reason": "选项「乳房」不是「individual」的主释义「个人」或其他义项。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "reason": "选项「不赞成」不是「individual」的主释义「个人」或其他义项。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "选项「电池」不是「individual」的主释义「个人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-breast",
+        "reason": "英文「breast」的常见义项「乳房」不符合主释义「个人」。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "reason": "英文「disapproval」的常见义项「不赞成」不符合主释义「个人」。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "英文「battery」的常见义项「电池」不符合主释义「个人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-breast",
+        "surfaceForm": "breast",
+        "reason": "将「breast」代入可见句子后不表达主释义「个人」。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "surfaceForm": "disapproval",
+        "reason": "将「disapproval」代入可见句子后不表达主释义「个人」。"
+      },
+      {
+        "wordId": "w-battery",
+        "surfaceForm": "battery",
+        "reason": "将「battery」代入可见句子后不表达主释义「个人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indoors",
+    "enToZh": [
+      {
+        "wordId": "w-ever",
+        "reason": "选项「曾经」不是「indoors」的主释义「在室内」或其他义项。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "reason": "选项「完全地」不是「indoors」的主释义「在室内」或其他义项。"
+      },
+      {
+        "wordId": "w-basically",
+        "reason": "选项「基本上」不是「indoors」的主释义「在室内」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ever",
+        "reason": "英文「ever」的常见义项「曾经」不符合主释义「在室内」。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「在室内」。"
+      },
+      {
+        "wordId": "w-basically",
+        "reason": "英文「basically」的常见义项「基本上」不符合主释义「在室内」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ever",
+        "surfaceForm": "ever",
+        "reason": "将「ever」代入可见句子后不表达主释义「在室内」。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "surfaceForm": "absolutely",
+        "reason": "将「absolutely」代入可见句子后不表达主释义「在室内」。"
+      },
+      {
+        "wordId": "w-basically",
+        "surfaceForm": "basically",
+        "reason": "将「basically」代入可见句子后不表达主释义「在室内」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-induce",
+    "enToZh": [
+      {
+        "wordId": "w-collaborate",
+        "reason": "选项「合作」不是「induce」的主释义「引起」或其他义项。"
+      },
+      {
+        "wordId": "w-collide",
+        "reason": "选项「碰撞」不是「induce」的主释义「引起」或其他义项。"
+      },
+      {
+        "wordId": "w-hatch",
+        "reason": "选项「孵化」不是「induce」的主释义「引起」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-collaborate",
+        "reason": "英文「collaborate」的常见义项「合作」不符合主释义「引起」。"
+      },
+      {
+        "wordId": "w-collide",
+        "reason": "英文「collide」的常见义项「碰撞」不符合主释义「引起」。"
+      },
+      {
+        "wordId": "w-hatch",
+        "reason": "英文「hatch」的常见义项「孵化」不符合主释义「引起」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-collaborate",
+        "surfaceForm": "collaborate",
+        "reason": "将「collaborate」代入可见句子后不表达主释义「引起」。"
+      },
+      {
+        "wordId": "w-collide",
+        "surfaceForm": "collide",
+        "reason": "将「collide」代入可见句子后不表达主释义「引起」。"
+      },
+      {
+        "wordId": "w-hatch",
+        "surfaceForm": "hatch",
+        "reason": "将「hatch」代入可见句子后不表达主释义「引起」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-induction",
+    "enToZh": [
+      {
+        "wordId": "w-coward",
+        "reason": "选项「胆小鬼」不是「induction」的主释义「归纳法」或其他义项。"
+      },
+      {
+        "wordId": "w-incense",
+        "reason": "选项「香」不是「induction」的主释义「归纳法」或其他义项。"
+      },
+      {
+        "wordId": "w-broom",
+        "reason": "选项「扫帚」不是「induction」的主释义「归纳法」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coward",
+        "reason": "英文「coward」的常见义项「胆小鬼」不符合主释义「归纳法」。"
+      },
+      {
+        "wordId": "w-incense",
+        "reason": "英文「incense」的常见义项「香」不符合主释义「归纳法」。"
+      },
+      {
+        "wordId": "w-broom",
+        "reason": "英文「broom」的常见义项「扫帚」不符合主释义「归纳法」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coward",
+        "surfaceForm": "coward",
+        "reason": "将「coward」代入可见句子后不表达主释义「归纳法」。"
+      },
+      {
+        "wordId": "w-incense",
+        "surfaceForm": "incense",
+        "reason": "将「incense」代入可见句子后不表达主释义「归纳法」。"
+      },
+      {
+        "wordId": "w-broom",
+        "surfaceForm": "broom",
+        "reason": "将「broom」代入可见句子后不表达主释义「归纳法」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-indulge",
+    "enToZh": [
+      {
+        "wordId": "w-charter",
+        "reason": "选项「包租」不是「indulge」的主释义「放纵」或其他义项。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "选项「移植」不是「indulge」的主释义「放纵」或其他义项。"
+      },
+      {
+        "wordId": "w-compel",
+        "reason": "选项「迫使」不是「indulge」的主释义「放纵」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-charter",
+        "reason": "英文「charter」的常见义项「包租」不符合主释义「放纵」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "英文「transplant」的常见义项「移植」不符合主释义「放纵」。"
+      },
+      {
+        "wordId": "w-compel",
+        "reason": "英文「compel」的常见义项「迫使」不符合主释义「放纵」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-charter",
+        "surfaceForm": "charter",
+        "reason": "将「charter」代入可见句子后不表达主释义「放纵」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "surfaceForm": "transplant",
+        "reason": "将「transplant」代入可见句子后不表达主释义「放纵」。"
+      },
+      {
+        "wordId": "w-compel",
+        "surfaceForm": "compel",
+        "reason": "将「compel」代入可见句子后不表达主释义「放纵」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-industrialize",
+    "enToZh": [
+      {
+        "wordId": "w-elapse",
+        "reason": "选项「流逝」不是「industrialize」的主释义「使工业化」或其他义项。"
+      },
+      {
+        "wordId": "w-quench",
+        "reason": "选项「解渴」不是「industrialize」的主释义「使工业化」或其他义项。"
+      },
+      {
+        "wordId": "w-deafen",
+        "reason": "选项「使耳聋」不是「industrialize」的主释义「使工业化」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-elapse",
+        "reason": "英文「elapse」的常见义项「流逝」不符合主释义「使工业化」。"
+      },
+      {
+        "wordId": "w-quench",
+        "reason": "英文「quench」的常见义项「解渴」不符合主释义「使工业化」。"
+      },
+      {
+        "wordId": "w-deafen",
+        "reason": "英文「deafen」的常见义项「使耳聋」不符合主释义「使工业化」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-elapse",
+        "surfaceForm": "elapse",
+        "reason": "将「elapse」代入可见句子后不表达主释义「使工业化」。"
+      },
+      {
+        "wordId": "w-quench",
+        "surfaceForm": "quench",
+        "reason": "将「quench」代入可见句子后不表达主释义「使工业化」。"
+      },
+      {
+        "wordId": "w-deafen",
+        "surfaceForm": "deafen",
+        "reason": "将「deafen」代入可见句子后不表达主释义「使工业化」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-industry",
+    "enToZh": [
+      {
+        "wordId": "w-adventure",
+        "reason": "选项「冒险」不是「industry」的主释义「工业」或其他义项。"
+      },
+      {
+        "wordId": "w-corn",
+        "reason": "选项「玉米」不是「industry」的主释义「工业」或其他义项。"
+      },
+      {
+        "wordId": "w-cotton",
+        "reason": "选项「棉花」不是「industry」的主释义「工业」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-adventure",
+        "reason": "英文「adventure」的常见义项「冒险」不符合主释义「工业」。"
+      },
+      {
+        "wordId": "w-corn",
+        "reason": "英文「corn」的常见义项「玉米」不符合主释义「工业」。"
+      },
+      {
+        "wordId": "w-cotton",
+        "reason": "英文「cotton」的常见义项「棉花」不符合主释义「工业」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-adventure",
+        "surfaceForm": "adventure",
+        "reason": "将「adventure」代入可见句子后不表达主释义「工业」。"
+      },
+      {
+        "wordId": "w-corn",
+        "surfaceForm": "corn",
+        "reason": "将「corn」代入可见句子后不表达主释义「工业」。"
+      },
+      {
+        "wordId": "w-cotton",
+        "surfaceForm": "cotton",
+        "reason": "将「cotton」代入可见句子后不表达主释义「工业」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-inertia",
+    "enToZh": [
+      {
+        "wordId": "w-chasm",
+        "reason": "选项「深谷」不是「inertia」的主释义「惯性」或其他义项。"
+      },
+      {
+        "wordId": "w-handkerchief",
+        "reason": "选项「手帕」不是「inertia」的主释义「惯性」或其他义项。"
+      },
+      {
+        "wordId": "w-burner",
+        "reason": "选项「炉头」不是「inertia」的主释义「惯性」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chasm",
+        "reason": "英文「chasm」的常见义项「深谷」不符合主释义「惯性」。"
+      },
+      {
+        "wordId": "w-handkerchief",
+        "reason": "英文「handkerchief」的常见义项「手帕」不符合主释义「惯性」。"
+      },
+      {
+        "wordId": "w-burner",
+        "reason": "英文「burner」的常见义项「炉头」不符合主释义「惯性」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chasm",
+        "surfaceForm": "chasm",
+        "reason": "将「chasm」代入可见句子后不表达主释义「惯性」。"
+      },
+      {
+        "wordId": "w-handkerchief",
+        "surfaceForm": "handkerchief",
+        "reason": "将「handkerchief」代入可见句子后不表达主释义「惯性」。"
+      },
+      {
+        "wordId": "w-burner",
+        "surfaceForm": "burner",
+        "reason": "将「burner」代入可见句子后不表达主释义「惯性」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-inevitably",
+    "enToZh": [
+      {
+        "wordId": "w-always",
+        "reason": "选项「总是」不是「inevitably」的主释义「不可避免地」或其他义项。"
+      },
+      {
+        "wordId": "w-essentially",
+        "reason": "选项「基本上」不是「inevitably」的主释义「不可避免地」或其他义项。"
+      },
+      {
+        "wordId": "w-bitterly",
+        "reason": "选项「痛苦地」不是「inevitably」的主释义「不可避免地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-always",
+        "reason": "英文「always」的常见义项「总是」不符合主释义「不可避免地」。"
+      },
+      {
+        "wordId": "w-essentially",
+        "reason": "英文「essentially」的常见义项「基本上」不符合主释义「不可避免地」。"
+      },
+      {
+        "wordId": "w-bitterly",
+        "reason": "英文「bitterly」的常见义项「痛苦地」不符合主释义「不可避免地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-always",
+        "surfaceForm": "always",
+        "reason": "将「always」代入可见句子后不表达主释义「不可避免地」。"
+      },
+      {
+        "wordId": "w-essentially",
+        "surfaceForm": "essentially",
+        "reason": "将「essentially」代入可见句子后不表达主释义「不可避免地」。"
+      },
+      {
+        "wordId": "w-bitterly",
+        "surfaceForm": "bitterly",
+        "reason": "将「bitterly」代入可见句子后不表达主释义「不可避免地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-infancy",
+    "enToZh": [
+      {
+        "wordId": "w-calculator",
+        "reason": "选项「计算器」不是「infancy」的主释义「婴儿期」或其他义项。"
+      },
+      {
+        "wordId": "w-flank",
+        "reason": "选项「侧翼」不是「infancy」的主释义「婴儿期」或其他义项。"
+      },
+      {
+        "wordId": "w-radish",
+        "reason": "选项「萝卜」不是「infancy」的主释义「婴儿期」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-calculator",
+        "reason": "英文「calculator」的常见义项「计算器」不符合主释义「婴儿期」。"
+      },
+      {
+        "wordId": "w-flank",
+        "reason": "英文「flank」的常见义项「侧翼」不符合主释义「婴儿期」。"
+      },
+      {
+        "wordId": "w-radish",
+        "reason": "英文「radish」的常见义项「萝卜」不符合主释义「婴儿期」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-calculator",
+        "surfaceForm": "calculator",
+        "reason": "将「calculator」代入可见句子后不表达主释义「婴儿期」。"
+      },
+      {
+        "wordId": "w-flank",
+        "surfaceForm": "flank",
+        "reason": "将「flank」代入可见句子后不表达主释义「婴儿期」。"
+      },
+      {
+        "wordId": "w-radish",
+        "surfaceForm": "radish",
+        "reason": "将「radish」代入可见句子后不表达主释义「婴儿期」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-infant",
+    "enToZh": [
+      {
+        "wordId": "w-cube",
+        "reason": "选项「立方体」不是「infant」的主释义「婴儿」或其他义项。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "reason": "选项「熟人」不是「infant」的主释义「婴儿」或其他义项。"
+      },
+      {
+        "wordId": "w-arc",
+        "reason": "选项「弧线」不是「infant」的主释义「婴儿」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cube",
+        "reason": "英文「cube」的常见义项「立方体」不符合主释义「婴儿」。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「婴儿」。"
+      },
+      {
+        "wordId": "w-arc",
+        "reason": "英文「arc」的常见义项「弧线」不符合主释义「婴儿」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cube",
+        "surfaceForm": "cube",
+        "reason": "将「cube」代入可见句子后不表达主释义「婴儿」。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "surfaceForm": "acquaintance",
+        "reason": "将「acquaintance」代入可见句子后不表达主释义「婴儿」。"
+      },
+      {
+        "wordId": "w-arc",
+        "surfaceForm": "arc",
+        "reason": "将「arc」代入可见句子后不表达主释义「婴儿」。"
+      }
+    ],
+    "spelling": null
+  }
+]

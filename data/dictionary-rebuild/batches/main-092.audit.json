@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-illiterate",
+    "enToZh": [
+      {
+        "wordId": "w-edible",
+        "reason": "选项「可食用的」不是「illiterate」的主释义「不识字的」或其他义项。"
+      },
+      {
+        "wordId": "w-immortal",
+        "reason": "选项「不朽的」不是「illiterate」的主释义「不识字的」或其他义项。"
+      },
+      {
+        "wordId": "w-exempt",
+        "reason": "选项「被免除的」不是「illiterate」的主释义「不识字的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-edible",
+        "reason": "英文「edible」的常见义项「可食用的」不符合主释义「不识字的」。"
+      },
+      {
+        "wordId": "w-immortal",
+        "reason": "英文「immortal」的常见义项「不朽的」不符合主释义「不识字的」。"
+      },
+      {
+        "wordId": "w-exempt",
+        "reason": "英文「exempt」的常见义项「被免除的」不符合主释义「不识字的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-edible",
+        "surfaceForm": "edible",
+        "reason": "将「edible」代入可见句子后不表达主释义「不识字的」。"
+      },
+      {
+        "wordId": "w-immortal",
+        "surfaceForm": "immortal",
+        "reason": "将「immortal」代入可见句子后不表达主释义「不识字的」。"
+      },
+      {
+        "wordId": "w-exempt",
+        "surfaceForm": "exempt",
+        "reason": "将「exempt」代入可见句子后不表达主释义「不识字的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-illness",
+    "enToZh": [
+      {
+        "wordId": "w-gender",
+        "reason": "选项「性别」不是「illness」的主释义「疾病」或其他义项。"
+      },
+      {
+        "wordId": "w-film",
+        "reason": "选项「电影」不是「illness」的主释义「疾病」或其他义项。"
+      },
+      {
+        "wordId": "w-disaster",
+        "reason": "选项「灾难」不是「illness」的主释义「疾病」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gender",
+        "reason": "英文「gender」的常见义项「性别」不符合主释义「疾病」。"
+      },
+      {
+        "wordId": "w-film",
+        "reason": "英文「film」的常见义项「电影」不符合主释义「疾病」。"
+      },
+      {
+        "wordId": "w-disaster",
+        "reason": "英文「disaster」的常见义项「灾难」不符合主释义「疾病」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gender",
+        "surfaceForm": "gender",
+        "reason": "将「gender」代入可见句子后不表达主释义「疾病」。"
+      },
+      {
+        "wordId": "w-film",
+        "surfaceForm": "film",
+        "reason": "将「film」代入可见句子后不表达主释义「疾病」。"
+      },
+      {
+        "wordId": "w-disaster",
+        "surfaceForm": "disaster",
+        "reason": "将「disaster」代入可见句子后不表达主释义「疾病」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-illuminate",
+    "enToZh": [
+      {
+        "wordId": "w-hop",
+        "reason": "选项「蹦跳」不是「illuminate」的主释义「照亮」或其他义项。"
+      },
+      {
+        "wordId": "w-attribute",
+        "reason": "选项「把…归因于」不是「illuminate」的主释义「照亮」或其他义项。"
+      },
+      {
+        "wordId": "w-exploit",
+        "reason": "选项「利用」不是「illuminate」的主释义「照亮」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hop",
+        "reason": "英文「hop」的常见义项「蹦跳」不符合主释义「照亮」。"
+      },
+      {
+        "wordId": "w-attribute",
+        "reason": "英文「attribute」的常见义项「把…归因于」不符合主释义「照亮」。"
+      },
+      {
+        "wordId": "w-exploit",
+        "reason": "英文「exploit」的常见义项「利用」不符合主释义「照亮」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hop",
+        "surfaceForm": "hop",
+        "reason": "将「hop」代入可见句子后不表达主释义「照亮」。"
+      },
+      {
+        "wordId": "w-attribute",
+        "surfaceForm": "attribute",
+        "reason": "将「attribute」代入可见句子后不表达主释义「照亮」。"
+      },
+      {
+        "wordId": "w-exploit",
+        "surfaceForm": "exploit",
+        "reason": "将「exploit」代入可见句子后不表达主释义「照亮」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-illusion",
+    "enToZh": [
+      {
+        "wordId": "w-civilian",
+        "reason": "选项「平民」不是「illusion」的主释义「错觉」或其他义项。"
+      },
+      {
+        "wordId": "w-banner",
+        "reason": "选项「横幅」不是「illusion」的主释义「错觉」或其他义项。"
+      },
+      {
+        "wordId": "w-fireplace",
+        "reason": "选项「壁炉」不是「illusion」的主释义「错觉」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-civilian",
+        "reason": "英文「civilian」的常见义项「平民」不符合主释义「错觉」。"
+      },
+      {
+        "wordId": "w-banner",
+        "reason": "英文「banner」的常见义项「横幅」不符合主释义「错觉」。"
+      },
+      {
+        "wordId": "w-fireplace",
+        "reason": "英文「fireplace」的常见义项「壁炉」不符合主释义「错觉」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-civilian",
+        "surfaceForm": "civilian",
+        "reason": "将「civilian」代入可见句子后不表达主释义「错觉」。"
+      },
+      {
+        "wordId": "w-banner",
+        "surfaceForm": "banner",
+        "reason": "将「banner」代入可见句子后不表达主释义「错觉」。"
+      },
+      {
+        "wordId": "w-fireplace",
+        "surfaceForm": "fireplace",
+        "reason": "将「fireplace」代入可见句子后不表达主释义「错觉」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-illustrate",
+    "enToZh": [
+      {
+        "wordId": "w-curl",
+        "reason": "选项「卷曲」不是「illustrate」的主释义「说明」或其他义项。"
+      },
+      {
+        "wordId": "w-embrace",
+        "reason": "选项「拥抱」不是「illustrate」的主释义「说明」或其他义项。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "选项「雇用」不是「illustrate」的主释义「说明」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-curl",
+        "reason": "英文「curl」的常见义项「卷曲」不符合主释义「说明」。"
+      },
+      {
+        "wordId": "w-embrace",
+        "reason": "英文「embrace」的常见义项「拥抱」不符合主释义「说明」。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "英文「hire」的常见义项「雇用」不符合主释义「说明」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-curl",
+        "surfaceForm": "curl",
+        "reason": "将「curl」代入可见句子后不表达主释义「说明」。"
+      },
+      {
+        "wordId": "w-embrace",
+        "surfaceForm": "embrace",
+        "reason": "将「embrace」代入可见句子后不表达主释义「说明」。"
+      },
+      {
+        "wordId": "w-hire",
+        "surfaceForm": "hire",
+        "reason": "将「hire」代入可见句子后不表达主释义「说明」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-illustration",
+    "enToZh": [
+      {
+        "wordId": "w-distortion",
+        "reason": "选项「失真」不是「illustration」的主释义「插图」或其他义项。"
+      },
+      {
+        "wordId": "w-dome",
+        "reason": "选项「圆顶」不是「illustration」的主释义「插图」或其他义项。"
+      },
+      {
+        "wordId": "w-carrier",
+        "reason": "选项「运输公司」不是「illustration」的主释义「插图」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-distortion",
+        "reason": "英文「distortion」的常见义项「失真」不符合主释义「插图」。"
+      },
+      {
+        "wordId": "w-dome",
+        "reason": "英文「dome」的常见义项「圆顶」不符合主释义「插图」。"
+      },
+      {
+        "wordId": "w-carrier",
+        "reason": "英文「carrier」的常见义项「运输公司」不符合主释义「插图」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-distortion",
+        "surfaceForm": "distortion",
+        "reason": "将「distortion」代入可见句子后不表达主释义「插图」。"
+      },
+      {
+        "wordId": "w-dome",
+        "surfaceForm": "dome",
+        "reason": "将「dome」代入可见句子后不表达主释义「插图」。"
+      },
+      {
+        "wordId": "w-carrier",
+        "surfaceForm": "carrier",
+        "reason": "将「carrier」代入可见句子后不表达主释义「插图」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-image",
+    "enToZh": [
+      {
+        "wordId": "w-degree",
+        "reason": "选项「程度」不是「image」的主释义「形象」或其他义项。"
+      },
+      {
+        "wordId": "w-bus",
+        "reason": "选项「公共汽车」不是「image」的主释义「形象」或其他义项。"
+      },
+      {
+        "wordId": "w-form",
+        "reason": "选项「形式」不是「image」的主释义「形象」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-degree",
+        "reason": "英文「degree」的常见义项「程度」不符合主释义「形象」。"
+      },
+      {
+        "wordId": "w-bus",
+        "reason": "英文「bus」的常见义项「公共汽车」不符合主释义「形象」。"
+      },
+      {
+        "wordId": "w-form",
+        "reason": "英文「form」的常见义项「形式」不符合主释义「形象」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-degree",
+        "surfaceForm": "degree",
+        "reason": "将「degree」代入可见句子后不表达主释义「形象」。"
+      },
+      {
+        "wordId": "w-bus",
+        "surfaceForm": "bus",
+        "reason": "将「bus」代入可见句子后不表达主释义「形象」。"
+      },
+      {
+        "wordId": "w-form",
+        "surfaceForm": "form",
+        "reason": "将「form」代入可见句子后不表达主释义「形象」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-imagination",
+    "enToZh": [
+      {
+        "wordId": "w-experience",
+        "reason": "选项「经验」不是「imagination」的主释义「想象力」或其他义项。"
+      },
+      {
+        "wordId": "w-form",
+        "reason": "选项「形式」不是「imagination」的主释义「想象力」或其他义项。"
+      },
+      {
+        "wordId": "w-advice",
+        "reason": "选项「建议」不是「imagination」的主释义「想象力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-experience",
+        "reason": "英文「experience」的常见义项「经验」不符合主释义「想象力」。"
+      },
+      {
+        "wordId": "w-form",
+        "reason": "英文「form」的常见义项「形式」不符合主释义「想象力」。"
+      },
+      {
+        "wordId": "w-advice",
+        "reason": "英文「advice」的常见义项「建议」不符合主释义「想象力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-experience",
+        "surfaceForm": "experience",
+        "reason": "将「experience」代入可见句子后不表达主释义「想象力」。"
+      },
+      {
+        "wordId": "w-form",
+        "surfaceForm": "form",
+        "reason": "将「form」代入可见句子后不表达主释义「想象力」。"
+      },
+      {
+        "wordId": "w-advice",
+        "surfaceForm": "advice",
+        "reason": "将「advice」代入可见句子后不表达主释义「想象力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-imagine",
+    "enToZh": [
+      {
+        "wordId": "w-buy",
+        "reason": "选项「购买」不是「imagine」的主释义「想象」或其他义项。"
+      },
+      {
+        "wordId": "w-float",
+        "reason": "选项「漂浮」不是「imagine」的主释义「想象」或其他义项。"
+      },
+      {
+        "wordId": "w-arrive",
+        "reason": "选项「到达」不是「imagine」的主释义「想象」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-buy",
+        "reason": "英文「buy」的常见义项「购买」不符合主释义「想象」。"
+      },
+      {
+        "wordId": "w-float",
+        "reason": "英文「float」的常见义项「漂浮」不符合主释义「想象」。"
+      },
+      {
+        "wordId": "w-arrive",
+        "reason": "英文「arrive」的常见义项「到达」不符合主释义「想象」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-buy",
+        "surfaceForm": "buy",
+        "reason": "将「buy」代入可见句子后不表达主释义「想象」。"
+      },
+      {
+        "wordId": "w-float",
+        "surfaceForm": "float",
+        "reason": "将「float」代入可见句子后不表达主释义「想象」。"
+      },
+      {
+        "wordId": "w-arrive",
+        "surfaceForm": "arrive",
+        "reason": "将「arrive」代入可见句子后不表达主释义「想象」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-imitate",
+    "enToZh": [
+      {
+        "wordId": "w-deem",
+        "reason": "选项「认为」不是「imitate」的主释义「模仿」或其他义项。"
+      },
+      {
+        "wordId": "w-donate",
+        "reason": "选项「捐赠」不是「imitate」的主释义「模仿」或其他义项。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "选项「紧抓」不是「imitate」的主释义「模仿」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deem",
+        "reason": "英文「deem」的常见义项「认为」不符合主释义「模仿」。"
+      },
+      {
+        "wordId": "w-donate",
+        "reason": "英文「donate」的常见义项「捐赠」不符合主释义「模仿」。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "英文「cling」的常见义项「紧抓」不符合主释义「模仿」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deem",
+        "surfaceForm": "deem",
+        "reason": "将「deem」代入可见句子后不表达主释义「模仿」。"
+      },
+      {
+        "wordId": "w-donate",
+        "surfaceForm": "donate",
+        "reason": "将「donate」代入可见句子后不表达主释义「模仿」。"
+      },
+      {
+        "wordId": "w-cling",
+        "surfaceForm": "cling",
+        "reason": "将「cling」代入可见句子后不表达主释义「模仿」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-imitation",
+    "enToZh": [
+      {
+        "wordId": "w-clash",
+        "reason": "选项「冲突」不是「imitation」的主释义「模仿」或其他义项。"
+      },
+      {
+        "wordId": "w-foreigner",
+        "reason": "选项「外国人」不是「imitation」的主释义「模仿」或其他义项。"
+      },
+      {
+        "wordId": "w-cereal",
+        "reason": "选项「谷物」不是「imitation」的主释义「模仿」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-clash",
+        "reason": "英文「clash」的常见义项「冲突」不符合主释义「模仿」。"
+      },
+      {
+        "wordId": "w-foreigner",
+        "reason": "英文「foreigner」的常见义项「外国人」不符合主释义「模仿」。"
+      },
+      {
+        "wordId": "w-cereal",
+        "reason": "英文「cereal」的常见义项「谷物」不符合主释义「模仿」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-clash",
+        "surfaceForm": "clash",
+        "reason": "将「clash」代入可见句子后不表达主释义「模仿」。"
+      },
+      {
+        "wordId": "w-foreigner",
+        "surfaceForm": "foreigner",
+        "reason": "将「foreigner」代入可见句子后不表达主释义「模仿」。"
+      },
+      {
+        "wordId": "w-cereal",
+        "surfaceForm": "cereal",
+        "reason": "将「cereal」代入可见句子后不表达主释义「模仿」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immediately",
+    "enToZh": [
+      {
+        "wordId": "w-formerly",
+        "reason": "选项「以前」不是「immediately」的主释义「立即」或其他义项。"
+      },
+      {
+        "wordId": "w-aside",
+        "reason": "选项「到一边」不是「immediately」的主释义「立即」或其他义项。"
+      },
+      {
+        "wordId": "w-approximately",
+        "reason": "选项「大约」不是「immediately」的主释义「立即」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-formerly",
+        "reason": "英文「formerly」的常见义项「以前」不符合主释义「立即」。"
+      },
+      {
+        "wordId": "w-aside",
+        "reason": "英文「aside」的常见义项「到一边」不符合主释义「立即」。"
+      },
+      {
+        "wordId": "w-approximately",
+        "reason": "英文「approximately」的常见义项「大约」不符合主释义「立即」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-formerly",
+        "surfaceForm": "formerly",
+        "reason": "将「formerly」代入可见句子后不表达主释义「立即」。"
+      },
+      {
+        "wordId": "w-aside",
+        "surfaceForm": "aside",
+        "reason": "将「aside」代入可见句子后不表达主释义「立即」。"
+      },
+      {
+        "wordId": "w-approximately",
+        "surfaceForm": "approximately",
+        "reason": "将「approximately」代入可见句子后不表达主释义「立即」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immerse",
+    "enToZh": [
+      {
+        "wordId": "w-misunderstand",
+        "reason": "选项「误解」不是「immerse」的主释义「使沉浸于」或其他义项。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "reason": "选项「扩散」不是「immerse」的主释义「使沉浸于」或其他义项。"
+      },
+      {
+        "wordId": "w-clasp",
+        "reason": "选项「紧握」不是「immerse」的主释义「使沉浸于」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-misunderstand",
+        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「使沉浸于」。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "reason": "英文「diffuse」的常见义项「扩散」不符合主释义「使沉浸于」。"
+      },
+      {
+        "wordId": "w-clasp",
+        "reason": "英文「clasp」的常见义项「紧握」不符合主释义「使沉浸于」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-misunderstand",
+        "surfaceForm": "misunderstand",
+        "reason": "将「misunderstand」代入可见句子后不表达主释义「使沉浸于」。"
+      },
+      {
+        "wordId": "w-diffuse",
+        "surfaceForm": "diffuse",
+        "reason": "将「diffuse」代入可见句子后不表达主释义「使沉浸于」。"
+      },
+      {
+        "wordId": "w-clasp",
+        "surfaceForm": "clasp",
+        "reason": "将「clasp」代入可见句子后不表达主释义「使沉浸于」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immigrant",
+    "enToZh": [
+      {
+        "wordId": "w-copy",
+        "reason": "选项「副本」不是「immigrant」的主释义「移民」或其他义项。"
+      },
+      {
+        "wordId": "w-consequence",
+        "reason": "选项「后果」不是「immigrant」的主释义「移民」或其他义项。"
+      },
+      {
+        "wordId": "w-education",
+        "reason": "选项「教育」不是「immigrant」的主释义「移民」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-copy",
+        "reason": "英文「copy」的常见义项「副本」不符合主释义「移民」。"
+      },
+      {
+        "wordId": "w-consequence",
+        "reason": "英文「consequence」的常见义项「后果」不符合主释义「移民」。"
+      },
+      {
+        "wordId": "w-education",
+        "reason": "英文「education」的常见义项「教育」不符合主释义「移民」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-copy",
+        "surfaceForm": "copy",
+        "reason": "将「copy」代入可见句子后不表达主释义「移民」。"
+      },
+      {
+        "wordId": "w-consequence",
+        "surfaceForm": "consequence",
+        "reason": "将「consequence」代入可见句子后不表达主释义「移民」。"
+      },
+      {
+        "wordId": "w-education",
+        "surfaceForm": "education",
+        "reason": "将「education」代入可见句子后不表达主释义「移民」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immigrate",
+    "enToZh": [
+      {
+        "wordId": "w-avail",
+        "reason": "选项「利用」不是「immigrate」的主释义「移居入境」或其他义项。"
+      },
+      {
+        "wordId": "w-deduce",
+        "reason": "选项「推断」不是「immigrate」的主释义「移居入境」或其他义项。"
+      },
+      {
+        "wordId": "w-deviate",
+        "reason": "选项「偏离」不是「immigrate」的主释义「移居入境」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-avail",
+        "reason": "英文「avail」的常见义项「利用」不符合主释义「移居入境」。"
+      },
+      {
+        "wordId": "w-deduce",
+        "reason": "英文「deduce」的常见义项「推断」不符合主释义「移居入境」。"
+      },
+      {
+        "wordId": "w-deviate",
+        "reason": "英文「deviate」的常见义项「偏离」不符合主释义「移居入境」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-avail",
+        "surfaceForm": "avail",
+        "reason": "将「avail」代入可见句子后不表达主释义「移居入境」。"
+      },
+      {
+        "wordId": "w-deduce",
+        "surfaceForm": "deduce",
+        "reason": "将「deduce」代入可见句子后不表达主释义「移居入境」。"
+      },
+      {
+        "wordId": "w-deviate",
+        "surfaceForm": "deviate",
+        "reason": "将「deviate」代入可见句子后不表达主释义「移居入境」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immigration",
+    "enToZh": [
+      {
+        "wordId": "w-course",
+        "reason": "选项「课程」不是「immigration」的主释义「移民入境」或其他义项。"
+      },
+      {
+        "wordId": "w-east",
+        "reason": "选项「东方」不是「immigration」的主释义「移民入境」或其他义项。"
+      },
+      {
+        "wordId": "w-face",
+        "reason": "选项「脸」不是「immigration」的主释义「移民入境」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-course",
+        "reason": "英文「course」的常见义项「课程」不符合主释义「移民入境」。"
+      },
+      {
+        "wordId": "w-east",
+        "reason": "英文「east」的常见义项「东方」不符合主释义「移民入境」。"
+      },
+      {
+        "wordId": "w-face",
+        "reason": "英文「face」的常见义项「脸」不符合主释义「移民入境」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-course",
+        "surfaceForm": "course",
+        "reason": "将「course」代入可见句子后不表达主释义「移民入境」。"
+      },
+      {
+        "wordId": "w-east",
+        "surfaceForm": "east",
+        "reason": "将「east」代入可见句子后不表达主释义「移民入境」。"
+      },
+      {
+        "wordId": "w-face",
+        "surfaceForm": "face",
+        "reason": "将「face」代入可见句子后不表达主释义「移民入境」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immortal",
+    "enToZh": [
+      {
+        "wordId": "w-exempt",
+        "reason": "选项「被免除的」不是「immortal」的主释义「不朽的」或其他义项。"
+      },
+      {
+        "wordId": "w-fluorescent",
+        "reason": "选项「荧光的」不是「immortal」的主释义「不朽的」或其他义项。"
+      },
+      {
+        "wordId": "w-consequent",
+        "reason": "选项「随之而来的」不是「immortal」的主释义「不朽的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exempt",
+        "reason": "英文「exempt」的常见义项「被免除的」不符合主释义「不朽的」。"
+      },
+      {
+        "wordId": "w-fluorescent",
+        "reason": "英文「fluorescent」的常见义项「荧光的」不符合主释义「不朽的」。"
+      },
+      {
+        "wordId": "w-consequent",
+        "reason": "英文「consequent」的常见义项「随之而来的」不符合主释义「不朽的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exempt",
+        "surfaceForm": "exempt",
+        "reason": "将「exempt」代入可见句子后不表达主释义「不朽的」。"
+      },
+      {
+        "wordId": "w-fluorescent",
+        "surfaceForm": "fluorescent",
+        "reason": "将「fluorescent」代入可见句子后不表达主释义「不朽的」。"
+      },
+      {
+        "wordId": "w-consequent",
+        "surfaceForm": "consequent",
+        "reason": "将「consequent」代入可见句子后不表达主释义「不朽的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-immunity",
+    "enToZh": [
+      {
+        "wordId": "w-eclipse",
+        "reason": "选项「日食」不是「immunity」的主释义「免疫力」或其他义项。"
+      },
+      {
+        "wordId": "w-documentary",
+        "reason": "选项「纪录片」不是「immunity」的主释义「免疫力」或其他义项。"
+      },
+      {
+        "wordId": "w-embassy",
+        "reason": "选项「大使馆」不是「immunity」的主释义「免疫力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eclipse",
+        "reason": "英文「eclipse」的常见义项「日食」不符合主释义「免疫力」。"
+      },
+      {
+        "wordId": "w-documentary",
+        "reason": "英文「documentary」的常见义项「纪录片」不符合主释义「免疫力」。"
+      },
+      {
+        "wordId": "w-embassy",
+        "reason": "英文「embassy」的常见义项「大使馆」不符合主释义「免疫力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eclipse",
+        "surfaceForm": "eclipse",
+        "reason": "将「eclipse」代入可见句子后不表达主释义「免疫力」。"
+      },
+      {
+        "wordId": "w-documentary",
+        "surfaceForm": "documentary",
+        "reason": "将「documentary」代入可见句子后不表达主释义「免疫力」。"
+      },
+      {
+        "wordId": "w-embassy",
+        "surfaceForm": "embassy",
+        "reason": "将「embassy」代入可见句子后不表达主释义「免疫力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-impact",
+    "enToZh": [
+      {
+        "wordId": "w-ease",
+        "reason": "选项「不费力」不是「impact」的主释义「影响」或其他义项。"
+      },
+      {
+        "wordId": "w-comfort",
+        "reason": "选项「舒适」不是「impact」的主释义「影响」或其他义项。"
+      },
+      {
+        "wordId": "w-century",
+        "reason": "选项「世纪」不是「impact」的主释义「影响」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ease",
+        "reason": "英文「ease」的常见义项「不费力」不符合主释义「影响」。"
+      },
+      {
+        "wordId": "w-comfort",
+        "reason": "英文「comfort」的常见义项「舒适」不符合主释义「影响」。"
+      },
+      {
+        "wordId": "w-century",
+        "reason": "英文「century」的常见义项「世纪」不符合主释义「影响」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ease",
+        "surfaceForm": "ease",
+        "reason": "将「ease」代入可见句子后不表达主释义「影响」。"
+      },
+      {
+        "wordId": "w-comfort",
+        "surfaceForm": "comfort",
+        "reason": "将「comfort」代入可见句子后不表达主释义「影响」。"
+      },
+      {
+        "wordId": "w-century",
+        "surfaceForm": "century",
+        "reason": "将「century」代入可见句子后不表达主释义「影响」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-impair",
+    "enToZh": [
+      {
+        "wordId": "w-cater",
+        "reason": "选项「提供餐饮服务」不是「impair」的主释义「损害」或其他义项。"
+      },
+      {
+        "wordId": "w-gaze",
+        "reason": "选项「凝视」不是「impair」的主释义「损害」或其他义项。"
+      },
+      {
+        "wordId": "w-correspond",
+        "reason": "选项「相符合」不是「impair」的主释义「损害」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cater",
+        "reason": "英文「cater」的常见义项「提供餐饮服务」不符合主释义「损害」。"
+      },
+      {
+        "wordId": "w-gaze",
+        "reason": "英文「gaze」的常见义项「凝视」不符合主释义「损害」。"
+      },
+      {
+        "wordId": "w-correspond",
+        "reason": "英文「correspond」的常见义项「相符合」不符合主释义「损害」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cater",
+        "surfaceForm": "cater",
+        "reason": "将「cater」代入可见句子后不表达主释义「损害」。"
+      },
+      {
+        "wordId": "w-gaze",
+        "surfaceForm": "gaze",
+        "reason": "将「gaze」代入可见句子后不表达主释义「损害」。"
+      },
+      {
+        "wordId": "w-correspond",
+        "surfaceForm": "correspond",
+        "reason": "将「correspond」代入可见句子后不表达主释义「损害」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-impart",
+    "enToZh": [
+      {
+        "wordId": "w-augment",
+        "reason": "选项「增加」不是「impart」的主释义「传授」或其他义项。"
+      },
+      {
+        "wordId": "w-diverge",
+        "reason": "选项「分岔」不是「impart」的主释义「传授」或其他义项。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "reason": "选项「波动」不是「impart」的主释义「传授」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-augment",
+        "reason": "英文「augment」的常见义项「增加」不符合主释义「传授」。"
+      },
+      {
+        "wordId": "w-diverge",
+        "reason": "英文「diverge」的常见义项「分岔」不符合主释义「传授」。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "reason": "英文「fluctuate」的常见义项「波动」不符合主释义「传授」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-augment",
+        "surfaceForm": "augment",
+        "reason": "将「augment」代入可见句子后不表达主释义「传授」。"
+      },
+      {
+        "wordId": "w-diverge",
+        "surfaceForm": "diverge",
+        "reason": "将「diverge」代入可见句子后不表达主释义「传授」。"
+      },
+      {
+        "wordId": "w-fluctuate",
+        "surfaceForm": "fluctuate",
+        "reason": "将「fluctuate」代入可见句子后不表达主释义「传授」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-imperative",
+    "enToZh": [
+      {
+        "wordId": "w-eccentric",
+        "reason": "选项「古怪的」不是「imperative」的主释义「至关重要的」或其他义项。"
+      },
+      {
+        "wordId": "w-consequent",
+        "reason": "选项「随之而来的」不是「imperative」的主释义「至关重要的」或其他义项。"
+      },
+      {
+        "wordId": "w-bankrupt",
+        "reason": "选项「破产的」不是「imperative」的主释义「至关重要的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eccentric",
+        "reason": "英文「eccentric」的常见义项「古怪的」不符合主释义「至关重要的」。"
+      },
+      {
+        "wordId": "w-consequent",
+        "reason": "英文「consequent」的常见义项「随之而来的」不符合主释义「至关重要的」。"
+      },
+      {
+        "wordId": "w-bankrupt",
+        "reason": "英文「bankrupt」的常见义项「破产的」不符合主释义「至关重要的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eccentric",
+        "surfaceForm": "eccentric",
+        "reason": "将「eccentric」代入可见句子后不表达主释义「至关重要的」。"
+      },
+      {
+        "wordId": "w-consequent",
+        "surfaceForm": "consequent",
+        "reason": "将「consequent」代入可见句子后不表达主释义「至关重要的」。"
+      },
+      {
+        "wordId": "w-bankrupt",
+        "surfaceForm": "bankrupt",
+        "reason": "将「bankrupt」代入可见句子后不表达主释义「至关重要的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-impetus",
+    "enToZh": [
+      {
+        "wordId": "w-embroidery",
+        "reason": "选项「刺绣」不是「impetus」的主释义「推动力」或其他义项。"
+      },
+      {
+        "wordId": "w-fabrication",
+        "reason": "选项「捏造」不是「impetus」的主释义「推动力」或其他义项。"
+      },
+      {
+        "wordId": "w-excursion",
+        "reason": "选项「短途旅行」不是「impetus」的主释义「推动力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-embroidery",
+        "reason": "英文「embroidery」的常见义项「刺绣」不符合主释义「推动力」。"
+      },
+      {
+        "wordId": "w-fabrication",
+        "reason": "英文「fabrication」的常见义项「捏造」不符合主释义「推动力」。"
+      },
+      {
+        "wordId": "w-excursion",
+        "reason": "英文「excursion」的常见义项「短途旅行」不符合主释义「推动力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-embroidery",
+        "surfaceForm": "embroidery",
+        "reason": "将「embroidery」代入可见句子后不表达主释义「推动力」。"
+      },
+      {
+        "wordId": "w-fabrication",
+        "surfaceForm": "fabrication",
+        "reason": "将「fabrication」代入可见句子后不表达主释义「推动力」。"
+      },
+      {
+        "wordId": "w-excursion",
+        "surfaceForm": "excursion",
+        "reason": "将「excursion」代入可见句子后不表达主释义「推动力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-implement",
+    "enToZh": [
+      {
+        "wordId": "w-cross",
+        "reason": "选项「穿过」不是「implement」的主释义「实施」或其他义项。"
+      },
+      {
+        "wordId": "w-add",
+        "reason": "选项「添加」不是「implement」的主释义「实施」或其他义项。"
+      },
+      {
+        "wordId": "w-burn",
+        "reason": "选项「燃烧」不是「implement」的主释义「实施」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cross",
+        "reason": "英文「cross」的常见义项「穿过」不符合主释义「实施」。"
+      },
+      {
+        "wordId": "w-add",
+        "reason": "英文「add」的常见义项「添加」不符合主释义「实施」。"
+      },
+      {
+        "wordId": "w-burn",
+        "reason": "英文「burn」的常见义项「燃烧」不符合主释义「实施」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cross",
+        "surfaceForm": "cross",
+        "reason": "将「cross」代入可见句子后不表达主释义「实施」。"
+      },
+      {
+        "wordId": "w-add",
+        "surfaceForm": "add",
+        "reason": "将「add」代入可见句子后不表达主释义「实施」。"
+      },
+      {
+        "wordId": "w-burn",
+        "surfaceForm": "burn",
+        "reason": "将「burn」代入可见句子后不表达主释义「实施」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-implication",
+    "enToZh": [
+      {
+        "wordId": "w-coach",
+        "reason": "选项「教练」不是「implication」的主释义「含义」或其他义项。"
+      },
+      {
+        "wordId": "w-hill",
+        "reason": "选项「小山」不是「implication」的主释义「含义」或其他义项。"
+      },
+      {
+        "wordId": "w-eye",
+        "reason": "选项「眼睛」不是「implication」的主释义「含义」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coach",
+        "reason": "英文「coach」的常见义项「教练」不符合主释义「含义」。"
+      },
+      {
+        "wordId": "w-hill",
+        "reason": "英文「hill」的常见义项「小山」不符合主释义「含义」。"
+      },
+      {
+        "wordId": "w-eye",
+        "reason": "英文「eye」的常见义项「眼睛」不符合主释义「含义」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coach",
+        "surfaceForm": "coach",
+        "reason": "将「coach」代入可见句子后不表达主释义「含义」。"
+      },
+      {
+        "wordId": "w-hill",
+        "surfaceForm": "hill",
+        "reason": "将「hill」代入可见句子后不表达主释义「含义」。"
+      },
+      {
+        "wordId": "w-eye",
+        "surfaceForm": "eye",
+        "reason": "将「eye」代入可见句子后不表达主释义「含义」。"
+      }
+    ],
+    "spelling": null
+  }
+]
