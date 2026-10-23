@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-098",
+  "reviewer": "independent-fix-review-main-098",
   "mode": "sample",
   "inspectedWordIds": [
     "w-intensity",
@@ -14,12 +14,6 @@
     "w-intermediate",
     "w-interruption"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-interruption",
-      "stage": "pronunciation",
-      "message": "主词性为 n.、主释义为「打扰/中断」；固定来源给出 /ˌɪntɝˈəpʃən/，缺少 -ruption 的 /r/，且把主重音标在 schwa 上，不能对应规范词元的常见美式读音 /ˌɪntərˈrʌpʃən/。需新增独立转写或修正读音来源后重新复核。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

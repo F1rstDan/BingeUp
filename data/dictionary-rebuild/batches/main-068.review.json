@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-068",
+  "reviewer": "independent-fix-review-main-068",
   "mode": "sample",
   "inspectedWordIds": [
     "w-exploit",
@@ -8,12 +8,6 @@
     "w-express",
     "w-expression"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-export",
-      "stage": "pronunciation",
-      "message": "固定来源只有 /ˈɛkspɔɹt/，这是名词读音；主词性为 v.，例句「Brazil exports coffee to many countries.」中的 exports 也是动词，读音应为 /ɪkˈspɔɹt/。当前条目会把动词显示成名词重音，需增加独立转写或补入动词读音后重新生成。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

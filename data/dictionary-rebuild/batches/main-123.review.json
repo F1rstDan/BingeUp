@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-123",
+  "reviewer": "independent-fix-review-main-123",
   "mode": "sample",
   "inspectedWordIds": [
     "w-news",
@@ -10,12 +10,6 @@
     "w-none",
     "w-nor"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-none",
-      "stage": "question",
-      "message": "英选中把 w-nobody（「没有人」）列为干扰项；none 作代词可表示「没有人／没有任何人」，题面只显示 none 时，「没有一个」与「没有人」都能合理回答，构成双解。中选英题组也复用了该干扰项，建议一并排除 w-nobody 或停用该方向的固定题组。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

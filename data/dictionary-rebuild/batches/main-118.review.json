@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-118",
+  "reviewer": "independent-fix-review-main-118",
   "mode": "sample",
   "inspectedWordIds": [
     "w-mobility",
@@ -8,12 +8,6 @@
     "w-modulate",
     "w-money"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-modulate",
-      "stage": "pronunciation",
-      "message": "主词性为 v.、主释义为「调节」；当前 ipa-selections 选择索引 0 的 /ˈmɔdʒjuɫeɪt/ 在 /dʒ/ 后保留了不应出现的 /j/，且元音与常见美式读音 /ˈmɑdʒəˌleɪt/ 不符；索引 1 的 /ˈmɔdʒuɫeɪt/ 也未保留主重音前的央元音。应补充 /ˈmɑdʒəˌleɪt/ 的独立转写后重新复核。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

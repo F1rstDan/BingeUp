@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -9,6 +9,8 @@ import {
   readJsonl,
   releaseLockAt,
   sampleIds,
+  verifyBatchArtifacts,
+  writeAtomic,
 } from '../../../scripts/dictionary-rebuild/pipeline';
 
 const INPUTS = [{ wordId: 'w-a' }, { wordId: 'w-b' }];
@@ -93,5 +95,40 @@ describe('内容流水线 — 故障边界', () => {
     expect(() => acquireLockAt(path)).toThrow('已被协调者持有');
     releaseLockAt(path);
     expect(() => acquireLockAt(path)).not.toThrow();
+  });
+
+  it('写入中断时保留原文件，完成后才原子替换', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'bingeup-atomic-'));
+    tempDirs.push(dir);
+    const path = join(dir, 'state.json');
+    writeFileSync(path, '{"version":1}', 'utf8');
+    const temp = `${path}.${process.pid}.tmp`;
+    mkdirSync(temp);
+    expect(() => writeAtomic(path, '{"version":2}')).toThrow();
+    expect(readFileSync(path, 'utf8')).toBe('{"version":1}');
+    rmSync(temp, { recursive: true });
+    writeAtomic(path, '{"version":2}');
+    expect(readFileSync(path, 'utf8')).toBe('{"version":2}');
+    expect(existsSync(temp)).toBe(false);
+  });
+
+  it('批次文件丢失时返回返工原因，不重算哈希', () => {
+    const errors = verifyBatchArtifacts(
+      {
+        id: '__missing-batch__',
+        kind: 'main',
+        wordIds: [],
+        inputHash: 'input',
+        outputHash: 'output',
+        generationPromptHash: 'generate',
+        sampleWordIds: [],
+        review: null,
+      } as never,
+      { datasetId: 'test' } as never,
+      { registryHash: 'registry' } as never,
+      { generate: 'generate', review: 'review' },
+    );
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toContain('输入文件缺失或损坏');
   });
 });

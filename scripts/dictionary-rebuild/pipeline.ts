@@ -161,7 +161,7 @@ function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T;
 }
 
-function writeAtomic(path: string, text: string): void {
+export function writeAtomic(path: string, text: string): void {
   const temp = `${path}.${process.pid}.tmp`;
   writeFileSync(temp, text, 'utf8');
   renameSync(temp, path);
@@ -526,14 +526,19 @@ function getBatch(state: RebuildState, id: string): BatchState {
   return batch;
 }
 
-function verifyBatchArtifacts(
+export function verifyBatchArtifacts(
   batch: BatchState,
   seed: Seed,
   registry: LegacyRegistry,
   prompt: { generate: string; review: string },
 ): string[] {
   const errors: string[] = [];
-  const input = readJsonl<Record<string, unknown>>(batchPath(batch.id, 'input.jsonl'));
+  let input: Record<string, unknown>[];
+  try {
+    input = readJsonl<Record<string, unknown>>(batchPath(batch.id, 'input.jsonl'));
+  } catch (error) {
+    return [`输入文件缺失或损坏：${error instanceof Error ? error.message : String(error)}`];
+  }
   const expectedInputHash = nodeSha256(
     canonicalJson({
       batchId: batch.id,
@@ -548,17 +553,38 @@ function verifyBatchArtifacts(
   if (expectedInputHash !== batch.inputHash) errors.push('输入或依赖哈希不符');
   if (batch.generationPromptHash !== prompt.generate) errors.push('生成提示版本已改变');
   if (batch.outputHash === null) errors.push('缺少输出哈希');
-  const entries = readJsonl<CandidateEntry>(batchPath(batch.id, 'output.jsonl'));
-  const plans = readJsonl<WordQuestionPlan>(batchPath(batch.id, 'questions.jsonl'));
-  const audit = readJson<unknown[]>(batchPath(batch.id, 'audit.json'));
-  const expectedOutputHash = nodeSha256(
-    canonicalJson({
-      words: nodeSha256(canonicalJson(entries)),
-      questions: nodeSha256(canonicalJson(plans)),
-      audit: nodeSha256(canonicalJson(audit)),
-    }),
-  );
-  if (expectedOutputHash !== batch.outputHash) errors.push('输出、题组或自检依据哈希不符');
+  let entries: CandidateEntry[] = [];
+  let plans: WordQuestionPlan[] = [];
+  let audit: unknown[] = [];
+  let artifactsReadable = true;
+  try {
+    entries = readJsonl<CandidateEntry>(batchPath(batch.id, 'output.jsonl'));
+  } catch (error) {
+    artifactsReadable = false;
+    errors.push(`词条文件缺失或损坏：${error instanceof Error ? error.message : String(error)}`);
+  }
+  try {
+    plans = readJsonl<WordQuestionPlan>(batchPath(batch.id, 'questions.jsonl'));
+  } catch (error) {
+    artifactsReadable = false;
+    errors.push(`题组文件缺失或损坏：${error instanceof Error ? error.message : String(error)}`);
+  }
+  try {
+    audit = readJson<unknown[]>(batchPath(batch.id, 'audit.json'));
+  } catch (error) {
+    artifactsReadable = false;
+    errors.push(`自检文件缺失或损坏：${error instanceof Error ? error.message : String(error)}`);
+  }
+  if (artifactsReadable) {
+    const expectedOutputHash = nodeSha256(
+      canonicalJson({
+        words: nodeSha256(canonicalJson(entries)),
+        questions: nodeSha256(canonicalJson(plans)),
+        audit: nodeSha256(canonicalJson(audit)),
+      }),
+    );
+    if (expectedOutputHash !== batch.outputHash) errors.push('输出、题组或自检依据哈希不符');
+  }
   if (!batch.review) {
     errors.push('缺少复核记录');
   } else {

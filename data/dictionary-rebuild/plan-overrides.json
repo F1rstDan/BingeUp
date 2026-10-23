@@ -1,7 +1,12 @@
 {
   "schemaVersion": 1,
   "description": "独立复核发现歧义后的逐词题组停用或干扰项排除。只影响题组，不改词条。",
-  "synonymGroups": [["w-drop", "w-reduce"]],
+  "synonymGroups": [
+    [
+      "w-drop",
+      "w-reduce"
+    ]
+  ],
   "words": {
     "w-grey": {
       "spelling": false,
@@ -60,11 +65,15 @@
       "reason": "somewhere、instinctively 可自然代入同一句。"
     },
     "w-between": {
-      "excludeDistractors": ["w-among"],
+      "excludeDistractors": [
+        "w-among"
+      ],
       "reason": "among 可同时满足 between 的中英文题面。"
     },
     "w-beyond": {
-      "excludeDistractors": ["w-except"],
+      "excludeDistractors": [
+        "w-except"
+      ],
       "reason": "except 的「除…之外」与 beyond 的介词义冲突。"
     },
     "w-seaman": {
@@ -76,24 +85,46 @@
       "reason": "bow、catalog 可自然代入同一句。"
     },
     "w-definitely": {
-      "excludeDistractors": ["w-certainly"],
+      "excludeDistractors": [
+        "w-certainly"
+      ],
       "reason": "certainly 的「必定」与 definitely 的「肯定地」冲突。"
     },
     "w-effectively": {
-      "excludeDistractors": ["w-basically"],
+      "excludeDistractors": [
+        "w-basically"
+      ],
       "reason": "basically 的「基本上」与 effectively 的「有效地」冲突。"
     },
     "w-generally": {
-      "excludeDistractors": ["w-basically"],
+      "excludeDistractors": [
+        "w-basically"
+      ],
       "reason": "basically 的「基本上」与 generally 的「通常」冲突。"
     },
     "w-literally": {
-      "excludeDistractors": ["w-indeed"],
+      "excludeDistractors": [
+        "w-indeed"
+      ],
       "reason": "indeed 的「确实」与 literally 的引申义冲突。"
     },
     "w-none": {
-      "excludeDistractors": ["w-nobody"],
+      "excludeDistractors": [
+        "w-nobody"
+      ],
       "reason": "nobody 的「没有人」与 none 的「没有一个」冲突。"
+    },
+    "w-clerk": {
+      "excludeDistractors": [
+        "w-employee"
+      ],
+      "reason": "employee 的「雇员」也可作答「职员」，中选英题组存在双解。"
+    },
+    "w-splash": {
+      "excludeDistractors": [
+        "w-dash"
+      ],
+      "reason": "dash 的「泼溅」与 splash 题面冲突，中选英题组存在双解。"
     }
   }
 }

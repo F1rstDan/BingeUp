@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-141",
+  "reviewer": "independent-fix-review-main-141",
   "mode": "sample",
   "inspectedWordIds": [
     "w-potentially",
@@ -11,12 +11,6 @@
     "w-precisely",
     "w-preclude"
   ],
-  "result": "fail",
-  "findings": [
-    {
-      "wordId": "w-prayer",
-      "stage": "pronunciation",
-      "message": "主词性为 n.、主释义为「祈祷」，例句「He said a short prayer before dinner.」中的 prayer 也是「祈祷」；当前选择索引 0 的 /ˈpɹeɪɝ/ 对应「祈祷者」（one who prays），不是「祈祷」。应改选索引 1 的 /ˈpɹɛɹ/，或补充 /ˈpɹɛɹ/ 的独立转写。"
-    }
-  ]
+  "result": "pass",
+  "findings": []
 }

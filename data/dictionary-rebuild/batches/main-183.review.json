@@ -1,0 +1,19 @@
+{
+  "reviewer": "independent-sample-review-main-183",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-subdue",
+    "w-subject",
+    "w-subordinate",
+    "w-subscribe",
+    "w-subway"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-subordinate",
+      "stage": "pronunciation",
+      "message": "主释义为名词「下属」，但读音选择索引 0 为 /səˈbɔɹdəˌneɪt/（动词读音）；名词/形容词读音应为索引 1 /səˈbɔɹdənət/。"
+    }
+  ]
+}

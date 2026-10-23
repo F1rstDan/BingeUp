@@ -1,5 +1,5 @@
 {
-  "reviewer": "independent-sample-review-main-032",
+  "reviewer": "independent-fix-review-main-032",
   "mode": "sample",
   "inspectedWordIds": [
     "w-clerk",
@@ -12,9 +12,9 @@
   "result": "fail",
   "findings": [
     {
-      "wordId": "w-close",
-      "stage": "pronunciation",
-      "message": "主词性为 v.、主释义为「关闭」，应读 /kloʊz/；当前 ipa-selections 选择索引 0 的 /ˈkɫoʊs/，对应形容词或副词「近的」，与主词性和主释义不符。应改为索引 1 或添加 /kloʊz/ 的独立转写。"
+      "wordId": "w-clerk",
+      "stage": "question",
+      "message": "中选英题面为「职员」，干扰项 employee（雇员）也可作为「职员」的英文答案，题组存在双解；应替换或移除 w-employee 后再复核。"
     }
   ]
 }

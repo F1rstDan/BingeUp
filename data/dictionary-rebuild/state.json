@@ -7108,7 +7108,7 @@
       ],
       "outputHash": "04ce78ba12f42d71b564e83f395969d277cb96da195d24d34c9ddd117b0744e6",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 6,
       "generation": {
         "provider": "opencode-go",
@@ -7117,7 +7117,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "04ce78ba12f42d71b564e83f395969d277cb96da195d24d34c9ddd117b0744e6",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-besides",
+          "w-betray",
+          "w-between",
+          "w-beyond",
+          "w-bird",
+          "w-bishop"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-018",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -8088,10 +8102,10 @@
         "w-clothes",
         "w-cloud"
       ],
-      "outputHash": "c8ea01452b582a9f9010d4010cbe4cefc06f428f4c210283d5c0a198e5a04025",
+      "outputHash": "bf1161cbbb6af1845c9a0b60d94cb869218bc156c33bd7a10da40c4bd337d2a5",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "needs-fix",
-      "attempts": 2,
+      "attempts": 3,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -10819,7 +10833,7 @@
       ],
       "outputHash": "93217a41d1e7b1626c704e8aebb011d0949ed0f2f76f4d926b09b43c4a110473",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -10828,7 +10842,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "93217a41d1e7b1626c704e8aebb011d0949ed0f2f76f4d926b09b43c4a110473",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-exploit",
+          "w-exploration",
+          "w-export",
+          "w-express",
+          "w-expression"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-068",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -11602,7 +11629,7 @@
       ],
       "outputHash": "8f91f95c287ea62c977b510e158d560b02a3e34dfb064a6adb20bbaae2693c12",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -11611,7 +11638,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8f91f95c287ea62c977b510e158d560b02a3e34dfb064a6adb20bbaae2693c12",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-gaol",
+          "w-garlic",
+          "w-gasoline",
+          "w-general",
+          "w-generalization",
+          "w-generally"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-079",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -12374,7 +12415,7 @@
       ],
       "outputHash": "8ed5cbc7a42bff36105a649ecffbf1f1ea4b2ce3fa0836526f0050989868341f",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -12383,7 +12424,24 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8ed5cbc7a42bff36105a649ecffbf1f1ea4b2ce3fa0836526f0050989868341f",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-hour",
+          "w-howl",
+          "w-hull",
+          "w-hum",
+          "w-human",
+          "w-humanitarian",
+          "w-humanity",
+          "w-hundred",
+          "w-hurricane"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-090",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -12957,7 +13015,7 @@
       ],
       "outputHash": "84c38a07d40aaa243f545c8f0924490a39a38bd0f154f07ade5975d8eaaf5006",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -12966,7 +13024,26 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "84c38a07d40aaa243f545c8f0924490a39a38bd0f154f07ade5975d8eaaf5006",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-intensity",
+          "w-interact",
+          "w-interaction",
+          "w-interconnect",
+          "w-intercourse",
+          "w-interest",
+          "w-interface",
+          "w-interfere",
+          "w-interference",
+          "w-intermediate",
+          "w-interruption"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-098",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -13018,7 +13095,7 @@
       ],
       "outputHash": "eea2aca8ad3ae6aa1a2fd66841888f5670569647ce2de24d9674311efe4ac205",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -13027,7 +13104,23 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "eea2aca8ad3ae6aa1a2fd66841888f5670569647ce2de24d9674311efe4ac205",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-intimidate",
+          "w-intrigue",
+          "w-introduce",
+          "w-introduction",
+          "w-invalid",
+          "w-invasion",
+          "w-investigate",
+          "w-investment"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-099",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -13444,7 +13537,7 @@
       ],
       "outputHash": "fb4380df73051a6873201a9cb84bc2c2b5e05f46a4f04af547de8524ca484f20",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -13453,7 +13546,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "fb4380df73051a6873201a9cb84bc2c2b5e05f46a4f04af547de8524ca484f20",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-laundry",
+          "w-law",
+          "w-lawyer",
+          "w-layman",
+          "w-lead",
+          "w-leakage"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-105",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -13644,7 +13751,7 @@
       ],
       "outputHash": "a9fc1a91aaaf038ee312aeff0778d1d6013bc2a1728411ab63a580e45c23a6db",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -13653,7 +13760,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "a9fc1a91aaaf038ee312aeff0778d1d6013bc2a1728411ab63a580e45c23a6db",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-linger",
+          "w-lipstick",
+          "w-list",
+          "w-listener",
+          "w-literally"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-108",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -13701,7 +13821,7 @@
       ],
       "outputHash": "c9c33b82b834a2a0a05e1df8426963c055ecf37ea5a16b70aa09425233af3eac",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 4,
       "generation": {
         "provider": "opencode-go",
@@ -13710,7 +13830,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "c9c33b82b834a2a0a05e1df8426963c055ecf37ea5a16b70aa09425233af3eac",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-live",
+          "w-livestock",
+          "w-locality",
+          "w-loose"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-109",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -13980,7 +14112,7 @@
       ],
       "outputHash": "15cade74b7067c8e242be2ce97286d86424d793d4d71de93e9f4d90cbf7ffc57",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -13989,7 +14121,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "15cade74b7067c8e242be2ce97286d86424d793d4d71de93e9f4d90cbf7ffc57",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-mask",
+          "w-maternity",
+          "w-maths",
+          "w-maturation",
+          "w-maturity"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-113",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -14330,7 +14475,7 @@
       ],
       "outputHash": "d0b0206ad6c801fa9872925722e7d29f38c57ae717ed9b24980371e12f4af39c",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -14339,7 +14484,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "d0b0206ad6c801fa9872925722e7d29f38c57ae717ed9b24980371e12f4af39c",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-mobility",
+          "w-modification",
+          "w-modify",
+          "w-modulate",
+          "w-money"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-118",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -14690,7 +14848,7 @@
       ],
       "outputHash": "c411cb290f6cece777a39458edd12c1cec7c92eedb7fa6ad21d822e1b4c119a9",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 3,
       "generation": {
         "provider": "opencode-go",
@@ -14699,7 +14857,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "c411cb290f6cece777a39458edd12c1cec7c92eedb7fa6ad21d822e1b4c119a9",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-news",
+          "w-next",
+          "w-niece",
+          "w-nobody",
+          "w-nominate",
+          "w-none",
+          "w-nor"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-123",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -15341,7 +15514,7 @@
       ],
       "outputHash": "6eff7e235dad2f1558e55d75ff37d814c87f4618913f488b2b0cd60ab07d17fc",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -15350,7 +15523,23 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "6eff7e235dad2f1558e55d75ff37d814c87f4618913f488b2b0cd60ab07d17fc",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-parcel",
+          "w-partially",
+          "w-particle",
+          "w-particular",
+          "w-particularly",
+          "w-passage",
+          "w-passion",
+          "w-pastime"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-132",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -15539,7 +15728,7 @@
       ],
       "outputHash": "f898ae3317ede0fdcb1d40adc0690664edb4da5b18284f1e51d1d7f7d21cb6f9",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -15548,7 +15737,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "f898ae3317ede0fdcb1d40adc0690664edb4da5b18284f1e51d1d7f7d21cb6f9",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-perfectly",
+          "w-perfume",
+          "w-period",
+          "w-personally",
+          "w-perspective"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-135",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -15949,7 +16151,7 @@
       ],
       "outputHash": "bb81b5b2a4224f16ff4b8bd8f3da3f2478882dde2e4f0be5997b17e1dc5dc930",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -15958,7 +16160,23 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "bb81b5b2a4224f16ff4b8bd8f3da3f2478882dde2e4f0be5997b17e1dc5dc930",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-potentially",
+          "w-practically",
+          "w-practice",
+          "w-praise",
+          "w-prayer",
+          "w-precaution",
+          "w-precisely",
+          "w-preclude"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-fix-review-main-141",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17804,8 +18022,31 @@
           "reasoning": "max"
         }
       },
-      "review": null,
-      "failures": [],
+      "review": {
+        "outputHash": "f5202b66b85eb104eeff7f21a86e3645e2cc1ce78be00f5fac055cae80132a8a",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-segment",
+          "w-semiconductor",
+          "w-seminate",
+          "w-senate",
+          "w-senior",
+          "w-sentiment",
+          "w-separate"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-166",
+        "result": "fail"
+      },
+      "failures": [
+        {
+          "wordId": "w-separate",
+          "stage": "semantics",
+          "code": "review-finding",
+          "message": "词性为形容词、主释义为「分开的」，但选用的音标 /ˈsɛpɝˌeɪt/ 对应动词读音；形容词应读 /ˈsɛpɝɪt/ 或 /ˈsɛpɹət/。",
+          "attempts": 2
+        }
+      ],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -17854,7 +18095,7 @@
       ],
       "outputHash": "d2f76f6c3a4df0c0a4b1f67c888078783be46e4f2cc1c16c81414655a7976f0b",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -17863,7 +18104,21 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "d2f76f6c3a4df0c0a4b1f67c888078783be46e4f2cc1c16c81414655a7976f0b",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-separately",
+          "w-sequence",
+          "w-series",
+          "w-service",
+          "w-settle",
+          "w-seventy"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-167",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17911,7 +18166,7 @@
       ],
       "outputHash": "f291c68a6461bf1a005a4f55f00788d9f6b5548b1d4185f27d433345f85a1c52",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -17920,7 +18175,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "f291c68a6461bf1a005a4f55f00788d9f6b5548b1d4185f27d433345f85a1c52",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-sheet",
+          "w-shell",
+          "w-sheriff",
+          "w-shipbuilding"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-168",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -17968,7 +18235,7 @@
       ],
       "outputHash": "1b3c516acbe3ade1ccf80febfbc4bf33b6abec51df58e1a2990e6a43e70c1c79",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -17977,7 +18244,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "1b3c516acbe3ade1ccf80febfbc4bf33b6abec51df58e1a2990e6a43e70c1c79",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-shortage",
+          "w-shorten",
+          "w-should",
+          "w-shoulder"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-169",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18024,7 +18303,7 @@
       ],
       "outputHash": "32df46ba34ec3da2821273d985c95123216013f2322e8265f7cf72d35774c19a",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18033,7 +18312,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "32df46ba34ec3da2821273d985c95123216013f2322e8265f7cf72d35774c19a",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-shutter",
+          "w-significance",
+          "w-silence"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-170",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18081,7 +18371,7 @@
       ],
       "outputHash": "f073a3d4157d2432e1f0741ad3cd39522894edc83c590653c593fe1525141cd9",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18090,7 +18380,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "f073a3d4157d2432e1f0741ad3cd39522894edc83c590653c593fe1525141cd9",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-simplicity",
+          "w-simulate",
+          "w-since",
+          "w-skate"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-171",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18137,7 +18439,7 @@
       ],
       "outputHash": "7be84e0f93b00b4a1751decf05a1795ac96d9082a49f3dec7d14f06695eaab44",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18146,7 +18448,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "7be84e0f93b00b4a1751decf05a1795ac96d9082a49f3dec7d14f06695eaab44",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-skin",
+          "w-slam",
+          "w-slave"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-172",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18193,7 +18506,7 @@
       ],
       "outputHash": "dfc1058dc13216a24abdc3b5eb57728d6d9e2259af1075d331e5dca6539d0cc8",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18202,7 +18515,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "dfc1058dc13216a24abdc3b5eb57728d6d9e2259af1075d331e5dca6539d0cc8",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-slope",
+          "w-slumber",
+          "w-smog"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-173",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18253,7 +18577,7 @@
       ],
       "outputHash": "8accde810a1e884d3ba82342da6d3abe95113d08881150d6f684d8bf6e2ab9be",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18262,7 +18586,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8accde810a1e884d3ba82342da6d3abe95113d08881150d6f684d8bf6e2ab9be",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-soak",
+          "w-sob",
+          "w-socialist",
+          "w-soften",
+          "w-softly",
+          "w-softness",
+          "w-software"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-174",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18323,8 +18662,32 @@
           "reasoning": "max"
         }
       },
-      "review": null,
-      "failures": [],
+      "review": {
+        "outputHash": "86eaa6025e8cdccd47843e17f2c91010dc687ec22aafd3a8565f1a6a20d45858",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-solitary",
+          "w-somebody",
+          "w-someone",
+          "w-something",
+          "w-sometimes",
+          "w-somewhat",
+          "w-sophisticate",
+          "w-southwards"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-175",
+        "result": "fail"
+      },
+      "failures": [
+        {
+          "wordId": "w-sophisticate",
+          "stage": "semantics",
+          "code": "review-finding",
+          "message": "词性为名词、主释义为「见多识广的人」，但选用的音标 /səˈfɪstəˌkeɪt/ 是动词读音；名词应读 /səˈfɪstəkət/。",
+          "attempts": 2
+        }
+      ],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18384,8 +18747,32 @@
           "reasoning": "max"
         }
       },
-      "review": null,
-      "failures": [],
+      "review": {
+        "outputHash": "d84bae649dc2e88a2ddcd2837bb29de8a9d21781b22ea54adaf8e3dd424dd589",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-soviet",
+          "w-sow",
+          "w-span",
+          "w-spear",
+          "w-specialist",
+          "w-specially",
+          "w-specific",
+          "w-specifically"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-176",
+        "result": "fail"
+      },
+      "failures": [
+        {
+          "wordId": "w-sow",
+          "stage": "semantics",
+          "code": "review-finding",
+          "message": "词性为动词、主释义为「播种」，但选用的音标 /ˈsaʊ/ 是名词「母猪」的读音；动词应读 /ˈsoʊ/。",
+          "attempts": 1
+        }
+      ],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18430,10 +18817,10 @@
         "w-splash",
         "w-spoil"
       ],
-      "outputHash": "9027c069206937ec1df4c43484207344e6ba6846c0760c259a714b8eb1977fb1",
+      "outputHash": "8e49f37fc57b9b54e00d44f20d300b699e49ced115043f0a5747a6f50d111c9f",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
       "status": "needs-fix",
-      "attempts": 1,
+      "attempts": 2,
       "generation": {
         "provider": "opencode-go",
         "model": "deepseek-v4.1-flash",
@@ -18489,7 +18876,7 @@
       ],
       "outputHash": "7dc04568fdd9effb1b546f3bdbf28bd057fb38486f0c3e01f55532cbe3e322a4",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18498,7 +18885,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "7dc04568fdd9effb1b546f3bdbf28bd057fb38486f0c3e01f55532cbe3e322a4",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-spoon",
+          "w-spot",
+          "w-spring",
+          "w-stab"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-178",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18545,7 +18944,7 @@
       ],
       "outputHash": "0a6e98fcaeb1fa651cc54808c859eb1f8e30d2ecca5aa16bd012c417adc74202",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18554,7 +18953,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "0a6e98fcaeb1fa651cc54808c859eb1f8e30d2ecca5aa16bd012c417adc74202",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-stake",
+          "w-stand",
+          "w-standard"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-179",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18602,7 +19012,7 @@
       ],
       "outputHash": "44c1dff96d6ea7f9e6a196034d013214a73f67d6bfa2be210e6bf0f415ff4ce1",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18611,7 +19021,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "44c1dff96d6ea7f9e6a196034d013214a73f67d6bfa2be210e6bf0f415ff4ce1",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-steamer",
+          "w-steel",
+          "w-stereo",
+          "w-stereotype"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-180",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18659,7 +19081,7 @@
       ],
       "outputHash": "b277b3b850671b4d7153395101db7b258f2d35d7107d0f78ee56918086758f76",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18668,7 +19090,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "b277b3b850671b4d7153395101db7b258f2d35d7107d0f78ee56918086758f76",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-storage",
+          "w-store",
+          "w-stove",
+          "w-strain"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-181",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18716,7 +19150,7 @@
       ],
       "outputHash": "e8ce9aa9889d9e2def5e03a068fa751cabbd6078fda4972f539622f66f910559",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18725,7 +19159,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "e8ce9aa9889d9e2def5e03a068fa751cabbd6078fda4972f539622f66f910559",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-strength",
+          "w-stretch",
+          "w-strip",
+          "w-strive"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-182",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18783,8 +19229,29 @@
           "reasoning": "max"
         }
       },
-      "review": null,
-      "failures": [],
+      "review": {
+        "outputHash": "d0f2298e11a30e7eb1ba2fe2877e8ee2e4b5600beea60b9963796e61b650d885",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-subdue",
+          "w-subject",
+          "w-subordinate",
+          "w-subscribe",
+          "w-subway"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-183",
+        "result": "fail"
+      },
+      "failures": [
+        {
+          "wordId": "w-subordinate",
+          "stage": "semantics",
+          "code": "review-finding",
+          "message": "主释义为名词「下属」，但读音选择索引 0 为 /səˈbɔɹdəˌneɪt/（动词读音）；名词/形容词读音应为索引 1 /səˈbɔɹdənət/。",
+          "attempts": 2
+        }
+      ],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -18832,7 +19299,7 @@
       ],
       "outputHash": "014f97121ef88f3c269c2c7358e55e53299d17a6309953f941505e5982fe95f3",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -18841,7 +19308,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "014f97121ef88f3c269c2c7358e55e53299d17a6309953f941505e5982fe95f3",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-sue",
+          "w-suicide",
+          "w-suit",
+          "w-summit",
+          "w-summon"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-184",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18890,7 +19370,7 @@
       ],
       "outputHash": "0c658d1bfccdc4e94449db2031d4097e7b766165fdafc53af93c0701b46624b7",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18899,7 +19379,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "0c658d1bfccdc4e94449db2031d4097e7b766165fdafc53af93c0701b46624b7",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-superiority",
+          "w-supplement",
+          "w-supreme",
+          "w-surge",
+          "w-surgeon"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-185",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -18952,7 +19445,7 @@
       ],
       "outputHash": "7aa983cf7ecc60fe2ca20c04e5dea9e64febe186097740fd439e8c1bd1682cfc",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -18961,7 +19454,24 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "7aa983cf7ecc60fe2ca20c04e5dea9e64febe186097740fd439e8c1bd1682cfc",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-surprise",
+          "w-surprisingly",
+          "w-surroundings",
+          "w-survey",
+          "w-suspect",
+          "w-swamp",
+          "w-swan",
+          "w-swear",
+          "w-sweetness"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-186",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19008,7 +19518,7 @@
       ],
       "outputHash": "a499aad329417558878717b3c695483fbe53acdc32cc6246db9b0409d502f45f",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19017,7 +19527,18 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "a499aad329417558878717b3c695483fbe53acdc32cc6246db9b0409d502f45f",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-symposium",
+          "w-synthesis",
+          "w-table"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-187",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19075,8 +19596,29 @@
           "reasoning": "max"
         }
       },
-      "review": null,
-      "failures": [],
+      "review": {
+        "outputHash": "f17dba471cd87a9f57a31c45002d13f9a7732d1182f3a5c8a07794139ae6ddf9",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-tale",
+          "w-tan",
+          "w-tar",
+          "w-target",
+          "w-tear"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-188",
+        "result": "fail"
+      },
+      "failures": [
+        {
+          "wordId": "w-tear",
+          "stage": "semantics",
+          "code": "review-finding",
+          "message": "主释义为名词「眼泪」，但读音选择索引 0 为 /ˈtɛɹ/（动词「撕开」读音）；名词「眼泪」应为索引 1 /ˈtɪɹ/。",
+          "attempts": 1
+        }
+      ],
       "elapsedMs": null,
       "inputTokens": null,
       "outputTokens": null,
@@ -19124,7 +19666,7 @@
       ],
       "outputHash": "f09963e46812788681e0cd2dcc3cafccf46ab0d0b00f0bb9eea864a51a9f1f1b",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19133,7 +19675,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "f09963e46812788681e0cd2dcc3cafccf46ab0d0b00f0bb9eea864a51a9f1f1b",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-technology",
+          "w-telegraph",
+          "w-temperament",
+          "w-temperature",
+          "w-tempt"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-189",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19181,7 +19736,7 @@
       ],
       "outputHash": "d2039a98e0b2001c3bd4c8911bee293d6b0f0268ffd1c610b3d820a46b85a5da",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19190,7 +19745,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "d2039a98e0b2001c3bd4c8911bee293d6b0f0268ffd1c610b3d820a46b85a5da",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-tentative",
+          "w-terminology",
+          "w-testify",
+          "w-textbook"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-190",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19241,7 +19808,7 @@
       ],
       "outputHash": "3bce68156c0930b58f7af1913405a85729b98c0fc34f2997aa994146f8c6ff57",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19250,7 +19817,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "3bce68156c0930b58f7af1913405a85729b98c0fc34f2997aa994146f8c6ff57",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-themselves",
+          "w-theory",
+          "w-thermometer",
+          "w-think",
+          "w-thirty",
+          "w-though",
+          "w-thousand"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-191",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19298,7 +19880,7 @@
       ],
       "outputHash": "4f0d5799b98fd9ed8648b1c20837235abf939491e1a782a16b23305a3b01b46e",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19307,7 +19889,19 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "4f0d5799b98fd9ed8648b1c20837235abf939491e1a782a16b23305a3b01b46e",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-thresh",
+          "w-thus",
+          "w-ticket",
+          "w-tickle"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-192",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19358,7 +19952,7 @@
       ],
       "outputHash": "7fc16ec5c2e189224af776870ffb95a7463bed91dc1e673a28e53c64a7615acb",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 1,
       "generation": {
         "provider": "opencode-go",
@@ -19367,7 +19961,22 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "7fc16ec5c2e189224af776870ffb95a7463bed91dc1e673a28e53c64a7615acb",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-tightly",
+          "w-tissue",
+          "w-toast",
+          "w-today",
+          "w-tolerance",
+          "w-tomato",
+          "w-tomorrow"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-193",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19420,7 +20029,7 @@
       ],
       "outputHash": "5cdf274356ddc4c0deb6847d160d4ea76fa3de5e6ef5f7b7f5978e252f2ab39c",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -19429,7 +20038,24 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "5cdf274356ddc4c0deb6847d160d4ea76fa3de5e6ef5f7b7f5978e252f2ab39c",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-tone",
+          "w-tonight",
+          "w-top",
+          "w-torment",
+          "w-torpedo",
+          "w-tough",
+          "w-tourist",
+          "w-toward",
+          "w-towards"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-194",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
@@ -19478,7 +20104,7 @@
       ],
       "outputHash": "8f5d6d63c92b9acf4826083201ce05862d0f7f1d38766950f2121ae47cd55e8d",
       "generationPromptHash": "ba4afe4c60e70ba549cdbd6e4c38327c6a6bb0c09ff4040076c758d2ea6e9220",
-      "status": "needs-fix",
+      "status": "verified",
       "attempts": 2,
       "generation": {
         "provider": "opencode-go",
@@ -19487,7 +20113,20 @@
           "reasoning": "max"
         }
       },
-      "review": null,
+      "review": {
+        "outputHash": "8f5d6d63c92b9acf4826083201ce05862d0f7f1d38766950f2121ae47cd55e8d",
+        "promptHash": "0896d53daf2cd43a3d8550556880890c3dcf1d2024f6bcfb5e226e5c65066854",
+        "inspectedWordIds": [
+          "w-towel",
+          "w-track",
+          "w-tradesman",
+          "w-traffic",
+          "w-trail"
+        ],
+        "mode": "sample",
+        "reviewer": "independent-sample-review-main-195",
+        "result": "pass"
+      },
       "failures": [],
       "elapsedMs": null,
       "inputTokens": null,
