@@ -1,5 +1,7 @@
 # BingeUp × Animal Island UI 迁移：M0 基线与依赖锁定
 
+> 历史存档（迁移已完成）：本文记录迁移基线与各阶段证据，仅用于追溯；不是 AI Agent 必读上下文。当前长期决策见 [ADR 0005](./adr/0005-adopt-animal-island-ui.md)。
+
 工单：#37（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜执行计划：docs/BingeUp_Animal_Island_UI_Codex_迁移实施计划.md
 
 - 工作分支：codex/ticket-37-m0，从集成分支 feat/animal-island-ui-migration 切出

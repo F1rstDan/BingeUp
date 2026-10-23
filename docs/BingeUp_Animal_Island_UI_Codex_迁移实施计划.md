@@ -1,5 +1,7 @@
 # BingeUp × Animal Island UI：Codex 渐进式完整视觉迁移实施计划
 
+> 历史存档（迁移已完成）：本文记录 2026 年 10 月的迁移计划与执行步骤，仅用于追溯；不是当前实现说明，也不是 AI Agent 必读上下文。当前长期决策见 [ADR 0005](./adr/0005-adopt-animal-island-ui.md)。
+
 版本：v1.0（2026-10-09）
 
 目标仓库：<https://github.com/F1rstDan/BingeUp>，基线 `main@0a5677f289c8e56eefacf85401df4d6d643f4d23`（开始开发时应重新核对 HEAD）。
