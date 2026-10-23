@@ -109,8 +109,8 @@
         "reason": "选项「弯曲」不是「bet」的主释义「打赌」或其他义项。"
       },
       {
-        "wordId": "w-accompany",
-        "reason": "选项「陪同」不是「bet」的主释义「打赌」或其他义项。"
+        "wordId": "w-cough",
+        "reason": "选项「咳嗽」不是「bet」的主释义「打赌」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -123,8 +123,8 @@
         "reason": "英文「bend」的常见义项「弯曲」不符合主释义「打赌」。"
       },
       {
-        "wordId": "w-accompany",
-        "reason": "英文「accompany」的常见义项「陪同」不符合主释义「打赌」。"
+        "wordId": "w-cough",
+        "reason": "英文「cough」的常见义项「咳嗽」不符合主释义「打赌」。"
       }
     ],
     "contextChoice": [
@@ -139,9 +139,9 @@
         "reason": "将「bend」代入可见句子后不表达主释义「打赌」。"
       },
       {
-        "wordId": "w-accompany",
-        "surfaceForm": "accompany",
-        "reason": "将「accompany」代入可见句子后不表达主释义「打赌」。"
+        "wordId": "w-cough",
+        "surfaceForm": "cough",
+        "reason": "将「cough」代入可见句子后不表达主释义「打赌」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-bewilder",
     "enToZh": [
       {
+        "wordId": "w-corrode",
+        "reason": "选项「腐蚀」不是「bewilder」的主释义「使困惑」或其他义项。"
+      },
+      {
         "wordId": "w-centralize",
         "reason": "选项「集中管理」不是「bewilder」的主释义「使困惑」或其他义项。"
       },
       {
         "wordId": "w-quench",
         "reason": "选项「解渴」不是「bewilder」的主释义「使困惑」或其他义项。"
-      },
-      {
-        "wordId": "w-adjoin",
-        "reason": "选项「毗邻」不是「bewilder」的主释义「使困惑」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-corrode",
+        "reason": "英文「corrode」的常见义项「腐蚀」不符合主释义「使困惑」。"
+      },
       {
         "wordId": "w-centralize",
         "reason": "英文「centralize」的常见义项「集中管理」不符合主释义「使困惑」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-quench",
         "reason": "英文「quench」的常见义项「解渴」不符合主释义「使困惑」。"
-      },
-      {
-        "wordId": "w-adjoin",
-        "reason": "英文「adjoin」的常见义项「毗邻」不符合主释义「使困惑」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-corrode",
+        "surfaceForm": "corrode",
+        "reason": "将「corrode」代入可见句子后不表达主释义「使困惑」。"
+      },
       {
         "wordId": "w-centralize",
         "surfaceForm": "centralize",
@@ -333,11 +338,6 @@
         "wordId": "w-quench",
         "surfaceForm": "quench",
         "reason": "将「quench」代入可见句子后不表达主释义「使困惑」。"
-      },
-      {
-        "wordId": "w-adjoin",
-        "surfaceForm": "adjoin",
-        "reason": "将「adjoin」代入可见句子后不表达主释义「使困惑」。"
       }
     ],
     "spelling": null
@@ -403,8 +403,8 @@
         "reason": "选项「疼痛」不是「bias」的主释义「偏见」或其他义项。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "选项「横幅」不是「bias」的主释义「偏见」或其他义项。"
+        "wordId": "w-carriage",
+        "reason": "选项「马车」不是「bias」的主释义「偏见」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -417,8 +417,8 @@
         "reason": "英文「ache」的常见义项「疼痛」不符合主释义「偏见」。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "英文「banner」的常见义项「横幅」不符合主释义「偏见」。"
+        "wordId": "w-carriage",
+        "reason": "英文「carriage」的常见义项「马车」不符合主释义「偏见」。"
       }
     ],
     "contextChoice": [
@@ -433,9 +433,9 @@
         "reason": "将「ache」代入可见句子后不表达主释义「偏见」。"
       },
       {
-        "wordId": "w-banner",
-        "surfaceForm": "banner",
-        "reason": "将「banner」代入可见句子后不表达主释义「偏见」。"
+        "wordId": "w-carriage",
+        "surfaceForm": "carriage",
+        "reason": "将「carriage」代入可见句子后不表达主释义「偏见」。"
       }
     ],
     "spelling": null
@@ -958,12 +958,12 @@
         "reason": "选项「刀刃」不是「birthday」的主释义「生日」或其他义项。"
       },
       {
-        "wordId": "w-approach",
-        "reason": "选项「方法」不是「birthday」的主释义「生日」或其他义项。"
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「birthday」的主释义「生日」或其他义项。"
       },
       {
-        "wordId": "w-behalf",
-        "reason": "选项「代表（某人）」不是「birthday」的主释义「生日」或其他义项。"
+        "wordId": "w-approach",
+        "reason": "选项「方法」不是「birthday」的主释义「生日」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -972,12 +972,12 @@
         "reason": "英文「blade」的常见义项「刀刃」不符合主释义「生日」。"
       },
       {
-        "wordId": "w-approach",
-        "reason": "英文「approach」的常见义项「方法」不符合主释义「生日」。"
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「生日」。"
       },
       {
-        "wordId": "w-behalf",
-        "reason": "英文「behalf」的常见义项「代表（某人）」不符合主释义「生日」。"
+        "wordId": "w-approach",
+        "reason": "英文「approach」的常见义项「方法」不符合主释义「生日」。"
       }
     ],
     "contextChoice": [
@@ -987,14 +987,14 @@
         "reason": "将「blade」代入可见句子后不表达主释义「生日」。"
       },
       {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「生日」。"
+      },
+      {
         "wordId": "w-approach",
         "surfaceForm": "approach",
         "reason": "将「approach」代入可见句子后不表达主释义「生日」。"
-      },
-      {
-        "wordId": "w-behalf",
-        "surfaceForm": "behalf",
-        "reason": "将「behalf」代入可见句子后不表达主释义「生日」。"
       }
     ],
     "spelling": null
@@ -1052,19 +1052,23 @@
     "wordId": "w-bishop",
     "enToZh": [
       {
+        "wordId": "w-catalyst",
+        "reason": "选项「催化剂」不是「bishop」的主释义「主教」或其他义项。"
+      },
+      {
         "wordId": "w-analogy",
         "reason": "选项「类比」不是「bishop」的主释义「主教」或其他义项。"
       },
       {
         "wordId": "w-bankruptcy",
         "reason": "选项「破产」不是「bishop」的主释义「主教」或其他义项。"
-      },
-      {
-        "wordId": "w-reservoir",
-        "reason": "选项「水库」不是「bishop」的主释义「主教」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-catalyst",
+        "reason": "英文「catalyst」的常见义项「催化剂」不符合主释义「主教」。"
+      },
       {
         "wordId": "w-analogy",
         "reason": "英文「analogy」的常见义项「类比」不符合主释义「主教」。"
@@ -1072,13 +1076,14 @@
       {
         "wordId": "w-bankruptcy",
         "reason": "英文「bankruptcy」的常见义项「破产」不符合主释义「主教」。"
-      },
-      {
-        "wordId": "w-reservoir",
-        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「主教」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-catalyst",
+        "surfaceForm": "catalyst",
+        "reason": "将「catalyst」代入可见句子后不表达主释义「主教」。"
+      },
       {
         "wordId": "w-analogy",
         "surfaceForm": "analogy",
@@ -1088,11 +1093,6 @@
         "wordId": "w-bankruptcy",
         "surfaceForm": "bankruptcy",
         "reason": "将「bankruptcy」代入可见句子后不表达主释义「主教」。"
-      },
-      {
-        "wordId": "w-reservoir",
-        "surfaceForm": "reservoir",
-        "reason": "将「reservoir」代入可见句子后不表达主释义「主教」。"
       }
     ],
     "spelling": null

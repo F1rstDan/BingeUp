@@ -305,8 +305,8 @@
         "reason": "选项「自动化」不是「arithmetic」的主释义「算术」或其他义项。"
       },
       {
-        "wordId": "w-nuisance",
-        "reason": "选项「令人讨厌的事物」不是「arithmetic」的主释义「算术」或其他义项。"
+        "wordId": "w-cosmos",
+        "reason": "选项「宇宙」不是「arithmetic」的主释义「算术」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -319,8 +319,8 @@
         "reason": "英文「automation」的常见义项「自动化」不符合主释义「算术」。"
       },
       {
-        "wordId": "w-nuisance",
-        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「算术」。"
+        "wordId": "w-cosmos",
+        "reason": "英文「cosmos」的常见义项「宇宙」不符合主释义「算术」。"
       }
     ],
     "contextChoice": [
@@ -335,9 +335,9 @@
         "reason": "将「automation」代入可见句子后不表达主释义「算术」。"
       },
       {
-        "wordId": "w-nuisance",
-        "surfaceForm": "nuisance",
-        "reason": "将「nuisance」代入可见句子后不表达主释义「算术」。"
+        "wordId": "w-cosmos",
+        "surfaceForm": "cosmos",
+        "reason": "将「cosmos」代入可见句子后不表达主释义「算术」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「炸弹」不是「army」的主释义「军队」或其他义项。"
       },
       {
-        "wordId": "w-balance",
-        "reason": "选项「平衡」不是「army」的主释义「军队」或其他义项。"
+        "wordId": "w-cottage",
+        "reason": "选项「小屋」不是「army」的主释义「军队」或其他义项。"
       },
       {
-        "wordId": "w-agency",
-        "reason": "选项「机构」不是「army」的主释义「军队」或其他义项。"
+        "wordId": "w-counter",
+        "reason": "选项「柜台」不是「army」的主释义「军队」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「bomb」的常见义项「炸弹」不符合主释义「军队」。"
       },
       {
-        "wordId": "w-balance",
-        "reason": "英文「balance」的常见义项「平衡」不符合主释义「军队」。"
+        "wordId": "w-cottage",
+        "reason": "英文「cottage」的常见义项「小屋」不符合主释义「军队」。"
       },
       {
-        "wordId": "w-agency",
-        "reason": "英文「agency」的常见义项「机构」不符合主释义「军队」。"
+        "wordId": "w-counter",
+        "reason": "英文「counter」的常见义项「柜台」不符合主释义「军队」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「bomb」代入可见句子后不表达主释义「军队」。"
       },
       {
-        "wordId": "w-balance",
-        "surfaceForm": "balance",
-        "reason": "将「balance」代入可见句子后不表达主释义「军队」。"
+        "wordId": "w-cottage",
+        "surfaceForm": "cottage",
+        "reason": "将「cottage」代入可见句子后不表达主释义「军队」。"
       },
       {
-        "wordId": "w-agency",
-        "surfaceForm": "agency",
-        "reason": "将「agency」代入可见句子后不表达主释义「军队」。"
+        "wordId": "w-counter",
+        "surfaceForm": "counter",
+        "reason": "将「counter」代入可见句子后不表达主释义「军队」。"
       }
     ],
     "spelling": null
@@ -501,8 +501,8 @@
         "reason": "选项「避免」不是「arouse」的主释义「引起」或其他义项。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "选项「主持」不是「arouse」的主释义「引起」或其他义项。"
+        "wordId": "w-cater",
+        "reason": "选项「提供餐饮服务」不是「arouse」的主释义「引起」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -515,8 +515,8 @@
         "reason": "英文「avert」的常见义项「避免」不符合主释义「引起」。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "英文「preside」的常见义项「主持」不符合主释义「引起」。"
+        "wordId": "w-cater",
+        "reason": "英文「cater」的常见义项「提供餐饮服务」不符合主释义「引起」。"
       }
     ],
     "contextChoice": [
@@ -531,9 +531,9 @@
         "reason": "将「avert」代入可见句子后不表达主释义「引起」。"
       },
       {
-        "wordId": "w-preside",
-        "surfaceForm": "preside",
-        "reason": "将「preside」代入可见句子后不表达主释义「引起」。"
+        "wordId": "w-cater",
+        "surfaceForm": "cater",
+        "reason": "将「cater」代入可见句子后不表达主释义「引起」。"
       }
     ],
     "spelling": null
@@ -742,12 +742,12 @@
         "reason": "选项「文章」不是「arrival」的主释义「到达」或其他义项。"
       },
       {
-        "wordId": "w-birth",
-        "reason": "选项「出生」不是「arrival」的主释义「到达」或其他义项。"
+        "wordId": "w-carrot",
+        "reason": "选项「胡萝卜」不是「arrival」的主释义「到达」或其他义项。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "选项「协议」不是「arrival」的主释义「到达」或其他义项。"
+        "wordId": "w-birth",
+        "reason": "选项「出生」不是「arrival」的主释义「到达」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -756,12 +756,12 @@
         "reason": "英文「article」的常见义项「文章」不符合主释义「到达」。"
       },
       {
-        "wordId": "w-birth",
-        "reason": "英文「birth」的常见义项「出生」不符合主释义「到达」。"
+        "wordId": "w-carrot",
+        "reason": "英文「carrot」的常见义项「胡萝卜」不符合主释义「到达」。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "英文「agreement」的常见义项「协议」不符合主释义「到达」。"
+        "wordId": "w-birth",
+        "reason": "英文「birth」的常见义项「出生」不符合主释义「到达」。"
       }
     ],
     "contextChoice": [
@@ -771,14 +771,14 @@
         "reason": "将「article」代入可见句子后不表达主释义「到达」。"
       },
       {
+        "wordId": "w-carrot",
+        "surfaceForm": "carrot",
+        "reason": "将「carrot」代入可见句子后不表达主释义「到达」。"
+      },
+      {
         "wordId": "w-birth",
         "surfaceForm": "birth",
         "reason": "将「birth」代入可见句子后不表达主释义「到达」。"
-      },
-      {
-        "wordId": "w-agreement",
-        "surfaceForm": "agreement",
-        "reason": "将「agreement」代入可见句子后不表达主释义「到达」。"
       }
     ],
     "spelling": null
@@ -836,19 +836,23 @@
     "wordId": "w-arrow",
     "enToZh": [
       {
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「arrow」的主释义「箭头」或其他义项。"
+      },
+      {
         "wordId": "w-bed",
         "reason": "选项「床」不是「arrow」的主释义「箭头」或其他义项。"
       },
       {
         "wordId": "w-blade",
         "reason": "选项「刀刃」不是「arrow」的主释义「箭头」或其他义项。"
-      },
-      {
-        "wordId": "w-appearance",
-        "reason": "选项「外表」不是「arrow」的主释义「箭头」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「箭头」。"
+      },
       {
         "wordId": "w-bed",
         "reason": "英文「bed」的常见义项「床」不符合主释义「箭头」。"
@@ -856,13 +860,14 @@
       {
         "wordId": "w-blade",
         "reason": "英文「blade」的常见义项「刀刃」不符合主释义「箭头」。"
-      },
-      {
-        "wordId": "w-appearance",
-        "reason": "英文「appearance」的常见义项「外表」不符合主释义「箭头」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「箭头」。"
+      },
       {
         "wordId": "w-bed",
         "surfaceForm": "bed",
@@ -872,11 +877,6 @@
         "wordId": "w-blade",
         "surfaceForm": "blade",
         "reason": "将「blade」代入可见句子后不表达主释义「箭头」。"
-      },
-      {
-        "wordId": "w-appearance",
-        "surfaceForm": "appearance",
-        "reason": "将「appearance」代入可见句子后不表达主释义「箭头」。"
       }
     ],
     "spelling": null
@@ -885,19 +885,23 @@
     "wordId": "w-article",
     "enToZh": [
       {
+        "wordId": "w-council",
+        "reason": "选项「议会」不是「article」的主释义「文章」或其他义项。"
+      },
+      {
         "wordId": "w-breath",
         "reason": "选项「呼吸」不是「article」的主释义「文章」或其他义项。"
       },
       {
         "wordId": "w-accident",
         "reason": "选项「事故」不是「article」的主释义「文章」或其他义项。"
-      },
-      {
-        "wordId": "w-portrait",
-        "reason": "选项「肖像」不是「article」的主释义「文章」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-council",
+        "reason": "英文「council」的常见义项「议会」不符合主释义「文章」。"
+      },
       {
         "wordId": "w-breath",
         "reason": "英文「breath」的常见义项「呼吸」不符合主释义「文章」。"
@@ -905,13 +909,14 @@
       {
         "wordId": "w-accident",
         "reason": "英文「accident」的常见义项「事故」不符合主释义「文章」。"
-      },
-      {
-        "wordId": "w-portrait",
-        "reason": "英文「portrait」的常见义项「肖像」不符合主释义「文章」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-council",
+        "surfaceForm": "council",
+        "reason": "将「council」代入可见句子后不表达主释义「文章」。"
+      },
       {
         "wordId": "w-breath",
         "surfaceForm": "breath",
@@ -921,11 +926,6 @@
         "wordId": "w-accident",
         "surfaceForm": "accident",
         "reason": "将「accident」代入可见句子后不表达主释义「文章」。"
-      },
-      {
-        "wordId": "w-portrait",
-        "surfaceForm": "portrait",
-        "reason": "将「portrait」代入可见句子后不表达主释义「文章」。"
       }
     ],
     "spelling": null
@@ -938,12 +938,12 @@
         "reason": "选项「成就」不是「artist」的主释义「艺术家」或其他义项。"
       },
       {
-        "wordId": "w-attorney",
-        "reason": "选项「律师」不是「artist」的主释义「艺术家」或其他义项。"
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「artist」的主释义「艺术家」或其他义项。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "选项「袭击」不是「artist」的主释义「艺术家」或其他义项。"
+        "wordId": "w-attorney",
+        "reason": "选项「律师」不是「artist」的主释义「艺术家」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -952,12 +952,12 @@
         "reason": "英文「achievement」的常见义项「成就」不符合主释义「艺术家」。"
       },
       {
-        "wordId": "w-attorney",
-        "reason": "英文「attorney」的常见义项「律师」不符合主释义「艺术家」。"
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「艺术家」。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "英文「assault」的常见义项「袭击」不符合主释义「艺术家」。"
+        "wordId": "w-attorney",
+        "reason": "英文「attorney」的常见义项「律师」不符合主释义「艺术家」。"
       }
     ],
     "contextChoice": [
@@ -967,14 +967,14 @@
         "reason": "将「achievement」代入可见句子后不表达主释义「艺术家」。"
       },
       {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「艺术家」。"
+      },
+      {
         "wordId": "w-attorney",
         "surfaceForm": "attorney",
         "reason": "将「attorney」代入可见句子后不表达主释义「艺术家」。"
-      },
-      {
-        "wordId": "w-assault",
-        "surfaceForm": "assault",
-        "reason": "将「assault」代入可见句子后不表达主释义「艺术家」。"
       }
     ],
     "spelling": null

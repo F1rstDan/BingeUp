@@ -3,19 +3,23 @@
     "wordId": "w-bourgeois",
     "enToZh": [
       {
+        "wordId": "w-captive",
+        "reason": "选项「被关押的」不是「bourgeois」的主释义「中产阶级的」或其他义项。"
+      },
+      {
         "wordId": "w-auxiliary",
         "reason": "选项「辅助的」不是「bourgeois」的主释义「中产阶级的」或其他义项。"
       },
       {
         "wordId": "w-bankrupt",
         "reason": "选项「破产的」不是「bourgeois」的主释义「中产阶级的」或其他义项。"
-      },
-      {
-        "wordId": "w-slack",
-        "reason": "选项「松弛的」不是「bourgeois」的主释义「中产阶级的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-captive",
+        "reason": "英文「captive」的常见义项「被关押的」不符合主释义「中产阶级的」。"
+      },
       {
         "wordId": "w-auxiliary",
         "reason": "英文「auxiliary」的常见义项「辅助的」不符合主释义「中产阶级的」。"
@@ -23,13 +27,14 @@
       {
         "wordId": "w-bankrupt",
         "reason": "英文「bankrupt」的常见义项「破产的」不符合主释义「中产阶级的」。"
-      },
-      {
-        "wordId": "w-slack",
-        "reason": "英文「slack」的常见义项「松弛的」不符合主释义「中产阶级的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-captive",
+        "surfaceForm": "captive",
+        "reason": "将「captive」代入可见句子后不表达主释义「中产阶级的」。"
+      },
       {
         "wordId": "w-auxiliary",
         "surfaceForm": "auxiliary",
@@ -39,11 +44,6 @@
         "wordId": "w-bankrupt",
         "surfaceForm": "bankrupt",
         "reason": "将「bankrupt」代入可见句子后不表达主释义「中产阶级的」。"
-      },
-      {
-        "wordId": "w-slack",
-        "surfaceForm": "slack",
-        "reason": "将「slack」代入可见句子后不表达主释义「中产阶级的」。"
       }
     ],
     "spelling": null
@@ -101,19 +101,23 @@
     "wordId": "w-box",
     "enToZh": [
       {
+        "wordId": "w-cost",
+        "reason": "选项「费用」不是「box」的主释义「盒子」或其他义项。"
+      },
+      {
         "wordId": "w-birth",
         "reason": "选项「出生」不是「box」的主释义「盒子」或其他义项。"
       },
       {
         "wordId": "w-airport",
         "reason": "选项「机场」不是「box」的主释义「盒子」或其他义项。"
-      },
-      {
-        "wordId": "w-accommodation",
-        "reason": "选项「住处」不是「box」的主释义「盒子」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cost",
+        "reason": "英文「cost」的常见义项「费用」不符合主释义「盒子」。"
+      },
       {
         "wordId": "w-birth",
         "reason": "英文「birth」的常见义项「出生」不符合主释义「盒子」。"
@@ -121,13 +125,14 @@
       {
         "wordId": "w-airport",
         "reason": "英文「airport」的常见义项「机场」不符合主释义「盒子」。"
-      },
-      {
-        "wordId": "w-accommodation",
-        "reason": "英文「accommodation」的常见义项「住处」不符合主释义「盒子」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cost",
+        "surfaceForm": "cost",
+        "reason": "将「cost」代入可见句子后不表达主释义「盒子」。"
+      },
       {
         "wordId": "w-birth",
         "surfaceForm": "birth",
@@ -137,11 +142,6 @@
         "wordId": "w-airport",
         "surfaceForm": "airport",
         "reason": "将「airport」代入可见句子后不表达主释义「盒子」。"
-      },
-      {
-        "wordId": "w-accommodation",
-        "surfaceForm": "accommodation",
-        "reason": "将「accommodation」代入可见句子后不表达主释义「盒子」。"
       }
     ],
     "spelling": null
@@ -207,8 +207,8 @@
         "reason": "选项「利用」不是「boycott」的主释义「抵制」或其他义项。"
       },
       {
-        "wordId": "w-untie",
-        "reason": "选项「解开」不是「boycott」的主释义「抵制」或其他义项。"
+        "wordId": "w-counteract",
+        "reason": "选项「抵消」不是「boycott」的主释义「抵制」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -221,8 +221,8 @@
         "reason": "英文「avail」的常见义项「利用」不符合主释义「抵制」。"
       },
       {
-        "wordId": "w-untie",
-        "reason": "英文「untie」的常见义项「解开」不符合主释义「抵制」。"
+        "wordId": "w-counteract",
+        "reason": "英文「counteract」的常见义项「抵消」不符合主释义「抵制」。"
       }
     ],
     "contextChoice": [
@@ -237,9 +237,9 @@
         "reason": "将「avail」代入可见句子后不表达主释义「抵制」。"
       },
       {
-        "wordId": "w-untie",
-        "surfaceForm": "untie",
-        "reason": "将「untie」代入可见句子后不表达主释义「抵制」。"
+        "wordId": "w-counteract",
+        "surfaceForm": "counteract",
+        "reason": "将「counteract」代入可见句子后不表达主释义「抵制」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「艺术家」不是「brand」的主释义「品牌」或其他义项。"
       },
       {
-        "wordId": "w-beer",
-        "reason": "选项「啤酒」不是「brand」的主释义「品牌」或其他义项。"
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「brand」的主释义「品牌」或其他义项。"
       },
       {
-        "wordId": "w-beauty",
-        "reason": "选项「美丽」不是「brand」的主释义「品牌」或其他义项。"
+        "wordId": "w-beer",
+        "reason": "选项「啤酒」不是「brand」的主释义「品牌」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「artist」的常见义项「艺术家」不符合主释义「品牌」。"
       },
       {
-        "wordId": "w-beer",
-        "reason": "英文「beer」的常见义项「啤酒」不符合主释义「品牌」。"
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「品牌」。"
       },
       {
-        "wordId": "w-beauty",
-        "reason": "英文「beauty」的常见义项「美丽」不符合主释义「品牌」。"
+        "wordId": "w-beer",
+        "reason": "英文「beer」的常见义项「啤酒」不符合主释义「品牌」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「artist」代入可见句子后不表达主释义「品牌」。"
       },
       {
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「品牌」。"
+      },
+      {
         "wordId": "w-beer",
         "surfaceForm": "beer",
         "reason": "将「beer」代入可见句子后不表达主释义「品牌」。"
-      },
-      {
-        "wordId": "w-beauty",
-        "surfaceForm": "beauty",
-        "reason": "将「beauty」代入可见句子后不表达主释义「品牌」。"
       }
     ],
     "spelling": null
@@ -648,8 +648,8 @@
         "reason": "选项「富裕」不是「breadth」的主释义「宽度」或其他义项。"
       },
       {
-        "wordId": "w-bandit",
-        "reason": "选项「强盗」不是「breadth」的主释义「宽度」或其他义项。"
+        "wordId": "w-cassette",
+        "reason": "选项「盒式磁带」不是「breadth」的主释义「宽度」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -662,8 +662,8 @@
         "reason": "英文「affluence」的常见义项「富裕」不符合主释义「宽度」。"
       },
       {
-        "wordId": "w-bandit",
-        "reason": "英文「bandit」的常见义项「强盗」不符合主释义「宽度」。"
+        "wordId": "w-cassette",
+        "reason": "英文「cassette」的常见义项「盒式磁带」不符合主释义「宽度」。"
       }
     ],
     "contextChoice": [
@@ -678,9 +678,9 @@
         "reason": "将「affluence」代入可见句子后不表达主释义「宽度」。"
       },
       {
-        "wordId": "w-bandit",
-        "surfaceForm": "bandit",
-        "reason": "将「bandit」代入可见句子后不表达主释义「宽度」。"
+        "wordId": "w-cassette",
+        "surfaceForm": "cassette",
+        "reason": "将「cassette」代入可见句子后不表达主释义「宽度」。"
       }
     ],
     "spelling": null
@@ -746,8 +746,8 @@
         "reason": "选项「申请人」不是「breakdown」的主释义「故障」或其他义项。"
       },
       {
-        "wordId": "w-assembly",
-        "reason": "选项「集会」不是「breakdown」的主释义「故障」或其他义项。"
+        "wordId": "w-correlation",
+        "reason": "选项「相关性」不是「breakdown」的主释义「故障」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -760,8 +760,8 @@
         "reason": "英文「applicant」的常见义项「申请人」不符合主释义「故障」。"
       },
       {
-        "wordId": "w-assembly",
-        "reason": "英文「assembly」的常见义项「集会」不符合主释义「故障」。"
+        "wordId": "w-correlation",
+        "reason": "英文「correlation」的常见义项「相关性」不符合主释义「故障」。"
       }
     ],
     "contextChoice": [
@@ -776,9 +776,9 @@
         "reason": "将「applicant」代入可见句子后不表达主释义「故障」。"
       },
       {
-        "wordId": "w-assembly",
-        "surfaceForm": "assembly",
-        "reason": "将「assembly」代入可见句子后不表达主释义「故障」。"
+        "wordId": "w-correlation",
+        "surfaceForm": "correlation",
+        "reason": "将「correlation」代入可见句子后不表达主释义「故障」。"
       }
     ],
     "spelling": null
@@ -1032,19 +1032,23 @@
     "wordId": "w-breeze",
     "enToZh": [
       {
+        "wordId": "w-counseling",
+        "reason": "选项「心理咨询」不是「breeze」的主释义「微风」或其他义项。"
+      },
+      {
         "wordId": "w-acre",
         "reason": "选项「英亩」不是「breeze」的主释义「微风」或其他义项。"
       },
       {
         "wordId": "w-agriculture",
         "reason": "选项「农业」不是「breeze」的主释义「微风」或其他义项。"
-      },
-      {
-        "wordId": "w-amusement",
-        "reason": "选项「娱乐」不是「breeze」的主释义「微风」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-counseling",
+        "reason": "英文「counseling」的常见义项「心理咨询」不符合主释义「微风」。"
+      },
       {
         "wordId": "w-acre",
         "reason": "英文「acre」的常见义项「英亩」不符合主释义「微风」。"
@@ -1052,13 +1056,14 @@
       {
         "wordId": "w-agriculture",
         "reason": "英文「agriculture」的常见义项「农业」不符合主释义「微风」。"
-      },
-      {
-        "wordId": "w-amusement",
-        "reason": "英文「amusement」的常见义项「娱乐」不符合主释义「微风」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-counseling",
+        "surfaceForm": "counseling",
+        "reason": "将「counseling」代入可见句子后不表达主释义「微风」。"
+      },
       {
         "wordId": "w-acre",
         "surfaceForm": "acre",
@@ -1068,11 +1073,6 @@
         "wordId": "w-agriculture",
         "surfaceForm": "agriculture",
         "reason": "将「agriculture」代入可见句子后不表达主释义「微风」。"
-      },
-      {
-        "wordId": "w-amusement",
-        "surfaceForm": "amusement",
-        "reason": "将「amusement」代入可见句子后不表达主释义「微风」。"
       }
     ],
     "spelling": null
@@ -1138,8 +1138,8 @@
         "reason": "选项「尝试」不是「brick」的主释义「砖」或其他义项。"
       },
       {
-        "wordId": "w-boy",
-        "reason": "选项「男孩」不是「brick」的主释义「砖」或其他义项。"
+        "wordId": "w-council",
+        "reason": "选项「议会」不是「brick」的主释义「砖」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1152,8 +1152,8 @@
         "reason": "英文「attempt」的常见义项「尝试」不符合主释义「砖」。"
       },
       {
-        "wordId": "w-boy",
-        "reason": "英文「boy」的常见义项「男孩」不符合主释义「砖」。"
+        "wordId": "w-council",
+        "reason": "英文「council」的常见义项「议会」不符合主释义「砖」。"
       }
     ],
     "contextChoice": [
@@ -1168,9 +1168,9 @@
         "reason": "将「attempt」代入可见句子后不表达主释义「砖」。"
       },
       {
-        "wordId": "w-boy",
-        "surfaceForm": "boy",
-        "reason": "将「boy」代入可见句子后不表达主释义「砖」。"
+        "wordId": "w-council",
+        "surfaceForm": "council",
+        "reason": "将「council」代入可见句子后不表达主释义「砖」。"
       }
     ],
     "spelling": null

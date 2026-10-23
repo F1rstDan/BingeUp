@@ -105,12 +105,12 @@
         "reason": "选项「女演员」不是「aggression」的主释义「攻击性」或其他义项。"
       },
       {
-        "wordId": "w-bolt",
-        "reason": "选项「螺栓」不是「aggression」的主释义「攻击性」或其他义项。"
+        "wordId": "w-cart",
+        "reason": "选项「手推车」不是「aggression」的主释义「攻击性」或其他义项。"
       },
       {
-        "wordId": "w-altitude",
-        "reason": "选项「海拔」不是「aggression」的主释义「攻击性」或其他义项。"
+        "wordId": "w-bolt",
+        "reason": "选项「螺栓」不是「aggression」的主释义「攻击性」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「actress」的常见义项「女演员」不符合主释义「攻击性」。"
       },
       {
-        "wordId": "w-bolt",
-        "reason": "英文「bolt」的常见义项「螺栓」不符合主释义「攻击性」。"
+        "wordId": "w-cart",
+        "reason": "英文「cart」的常见义项「手推车」不符合主释义「攻击性」。"
       },
       {
-        "wordId": "w-altitude",
-        "reason": "英文「altitude」的常见义项「海拔」不符合主释义「攻击性」。"
+        "wordId": "w-bolt",
+        "reason": "英文「bolt」的常见义项「螺栓」不符合主释义「攻击性」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「actress」代入可见句子后不表达主释义「攻击性」。"
       },
       {
+        "wordId": "w-cart",
+        "surfaceForm": "cart",
+        "reason": "将「cart」代入可见句子后不表达主释义「攻击性」。"
+      },
+      {
         "wordId": "w-bolt",
         "surfaceForm": "bolt",
         "reason": "将「bolt」代入可见句子后不表达主释义「攻击性」。"
-      },
-      {
-        "wordId": "w-altitude",
-        "surfaceForm": "altitude",
-        "reason": "将「altitude」代入可见句子后不表达主释义「攻击性」。"
       }
     ],
     "spelling": null
@@ -305,8 +305,8 @@
         "reason": "选项「使惊奇」不是「agree」的主释义「同意」或其他义项。"
       },
       {
-        "wordId": "w-bet",
-        "reason": "选项「打赌」不是「agree」的主释义「同意」或其他义项。"
+        "wordId": "w-cast",
+        "reason": "选项「投掷」不是「agree」的主释义「同意」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -319,8 +319,8 @@
         "reason": "英文「amaze」的常见义项「使惊奇」不符合主释义「同意」。"
       },
       {
-        "wordId": "w-bet",
-        "reason": "英文「bet」的常见义项「打赌」不符合主释义「同意」。"
+        "wordId": "w-cast",
+        "reason": "英文「cast」的常见义项「投掷」不符合主释义「同意」。"
       }
     ],
     "contextChoice": [
@@ -335,9 +335,9 @@
         "reason": "将「amaze」代入可见句子后不表达主释义「同意」。"
       },
       {
-        "wordId": "w-bet",
-        "surfaceForm": "bet",
-        "reason": "将「bet」代入可见句子后不表达主释义「同意」。"
+        "wordId": "w-cast",
+        "surfaceForm": "cast",
+        "reason": "将「cast」代入可见句子后不表达主释义「同意」。"
       }
     ],
     "spelling": null
@@ -350,12 +350,12 @@
         "reason": "选项「酸」不是「agreement」的主释义「协议」或其他义项。"
       },
       {
-        "wordId": "w-pipe",
-        "reason": "选项「管道」不是「agreement」的主释义「协议」或其他义项。"
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「agreement」的主释义「协议」或其他义项。"
       },
       {
-        "wordId": "w-bicycle",
-        "reason": "选项「自行车」不是「agreement」的主释义「协议」或其他义项。"
+        "wordId": "w-pipe",
+        "reason": "选项「管道」不是「agreement」的主释义「协议」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -364,12 +364,12 @@
         "reason": "英文「acid」的常见义项「酸」不符合主释义「协议」。"
       },
       {
-        "wordId": "w-pipe",
-        "reason": "英文「pipe」的常见义项「管道」不符合主释义「协议」。"
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「协议」。"
       },
       {
-        "wordId": "w-bicycle",
-        "reason": "英文「bicycle」的常见义项「自行车」不符合主释义「协议」。"
+        "wordId": "w-pipe",
+        "reason": "英文「pipe」的常见义项「管道」不符合主释义「协议」。"
       }
     ],
     "contextChoice": [
@@ -379,14 +379,14 @@
         "reason": "将「acid」代入可见句子后不表达主释义「协议」。"
       },
       {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「协议」。"
+      },
+      {
         "wordId": "w-pipe",
         "surfaceForm": "pipe",
         "reason": "将「pipe」代入可见句子后不表达主释义「协议」。"
-      },
-      {
-        "wordId": "w-bicycle",
-        "surfaceForm": "bicycle",
-        "reason": "将「bicycle」代入可见句子后不表达主释义「协议」。"
       }
     ],
     "spelling": null
@@ -395,19 +395,23 @@
     "wordId": "w-agriculture",
     "enToZh": [
       {
+        "wordId": "w-cave",
+        "reason": "选项「洞穴」不是「agriculture」的主释义「农业」或其他义项。"
+      },
+      {
         "wordId": "w-adoption",
         "reason": "选项「采用」不是「agriculture」的主释义「农业」或其他义项。"
       },
       {
         "wordId": "w-announcer",
         "reason": "选项「播音员」不是「agriculture」的主释义「农业」或其他义项。"
-      },
-      {
-        "wordId": "w-angel",
-        "reason": "选项「天使」不是「agriculture」的主释义「农业」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cave",
+        "reason": "英文「cave」的常见义项「洞穴」不符合主释义「农业」。"
+      },
       {
         "wordId": "w-adoption",
         "reason": "英文「adoption」的常见义项「采用」不符合主释义「农业」。"
@@ -415,13 +419,14 @@
       {
         "wordId": "w-announcer",
         "reason": "英文「announcer」的常见义项「播音员」不符合主释义「农业」。"
-      },
-      {
-        "wordId": "w-angel",
-        "reason": "英文「angel」的常见义项「天使」不符合主释义「农业」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cave",
+        "surfaceForm": "cave",
+        "reason": "将「cave」代入可见句子后不表达主释义「农业」。"
+      },
       {
         "wordId": "w-adoption",
         "surfaceForm": "adoption",
@@ -431,11 +436,6 @@
         "wordId": "w-announcer",
         "surfaceForm": "announcer",
         "reason": "将「announcer」代入可见句子后不表达主释义「农业」。"
-      },
-      {
-        "wordId": "w-angel",
-        "surfaceForm": "angel",
-        "reason": "将「angel」代入可见句子后不表达主释义「农业」。"
       }
     ],
     "spelling": null
@@ -693,12 +693,12 @@
         "reason": "选项「熟人」不是「airplane」的主释义「飞机」或其他义项。"
       },
       {
-        "wordId": "w-accomplishment",
-        "reason": "选项「成就」不是「airplane」的主释义「飞机」或其他义项。"
+        "wordId": "w-counseling",
+        "reason": "选项「心理咨询」不是「airplane」的主释义「飞机」或其他义项。"
       },
       {
-        "wordId": "w-bias",
-        "reason": "选项「偏见」不是「airplane」的主释义「飞机」或其他义项。"
+        "wordId": "w-accomplishment",
+        "reason": "选项「成就」不是「airplane」的主释义「飞机」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -707,12 +707,12 @@
         "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「飞机」。"
       },
       {
-        "wordId": "w-accomplishment",
-        "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「飞机」。"
+        "wordId": "w-counseling",
+        "reason": "英文「counseling」的常见义项「心理咨询」不符合主释义「飞机」。"
       },
       {
-        "wordId": "w-bias",
-        "reason": "英文「bias」的常见义项「偏见」不符合主释义「飞机」。"
+        "wordId": "w-accomplishment",
+        "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「飞机」。"
       }
     ],
     "contextChoice": [
@@ -722,14 +722,14 @@
         "reason": "将「acquaintance」代入可见句子后不表达主释义「飞机」。"
       },
       {
+        "wordId": "w-counseling",
+        "surfaceForm": "counseling",
+        "reason": "将「counseling」代入可见句子后不表达主释义「飞机」。"
+      },
+      {
         "wordId": "w-accomplishment",
         "surfaceForm": "accomplishment",
         "reason": "将「accomplishment」代入可见句子后不表达主释义「飞机」。"
-      },
-      {
-        "wordId": "w-bias",
-        "surfaceForm": "bias",
-        "reason": "将「bias」代入可见句子后不表达主释义「飞机」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「豆子」不是「alarm」的主释义「警报」或其他义项。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "选项「协议」不是「alarm」的主释义「警报」或其他义项。"
+        "wordId": "w-cat",
+        "reason": "选项「猫」不是「alarm」的主释义「警报」或其他义项。"
       },
       {
-        "wordId": "w-art",
-        "reason": "选项「艺术」不是「alarm」的主释义「警报」或其他义项。"
+        "wordId": "w-agreement",
+        "reason": "选项「协议」不是「alarm」的主释义「警报」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「bean」的常见义项「豆子」不符合主释义「警报」。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "英文「agreement」的常见义项「协议」不符合主释义「警报」。"
+        "wordId": "w-cat",
+        "reason": "英文「cat」的常见义项「猫」不符合主释义「警报」。"
       },
       {
-        "wordId": "w-art",
-        "reason": "英文「art」的常见义项「艺术」不符合主释义「警报」。"
+        "wordId": "w-agreement",
+        "reason": "英文「agreement」的常见义项「协议」不符合主释义「警报」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「bean」代入可见句子后不表达主释义「警报」。"
       },
       {
+        "wordId": "w-cat",
+        "surfaceForm": "cat",
+        "reason": "将「cat」代入可见句子后不表达主释义「警报」。"
+      },
+      {
         "wordId": "w-agreement",
         "surfaceForm": "agreement",
         "reason": "将「agreement」代入可见句子后不表达主释义「警报」。"
-      },
-      {
-        "wordId": "w-art",
-        "surfaceForm": "art",
-        "reason": "将「art」代入可见句子后不表达主释义「警报」。"
       }
     ],
     "spelling": null

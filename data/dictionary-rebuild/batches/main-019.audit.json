@@ -150,19 +150,23 @@
     "wordId": "w-blade",
     "enToZh": [
       {
+        "wordId": "w-car",
+        "reason": "选项「汽车」不是「blade」的主释义「刀刃」或其他义项。"
+      },
+      {
         "wordId": "w-attack",
         "reason": "选项「攻击」不是「blade」的主释义「刀刃」或其他义项。"
       },
       {
         "wordId": "w-advertising",
         "reason": "选项「广告宣传」不是「blade」的主释义「刀刃」或其他义项。"
-      },
-      {
-        "wordId": "w-adviser",
-        "reason": "选项「顾问」不是「blade」的主释义「刀刃」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-car",
+        "reason": "英文「car」的常见义项「汽车」不符合主释义「刀刃」。"
+      },
       {
         "wordId": "w-attack",
         "reason": "英文「attack」的常见义项「攻击」不符合主释义「刀刃」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-advertising",
         "reason": "英文「advertising」的常见义项「广告宣传」不符合主释义「刀刃」。"
-      },
-      {
-        "wordId": "w-adviser",
-        "reason": "英文「adviser」的常见义项「顾问」不符合主释义「刀刃」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-car",
+        "surfaceForm": "car",
+        "reason": "将「car」代入可见句子后不表达主释义「刀刃」。"
+      },
       {
         "wordId": "w-attack",
         "surfaceForm": "attack",
@@ -186,11 +191,6 @@
         "wordId": "w-advertising",
         "surfaceForm": "advertising",
         "reason": "将「advertising」代入可见句子后不表达主释义「刀刃」。"
-      },
-      {
-        "wordId": "w-adviser",
-        "surfaceForm": "adviser",
-        "reason": "将「adviser」代入可见句子后不表达主释义「刀刃」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-blanket",
     "enToZh": [
       {
+        "wordId": "w-catalogue",
+        "reason": "选项「目录」不是「blanket」的主释义「毯子」或其他义项。"
+      },
+      {
         "wordId": "w-auto",
         "reason": "选项「汽车」不是「blanket」的主释义「毯子」或其他义项。"
       },
       {
         "wordId": "w-bow",
         "reason": "选项「弓」不是「blanket」的主释义「毯子」或其他义项。"
-      },
-      {
-        "wordId": "w-bias",
-        "reason": "选项「偏见」不是「blanket」的主释义「毯子」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-catalogue",
+        "reason": "英文「catalogue」的常见义项「目录」不符合主释义「毯子」。"
+      },
       {
         "wordId": "w-auto",
         "reason": "英文「auto」的常见义项「汽车」不符合主释义「毯子」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-bow",
         "reason": "英文「bow」的常见义项「弓」不符合主释义「毯子」。"
-      },
-      {
-        "wordId": "w-bias",
-        "reason": "英文「bias」的常见义项「偏见」不符合主释义「毯子」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-catalogue",
+        "surfaceForm": "catalogue",
+        "reason": "将「catalogue」代入可见句子后不表达主释义「毯子」。"
+      },
       {
         "wordId": "w-auto",
         "surfaceForm": "auto",
@@ -333,11 +338,6 @@
         "wordId": "w-bow",
         "surfaceForm": "bow",
         "reason": "将「bow」代入可见句子后不表达主释义「毯子」。"
-      },
-      {
-        "wordId": "w-bias",
-        "surfaceForm": "bias",
-        "reason": "将「bias」代入可见句子后不表达主释义「毯子」。"
       }
     ],
     "spelling": null
@@ -840,12 +840,12 @@
         "reason": "选项「使习惯」不是「bloom」的主释义「开花」或其他义项。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "选项「鼓掌」不是「bloom」的主释义「开花」或其他义项。"
+        "wordId": "w-correlate",
+        "reason": "选项「相关联」不是「bloom」的主释义「开花」或其他义项。"
       },
       {
-        "wordId": "w-arouse",
-        "reason": "选项「引起」不是「bloom」的主释义「开花」或其他义项。"
+        "wordId": "w-applaud",
+        "reason": "选项「鼓掌」不是「bloom」的主释义「开花」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -854,12 +854,12 @@
         "reason": "英文「accustom」的常见义项「使习惯」不符合主释义「开花」。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「开花」。"
+        "wordId": "w-correlate",
+        "reason": "英文「correlate」的常见义项「相关联」不符合主释义「开花」。"
       },
       {
-        "wordId": "w-arouse",
-        "reason": "英文「arouse」的常见义项「引起」不符合主释义「开花」。"
+        "wordId": "w-applaud",
+        "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「开花」。"
       }
     ],
     "contextChoice": [
@@ -869,14 +869,14 @@
         "reason": "将「accustom」代入可见句子后不表达主释义「开花」。"
       },
       {
+        "wordId": "w-correlate",
+        "surfaceForm": "correlate",
+        "reason": "将「correlate」代入可见句子后不表达主释义「开花」。"
+      },
+      {
         "wordId": "w-applaud",
         "surfaceForm": "applaud",
         "reason": "将「applaud」代入可见句子后不表达主释义「开花」。"
-      },
-      {
-        "wordId": "w-arouse",
-        "surfaceForm": "arouse",
-        "reason": "将「arouse」代入可见句子后不表达主释义「开花」。"
       }
     ],
     "spelling": null

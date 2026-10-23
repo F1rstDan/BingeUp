@@ -60,8 +60,8 @@
         "reason": "选项「芭蕾舞」不是「accomplishment」的主释义「成就」或其他义项。"
       },
       {
-        "wordId": "w-accuracy",
-        "reason": "选项「准确性」不是「accomplishment」的主释义「成就」或其他义项。"
+        "wordId": "w-counsel",
+        "reason": "选项「律师」不是「accomplishment」的主释义「成就」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -74,8 +74,8 @@
         "reason": "英文「ballet」的常见义项「芭蕾舞」不符合主释义「成就」。"
       },
       {
-        "wordId": "w-accuracy",
-        "reason": "英文「accuracy」的常见义项「准确性」不符合主释义「成就」。"
+        "wordId": "w-counsel",
+        "reason": "英文「counsel」的常见义项「律师」不符合主释义「成就」。"
       }
     ],
     "contextChoice": [
@@ -90,9 +90,9 @@
         "reason": "将「ballet」代入可见句子后不表达主释义「成就」。"
       },
       {
-        "wordId": "w-accuracy",
-        "surfaceForm": "accuracy",
-        "reason": "将「accuracy」代入可见句子后不表达主释义「成就」。"
+        "wordId": "w-counsel",
+        "surfaceForm": "counsel",
+        "reason": "将「counsel」代入可见句子后不表达主释义「成就」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「围巾」不是「accord」的主释义「协议」或其他义项。"
       },
       {
-        "wordId": "w-candle",
-        "reason": "选项「蜡烛」不是「accord」的主释义「协议」或其他义项。"
+        "wordId": "w-carbon",
+        "reason": "选项「碳」不是「accord」的主释义「协议」或其他义项。"
       },
       {
-        "wordId": "w-blossom",
-        "reason": "选项「花」不是「accord」的主释义「协议」或其他义项。"
+        "wordId": "w-candle",
+        "reason": "选项「蜡烛」不是「accord」的主释义「协议」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「scarf」的常见义项「围巾」不符合主释义「协议」。"
       },
       {
-        "wordId": "w-candle",
-        "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「协议」。"
+        "wordId": "w-carbon",
+        "reason": "英文「carbon」的常见义项「碳」不符合主释义「协议」。"
       },
       {
-        "wordId": "w-blossom",
-        "reason": "英文「blossom」的常见义项「花」不符合主释义「协议」。"
+        "wordId": "w-candle",
+        "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「协议」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「scarf」代入可见句子后不表达主释义「协议」。"
       },
       {
+        "wordId": "w-carbon",
+        "surfaceForm": "carbon",
+        "reason": "将「carbon」代入可见句子后不表达主释义「协议」。"
+      },
+      {
         "wordId": "w-candle",
         "surfaceForm": "candle",
         "reason": "将「candle」代入可见句子后不表达主释义「协议」。"
-      },
-      {
-        "wordId": "w-blossom",
-        "surfaceForm": "blossom",
-        "reason": "将「blossom」代入可见句子后不表达主释义「协议」。"
       }
     ],
     "spelling": null
@@ -256,8 +256,8 @@
         "reason": "选项「代表（某人）」不是「account」的主释义「账户」或其他义项。"
       },
       {
-        "wordId": "w-addition",
-        "reason": "选项「增加」不是「account」的主释义「账户」或其他义项。"
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「account」的主释义「账户」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「behalf」的常见义项「代表（某人）」不符合主释义「账户」。"
       },
       {
-        "wordId": "w-addition",
-        "reason": "英文「addition」的常见义项「增加」不符合主释义「账户」。"
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「账户」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「behalf」代入可见句子后不表达主释义「账户」。"
       },
       {
-        "wordId": "w-addition",
-        "surfaceForm": "addition",
-        "reason": "将「addition」代入可见句子后不表达主释义「账户」。"
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「账户」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-accumulate",
     "enToZh": [
       {
+        "wordId": "w-carve",
+        "reason": "选项「雕刻」不是「accumulate」的主释义「积累」或其他义项。"
+      },
+      {
         "wordId": "w-alleviate",
         "reason": "选项「缓解」不是「accumulate」的主释义「积累」或其他义项。"
       },
       {
         "wordId": "w-avert",
         "reason": "选项「避免」不是「accumulate」的主释义「积累」或其他义项。"
-      },
-      {
-        "wordId": "w-bark",
-        "reason": "选项「狗叫」不是「accumulate」的主释义「积累」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-carve",
+        "reason": "英文「carve」的常见义项「雕刻」不符合主释义「积累」。"
+      },
       {
         "wordId": "w-alleviate",
         "reason": "英文「alleviate」的常见义项「缓解」不符合主释义「积累」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-avert",
         "reason": "英文「avert」的常见义项「避免」不符合主释义「积累」。"
-      },
-      {
-        "wordId": "w-bark",
-        "reason": "英文「bark」的常见义项「狗叫」不符合主释义「积累」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-carve",
+        "surfaceForm": "carve",
+        "reason": "将「carve」代入可见句子后不表达主释义「积累」。"
+      },
       {
         "wordId": "w-alleviate",
         "surfaceForm": "alleviate",
@@ -333,11 +338,6 @@
         "wordId": "w-avert",
         "surfaceForm": "avert",
         "reason": "将「avert」代入可见句子后不表达主释义「积累」。"
-      },
-      {
-        "wordId": "w-bark",
-        "surfaceForm": "bark",
-        "reason": "将「bark」代入可见句子后不表达主释义「积累」。"
       }
     ],
     "spelling": null
@@ -346,47 +346,47 @@
     "wordId": "w-accuracy",
     "enToZh": [
       {
+        "wordId": "w-couch",
+        "reason": "选项「长沙发」不是「accuracy」的主释义「准确性」或其他义项。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「accuracy」的主释义「准确性」或其他义项。"
+      },
+      {
         "wordId": "w-brake",
         "reason": "选项「刹车」不是「accuracy」的主释义「准确性」或其他义项。"
-      },
-      {
-        "wordId": "w-blast",
-        "reason": "选项「爆炸」不是「accuracy」的主释义「准确性」或其他义项。"
-      },
-      {
-        "wordId": "w-apparatus",
-        "reason": "选项「设备」不是「accuracy」的主释义「准确性」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-couch",
+        "reason": "英文「couch」的常见义项「长沙发」不符合主释义「准确性」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「准确性」。"
+      },
+      {
         "wordId": "w-brake",
         "reason": "英文「brake」的常见义项「刹车」不符合主释义「准确性」。"
-      },
-      {
-        "wordId": "w-blast",
-        "reason": "英文「blast」的常见义项「爆炸」不符合主释义「准确性」。"
-      },
-      {
-        "wordId": "w-apparatus",
-        "reason": "英文「apparatus」的常见义项「设备」不符合主释义「准确性」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-couch",
+        "surfaceForm": "couch",
+        "reason": "将「couch」代入可见句子后不表达主释义「准确性」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「准确性」。"
+      },
+      {
         "wordId": "w-brake",
         "surfaceForm": "brake",
         "reason": "将「brake」代入可见句子后不表达主释义「准确性」。"
-      },
-      {
-        "wordId": "w-blast",
-        "surfaceForm": "blast",
-        "reason": "将「blast」代入可见句子后不表达主释义「准确性」。"
-      },
-      {
-        "wordId": "w-apparatus",
-        "surfaceForm": "apparatus",
-        "reason": "将「apparatus」代入可见句子后不表达主释义「准确性」。"
       }
     ],
     "spelling": null
@@ -493,47 +493,47 @@
     "wordId": "w-ache",
     "enToZh": [
       {
+        "wordId": "w-cart",
+        "reason": "选项「手推车」不是「ache」的主释义「疼痛」或其他义项。"
+      },
+      {
         "wordId": "w-angel",
         "reason": "选项「天使」不是「ache」的主释义「疼痛」或其他义项。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "选项「横幅」不是「ache」的主释义「疼痛」或其他义项。"
-      },
-      {
-        "wordId": "w-aggression",
-        "reason": "选项「攻击性」不是「ache」的主释义「疼痛」或其他义项。"
+        "wordId": "w-cavity",
+        "reason": "选项「龋洞」不是「ache」的主释义「疼痛」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cart",
+        "reason": "英文「cart」的常见义项「手推车」不符合主释义「疼痛」。"
+      },
       {
         "wordId": "w-angel",
         "reason": "英文「angel」的常见义项「天使」不符合主释义「疼痛」。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "英文「banner」的常见义项「横幅」不符合主释义「疼痛」。"
-      },
-      {
-        "wordId": "w-aggression",
-        "reason": "英文「aggression」的常见义项「攻击性」不符合主释义「疼痛」。"
+        "wordId": "w-cavity",
+        "reason": "英文「cavity」的常见义项「龋洞」不符合主释义「疼痛」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cart",
+        "surfaceForm": "cart",
+        "reason": "将「cart」代入可见句子后不表达主释义「疼痛」。"
+      },
       {
         "wordId": "w-angel",
         "surfaceForm": "angel",
         "reason": "将「angel」代入可见句子后不表达主释义「疼痛」。"
       },
       {
-        "wordId": "w-banner",
-        "surfaceForm": "banner",
-        "reason": "将「banner」代入可见句子后不表达主释义「疼痛」。"
-      },
-      {
-        "wordId": "w-aggression",
-        "surfaceForm": "aggression",
-        "reason": "将「aggression」代入可见句子后不表达主释义「疼痛」。"
+        "wordId": "w-cavity",
+        "surfaceForm": "cavity",
+        "reason": "将「cavity」代入可见句子后不表达主释义「疼痛」。"
       }
     ],
     "spelling": null
@@ -693,12 +693,12 @@
         "reason": "选项「提倡」不是「acknowledge」的主释义「承认」或其他义项。"
       },
       {
-        "wordId": "w-disturb",
-        "reason": "选项「打扰」不是「acknowledge」的主释义「承认」或其他义项。"
+        "wordId": "w-cough",
+        "reason": "选项「咳嗽」不是「acknowledge」的主释义「承认」或其他义项。"
       },
       {
-        "wordId": "w-alter",
-        "reason": "选项「改变」不是「acknowledge」的主释义「承认」或其他义项。"
+        "wordId": "w-disturb",
+        "reason": "选项「打扰」不是「acknowledge」的主释义「承认」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -707,12 +707,12 @@
         "reason": "英文「advocate」的常见义项「提倡」不符合主释义「承认」。"
       },
       {
-        "wordId": "w-disturb",
-        "reason": "英文「disturb」的常见义项「打扰」不符合主释义「承认」。"
+        "wordId": "w-cough",
+        "reason": "英文「cough」的常见义项「咳嗽」不符合主释义「承认」。"
       },
       {
-        "wordId": "w-alter",
-        "reason": "英文「alter」的常见义项「改变」不符合主释义「承认」。"
+        "wordId": "w-disturb",
+        "reason": "英文「disturb」的常见义项「打扰」不符合主释义「承认」。"
       }
     ],
     "contextChoice": [
@@ -722,14 +722,14 @@
         "reason": "将「advocate」代入可见句子后不表达主释义「承认」。"
       },
       {
+        "wordId": "w-cough",
+        "surfaceForm": "cough",
+        "reason": "将「cough」代入可见句子后不表达主释义「承认」。"
+      },
+      {
         "wordId": "w-disturb",
         "surfaceForm": "disturb",
         "reason": "将「disturb」代入可见句子后不表达主释义「承认」。"
-      },
-      {
-        "wordId": "w-alter",
-        "surfaceForm": "alter",
-        "reason": "将「alter」代入可见句子后不表达主释义「承认」。"
       }
     ],
     "spelling": null
@@ -1032,47 +1032,47 @@
     "wordId": "w-act",
     "enToZh": [
       {
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「act」的主释义「行动」或其他义项。"
+      },
+      {
         "wordId": "w-analyze",
         "reason": "选项「分析」不是「act」的主释义「行动」或其他义项。"
       },
       {
-        "wordId": "w-bother",
-        "reason": "选项「打扰」不是「act」的主释义「行动」或其他义项。"
-      },
-      {
-        "wordId": "w-assign",
-        "reason": "选项「分配」不是「act」的主释义「行动」或其他义项。"
+        "wordId": "w-catch",
+        "reason": "选项「抓住」不是「act」的主释义「行动」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「行动」。"
+      },
       {
         "wordId": "w-analyze",
         "reason": "英文「analyze」的常见义项「分析」不符合主释义「行动」。"
       },
       {
-        "wordId": "w-bother",
-        "reason": "英文「bother」的常见义项「打扰」不符合主释义「行动」。"
-      },
-      {
-        "wordId": "w-assign",
-        "reason": "英文「assign」的常见义项「分配」不符合主释义「行动」。"
+        "wordId": "w-catch",
+        "reason": "英文「catch」的常见义项「抓住」不符合主释义「行动」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「行动」。"
+      },
       {
         "wordId": "w-analyze",
         "surfaceForm": "analyze",
         "reason": "将「analyze」代入可见句子后不表达主释义「行动」。"
       },
       {
-        "wordId": "w-bother",
-        "surfaceForm": "bother",
-        "reason": "将「bother」代入可见句子后不表达主释义「行动」。"
-      },
-      {
-        "wordId": "w-assign",
-        "surfaceForm": "assign",
-        "reason": "将「assign」代入可见句子后不表达主释义「行动」。"
+        "wordId": "w-catch",
+        "surfaceForm": "catch",
+        "reason": "将「catch」代入可见句子后不表达主释义「行动」。"
       }
     ],
     "spelling": null
@@ -1179,19 +1179,23 @@
     "wordId": "w-activity",
     "enToZh": [
       {
+        "wordId": "w-cash",
+        "reason": "选项「现金」不是「activity」的主释义「活动」或其他义项。"
+      },
+      {
         "wordId": "w-ad",
         "reason": "选项「广告」不是「activity」的主释义「活动」或其他义项。"
       },
       {
         "wordId": "w-account",
         "reason": "选项「账户」不是「activity」的主释义「活动」或其他义项。"
-      },
-      {
-        "wordId": "w-brand",
-        "reason": "选项「品牌」不是「activity」的主释义「活动」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cash",
+        "reason": "英文「cash」的常见义项「现金」不符合主释义「活动」。"
+      },
       {
         "wordId": "w-ad",
         "reason": "英文「ad」的常见义项「广告」不符合主释义「活动」。"
@@ -1199,13 +1203,14 @@
       {
         "wordId": "w-account",
         "reason": "英文「account」的常见义项「账户」不符合主释义「活动」。"
-      },
-      {
-        "wordId": "w-brand",
-        "reason": "英文「brand」的常见义项「品牌」不符合主释义「活动」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cash",
+        "surfaceForm": "cash",
+        "reason": "将「cash」代入可见句子后不表达主释义「活动」。"
+      },
       {
         "wordId": "w-ad",
         "surfaceForm": "ad",
@@ -1215,11 +1220,6 @@
         "wordId": "w-account",
         "surfaceForm": "account",
         "reason": "将「account」代入可见句子后不表达主释义「活动」。"
-      },
-      {
-        "wordId": "w-brand",
-        "surfaceForm": "brand",
-        "reason": "将「brand」代入可见句子后不表达主释义「活动」。"
       }
     ],
     "spelling": null

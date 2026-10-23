@@ -3,19 +3,23 @@
     "wordId": "w-ambiguity",
     "enToZh": [
       {
+        "wordId": "w-correlation",
+        "reason": "选项「相关性」不是「ambiguity」的主释义「歧义」或其他义项。"
+      },
+      {
         "wordId": "w-bonus",
         "reason": "选项「奖金」不是「ambiguity」的主释义「歧义」或其他义项。"
       },
       {
         "wordId": "w-amateur",
         "reason": "选项「业余爱好者」不是「ambiguity」的主释义「歧义」或其他义项。"
-      },
-      {
-        "wordId": "w-affiliate",
-        "reason": "选项「附属机构」不是「ambiguity」的主释义「歧义」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-correlation",
+        "reason": "英文「correlation」的常见义项「相关性」不符合主释义「歧义」。"
+      },
       {
         "wordId": "w-bonus",
         "reason": "英文「bonus」的常见义项「奖金」不符合主释义「歧义」。"
@@ -23,13 +27,14 @@
       {
         "wordId": "w-amateur",
         "reason": "英文「amateur」的常见义项「业余爱好者」不符合主释义「歧义」。"
-      },
-      {
-        "wordId": "w-affiliate",
-        "reason": "英文「affiliate」的常见义项「附属机构」不符合主释义「歧义」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-correlation",
+        "surfaceForm": "correlation",
+        "reason": "将「correlation」代入可见句子后不表达主释义「歧义」。"
+      },
       {
         "wordId": "w-bonus",
         "surfaceForm": "bonus",
@@ -39,11 +44,6 @@
         "wordId": "w-amateur",
         "surfaceForm": "amateur",
         "reason": "将「amateur」代入可见句子后不表达主释义「歧义」。"
-      },
-      {
-        "wordId": "w-affiliate",
-        "surfaceForm": "affiliate",
-        "reason": "将「affiliate」代入可见句子后不表达主释义「歧义」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「海湾」不是「analyst」的主释义「分析师」或其他义项。"
       },
       {
-        "wordId": "w-actor",
-        "reason": "选项「演员」不是「analyst」的主释义「分析师」或其他义项。"
+        "wordId": "w-county",
+        "reason": "选项「县」不是「analyst」的主释义「分析师」或其他义项。"
       },
       {
-        "wordId": "w-bible",
-        "reason": "选项「圣经」不是「analyst」的主释义「分析师」或其他义项。"
+        "wordId": "w-actor",
+        "reason": "选项「演员」不是「analyst」的主释义「分析师」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「bay」的常见义项「海湾」不符合主释义「分析师」。"
       },
       {
-        "wordId": "w-actor",
-        "reason": "英文「actor」的常见义项「演员」不符合主释义「分析师」。"
+        "wordId": "w-county",
+        "reason": "英文「county」的常见义项「县」不符合主释义「分析师」。"
       },
       {
-        "wordId": "w-bible",
-        "reason": "英文「bible」的常见义项「圣经」不符合主释义「分析师」。"
+        "wordId": "w-actor",
+        "reason": "英文「actor」的常见义项「演员」不符合主释义「分析师」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「bay」代入可见句子后不表达主释义「分析师」。"
       },
       {
+        "wordId": "w-county",
+        "surfaceForm": "county",
+        "reason": "将「county」代入可见句子后不表达主释义「分析师」。"
+      },
+      {
         "wordId": "w-actor",
         "surfaceForm": "actor",
         "reason": "将「actor」代入可见句子后不表达主释义「分析师」。"
-      },
-      {
-        "wordId": "w-bible",
-        "surfaceForm": "bible",
-        "reason": "将「bible」代入可见句子后不表达主释义「分析师」。"
       }
     ],
     "spelling": null
@@ -938,12 +938,12 @@
         "reason": "选项「责怪」不是「analyze」的主释义「分析」或其他义项。"
       },
       {
-        "wordId": "w-breed",
-        "reason": "选项「繁殖」不是「analyze」的主释义「分析」或其他义项。"
+        "wordId": "w-capture",
+        "reason": "选项「捕获」不是「analyze」的主释义「分析」或其他义项。"
       },
       {
-        "wordId": "w-ask",
-        "reason": "选项「询问」不是「analyze」的主释义「分析」或其他义项。"
+        "wordId": "w-carry",
+        "reason": "选项「携带」不是「analyze」的主释义「分析」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -952,12 +952,12 @@
         "reason": "英文「blame」的常见义项「责怪」不符合主释义「分析」。"
       },
       {
-        "wordId": "w-breed",
-        "reason": "英文「breed」的常见义项「繁殖」不符合主释义「分析」。"
+        "wordId": "w-capture",
+        "reason": "英文「capture」的常见义项「捕获」不符合主释义「分析」。"
       },
       {
-        "wordId": "w-ask",
-        "reason": "英文「ask」的常见义项「询问」不符合主释义「分析」。"
+        "wordId": "w-carry",
+        "reason": "英文「carry」的常见义项「携带」不符合主释义「分析」。"
       }
     ],
     "contextChoice": [
@@ -967,14 +967,14 @@
         "reason": "将「blame」代入可见句子后不表达主释义「分析」。"
       },
       {
-        "wordId": "w-breed",
-        "surfaceForm": "breed",
-        "reason": "将「breed」代入可见句子后不表达主释义「分析」。"
+        "wordId": "w-capture",
+        "surfaceForm": "capture",
+        "reason": "将「capture」代入可见句子后不表达主释义「分析」。"
       },
       {
-        "wordId": "w-ask",
-        "surfaceForm": "ask",
-        "reason": "将「ask」代入可见句子后不表达主释义「分析」。"
+        "wordId": "w-carry",
+        "surfaceForm": "carry",
+        "reason": "将「carry」代入可见句子后不表达主释义「分析」。"
       }
     ],
     "spelling": null
@@ -1183,12 +1183,12 @@
         "reason": "选项「背景」不是「angle」的主释义「角度」或其他义项。"
       },
       {
-        "wordId": "w-address",
-        "reason": "选项「地址」不是「angle」的主释义「角度」或其他义项。"
+        "wordId": "w-car",
+        "reason": "选项「汽车」不是「angle」的主释义「角度」或其他义项。"
       },
       {
-        "wordId": "w-board",
-        "reason": "选项「木板」不是「angle」的主释义「角度」或其他义项。"
+        "wordId": "w-address",
+        "reason": "选项「地址」不是「angle」的主释义「角度」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1197,12 +1197,12 @@
         "reason": "英文「background」的常见义项「背景」不符合主释义「角度」。"
       },
       {
-        "wordId": "w-address",
-        "reason": "英文「address」的常见义项「地址」不符合主释义「角度」。"
+        "wordId": "w-car",
+        "reason": "英文「car」的常见义项「汽车」不符合主释义「角度」。"
       },
       {
-        "wordId": "w-board",
-        "reason": "英文「board」的常见义项「木板」不符合主释义「角度」。"
+        "wordId": "w-address",
+        "reason": "英文「address」的常见义项「地址」不符合主释义「角度」。"
       }
     ],
     "contextChoice": [
@@ -1212,14 +1212,14 @@
         "reason": "将「background」代入可见句子后不表达主释义「角度」。"
       },
       {
+        "wordId": "w-car",
+        "surfaceForm": "car",
+        "reason": "将「car」代入可见句子后不表达主释义「角度」。"
+      },
+      {
         "wordId": "w-address",
         "surfaceForm": "address",
         "reason": "将「address」代入可见句子后不表达主释义「角度」。"
-      },
-      {
-        "wordId": "w-board",
-        "surfaceForm": "board",
-        "reason": "将「board」代入可见句子后不表达主释义「角度」。"
       }
     ],
     "spelling": null

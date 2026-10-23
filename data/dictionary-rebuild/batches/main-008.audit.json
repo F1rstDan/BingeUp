@@ -52,19 +52,23 @@
     "wordId": "w-ankle",
     "enToZh": [
       {
+        "wordId": "w-case",
+        "reason": "选项「案件」不是「ankle」的主释义「脚踝」或其他义项。"
+      },
+      {
         "wordId": "w-basis",
         "reason": "选项「基础」不是「ankle」的主释义「脚踝」或其他义项。"
       },
       {
         "wordId": "w-alcohol",
         "reason": "选项「酒精」不是「ankle」的主释义「脚踝」或其他义项。"
-      },
-      {
-        "wordId": "w-baby",
-        "reason": "选项「婴儿」不是「ankle」的主释义「脚踝」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-case",
+        "reason": "英文「case」的常见义项「案件」不符合主释义「脚踝」。"
+      },
       {
         "wordId": "w-basis",
         "reason": "英文「basis」的常见义项「基础」不符合主释义「脚踝」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-alcohol",
         "reason": "英文「alcohol」的常见义项「酒精」不符合主释义「脚踝」。"
-      },
-      {
-        "wordId": "w-baby",
-        "reason": "英文「baby」的常见义项「婴儿」不符合主释义「脚踝」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-case",
+        "surfaceForm": "case",
+        "reason": "将「case」代入可见句子后不表达主释义「脚踝」。"
+      },
       {
         "wordId": "w-basis",
         "surfaceForm": "basis",
@@ -88,11 +93,6 @@
         "wordId": "w-alcohol",
         "surfaceForm": "alcohol",
         "reason": "将「alcohol」代入可见句子后不表达主释义「脚踝」。"
-      },
-      {
-        "wordId": "w-baby",
-        "surfaceForm": "baby",
-        "reason": "将「baby」代入可见句子后不表达主释义「脚踝」。"
       }
     ],
     "spelling": null
@@ -109,8 +109,8 @@
         "reason": "选项「乐队」不是「anniversary」的主释义「周年纪念日」或其他义项。"
       },
       {
-        "wordId": "w-audience",
-        "reason": "选项「观众」不是「anniversary」的主释义「周年纪念日」或其他义项。"
+        "wordId": "w-cause",
+        "reason": "选项「原因」不是「anniversary」的主释义「周年纪念日」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -123,8 +123,8 @@
         "reason": "英文「band」的常见义项「乐队」不符合主释义「周年纪念日」。"
       },
       {
-        "wordId": "w-audience",
-        "reason": "英文「audience」的常见义项「观众」不符合主释义「周年纪念日」。"
+        "wordId": "w-cause",
+        "reason": "英文「cause」的常见义项「原因」不符合主释义「周年纪念日」。"
       }
     ],
     "contextChoice": [
@@ -139,9 +139,9 @@
         "reason": "将「band」代入可见句子后不表达主释义「周年纪念日」。"
       },
       {
-        "wordId": "w-audience",
-        "surfaceForm": "audience",
-        "reason": "将「audience」代入可见句子后不表达主释义「周年纪念日」。"
+        "wordId": "w-cause",
+        "surfaceForm": "cause",
+        "reason": "将「cause」代入可见句子后不表达主释义「周年纪念日」。"
       }
     ],
     "spelling": null
@@ -158,8 +158,8 @@
         "reason": "选项「接受」不是「announce」的主释义「宣布」或其他义项。"
       },
       {
-        "wordId": "w-blame",
-        "reason": "选项「责怪」不是「announce」的主释义「宣布」或其他义项。"
+        "wordId": "w-count",
+        "reason": "选项「数」不是「announce」的主释义「宣布」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「accept」的常见义项「接受」不符合主释义「宣布」。"
       },
       {
-        "wordId": "w-blame",
-        "reason": "英文「blame」的常见义项「责怪」不符合主释义「宣布」。"
+        "wordId": "w-count",
+        "reason": "英文「count」的常见义项「数」不符合主释义「宣布」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「accept」代入可见句子后不表达主释义「宣布」。"
       },
       {
-        "wordId": "w-blame",
-        "surfaceForm": "blame",
-        "reason": "将「blame」代入可见句子后不表达主释义「宣布」。"
+        "wordId": "w-count",
+        "surfaceForm": "count",
+        "reason": "将「count」代入可见句子后不表达主释义「宣布」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「保护」不是「answer」的主释义「答案」或其他义项。"
       },
       {
-        "wordId": "w-behavior",
-        "reason": "选项「行为」不是「answer」的主释义「答案」或其他义项。"
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「answer」的主释义「答案」或其他义项。"
       },
       {
-        "wordId": "w-advantage",
-        "reason": "选项「优势」不是「answer」的主释义「答案」或其他义项。"
+        "wordId": "w-behavior",
+        "reason": "选项「行为」不是「answer」的主释义「答案」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「conservation」的常见义项「保护」不符合主释义「答案」。"
       },
       {
-        "wordId": "w-behavior",
-        "reason": "英文「behavior」的常见义项「行为」不符合主释义「答案」。"
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「答案」。"
       },
       {
-        "wordId": "w-advantage",
-        "reason": "英文「advantage」的常见义项「优势」不符合主释义「答案」。"
+        "wordId": "w-behavior",
+        "reason": "英文「behavior」的常见义项「行为」不符合主释义「答案」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「conservation」代入可见句子后不表达主释义「答案」。"
       },
       {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「答案」。"
+      },
+      {
         "wordId": "w-behavior",
         "surfaceForm": "behavior",
         "reason": "将「behavior」代入可见句子后不表达主释义「答案」。"
-      },
-      {
-        "wordId": "w-advantage",
-        "surfaceForm": "advantage",
-        "reason": "将「advantage」代入可见句子后不表达主释义「答案」。"
       }
     ],
     "spelling": null
@@ -542,19 +542,23 @@
     "wordId": "w-anticipate",
     "enToZh": [
       {
+        "wordId": "w-cough",
+        "reason": "选项「咳嗽」不是「anticipate」的主释义「预料」或其他义项。"
+      },
+      {
         "wordId": "w-attach",
         "reason": "选项「附上」不是「anticipate」的主释义「预料」或其他义项。"
       },
       {
         "wordId": "w-achieve",
         "reason": "选项「实现」不是「anticipate」的主释义「预料」或其他义项。"
-      },
-      {
-        "wordId": "w-blame",
-        "reason": "选项「责怪」不是「anticipate」的主释义「预料」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cough",
+        "reason": "英文「cough」的常见义项「咳嗽」不符合主释义「预料」。"
+      },
       {
         "wordId": "w-attach",
         "reason": "英文「attach」的常见义项「附上」不符合主释义「预料」。"
@@ -562,13 +566,14 @@
       {
         "wordId": "w-achieve",
         "reason": "英文「achieve」的常见义项「实现」不符合主释义「预料」。"
-      },
-      {
-        "wordId": "w-blame",
-        "reason": "英文「blame」的常见义项「责怪」不符合主释义「预料」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cough",
+        "surfaceForm": "cough",
+        "reason": "将「cough」代入可见句子后不表达主释义「预料」。"
+      },
       {
         "wordId": "w-attach",
         "surfaceForm": "attach",
@@ -578,11 +583,6 @@
         "wordId": "w-achieve",
         "surfaceForm": "achieve",
         "reason": "将「achieve」代入可见句子后不表达主释义「预料」。"
-      },
-      {
-        "wordId": "w-blame",
-        "surfaceForm": "blame",
-        "reason": "将「blame」代入可见句子后不表达主释义「预料」。"
       }
     ],
     "spelling": null
@@ -599,8 +599,8 @@
         "reason": "选项「摊位」不是「antique」的主释义「古董」或其他义项。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "选项「横幅」不是「antique」的主释义「古董」或其他义项。"
+        "wordId": "w-carbon",
+        "reason": "选项「碳」不是「antique」的主释义「古董」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -613,8 +613,8 @@
         "reason": "英文「booth」的常见义项「摊位」不符合主释义「古董」。"
       },
       {
-        "wordId": "w-banner",
-        "reason": "英文「banner」的常见义项「横幅」不符合主释义「古董」。"
+        "wordId": "w-carbon",
+        "reason": "英文「carbon」的常见义项「碳」不符合主释义「古董」。"
       }
     ],
     "contextChoice": [
@@ -629,9 +629,9 @@
         "reason": "将「booth」代入可见句子后不表达主释义「古董」。"
       },
       {
-        "wordId": "w-banner",
-        "surfaceForm": "banner",
-        "reason": "将「banner」代入可见句子后不表达主释义「古董」。"
+        "wordId": "w-carbon",
+        "surfaceForm": "carbon",
+        "reason": "将「carbon」代入可见句子后不表达主释义「古董」。"
       }
     ],
     "spelling": null
@@ -884,12 +884,12 @@
         "reason": "选项「任何地方」不是「anyway」的主释义「无论如何」或其他义项。"
       },
       {
-        "wordId": "w-backward",
-        "reason": "选项「向后」不是「anyway」的主释义「无论如何」或其他义项。"
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「anyway」的主释义「无论如何」或其他义项。"
       },
       {
-        "wordId": "w-approximately",
-        "reason": "选项「大约」不是「anyway」的主释义「无论如何」或其他义项。"
+        "wordId": "w-backward",
+        "reason": "选项「向后」不是「anyway」的主释义「无论如何」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -898,12 +898,12 @@
         "reason": "英文「anywhere」的常见义项「任何地方」不符合主释义「无论如何」。"
       },
       {
-        "wordId": "w-backward",
-        "reason": "英文「backward」的常见义项「向后」不符合主释义「无论如何」。"
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「无论如何」。"
       },
       {
-        "wordId": "w-approximately",
-        "reason": "英文「approximately」的常见义项「大约」不符合主释义「无论如何」。"
+        "wordId": "w-backward",
+        "reason": "英文「backward」的常见义项「向后」不符合主释义「无论如何」。"
       }
     ],
     "contextChoice": [
@@ -913,14 +913,14 @@
         "reason": "将「anywhere」代入可见句子后不表达主释义「无论如何」。"
       },
       {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「无论如何」。"
+      },
+      {
         "wordId": "w-backward",
         "surfaceForm": "backward",
         "reason": "将「backward」代入可见句子后不表达主释义「无论如何」。"
-      },
-      {
-        "wordId": "w-approximately",
-        "surfaceForm": "approximately",
-        "reason": "将「approximately」代入可见句子后不表达主释义「无论如何」。"
       }
     ],
     "spelling": null
@@ -929,19 +929,23 @@
     "wordId": "w-anywhere",
     "enToZh": [
       {
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「anywhere」的主释义「任何地方」或其他义项。"
+      },
+      {
         "wordId": "w-absolutely",
         "reason": "选项「完全地」不是「anywhere」的主释义「任何地方」或其他义项。"
       },
       {
         "wordId": "w-bitterly",
         "reason": "选项「痛苦地」不是「anywhere」的主释义「任何地方」或其他义项。"
-      },
-      {
-        "wordId": "w-apart",
-        "reason": "选项「分开地」不是「anywhere」的主释义「任何地方」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「任何地方」。"
+      },
       {
         "wordId": "w-absolutely",
         "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「任何地方」。"
@@ -949,13 +953,14 @@
       {
         "wordId": "w-bitterly",
         "reason": "英文「bitterly」的常见义项「痛苦地」不符合主释义「任何地方」。"
-      },
-      {
-        "wordId": "w-apart",
-        "reason": "英文「apart」的常见义项「分开地」不符合主释义「任何地方」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「任何地方」。"
+      },
       {
         "wordId": "w-absolutely",
         "surfaceForm": "absolutely",
@@ -965,11 +970,6 @@
         "wordId": "w-bitterly",
         "surfaceForm": "bitterly",
         "reason": "将「bitterly」代入可见句子后不表达主释义「任何地方」。"
-      },
-      {
-        "wordId": "w-apart",
-        "surfaceForm": "apart",
-        "reason": "将「apart」代入可见句子后不表达主释义「任何地方」。"
       }
     ],
     "spelling": null
@@ -1125,19 +1125,23 @@
     "wordId": "w-apology",
     "enToZh": [
       {
+        "wordId": "w-caution",
+        "reason": "选项「谨慎」不是「apology」的主释义「道歉」或其他义项。"
+      },
+      {
         "wordId": "w-abundance",
         "reason": "选项「大量」不是「apology」的主释义「道歉」或其他义项。"
       },
       {
         "wordId": "w-nickel",
         "reason": "选项「镍」不是「apology」的主释义「道歉」或其他义项。"
-      },
-      {
-        "wordId": "w-bishop",
-        "reason": "选项「主教」不是「apology」的主释义「道歉」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-caution",
+        "reason": "英文「caution」的常见义项「谨慎」不符合主释义「道歉」。"
+      },
       {
         "wordId": "w-abundance",
         "reason": "英文「abundance」的常见义项「大量」不符合主释义「道歉」。"
@@ -1145,13 +1149,14 @@
       {
         "wordId": "w-nickel",
         "reason": "英文「nickel」的常见义项「镍」不符合主释义「道歉」。"
-      },
-      {
-        "wordId": "w-bishop",
-        "reason": "英文「bishop」的常见义项「主教」不符合主释义「道歉」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-caution",
+        "surfaceForm": "caution",
+        "reason": "将「caution」代入可见句子后不表达主释义「道歉」。"
+      },
       {
         "wordId": "w-abundance",
         "surfaceForm": "abundance",
@@ -1161,11 +1166,6 @@
         "wordId": "w-nickel",
         "surfaceForm": "nickel",
         "reason": "将「nickel」代入可见句子后不表达主释义「道歉」。"
-      },
-      {
-        "wordId": "w-bishop",
-        "surfaceForm": "bishop",
-        "reason": "将「bishop」代入可见句子后不表达主释义「道歉」。"
       }
     ],
     "spelling": null

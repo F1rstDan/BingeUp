@@ -546,12 +546,12 @@
         "reason": "选项「婴儿」不是「alphabet」的主释义「字母表」或其他义项。"
       },
       {
-        "wordId": "w-bay",
-        "reason": "选项「海湾」不是「alphabet」的主释义「字母表」或其他义项。"
+        "wordId": "w-counter",
+        "reason": "选项「柜台」不是「alphabet」的主释义「字母表」或其他义项。"
       },
       {
-        "wordId": "w-approval",
-        "reason": "选项「批准」不是「alphabet」的主释义「字母表」或其他义项。"
+        "wordId": "w-bay",
+        "reason": "选项「海湾」不是「alphabet」的主释义「字母表」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「baby」的常见义项「婴儿」不符合主释义「字母表」。"
       },
       {
-        "wordId": "w-bay",
-        "reason": "英文「bay」的常见义项「海湾」不符合主释义「字母表」。"
+        "wordId": "w-counter",
+        "reason": "英文「counter」的常见义项「柜台」不符合主释义「字母表」。"
       },
       {
-        "wordId": "w-approval",
-        "reason": "英文「approval」的常见义项「批准」不符合主释义「字母表」。"
+        "wordId": "w-bay",
+        "reason": "英文「bay」的常见义项「海湾」不符合主释义「字母表」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「baby」代入可见句子后不表达主释义「字母表」。"
       },
       {
+        "wordId": "w-counter",
+        "surfaceForm": "counter",
+        "reason": "将「counter」代入可见句子后不表达主释义「字母表」。"
+      },
+      {
         "wordId": "w-bay",
         "surfaceForm": "bay",
         "reason": "将「bay」代入可见句子后不表达主释义「字母表」。"
-      },
-      {
-        "wordId": "w-approval",
-        "surfaceForm": "approval",
-        "reason": "将「approval」代入可见句子后不表达主释义「字母表」。"
       }
     ],
     "spelling": null
@@ -860,12 +860,12 @@
         "reason": "选项「向后」不是「altogether」的主释义「完全地」或其他义项。"
       },
       {
-        "wordId": "w-aside",
-        "reason": "选项「到一边」不是「altogether」的主释义「完全地」或其他义项。"
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「altogether」的主释义「完全地」或其他义项。"
       },
       {
-        "wordId": "w-somewhere",
-        "reason": "选项「在某处」不是「altogether」的主释义「完全地」或其他义项。"
+        "wordId": "w-aside",
+        "reason": "选项「到一边」不是「altogether」的主释义「完全地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -874,12 +874,12 @@
         "reason": "英文「backward」的常见义项「向后」不符合主释义「完全地」。"
       },
       {
-        "wordId": "w-aside",
-        "reason": "英文「aside」的常见义项「到一边」不符合主释义「完全地」。"
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「完全地」。"
       },
       {
-        "wordId": "w-somewhere",
-        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「完全地」。"
+        "wordId": "w-aside",
+        "reason": "英文「aside」的常见义项「到一边」不符合主释义「完全地」。"
       }
     ],
     "contextChoice": [
@@ -889,14 +889,14 @@
         "reason": "将「backward」代入可见句子后不表达主释义「完全地」。"
       },
       {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「完全地」。"
+      },
+      {
         "wordId": "w-aside",
         "surfaceForm": "aside",
         "reason": "将「aside」代入可见句子后不表达主释义「完全地」。"
-      },
-      {
-        "wordId": "w-somewhere",
-        "surfaceForm": "somewhere",
-        "reason": "将「somewhere」代入可见句子后不表达主释义「完全地」。"
       }
     ],
     "spelling": null
@@ -1056,12 +1056,12 @@
         "reason": "选项「指控」不是「amateur」的主释义「业余爱好者」或其他义项。"
       },
       {
-        "wordId": "w-analogy",
-        "reason": "选项「类比」不是「amateur」的主释义「业余爱好者」或其他义项。"
+        "wordId": "w-corridor",
+        "reason": "选项「走廊」不是「amateur」的主释义「业余爱好者」或其他义项。"
       },
       {
-        "wordId": "w-beam",
-        "reason": "选项「光束」不是「amateur」的主释义「业余爱好者」或其他义项。"
+        "wordId": "w-analogy",
+        "reason": "选项「类比」不是「amateur」的主释义「业余爱好者」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1070,12 +1070,12 @@
         "reason": "英文「allegation」的常见义项「指控」不符合主释义「业余爱好者」。"
       },
       {
-        "wordId": "w-analogy",
-        "reason": "英文「analogy」的常见义项「类比」不符合主释义「业余爱好者」。"
+        "wordId": "w-corridor",
+        "reason": "英文「corridor」的常见义项「走廊」不符合主释义「业余爱好者」。"
       },
       {
-        "wordId": "w-beam",
-        "reason": "英文「beam」的常见义项「光束」不符合主释义「业余爱好者」。"
+        "wordId": "w-analogy",
+        "reason": "英文「analogy」的常见义项「类比」不符合主释义「业余爱好者」。"
       }
     ],
     "contextChoice": [
@@ -1085,14 +1085,14 @@
         "reason": "将「allegation」代入可见句子后不表达主释义「业余爱好者」。"
       },
       {
+        "wordId": "w-corridor",
+        "surfaceForm": "corridor",
+        "reason": "将「corridor」代入可见句子后不表达主释义「业余爱好者」。"
+      },
+      {
         "wordId": "w-analogy",
         "surfaceForm": "analogy",
         "reason": "将「analogy」代入可见句子后不表达主释义「业余爱好者」。"
-      },
-      {
-        "wordId": "w-beam",
-        "surfaceForm": "beam",
-        "reason": "将「beam」代入可见句子后不表达主释义「业余爱好者」。"
       }
     ],
     "spelling": null

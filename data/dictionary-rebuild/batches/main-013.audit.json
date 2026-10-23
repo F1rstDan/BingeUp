@@ -150,19 +150,23 @@
     "wordId": "w-auto",
     "enToZh": [
       {
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「auto」的主释义「汽车」或其他义项。"
+      },
+      {
         "wordId": "w-soy",
         "reason": "选项「大豆」不是「auto」的主释义「汽车」或其他义项。"
       },
       {
         "wordId": "w-amateur",
         "reason": "选项「业余爱好者」不是「auto」的主释义「汽车」或其他义项。"
-      },
-      {
-        "wordId": "w-ash",
-        "reason": "选项「灰烬」不是「auto」的主释义「汽车」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「汽车」。"
+      },
       {
         "wordId": "w-soy",
         "reason": "英文「soy」的常见义项「大豆」不符合主释义「汽车」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-amateur",
         "reason": "英文「amateur」的常见义项「业余爱好者」不符合主释义「汽车」。"
-      },
-      {
-        "wordId": "w-ash",
-        "reason": "英文「ash」的常见义项「灰烬」不符合主释义「汽车」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「汽车」。"
+      },
       {
         "wordId": "w-soy",
         "surfaceForm": "soy",
@@ -186,11 +191,6 @@
         "wordId": "w-amateur",
         "surfaceForm": "amateur",
         "reason": "将「amateur」代入可见句子后不表达主释义「汽车」。"
-      },
-      {
-        "wordId": "w-ash",
-        "surfaceForm": "ash",
-        "reason": "将「ash」代入可见句子后不表达主释义「汽车」。"
       }
     ],
     "spelling": null
@@ -199,19 +199,23 @@
     "wordId": "w-autobiography",
     "enToZh": [
       {
+        "wordId": "w-couch",
+        "reason": "选项「长沙发」不是「autobiography」的主释义「自传」或其他义项。"
+      },
+      {
         "wordId": "w-nickel",
         "reason": "选项「镍」不是「autobiography」的主释义「自传」或其他义项。"
       },
       {
         "wordId": "w-assurance",
         "reason": "选项「保证」不是「autobiography」的主释义「自传」或其他义项。"
-      },
-      {
-        "wordId": "w-allowance",
-        "reason": "选项「津贴」不是「autobiography」的主释义「自传」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-couch",
+        "reason": "英文「couch」的常见义项「长沙发」不符合主释义「自传」。"
+      },
       {
         "wordId": "w-nickel",
         "reason": "英文「nickel」的常见义项「镍」不符合主释义「自传」。"
@@ -219,13 +223,14 @@
       {
         "wordId": "w-assurance",
         "reason": "英文「assurance」的常见义项「保证」不符合主释义「自传」。"
-      },
-      {
-        "wordId": "w-allowance",
-        "reason": "英文「allowance」的常见义项「津贴」不符合主释义「自传」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-couch",
+        "surfaceForm": "couch",
+        "reason": "将「couch」代入可见句子后不表达主释义「自传」。"
+      },
       {
         "wordId": "w-nickel",
         "surfaceForm": "nickel",
@@ -235,11 +240,6 @@
         "wordId": "w-assurance",
         "surfaceForm": "assurance",
         "reason": "将「assurance」代入可见句子后不表达主释义「自传」。"
-      },
-      {
-        "wordId": "w-allowance",
-        "surfaceForm": "allowance",
-        "reason": "将「allowance」代入可见句子后不表达主释义「自传」。"
       }
     ],
     "spelling": null
@@ -256,8 +256,8 @@
         "reason": "选项「解渴」不是「automate」的主释义「使自动化」或其他义项。"
       },
       {
-        "wordId": "w-bewilder",
-        "reason": "选项「使困惑」不是「automate」的主释义「使自动化」或其他义项。"
+        "wordId": "w-corrode",
+        "reason": "选项「腐蚀」不是「automate」的主释义「使自动化」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「quench」的常见义项「解渴」不符合主释义「使自动化」。"
       },
       {
-        "wordId": "w-bewilder",
-        "reason": "英文「bewilder」的常见义项「使困惑」不符合主释义「使自动化」。"
+        "wordId": "w-corrode",
+        "reason": "英文「corrode」的常见义项「腐蚀」不符合主释义「使自动化」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「quench」代入可见句子后不表达主释义「使自动化」。"
       },
       {
-        "wordId": "w-bewilder",
-        "surfaceForm": "bewilder",
-        "reason": "将「bewilder」代入可见句子后不表达主释义「使自动化」。"
+        "wordId": "w-corrode",
+        "surfaceForm": "corrode",
+        "reason": "将「corrode」代入可见句子后不表达主释义「使自动化」。"
       }
     ],
     "spelling": null
@@ -395,47 +395,47 @@
     "wordId": "w-automation",
     "enToZh": [
       {
+        "wordId": "w-cartridge",
+        "reason": "选项「墨盒」不是「automation」的主释义「自动化」或其他义项。"
+      },
+      {
         "wordId": "w-breadth",
         "reason": "选项「宽度」不是「automation」的主释义「自动化」或其他义项。"
       },
       {
-        "wordId": "w-baron",
-        "reason": "选项「男爵」不是「automation」的主释义「自动化」或其他义项。"
-      },
-      {
-        "wordId": "w-bosom",
-        "reason": "选项「胸部」不是「automation」的主释义「自动化」或其他义项。"
+        "wordId": "w-corrosion",
+        "reason": "选项「腐蚀」不是「automation」的主释义「自动化」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cartridge",
+        "reason": "英文「cartridge」的常见义项「墨盒」不符合主释义「自动化」。"
+      },
       {
         "wordId": "w-breadth",
         "reason": "英文「breadth」的常见义项「宽度」不符合主释义「自动化」。"
       },
       {
-        "wordId": "w-baron",
-        "reason": "英文「baron」的常见义项「男爵」不符合主释义「自动化」。"
-      },
-      {
-        "wordId": "w-bosom",
-        "reason": "英文「bosom」的常见义项「胸部」不符合主释义「自动化」。"
+        "wordId": "w-corrosion",
+        "reason": "英文「corrosion」的常见义项「腐蚀」不符合主释义「自动化」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cartridge",
+        "surfaceForm": "cartridge",
+        "reason": "将「cartridge」代入可见句子后不表达主释义「自动化」。"
+      },
       {
         "wordId": "w-breadth",
         "surfaceForm": "breadth",
         "reason": "将「breadth」代入可见句子后不表达主释义「自动化」。"
       },
       {
-        "wordId": "w-baron",
-        "surfaceForm": "baron",
-        "reason": "将「baron」代入可见句子后不表达主释义「自动化」。"
-      },
-      {
-        "wordId": "w-bosom",
-        "surfaceForm": "bosom",
-        "reason": "将「bosom」代入可见句子后不表达主释义「自动化」。"
+        "wordId": "w-corrosion",
+        "surfaceForm": "corrosion",
+        "reason": "将「corrosion」代入可见句子后不表达主释义「自动化」。"
       }
     ],
     "spelling": null
@@ -452,8 +452,8 @@
         "reason": "选项「破产」不是「automobile」的主释义「汽车」或其他义项。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "选项「梳子」不是「automobile」的主释义「汽车」或其他义项。"
+        "wordId": "w-cathedral",
+        "reason": "选项「大教堂」不是「automobile」的主释义「汽车」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -466,8 +466,8 @@
         "reason": "英文「bankruptcy」的常见义项「破产」不符合主释义「汽车」。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "英文「comb」的常见义项「梳子」不符合主释义「汽车」。"
+        "wordId": "w-cathedral",
+        "reason": "英文「cathedral」的常见义项「大教堂」不符合主释义「汽车」。"
       }
     ],
     "contextChoice": [
@@ -482,9 +482,9 @@
         "reason": "将「bankruptcy」代入可见句子后不表达主释义「汽车」。"
       },
       {
-        "wordId": "w-comb",
-        "surfaceForm": "comb",
-        "reason": "将「comb」代入可见句子后不表达主释义「汽车」。"
+        "wordId": "w-cathedral",
+        "surfaceForm": "cathedral",
+        "reason": "将「cathedral」代入可见句子后不表达主释义「汽车」。"
       }
     ],
     "spelling": null
@@ -493,19 +493,23 @@
     "wordId": "w-auxiliary",
     "enToZh": [
       {
+        "wordId": "w-captive",
+        "reason": "选项「被关押的」不是「auxiliary」的主释义「辅助的」或其他义项。"
+      },
+      {
         "wordId": "w-bourgeois",
         "reason": "选项「中产阶级的」不是「auxiliary」的主释义「辅助的」或其他义项。"
       },
       {
         "wordId": "w-bankrupt",
         "reason": "选项「破产的」不是「auxiliary」的主释义「辅助的」或其他义项。"
-      },
-      {
-        "wordId": "w-atlantic",
-        "reason": "选项「大西洋的」不是「auxiliary」的主释义「辅助的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-captive",
+        "reason": "英文「captive」的常见义项「被关押的」不符合主释义「辅助的」。"
+      },
       {
         "wordId": "w-bourgeois",
         "reason": "英文「bourgeois」的常见义项「中产阶级的」不符合主释义「辅助的」。"
@@ -513,13 +517,14 @@
       {
         "wordId": "w-bankrupt",
         "reason": "英文「bankrupt」的常见义项「破产的」不符合主释义「辅助的」。"
-      },
-      {
-        "wordId": "w-atlantic",
-        "reason": "英文「Atlantic」的常见义项「大西洋的」不符合主释义「辅助的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-captive",
+        "surfaceForm": "captive",
+        "reason": "将「captive」代入可见句子后不表达主释义「辅助的」。"
+      },
       {
         "wordId": "w-bourgeois",
         "surfaceForm": "bourgeois",
@@ -529,11 +534,6 @@
         "wordId": "w-bankrupt",
         "surfaceForm": "bankrupt",
         "reason": "将「bankrupt」代入可见句子后不表达主释义「辅助的」。"
-      },
-      {
-        "wordId": "w-atlantic",
-        "surfaceForm": "Atlantic",
-        "reason": "将「Atlantic」代入可见句子后不表达主释义「辅助的」。"
       }
     ],
     "spelling": null
@@ -591,19 +591,23 @@
     "wordId": "w-availability",
     "enToZh": [
       {
+        "wordId": "w-carriage",
+        "reason": "选项「马车」不是「availability」的主释义「可获得性」或其他义项。"
+      },
+      {
         "wordId": "w-acquaintance",
         "reason": "选项「熟人」不是「availability」的主释义「可获得性」或其他义项。"
       },
       {
         "wordId": "w-basin",
         "reason": "选项「盆」不是「availability」的主释义「可获得性」或其他义项。"
-      },
-      {
-        "wordId": "w-alignment",
-        "reason": "选项「对齐」不是「availability」的主释义「可获得性」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-carriage",
+        "reason": "英文「carriage」的常见义项「马车」不符合主释义「可获得性」。"
+      },
       {
         "wordId": "w-acquaintance",
         "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「可获得性」。"
@@ -611,13 +615,14 @@
       {
         "wordId": "w-basin",
         "reason": "英文「basin」的常见义项「盆」不符合主释义「可获得性」。"
-      },
-      {
-        "wordId": "w-alignment",
-        "reason": "英文「alignment」的常见义项「对齐」不符合主释义「可获得性」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-carriage",
+        "surfaceForm": "carriage",
+        "reason": "将「carriage」代入可见句子后不表达主释义「可获得性」。"
+      },
       {
         "wordId": "w-acquaintance",
         "surfaceForm": "acquaintance",
@@ -627,11 +632,6 @@
         "wordId": "w-basin",
         "surfaceForm": "basin",
         "reason": "将「basin」代入可见句子后不表达主释义「可获得性」。"
-      },
-      {
-        "wordId": "w-alignment",
-        "surfaceForm": "alignment",
-        "reason": "将「alignment」代入可见句子后不表达主释义「可获得性」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「木板」不是「award」的主释义「奖项」或其他义项。"
       },
       {
-        "wordId": "w-answer",
-        "reason": "选项「答案」不是「award」的主释义「奖项」或其他义项。"
+        "wordId": "w-carpet",
+        "reason": "选项「地毯」不是「award」的主释义「奖项」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「board」的常见义项「木板」不符合主释义「奖项」。"
       },
       {
-        "wordId": "w-answer",
-        "reason": "英文「answer」的常见义项「答案」不符合主释义「奖项」。"
+        "wordId": "w-carpet",
+        "reason": "英文「carpet」的常见义项「地毯」不符合主释义「奖项」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「board」代入可见句子后不表达主释义「奖项」。"
       },
       {
-        "wordId": "w-answer",
-        "surfaceForm": "answer",
-        "reason": "将「answer」代入可见句子后不表达主释义「奖项」。"
+        "wordId": "w-carpet",
+        "surfaceForm": "carpet",
+        "reason": "将「carpet」代入可见句子后不表达主释义「奖项」。"
       }
     ],
     "spelling": null
@@ -1085,12 +1085,12 @@
         "reason": "选项「几乎不」不是「awfully」的主释义「非常」或其他义项。"
       },
       {
-        "wordId": "w-ago",
-        "reason": "选项「以前」不是「awfully」的主释义「非常」或其他义项。"
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「awfully」的主释义「非常」或其他义项。"
       },
       {
-        "wordId": "w-apparently",
-        "reason": "选项「看来」不是「awfully」的主释义「非常」或其他义项。"
+        "wordId": "w-ago",
+        "reason": "选项「以前」不是「awfully」的主释义「非常」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1099,12 +1099,12 @@
         "reason": "英文「barely」的常见义项「几乎不」不符合主释义「非常」。"
       },
       {
-        "wordId": "w-ago",
-        "reason": "英文「ago」的常见义项「以前」不符合主释义「非常」。"
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「非常」。"
       },
       {
-        "wordId": "w-apparently",
-        "reason": "英文「apparently」的常见义项「看来」不符合主释义「非常」。"
+        "wordId": "w-ago",
+        "reason": "英文「ago」的常见义项「以前」不符合主释义「非常」。"
       }
     ],
     "contextChoice": [
@@ -1114,14 +1114,14 @@
         "reason": "将「barely」代入可见句子后不表达主释义「非常」。"
       },
       {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「非常」。"
+      },
+      {
         "wordId": "w-ago",
         "surfaceForm": "ago",
         "reason": "将「ago」代入可见句子后不表达主释义「非常」。"
-      },
-      {
-        "wordId": "w-apparently",
-        "surfaceForm": "apparently",
-        "reason": "将「apparently」代入可见句子后不表达主释义「非常」。"
       }
     ],
     "spelling": null
@@ -1130,19 +1130,23 @@
     "wordId": "w-ax",
     "enToZh": [
       {
+        "wordId": "w-cassette",
+        "reason": "选项「盒式磁带」不是「ax」的主释义「斧头」或其他义项。"
+      },
+      {
         "wordId": "w-radish",
         "reason": "选项「萝卜」不是「ax」的主释义「斧头」或其他义项。"
       },
       {
         "wordId": "w-zebra",
         "reason": "选项「斑马」不是「ax」的主释义「斧头」或其他义项。"
-      },
-      {
-        "wordId": "w-barber",
-        "reason": "选项「理发师」不是「ax」的主释义「斧头」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cassette",
+        "reason": "英文「cassette」的常见义项「盒式磁带」不符合主释义「斧头」。"
+      },
       {
         "wordId": "w-radish",
         "reason": "英文「radish」的常见义项「萝卜」不符合主释义「斧头」。"
@@ -1150,13 +1154,14 @@
       {
         "wordId": "w-zebra",
         "reason": "英文「zebra」的常见义项「斑马」不符合主释义「斧头」。"
-      },
-      {
-        "wordId": "w-barber",
-        "reason": "英文「barber」的常见义项「理发师」不符合主释义「斧头」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cassette",
+        "surfaceForm": "cassette",
+        "reason": "将「cassette」代入可见句子后不表达主释义「斧头」。"
+      },
       {
         "wordId": "w-radish",
         "surfaceForm": "radish",
@@ -1166,11 +1171,6 @@
         "wordId": "w-zebra",
         "surfaceForm": "zebra",
         "reason": "将「zebra」代入可见句子后不表达主释义「斧头」。"
-      },
-      {
-        "wordId": "w-barber",
-        "surfaceForm": "barber",
-        "reason": "将「barber」代入可见句子后不表达主释义「斧头」。"
       }
     ],
     "spelling": null

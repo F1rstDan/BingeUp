@@ -399,12 +399,12 @@
         "reason": "选项「吸收」不是「beginner」的主释义「初学者」或其他义项。"
       },
       {
-        "wordId": "w-nylon",
-        "reason": "选项「尼龙」不是「beginner」的主释义「初学者」或其他义项。"
+        "wordId": "w-cartridge",
+        "reason": "选项「墨盒」不是「beginner」的主释义「初学者」或其他义项。"
       },
       {
-        "wordId": "w-acceleration",
-        "reason": "选项「加速」不是「beginner」的主释义「初学者」或其他义项。"
+        "wordId": "w-nylon",
+        "reason": "选项「尼龙」不是「beginner」的主释义「初学者」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「assimilation」的常见义项「吸收」不符合主释义「初学者」。"
       },
       {
-        "wordId": "w-nylon",
-        "reason": "英文「nylon」的常见义项「尼龙」不符合主释义「初学者」。"
+        "wordId": "w-cartridge",
+        "reason": "英文「cartridge」的常见义项「墨盒」不符合主释义「初学者」。"
       },
       {
-        "wordId": "w-acceleration",
-        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「初学者」。"
+        "wordId": "w-nylon",
+        "reason": "英文「nylon」的常见义项「尼龙」不符合主释义「初学者」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「assimilation」代入可见句子后不表达主释义「初学者」。"
       },
       {
+        "wordId": "w-cartridge",
+        "surfaceForm": "cartridge",
+        "reason": "将「cartridge」代入可见句子后不表达主释义「初学者」。"
+      },
+      {
         "wordId": "w-nylon",
         "surfaceForm": "nylon",
         "reason": "将「nylon」代入可见句子后不表达主释义「初学者」。"
-      },
-      {
-        "wordId": "w-acceleration",
-        "surfaceForm": "acceleration",
-        "reason": "将「acceleration」代入可见句子后不表达主释义「初学者」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「肖像」不是「behalf」的主释义「代表（某人）」或其他义项。"
       },
       {
-        "wordId": "w-partner",
-        "reason": "选项「伙伴」不是「behalf」的主释义「代表（某人）」或其他义项。"
+        "wordId": "w-cottage",
+        "reason": "选项「小屋」不是「behalf」的主释义「代表（某人）」或其他义项。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "选项「婴儿」不是「behalf」的主释义「代表（某人）」或其他义项。"
+        "wordId": "w-partner",
+        "reason": "选项「伙伴」不是「behalf」的主释义「代表（某人）」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「portrait」的常见义项「肖像」不符合主释义「代表（某人）」。"
       },
       {
-        "wordId": "w-partner",
-        "reason": "英文「partner」的常见义项「伙伴」不符合主释义「代表（某人）」。"
+        "wordId": "w-cottage",
+        "reason": "英文「cottage」的常见义项「小屋」不符合主释义「代表（某人）」。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "英文「baby」的常见义项「婴儿」不符合主释义「代表（某人）」。"
+        "wordId": "w-partner",
+        "reason": "英文「partner」的常见义项「伙伴」不符合主释义「代表（某人）」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「portrait」代入可见句子后不表达主释义「代表（某人）」。"
       },
       {
+        "wordId": "w-cottage",
+        "surfaceForm": "cottage",
+        "reason": "将「cottage」代入可见句子后不表达主释义「代表（某人）」。"
+      },
+      {
         "wordId": "w-partner",
         "surfaceForm": "partner",
         "reason": "将「partner」代入可见句子后不表达主释义「代表（某人）」。"
-      },
-      {
-        "wordId": "w-baby",
-        "surfaceForm": "baby",
-        "reason": "将「baby」代入可见句子后不表达主释义「代表（某人）」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「允许」不是「believe」的主释义「相信」或其他义项。"
       },
       {
-        "wordId": "w-beat",
-        "reason": "选项「打败」不是「believe」的主释义「相信」或其他义项。"
+        "wordId": "w-cast",
+        "reason": "选项「投掷」不是「believe」的主释义「相信」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「allow」的常见义项「允许」不符合主释义「相信」。"
       },
       {
-        "wordId": "w-beat",
-        "reason": "英文「beat」的常见义项「打败」不符合主释义「相信」。"
+        "wordId": "w-cast",
+        "reason": "英文「cast」的常见义项「投掷」不符合主释义「相信」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「allow」代入可见句子后不表达主释义「相信」。"
       },
       {
-        "wordId": "w-beat",
-        "surfaceForm": "beat",
-        "reason": "将「beat」代入可见句子后不表达主释义「相信」。"
+        "wordId": "w-cast",
+        "surfaceForm": "cast",
+        "reason": "将「cast」代入可见句子后不表达主释义「相信」。"
       }
     ],
     "spelling": null
@@ -1089,8 +1089,8 @@
         "reason": "选项「账户」不是「benefit」的主释义「好处」或其他义项。"
       },
       {
-        "wordId": "w-agency",
-        "reason": "选项「机构」不是「benefit」的主释义「好处」或其他义项。"
+        "wordId": "w-cause",
+        "reason": "选项「原因」不是「benefit」的主释义「好处」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1103,8 +1103,8 @@
         "reason": "英文「account」的常见义项「账户」不符合主释义「好处」。"
       },
       {
-        "wordId": "w-agency",
-        "reason": "英文「agency」的常见义项「机构」不符合主释义「好处」。"
+        "wordId": "w-cause",
+        "reason": "英文「cause」的常见义项「原因」不符合主释义「好处」。"
       }
     ],
     "contextChoice": [
@@ -1119,9 +1119,9 @@
         "reason": "将「account」代入可见句子后不表达主释义「好处」。"
       },
       {
-        "wordId": "w-agency",
-        "surfaceForm": "agency",
-        "reason": "将「agency」代入可见句子后不表达主释义「好处」。"
+        "wordId": "w-cause",
+        "surfaceForm": "cause",
+        "reason": "将「cause」代入可见句子后不表达主释义「好处」。"
       }
     ],
     "spelling": null

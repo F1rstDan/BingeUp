@@ -12,7 +12,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 import type {
   DeckRecord,
   DictionaryContentManifest,
@@ -171,7 +171,7 @@ function writeJsonAtomic(path: string, value: unknown): void {
   writeAtomic(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function readJsonl<T>(path: string): T[] {
+export function readJsonl<T>(path: string): T[] {
   return readFileSync(path, 'utf8')
     .split(/\r?\n/)
     .filter((line) => line.trim().length > 0)
@@ -198,16 +198,24 @@ function nodeSha256(value: string): string {
   return createHash('sha256').update(value, 'utf8').digest('hex');
 }
 
-function acquireLock(): void {
-  if (existsSync(LOCK_PATH)) {
-    const lock = JSON.parse(readFileSync(LOCK_PATH, 'utf8')) as { pid: number; at: string };
+export function acquireLockAt(path: string): void {
+  if (existsSync(path)) {
+    const lock = JSON.parse(readFileSync(path, 'utf8')) as { pid: number; at: string };
     throw new Error(`状态文件已被协调者持有（PID ${lock.pid}，${lock.at}）`);
   }
-  writeFileSync(LOCK_PATH, canonicalJson({ pid: process.pid, at: new Date().toISOString() }));
+  writeFileSync(path, canonicalJson({ pid: process.pid, at: new Date().toISOString() }));
+}
+
+export function releaseLockAt(path: string): void {
+  if (existsSync(path)) rmSync(path);
+}
+
+function acquireLock(): void {
+  acquireLockAt(LOCK_PATH);
 }
 
 function releaseLock(): void {
-  if (existsSync(LOCK_PATH)) rmSync(LOCK_PATH);
+  releaseLockAt(LOCK_PATH);
 }
 
 function withLock<T>(run: () => T): T {
@@ -347,7 +355,7 @@ function pilotSelection(
   });
 }
 
-function sampleIds(batchId: string, wordIds: string[], seed: string): string[] {
+export function sampleIds(batchId: string, wordIds: string[], seed: string): string[] {
   if (wordIds.length <= 3) return [...wordIds];
   const count = Math.min(wordIds.length, Math.max(3, Math.ceil(wordIds.length * 0.1)));
   return [...wordIds]
@@ -558,7 +566,7 @@ function verifyBatchArtifacts(
   return errors;
 }
 
-function parseEntry(raw: unknown, wordId: string): CandidateEntry {
+export function parseEntry(raw: unknown, wordId: string): CandidateEntry {
   if (typeof raw !== 'object' || raw === null) throw new Error(`${wordId}: 输出不是对象`);
   const value = raw as Record<string, unknown>;
   if (typeof value.error === 'string') throw new Error(`${wordId}: 生成失败：${value.error}`);
@@ -595,6 +603,76 @@ function parseEntry(raw: unknown, wordId: string): CandidateEntry {
     exampleTranslation: value.exampleTranslation as string,
     surfaceFormInExample: value.surfaceFormInExample as string,
   };
+}
+
+export type BatchFailure = BatchState['failures'][number];
+
+export function parseBatchOutput(
+  raw: unknown[],
+  inputs: Array<{ wordId: string }>,
+  attempts: number,
+): { entries: Map<string, CandidateEntry>; failures: BatchFailure[] } {
+  const failures: BatchFailure[] = [];
+  const entries = new Map<string, CandidateEntry>();
+  for (const item of raw) {
+    const wordId = (item as { wordId?: string }).wordId;
+    if (typeof wordId !== 'string') {
+      failures.push({
+        wordId: 'unknown',
+        stage: 'structure',
+        code: 'missing-word-id',
+        message: '输出行缺少 wordId',
+        attempts,
+      });
+      continue;
+    }
+    if (!inputs.some((input) => input.wordId === wordId)) {
+      failures.push({
+        wordId,
+        stage: 'structure',
+        code: 'unknown-id',
+        message: `未知目标 ID：${wordId}`,
+        attempts,
+      });
+      continue;
+    }
+    if (entries.has(wordId)) {
+      failures.push({
+        wordId,
+        stage: 'structure',
+        code: 'duplicate-id',
+        message: `重复输出：${wordId}`,
+        attempts,
+      });
+      continue;
+    }
+    try {
+      entries.set(wordId, parseEntry(item, wordId));
+    } catch (error) {
+      failures.push({
+        wordId,
+        stage: 'structure',
+        code: 'invalid-entry',
+        message: error instanceof Error ? error.message : String(error),
+        attempts,
+      });
+    }
+  }
+  for (const input of inputs) {
+    if (
+      !entries.has(input.wordId) &&
+      !failures.some((failure) => failure.wordId === input.wordId)
+    ) {
+      failures.push({
+        wordId: input.wordId,
+        stage: 'structure',
+        code: 'missing-word',
+        message: `缺少词条：${input.wordId}`,
+        attempts,
+      });
+    }
+  }
+  return { entries, failures };
 }
 
 function resolveIpa(wordId: string, word: string): { phonetic: string; source: string } {
@@ -704,9 +782,10 @@ async function buildPlans(
   batchKind: 'pilot' | 'main',
 ): Promise<{ plan: WordQuestionPlan; audit: Record<string, unknown> }> {
   cachedPlanOverrides ??= readJson(PLAN_OVERRIDES_PATH);
-  const override = cachedPlanOverrides.words?.[target.id];
+  const planOverrides = cachedPlanOverrides!;
+  const override = planOverrides.words?.[target.id];
   const excluded = new Set(override?.excludeDistractors ?? []);
-  for (const group of cachedPlanOverrides.synonymGroups ?? []) {
+  for (const group of planOverrides.synonymGroups ?? []) {
     if (group.includes(target.id)) {
       for (const id of group) if (id !== target.id) excluded.add(id);
     }
@@ -800,7 +879,11 @@ function acceptedEntriesFromBatch(id: string): CandidateEntry[] {
   return readJsonl<CandidateEntry>(path);
 }
 
-function incrementWordAttempts(state: RebuildState, wordIds: string[], promptHash: string): void {
+export function incrementWordAttempts(
+  state: RebuildState,
+  wordIds: string[],
+  promptHash: string,
+): void {
   state.wordAttempts ??= {};
   for (const wordId of wordIds) {
     const current = state.wordAttempts[wordId];
@@ -858,66 +941,7 @@ async function accept(batchId: string): Promise<void> {
     const outputPath = batchPath(batchId, 'output.jsonl');
     if (!existsSync(outputPath)) throw new Error(`${batchId}: 缺少 output.jsonl`);
     const raw = readJsonl<unknown>(outputPath);
-    const failures: BatchState['failures'] = [];
-    const entries = new Map<string, CandidateEntry>();
-    for (const item of raw) {
-      const wordId = (item as { wordId?: string }).wordId;
-      if (typeof wordId !== 'string') {
-        failures.push({
-          wordId: 'unknown',
-          stage: 'structure',
-          code: 'missing-word-id',
-          message: '输出行缺少 wordId',
-          attempts: batch.attempts + 1,
-        });
-        continue;
-      }
-      if (!inputs.some((input) => input.wordId === wordId)) {
-        failures.push({
-          wordId,
-          stage: 'structure',
-          code: 'unknown-id',
-          message: `未知目标 ID：${wordId}`,
-          attempts: batch.attempts + 1,
-        });
-        continue;
-      }
-      if (entries.has(wordId)) {
-        failures.push({
-          wordId,
-          stage: 'structure',
-          code: 'duplicate-id',
-          message: `重复输出：${wordId}`,
-          attempts: batch.attempts + 1,
-        });
-        continue;
-      }
-      try {
-        entries.set(wordId, parseEntry(item, wordId));
-      } catch (error) {
-        failures.push({
-          wordId,
-          stage: 'structure',
-          code: 'invalid-entry',
-          message: error instanceof Error ? error.message : String(error),
-          attempts: batch.attempts + 1,
-        });
-      }
-    }
-    for (const input of inputs) {
-      if (
-        !entries.has(input.wordId) &&
-        !failures.some((failure) => failure.wordId === input.wordId)
-      ) {
-        failures.push({
-          wordId: input.wordId,
-          stage: 'structure',
-          code: 'missing-word',
-          message: `缺少词条：${input.wordId}`,
-          attempts: batch.attempts + 1,
-        });
-      }
-    }
+    const { entries, failures } = parseBatchOutput(raw, inputs, batch.attempts + 1);
 
     const pending: Array<{ entry: CandidateEntry; effective: EffectiveWord }> = [];
     for (const input of inputs) {
@@ -1655,7 +1679,9 @@ async function main(): Promise<void> {
   );
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exit(1);
-});
+if (basename(process.argv[1] ?? '') === 'pipeline.ts') {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  });
+}

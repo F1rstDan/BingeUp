@@ -11,8 +11,8 @@
         "reason": "选项「西方」不是「actor」的主释义「演员」或其他义项。"
       },
       {
-        "wordId": "w-bible",
-        "reason": "选项「圣经」不是「actor」的主释义「演员」或其他义项。"
+        "wordId": "w-case",
+        "reason": "选项「案件」不是「actor」的主释义「演员」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「west」的常见义项「西方」不符合主释义「演员」。"
       },
       {
-        "wordId": "w-bible",
-        "reason": "英文「bible」的常见义项「圣经」不符合主释义「演员」。"
+        "wordId": "w-case",
+        "reason": "英文「case」的常见义项「案件」不符合主释义「演员」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「west」代入可见句子后不表达主释义「演员」。"
       },
       {
-        "wordId": "w-bible",
-        "surfaceForm": "bible",
-        "reason": "将「bible」代入可见句子后不表达主释义「演员」。"
+        "wordId": "w-case",
+        "surfaceForm": "case",
+        "reason": "将「case」代入可见句子后不表达主释义「演员」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「女式衬衫」不是「admission」的主释义「承认」或其他义项。"
       },
       {
-        "wordId": "w-autobiography",
-        "reason": "选项「自传」不是「admission」的主释义「承认」或其他义项。"
+        "wordId": "w-carriage",
+        "reason": "选项「马车」不是「admission」的主释义「承认」或其他义项。"
       },
       {
-        "wordId": "w-allowance",
-        "reason": "选项「津贴」不是「admission」的主释义「承认」或其他义项。"
+        "wordId": "w-autobiography",
+        "reason": "选项「自传」不是「admission」的主释义「承认」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「blouse」的常见义项「女式衬衫」不符合主释义「承认」。"
       },
       {
-        "wordId": "w-autobiography",
-        "reason": "英文「autobiography」的常见义项「自传」不符合主释义「承认」。"
+        "wordId": "w-carriage",
+        "reason": "英文「carriage」的常见义项「马车」不符合主释义「承认」。"
       },
       {
-        "wordId": "w-allowance",
-        "reason": "英文「allowance」的常见义项「津贴」不符合主释义「承认」。"
+        "wordId": "w-autobiography",
+        "reason": "英文「autobiography」的常见义项「自传」不符合主释义「承认」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「blouse」代入可见句子后不表达主释义「承认」。"
       },
       {
+        "wordId": "w-carriage",
+        "surfaceForm": "carriage",
+        "reason": "将「carriage」代入可见句子后不表达主释义「承认」。"
+      },
+      {
         "wordId": "w-autobiography",
         "surfaceForm": "autobiography",
         "reason": "将「autobiography」代入可见句子后不表达主释义「承认」。"
-      },
-      {
-        "wordId": "w-allowance",
-        "surfaceForm": "allowance",
-        "reason": "将「allowance」代入可见句子后不表达主释义「承认」。"
       }
     ],
     "spelling": null

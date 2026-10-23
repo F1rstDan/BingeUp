@@ -154,12 +154,12 @@
         "reason": "选项「配件」不是「bang」的主释义「巨响」或其他义项。"
       },
       {
-        "wordId": "w-analogy",
-        "reason": "选项「类比」不是「bang」的主释义「巨响」或其他义项。"
+        "wordId": "w-cargo",
+        "reason": "选项「货物」不是「bang」的主释义「巨响」或其他义项。"
       },
       {
-        "wordId": "w-accuracy",
-        "reason": "选项「准确性」不是「bang」的主释义「巨响」或其他义项。"
+        "wordId": "w-analogy",
+        "reason": "选项「类比」不是「bang」的主释义「巨响」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -168,12 +168,12 @@
         "reason": "英文「accessory」的常见义项「配件」不符合主释义「巨响」。"
       },
       {
-        "wordId": "w-analogy",
-        "reason": "英文「analogy」的常见义项「类比」不符合主释义「巨响」。"
+        "wordId": "w-cargo",
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「巨响」。"
       },
       {
-        "wordId": "w-accuracy",
-        "reason": "英文「accuracy」的常见义项「准确性」不符合主释义「巨响」。"
+        "wordId": "w-analogy",
+        "reason": "英文「analogy」的常见义项「类比」不符合主释义「巨响」。"
       }
     ],
     "contextChoice": [
@@ -183,14 +183,14 @@
         "reason": "将「accessory」代入可见句子后不表达主释义「巨响」。"
       },
       {
+        "wordId": "w-cargo",
+        "surfaceForm": "cargo",
+        "reason": "将「cargo」代入可见句子后不表达主释义「巨响」。"
+      },
+      {
         "wordId": "w-analogy",
         "surfaceForm": "analogy",
         "reason": "将「analogy」代入可见句子后不表达主释义「巨响」。"
-      },
-      {
-        "wordId": "w-accuracy",
-        "surfaceForm": "accuracy",
-        "reason": "将「accuracy」代入可见句子后不表达主释义「巨响」。"
       }
     ],
     "spelling": null
@@ -252,12 +252,12 @@
         "reason": "选项「黄铜」不是「banker」的主释义「银行家」或其他义项。"
       },
       {
-        "wordId": "w-abundance",
-        "reason": "选项「大量」不是「banker」的主释义「银行家」或其他义项。"
+        "wordId": "w-carrier",
+        "reason": "选项「运输公司」不是「banker」的主释义「银行家」或其他义项。"
       },
       {
-        "wordId": "w-aspiration",
-        "reason": "选项「志向」不是「banker」的主释义「银行家」或其他义项。"
+        "wordId": "w-abundance",
+        "reason": "选项「大量」不是「banker」的主释义「银行家」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -266,12 +266,12 @@
         "reason": "英文「brass」的常见义项「黄铜」不符合主释义「银行家」。"
       },
       {
-        "wordId": "w-abundance",
-        "reason": "英文「abundance」的常见义项「大量」不符合主释义「银行家」。"
+        "wordId": "w-carrier",
+        "reason": "英文「carrier」的常见义项「运输公司」不符合主释义「银行家」。"
       },
       {
-        "wordId": "w-aspiration",
-        "reason": "英文「aspiration」的常见义项「志向」不符合主释义「银行家」。"
+        "wordId": "w-abundance",
+        "reason": "英文「abundance」的常见义项「大量」不符合主释义「银行家」。"
       }
     ],
     "contextChoice": [
@@ -281,14 +281,14 @@
         "reason": "将「brass」代入可见句子后不表达主释义「银行家」。"
       },
       {
+        "wordId": "w-carrier",
+        "surfaceForm": "carrier",
+        "reason": "将「carrier」代入可见句子后不表达主释义「银行家」。"
+      },
+      {
         "wordId": "w-abundance",
         "surfaceForm": "abundance",
         "reason": "将「abundance」代入可见句子后不表达主释义「银行家」。"
-      },
-      {
-        "wordId": "w-aspiration",
-        "surfaceForm": "aspiration",
-        "reason": "将「aspiration」代入可见句子后不表达主释义「银行家」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-bankrupt",
     "enToZh": [
       {
+        "wordId": "w-captive",
+        "reason": "选项「被关押的」不是「bankrupt」的主释义「破产的」或其他义项。"
+      },
+      {
         "wordId": "w-bourgeois",
         "reason": "选项「中产阶级的」不是「bankrupt」的主释义「破产的」或其他义项。"
       },
       {
         "wordId": "w-auxiliary",
         "reason": "选项「辅助的」不是「bankrupt」的主释义「破产的」或其他义项。"
-      },
-      {
-        "wordId": "w-slack",
-        "reason": "选项「松弛的」不是「bankrupt」的主释义「破产的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-captive",
+        "reason": "英文「captive」的常见义项「被关押的」不符合主释义「破产的」。"
+      },
       {
         "wordId": "w-bourgeois",
         "reason": "英文「bourgeois」的常见义项「中产阶级的」不符合主释义「破产的」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-auxiliary",
         "reason": "英文「auxiliary」的常见义项「辅助的」不符合主释义「破产的」。"
-      },
-      {
-        "wordId": "w-slack",
-        "reason": "英文「slack」的常见义项「松弛的」不符合主释义「破产的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-captive",
+        "surfaceForm": "captive",
+        "reason": "将「captive」代入可见句子后不表达主释义「破产的」。"
+      },
       {
         "wordId": "w-bourgeois",
         "surfaceForm": "bourgeois",
@@ -333,11 +338,6 @@
         "wordId": "w-auxiliary",
         "surfaceForm": "auxiliary",
         "reason": "将「auxiliary」代入可见句子后不表达主释义「破产的」。"
-      },
-      {
-        "wordId": "w-slack",
-        "surfaceForm": "slack",
-        "reason": "将「slack」代入可见句子后不表达主释义「破产的」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「宽度」不是「baron」的主释义「男爵」或其他义项。"
       },
       {
-        "wordId": "w-meteorite",
-        "reason": "选项「陨石」不是「baron」的主释义「男爵」或其他义项。"
+        "wordId": "w-cartridge",
+        "reason": "选项「墨盒」不是「baron」的主释义「男爵」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「breadth」的常见义项「宽度」不符合主释义「男爵」。"
       },
       {
-        "wordId": "w-meteorite",
-        "reason": "英文「meteorite」的常见义项「陨石」不符合主释义「男爵」。"
+        "wordId": "w-cartridge",
+        "reason": "英文「cartridge」的常见义项「墨盒」不符合主释义「男爵」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「breadth」代入可见句子后不表达主释义「男爵」。"
       },
       {
-        "wordId": "w-meteorite",
-        "surfaceForm": "meteorite",
-        "reason": "将「meteorite」代入可见句子后不表达主释义「男爵」。"
+        "wordId": "w-cartridge",
+        "surfaceForm": "cartridge",
+        "reason": "将「cartridge」代入可见句子后不表达主释义「男爵」。"
       }
     ],
     "spelling": null
@@ -1085,12 +1085,12 @@
         "reason": "选项「意识」不是「base」的主释义「基础」或其他义项。"
       },
       {
-        "wordId": "w-bean",
-        "reason": "选项「豆子」不是「base」的主释义「基础」或其他义项。"
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「base」的主释义「基础」或其他义项。"
       },
       {
-        "wordId": "w-assumption",
-        "reason": "选项「假设」不是「base」的主释义「基础」或其他义项。"
+        "wordId": "w-bean",
+        "reason": "选项「豆子」不是「base」的主释义「基础」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1099,12 +1099,12 @@
         "reason": "英文「awareness」的常见义项「意识」不符合主释义「基础」。"
       },
       {
-        "wordId": "w-bean",
-        "reason": "英文「bean」的常见义项「豆子」不符合主释义「基础」。"
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「基础」。"
       },
       {
-        "wordId": "w-assumption",
-        "reason": "英文「assumption」的常见义项「假设」不符合主释义「基础」。"
+        "wordId": "w-bean",
+        "reason": "英文「bean」的常见义项「豆子」不符合主释义「基础」。"
       }
     ],
     "contextChoice": [
@@ -1114,14 +1114,14 @@
         "reason": "将「awareness」代入可见句子后不表达主释义「基础」。"
       },
       {
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「基础」。"
+      },
+      {
         "wordId": "w-bean",
         "surfaceForm": "bean",
         "reason": "将「bean」代入可见句子后不表达主释义「基础」。"
-      },
-      {
-        "wordId": "w-assumption",
-        "surfaceForm": "assumption",
-        "reason": "将「assumption」代入可见句子后不表达主释义「基础」。"
       }
     ],
     "spelling": null
@@ -1187,8 +1187,8 @@
         "reason": "选项「黄铜」不是「basement」的主释义「地下室」或其他义项。"
       },
       {
-        "wordId": "w-alien",
-        "reason": "选项「外星人」不是「basement」的主释义「地下室」或其他义项。"
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「basement」的主释义「地下室」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1201,8 +1201,8 @@
         "reason": "英文「brass」的常见义项「黄铜」不符合主释义「地下室」。"
       },
       {
-        "wordId": "w-alien",
-        "reason": "英文「alien」的常见义项「外星人」不符合主释义「地下室」。"
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「地下室」。"
       }
     ],
     "contextChoice": [
@@ -1217,9 +1217,9 @@
         "reason": "将「brass」代入可见句子后不表达主释义「地下室」。"
       },
       {
-        "wordId": "w-alien",
-        "surfaceForm": "alien",
-        "reason": "将「alien」代入可见句子后不表达主释义「地下室」。"
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「地下室」。"
       }
     ],
     "spelling": null

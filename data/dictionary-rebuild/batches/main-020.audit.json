@@ -11,8 +11,8 @@
         "reason": "选项「加重」不是「blush」的主释义「脸红」或其他义项。"
       },
       {
-        "wordId": "w-misunderstand",
-        "reason": "选项「误解」不是「blush」的主释义「脸红」或其他义项。"
+        "wordId": "w-counteract",
+        "reason": "选项「抵消」不是「blush」的主释义「脸红」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「aggravate」的常见义项「加重」不符合主释义「脸红」。"
       },
       {
-        "wordId": "w-misunderstand",
-        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「脸红」。"
+        "wordId": "w-counteract",
+        "reason": "英文「counteract」的常见义项「抵消」不符合主释义「脸红」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「aggravate」代入可见句子后不表达主释义「脸红」。"
       },
       {
-        "wordId": "w-misunderstand",
-        "surfaceForm": "misunderstand",
-        "reason": "将「misunderstand」代入可见句子后不表达主释义「脸红」。"
+        "wordId": "w-counteract",
+        "surfaceForm": "counteract",
+        "reason": "将「counteract」代入可见句子后不表达主释义「脸红」。"
       }
     ],
     "spelling": null
@@ -207,8 +207,8 @@
         "reason": "选项「男孩」不是「body」的主释义「身体」或其他义项。"
       },
       {
-        "wordId": "w-advertisement",
-        "reason": "选项「广告」不是「body」的主释义「身体」或其他义项。"
+        "wordId": "w-celebration",
+        "reason": "选项「庆祝活动」不是「body」的主释义「身体」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -221,8 +221,8 @@
         "reason": "英文「boy」的常见义项「男孩」不符合主释义「身体」。"
       },
       {
-        "wordId": "w-advertisement",
-        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「身体」。"
+        "wordId": "w-celebration",
+        "reason": "英文「celebration」的常见义项「庆祝活动」不符合主释义「身体」。"
       }
     ],
     "contextChoice": [
@@ -237,9 +237,9 @@
         "reason": "将「boy」代入可见句子后不表达主释义「身体」。"
       },
       {
-        "wordId": "w-advertisement",
-        "surfaceForm": "advertisement",
-        "reason": "将「advertisement」代入可见句子后不表达主释义「身体」。"
+        "wordId": "w-celebration",
+        "surfaceForm": "celebration",
+        "reason": "将「celebration」代入可见句子后不表达主释义「身体」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-boiler",
     "enToZh": [
       {
+        "wordId": "w-carpenter",
+        "reason": "选项「木匠」不是「boiler」的主释义「锅炉」或其他义项。"
+      },
+      {
         "wordId": "w-blunder",
         "reason": "选项「严重错误」不是「boiler」的主释义「锅炉」或其他义项。"
       },
       {
         "wordId": "w-bandit",
         "reason": "选项「强盗」不是「boiler」的主释义「锅炉」或其他义项。"
-      },
-      {
-        "wordId": "w-accordance",
-        "reason": "选项「一致」不是「boiler」的主释义「锅炉」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-carpenter",
+        "reason": "英文「carpenter」的常见义项「木匠」不符合主释义「锅炉」。"
+      },
       {
         "wordId": "w-blunder",
         "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「锅炉」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-bandit",
         "reason": "英文「bandit」的常见义项「强盗」不符合主释义「锅炉」。"
-      },
-      {
-        "wordId": "w-accordance",
-        "reason": "英文「accordance」的常见义项「一致」不符合主释义「锅炉」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-carpenter",
+        "surfaceForm": "carpenter",
+        "reason": "将「carpenter」代入可见句子后不表达主释义「锅炉」。"
+      },
       {
         "wordId": "w-blunder",
         "surfaceForm": "blunder",
@@ -333,11 +338,6 @@
         "wordId": "w-bandit",
         "surfaceForm": "bandit",
         "reason": "将「bandit」代入可见句子后不表达主释义「锅炉」。"
-      },
-      {
-        "wordId": "w-accordance",
-        "surfaceForm": "accordance",
-        "reason": "将「accordance」代入可见句子后不表达主释义「锅炉」。"
       }
     ],
     "spelling": null
@@ -542,47 +542,47 @@
     "wordId": "w-bonus",
     "enToZh": [
       {
+        "wordId": "w-catalogue",
+        "reason": "选项「目录」不是「bonus」的主释义「奖金」或其他义项。"
+      },
+      {
         "wordId": "w-alien",
         "reason": "选项「外星人」不是「bonus」的主释义「奖金」或其他义项。"
       },
       {
-        "wordId": "w-acre",
-        "reason": "选项「英亩」不是「bonus」的主释义「奖金」或其他义项。"
-      },
-      {
-        "wordId": "w-breakdown",
-        "reason": "选项「故障」不是「bonus」的主释义「奖金」或其他义项。"
+        "wordId": "w-counsel",
+        "reason": "选项「律师」不是「bonus」的主释义「奖金」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-catalogue",
+        "reason": "英文「catalogue」的常见义项「目录」不符合主释义「奖金」。"
+      },
       {
         "wordId": "w-alien",
         "reason": "英文「alien」的常见义项「外星人」不符合主释义「奖金」。"
       },
       {
-        "wordId": "w-acre",
-        "reason": "英文「acre」的常见义项「英亩」不符合主释义「奖金」。"
-      },
-      {
-        "wordId": "w-breakdown",
-        "reason": "英文「breakdown」的常见义项「故障」不符合主释义「奖金」。"
+        "wordId": "w-counsel",
+        "reason": "英文「counsel」的常见义项「律师」不符合主释义「奖金」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-catalogue",
+        "surfaceForm": "catalogue",
+        "reason": "将「catalogue」代入可见句子后不表达主释义「奖金」。"
+      },
       {
         "wordId": "w-alien",
         "surfaceForm": "alien",
         "reason": "将「alien」代入可见句子后不表达主释义「奖金」。"
       },
       {
-        "wordId": "w-acre",
-        "surfaceForm": "acre",
-        "reason": "将「acre」代入可见句子后不表达主释义「奖金」。"
-      },
-      {
-        "wordId": "w-breakdown",
-        "surfaceForm": "breakdown",
-        "reason": "将「breakdown」代入可见句子后不表达主释义「奖金」。"
+        "wordId": "w-counsel",
+        "surfaceForm": "counsel",
+        "reason": "将「counsel」代入可见句子后不表达主释义「奖金」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「焦虑」不是「book」的主释义「书」或其他义项。"
       },
       {
-        "wordId": "w-boundary",
-        "reason": "选项「边界」不是「book」的主释义「书」或其他义项。"
+        "wordId": "w-cotton",
+        "reason": "选项「棉花」不是「book」的主释义「书」或其他义项。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "选项「袭击」不是「book」的主释义「书」或其他义项。"
+        "wordId": "w-boundary",
+        "reason": "选项「边界」不是「book」的主释义「书」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「anxiety」的常见义项「焦虑」不符合主释义「书」。"
       },
       {
-        "wordId": "w-boundary",
-        "reason": "英文「boundary」的常见义项「边界」不符合主释义「书」。"
+        "wordId": "w-cotton",
+        "reason": "英文「cotton」的常见义项「棉花」不符合主释义「书」。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "英文「assault」的常见义项「袭击」不符合主释义「书」。"
+        "wordId": "w-boundary",
+        "reason": "英文「boundary」的常见义项「边界」不符合主释义「书」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「anxiety」代入可见句子后不表达主释义「书」。"
       },
       {
+        "wordId": "w-cotton",
+        "surfaceForm": "cotton",
+        "reason": "将「cotton」代入可见句子后不表达主释义「书」。"
+      },
+      {
         "wordId": "w-boundary",
         "surfaceForm": "boundary",
         "reason": "将「boundary」代入可见句子后不表达主释义「书」。"
-      },
-      {
-        "wordId": "w-assault",
-        "surfaceForm": "assault",
-        "reason": "将「assault」代入可见句子后不表达主释义「书」。"
       }
     ],
     "spelling": null
@@ -693,12 +693,12 @@
         "reason": "选项「活动」不是「boot」的主释义「靴子」或其他义项。"
       },
       {
-        "wordId": "w-brain",
-        "reason": "选项「大脑」不是「boot」的主释义「靴子」或其他义项。"
+        "wordId": "w-counter",
+        "reason": "选项「柜台」不是「boot」的主释义「靴子」或其他义项。"
       },
       {
-        "wordId": "w-art",
-        "reason": "选项「艺术」不是「boot」的主释义「靴子」或其他义项。"
+        "wordId": "w-celebration",
+        "reason": "选项「庆祝活动」不是「boot」的主释义「靴子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -707,12 +707,12 @@
         "reason": "英文「activity」的常见义项「活动」不符合主释义「靴子」。"
       },
       {
-        "wordId": "w-brain",
-        "reason": "英文「brain」的常见义项「大脑」不符合主释义「靴子」。"
+        "wordId": "w-counter",
+        "reason": "英文「counter」的常见义项「柜台」不符合主释义「靴子」。"
       },
       {
-        "wordId": "w-art",
-        "reason": "英文「art」的常见义项「艺术」不符合主释义「靴子」。"
+        "wordId": "w-celebration",
+        "reason": "英文「celebration」的常见义项「庆祝活动」不符合主释义「靴子」。"
       }
     ],
     "contextChoice": [
@@ -722,14 +722,14 @@
         "reason": "将「activity」代入可见句子后不表达主释义「靴子」。"
       },
       {
-        "wordId": "w-brain",
-        "surfaceForm": "brain",
-        "reason": "将「brain」代入可见句子后不表达主释义「靴子」。"
+        "wordId": "w-counter",
+        "surfaceForm": "counter",
+        "reason": "将「counter」代入可见句子后不表达主释义「靴子」。"
       },
       {
-        "wordId": "w-art",
-        "surfaceForm": "art",
-        "reason": "将「art」代入可见句子后不表达主释义「靴子」。"
+        "wordId": "w-celebration",
+        "surfaceForm": "celebration",
+        "reason": "将「celebration」代入可见句子后不表达主释义「靴子」。"
       }
     ],
     "spelling": null
@@ -1179,19 +1179,23 @@
     "wordId": "w-boundary",
     "enToZh": [
       {
+        "wordId": "w-cell",
+        "reason": "选项「细胞」不是「boundary」的主释义「边界」或其他义项。"
+      },
+      {
         "wordId": "w-advertising",
         "reason": "选项「广告宣传」不是「boundary」的主释义「边界」或其他义项。"
       },
       {
         "wordId": "w-bible",
         "reason": "选项「圣经」不是「boundary」的主释义「边界」或其他义项。"
-      },
-      {
-        "wordId": "w-alarm",
-        "reason": "选项「警报」不是「boundary」的主释义「边界」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cell",
+        "reason": "英文「cell」的常见义项「细胞」不符合主释义「边界」。"
+      },
       {
         "wordId": "w-advertising",
         "reason": "英文「advertising」的常见义项「广告宣传」不符合主释义「边界」。"
@@ -1199,13 +1203,14 @@
       {
         "wordId": "w-bible",
         "reason": "英文「bible」的常见义项「圣经」不符合主释义「边界」。"
-      },
-      {
-        "wordId": "w-alarm",
-        "reason": "英文「alarm」的常见义项「警报」不符合主释义「边界」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cell",
+        "surfaceForm": "cell",
+        "reason": "将「cell」代入可见句子后不表达主释义「边界」。"
+      },
       {
         "wordId": "w-advertising",
         "surfaceForm": "advertising",
@@ -1215,11 +1220,6 @@
         "wordId": "w-bible",
         "surfaceForm": "bible",
         "reason": "将「bible」代入可见句子后不表达主释义「边界」。"
-      },
-      {
-        "wordId": "w-alarm",
-        "surfaceForm": "alarm",
-        "reason": "将「alarm」代入可见句子后不表达主释义「边界」。"
       }
     ],
     "spelling": null

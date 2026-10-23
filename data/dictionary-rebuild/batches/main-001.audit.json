@@ -256,8 +256,8 @@
         "reason": "选项「狗叫」不是「abolish」的主释义「废除」或其他义项。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "选项「主持」不是「abolish」的主释义「废除」或其他义项。"
+        "wordId": "w-cater",
+        "reason": "选项「提供餐饮服务」不是「abolish」的主释义「废除」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「bark」的常见义项「狗叫」不符合主释义「废除」。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "英文「preside」的常见义项「主持」不符合主释义「废除」。"
+        "wordId": "w-cater",
+        "reason": "英文「cater」的常见义项「提供餐饮服务」不符合主释义「废除」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「bark」代入可见句子后不表达主释义「废除」。"
       },
       {
-        "wordId": "w-preside",
-        "surfaceForm": "preside",
-        "reason": "将「preside」代入可见句子后不表达主释义「废除」。"
+        "wordId": "w-cater",
+        "surfaceForm": "cater",
+        "reason": "将「cater」代入可见句子后不表达主释义「废除」。"
       }
     ],
     "spelling": null
@@ -493,47 +493,47 @@
     "wordId": "w-absorb",
     "enToZh": [
       {
+        "wordId": "w-carry",
+        "reason": "选项「携带」不是「absorb」的主释义「吸收」或其他义项。"
+      },
+      {
         "wordId": "w-disturb",
         "reason": "选项「打扰」不是「absorb」的主释义「吸收」或其他义项。"
       },
       {
-        "wordId": "w-admit",
-        "reason": "选项「承认」不是「absorb」的主释义「吸收」或其他义项。"
-      },
-      {
-        "wordId": "w-believe",
-        "reason": "选项「相信」不是「absorb」的主释义「吸收」或其他义项。"
+        "wordId": "w-cough",
+        "reason": "选项「咳嗽」不是「absorb」的主释义「吸收」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-carry",
+        "reason": "英文「carry」的常见义项「携带」不符合主释义「吸收」。"
+      },
       {
         "wordId": "w-disturb",
         "reason": "英文「disturb」的常见义项「打扰」不符合主释义「吸收」。"
       },
       {
-        "wordId": "w-admit",
-        "reason": "英文「admit」的常见义项「承认」不符合主释义「吸收」。"
-      },
-      {
-        "wordId": "w-believe",
-        "reason": "英文「believe」的常见义项「相信」不符合主释义「吸收」。"
+        "wordId": "w-cough",
+        "reason": "英文「cough」的常见义项「咳嗽」不符合主释义「吸收」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-carry",
+        "surfaceForm": "carry",
+        "reason": "将「carry」代入可见句子后不表达主释义「吸收」。"
+      },
       {
         "wordId": "w-disturb",
         "surfaceForm": "disturb",
         "reason": "将「disturb」代入可见句子后不表达主释义「吸收」。"
       },
       {
-        "wordId": "w-admit",
-        "surfaceForm": "admit",
-        "reason": "将「admit」代入可见句子后不表达主释义「吸收」。"
-      },
-      {
-        "wordId": "w-believe",
-        "surfaceForm": "believe",
-        "reason": "将「believe」代入可见句子后不表达主释义「吸收」。"
+        "wordId": "w-cough",
+        "surfaceForm": "cough",
+        "reason": "将「cough」代入可见句子后不表达主释义「吸收」。"
       }
     ],
     "spelling": null
@@ -591,19 +591,23 @@
     "wordId": "w-abundance",
     "enToZh": [
       {
+        "wordId": "w-catalogue",
+        "reason": "选项「目录」不是「abundance」的主释义「大量」或其他义项。"
+      },
+      {
         "wordId": "w-assembly",
         "reason": "选项「集会」不是「abundance」的主释义「大量」或其他义项。"
       },
       {
         "wordId": "w-outset",
         "reason": "选项「开端」不是「abundance」的主释义「大量」或其他义项。"
-      },
-      {
-        "wordId": "w-acquaintance",
-        "reason": "选项「熟人」不是「abundance」的主释义「大量」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-catalogue",
+        "reason": "英文「catalogue」的常见义项「目录」不符合主释义「大量」。"
+      },
       {
         "wordId": "w-assembly",
         "reason": "英文「assembly」的常见义项「集会」不符合主释义「大量」。"
@@ -611,13 +615,14 @@
       {
         "wordId": "w-outset",
         "reason": "英文「outset」的常见义项「开端」不符合主释义「大量」。"
-      },
-      {
-        "wordId": "w-acquaintance",
-        "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「大量」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-catalogue",
+        "surfaceForm": "catalogue",
+        "reason": "将「catalogue」代入可见句子后不表达主释义「大量」。"
+      },
       {
         "wordId": "w-assembly",
         "surfaceForm": "assembly",
@@ -627,11 +632,6 @@
         "wordId": "w-outset",
         "surfaceForm": "outset",
         "reason": "将「outset」代入可见句子后不表达主释义「大量」。"
-      },
-      {
-        "wordId": "w-acquaintance",
-        "surfaceForm": "acquaintance",
-        "reason": "将「acquaintance」代入可见句子后不表达主释义「大量」。"
       }
     ],
     "spelling": null
@@ -689,19 +689,23 @@
     "wordId": "w-academy",
     "enToZh": [
       {
+        "wordId": "w-corridor",
+        "reason": "选项「走廊」不是「academy」的主释义「学院」或其他义项。"
+      },
+      {
         "wordId": "w-assignment",
         "reason": "选项「作业」不是「academy」的主释义「学院」或其他义项。"
       },
       {
         "wordId": "w-ambassador",
         "reason": "选项「大使」不是「academy」的主释义「学院」或其他义项。"
-      },
-      {
-        "wordId": "w-brass",
-        "reason": "选项「黄铜」不是「academy」的主释义「学院」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-corridor",
+        "reason": "英文「corridor」的常见义项「走廊」不符合主释义「学院」。"
+      },
       {
         "wordId": "w-assignment",
         "reason": "英文「assignment」的常见义项「作业」不符合主释义「学院」。"
@@ -709,13 +713,14 @@
       {
         "wordId": "w-ambassador",
         "reason": "英文「ambassador」的常见义项「大使」不符合主释义「学院」。"
-      },
-      {
-        "wordId": "w-brass",
-        "reason": "英文「brass」的常见义项「黄铜」不符合主释义「学院」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-corridor",
+        "surfaceForm": "corridor",
+        "reason": "将「corridor」代入可见句子后不表达主释义「学院」。"
+      },
       {
         "wordId": "w-assignment",
         "surfaceForm": "assignment",
@@ -725,11 +730,6 @@
         "wordId": "w-ambassador",
         "surfaceForm": "ambassador",
         "reason": "将「ambassador」代入可见句子后不表达主释义「学院」。"
-      },
-      {
-        "wordId": "w-brass",
-        "surfaceForm": "brass",
-        "reason": "将「brass」代入可见句子后不表达主释义「学院」。"
       }
     ],
     "spelling": null
@@ -836,19 +836,23 @@
     "wordId": "w-accent",
     "enToZh": [
       {
+        "wordId": "w-ceiling",
+        "reason": "选项「天花板」不是「accent」的主释义「口音」或其他义项。"
+      },
+      {
         "wordId": "w-alcohol",
         "reason": "选项「酒精」不是「accent」的主释义「口音」或其他义项。"
       },
       {
         "wordId": "w-portrait",
         "reason": "选项「肖像」不是「accent」的主释义「口音」或其他义项。"
-      },
-      {
-        "wordId": "w-bargain",
-        "reason": "选项「便宜货」不是「accent」的主释义「口音」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-ceiling",
+        "reason": "英文「ceiling」的常见义项「天花板」不符合主释义「口音」。"
+      },
       {
         "wordId": "w-alcohol",
         "reason": "英文「alcohol」的常见义项「酒精」不符合主释义「口音」。"
@@ -856,13 +860,14 @@
       {
         "wordId": "w-portrait",
         "reason": "英文「portrait」的常见义项「肖像」不符合主释义「口音」。"
-      },
-      {
-        "wordId": "w-bargain",
-        "reason": "英文「bargain」的常见义项「便宜货」不符合主释义「口音」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-ceiling",
+        "surfaceForm": "ceiling",
+        "reason": "将「ceiling」代入可见句子后不表达主释义「口音」。"
+      },
       {
         "wordId": "w-alcohol",
         "surfaceForm": "alcohol",
@@ -872,11 +877,6 @@
         "wordId": "w-portrait",
         "surfaceForm": "portrait",
         "reason": "将「portrait」代入可见句子后不表达主释义「口音」。"
-      },
-      {
-        "wordId": "w-bargain",
-        "surfaceForm": "bargain",
-        "reason": "将「bargain」代入可见句子后不表达主释义「口音」。"
       }
     ],
     "spelling": null
@@ -893,8 +893,8 @@
         "reason": "选项「分析」不是「accept」的主释义「接受」或其他义项。"
       },
       {
-        "wordId": "w-afford",
-        "reason": "选项「买得起」不是「accept」的主释义「接受」或其他义项。"
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「accept」的主释义「接受」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -907,8 +907,8 @@
         "reason": "英文「analyse」的常见义项「分析」不符合主释义「接受」。"
       },
       {
-        "wordId": "w-afford",
-        "reason": "英文「afford」的常见义项「买得起」不符合主释义「接受」。"
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「接受」。"
       }
     ],
     "contextChoice": [
@@ -923,9 +923,9 @@
         "reason": "将「analyse」代入可见句子后不表达主释义「接受」。"
       },
       {
-        "wordId": "w-afford",
-        "surfaceForm": "afford",
-        "reason": "将「afford」代入可见句子后不表达主释义「接受」。"
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「接受」。"
       }
     ],
     "spelling": null

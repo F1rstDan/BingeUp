@@ -12,6 +12,11 @@
       "reason": "固定美式来源未收录英式拼写 analyse；按规范词元与常见美式读音独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-cigaret": {
+      "ipa": "/ˌsɪɡəˈrɛt/",
+      "reason": "固定美式来源未收录 cigaret 变体；按香烟义和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-vigour": {
       "ipa": "/ˈvɪɡɚ/",
       "reason": "ipa-dict en_US 未收录英式拼写 vigour；按规范词元与常见美式读音独立转写。",

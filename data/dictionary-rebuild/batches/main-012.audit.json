@@ -501,8 +501,8 @@
         "reason": "选项「放弃」不是「attach」的主释义「附上」或其他义项。"
       },
       {
-        "wordId": "w-advise",
-        "reason": "选项「建议」不是「attach」的主释义「附上」或其他义项。"
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「attach」的主释义「附上」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -515,8 +515,8 @@
         "reason": "英文「abandon」的常见义项「放弃」不符合主释义「附上」。"
       },
       {
-        "wordId": "w-advise",
-        "reason": "英文「advise」的常见义项「建议」不符合主释义「附上」。"
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「附上」。"
       }
     ],
     "contextChoice": [
@@ -531,9 +531,9 @@
         "reason": "将「abandon」代入可见句子后不表达主释义「附上」。"
       },
       {
-        "wordId": "w-advise",
-        "surfaceForm": "advise",
-        "reason": "将「advise」代入可见句子后不表达主释义「附上」。"
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「附上」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「周年纪念日」不是「attack」的主释义「攻击」或其他义项。"
       },
       {
-        "wordId": "w-west",
-        "reason": "选项「西方」不是「attack」的主释义「攻击」或其他义项。"
+        "wordId": "w-castle",
+        "reason": "选项「城堡」不是「attack」的主释义「攻击」或其他义项。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "选项「婴儿」不是「attack」的主释义「攻击」或其他义项。"
+        "wordId": "w-west",
+        "reason": "选项「西方」不是「attack」的主释义「攻击」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「anniversary」的常见义项「周年纪念日」不符合主释义「攻击」。"
       },
       {
-        "wordId": "w-west",
-        "reason": "英文「west」的常见义项「西方」不符合主释义「攻击」。"
+        "wordId": "w-castle",
+        "reason": "英文「castle」的常见义项「城堡」不符合主释义「攻击」。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "英文「baby」的常见义项「婴儿」不符合主释义「攻击」。"
+        "wordId": "w-west",
+        "reason": "英文「west」的常见义项「西方」不符合主释义「攻击」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「anniversary」代入可见句子后不表达主释义「攻击」。"
       },
       {
+        "wordId": "w-castle",
+        "surfaceForm": "castle",
+        "reason": "将「castle」代入可见句子后不表达主释义「攻击」。"
+      },
+      {
         "wordId": "w-west",
         "surfaceForm": "west",
         "reason": "将「west」代入可见句子后不表达主释义「攻击」。"
-      },
-      {
-        "wordId": "w-baby",
-        "surfaceForm": "baby",
-        "reason": "将「baby」代入可见句子后不表达主释义「攻击」。"
       }
     ],
     "spelling": null
@@ -689,19 +689,23 @@
     "wordId": "w-attempt",
     "enToZh": [
       {
+        "wordId": "w-center",
+        "reason": "选项「中心」不是「attempt」的主释义「尝试」或其他义项。"
+      },
+      {
         "wordId": "w-analysis",
         "reason": "选项「分析」不是「attempt」的主释义「尝试」或其他义项。"
       },
       {
         "wordId": "w-arrangement",
         "reason": "选项「安排」不是「attempt」的主释义「尝试」或其他义项。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "reason": "选项「广告」不是「attempt」的主释义「尝试」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-center",
+        "reason": "英文「center」的常见义项「中心」不符合主释义「尝试」。"
+      },
       {
         "wordId": "w-analysis",
         "reason": "英文「analysis」的常见义项「分析」不符合主释义「尝试」。"
@@ -709,13 +713,14 @@
       {
         "wordId": "w-arrangement",
         "reason": "英文「arrangement」的常见义项「安排」不符合主释义「尝试」。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「尝试」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-center",
+        "surfaceForm": "center",
+        "reason": "将「center」代入可见句子后不表达主释义「尝试」。"
+      },
       {
         "wordId": "w-analysis",
         "surfaceForm": "analysis",
@@ -725,11 +730,6 @@
         "wordId": "w-arrangement",
         "surfaceForm": "arrangement",
         "reason": "将「arrangement」代入可见句子后不表达主释义「尝试」。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "surfaceForm": "advertisement",
-        "reason": "将「advertisement」代入可见句子后不表达主释义「尝试」。"
       }
     ],
     "spelling": null
@@ -746,8 +746,8 @@
         "reason": "选项「建议」不是「attend」的主释义「出席」或其他义项。"
       },
       {
-        "wordId": "w-arise",
-        "reason": "选项「出现」不是「attend」的主释义「出席」或其他义项。"
+        "wordId": "w-celebrate",
+        "reason": "选项「庆祝」不是「attend」的主释义「出席」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -760,8 +760,8 @@
         "reason": "英文「advise」的常见义项「建议」不符合主释义「出席」。"
       },
       {
-        "wordId": "w-arise",
-        "reason": "英文「arise」的常见义项「出现」不符合主释义「出席」。"
+        "wordId": "w-celebrate",
+        "reason": "英文「celebrate」的常见义项「庆祝」不符合主释义「出席」。"
       }
     ],
     "contextChoice": [
@@ -776,9 +776,9 @@
         "reason": "将「advise」代入可见句子后不表达主释义「出席」。"
       },
       {
-        "wordId": "w-arise",
-        "surfaceForm": "arise",
-        "reason": "将「arise」代入可见句子后不表达主释义「出席」。"
+        "wordId": "w-celebrate",
+        "surfaceForm": "celebrate",
+        "reason": "将「celebrate」代入可见句子后不表达主释义「出席」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「播音员」不是「attendance」的主释义「出勤」或其他义项。"
       },
       {
-        "wordId": "w-assembly",
-        "reason": "选项「集会」不是「attendance」的主释义「出勤」或其他义项。"
+        "wordId": "w-counsel",
+        "reason": "选项「律师」不是「attendance」的主释义「出勤」或其他义项。"
       },
       {
-        "wordId": "w-applicant",
-        "reason": "选项「申请人」不是「attendance」的主释义「出勤」或其他义项。"
+        "wordId": "w-assembly",
+        "reason": "选项「集会」不是「attendance」的主释义「出勤」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「announcer」的常见义项「播音员」不符合主释义「出勤」。"
       },
       {
-        "wordId": "w-assembly",
-        "reason": "英文「assembly」的常见义项「集会」不符合主释义「出勤」。"
+        "wordId": "w-counsel",
+        "reason": "英文「counsel」的常见义项「律师」不符合主释义「出勤」。"
       },
       {
-        "wordId": "w-applicant",
-        "reason": "英文「applicant」的常见义项「申请人」不符合主释义「出勤」。"
+        "wordId": "w-assembly",
+        "reason": "英文「assembly」的常见义项「集会」不符合主释义「出勤」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「announcer」代入可见句子后不表达主释义「出勤」。"
       },
       {
+        "wordId": "w-counsel",
+        "surfaceForm": "counsel",
+        "reason": "将「counsel」代入可见句子后不表达主释义「出勤」。"
+      },
+      {
         "wordId": "w-assembly",
         "surfaceForm": "assembly",
         "reason": "将「assembly」代入可见句子后不表达主释义「出勤」。"
-      },
-      {
-        "wordId": "w-applicant",
-        "surfaceForm": "applicant",
-        "reason": "将「applicant」代入可见句子后不表达主释义「出勤」。"
       }
     ],
     "spelling": null
@@ -840,12 +840,12 @@
         "reason": "选项「特定场合的服装」不是「attendant」的主释义「服务员」或其他义项。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "选项「梳子」不是「attendant」的主释义「服务员」或其他义项。"
+        "wordId": "w-counsel",
+        "reason": "选项「律师」不是「attendant」的主释义「服务员」或其他义项。"
       },
       {
-        "wordId": "w-astronomy",
-        "reason": "选项「天文学」不是「attendant」的主释义「服务员」或其他义项。"
+        "wordId": "w-comb",
+        "reason": "选项「梳子」不是「attendant」的主释义「服务员」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -854,12 +854,12 @@
         "reason": "英文「costume」的常见义项「特定场合的服装」不符合主释义「服务员」。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "英文「comb」的常见义项「梳子」不符合主释义「服务员」。"
+        "wordId": "w-counsel",
+        "reason": "英文「counsel」的常见义项「律师」不符合主释义「服务员」。"
       },
       {
-        "wordId": "w-astronomy",
-        "reason": "英文「astronomy」的常见义项「天文学」不符合主释义「服务员」。"
+        "wordId": "w-comb",
+        "reason": "英文「comb」的常见义项「梳子」不符合主释义「服务员」。"
       }
     ],
     "contextChoice": [
@@ -869,14 +869,14 @@
         "reason": "将「costume」代入可见句子后不表达主释义「服务员」。"
       },
       {
+        "wordId": "w-counsel",
+        "surfaceForm": "counsel",
+        "reason": "将「counsel」代入可见句子后不表达主释义「服务员」。"
+      },
+      {
         "wordId": "w-comb",
         "surfaceForm": "comb",
         "reason": "将「comb」代入可见句子后不表达主释义「服务员」。"
-      },
-      {
-        "wordId": "w-astronomy",
-        "surfaceForm": "astronomy",
-        "reason": "将「astronomy」代入可见句子后不表达主释义「服务员」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「广告」不是「attorney」的主释义「律师」或其他义项。"
       },
       {
-        "wordId": "w-airport",
-        "reason": "选项「机场」不是「attorney」的主释义「律师」或其他义项。"
+        "wordId": "w-car",
+        "reason": "选项「汽车」不是「attorney」的主释义「律师」或其他义项。"
       },
       {
-        "wordId": "w-article",
-        "reason": "选项「文章」不是「attorney」的主释义「律师」或其他义项。"
+        "wordId": "w-airport",
+        "reason": "选项「机场」不是「attorney」的主释义「律师」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「advertisement」的常见义项「广告」不符合主释义「律师」。"
       },
       {
-        "wordId": "w-airport",
-        "reason": "英文「airport」的常见义项「机场」不符合主释义「律师」。"
+        "wordId": "w-car",
+        "reason": "英文「car」的常见义项「汽车」不符合主释义「律师」。"
       },
       {
-        "wordId": "w-article",
-        "reason": "英文「article」的常见义项「文章」不符合主释义「律师」。"
+        "wordId": "w-airport",
+        "reason": "英文「airport」的常见义项「机场」不符合主释义「律师」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「advertisement」代入可见句子后不表达主释义「律师」。"
       },
       {
+        "wordId": "w-car",
+        "surfaceForm": "car",
+        "reason": "将「car」代入可见句子后不表达主释义「律师」。"
+      },
+      {
         "wordId": "w-airport",
         "surfaceForm": "airport",
         "reason": "将「airport」代入可见句子后不表达主释义「律师」。"
-      },
-      {
-        "wordId": "w-article",
-        "surfaceForm": "article",
-        "reason": "将「article」代入可见句子后不表达主释义「律师」。"
       }
     ],
     "spelling": null

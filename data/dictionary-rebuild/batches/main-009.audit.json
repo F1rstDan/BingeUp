@@ -297,19 +297,23 @@
     "wordId": "w-appetite",
     "enToZh": [
       {
+        "wordId": "w-cartoon",
+        "reason": "选项「动画片」不是「appetite」的主释义「食欲」或其他义项。"
+      },
+      {
         "wordId": "w-bias",
         "reason": "选项「偏见」不是「appetite」的主释义「食欲」或其他义项。"
       },
       {
         "wordId": "w-bonus",
         "reason": "选项「奖金」不是「appetite」的主释义「食欲」或其他义项。"
-      },
-      {
-        "wordId": "w-attachment",
-        "reason": "选项「附件」不是「appetite」的主释义「食欲」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cartoon",
+        "reason": "英文「cartoon」的常见义项「动画片」不符合主释义「食欲」。"
+      },
       {
         "wordId": "w-bias",
         "reason": "英文「bias」的常见义项「偏见」不符合主释义「食欲」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-bonus",
         "reason": "英文「bonus」的常见义项「奖金」不符合主释义「食欲」。"
-      },
-      {
-        "wordId": "w-attachment",
-        "reason": "英文「attachment」的常见义项「附件」不符合主释义「食欲」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cartoon",
+        "surfaceForm": "cartoon",
+        "reason": "将「cartoon」代入可见句子后不表达主释义「食欲」。"
+      },
       {
         "wordId": "w-bias",
         "surfaceForm": "bias",
@@ -333,11 +338,6 @@
         "wordId": "w-bonus",
         "surfaceForm": "bonus",
         "reason": "将「bonus」代入可见句子后不表达主释义「食欲」。"
-      },
-      {
-        "wordId": "w-attachment",
-        "surfaceForm": "attachment",
-        "reason": "将「attachment」代入可见句子后不表达主释义「食欲」。"
       }
     ],
     "spelling": null
@@ -501,8 +501,8 @@
         "reason": "选项「轴」不是「appliance」的主释义「家用电器」或其他义项。"
       },
       {
-        "wordId": "w-breeze",
-        "reason": "选项「微风」不是「appliance」的主释义「家用电器」或其他义项。"
+        "wordId": "w-couch",
+        "reason": "选项「长沙发」不是「appliance」的主释义「家用电器」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -515,8 +515,8 @@
         "reason": "英文「axis」的常见义项「轴」不符合主释义「家用电器」。"
       },
       {
-        "wordId": "w-breeze",
-        "reason": "英文「breeze」的常见义项「微风」不符合主释义「家用电器」。"
+        "wordId": "w-couch",
+        "reason": "英文「couch」的常见义项「长沙发」不符合主释义「家用电器」。"
       }
     ],
     "contextChoice": [
@@ -531,9 +531,9 @@
         "reason": "将「axis」代入可见句子后不表达主释义「家用电器」。"
       },
       {
-        "wordId": "w-breeze",
-        "surfaceForm": "breeze",
-        "reason": "将「breeze」代入可见句子后不表达主释义「家用电器」。"
+        "wordId": "w-couch",
+        "surfaceForm": "couch",
+        "reason": "将「couch」代入可见句子后不表达主释义「家用电器」。"
       }
     ],
     "spelling": null
@@ -591,19 +591,23 @@
     "wordId": "w-apply",
     "enToZh": [
       {
+        "wordId": "w-capture",
+        "reason": "选项「捕获」不是「apply」的主释义「申请」或其他义项。"
+      },
+      {
         "wordId": "w-afford",
         "reason": "选项「买得起」不是「apply」的主释义「申请」或其他义项。"
       },
       {
         "wordId": "w-reduce",
         "reason": "选项「减少」不是「apply」的主释义「申请」或其他义项。"
-      },
-      {
-        "wordId": "w-associate",
-        "reason": "选项「把…联系起来」不是「apply」的主释义「申请」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-capture",
+        "reason": "英文「capture」的常见义项「捕获」不符合主释义「申请」。"
+      },
       {
         "wordId": "w-afford",
         "reason": "英文「afford」的常见义项「买得起」不符合主释义「申请」。"
@@ -611,13 +615,14 @@
       {
         "wordId": "w-reduce",
         "reason": "英文「reduce」的常见义项「减少」不符合主释义「申请」。"
-      },
-      {
-        "wordId": "w-associate",
-        "reason": "英文「associate」的常见义项「把…联系起来」不符合主释义「申请」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-capture",
+        "surfaceForm": "capture",
+        "reason": "将「capture」代入可见句子后不表达主释义「申请」。"
+      },
       {
         "wordId": "w-afford",
         "surfaceForm": "afford",
@@ -627,11 +632,6 @@
         "wordId": "w-reduce",
         "surfaceForm": "reduce",
         "reason": "将「reduce」代入可见句子后不表达主释义「申请」。"
-      },
-      {
-        "wordId": "w-associate",
-        "surfaceForm": "associate",
-        "reason": "将「associate」代入可见句子后不表达主释义「申请」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「婴儿」不是「approach」的主释义「方法」或其他义项。"
       },
       {
-        "wordId": "w-bandage",
-        "reason": "选项「绷带」不是「approach」的主释义「方法」或其他义项。"
+        "wordId": "w-celebrity",
+        "reason": "选项「名人」不是「approach」的主释义「方法」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「baby」的常见义项「婴儿」不符合主释义「方法」。"
       },
       {
-        "wordId": "w-bandage",
-        "reason": "英文「bandage」的常见义项「绷带」不符合主释义「方法」。"
+        "wordId": "w-celebrity",
+        "reason": "英文「celebrity」的常见义项「名人」不符合主释义「方法」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「baby」代入可见句子后不表达主释义「方法」。"
       },
       {
-        "wordId": "w-bandage",
-        "surfaceForm": "bandage",
-        "reason": "将「bandage」代入可见句子后不表达主释义「方法」。"
+        "wordId": "w-celebrity",
+        "surfaceForm": "celebrity",
+        "reason": "将「celebrity」代入可见句子后不表达主释义「方法」。"
       }
     ],
     "spelling": null
@@ -1134,12 +1134,12 @@
         "reason": "选项「特定场合的服装」不是「arc」的主释义「弧线」或其他义项。"
       },
       {
-        "wordId": "w-bishop",
-        "reason": "选项「主教」不是「arc」的主释义「弧线」或其他义项。"
+        "wordId": "w-catalyst",
+        "reason": "选项「催化剂」不是「arc」的主释义「弧线」或其他义项。"
       },
       {
-        "wordId": "w-attendance",
-        "reason": "选项「出勤」不是「arc」的主释义「弧线」或其他义项。"
+        "wordId": "w-bishop",
+        "reason": "选项「主教」不是「arc」的主释义「弧线」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1148,12 +1148,12 @@
         "reason": "英文「costume」的常见义项「特定场合的服装」不符合主释义「弧线」。"
       },
       {
-        "wordId": "w-bishop",
-        "reason": "英文「bishop」的常见义项「主教」不符合主释义「弧线」。"
+        "wordId": "w-catalyst",
+        "reason": "英文「catalyst」的常见义项「催化剂」不符合主释义「弧线」。"
       },
       {
-        "wordId": "w-attendance",
-        "reason": "英文「attendance」的常见义项「出勤」不符合主释义「弧线」。"
+        "wordId": "w-bishop",
+        "reason": "英文「bishop」的常见义项「主教」不符合主释义「弧线」。"
       }
     ],
     "contextChoice": [
@@ -1163,14 +1163,14 @@
         "reason": "将「costume」代入可见句子后不表达主释义「弧线」。"
       },
       {
+        "wordId": "w-catalyst",
+        "surfaceForm": "catalyst",
+        "reason": "将「catalyst」代入可见句子后不表达主释义「弧线」。"
+      },
+      {
         "wordId": "w-bishop",
         "surfaceForm": "bishop",
         "reason": "将「bishop」代入可见句子后不表达主释义「弧线」。"
-      },
-      {
-        "wordId": "w-attendance",
-        "surfaceForm": "attendance",
-        "reason": "将「attendance」代入可见句子后不表达主释义「弧线」。"
       }
     ],
     "spelling": null
@@ -1183,12 +1183,12 @@
         "reason": "选项「成就」不是「arch」的主释义「拱门」或其他义项。"
       },
       {
-        "wordId": "w-bolt",
-        "reason": "选项「螺栓」不是「arch」的主释义「拱门」或其他义项。"
+        "wordId": "w-caution",
+        "reason": "选项「谨慎」不是「arch」的主释义「拱门」或其他义项。"
       },
       {
-        "wordId": "w-reservoir",
-        "reason": "选项「水库」不是「arch」的主释义「拱门」或其他义项。"
+        "wordId": "w-cavity",
+        "reason": "选项「龋洞」不是「arch」的主释义「拱门」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1197,12 +1197,12 @@
         "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「拱门」。"
       },
       {
-        "wordId": "w-bolt",
-        "reason": "英文「bolt」的常见义项「螺栓」不符合主释义「拱门」。"
+        "wordId": "w-caution",
+        "reason": "英文「caution」的常见义项「谨慎」不符合主释义「拱门」。"
       },
       {
-        "wordId": "w-reservoir",
-        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「拱门」。"
+        "wordId": "w-cavity",
+        "reason": "英文「cavity」的常见义项「龋洞」不符合主释义「拱门」。"
       }
     ],
     "contextChoice": [
@@ -1212,14 +1212,14 @@
         "reason": "将「accomplishment」代入可见句子后不表达主释义「拱门」。"
       },
       {
-        "wordId": "w-bolt",
-        "surfaceForm": "bolt",
-        "reason": "将「bolt」代入可见句子后不表达主释义「拱门」。"
+        "wordId": "w-caution",
+        "surfaceForm": "caution",
+        "reason": "将「caution」代入可见句子后不表达主释义「拱门」。"
       },
       {
-        "wordId": "w-reservoir",
-        "surfaceForm": "reservoir",
-        "reason": "将「reservoir」代入可见句子后不表达主释义「拱门」。"
+        "wordId": "w-cavity",
+        "surfaceForm": "cavity",
+        "reason": "将「cavity」代入可见句子后不表达主释义「拱门」。"
       }
     ],
     "spelling": null

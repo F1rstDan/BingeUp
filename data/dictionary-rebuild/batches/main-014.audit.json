@@ -11,8 +11,8 @@
         "reason": "选项「锅炉」不是「axle」的主释义「车轴」或其他义项。"
       },
       {
-        "wordId": "w-blaze",
-        "reason": "选项「大火」不是「axle」的主释义「车轴」或其他义项。"
+        "wordId": "w-cosmos",
+        "reason": "选项「宇宙」不是「axle」的主释义「车轴」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「车轴」。"
       },
       {
-        "wordId": "w-blaze",
-        "reason": "英文「blaze」的常见义项「大火」不符合主释义「车轴」。"
+        "wordId": "w-cosmos",
+        "reason": "英文「cosmos」的常见义项「宇宙」不符合主释义「车轴」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「boiler」代入可见句子后不表达主释义「车轴」。"
       },
       {
-        "wordId": "w-blaze",
-        "surfaceForm": "blaze",
-        "reason": "将「blaze」代入可见句子后不表达主释义「车轴」。"
+        "wordId": "w-cosmos",
+        "surfaceForm": "cosmos",
+        "reason": "将「cosmos」代入可见句子后不表达主释义「车轴」。"
       }
     ],
     "spelling": null
@@ -60,8 +60,8 @@
         "reason": "选项「非洲」不是「baby」的主释义「婴儿」或其他义项。"
       },
       {
-        "wordId": "w-accommodation",
-        "reason": "选项「住处」不是「baby」的主释义「婴儿」或其他义项。"
+        "wordId": "w-celebration",
+        "reason": "选项「庆祝活动」不是「baby」的主释义「婴儿」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -74,8 +74,8 @@
         "reason": "英文「Africa」的常见义项「非洲」不符合主释义「婴儿」。"
       },
       {
-        "wordId": "w-accommodation",
-        "reason": "英文「accommodation」的常见义项「住处」不符合主释义「婴儿」。"
+        "wordId": "w-celebration",
+        "reason": "英文「celebration」的常见义项「庆祝活动」不符合主释义「婴儿」。"
       }
     ],
     "contextChoice": [
@@ -90,9 +90,9 @@
         "reason": "将「Africa」代入可见句子后不表达主释义「婴儿」。"
       },
       {
-        "wordId": "w-accommodation",
-        "surfaceForm": "accommodation",
-        "reason": "将「accommodation」代入可见句子后不表达主释义「婴儿」。"
+        "wordId": "w-celebration",
+        "surfaceForm": "celebration",
+        "reason": "将「celebration」代入可见句子后不表达主释义「婴儿」。"
       }
     ],
     "spelling": null
@@ -150,19 +150,23 @@
     "wordId": "w-backbone",
     "enToZh": [
       {
+        "wordId": "w-cassette",
+        "reason": "选项「盒式磁带」不是「backbone」的主释义「脊柱」或其他义项。"
+      },
+      {
         "wordId": "w-amplitude",
         "reason": "选项「振幅」不是「backbone」的主释义「脊柱」或其他义项。"
       },
       {
         "wordId": "w-adjective",
         "reason": "选项「形容词」不是「backbone」的主释义「脊柱」或其他义项。"
-      },
-      {
-        "wordId": "w-agitation",
-        "reason": "选项「焦虑」不是「backbone」的主释义「脊柱」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cassette",
+        "reason": "英文「cassette」的常见义项「盒式磁带」不符合主释义「脊柱」。"
+      },
       {
         "wordId": "w-amplitude",
         "reason": "英文「amplitude」的常见义项「振幅」不符合主释义「脊柱」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-adjective",
         "reason": "英文「adjective」的常见义项「形容词」不符合主释义「脊柱」。"
-      },
-      {
-        "wordId": "w-agitation",
-        "reason": "英文「agitation」的常见义项「焦虑」不符合主释义「脊柱」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cassette",
+        "surfaceForm": "cassette",
+        "reason": "将「cassette」代入可见句子后不表达主释义「脊柱」。"
+      },
       {
         "wordId": "w-amplitude",
         "surfaceForm": "amplitude",
@@ -186,11 +191,6 @@
         "wordId": "w-adjective",
         "surfaceForm": "adjective",
         "reason": "将「adjective」代入可见句子后不表达主释义「脊柱」。"
-      },
-      {
-        "wordId": "w-agitation",
-        "surfaceForm": "agitation",
-        "reason": "将「agitation」代入可见句子后不表达主释义「脊柱」。"
       }
     ],
     "spelling": null
@@ -497,12 +497,12 @@
         "reason": "选项「无论如何」不是「badly」的主释义「糟糕地」或其他义项。"
       },
       {
-        "wordId": "w-absolutely",
-        "reason": "选项「完全地」不是「badly」的主释义「糟糕地」或其他义项。"
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「badly」的主释义「糟糕地」或其他义项。"
       },
       {
-        "wordId": "w-somewhere",
-        "reason": "选项「在某处」不是「badly」的主释义「糟糕地」或其他义项。"
+        "wordId": "w-absolutely",
+        "reason": "选项「完全地」不是「badly」的主释义「糟糕地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -511,12 +511,12 @@
         "reason": "英文「anyway」的常见义项「无论如何」不符合主释义「糟糕地」。"
       },
       {
-        "wordId": "w-absolutely",
-        "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「糟糕地」。"
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「糟糕地」。"
       },
       {
-        "wordId": "w-somewhere",
-        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「糟糕地」。"
+        "wordId": "w-absolutely",
+        "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「糟糕地」。"
       }
     ],
     "contextChoice": [
@@ -526,14 +526,14 @@
         "reason": "将「anyway」代入可见句子后不表达主释义「糟糕地」。"
       },
       {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「糟糕地」。"
+      },
+      {
         "wordId": "w-absolutely",
         "surfaceForm": "absolutely",
         "reason": "将「absolutely」代入可见句子后不表达主释义「糟糕地」。"
-      },
-      {
-        "wordId": "w-somewhere",
-        "surfaceForm": "somewhere",
-        "reason": "将「somewhere」代入可见句子后不表达主释义「糟糕地」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「暗杀」不是「baffle」的主释义「使困惑」或其他义项。"
       },
       {
-        "wordId": "w-untie",
-        "reason": "选项「解开」不是「baffle」的主释义「使困惑」或其他义项。"
+        "wordId": "w-counteract",
+        "reason": "选项「抵消」不是「baffle」的主释义「使困惑」或其他义项。"
       },
       {
-        "wordId": "w-afflict",
-        "reason": "选项「折磨」不是「baffle」的主释义「使困惑」或其他义项。"
+        "wordId": "w-untie",
+        "reason": "选项「解开」不是「baffle」的主释义「使困惑」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「assassinate」的常见义项「暗杀」不符合主释义「使困惑」。"
       },
       {
-        "wordId": "w-untie",
-        "reason": "英文「untie」的常见义项「解开」不符合主释义「使困惑」。"
+        "wordId": "w-counteract",
+        "reason": "英文「counteract」的常见义项「抵消」不符合主释义「使困惑」。"
       },
       {
-        "wordId": "w-afflict",
-        "reason": "英文「afflict」的常见义项「折磨」不符合主释义「使困惑」。"
+        "wordId": "w-untie",
+        "reason": "英文「untie」的常见义项「解开」不符合主释义「使困惑」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「assassinate」代入可见句子后不表达主释义「使困惑」。"
       },
       {
+        "wordId": "w-counteract",
+        "surfaceForm": "counteract",
+        "reason": "将「counteract」代入可见句子后不表达主释义「使困惑」。"
+      },
+      {
         "wordId": "w-untie",
         "surfaceForm": "untie",
         "reason": "将「untie」代入可见句子后不表达主释义「使困惑」。"
-      },
-      {
-        "wordId": "w-afflict",
-        "surfaceForm": "afflict",
-        "reason": "将「afflict」代入可见句子后不表达主释义「使困惑」。"
       }
     ],
     "spelling": null
@@ -938,12 +938,12 @@
         "reason": "选项「生产」不是「ball」的主释义「球」或其他义项。"
       },
       {
-        "wordId": "w-conservation",
-        "reason": "选项「保护」不是「ball」的主释义「球」或其他义项。"
+        "wordId": "w-cash",
+        "reason": "选项「现金」不是「ball」的主释义「球」或其他义项。"
       },
       {
-        "wordId": "w-assumption",
-        "reason": "选项「假设」不是「ball」的主释义「球」或其他义项。"
+        "wordId": "w-conservation",
+        "reason": "选项「保护」不是「ball」的主释义「球」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -952,12 +952,12 @@
         "reason": "英文「production」的常见义项「生产」不符合主释义「球」。"
       },
       {
-        "wordId": "w-conservation",
-        "reason": "英文「conservation」的常见义项「保护」不符合主释义「球」。"
+        "wordId": "w-cash",
+        "reason": "英文「cash」的常见义项「现金」不符合主释义「球」。"
       },
       {
-        "wordId": "w-assumption",
-        "reason": "英文「assumption」的常见义项「假设」不符合主释义「球」。"
+        "wordId": "w-conservation",
+        "reason": "英文「conservation」的常见义项「保护」不符合主释义「球」。"
       }
     ],
     "contextChoice": [
@@ -967,14 +967,14 @@
         "reason": "将「production」代入可见句子后不表达主释义「球」。"
       },
       {
+        "wordId": "w-cash",
+        "surfaceForm": "cash",
+        "reason": "将「cash」代入可见句子后不表达主释义「球」。"
+      },
+      {
         "wordId": "w-conservation",
         "surfaceForm": "conservation",
         "reason": "将「conservation」代入可见句子后不表达主释义「球」。"
-      },
-      {
-        "wordId": "w-assumption",
-        "surfaceForm": "assumption",
-        "reason": "将「assumption」代入可见句子后不表达主释义「球」。"
       }
     ],
     "spelling": null
@@ -991,8 +991,8 @@
         "reason": "选项「毯子」不是「ballet」的主释义「芭蕾舞」或其他义项。"
       },
       {
-        "wordId": "w-availability",
-        "reason": "选项「可获得性」不是「ballet」的主释义「芭蕾舞」或其他义项。"
+        "wordId": "w-cathedral",
+        "reason": "选项「大教堂」不是「ballet」的主释义「芭蕾舞」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1005,8 +1005,8 @@
         "reason": "英文「blanket」的常见义项「毯子」不符合主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-availability",
-        "reason": "英文「availability」的常见义项「可获得性」不符合主释义「芭蕾舞」。"
+        "wordId": "w-cathedral",
+        "reason": "英文「cathedral」的常见义项「大教堂」不符合主释义「芭蕾舞」。"
       }
     ],
     "contextChoice": [
@@ -1021,9 +1021,9 @@
         "reason": "将「blanket」代入可见句子后不表达主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-availability",
-        "surfaceForm": "availability",
-        "reason": "将「availability」代入可见句子后不表达主释义「芭蕾舞」。"
+        "wordId": "w-cathedral",
+        "surfaceForm": "cathedral",
+        "reason": "将「cathedral」代入可见句子后不表达主释义「芭蕾舞」。"
       }
     ],
     "spelling": null
@@ -1040,8 +1040,8 @@
         "reason": "选项「闲暇」不是「balloon」的主释义「气球」或其他义项。"
       },
       {
-        "wordId": "w-airplane",
-        "reason": "选项「飞机」不是「balloon」的主释义「气球」或其他义项。"
+        "wordId": "w-catalyst",
+        "reason": "选项「催化剂」不是「balloon」的主释义「气球」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1054,8 +1054,8 @@
         "reason": "英文「leisure」的常见义项「闲暇」不符合主释义「气球」。"
       },
       {
-        "wordId": "w-airplane",
-        "reason": "英文「airplane」的常见义项「飞机」不符合主释义「气球」。"
+        "wordId": "w-catalyst",
+        "reason": "英文「catalyst」的常见义项「催化剂」不符合主释义「气球」。"
       }
     ],
     "contextChoice": [
@@ -1070,9 +1070,9 @@
         "reason": "将「leisure」代入可见句子后不表达主释义「气球」。"
       },
       {
-        "wordId": "w-airplane",
-        "surfaceForm": "airplane",
-        "reason": "将「airplane」代入可见句子后不表达主释义「气球」。"
+        "wordId": "w-catalyst",
+        "surfaceForm": "catalyst",
+        "reason": "将「catalyst」代入可见句子后不表达主释义「气球」。"
       }
     ],
     "spelling": null
@@ -1089,8 +1089,8 @@
         "reason": "选项「攻击性」不是「ballot」的主释义「选票」或其他义项。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "选项「评估」不是「ballot」的主释义「选票」或其他义项。"
+        "wordId": "w-cargo",
+        "reason": "选项「货物」不是「ballot」的主释义「选票」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1103,8 +1103,8 @@
         "reason": "英文「aggression」的常见义项「攻击性」不符合主释义「选票」。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「选票」。"
+        "wordId": "w-cargo",
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「选票」。"
       }
     ],
     "contextChoice": [
@@ -1119,9 +1119,9 @@
         "reason": "将「aggression」代入可见句子后不表达主释义「选票」。"
       },
       {
-        "wordId": "w-appraisal",
-        "surfaceForm": "appraisal",
-        "reason": "将「appraisal」代入可见句子后不表达主释义「选票」。"
+        "wordId": "w-cargo",
+        "surfaceForm": "cargo",
+        "reason": "将「cargo」代入可见句子后不表达主释义「选票」。"
       }
     ],
     "spelling": null

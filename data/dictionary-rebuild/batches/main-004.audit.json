@@ -109,8 +109,8 @@
         "reason": "选项「机场」不是「advertisement」的主释义「广告」或其他义项。"
       },
       {
-        "wordId": "w-artist",
-        "reason": "选项「艺术家」不是「advertisement」的主释义「广告」或其他义项。"
+        "wordId": "w-correspondent",
+        "reason": "选项「记者」不是「advertisement」的主释义「广告」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -123,8 +123,8 @@
         "reason": "英文「airport」的常见义项「机场」不符合主释义「广告」。"
       },
       {
-        "wordId": "w-artist",
-        "reason": "英文「artist」的常见义项「艺术家」不符合主释义「广告」。"
+        "wordId": "w-correspondent",
+        "reason": "英文「correspondent」的常见义项「记者」不符合主释义「广告」。"
       }
     ],
     "contextChoice": [
@@ -139,9 +139,9 @@
         "reason": "将「airport」代入可见句子后不表达主释义「广告」。"
       },
       {
-        "wordId": "w-artist",
-        "surfaceForm": "artist",
-        "reason": "将「artist」代入可见句子后不表达主释义「广告」。"
+        "wordId": "w-correspondent",
+        "surfaceForm": "correspondent",
+        "reason": "将「correspondent」代入可见句子后不表达主释义「广告」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「到达」不是「advocate」的主释义「提倡」或其他义项。"
       },
       {
-        "wordId": "w-accompany",
-        "reason": "选项「陪同」不是「advocate」的主释义「提倡」或其他义项。"
+        "wordId": "w-capture",
+        "reason": "选项「捕获」不是「advocate」的主释义「提倡」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「arrive」的常见义项「到达」不符合主释义「提倡」。"
       },
       {
-        "wordId": "w-accompany",
-        "reason": "英文「accompany」的常见义项「陪同」不符合主释义「提倡」。"
+        "wordId": "w-capture",
+        "reason": "英文「capture」的常见义项「捕获」不符合主释义「提倡」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「arrive」代入可见句子后不表达主释义「提倡」。"
       },
       {
-        "wordId": "w-accompany",
-        "surfaceForm": "accompany",
-        "reason": "将「accompany」代入可见句子后不表达主释义「提倡」。"
+        "wordId": "w-capture",
+        "surfaceForm": "capture",
+        "reason": "将「capture」代入可见句子后不表达主释义「提倡」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「惊讶」不是「aerospace」的主释义「航空航天」或其他义项。"
       },
       {
-        "wordId": "w-bleach",
-        "reason": "选项「漂白剂」不是「aerospace」的主释义「航空航天」或其他义项。"
+        "wordId": "w-carpenter",
+        "reason": "选项「木匠」不是「aerospace」的主释义「航空航天」或其他义项。"
       },
       {
-        "wordId": "w-brandy",
-        "reason": "选项「白兰地」不是「aerospace」的主释义「航空航天」或其他义项。"
+        "wordId": "w-bleach",
+        "reason": "选项「漂白剂」不是「aerospace」的主释义「航空航天」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「astonishment」的常见义项「惊讶」不符合主释义「航空航天」。"
       },
       {
-        "wordId": "w-bleach",
-        "reason": "英文「bleach」的常见义项「漂白剂」不符合主释义「航空航天」。"
+        "wordId": "w-carpenter",
+        "reason": "英文「carpenter」的常见义项「木匠」不符合主释义「航空航天」。"
       },
       {
-        "wordId": "w-brandy",
-        "reason": "英文「brandy」的常见义项「白兰地」不符合主释义「航空航天」。"
+        "wordId": "w-bleach",
+        "reason": "英文「bleach」的常见义项「漂白剂」不符合主释义「航空航天」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「astonishment」代入可见句子后不表达主释义「航空航天」。"
       },
       {
+        "wordId": "w-carpenter",
+        "surfaceForm": "carpenter",
+        "reason": "将「carpenter」代入可见句子后不表达主释义「航空航天」。"
+      },
+      {
         "wordId": "w-bleach",
         "surfaceForm": "bleach",
         "reason": "将「bleach」代入可见句子后不表达主释义「航空航天」。"
-      },
-      {
-        "wordId": "w-brandy",
-        "surfaceForm": "brandy",
-        "reason": "将「brandy」代入可见句子后不表达主释义「航空航天」。"
       }
     ],
     "spelling": null
@@ -795,8 +795,8 @@
         "reason": "选项「乞丐」不是「affluence」的主释义「富裕」或其他义项。"
       },
       {
-        "wordId": "w-aerospace",
-        "reason": "选项「航空航天」不是「affluence」的主释义「富裕」或其他义项。"
+        "wordId": "w-cassette",
+        "reason": "选项「盒式磁带」不是「affluence」的主释义「富裕」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -809,8 +809,8 @@
         "reason": "英文「beggar」的常见义项「乞丐」不符合主释义「富裕」。"
       },
       {
-        "wordId": "w-aerospace",
-        "reason": "英文「aerospace」的常见义项「航空航天」不符合主释义「富裕」。"
+        "wordId": "w-cassette",
+        "reason": "英文「cassette」的常见义项「盒式磁带」不符合主释义「富裕」。"
       }
     ],
     "contextChoice": [
@@ -825,9 +825,9 @@
         "reason": "将「beggar」代入可见句子后不表达主释义「富裕」。"
       },
       {
-        "wordId": "w-aerospace",
-        "surfaceForm": "aerospace",
-        "reason": "将「aerospace」代入可见句子后不表达主释义「富裕」。"
+        "wordId": "w-cassette",
+        "surfaceForm": "cassette",
+        "reason": "将「cassette」代入可见句子后不表达主释义「富裕」。"
       }
     ],
     "spelling": null
@@ -885,47 +885,47 @@
     "wordId": "w-africa",
     "enToZh": [
       {
+        "wordId": "w-cotton",
+        "reason": "选项「棉花」不是「Africa」的主释义「非洲」或其他义项。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "选项「现金」不是「Africa」的主释义「非洲」或其他义项。"
+      },
+      {
         "wordId": "w-belt",
         "reason": "选项「腰带」不是「Africa」的主释义「非洲」或其他义项。"
-      },
-      {
-        "wordId": "w-blade",
-        "reason": "选项「刀刃」不是「Africa」的主释义「非洲」或其他义项。"
-      },
-      {
-        "wordId": "w-bicycle",
-        "reason": "选项「自行车」不是「Africa」的主释义「非洲」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-cotton",
+        "reason": "英文「cotton」的常见义项「棉花」不符合主释义「非洲」。"
+      },
+      {
+        "wordId": "w-cash",
+        "reason": "英文「cash」的常见义项「现金」不符合主释义「非洲」。"
+      },
+      {
         "wordId": "w-belt",
         "reason": "英文「belt」的常见义项「腰带」不符合主释义「非洲」。"
-      },
-      {
-        "wordId": "w-blade",
-        "reason": "英文「blade」的常见义项「刀刃」不符合主释义「非洲」。"
-      },
-      {
-        "wordId": "w-bicycle",
-        "reason": "英文「bicycle」的常见义项「自行车」不符合主释义「非洲」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-cotton",
+        "surfaceForm": "cotton",
+        "reason": "将「cotton」代入可见句子后不表达主释义「非洲」。"
+      },
+      {
+        "wordId": "w-cash",
+        "surfaceForm": "cash",
+        "reason": "将「cash」代入可见句子后不表达主释义「非洲」。"
+      },
+      {
         "wordId": "w-belt",
         "surfaceForm": "belt",
         "reason": "将「belt」代入可见句子后不表达主释义「非洲」。"
-      },
-      {
-        "wordId": "w-blade",
-        "surfaceForm": "blade",
-        "reason": "将「blade」代入可见句子后不表达主释义「非洲」。"
-      },
-      {
-        "wordId": "w-bicycle",
-        "surfaceForm": "bicycle",
-        "reason": "将「bicycle」代入可见句子后不表达主释义「非洲」。"
       }
     ],
     "spelling": null

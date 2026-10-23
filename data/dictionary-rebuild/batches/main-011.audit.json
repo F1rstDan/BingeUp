@@ -158,8 +158,8 @@
         "reason": "选项「酒精」不是「aspect」的主释义「方面」或其他义项。"
       },
       {
-        "wordId": "w-bottom",
-        "reason": "选项「底部」不是「aspect」的主释义「方面」或其他义项。"
+        "wordId": "w-cat",
+        "reason": "选项「猫」不是「aspect」的主释义「方面」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「alcohol」的常见义项「酒精」不符合主释义「方面」。"
       },
       {
-        "wordId": "w-bottom",
-        "reason": "英文「bottom」的常见义项「底部」不符合主释义「方面」。"
+        "wordId": "w-cat",
+        "reason": "英文「cat」的常见义项「猫」不符合主释义「方面」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「alcohol」代入可见句子后不表达主释义「方面」。"
       },
       {
-        "wordId": "w-bottom",
-        "surfaceForm": "bottom",
-        "reason": "将「bottom」代入可见句子后不表达主释义「方面」。"
+        "wordId": "w-cat",
+        "surfaceForm": "cat",
+        "reason": "将「cat」代入可见句子后不表达主释义「方面」。"
       }
     ],
     "spelling": null
@@ -256,8 +256,8 @@
         "reason": "选项「熟人」不是「ass」的主释义「屁股」或其他义项。"
       },
       {
-        "wordId": "w-affiliate",
-        "reason": "选项「附属机构」不是「ass」的主释义「屁股」或其他义项。"
+        "wordId": "w-carrier",
+        "reason": "选项「运输公司」不是「ass」的主释义「屁股」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「屁股」。"
       },
       {
-        "wordId": "w-affiliate",
-        "reason": "英文「affiliate」的常见义项「附属机构」不符合主释义「屁股」。"
+        "wordId": "w-carrier",
+        "reason": "英文「carrier」的常见义项「运输公司」不符合主释义「屁股」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「acquaintance」代入可见句子后不表达主释义「屁股」。"
       },
       {
-        "wordId": "w-affiliate",
-        "surfaceForm": "affiliate",
-        "reason": "将「affiliate」代入可见句子后不表达主释义「屁股」。"
+        "wordId": "w-carrier",
+        "surfaceForm": "carrier",
+        "reason": "将「carrier」代入可见句子后不表达主释义「屁股」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「爆炸」不是「assembly」的主释义「集会」或其他义项。"
       },
       {
-        "wordId": "w-accomplishment",
-        "reason": "选项「成就」不是「assembly」的主释义「集会」或其他义项。"
+        "wordId": "w-cart",
+        "reason": "选项「手推车」不是「assembly」的主释义「集会」或其他义项。"
       },
       {
-        "wordId": "w-bias",
-        "reason": "选项「偏见」不是「assembly」的主释义「集会」或其他义项。"
+        "wordId": "w-correlation",
+        "reason": "选项「相关性」不是「assembly」的主释义「集会」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「blast」的常见义项「爆炸」不符合主释义「集会」。"
       },
       {
-        "wordId": "w-accomplishment",
-        "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「集会」。"
+        "wordId": "w-cart",
+        "reason": "英文「cart」的常见义项「手推车」不符合主释义「集会」。"
       },
       {
-        "wordId": "w-bias",
-        "reason": "英文「bias」的常见义项「偏见」不符合主释义「集会」。"
+        "wordId": "w-correlation",
+        "reason": "英文「correlation」的常见义项「相关性」不符合主释义「集会」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「blast」代入可见句子后不表达主释义「集会」。"
       },
       {
-        "wordId": "w-accomplishment",
-        "surfaceForm": "accomplishment",
-        "reason": "将「accomplishment」代入可见句子后不表达主释义「集会」。"
+        "wordId": "w-cart",
+        "surfaceForm": "cart",
+        "reason": "将「cart」代入可见句子后不表达主释义「集会」。"
       },
       {
-        "wordId": "w-bias",
-        "surfaceForm": "bias",
-        "reason": "将「bias」代入可见句子后不表达主释义「集会」。"
+        "wordId": "w-correlation",
+        "surfaceForm": "correlation",
+        "reason": "将「correlation」代入可见句子后不表达主释义「集会」。"
       }
     ],
     "spelling": null
@@ -546,12 +546,12 @@
         "reason": "选项「捆绑」不是「assess」的主释义「评估」或其他义项。"
       },
       {
-        "wordId": "w-accomplish",
-        "reason": "选项「完成」不是「assess」的主释义「评估」或其他义项。"
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「assess」的主释义「评估」或其他义项。"
       },
       {
-        "wordId": "w-advise",
-        "reason": "选项「建议」不是「assess」的主释义「评估」或其他义项。"
+        "wordId": "w-accomplish",
+        "reason": "选项「完成」不是「assess」的主释义「评估」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「bind」的常见义项「捆绑」不符合主释义「评估」。"
       },
       {
-        "wordId": "w-accomplish",
-        "reason": "英文「accomplish」的常见义项「完成」不符合主释义「评估」。"
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「评估」。"
       },
       {
-        "wordId": "w-advise",
-        "reason": "英文「advise」的常见义项「建议」不符合主释义「评估」。"
+        "wordId": "w-accomplish",
+        "reason": "英文「accomplish」的常见义项「完成」不符合主释义「评估」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「bind」代入可见句子后不表达主释义「评估」。"
       },
       {
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「评估」。"
+      },
+      {
         "wordId": "w-accomplish",
         "surfaceForm": "accomplish",
         "reason": "将「accomplish」代入可见句子后不表达主释义「评估」。"
-      },
-      {
-        "wordId": "w-advise",
-        "surfaceForm": "advise",
-        "reason": "将「advise」代入可见句子后不表达主释义「评估」。"
       }
     ],
     "spelling": null
@@ -591,19 +591,23 @@
     "wordId": "w-assessment",
     "enToZh": [
       {
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「assessment」的主释义「评估」或其他义项。"
+      },
+      {
         "wordId": "w-ambulance",
         "reason": "选项「救护车」不是「assessment」的主释义「评估」或其他义项。"
       },
       {
         "wordId": "w-pipe",
         "reason": "选项「管道」不是「assessment」的主释义「评估」或其他义项。"
-      },
-      {
-        "wordId": "w-assault",
-        "reason": "选项「袭击」不是「assessment」的主释义「评估」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「评估」。"
+      },
       {
         "wordId": "w-ambulance",
         "reason": "英文「ambulance」的常见义项「救护车」不符合主释义「评估」。"
@@ -611,13 +615,14 @@
       {
         "wordId": "w-pipe",
         "reason": "英文「pipe」的常见义项「管道」不符合主释义「评估」。"
-      },
-      {
-        "wordId": "w-assault",
-        "reason": "英文「assault」的常见义项「袭击」不符合主释义「评估」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「评估」。"
+      },
       {
         "wordId": "w-ambulance",
         "surfaceForm": "ambulance",
@@ -627,11 +632,6 @@
         "wordId": "w-pipe",
         "surfaceForm": "pipe",
         "reason": "将「pipe」代入可见句子后不表达主释义「评估」。"
-      },
-      {
-        "wordId": "w-assault",
-        "surfaceForm": "assault",
-        "reason": "将「assault」代入可见句子后不表达主释义「评估」。"
       }
     ],
     "spelling": null
@@ -836,19 +836,23 @@
     "wordId": "w-assimilation",
     "enToZh": [
       {
+        "wordId": "w-cosmos",
+        "reason": "选项「宇宙」不是「assimilation」的主释义「吸收」或其他义项。"
+      },
+      {
         "wordId": "w-nuisance",
         "reason": "选项「令人讨厌的事物」不是「assimilation」的主释义「吸收」或其他义项。"
       },
       {
         "wordId": "w-rupture",
         "reason": "选项「破裂」不是「assimilation」的主释义「吸收」或其他义项。"
-      },
-      {
-        "wordId": "w-barge",
-        "reason": "选项「驳船」不是「assimilation」的主释义「吸收」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-cosmos",
+        "reason": "英文「cosmos」的常见义项「宇宙」不符合主释义「吸收」。"
+      },
       {
         "wordId": "w-nuisance",
         "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「吸收」。"
@@ -856,13 +860,14 @@
       {
         "wordId": "w-rupture",
         "reason": "英文「rupture」的常见义项「破裂」不符合主释义「吸收」。"
-      },
-      {
-        "wordId": "w-barge",
-        "reason": "英文「barge」的常见义项「驳船」不符合主释义「吸收」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-cosmos",
+        "surfaceForm": "cosmos",
+        "reason": "将「cosmos」代入可见句子后不表达主释义「吸收」。"
+      },
       {
         "wordId": "w-nuisance",
         "surfaceForm": "nuisance",
@@ -872,11 +877,6 @@
         "wordId": "w-rupture",
         "surfaceForm": "rupture",
         "reason": "将「rupture」代入可见句子后不表达主释义「吸收」。"
-      },
-      {
-        "wordId": "w-barge",
-        "surfaceForm": "barge",
-        "reason": "将「barge」代入可见句子后不表达主释义「吸收」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「察觉」不是「assist」的主释义「帮助」或其他义项。"
       },
       {
-        "wordId": "w-disturb",
-        "reason": "选项「打扰」不是「assist」的主释义「帮助」或其他义项。"
+        "wordId": "w-cease",
+        "reason": "选项「停止」不是「assist」的主释义「帮助」或其他义项。"
       },
       {
-        "wordId": "w-apologize",
-        "reason": "选项「道歉」不是「assist」的主释义「帮助」或其他义项。"
+        "wordId": "w-disturb",
+        "reason": "选项「打扰」不是「assist」的主释义「帮助」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「detect」的常见义项「察觉」不符合主释义「帮助」。"
       },
       {
-        "wordId": "w-disturb",
-        "reason": "英文「disturb」的常见义项「打扰」不符合主释义「帮助」。"
+        "wordId": "w-cease",
+        "reason": "英文「cease」的常见义项「停止」不符合主释义「帮助」。"
       },
       {
-        "wordId": "w-apologize",
-        "reason": "英文「apologize」的常见义项「道歉」不符合主释义「帮助」。"
+        "wordId": "w-disturb",
+        "reason": "英文「disturb」的常见义项「打扰」不符合主释义「帮助」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「detect」代入可见句子后不表达主释义「帮助」。"
       },
       {
+        "wordId": "w-cease",
+        "surfaceForm": "cease",
+        "reason": "将「cease」代入可见句子后不表达主释义「帮助」。"
+      },
+      {
         "wordId": "w-disturb",
         "surfaceForm": "disturb",
         "reason": "将「disturb」代入可见句子后不表达主释义「帮助」。"
-      },
-      {
-        "wordId": "w-apologize",
-        "surfaceForm": "apologize",
-        "reason": "将「apologize」代入可见句子后不表达主释义「帮助」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「非洲」不是「assistance」的主释义「帮助」或其他义项。"
       },
       {
-        "wordId": "w-board",
-        "reason": "选项「木板」不是「assistance」的主释义「帮助」或其他义项。"
+        "wordId": "w-card",
+        "reason": "选项「卡片」不是「assistance」的主释义「帮助」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「Africa」的常见义项「非洲」不符合主释义「帮助」。"
       },
       {
-        "wordId": "w-board",
-        "reason": "英文「board」的常见义项「木板」不符合主释义「帮助」。"
+        "wordId": "w-card",
+        "reason": "英文「card」的常见义项「卡片」不符合主释义「帮助」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「Africa」代入可见句子后不表达主释义「帮助」。"
       },
       {
-        "wordId": "w-board",
-        "surfaceForm": "board",
-        "reason": "将「board」代入可见句子后不表达主释义「帮助」。"
+        "wordId": "w-card",
+        "surfaceForm": "card",
+        "reason": "将「card」代入可见句子后不表达主释义「帮助」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「军队」不是「assistant」的主释义「助手」或其他义项。"
       },
       {
-        "wordId": "w-birthday",
-        "reason": "选项「生日」不是「assistant」的主释义「助手」或其他义项。"
+        "wordId": "w-couple",
+        "reason": "选项「夫妻」不是「assistant」的主释义「助手」或其他义项。"
       },
       {
-        "wordId": "w-decade",
-        "reason": "选项「十年」不是「assistant」的主释义「助手」或其他义项。"
+        "wordId": "w-birthday",
+        "reason": "选项「生日」不是「assistant」的主释义「助手」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「army」的常见义项「军队」不符合主释义「助手」。"
       },
       {
-        "wordId": "w-birthday",
-        "reason": "英文「birthday」的常见义项「生日」不符合主释义「助手」。"
+        "wordId": "w-couple",
+        "reason": "英文「couple」的常见义项「夫妻」不符合主释义「助手」。"
       },
       {
-        "wordId": "w-decade",
-        "reason": "英文「decade」的常见义项「十年」不符合主释义「助手」。"
+        "wordId": "w-birthday",
+        "reason": "英文「birthday」的常见义项「生日」不符合主释义「助手」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「army」代入可见句子后不表达主释义「助手」。"
       },
       {
+        "wordId": "w-couple",
+        "surfaceForm": "couple",
+        "reason": "将「couple」代入可见句子后不表达主释义「助手」。"
+      },
+      {
         "wordId": "w-birthday",
         "surfaceForm": "birthday",
         "reason": "将「birthday」代入可见句子后不表达主释义「助手」。"
-      },
-      {
-        "wordId": "w-decade",
-        "surfaceForm": "decade",
-        "reason": "将「decade」代入可见句子后不表达主释义「助手」。"
       }
     ],
     "spelling": null
