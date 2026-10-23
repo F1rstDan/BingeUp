@@ -1,0 +1,13 @@
+{
+  "reviewer": "independent-sample-review-main-038",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-conflict",
+    "w-conform",
+    "w-confusion",
+    "w-conquest",
+    "w-consequently"
+  ],
+  "result": "pass",
+  "findings": []
+}

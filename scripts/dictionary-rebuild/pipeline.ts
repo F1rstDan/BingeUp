@@ -235,6 +235,14 @@ function loadRegistry(): LegacyRegistry {
   return readJson<LegacyRegistry>(join(DATA_DIR, 'legacy-registry.json'));
 }
 
+function deactivatedIds(registry: LegacyRegistry): Set<string> {
+  return new Set(
+    registry.entries
+      .filter((entry) => entry.disposition === 'deactivate')
+      .map((entry) => entry.legacyId),
+  );
+}
+
 function effectiveWords(seed: Seed, registry: LegacyRegistry): EffectiveWord[] {
   const seedById = new Map(seed.words.map((word) => [word.id, word]));
   const canonicalDisposition = new Map<string, LegacyRegistryEntry['disposition']>();
@@ -938,13 +946,18 @@ async function accept(batchId: string): Promise<void> {
     const registry = loadRegistry();
     const effectiveById = new Map(effectiveWords(seed, registry).map((word) => [word.id, word]));
     const inputs = readJsonl<{ wordId: string }>(batchPath(batchId, 'input.jsonl'));
+    const deactivated = deactivatedIds(registry);
+    const activeInputs = inputs.filter((input) => !deactivated.has(input.wordId));
     const outputPath = batchPath(batchId, 'output.jsonl');
     if (!existsSync(outputPath)) throw new Error(`${batchId}: 缺少 output.jsonl`);
     const raw = readJsonl<unknown>(outputPath);
-    const { entries, failures } = parseBatchOutput(raw, inputs, batch.attempts + 1);
+    const activeRaw = raw.filter(
+      (item) => !deactivated.has((item as { wordId?: string }).wordId ?? ''),
+    );
+    const { entries, failures } = parseBatchOutput(activeRaw, activeInputs, batch.attempts + 1);
 
     const pending: Array<{ entry: CandidateEntry; effective: EffectiveWord }> = [];
-    for (const input of inputs) {
+    for (const input of activeInputs) {
       const entry = entries.get(input.wordId);
       const effective = effectiveById.get(input.wordId);
       if (!entry || !effective) continue;
@@ -981,7 +994,7 @@ async function accept(batchId: string): Promise<void> {
     const byId = new Map(planPool.map((word) => [word.id, word]));
     const plans: WordQuestionPlan[] = [];
     const audits: Record<string, unknown>[] = [];
-    for (const input of inputs) {
+    for (const input of activeInputs) {
       const effective = effectiveById.get(input.wordId)!;
       const entry = entries.get(input.wordId)!;
       const target = byId.get(input.wordId) ?? toWordRecord(entry, effective);
@@ -1007,7 +1020,7 @@ async function accept(batchId: string): Promise<void> {
       throw new Error(`${batchId}: 题组检查失败，批次保持 needs-fix`);
     }
 
-    const outputEntries = inputs.map((input) => entries.get(input.wordId)!);
+    const outputEntries = activeInputs.map((input) => entries.get(input.wordId)!);
     const entryHash = nodeSha256(canonicalJson(outputEntries));
     writeJsonl(outputPath, outputEntries);
     writeJsonl(batchPath(batchId, 'questions.jsonl'), plans);
@@ -1171,7 +1184,8 @@ async function buildPackage(pilotOnly = false): Promise<void> {
       }
       const entries = readJsonl<CandidateEntry>(batchPath(batch.id, 'output.jsonl'));
       const plans = readJsonl<WordQuestionPlan>(batchPath(batch.id, 'questions.jsonl'));
-      if (entries.length !== batch.wordIds.length) throw new Error(`${batch.id}: 词条数量不一致`);
+      const expected = batch.wordIds.filter((wordId) => effectiveById.has(wordId)).length;
+      if (entries.length !== expected) throw new Error(`${batch.id}: 词条数量不一致`);
       for (const entry of entries) {
         const effectiveWord = effectiveById.get(entry.wordId);
         if (!effectiveWord) throw new Error(`${batch.id}: 未知词条 ${entry.wordId}`);
@@ -1401,6 +1415,35 @@ function reopen(batchId: string): void {
     batch.review = null;
     saveState(state);
     console.log(`${batchId}: 已标记返工`);
+  });
+}
+
+/** 提示、注册表或种子版本变化后，只重算输入哈希，不改已接受输出。 */
+function rehashState(): void {
+  withLock(() => {
+    const state = loadState();
+    const seed = loadSeed();
+    const registry = loadRegistry();
+    const prompt = promptHashes();
+    state.seedHash = nodeSha256(canonicalJson(seed));
+    state.registryHash = registry.registryHash;
+    state.defaultPromptHashes = prompt;
+    for (const batch of state.batches) {
+      const input = readJsonl<Record<string, unknown>>(batchPath(batch.id, 'input.jsonl'));
+      batch.inputHash = nodeSha256(
+        canonicalJson({
+          batchId: batch.id,
+          wordIds: batch.wordIds,
+          input,
+          contractVersion: CONTENT_CONTRACT_VERSION,
+          generatePromptHash: prompt.generate,
+          registryHash: registry.registryHash,
+          datasetId: seed.datasetId,
+        }),
+      );
+    }
+    saveState(state);
+    console.log(`已重算 ${state.batches.length} 个批次的输入哈希`);
   });
 }
 
@@ -1670,12 +1713,13 @@ async function main(): Promise<void> {
   if (command === 'build') return buildPackage(args.includes('--pilot'));
   if (command === 'status') return status();
   if (command === 'reopen' && args[0]) return reopen(args[0]);
+  if (command === 'rehash') return rehashState();
   if (command === 'check-registry') return checkRegistry();
   if (command === 'ipa-list') return ipaReviewList();
   if (command === 'ipa-apply' && args[0]) return ipaReviewApply(args[0]);
   if (command === 'ipa-auto') return ipaAutoSelect();
   throw new Error(
-    '用法：pipeline.ts prepare | accept <batchId> | review <batchId> <review.json> | reopen <batchId> | build [--pilot] | status | check-registry | ipa-auto | ipa-list | ipa-apply <file>',
+    '用法：pipeline.ts prepare | accept <batchId> | review <batchId> <review.json> | reopen <batchId> | rehash | build [--pilot] | status | check-registry | ipa-auto | ipa-list | ipa-apply <file>',
   );
 }
 

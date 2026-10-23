@@ -7,12 +7,12 @@
         "reason": "选项「喷发」不是「hound」的主释义「猎犬」或其他义项。"
       },
       {
-        "wordId": "w-geology",
-        "reason": "选项「地质学」不是「hound」的主释义「猎犬」或其他义项。"
+        "wordId": "w-jug",
+        "reason": "选项「壶」不是「hound」的主释义「猎犬」或其他义项。"
       },
       {
-        "wordId": "w-automation",
-        "reason": "选项「自动化」不是「hound」的主释义「猎犬」或其他义项。"
+        "wordId": "w-geology",
+        "reason": "选项「地质学」不是「hound」的主释义「猎犬」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -21,12 +21,12 @@
         "reason": "英文「eruption」的常见义项「喷发」不符合主释义「猎犬」。"
       },
       {
-        "wordId": "w-geology",
-        "reason": "英文「geology」的常见义项「地质学」不符合主释义「猎犬」。"
+        "wordId": "w-jug",
+        "reason": "英文「jug」的常见义项「壶」不符合主释义「猎犬」。"
       },
       {
-        "wordId": "w-automation",
-        "reason": "英文「automation」的常见义项「自动化」不符合主释义「猎犬」。"
+        "wordId": "w-geology",
+        "reason": "英文「geology」的常见义项「地质学」不符合主释义「猎犬」。"
       }
     ],
     "contextChoice": [
@@ -36,14 +36,14 @@
         "reason": "将「eruption」代入可见句子后不表达主释义「猎犬」。"
       },
       {
+        "wordId": "w-jug",
+        "surfaceForm": "jug",
+        "reason": "将「jug」代入可见句子后不表达主释义「猎犬」。"
+      },
+      {
         "wordId": "w-geology",
         "surfaceForm": "geology",
         "reason": "将「geology」代入可见句子后不表达主释义「猎犬」。"
-      },
-      {
-        "wordId": "w-automation",
-        "surfaceForm": "automation",
-        "reason": "将「automation」代入可见句子后不表达主释义「猎犬」。"
       }
     ],
     "spelling": null
@@ -60,8 +60,8 @@
         "reason": "选项「承诺」不是「hour」的主释义「小时」或其他义项。"
       },
       {
-        "wordId": "w-confusion",
-        "reason": "选项「困惑」不是「hour」的主释义「小时」或其他义项。"
+        "wordId": "w-kindness",
+        "reason": "选项「善意」不是「hour」的主释义「小时」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -74,8 +74,8 @@
         "reason": "英文「commitment」的常见义项「承诺」不符合主释义「小时」。"
       },
       {
-        "wordId": "w-confusion",
-        "reason": "英文「confusion」的常见义项「困惑」不符合主释义「小时」。"
+        "wordId": "w-kindness",
+        "reason": "英文「kindness」的常见义项「善意」不符合主释义「小时」。"
       }
     ],
     "contextChoice": [
@@ -90,9 +90,9 @@
         "reason": "将「commitment」代入可见句子后不表达主释义「小时」。"
       },
       {
-        "wordId": "w-confusion",
-        "surfaceForm": "confusion",
-        "reason": "将「confusion」代入可见句子后不表达主释义「小时」。"
+        "wordId": "w-kindness",
+        "surfaceForm": "kindness",
+        "reason": "将「kindness」代入可见句子后不表达主释义「小时」。"
       }
     ],
     "spelling": null
@@ -203,12 +203,12 @@
         "reason": "选项「严重错误」不是「housewife」的主释义「家庭主妇」或其他义项。"
       },
       {
-        "wordId": "w-fellowship",
-        "reason": "选项「情谊」不是「housewife」的主释义「家庭主妇」或其他义项。"
+        "wordId": "w-penetration",
+        "reason": "选项「渗透」不是「housewife」的主释义「家庭主妇」或其他义项。"
       },
       {
-        "wordId": "w-directory",
-        "reason": "选项「名录」不是「housewife」的主释义「家庭主妇」或其他义项。"
+        "wordId": "w-fellowship",
+        "reason": "选项「情谊」不是「housewife」的主释义「家庭主妇」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -217,12 +217,12 @@
         "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「家庭主妇」。"
       },
       {
-        "wordId": "w-fellowship",
-        "reason": "英文「fellowship」的常见义项「情谊」不符合主释义「家庭主妇」。"
+        "wordId": "w-penetration",
+        "reason": "英文「penetration」的常见义项「渗透」不符合主释义「家庭主妇」。"
       },
       {
-        "wordId": "w-directory",
-        "reason": "英文「directory」的常见义项「名录」不符合主释义「家庭主妇」。"
+        "wordId": "w-fellowship",
+        "reason": "英文「fellowship」的常见义项「情谊」不符合主释义「家庭主妇」。"
       }
     ],
     "contextChoice": [
@@ -232,14 +232,14 @@
         "reason": "将「blunder」代入可见句子后不表达主释义「家庭主妇」。"
       },
       {
+        "wordId": "w-penetration",
+        "surfaceForm": "penetration",
+        "reason": "将「penetration」代入可见句子后不表达主释义「家庭主妇」。"
+      },
+      {
         "wordId": "w-fellowship",
         "surfaceForm": "fellowship",
         "reason": "将「fellowship」代入可见句子后不表达主释义「家庭主妇」。"
-      },
-      {
-        "wordId": "w-directory",
-        "surfaceForm": "directory",
-        "reason": "将「directory」代入可见句子后不表达主释义「家庭主妇」。"
       }
     ],
     "spelling": null
@@ -248,19 +248,23 @@
     "wordId": "w-hover",
     "enToZh": [
       {
+        "wordId": "w-mutter",
+        "reason": "选项「低声嘟囔」不是「hover」的主释义「悬停」或其他义项。"
+      },
+      {
         "wordId": "w-depict",
         "reason": "选项「描绘」不是「hover」的主释义「悬停」或其他义项。"
       },
       {
         "wordId": "w-bless",
         "reason": "选项「祝福」不是「hover」的主释义「悬停」或其他义项。"
-      },
-      {
-        "wordId": "w-coincide",
-        "reason": "选项「同时发生」不是「hover」的主释义「悬停」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-mutter",
+        "reason": "英文「mutter」的常见义项「低声嘟囔」不符合主释义「悬停」。"
+      },
       {
         "wordId": "w-depict",
         "reason": "英文「depict」的常见义项「描绘」不符合主释义「悬停」。"
@@ -268,13 +272,14 @@
       {
         "wordId": "w-bless",
         "reason": "英文「bless」的常见义项「祝福」不符合主释义「悬停」。"
-      },
-      {
-        "wordId": "w-coincide",
-        "reason": "英文「coincide」的常见义项「同时发生」不符合主释义「悬停」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-mutter",
+        "surfaceForm": "mutter",
+        "reason": "将「mutter」代入可见句子后不表达主释义「悬停」。"
+      },
       {
         "wordId": "w-depict",
         "surfaceForm": "depict",
@@ -284,11 +289,6 @@
         "wordId": "w-bless",
         "surfaceForm": "bless",
         "reason": "将「bless」代入可见句子后不表达主释义「悬停」。"
-      },
-      {
-        "wordId": "w-coincide",
-        "surfaceForm": "coincide",
-        "reason": "将「coincide」代入可见句子后不表达主释义「悬停」。"
       }
     ],
     "spelling": null
@@ -297,47 +297,47 @@
     "wordId": "w-however",
     "enToZh": [
       {
+        "wordId": "w-loosely",
+        "reason": "选项「松松地」不是「however」的主释义「然而」或其他义项。"
+      },
+      {
+        "wordId": "w-indeed",
+        "reason": "选项「确实」不是「however」的主释义「然而」或其他义项。"
+      },
+      {
         "wordId": "w-basically",
         "reason": "选项「基本上」不是「however」的主释义「然而」或其他义项。"
-      },
-      {
-        "wordId": "w-hence",
-        "reason": "选项「因此」不是「however」的主释义「然而」或其他义项。"
-      },
-      {
-        "wordId": "w-correctly",
-        "reason": "选项「正确地」不是「however」的主释义「然而」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-loosely",
+        "reason": "英文「loosely」的常见义项「松松地」不符合主释义「然而」。"
+      },
+      {
+        "wordId": "w-indeed",
+        "reason": "英文「indeed」的常见义项「确实」不符合主释义「然而」。"
+      },
+      {
         "wordId": "w-basically",
         "reason": "英文「basically」的常见义项「基本上」不符合主释义「然而」。"
-      },
-      {
-        "wordId": "w-hence",
-        "reason": "英文「hence」的常见义项「因此」不符合主释义「然而」。"
-      },
-      {
-        "wordId": "w-correctly",
-        "reason": "英文「correctly」的常见义项「正确地」不符合主释义「然而」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-loosely",
+        "surfaceForm": "loosely",
+        "reason": "将「loosely」代入可见句子后不表达主释义「然而」。"
+      },
+      {
+        "wordId": "w-indeed",
+        "surfaceForm": "indeed",
+        "reason": "将「indeed」代入可见句子后不表达主释义「然而」。"
+      },
+      {
         "wordId": "w-basically",
         "surfaceForm": "basically",
         "reason": "将「basically」代入可见句子后不表达主释义「然而」。"
-      },
-      {
-        "wordId": "w-hence",
-        "surfaceForm": "hence",
-        "reason": "将「hence」代入可见句子后不表达主释义「然而」。"
-      },
-      {
-        "wordId": "w-correctly",
-        "surfaceForm": "correctly",
-        "reason": "将「correctly」代入可见句子后不表达主释义「然而」。"
       }
     ],
     "spelling": null
@@ -346,19 +346,23 @@
     "wordId": "w-howl",
     "enToZh": [
       {
+        "wordId": "w-overflow",
+        "reason": "选项「溢出」不是「howl」的主释义「嚎叫」或其他义项。"
+      },
+      {
         "wordId": "w-abide",
         "reason": "选项「遵守」不是「howl」的主释义「嚎叫」或其他义项。"
       },
       {
         "wordId": "w-clothe",
         "reason": "选项「为…提供衣服」不是「howl」的主释义「嚎叫」或其他义项。"
-      },
-      {
-        "wordId": "w-astonish",
-        "reason": "选项「使惊讶」不是「howl」的主释义「嚎叫」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-overflow",
+        "reason": "英文「overflow」的常见义项「溢出」不符合主释义「嚎叫」。"
+      },
       {
         "wordId": "w-abide",
         "reason": "英文「abide」的常见义项「遵守」不符合主释义「嚎叫」。"
@@ -366,13 +370,14 @@
       {
         "wordId": "w-clothe",
         "reason": "英文「clothe」的常见义项「为…提供衣服」不符合主释义「嚎叫」。"
-      },
-      {
-        "wordId": "w-astonish",
-        "reason": "英文「astonish」的常见义项「使惊讶」不符合主释义「嚎叫」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-overflow",
+        "surfaceForm": "overflow",
+        "reason": "将「overflow」代入可见句子后不表达主释义「嚎叫」。"
+      },
       {
         "wordId": "w-abide",
         "surfaceForm": "abide",
@@ -382,11 +387,6 @@
         "wordId": "w-clothe",
         "surfaceForm": "clothe",
         "reason": "将「clothe」代入可见句子后不表达主释义「嚎叫」。"
-      },
-      {
-        "wordId": "w-astonish",
-        "surfaceForm": "astonish",
-        "reason": "将「astonish」代入可见句子后不表达主释义「嚎叫」。"
       }
     ],
     "spelling": null
@@ -444,19 +444,23 @@
     "wordId": "w-hug",
     "enToZh": [
       {
+        "wordId": "w-motivate",
+        "reason": "选项「激励」不是「hug」的主释义「拥抱」或其他义项。"
+      },
+      {
         "wordId": "w-condemn",
         "reason": "选项「谴责」不是「hug」的主释义「拥抱」或其他义项。"
       },
       {
         "wordId": "w-dwell",
         "reason": "选项「居住」不是「hug」的主释义「拥抱」或其他义项。"
-      },
-      {
-        "wordId": "w-edit",
-        "reason": "选项「编辑」不是「hug」的主释义「拥抱」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-motivate",
+        "reason": "英文「motivate」的常见义项「激励」不符合主释义「拥抱」。"
+      },
       {
         "wordId": "w-condemn",
         "reason": "英文「condemn」的常见义项「谴责」不符合主释义「拥抱」。"
@@ -464,13 +468,14 @@
       {
         "wordId": "w-dwell",
         "reason": "英文「dwell」的常见义项「居住」不符合主释义「拥抱」。"
-      },
-      {
-        "wordId": "w-edit",
-        "reason": "英文「edit」的常见义项「编辑」不符合主释义「拥抱」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-motivate",
+        "surfaceForm": "motivate",
+        "reason": "将「motivate」代入可见句子后不表达主释义「拥抱」。"
+      },
       {
         "wordId": "w-condemn",
         "surfaceForm": "condemn",
@@ -480,11 +485,6 @@
         "wordId": "w-dwell",
         "surfaceForm": "dwell",
         "reason": "将「dwell」代入可见句子后不表达主释义「拥抱」。"
-      },
-      {
-        "wordId": "w-edit",
-        "surfaceForm": "edit",
-        "reason": "将「edit」代入可见句子后不表达主释义「拥抱」。"
       }
     ],
     "spelling": null
@@ -501,8 +501,8 @@
         "reason": "选项「群」不是「hull」的主释义「船体」或其他义项。"
       },
       {
-        "wordId": "w-ecology",
-        "reason": "选项「生态学」不是「hull」的主释义「船体」或其他义项。"
+        "wordId": "w-patch",
+        "reason": "选项「补丁」不是「hull」的主释义「船体」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -515,8 +515,8 @@
         "reason": "英文「flock」的常见义项「群」不符合主释义「船体」。"
       },
       {
-        "wordId": "w-ecology",
-        "reason": "英文「ecology」的常见义项「生态学」不符合主释义「船体」。"
+        "wordId": "w-patch",
+        "reason": "英文「patch」的常见义项「补丁」不符合主释义「船体」。"
       }
     ],
     "contextChoice": [
@@ -531,9 +531,9 @@
         "reason": "将「flock」代入可见句子后不表达主释义「船体」。"
       },
       {
-        "wordId": "w-ecology",
-        "surfaceForm": "ecology",
-        "reason": "将「ecology」代入可见句子后不表达主释义「船体」。"
+        "wordId": "w-patch",
+        "surfaceForm": "patch",
+        "reason": "将「patch」代入可见句子后不表达主释义「船体」。"
       }
     ],
     "spelling": null
@@ -546,12 +546,12 @@
         "reason": "选项「疏散」不是「hum」的主释义「哼唱」或其他义项。"
       },
       {
-        "wordId": "w-bounce",
-        "reason": "选项「弹跳」不是「hum」的主释义「哼唱」或其他义项。"
+        "wordId": "w-ignite",
+        "reason": "选项「点燃」不是「hum」的主释义「哼唱」或其他义项。"
       },
       {
-        "wordId": "w-grip",
-        "reason": "选项「紧握」不是「hum」的主释义「哼唱」或其他义项。"
+        "wordId": "w-indulge",
+        "reason": "选项「放纵」不是「hum」的主释义「哼唱」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「evacuate」的常见义项「疏散」不符合主释义「哼唱」。"
       },
       {
-        "wordId": "w-bounce",
-        "reason": "英文「bounce」的常见义项「弹跳」不符合主释义「哼唱」。"
+        "wordId": "w-ignite",
+        "reason": "英文「ignite」的常见义项「点燃」不符合主释义「哼唱」。"
       },
       {
-        "wordId": "w-grip",
-        "reason": "英文「grip」的常见义项「紧握」不符合主释义「哼唱」。"
+        "wordId": "w-indulge",
+        "reason": "英文「indulge」的常见义项「放纵」不符合主释义「哼唱」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「evacuate」代入可见句子后不表达主释义「哼唱」。"
       },
       {
-        "wordId": "w-bounce",
-        "surfaceForm": "bounce",
-        "reason": "将「bounce」代入可见句子后不表达主释义「哼唱」。"
+        "wordId": "w-ignite",
+        "surfaceForm": "ignite",
+        "reason": "将「ignite」代入可见句子后不表达主释义「哼唱」。"
       },
       {
-        "wordId": "w-grip",
-        "surfaceForm": "grip",
-        "reason": "将「grip」代入可见句子后不表达主释义「哼唱」。"
+        "wordId": "w-indulge",
+        "surfaceForm": "indulge",
+        "reason": "将「indulge」代入可见句子后不表达主释义「哼唱」。"
       }
     ],
     "spelling": null
@@ -599,8 +599,8 @@
         "reason": "选项「亚洲的」不是「human」的主释义「人类的」或其他义项。"
       },
       {
-        "wordId": "w-double",
-        "reason": "选项「双倍的」不是「human」的主释义「人类的」或其他义项。"
+        "wordId": "w-official",
+        "reason": "选项「官方的」不是「human」的主释义「人类的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -613,8 +613,8 @@
         "reason": "英文「Asian」的常见义项「亚洲的」不符合主释义「人类的」。"
       },
       {
-        "wordId": "w-double",
-        "reason": "英文「double」的常见义项「双倍的」不符合主释义「人类的」。"
+        "wordId": "w-official",
+        "reason": "英文「official」的常见义项「官方的」不符合主释义「人类的」。"
       }
     ],
     "contextChoice": [
@@ -629,9 +629,9 @@
         "reason": "将「Asian」代入可见句子后不表达主释义「人类的」。"
       },
       {
-        "wordId": "w-double",
-        "surfaceForm": "double",
-        "reason": "将「double」代入可见句子后不表达主释义「人类的」。"
+        "wordId": "w-official",
+        "surfaceForm": "official",
+        "reason": "将「official」代入可见句子后不表达主释义「人类的」。"
       }
     ],
     "spelling": null
@@ -640,47 +640,47 @@
     "wordId": "w-humanitarian",
     "enToZh": [
       {
-        "wordId": "w-egyptian",
-        "reason": "选项「埃及的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
+        "wordId": "w-miniature",
+        "reason": "选项「微型的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
       },
       {
-        "wordId": "w-slack",
-        "reason": "选项「松弛的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
+        "wordId": "w-noble",
+        "reason": "选项「高尚的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
       },
       {
-        "wordId": "w-greek",
-        "reason": "选项「希腊的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
+        "wordId": "w-neutral",
+        "reason": "选项「中立的」不是「humanitarian」的主释义「人道主义的」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-egyptian",
-        "reason": "英文「Egyptian」的常见义项「埃及的」不符合主释义「人道主义的」。"
+        "wordId": "w-miniature",
+        "reason": "英文「miniature」的常见义项「微型的」不符合主释义「人道主义的」。"
       },
       {
-        "wordId": "w-slack",
-        "reason": "英文「slack」的常见义项「松弛的」不符合主释义「人道主义的」。"
+        "wordId": "w-noble",
+        "reason": "英文「noble」的常见义项「高尚的」不符合主释义「人道主义的」。"
       },
       {
-        "wordId": "w-greek",
-        "reason": "英文「Greek」的常见义项「希腊的」不符合主释义「人道主义的」。"
+        "wordId": "w-neutral",
+        "reason": "英文「neutral」的常见义项「中立的」不符合主释义「人道主义的」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-egyptian",
-        "surfaceForm": "Egyptian",
-        "reason": "将「Egyptian」代入可见句子后不表达主释义「人道主义的」。"
+        "wordId": "w-miniature",
+        "surfaceForm": "miniature",
+        "reason": "将「miniature」代入可见句子后不表达主释义「人道主义的」。"
       },
       {
-        "wordId": "w-slack",
-        "surfaceForm": "slack",
-        "reason": "将「slack」代入可见句子后不表达主释义「人道主义的」。"
+        "wordId": "w-noble",
+        "surfaceForm": "noble",
+        "reason": "将「noble」代入可见句子后不表达主释义「人道主义的」。"
       },
       {
-        "wordId": "w-greek",
-        "surfaceForm": "Greek",
-        "reason": "将「Greek」代入可见句子后不表达主释义「人道主义的」。"
+        "wordId": "w-neutral",
+        "surfaceForm": "neutral",
+        "reason": "将「neutral」代入可见句子后不表达主释义「人道主义的」。"
       }
     ],
     "spelling": null
@@ -742,12 +742,12 @@
         "reason": "选项「缺点」不是「humidity」的主释义「湿度」或其他义项。"
       },
       {
-        "wordId": "w-firework",
-        "reason": "选项「烟花」不是「humidity」的主释义「湿度」或其他义项。"
+        "wordId": "w-periodical",
+        "reason": "选项「期刊」不是「humidity」的主释义「湿度」或其他义项。"
       },
       {
-        "wordId": "w-climax",
-        "reason": "选项「高潮」不是「humidity」的主释义「湿度」或其他义项。"
+        "wordId": "w-perspiration",
+        "reason": "选项「汗水」不是「humidity」的主释义「湿度」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -756,12 +756,12 @@
         "reason": "英文「drawback」的常见义项「缺点」不符合主释义「湿度」。"
       },
       {
-        "wordId": "w-firework",
-        "reason": "英文「firework」的常见义项「烟花」不符合主释义「湿度」。"
+        "wordId": "w-periodical",
+        "reason": "英文「periodical」的常见义项「期刊」不符合主释义「湿度」。"
       },
       {
-        "wordId": "w-climax",
-        "reason": "英文「climax」的常见义项「高潮」不符合主释义「湿度」。"
+        "wordId": "w-perspiration",
+        "reason": "英文「perspiration」的常见义项「汗水」不符合主释义「湿度」。"
       }
     ],
     "contextChoice": [
@@ -771,14 +771,14 @@
         "reason": "将「drawback」代入可见句子后不表达主释义「湿度」。"
       },
       {
-        "wordId": "w-firework",
-        "surfaceForm": "firework",
-        "reason": "将「firework」代入可见句子后不表达主释义「湿度」。"
+        "wordId": "w-periodical",
+        "surfaceForm": "periodical",
+        "reason": "将「periodical」代入可见句子后不表达主释义「湿度」。"
       },
       {
-        "wordId": "w-climax",
-        "surfaceForm": "climax",
-        "reason": "将「climax」代入可见句子后不表达主释义「湿度」。"
+        "wordId": "w-perspiration",
+        "surfaceForm": "perspiration",
+        "reason": "将「perspiration」代入可见句子后不表达主释义「湿度」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「行为」不是「humiliation」的主释义「羞辱」或其他义项。"
       },
       {
-        "wordId": "w-equality",
-        "reason": "选项「平等」不是「humiliation」的主释义「羞辱」或其他义项。"
+        "wordId": "w-peach",
+        "reason": "选项「桃子」不是「humiliation」的主释义「羞辱」或其他义项。"
       },
       {
-        "wordId": "w-batch",
-        "reason": "选项「一批」不是「humiliation」的主释义「羞辱」或其他义项。"
+        "wordId": "w-offspring",
+        "reason": "选项「后代」不是「humiliation」的主释义「羞辱」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「deed」的常见义项「行为」不符合主释义「羞辱」。"
       },
       {
-        "wordId": "w-equality",
-        "reason": "英文「equality」的常见义项「平等」不符合主释义「羞辱」。"
+        "wordId": "w-peach",
+        "reason": "英文「peach」的常见义项「桃子」不符合主释义「羞辱」。"
       },
       {
-        "wordId": "w-batch",
-        "reason": "英文「batch」的常见义项「一批」不符合主释义「羞辱」。"
+        "wordId": "w-offspring",
+        "reason": "英文「offspring」的常见义项「后代」不符合主释义「羞辱」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「deed」代入可见句子后不表达主释义「羞辱」。"
       },
       {
-        "wordId": "w-equality",
-        "surfaceForm": "equality",
-        "reason": "将「equality」代入可见句子后不表达主释义「羞辱」。"
+        "wordId": "w-peach",
+        "surfaceForm": "peach",
+        "reason": "将「peach」代入可见句子后不表达主释义「羞辱」。"
       },
       {
-        "wordId": "w-batch",
-        "surfaceForm": "batch",
-        "reason": "将「batch」代入可见句子后不表达主释义「羞辱」。"
+        "wordId": "w-offspring",
+        "surfaceForm": "offspring",
+        "reason": "将「offspring」代入可见句子后不表达主释义「羞辱」。"
       }
     ],
     "spelling": null
@@ -844,8 +844,8 @@
         "reason": "选项「侦探」不是「humor」的主释义「幽默」或其他义项。"
       },
       {
-        "wordId": "w-earthquake",
-        "reason": "选项「地震」不是「humor」的主释义「幽默」或其他义项。"
+        "wordId": "w-orphan",
+        "reason": "选项「孤儿」不是「humor」的主释义「幽默」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -858,8 +858,8 @@
         "reason": "英文「detective」的常见义项「侦探」不符合主释义「幽默」。"
       },
       {
-        "wordId": "w-earthquake",
-        "reason": "英文「earthquake」的常见义项「地震」不符合主释义「幽默」。"
+        "wordId": "w-orphan",
+        "reason": "英文「orphan」的常见义项「孤儿」不符合主释义「幽默」。"
       }
     ],
     "contextChoice": [
@@ -874,9 +874,9 @@
         "reason": "将「detective」代入可见句子后不表达主释义「幽默」。"
       },
       {
-        "wordId": "w-earthquake",
-        "surfaceForm": "earthquake",
-        "reason": "将「earthquake」代入可见句子后不表达主释义「幽默」。"
+        "wordId": "w-orphan",
+        "surfaceForm": "orphan",
+        "reason": "将「orphan」代入可见句子后不表达主释义「幽默」。"
       }
     ],
     "spelling": null
@@ -893,8 +893,8 @@
         "reason": "选项「背景」不是「humour」的主释义「幽默」或其他义项。"
       },
       {
-        "wordId": "w-headache",
-        "reason": "选项「头痛」不是「humour」的主释义「幽默」或其他义项。"
+        "wordId": "w-mass",
+        "reason": "选项「大量」不是「humour」的主释义「幽默」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -907,8 +907,8 @@
         "reason": "英文「background」的常见义项「背景」不符合主释义「幽默」。"
       },
       {
-        "wordId": "w-headache",
-        "reason": "英文「headache」的常见义项「头痛」不符合主释义「幽默」。"
+        "wordId": "w-mass",
+        "reason": "英文「mass」的常见义项「大量」不符合主释义「幽默」。"
       }
     ],
     "contextChoice": [
@@ -923,9 +923,9 @@
         "reason": "将「background」代入可见句子后不表达主释义「幽默」。"
       },
       {
-        "wordId": "w-headache",
-        "surfaceForm": "headache",
-        "reason": "将「headache」代入可见句子后不表达主释义「幽默」。"
+        "wordId": "w-mass",
+        "surfaceForm": "mass",
+        "reason": "将「mass」代入可见句子后不表达主释义「幽默」。"
       }
     ],
     "spelling": null
@@ -934,19 +934,23 @@
     "wordId": "w-hundred",
     "enToZh": [
       {
+        "wordId": "w-million",
+        "reason": "选项「百万」不是「hundred」的主释义「一百」或其他义项。"
+      },
+      {
         "wordId": "w-four",
         "reason": "选项「四」不是「hundred」的主释义「一百」或其他义项。"
       },
       {
         "wordId": "w-fourth",
         "reason": "选项「第四」不是「hundred」的主释义「一百」或其他义项。"
-      },
-      {
-        "wordId": "w-fifth",
-        "reason": "选项「第五」不是「hundred」的主释义「一百」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-million",
+        "reason": "英文「million」的常见义项「百万」不符合主释义「一百」。"
+      },
       {
         "wordId": "w-four",
         "reason": "英文「four」的常见义项「四」不符合主释义「一百」。"
@@ -954,13 +958,14 @@
       {
         "wordId": "w-fourth",
         "reason": "英文「fourth」的常见义项「第四」不符合主释义「一百」。"
-      },
-      {
-        "wordId": "w-fifth",
-        "reason": "英文「fifth」的常见义项「第五」不符合主释义「一百」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-million",
+        "surfaceForm": "million",
+        "reason": "将「million」代入可见句子后不表达主释义「一百」。"
+      },
       {
         "wordId": "w-four",
         "surfaceForm": "four",
@@ -970,11 +975,6 @@
         "wordId": "w-fourth",
         "surfaceForm": "fourth",
         "reason": "将「fourth」代入可见句子后不表达主释义「一百」。"
-      },
-      {
-        "wordId": "w-fifth",
-        "surfaceForm": "fifth",
-        "reason": "将「fifth」代入可见句子后不表达主释义「一百」。"
       }
     ],
     "spelling": null

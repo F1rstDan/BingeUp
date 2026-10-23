@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-manifest",
+    "enToZh": [
+      {
+        "wordId": "w-intrigue",
+        "reason": "选项「激起兴趣」不是「manifest」的主释义「显现」或其他义项。"
+      },
+      {
+        "wordId": "w-exclaim",
+        "reason": "选项「惊叫」不是「manifest」的主释义「显现」或其他义项。"
+      },
+      {
+        "wordId": "w-graze",
+        "reason": "选项「吃草」不是「manifest」的主释义「显现」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intrigue",
+        "reason": "英文「intrigue」的常见义项「激起兴趣」不符合主释义「显现」。"
+      },
+      {
+        "wordId": "w-exclaim",
+        "reason": "英文「exclaim」的常见义项「惊叫」不符合主释义「显现」。"
+      },
+      {
+        "wordId": "w-graze",
+        "reason": "英文「graze」的常见义项「吃草」不符合主释义「显现」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intrigue",
+        "surfaceForm": "intrigue",
+        "reason": "将「intrigue」代入可见句子后不表达主释义「显现」。"
+      },
+      {
+        "wordId": "w-exclaim",
+        "surfaceForm": "exclaim",
+        "reason": "将「exclaim」代入可见句子后不表达主释义「显现」。"
+      },
+      {
+        "wordId": "w-graze",
+        "surfaceForm": "graze",
+        "reason": "将「graze」代入可见句子后不表达主释义「显现」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manipulate",
+    "enToZh": [
+      {
+        "wordId": "w-insure",
+        "reason": "选项「投保」不是「manipulate」的主释义「操纵」或其他义项。"
+      },
+      {
+        "wordId": "w-inflict",
+        "reason": "选项「使遭受」不是「manipulate」的主释义「操纵」或其他义项。"
+      },
+      {
+        "wordId": "w-dwell",
+        "reason": "选项「居住」不是「manipulate」的主释义「操纵」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-insure",
+        "reason": "英文「insure」的常见义项「投保」不符合主释义「操纵」。"
+      },
+      {
+        "wordId": "w-inflict",
+        "reason": "英文「inflict」的常见义项「使遭受」不符合主释义「操纵」。"
+      },
+      {
+        "wordId": "w-dwell",
+        "reason": "英文「dwell」的常见义项「居住」不符合主释义「操纵」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-insure",
+        "surfaceForm": "insure",
+        "reason": "将「insure」代入可见句子后不表达主释义「操纵」。"
+      },
+      {
+        "wordId": "w-inflict",
+        "surfaceForm": "inflict",
+        "reason": "将「inflict」代入可见句子后不表达主释义「操纵」。"
+      },
+      {
+        "wordId": "w-dwell",
+        "surfaceForm": "dwell",
+        "reason": "将「dwell」代入可见句子后不表达主释义「操纵」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-mankind",
+    "enToZh": [
+      {
+        "wordId": "w-devil",
+        "reason": "选项「魔鬼」不是「mankind」的主释义「人类」或其他义项。"
+      },
+      {
+        "wordId": "w-cement",
+        "reason": "选项「水泥」不是「mankind」的主释义「人类」或其他义项。"
+      },
+      {
+        "wordId": "w-formulation",
+        "reason": "选项「配方」不是「mankind」的主释义「人类」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-devil",
+        "reason": "英文「devil」的常见义项「魔鬼」不符合主释义「人类」。"
+      },
+      {
+        "wordId": "w-cement",
+        "reason": "英文「cement」的常见义项「水泥」不符合主释义「人类」。"
+      },
+      {
+        "wordId": "w-formulation",
+        "reason": "英文「formulation」的常见义项「配方」不符合主释义「人类」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-devil",
+        "surfaceForm": "devil",
+        "reason": "将「devil」代入可见句子后不表达主释义「人类」。"
+      },
+      {
+        "wordId": "w-cement",
+        "surfaceForm": "cement",
+        "reason": "将「cement」代入可见句子后不表达主释义「人类」。"
+      },
+      {
+        "wordId": "w-formulation",
+        "surfaceForm": "formulation",
+        "reason": "将「formulation」代入可见句子后不表达主释义「人类」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manner",
+    "enToZh": [
+      {
+        "wordId": "w-director",
+        "reason": "选项「主管」不是「manner」的主释义「方式」或其他义项。"
+      },
+      {
+        "wordId": "w-inquiry",
+        "reason": "选项「询问」不是「manner」的主释义「方式」或其他义项。"
+      },
+      {
+        "wordId": "w-department",
+        "reason": "选项「部门」不是「manner」的主释义「方式」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-director",
+        "reason": "英文「director」的常见义项「主管」不符合主释义「方式」。"
+      },
+      {
+        "wordId": "w-inquiry",
+        "reason": "英文「inquiry」的常见义项「询问」不符合主释义「方式」。"
+      },
+      {
+        "wordId": "w-department",
+        "reason": "英文「department」的常见义项「部门」不符合主释义「方式」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-director",
+        "surfaceForm": "director",
+        "reason": "将「director」代入可见句子后不表达主释义「方式」。"
+      },
+      {
+        "wordId": "w-inquiry",
+        "surfaceForm": "inquiry",
+        "reason": "将「inquiry」代入可见句子后不表达主释义「方式」。"
+      },
+      {
+        "wordId": "w-department",
+        "surfaceForm": "department",
+        "reason": "将「department」代入可见句子后不表达主释义「方式」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manoeuvre",
+    "enToZh": [
+      {
+        "wordId": "w-bridle",
+        "reason": "选项「马笼头」不是「manoeuvre」的主释义「策略」或其他义项。"
+      },
+      {
+        "wordId": "w-gaol",
+        "reason": "选项「监狱」不是「manoeuvre」的主释义「策略」或其他义项。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "reason": "选项「征服者」不是「manoeuvre」的主释义「策略」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bridle",
+        "reason": "英文「bridle」的常见义项「马笼头」不符合主释义「策略」。"
+      },
+      {
+        "wordId": "w-gaol",
+        "reason": "英文「gaol」的常见义项「监狱」不符合主释义「策略」。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "reason": "英文「conqueror」的常见义项「征服者」不符合主释义「策略」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bridle",
+        "surfaceForm": "bridle",
+        "reason": "将「bridle」代入可见句子后不表达主释义「策略」。"
+      },
+      {
+        "wordId": "w-gaol",
+        "surfaceForm": "gaol",
+        "reason": "将「gaol」代入可见句子后不表达主释义「策略」。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "surfaceForm": "conqueror",
+        "reason": "将「conqueror」代入可见句子后不表达主释义「策略」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-mansion",
+    "enToZh": [
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「mansion」的主释义「豪宅」或其他义项。"
+      },
+      {
+        "wordId": "w-kit",
+        "reason": "选项「成套工具」不是「mansion」的主释义「豪宅」或其他义项。"
+      },
+      {
+        "wordId": "w-gardener",
+        "reason": "选项「园丁」不是「mansion」的主释义「豪宅」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「豪宅」。"
+      },
+      {
+        "wordId": "w-kit",
+        "reason": "英文「kit」的常见义项「成套工具」不符合主释义「豪宅」。"
+      },
+      {
+        "wordId": "w-gardener",
+        "reason": "英文「gardener」的常见义项「园丁」不符合主释义「豪宅」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「豪宅」。"
+      },
+      {
+        "wordId": "w-kit",
+        "surfaceForm": "kit",
+        "reason": "将「kit」代入可见句子后不表达主释义「豪宅」。"
+      },
+      {
+        "wordId": "w-gardener",
+        "surfaceForm": "gardener",
+        "reason": "将「gardener」代入可见句子后不表达主释义「豪宅」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manual",
+    "enToZh": [
+      {
+        "wordId": "w-fury",
+        "reason": "选项「愤怒」不是「manual」的主释义「手册」或其他义项。"
+      },
+      {
+        "wordId": "w-layoff",
+        "reason": "选项「裁员」不是「manual」的主释义「手册」或其他义项。"
+      },
+      {
+        "wordId": "w-hostage",
+        "reason": "选项「人质」不是「manual」的主释义「手册」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fury",
+        "reason": "英文「fury」的常见义项「愤怒」不符合主释义「手册」。"
+      },
+      {
+        "wordId": "w-layoff",
+        "reason": "英文「layoff」的常见义项「裁员」不符合主释义「手册」。"
+      },
+      {
+        "wordId": "w-hostage",
+        "reason": "英文「hostage」的常见义项「人质」不符合主释义「手册」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fury",
+        "surfaceForm": "fury",
+        "reason": "将「fury」代入可见句子后不表达主释义「手册」。"
+      },
+      {
+        "wordId": "w-layoff",
+        "surfaceForm": "layoff",
+        "reason": "将「layoff」代入可见句子后不表达主释义「手册」。"
+      },
+      {
+        "wordId": "w-hostage",
+        "surfaceForm": "hostage",
+        "reason": "将「hostage」代入可见句子后不表达主释义「手册」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manufacture",
+    "enToZh": [
+      {
+        "wordId": "w-bring",
+        "reason": "选项「带来」不是「manufacture」的主释义「制造」或其他义项。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "reason": "选项「强调」不是「manufacture」的主释义「制造」或其他义项。"
+      },
+      {
+        "wordId": "w-create",
+        "reason": "选项「创造」不是「manufacture」的主释义「制造」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bring",
+        "reason": "英文「bring」的常见义项「带来」不符合主释义「制造」。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "reason": "英文「emphasize」的常见义项「强调」不符合主释义「制造」。"
+      },
+      {
+        "wordId": "w-create",
+        "reason": "英文「create」的常见义项「创造」不符合主释义「制造」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bring",
+        "surfaceForm": "bring",
+        "reason": "将「bring」代入可见句子后不表达主释义「制造」。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "surfaceForm": "emphasize",
+        "reason": "将「emphasize」代入可见句子后不表达主释义「制造」。"
+      },
+      {
+        "wordId": "w-create",
+        "surfaceForm": "create",
+        "reason": "将「create」代入可见句子后不表达主释义「制造」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manufacturer",
+    "enToZh": [
+      {
+        "wordId": "w-case",
+        "reason": "选项「案件」不是「manufacturer」的主释义「制造商」或其他义项。"
+      },
+      {
+        "wordId": "w-latin",
+        "reason": "选项「拉丁语」不是「manufacturer」的主释义「制造商」或其他义项。"
+      },
+      {
+        "wordId": "w-honey",
+        "reason": "选项「蜂蜜」不是「manufacturer」的主释义「制造商」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-case",
+        "reason": "英文「case」的常见义项「案件」不符合主释义「制造商」。"
+      },
+      {
+        "wordId": "w-latin",
+        "reason": "英文「Latin」的常见义项「拉丁语」不符合主释义「制造商」。"
+      },
+      {
+        "wordId": "w-honey",
+        "reason": "英文「honey」的常见义项「蜂蜜」不符合主释义「制造商」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-case",
+        "surfaceForm": "case",
+        "reason": "将「case」代入可见句子后不表达主释义「制造商」。"
+      },
+      {
+        "wordId": "w-latin",
+        "surfaceForm": "Latin",
+        "reason": "将「Latin」代入可见句子后不表达主释义「制造商」。"
+      },
+      {
+        "wordId": "w-honey",
+        "surfaceForm": "honey",
+        "reason": "将「honey」代入可见句子后不表达主释义「制造商」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-manuscript",
+    "enToZh": [
+      {
+        "wordId": "w-hazard",
+        "reason": "选项「危险」不是「manuscript」的主释义「手稿」或其他义项。"
+      },
+      {
+        "wordId": "w-excess",
+        "reason": "选项「过量」不是「manuscript」的主释义「手稿」或其他义项。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "选项「镍」不是「manuscript」的主释义「手稿」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hazard",
+        "reason": "英文「hazard」的常见义项「危险」不符合主释义「手稿」。"
+      },
+      {
+        "wordId": "w-excess",
+        "reason": "英文「excess」的常见义项「过量」不符合主释义「手稿」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "英文「nickel」的常见义项「镍」不符合主释义「手稿」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hazard",
+        "surfaceForm": "hazard",
+        "reason": "将「hazard」代入可见句子后不表达主释义「手稿」。"
+      },
+      {
+        "wordId": "w-excess",
+        "surfaceForm": "excess",
+        "reason": "将「excess」代入可见句子后不表达主释义「手稿」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "surfaceForm": "nickel",
+        "reason": "将「nickel」代入可见句子后不表达主释义「手稿」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-map",
+    "enToZh": [
+      {
+        "wordId": "w-fan",
+        "reason": "选项「风扇」不是「map」的主释义「地图」或其他义项。"
+      },
+      {
+        "wordId": "w-lorry",
+        "reason": "选项「卡车」不是「map」的主释义「地图」或其他义项。"
+      },
+      {
+        "wordId": "w-affection",
+        "reason": "选项「喜爱」不是「map」的主释义「地图」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fan",
+        "reason": "英文「fan」的常见义项「风扇」不符合主释义「地图」。"
+      },
+      {
+        "wordId": "w-lorry",
+        "reason": "英文「lorry」的常见义项「卡车」不符合主释义「地图」。"
+      },
+      {
+        "wordId": "w-affection",
+        "reason": "英文「affection」的常见义项「喜爱」不符合主释义「地图」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fan",
+        "surfaceForm": "fan",
+        "reason": "将「fan」代入可见句子后不表达主释义「地图」。"
+      },
+      {
+        "wordId": "w-lorry",
+        "surfaceForm": "lorry",
+        "reason": "将「lorry」代入可见句子后不表达主释义「地图」。"
+      },
+      {
+        "wordId": "w-affection",
+        "surfaceForm": "affection",
+        "reason": "将「affection」代入可见句子后不表达主释义「地图」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-maple",
+    "enToZh": [
+      {
+        "wordId": "w-cord",
+        "reason": "选项「细绳」不是「maple」的主释义「枫树」或其他义项。"
+      },
+      {
+        "wordId": "w-allowance",
+        "reason": "选项「津贴」不是「maple」的主释义「枫树」或其他义项。"
+      },
+      {
+        "wordId": "w-lightning",
+        "reason": "选项「闪电」不是「maple」的主释义「枫树」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cord",
+        "reason": "英文「cord」的常见义项「细绳」不符合主释义「枫树」。"
+      },
+      {
+        "wordId": "w-allowance",
+        "reason": "英文「allowance」的常见义项「津贴」不符合主释义「枫树」。"
+      },
+      {
+        "wordId": "w-lightning",
+        "reason": "英文「lightning」的常见义项「闪电」不符合主释义「枫树」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cord",
+        "surfaceForm": "cord",
+        "reason": "将「cord」代入可见句子后不表达主释义「枫树」。"
+      },
+      {
+        "wordId": "w-allowance",
+        "surfaceForm": "allowance",
+        "reason": "将「allowance」代入可见句子后不表达主释义「枫树」。"
+      },
+      {
+        "wordId": "w-lightning",
+        "surfaceForm": "lightning",
+        "reason": "将「lightning」代入可见句子后不表达主释义「枫树」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-mar",
+    "enToZh": [
+      {
+        "wordId": "w-exclaim",
+        "reason": "选项「惊叫」不是「mar」的主释义「破坏」或其他义项。"
+      },
+      {
+        "wordId": "w-consume",
+        "reason": "选项「消耗」不是「mar」的主释义「破坏」或其他义项。"
+      },
+      {
+        "wordId": "w-arouse",
+        "reason": "选项「引起」不是「mar」的主释义「破坏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exclaim",
+        "reason": "英文「exclaim」的常见义项「惊叫」不符合主释义「破坏」。"
+      },
+      {
+        "wordId": "w-consume",
+        "reason": "英文「consume」的常见义项「消耗」不符合主释义「破坏」。"
+      },
+      {
+        "wordId": "w-arouse",
+        "reason": "英文「arouse」的常见义项「引起」不符合主释义「破坏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exclaim",
+        "surfaceForm": "exclaim",
+        "reason": "将「exclaim」代入可见句子后不表达主释义「破坏」。"
+      },
+      {
+        "wordId": "w-consume",
+        "surfaceForm": "consume",
+        "reason": "将「consume」代入可见句子后不表达主释义「破坏」。"
+      },
+      {
+        "wordId": "w-arouse",
+        "surfaceForm": "arouse",
+        "reason": "将「arouse」代入可见句子后不表达主释义「破坏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marathon",
+    "enToZh": [
+      {
+        "wordId": "w-consent",
+        "reason": "选项「同意」不是「marathon」的主释义「马拉松」或其他义项。"
+      },
+      {
+        "wordId": "w-lime",
+        "reason": "选项「青柠」不是「marathon」的主释义「马拉松」或其他义项。"
+      },
+      {
+        "wordId": "w-flaw",
+        "reason": "选项「瑕疵」不是「marathon」的主释义「马拉松」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-consent",
+        "reason": "英文「consent」的常见义项「同意」不符合主释义「马拉松」。"
+      },
+      {
+        "wordId": "w-lime",
+        "reason": "英文「lime」的常见义项「青柠」不符合主释义「马拉松」。"
+      },
+      {
+        "wordId": "w-flaw",
+        "reason": "英文「flaw」的常见义项「瑕疵」不符合主释义「马拉松」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-consent",
+        "surfaceForm": "consent",
+        "reason": "将「consent」代入可见句子后不表达主释义「马拉松」。"
+      },
+      {
+        "wordId": "w-lime",
+        "surfaceForm": "lime",
+        "reason": "将「lime」代入可见句子后不表达主释义「马拉松」。"
+      },
+      {
+        "wordId": "w-flaw",
+        "surfaceForm": "flaw",
+        "reason": "将「flaw」代入可见句子后不表达主释义「马拉松」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marble",
+    "enToZh": [
+      {
+        "wordId": "w-coefficient",
+        "reason": "选项「系数」不是「marble」的主释义「大理石」或其他义项。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "选项「山羊」不是「marble」的主释义「大理石」或其他义项。"
+      },
+      {
+        "wordId": "w-conscience",
+        "reason": "选项「良心」不是「marble」的主释义「大理石」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coefficient",
+        "reason": "英文「coefficient」的常见义项「系数」不符合主释义「大理石」。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "英文「goat」的常见义项「山羊」不符合主释义「大理石」。"
+      },
+      {
+        "wordId": "w-conscience",
+        "reason": "英文「conscience」的常见义项「良心」不符合主释义「大理石」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coefficient",
+        "surfaceForm": "coefficient",
+        "reason": "将「coefficient」代入可见句子后不表达主释义「大理石」。"
+      },
+      {
+        "wordId": "w-goat",
+        "surfaceForm": "goat",
+        "reason": "将「goat」代入可见句子后不表达主释义「大理石」。"
+      },
+      {
+        "wordId": "w-conscience",
+        "surfaceForm": "conscience",
+        "reason": "将「conscience」代入可见句子后不表达主释义「大理石」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-margin",
+    "enToZh": [
+      {
+        "wordId": "w-imitation",
+        "reason": "选项「仿制品」不是「margin」的主释义「页边空白」或其他义项。"
+      },
+      {
+        "wordId": "w-comrade",
+        "reason": "选项「伙伴」不是「margin」的主释义「页边空白」或其他义项。"
+      },
+      {
+        "wordId": "w-guidance",
+        "reason": "选项「指导」不是「margin」的主释义「页边空白」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-imitation",
+        "reason": "英文「imitation」的常见义项「仿制品」不符合主释义「页边空白」。"
+      },
+      {
+        "wordId": "w-comrade",
+        "reason": "英文「comrade」的常见义项「伙伴」不符合主释义「页边空白」。"
+      },
+      {
+        "wordId": "w-guidance",
+        "reason": "英文「guidance」的常见义项「指导」不符合主释义「页边空白」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-imitation",
+        "surfaceForm": "imitation",
+        "reason": "将「imitation」代入可见句子后不表达主释义「页边空白」。"
+      },
+      {
+        "wordId": "w-comrade",
+        "surfaceForm": "comrade",
+        "reason": "将「comrade」代入可见句子后不表达主释义「页边空白」。"
+      },
+      {
+        "wordId": "w-guidance",
+        "surfaceForm": "guidance",
+        "reason": "将「guidance」代入可见句子后不表达主释义「页边空白」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marine",
+    "enToZh": [
+      {
+        "wordId": "w-intermediate",
+        "reason": "选项「中级的」不是「marine」的主释义「海洋的」或其他义项。"
+      },
+      {
+        "wordId": "w-explosive",
+        "reason": "选项「易爆的」不是「marine」的主释义「海洋的」或其他义项。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "reason": "选项「满怀希望的」不是「marine」的主释义「海洋的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intermediate",
+        "reason": "英文「intermediate」的常见义项「中级的」不符合主释义「海洋的」。"
+      },
+      {
+        "wordId": "w-explosive",
+        "reason": "英文「explosive」的常见义项「易爆的」不符合主释义「海洋的」。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "reason": "英文「hopeful」的常见义项「满怀希望的」不符合主释义「海洋的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intermediate",
+        "surfaceForm": "intermediate",
+        "reason": "将「intermediate」代入可见句子后不表达主释义「海洋的」。"
+      },
+      {
+        "wordId": "w-explosive",
+        "surfaceForm": "explosive",
+        "reason": "将「explosive」代入可见句子后不表达主释义「海洋的」。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "surfaceForm": "hopeful",
+        "reason": "将「hopeful」代入可见句子后不表达主释义「海洋的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-mark",
+    "enToZh": [
+      {
+        "wordId": "w-fever",
+        "reason": "选项「发烧」不是「mark」的主释义「记号」或其他义项。"
+      },
+      {
+        "wordId": "w-hook",
+        "reason": "选项「钩子」不是「mark」的主释义「记号」或其他义项。"
+      },
+      {
+        "wordId": "w-grammar",
+        "reason": "选项「语法」不是「mark」的主释义「记号」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fever",
+        "reason": "英文「fever」的常见义项「发烧」不符合主释义「记号」。"
+      },
+      {
+        "wordId": "w-hook",
+        "reason": "英文「hook」的常见义项「钩子」不符合主释义「记号」。"
+      },
+      {
+        "wordId": "w-grammar",
+        "reason": "英文「grammar」的常见义项「语法」不符合主释义「记号」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fever",
+        "surfaceForm": "fever",
+        "reason": "将「fever」代入可见句子后不表达主释义「记号」。"
+      },
+      {
+        "wordId": "w-hook",
+        "surfaceForm": "hook",
+        "reason": "将「hook」代入可见句子后不表达主释义「记号」。"
+      },
+      {
+        "wordId": "w-grammar",
+        "surfaceForm": "grammar",
+        "reason": "将「grammar」代入可见句子后不表达主释义「记号」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-market",
+    "enToZh": [
+      {
+        "wordId": "w-earnings",
+        "reason": "选项「收入」不是「market」的主释义「市场」或其他义项。"
+      },
+      {
+        "wordId": "w-celebration",
+        "reason": "选项「庆祝活动」不是「market」的主释义「市场」或其他义项。"
+      },
+      {
+        "wordId": "w-cloud",
+        "reason": "选项「云」不是「market」的主释义「市场」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-earnings",
+        "reason": "英文「earnings」的常见义项「收入」不符合主释义「市场」。"
+      },
+      {
+        "wordId": "w-celebration",
+        "reason": "英文「celebration」的常见义项「庆祝活动」不符合主释义「市场」。"
+      },
+      {
+        "wordId": "w-cloud",
+        "reason": "英文「cloud」的常见义项「云」不符合主释义「市场」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-earnings",
+        "surfaceForm": "earnings",
+        "reason": "将「earnings」代入可见句子后不表达主释义「市场」。"
+      },
+      {
+        "wordId": "w-celebration",
+        "surfaceForm": "celebration",
+        "reason": "将「celebration」代入可见句子后不表达主释义「市场」。"
+      },
+      {
+        "wordId": "w-cloud",
+        "surfaceForm": "cloud",
+        "reason": "将「cloud」代入可见句子后不表达主释义「市场」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marketing",
+    "enToZh": [
+      {
+        "wordId": "w-journey",
+        "reason": "选项「旅程」不是「marketing」的主释义「市场营销」或其他义项。"
+      },
+      {
+        "wordId": "w-body",
+        "reason": "选项「身体」不是「marketing」的主释义「市场营销」或其他义项。"
+      },
+      {
+        "wordId": "w-english",
+        "reason": "选项「英语」不是「marketing」的主释义「市场营销」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-journey",
+        "reason": "英文「journey」的常见义项「旅程」不符合主释义「市场营销」。"
+      },
+      {
+        "wordId": "w-body",
+        "reason": "英文「body」的常见义项「身体」不符合主释义「市场营销」。"
+      },
+      {
+        "wordId": "w-english",
+        "reason": "英文「English」的常见义项「英语」不符合主释义「市场营销」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-journey",
+        "surfaceForm": "journey",
+        "reason": "将「journey」代入可见句子后不表达主释义「市场营销」。"
+      },
+      {
+        "wordId": "w-body",
+        "surfaceForm": "body",
+        "reason": "将「body」代入可见句子后不表达主释义「市场营销」。"
+      },
+      {
+        "wordId": "w-english",
+        "surfaceForm": "English",
+        "reason": "将「English」代入可见句子后不表达主释义「市场营销」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marriage",
+    "enToZh": [
+      {
+        "wordId": "w-layer",
+        "reason": "选项「层」不是「marriage」的主释义「婚姻」或其他义项。"
+      },
+      {
+        "wordId": "w-garbage",
+        "reason": "选项「垃圾」不是「marriage」的主释义「婚姻」或其他义项。"
+      },
+      {
+        "wordId": "w-congress",
+        "reason": "选项「国会」不是「marriage」的主释义「婚姻」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-layer",
+        "reason": "英文「layer」的常见义项「层」不符合主释义「婚姻」。"
+      },
+      {
+        "wordId": "w-garbage",
+        "reason": "英文「garbage」的常见义项「垃圾」不符合主释义「婚姻」。"
+      },
+      {
+        "wordId": "w-congress",
+        "reason": "英文「congress」的常见义项「国会」不符合主释义「婚姻」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-layer",
+        "surfaceForm": "layer",
+        "reason": "将「layer」代入可见句子后不表达主释义「婚姻」。"
+      },
+      {
+        "wordId": "w-garbage",
+        "surfaceForm": "garbage",
+        "reason": "将「garbage」代入可见句子后不表达主释义「婚姻」。"
+      },
+      {
+        "wordId": "w-congress",
+        "surfaceForm": "congress",
+        "reason": "将「congress」代入可见句子后不表达主释义「婚姻」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marry",
+    "enToZh": [
+      {
+        "wordId": "w-destroy",
+        "reason": "选项「摧毁」不是「marry」的主释义「结婚」或其他义项。"
+      },
+      {
+        "wordId": "w-knock",
+        "reason": "选项「敲」不是「marry」的主释义「结婚」或其他义项。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "选项「同意」不是「marry」的主释义「结婚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-destroy",
+        "reason": "英文「destroy」的常见义项「摧毁」不符合主释义「结婚」。"
+      },
+      {
+        "wordId": "w-knock",
+        "reason": "英文「knock」的常见义项「敲」不符合主释义「结婚」。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "英文「agree」的常见义项「同意」不符合主释义「结婚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-destroy",
+        "surfaceForm": "destroy",
+        "reason": "将「destroy」代入可见句子后不表达主释义「结婚」。"
+      },
+      {
+        "wordId": "w-knock",
+        "surfaceForm": "knock",
+        "reason": "将「knock」代入可见句子后不表达主释义「结婚」。"
+      },
+      {
+        "wordId": "w-agree",
+        "surfaceForm": "agree",
+        "reason": "将「agree」代入可见句子后不表达主释义「结婚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marsh",
+    "enToZh": [
+      {
+        "wordId": "w-execution",
+        "reason": "选项「执行」不是「marsh」的主释义「沼泽」或其他义项。"
+      },
+      {
+        "wordId": "w-footstep",
+        "reason": "选项「脚步声」不是「marsh」的主释义「沼泽」或其他义项。"
+      },
+      {
+        "wordId": "w-dilemma",
+        "reason": "选项「两难境地」不是「marsh」的主释义「沼泽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-execution",
+        "reason": "英文「execution」的常见义项「执行」不符合主释义「沼泽」。"
+      },
+      {
+        "wordId": "w-footstep",
+        "reason": "英文「footstep」的常见义项「脚步声」不符合主释义「沼泽」。"
+      },
+      {
+        "wordId": "w-dilemma",
+        "reason": "英文「dilemma」的常见义项「两难境地」不符合主释义「沼泽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-execution",
+        "surfaceForm": "execution",
+        "reason": "将「execution」代入可见句子后不表达主释义「沼泽」。"
+      },
+      {
+        "wordId": "w-footstep",
+        "surfaceForm": "footstep",
+        "reason": "将「footstep」代入可见句子后不表达主释义「沼泽」。"
+      },
+      {
+        "wordId": "w-dilemma",
+        "surfaceForm": "dilemma",
+        "reason": "将「dilemma」代入可见句子后不表达主释义「沼泽」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-marshal",
+    "enToZh": [
+      {
+        "wordId": "w-fright",
+        "reason": "选项「惊吓」不是「marshal」的主释义「元帅」或其他义项。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "选项「附录」不是「marshal」的主释义「元帅」或其他义项。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "reason": "选项「陨石」不是「marshal」的主释义「元帅」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fright",
+        "reason": "英文「fright」的常见义项「惊吓」不符合主释义「元帅」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "英文「appendix」的常见义项「附录」不符合主释义「元帅」。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "reason": "英文「meteorite」的常见义项「陨石」不符合主释义「元帅」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fright",
+        "surfaceForm": "fright",
+        "reason": "将「fright」代入可见句子后不表达主释义「元帅」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "surfaceForm": "appendix",
+        "reason": "将「appendix」代入可见句子后不表达主释义「元帅」。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "surfaceForm": "meteorite",
+        "reason": "将「meteorite」代入可见句子后不表达主释义「元帅」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-martyr",
+    "enToZh": [
+      {
+        "wordId": "w-cannon",
+        "reason": "选项「大炮」不是「martyr」的主释义「烈士」或其他义项。"
+      },
+      {
+        "wordId": "w-deportation",
+        "reason": "选项「驱逐出境」不是「martyr」的主释义「烈士」或其他义项。"
+      },
+      {
+        "wordId": "w-inference",
+        "reason": "选项「推论」不是「martyr」的主释义「烈士」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cannon",
+        "reason": "英文「cannon」的常见义项「大炮」不符合主释义「烈士」。"
+      },
+      {
+        "wordId": "w-deportation",
+        "reason": "英文「deportation」的常见义项「驱逐出境」不符合主释义「烈士」。"
+      },
+      {
+        "wordId": "w-inference",
+        "reason": "英文「inference」的常见义项「推论」不符合主释义「烈士」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cannon",
+        "surfaceForm": "cannon",
+        "reason": "将「cannon」代入可见句子后不表达主释义「烈士」。"
+      },
+      {
+        "wordId": "w-deportation",
+        "surfaceForm": "deportation",
+        "reason": "将「deportation」代入可见句子后不表达主释义「烈士」。"
+      },
+      {
+        "wordId": "w-inference",
+        "surfaceForm": "inference",
+        "reason": "将「inference」代入可见句子后不表达主释义「烈士」。"
+      }
+    ],
+    "spelling": null
+  }
+]

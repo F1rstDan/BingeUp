@@ -1,0 +1,15 @@
+{
+  "reviewer": "independent-sample-review-main-075",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-forbid",
+    "w-force",
+    "w-foreigner",
+    "w-foresee",
+    "w-forest",
+    "w-forget",
+    "w-forgive"
+  ],
+  "result": "pass",
+  "findings": []
+}

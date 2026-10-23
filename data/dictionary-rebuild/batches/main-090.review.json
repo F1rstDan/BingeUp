@@ -1,0 +1,23 @@
+{
+  "reviewer": "independent-sample-review-main-090",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-hour",
+    "w-howl",
+    "w-hull",
+    "w-hum",
+    "w-human",
+    "w-humanitarian",
+    "w-humanity",
+    "w-hundred",
+    "w-hurricane"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-hurricane",
+      "stage": "pronunciation",
+      "message": "主词性为 n.、主释义为「飓风」，例句为单数 The hurricane；当前 ipa-selections 选择索引 0 的 /ˈhəɹəˌkeɪnz/，末尾 /z/ 对应复数 hurricanes，与单数词元和例句不符。应改选索引 1 的 /ˈhɝəˌkeɪn/，或补充单数读音的独立转写。"
+    }
+  ]
+}

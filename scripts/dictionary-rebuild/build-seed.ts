@@ -176,7 +176,11 @@ function main() {
     'utf8',
   );
 
-  const effectiveIds = new Set(registryEntries.map((entry) => entry.canonicalId));
+  const effectiveIds = new Set(
+    registryEntries
+      .filter((entry) => entry.disposition !== 'deactivate')
+      .map((entry) => entry.canonicalId),
+  );
   console.log(`种子词条：${seedWords.length}`);
   console.log(`原始 ID：${registryEntries.length}`);
   console.log(`有效词：${effectiveIds.size}`);

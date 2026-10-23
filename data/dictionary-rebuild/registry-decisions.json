@@ -22,6 +22,15 @@
         "https://dictionary.cambridge.org/us/dictionary/english/ceo",
         "标准英语词表不把 ceo 当作普通小写词形。"
       ]
+    },
+    {
+      "legacyId": "w-negro",
+      "disposition": "deactivate",
+      "canonicalId": "w-negro",
+      "reason": "过时且具冒犯性的种族称谓，不适合作为学习内容。",
+      "evidence": [
+        "现代英语词典将该词标记为过时且具冒犯性，不再作为中性学习词条分发。"
+      ]
     }
   ]
 }

@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-neutron",
+    "enToZh": [
+      {
+        "wordId": "w-hospitality",
+        "reason": "选项「好客」不是「neutron」的主释义「中子」或其他义项。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "选项「严重错误」不是「neutron」的主释义「中子」或其他义项。"
+      },
+      {
+        "wordId": "w-heater",
+        "reason": "选项「加热器」不是「neutron」的主释义「中子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hospitality",
+        "reason": "英文「hospitality」的常见义项「好客」不符合主释义「中子」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「中子」。"
+      },
+      {
+        "wordId": "w-heater",
+        "reason": "英文「heater」的常见义项「加热器」不符合主释义「中子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hospitality",
+        "surfaceForm": "hospitality",
+        "reason": "将「hospitality」代入可见句子后不表达主释义「中子」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "surfaceForm": "blunder",
+        "reason": "将「blunder」代入可见句子后不表达主释义「中子」。"
+      },
+      {
+        "wordId": "w-heater",
+        "surfaceForm": "heater",
+        "reason": "将「heater」代入可见句子后不表达主释义「中子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-never",
+    "enToZh": [
+      {
+        "wordId": "w-nearly",
+        "reason": "选项「几乎」不是「never」的主释义「从不」或其他义项。"
+      },
+      {
+        "wordId": "w-anywhere",
+        "reason": "选项「任何地方」不是「never」的主释义「从不」或其他义项。"
+      },
+      {
+        "wordId": "w-anymore",
+        "reason": "选项「不再」不是「never」的主释义「从不」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-nearly",
+        "reason": "英文「nearly」的常见义项「几乎」不符合主释义「从不」。"
+      },
+      {
+        "wordId": "w-anywhere",
+        "reason": "英文「anywhere」的常见义项「任何地方」不符合主释义「从不」。"
+      },
+      {
+        "wordId": "w-anymore",
+        "reason": "英文「anymore」的常见义项「不再」不符合主释义「从不」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-nearly",
+        "surfaceForm": "nearly",
+        "reason": "将「nearly」代入可见句子后不表达主释义「从不」。"
+      },
+      {
+        "wordId": "w-anywhere",
+        "surfaceForm": "anywhere",
+        "reason": "将「anywhere」代入可见句子后不表达主释义「从不」。"
+      },
+      {
+        "wordId": "w-anymore",
+        "surfaceForm": "anymore",
+        "reason": "将「anymore」代入可见句子后不表达主释义「从不」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nevertheless",
+    "enToZh": [
+      {
+        "wordId": "w-here",
+        "reason": "选项「这里」不是「nevertheless」的主释义「然而」或其他义项。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "reason": "选项「在某处」不是「nevertheless」的主释义「然而」或其他义项。"
+      },
+      {
+        "wordId": "w-ideally",
+        "reason": "选项「理想情况下」不是「nevertheless」的主释义「然而」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-here",
+        "reason": "英文「here」的常见义项「这里」不符合主释义「然而」。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「然而」。"
+      },
+      {
+        "wordId": "w-ideally",
+        "reason": "英文「ideally」的常见义项「理想情况下」不符合主释义「然而」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-here",
+        "surfaceForm": "here",
+        "reason": "将「here」代入可见句子后不表达主释义「然而」。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "surfaceForm": "somewhere",
+        "reason": "将「somewhere」代入可见句子后不表达主释义「然而」。"
+      },
+      {
+        "wordId": "w-ideally",
+        "surfaceForm": "ideally",
+        "reason": "将「ideally」代入可见句子后不表达主释义「然而」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-newly",
+    "enToZh": [
+      {
+        "wordId": "w-indeed",
+        "reason": "选项「确实」不是「newly」的主释义「新近」或其他义项。"
+      },
+      {
+        "wordId": "w-fairly",
+        "reason": "选项「相当地」不是「newly」的主释义「新近」或其他义项。"
+      },
+      {
+        "wordId": "w-indoors",
+        "reason": "选项「在室内」不是「newly」的主释义「新近」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-indeed",
+        "reason": "英文「indeed」的常见义项「确实」不符合主释义「新近」。"
+      },
+      {
+        "wordId": "w-fairly",
+        "reason": "英文「fairly」的常见义项「相当地」不符合主释义「新近」。"
+      },
+      {
+        "wordId": "w-indoors",
+        "reason": "英文「indoors」的常见义项「在室内」不符合主释义「新近」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-indeed",
+        "surfaceForm": "indeed",
+        "reason": "将「indeed」代入可见句子后不表达主释义「新近」。"
+      },
+      {
+        "wordId": "w-fairly",
+        "surfaceForm": "fairly",
+        "reason": "将「fairly」代入可见句子后不表达主释义「新近」。"
+      },
+      {
+        "wordId": "w-indoors",
+        "surfaceForm": "indoors",
+        "reason": "将「indoors」代入可见句子后不表达主释义「新近」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-news",
+    "enToZh": [
+      {
+        "wordId": "w-jail",
+        "reason": "选项「监狱」不是「news」的主释义「新闻」或其他义项。"
+      },
+      {
+        "wordId": "w-map",
+        "reason": "选项「地图」不是「news」的主释义「新闻」或其他义项。"
+      },
+      {
+        "wordId": "w-enemy",
+        "reason": "选项「敌人」不是「news」的主释义「新闻」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-jail",
+        "reason": "英文「jail」的常见义项「监狱」不符合主释义「新闻」。"
+      },
+      {
+        "wordId": "w-map",
+        "reason": "英文「map」的常见义项「地图」不符合主释义「新闻」。"
+      },
+      {
+        "wordId": "w-enemy",
+        "reason": "英文「enemy」的常见义项「敌人」不符合主释义「新闻」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-jail",
+        "surfaceForm": "jail",
+        "reason": "将「jail」代入可见句子后不表达主释义「新闻」。"
+      },
+      {
+        "wordId": "w-map",
+        "surfaceForm": "map",
+        "reason": "将「map」代入可见句子后不表达主释义「新闻」。"
+      },
+      {
+        "wordId": "w-enemy",
+        "surfaceForm": "enemy",
+        "reason": "将「enemy」代入可见句子后不表达主释义「新闻」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-newspaper",
+    "enToZh": [
+      {
+        "wordId": "w-alcohol",
+        "reason": "选项「酒精」不是「newspaper」的主释义「报纸」或其他义项。"
+      },
+      {
+        "wordId": "w-client",
+        "reason": "选项「客户」不是「newspaper」的主释义「报纸」或其他义项。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "选项「框架」不是「newspaper」的主释义「报纸」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alcohol",
+        "reason": "英文「alcohol」的常见义项「酒精」不符合主释义「报纸」。"
+      },
+      {
+        "wordId": "w-client",
+        "reason": "英文「client」的常见义项「客户」不符合主释义「报纸」。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "英文「frame」的常见义项「框架」不符合主释义「报纸」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alcohol",
+        "surfaceForm": "alcohol",
+        "reason": "将「alcohol」代入可见句子后不表达主释义「报纸」。"
+      },
+      {
+        "wordId": "w-client",
+        "surfaceForm": "client",
+        "reason": "将「client」代入可见句子后不表达主释义「报纸」。"
+      },
+      {
+        "wordId": "w-frame",
+        "surfaceForm": "frame",
+        "reason": "将「frame」代入可见句子后不表达主释义「报纸」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-next",
+    "enToZh": [
+      {
+        "wordId": "w-general",
+        "reason": "选项「总体的」不是「next」的主释义「下一个」或其他义项。"
+      },
+      {
+        "wordId": "w-green",
+        "reason": "选项「绿色的」不是「next」的主释义「下一个」或其他义项。"
+      },
+      {
+        "wordId": "w-grey",
+        "reason": "选项「灰色的」不是「next」的主释义「下一个」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-general",
+        "reason": "英文「general」的常见义项「总体的」不符合主释义「下一个」。"
+      },
+      {
+        "wordId": "w-green",
+        "reason": "英文「green」的常见义项「绿色的」不符合主释义「下一个」。"
+      },
+      {
+        "wordId": "w-grey",
+        "reason": "英文「grey」的常见义项「灰色的」不符合主释义「下一个」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-general",
+        "surfaceForm": "general",
+        "reason": "将「general」代入可见句子后不表达主释义「下一个」。"
+      },
+      {
+        "wordId": "w-green",
+        "surfaceForm": "green",
+        "reason": "将「green」代入可见句子后不表达主释义「下一个」。"
+      },
+      {
+        "wordId": "w-grey",
+        "surfaceForm": "grey",
+        "reason": "将「grey」代入可见句子后不表达主释义「下一个」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nickname",
+    "enToZh": [
+      {
+        "wordId": "w-liability",
+        "reason": "选项「责任」不是「nickname」的主释义「昵称」或其他义项。"
+      },
+      {
+        "wordId": "w-honesty",
+        "reason": "选项「诚实」不是「nickname」的主释义「昵称」或其他义项。"
+      },
+      {
+        "wordId": "w-bolt",
+        "reason": "选项「螺栓」不是「nickname」的主释义「昵称」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-liability",
+        "reason": "英文「liability」的常见义项「责任」不符合主释义「昵称」。"
+      },
+      {
+        "wordId": "w-honesty",
+        "reason": "英文「honesty」的常见义项「诚实」不符合主释义「昵称」。"
+      },
+      {
+        "wordId": "w-bolt",
+        "reason": "英文「bolt」的常见义项「螺栓」不符合主释义「昵称」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-liability",
+        "surfaceForm": "liability",
+        "reason": "将「liability」代入可见句子后不表达主释义「昵称」。"
+      },
+      {
+        "wordId": "w-honesty",
+        "surfaceForm": "honesty",
+        "reason": "将「honesty」代入可见句子后不表达主释义「昵称」。"
+      },
+      {
+        "wordId": "w-bolt",
+        "surfaceForm": "bolt",
+        "reason": "将「bolt」代入可见句子后不表达主释义「昵称」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-niece",
+    "enToZh": [
+      {
+        "wordId": "w-mud",
+        "reason": "选项「泥」不是「niece」的主释义「侄女」或其他义项。"
+      },
+      {
+        "wordId": "w-hall",
+        "reason": "选项「大厅」不是「niece」的主释义「侄女」或其他义项。"
+      },
+      {
+        "wordId": "w-meal",
+        "reason": "选项「一餐」不是「niece」的主释义「侄女」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mud",
+        "reason": "英文「mud」的常见义项「泥」不符合主释义「侄女」。"
+      },
+      {
+        "wordId": "w-hall",
+        "reason": "英文「hall」的常见义项「大厅」不符合主释义「侄女」。"
+      },
+      {
+        "wordId": "w-meal",
+        "reason": "英文「meal」的常见义项「一餐」不符合主释义「侄女」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mud",
+        "surfaceForm": "mud",
+        "reason": "将「mud」代入可见句子后不表达主释义「侄女」。"
+      },
+      {
+        "wordId": "w-hall",
+        "surfaceForm": "hall",
+        "reason": "将「hall」代入可见句子后不表达主释义「侄女」。"
+      },
+      {
+        "wordId": "w-meal",
+        "surfaceForm": "meal",
+        "reason": "将「meal」代入可见句子后不表达主释义「侄女」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-night",
+    "enToZh": [
+      {
+        "wordId": "w-argument",
+        "reason": "选项「争论」不是「night」的主释义「夜晚」或其他义项。"
+      },
+      {
+        "wordId": "w-advice",
+        "reason": "选项「建议」不是「night」的主释义「夜晚」或其他义项。"
+      },
+      {
+        "wordId": "w-college",
+        "reason": "选项「大学」不是「night」的主释义「夜晚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-argument",
+        "reason": "英文「argument」的常见义项「争论」不符合主释义「夜晚」。"
+      },
+      {
+        "wordId": "w-advice",
+        "reason": "英文「advice」的常见义项「建议」不符合主释义「夜晚」。"
+      },
+      {
+        "wordId": "w-college",
+        "reason": "英文「college」的常见义项「大学」不符合主释义「夜晚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-argument",
+        "surfaceForm": "argument",
+        "reason": "将「argument」代入可见句子后不表达主释义「夜晚」。"
+      },
+      {
+        "wordId": "w-advice",
+        "surfaceForm": "advice",
+        "reason": "将「advice」代入可见句子后不表达主释义「夜晚」。"
+      },
+      {
+        "wordId": "w-college",
+        "surfaceForm": "college",
+        "reason": "将「college」代入可见句子后不表达主释义「夜晚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nightmare",
+    "enToZh": [
+      {
+        "wordId": "w-glimpse",
+        "reason": "选项「一瞥」不是「nightmare」的主释义「噩梦」或其他义项。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "选项「黄铜」不是「nightmare」的主释义「噩梦」或其他义项。"
+      },
+      {
+        "wordId": "w-calendar",
+        "reason": "选项「日历」不是「nightmare」的主释义「噩梦」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-glimpse",
+        "reason": "英文「glimpse」的常见义项「一瞥」不符合主释义「噩梦」。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "英文「brass」的常见义项「黄铜」不符合主释义「噩梦」。"
+      },
+      {
+        "wordId": "w-calendar",
+        "reason": "英文「calendar」的常见义项「日历」不符合主释义「噩梦」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-glimpse",
+        "surfaceForm": "glimpse",
+        "reason": "将「glimpse」代入可见句子后不表达主释义「噩梦」。"
+      },
+      {
+        "wordId": "w-brass",
+        "surfaceForm": "brass",
+        "reason": "将「brass」代入可见句子后不表达主释义「噩梦」。"
+      },
+      {
+        "wordId": "w-calendar",
+        "surfaceForm": "calendar",
+        "reason": "将「calendar」代入可见句子后不表达主释义「噩梦」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nine",
+    "enToZh": [
+      {
+        "wordId": "w-eight",
+        "reason": "选项「八」不是「nine」的主释义「九」或其他义项。"
+      },
+      {
+        "wordId": "w-fourth",
+        "reason": "选项「第四」不是「nine」的主释义「九」或其他义项。"
+      },
+      {
+        "wordId": "w-fifteen",
+        "reason": "选项「十五」不是「nine」的主释义「九」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eight",
+        "reason": "英文「eight」的常见义项「八」不符合主释义「九」。"
+      },
+      {
+        "wordId": "w-fourth",
+        "reason": "英文「fourth」的常见义项「第四」不符合主释义「九」。"
+      },
+      {
+        "wordId": "w-fifteen",
+        "reason": "英文「fifteen」的常见义项「十五」不符合主释义「九」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eight",
+        "surfaceForm": "eight",
+        "reason": "将「eight」代入可见句子后不表达主释义「九」。"
+      },
+      {
+        "wordId": "w-fourth",
+        "surfaceForm": "fourth",
+        "reason": "将「fourth」代入可见句子后不表达主释义「九」。"
+      },
+      {
+        "wordId": "w-fifteen",
+        "surfaceForm": "fifteen",
+        "reason": "将「fifteen」代入可见句子后不表达主释义「九」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nineteen",
+    "enToZh": [
+      {
+        "wordId": "w-eighty",
+        "reason": "选项「八十」不是「nineteen」的主释义「十九」或其他义项。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "reason": "选项「十八」不是「nineteen」的主释义「十九」或其他义项。"
+      },
+      {
+        "wordId": "w-dozen",
+        "reason": "选项「十二个」不是「nineteen」的主释义「十九」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-eighty",
+        "reason": "英文「eighty」的常见义项「八十」不符合主释义「十九」。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "reason": "英文「eighteen」的常见义项「十八」不符合主释义「十九」。"
+      },
+      {
+        "wordId": "w-dozen",
+        "reason": "英文「dozen」的常见义项「十二个」不符合主释义「十九」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-eighty",
+        "surfaceForm": "eighty",
+        "reason": "将「eighty」代入可见句子后不表达主释义「十九」。"
+      },
+      {
+        "wordId": "w-eighteen",
+        "surfaceForm": "eighteen",
+        "reason": "将「eighteen」代入可见句子后不表达主释义「十九」。"
+      },
+      {
+        "wordId": "w-dozen",
+        "surfaceForm": "dozen",
+        "reason": "将「dozen」代入可见句子后不表达主释义「十九」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nitrogen",
+    "enToZh": [
+      {
+        "wordId": "w-intent",
+        "reason": "选项「意图」不是「nitrogen」的主释义「氮」或其他义项。"
+      },
+      {
+        "wordId": "w-fury",
+        "reason": "选项「愤怒」不是「nitrogen」的主释义「氮」或其他义项。"
+      },
+      {
+        "wordId": "w-liar",
+        "reason": "选项「说谎者」不是「nitrogen」的主释义「氮」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intent",
+        "reason": "英文「intent」的常见义项「意图」不符合主释义「氮」。"
+      },
+      {
+        "wordId": "w-fury",
+        "reason": "英文「fury」的常见义项「愤怒」不符合主释义「氮」。"
+      },
+      {
+        "wordId": "w-liar",
+        "reason": "英文「liar」的常见义项「说谎者」不符合主释义「氮」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intent",
+        "surfaceForm": "intent",
+        "reason": "将「intent」代入可见句子后不表达主释义「氮」。"
+      },
+      {
+        "wordId": "w-fury",
+        "surfaceForm": "fury",
+        "reason": "将「fury」代入可见句子后不表达主释义「氮」。"
+      },
+      {
+        "wordId": "w-liar",
+        "surfaceForm": "liar",
+        "reason": "将「liar」代入可见句子后不表达主释义「氮」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-noble",
+    "enToZh": [
+      {
+        "wordId": "w-elder",
+        "reason": "选项「年长的」不是「noble」的主释义「高尚的」或其他义项。"
+      },
+      {
+        "wordId": "w-mighty",
+        "reason": "选项「强大的」不是「noble」的主释义「高尚的」或其他义项。"
+      },
+      {
+        "wordId": "w-egyptian",
+        "reason": "选项「埃及的」不是「noble」的主释义「高尚的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-elder",
+        "reason": "英文「elder」的常见义项「年长的」不符合主释义「高尚的」。"
+      },
+      {
+        "wordId": "w-mighty",
+        "reason": "英文「mighty」的常见义项「强大的」不符合主释义「高尚的」。"
+      },
+      {
+        "wordId": "w-egyptian",
+        "reason": "英文「Egyptian」的常见义项「埃及的」不符合主释义「高尚的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-elder",
+        "surfaceForm": "elder",
+        "reason": "将「elder」代入可见句子后不表达主释义「高尚的」。"
+      },
+      {
+        "wordId": "w-mighty",
+        "surfaceForm": "mighty",
+        "reason": "将「mighty」代入可见句子后不表达主释义「高尚的」。"
+      },
+      {
+        "wordId": "w-egyptian",
+        "surfaceForm": "Egyptian",
+        "reason": "将「Egyptian」代入可见句子后不表达主释义「高尚的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nobody",
+    "enToZh": [
+      {
+        "wordId": "w-everyone",
+        "reason": "选项「每个人」不是「nobody」的主释义「没有人」或其他义项。"
+      },
+      {
+        "wordId": "w-everything",
+        "reason": "选项「一切」不是「nobody」的主释义「没有人」或其他义项。"
+      },
+      {
+        "wordId": "w-anyone",
+        "reason": "选项「任何人」不是「nobody」的主释义「没有人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-everyone",
+        "reason": "英文「everyone」的常见义项「每个人」不符合主释义「没有人」。"
+      },
+      {
+        "wordId": "w-everything",
+        "reason": "英文「everything」的常见义项「一切」不符合主释义「没有人」。"
+      },
+      {
+        "wordId": "w-anyone",
+        "reason": "英文「anyone」的常见义项「任何人」不符合主释义「没有人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-everyone",
+        "surfaceForm": "everyone",
+        "reason": "将「everyone」代入可见句子后不表达主释义「没有人」。"
+      },
+      {
+        "wordId": "w-everything",
+        "surfaceForm": "everything",
+        "reason": "将「everything」代入可见句子后不表达主释义「没有人」。"
+      },
+      {
+        "wordId": "w-anyone",
+        "surfaceForm": "anyone",
+        "reason": "将「anyone」代入可见句子后不表达主释义「没有人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nod",
+    "enToZh": [
+      {
+        "wordId": "w-involve",
+        "reason": "选项「涉及」不是「nod」的主释义「点头」或其他义项。"
+      },
+      {
+        "wordId": "w-complicate",
+        "reason": "选项「使复杂化」不是「nod」的主释义「点头」或其他义项。"
+      },
+      {
+        "wordId": "w-adopt",
+        "reason": "选项「采用」不是「nod」的主释义「点头」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-involve",
+        "reason": "英文「involve」的常见义项「涉及」不符合主释义「点头」。"
+      },
+      {
+        "wordId": "w-complicate",
+        "reason": "英文「complicate」的常见义项「使复杂化」不符合主释义「点头」。"
+      },
+      {
+        "wordId": "w-adopt",
+        "reason": "英文「adopt」的常见义项「采用」不符合主释义「点头」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-involve",
+        "surfaceForm": "involve",
+        "reason": "将「involve」代入可见句子后不表达主释义「点头」。"
+      },
+      {
+        "wordId": "w-complicate",
+        "surfaceForm": "complicate",
+        "reason": "将「complicate」代入可见句子后不表达主释义「点头」。"
+      },
+      {
+        "wordId": "w-adopt",
+        "surfaceForm": "adopt",
+        "reason": "将「adopt」代入可见句子后不表达主释义「点头」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-noise",
+    "enToZh": [
+      {
+        "wordId": "w-flour",
+        "reason": "选项「面粉」不是「noise」的主释义「噪音」或其他义项。"
+      },
+      {
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「noise」的主释义「噪音」或其他义项。"
+      },
+      {
+        "wordId": "w-faith",
+        "reason": "选项「信任」不是「noise」的主释义「噪音」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-flour",
+        "reason": "英文「flour」的常见义项「面粉」不符合主释义「噪音」。"
+      },
+      {
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「噪音」。"
+      },
+      {
+        "wordId": "w-faith",
+        "reason": "英文「faith」的常见义项「信任」不符合主释义「噪音」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-flour",
+        "surfaceForm": "flour",
+        "reason": "将「flour」代入可见句子后不表达主释义「噪音」。"
+      },
+      {
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「噪音」。"
+      },
+      {
+        "wordId": "w-faith",
+        "surfaceForm": "faith",
+        "reason": "将「faith」代入可见句子后不表达主释义「噪音」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nominate",
+    "enToZh": [
+      {
+        "wordId": "w-linger",
+        "reason": "选项「逗留」不是「nominate」的主释义「提名」或其他义项。"
+      },
+      {
+        "wordId": "w-gauge",
+        "reason": "选项「估计」不是「nominate」的主释义「提名」或其他义项。"
+      },
+      {
+        "wordId": "w-enforce",
+        "reason": "选项「执行」不是「nominate」的主释义「提名」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-linger",
+        "reason": "英文「linger」的常见义项「逗留」不符合主释义「提名」。"
+      },
+      {
+        "wordId": "w-gauge",
+        "reason": "英文「gauge」的常见义项「估计」不符合主释义「提名」。"
+      },
+      {
+        "wordId": "w-enforce",
+        "reason": "英文「enforce」的常见义项「执行」不符合主释义「提名」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-linger",
+        "surfaceForm": "linger",
+        "reason": "将「linger」代入可见句子后不表达主释义「提名」。"
+      },
+      {
+        "wordId": "w-gauge",
+        "surfaceForm": "gauge",
+        "reason": "将「gauge」代入可见句子后不表达主释义「提名」。"
+      },
+      {
+        "wordId": "w-enforce",
+        "surfaceForm": "enforce",
+        "reason": "将「enforce」代入可见句子后不表达主释义「提名」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-none",
+    "enToZh": [
+      {
+        "wordId": "w-everyone",
+        "reason": "选项「每个人」不是「none」的主释义「没有一个」或其他义项。"
+      },
+      {
+        "wordId": "w-nobody",
+        "reason": "选项「没有人」不是「none」的主释义「没有一个」或其他义项。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "选项「我的」不是「none」的主释义「没有一个」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-everyone",
+        "reason": "英文「everyone」的常见义项「每个人」不符合主释义「没有一个」。"
+      },
+      {
+        "wordId": "w-nobody",
+        "reason": "英文「nobody」的常见义项「没有人」不符合主释义「没有一个」。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "英文「mine」的常见义项「我的」不符合主释义「没有一个」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-everyone",
+        "surfaceForm": "everyone",
+        "reason": "将「everyone」代入可见句子后不表达主释义「没有一个」。"
+      },
+      {
+        "wordId": "w-nobody",
+        "surfaceForm": "nobody",
+        "reason": "将「nobody」代入可见句子后不表达主释义「没有一个」。"
+      },
+      {
+        "wordId": "w-mine",
+        "surfaceForm": "mine",
+        "reason": "将「mine」代入可见句子后不表达主释义「没有一个」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nonetheless",
+    "enToZh": [
+      {
+        "wordId": "w-fortunately",
+        "reason": "选项「幸运地」不是「nonetheless」的主释义「尽管如此」或其他义项。"
+      },
+      {
+        "wordId": "w-lately",
+        "reason": "选项「最近」不是「nonetheless」的主释义「尽管如此」或其他义项。"
+      },
+      {
+        "wordId": "w-consistently",
+        "reason": "选项「一贯地」不是「nonetheless」的主释义「尽管如此」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fortunately",
+        "reason": "英文「fortunately」的常见义项「幸运地」不符合主释义「尽管如此」。"
+      },
+      {
+        "wordId": "w-lately",
+        "reason": "英文「lately」的常见义项「最近」不符合主释义「尽管如此」。"
+      },
+      {
+        "wordId": "w-consistently",
+        "reason": "英文「consistently」的常见义项「一贯地」不符合主释义「尽管如此」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fortunately",
+        "surfaceForm": "fortunately",
+        "reason": "将「fortunately」代入可见句子后不表达主释义「尽管如此」。"
+      },
+      {
+        "wordId": "w-lately",
+        "surfaceForm": "lately",
+        "reason": "将「lately」代入可见句子后不表达主释义「尽管如此」。"
+      },
+      {
+        "wordId": "w-consistently",
+        "surfaceForm": "consistently",
+        "reason": "将「consistently」代入可见句子后不表达主释义「尽管如此」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nonsense",
+    "enToZh": [
+      {
+        "wordId": "w-gas",
+        "reason": "选项「气体」不是「nonsense」的主释义「胡说」或其他义项。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "reason": "选项「孙女」不是「nonsense」的主释义「胡说」或其他义项。"
+      },
+      {
+        "wordId": "w-golf",
+        "reason": "选项「高尔夫球」不是「nonsense」的主释义「胡说」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gas",
+        "reason": "英文「gas」的常见义项「气体」不符合主释义「胡说」。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "reason": "英文「granddaughter」的常见义项「孙女」不符合主释义「胡说」。"
+      },
+      {
+        "wordId": "w-golf",
+        "reason": "英文「golf」的常见义项「高尔夫球」不符合主释义「胡说」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gas",
+        "surfaceForm": "gas",
+        "reason": "将「gas」代入可见句子后不表达主释义「胡说」。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "surfaceForm": "granddaughter",
+        "reason": "将「granddaughter」代入可见句子后不表达主释义「胡说」。"
+      },
+      {
+        "wordId": "w-golf",
+        "surfaceForm": "golf",
+        "reason": "将「golf」代入可见句子后不表达主释义「胡说」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-nor",
+    "enToZh": [
+      {
+        "wordId": "w-although",
+        "reason": "选项「虽然」不是「nor」的主释义「也不」或其他义项。"
+      },
+      {
+        "wordId": "w-lest",
+        "reason": "选项「以免」不是「nor」的主释义「也不」或其他义项。"
+      },
+      {
+        "wordId": "w-inasmuch",
+        "reason": "选项「因为」不是「nor」的主释义「也不」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-although",
+        "reason": "英文「although」的常见义项「虽然」不符合主释义「也不」。"
+      },
+      {
+        "wordId": "w-lest",
+        "reason": "英文「lest」的常见义项「以免」不符合主释义「也不」。"
+      },
+      {
+        "wordId": "w-inasmuch",
+        "reason": "英文「inasmuch」的常见义项「因为」不符合主释义「也不」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-although",
+        "surfaceForm": "although",
+        "reason": "将「although」代入可见句子后不表达主释义「也不」。"
+      },
+      {
+        "wordId": "w-lest",
+        "surfaceForm": "lest",
+        "reason": "将「lest」代入可见句子后不表达主释义「也不」。"
+      },
+      {
+        "wordId": "w-inasmuch",
+        "surfaceForm": "inasmuch",
+        "reason": "将「inasmuch」代入可见句子后不表达主释义「也不」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-norm",
+    "enToZh": [
+      {
+        "wordId": "w-greenhouse",
+        "reason": "选项「温室」不是「norm」的主释义「常态」或其他义项。"
+      },
+      {
+        "wordId": "w-canal",
+        "reason": "选项「运河」不是「norm」的主释义「常态」或其他义项。"
+      },
+      {
+        "wordId": "w-exploitation",
+        "reason": "选项「剥削」不是「norm」的主释义「常态」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-greenhouse",
+        "reason": "英文「greenhouse」的常见义项「温室」不符合主释义「常态」。"
+      },
+      {
+        "wordId": "w-canal",
+        "reason": "英文「canal」的常见义项「运河」不符合主释义「常态」。"
+      },
+      {
+        "wordId": "w-exploitation",
+        "reason": "英文「exploitation」的常见义项「剥削」不符合主释义「常态」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-greenhouse",
+        "surfaceForm": "greenhouse",
+        "reason": "将「greenhouse」代入可见句子后不表达主释义「常态」。"
+      },
+      {
+        "wordId": "w-canal",
+        "surfaceForm": "canal",
+        "reason": "将「canal」代入可见句子后不表达主释义「常态」。"
+      },
+      {
+        "wordId": "w-exploitation",
+        "surfaceForm": "exploitation",
+        "reason": "将「exploitation」代入可见句子后不表达主释义「常态」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-normal",
+    "enToZh": [
+      {
+        "wordId": "w-military",
+        "reason": "选项「军事的」不是「normal」的主释义「正常的」或其他义项。"
+      },
+      {
+        "wordId": "w-late",
+        "reason": "选项「晚的」不是「normal」的主释义「正常的」或其他义项。"
+      },
+      {
+        "wordId": "w-fat",
+        "reason": "选项「肥胖的」不是「normal」的主释义「正常的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-military",
+        "reason": "英文「military」的常见义项「军事的」不符合主释义「正常的」。"
+      },
+      {
+        "wordId": "w-late",
+        "reason": "英文「late」的常见义项「晚的」不符合主释义「正常的」。"
+      },
+      {
+        "wordId": "w-fat",
+        "reason": "英文「fat」的常见义项「肥胖的」不符合主释义「正常的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-military",
+        "surfaceForm": "military",
+        "reason": "将「military」代入可见句子后不表达主释义「正常的」。"
+      },
+      {
+        "wordId": "w-late",
+        "surfaceForm": "late",
+        "reason": "将「late」代入可见句子后不表达主释义「正常的」。"
+      },
+      {
+        "wordId": "w-fat",
+        "surfaceForm": "fat",
+        "reason": "将「fat」代入可见句子后不表达主释义「正常的」。"
+      }
+    ],
+    "spelling": null
+  }
+]

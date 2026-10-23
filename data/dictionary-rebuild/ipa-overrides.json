@@ -47,6 +47,11 @@
       "reason": "固定美式来源缺项；按副词「迟钝地」和规范词元独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-engineering": {
+      "ipa": "/ˌɛndʒəˈnɪɹɪŋ/",
+      "reason": "固定来源候选主重音落在首音节；按名词「工程」和常见美式读音独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-entreat": {
       "ipa": "/ɪnˈtrit/",
       "reason": "固定美式来源缺项；按动词「恳求」和规范词元独立转写。",
@@ -55,6 +60,11 @@
     "w-equipe": {
       "ipa": "/eɪˈkip/",
       "reason": "固定美式来源缺项；按法语借词「团队」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-export": {
+      "ipa": "/ɪkˈspɔɹt/",
+      "reason": "主词性为动词「出口」，固定来源仅有名词读音；按动词重音独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
     "w-flavour": {
@@ -85,6 +95,46 @@
     "w-lamentation": {
       "ipa": "/ˌlæmənˈteɪʃən/",
       "reason": "固定美式来源缺项；按名词「哀叹」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-manoeuvre": {
+      "ipa": "/məˈnuvɚ/",
+      "reason": "固定美式来源未收录英式拼写 manoeuvre；按规范词元与常见美式读音独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-maths": {
+      "ipa": "/mæθs/",
+      "reason": "固定美式来源未收录英式拼写 maths；按数学义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-motorway": {
+      "ipa": "/ˈmoʊtɚweɪ/",
+      "reason": "固定美式来源缺项；按高速公路义和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-northwards": {
+      "ipa": "/ˈnɔɹθwɚdz/",
+      "reason": "固定美式来源缺项；按副词「向北」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-nought": {
+      "ipa": "/nɔt/",
+      "reason": "固定美式来源缺项；按「零」义和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-offence": {
+      "ipa": "/əˈfɛns/",
+      "reason": "固定美式来源未收录英式拼写 offence；按冒犯/罪行义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-paralyse": {
+      "ipa": "/ˈpærəlaɪz/",
+      "reason": "固定美式来源未收录英式拼写 paralyse；按使麻痹义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-pedlar": {
+      "ipa": "/ˈpɛdlɚ/",
+      "reason": "固定美式来源未收录英式拼写 pedlar；按小贩义独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
     "w-vigour": {

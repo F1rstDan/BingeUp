@@ -1,0 +1,15 @@
+{
+  "reviewer": "independent-sample-review-main-040",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-content",
+    "w-contest",
+    "w-contract",
+    "w-contrast",
+    "w-contribute",
+    "w-convenience",
+    "w-converse"
+  ],
+  "result": "pass",
+  "findings": []
+}
