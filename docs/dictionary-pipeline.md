@@ -1,10 +1,10 @@
 # 词库流水线
 
-本文说明内置词库的来源、构建和运行方式。本文依据 2026-10-23 的仓库实现。
+本文说明内置词库的来源、构建和运行方式。本文依据 2026-10-24 的仓库实现。
 
 ## 重建流水线（规格 #54）
 
-新内置词库的冻结依据、批次状态和候选包位于 `data/dictionary-rebuild/`。正式切换前，运行中的 `public/dictionaries/` 仍是旧词库。
+新内置词库的冻结依据、批次状态和候选包位于 `data/dictionary-rebuild/`。2026-10-24 已切换：运行中的 `public/dictionaries/` 是 schema 2 新词库；切换前的旧 v1 包归档在 `data/dictionary-rebuild/archive/legacy-v1-*`。
 
 ```bash
 npm run dictionary:seed       # 从旧词库身份元数据生成 seed.json 和身份注册表
@@ -25,17 +25,21 @@ npm run dictionary:build      # 全部批次通过后生成正式 staging 候选
 
 正式包包含 `words.json`、`decks.json`、`questions.json`、`legacy-registry.json`、`manifest.json`、`source-metadata.json`、`LICENSE.txt` 和 `licenses/`。运行时先校验 manifest 与文件哈希，再校验词条、题组引用和身份注册表；任一失败都拒绝加载，避免资源混版。
 
-### 旧 ECDICT 构建器（待切换后删除）
+当前全量包包含 5,376 个原始 ID、5,374 个有效词、5,374 个固定题组和 3 个词库。`public/dictionaries/` 与 `data/dictionary-rebuild/staging/` 内容一致，`data/dictionary-rebuild/archive/switch-*.json` 记录切换时间和新包哈希。
+
+需要兼容回滚时，把 `data/dictionary-rebuild/archive/legacy-v1-*` 复制回 `public/dictionaries/` 并重新构建。回滚前先导出当前 v2 数据；回滚后导入该 v2 备份以恢复新进度。不要把旧包留在 `public/`，否则 WXT 会把它一起打进扩展包。
+
+### 旧 ECDICT 构建器（历史，待清理）
 
 以下内容描述旧词库，只用于切换前的兼容和来源追溯。
 
-## 来源
+### 旧来源（历史）
 
 内置词库来自 ECDICT 的固定快照 `bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b`。ECDICT 使用 MIT License。许可证保存在 `public/dictionaries/LICENSE.txt`。
 
 词库包含日常高频、四级和六级。三个词库可以包含同一单词。同一单词只有一条 `WordRecord`，用户也只有一张学习卡。
 
-## 构建
+### 旧构建（历史）
 
 在仓库根目录运行：
 
@@ -51,7 +55,7 @@ npx tsx scripts/build-dictionary/build.ts
 
 **警告：** 不要在正式工作区运行 `scripts/build-dictionary/build-sample.ts`。该脚本会覆盖 `public/dictionaries/`。
 
-## 数据约定
+### 旧数据约定（历史）
 
 `surfaceFormInExample` 是例句中实际出现的目标词形。语境题使用该值作为正确答案。该词形应在例句中按整词、忽略大小写恰好出现一次。
 
@@ -61,7 +65,7 @@ npx tsx scripts/build-dictionary/build.ts
 
 ## 运行
 
-`BuiltInWordBank` 在后台服务中加载 `words.json` 和 `decks.json`，然后缓存到内存。加载失败后，下一次读取会重试。完整词库不进入内容脚本 bundle，也不保存到 IndexedDB。更新词库后，应重新加载扩展或重启后台服务。
+`BuiltInWordBank` 在后台服务中读取 manifest。schema 2 会加载 `words.json`、`decks.json`、`questions.json`、`legacy-registry.json`、`source-metadata.json` 和 `LICENSE.txt`，校验哈希与引用后再缓存到内存；schema 1 只读取 `words.json` 和 `decks.json`，用于兼容回滚。加载失败后，下一次读取会重试。完整词库不进入内容脚本 bundle，也不保存到 IndexedDB。更新词库后，应重新加载扩展或重启后台服务。
 
 运行时不应从远程地址下载词库。
 

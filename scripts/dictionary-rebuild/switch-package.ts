@@ -98,6 +98,8 @@ async function main(): Promise<void> {
     )}\n`,
     'utf8',
   );
+  // 旧包已完整归档；不要把它留在 public/，否则会随扩展包一起分发。
+  rmSync(previous, { recursive: true, force: true });
   console.log(`正式词库已切换；旧 v1 包归档在 ${archive}`);
 }
 

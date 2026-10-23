@@ -1,5 +1,4 @@
 import 'fake-indexeddb/auto';
-import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { openDatabase, idbGetAll, idbPut, STORES } from '@/storage/database';
 import { MIGRATIONS } from '@/storage/migrations';
@@ -22,9 +21,7 @@ import type {
   SessionLogRecord,
   WordRecord,
 } from '@/types';
-
-const DICTIONARY_WORDS_JSON = readFileSync('public/dictionaries/words.json', 'utf8');
-const DICTIONARY_DECKS_JSON = readFileSync('public/dictionaries/decks.json', 'utf8');
+import { DICTIONARY_MANIFEST, dictionaryFetch } from '../../helpers/dictionary-fetch';
 
 const TEST_DB = 'test-issue-18-data-lifecycle';
 const CARD: CardRecord = {
@@ -108,15 +105,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
 
   beforeEach(async () => {
     runtime = installRuntimeStorageMock();
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input);
-        if (url.endsWith('/words.json')) return new Response(DICTIONARY_WORDS_JSON);
-        if (url.endsWith('/decks.json')) return new Response(DICTIONARY_DECKS_JSON);
-        throw new Error(`未预期的词库请求：${url}`);
-      }),
-    );
+    vi.stubGlobal('fetch', vi.fn(dictionaryFetch));
     words = new BuiltInWordBank();
     db = await openDatabase(TEST_DB, MIGRATIONS);
     store = new LocalSettingsStore(db);
@@ -142,7 +131,7 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     return exportLocalData(store);
   }
 
-  it('首次公开 v1 备份包含全部权威源数据，不包含临时运行状态或内置学习内容', async () => {
+  it('首次公开备份包含全部权威源数据，不包含临时运行状态或内置学习内容', async () => {
     await store.setCooldown({ nextAllowedAt: 9_999, consecutiveSkipCount: 2 });
     for (const wordId of ['w-high', 'w-help', 'w-three']) {
       await idbPut(db, STORES.words, await words.getWord(wordId));
@@ -168,9 +157,19 @@ describe('本地用户数据生命周期 — Issue #18', () => {
     expect(payload.data.words).toEqual([]);
     expect(payload.data.decks).toEqual([]);
     expect((payload as import('@/storage/data-transfer').ExportPayloadV2).content.version).toBe(
-      'legacy-v1',
+      DICTIONARY_MANIFEST.dictionaryVersion,
     );
-    expect((payload as import('@/storage/data-transfer').ExportPayloadV2).compatibility).toBeNull();
+    expect(
+      (payload as import('@/storage/data-transfer').ExportPayloadV2).compatibility,
+    ).toMatchObject({
+      schemaVersion: 1,
+      contentVersion: DICTIONARY_MANIFEST.dictionaryVersion,
+      registryVersion: DICTIONARY_MANIFEST.registryVersion,
+      registryHash: DICTIONARY_MANIFEST.registryHash,
+      originals: [],
+      merges: [],
+      deactivatedCardIds: [],
+    });
   });
 
   it('导入拒绝以自定义内容覆盖内置单词或词库 id', async () => {
