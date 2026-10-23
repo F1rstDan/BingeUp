@@ -11,8 +11,8 @@
         "reason": "选项「实际上」不是「perfectly」的主释义「完美地」或其他义项。"
       },
       {
-        "wordId": "w-often",
-        "reason": "选项「经常」不是「perfectly」的主释义「完美地」或其他义项。"
+        "wordId": "w-successfully",
+        "reason": "选项「成功地」不是「perfectly」的主释义「完美地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「actually」的常见义项「实际上」不符合主释义「完美地」。"
       },
       {
-        "wordId": "w-often",
-        "reason": "英文「often」的常见义项「经常」不符合主释义「完美地」。"
+        "wordId": "w-successfully",
+        "reason": "英文「successfully」的常见义项「成功地」不符合主释义「完美地」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「actually」代入可见句子后不表达主释义「完美地」。"
       },
       {
-        "wordId": "w-often",
-        "surfaceForm": "often",
-        "reason": "将「often」代入可见句子后不表达主释义「完美地」。"
+        "wordId": "w-successfully",
+        "surfaceForm": "successfully",
+        "reason": "将「successfully」代入可见句子后不表达主释义「完美地」。"
       }
     ],
     "spelling": null
@@ -52,19 +52,23 @@
     "wordId": "w-perform",
     "enToZh": [
       {
+        "wordId": "w-recover",
+        "reason": "选项「恢复」不是「perform」的主释义「执行」或其他义项。"
+      },
+      {
         "wordId": "w-fail",
         "reason": "选项「失败」不是「perform」的主释义「执行」或其他义项。"
       },
       {
         "wordId": "w-invent",
         "reason": "选项「发明」不是「perform」的主释义「执行」或其他义项。"
-      },
-      {
-        "wordId": "w-devote",
-        "reason": "选项「奉献」不是「perform」的主释义「执行」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-recover",
+        "reason": "英文「recover」的常见义项「恢复」不符合主释义「执行」。"
+      },
       {
         "wordId": "w-fail",
         "reason": "英文「fail」的常见义项「失败」不符合主释义「执行」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-invent",
         "reason": "英文「invent」的常见义项「发明」不符合主释义「执行」。"
-      },
-      {
-        "wordId": "w-devote",
-        "reason": "英文「devote」的常见义项「奉献」不符合主释义「执行」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-recover",
+        "surfaceForm": "recover",
+        "reason": "将「recover」代入可见句子后不表达主释义「执行」。"
+      },
       {
         "wordId": "w-fail",
         "surfaceForm": "fail",
@@ -88,11 +93,6 @@
         "wordId": "w-invent",
         "surfaceForm": "invent",
         "reason": "将「invent」代入可见句子后不表达主释义「执行」。"
-      },
-      {
-        "wordId": "w-devote",
-        "surfaceForm": "devote",
-        "reason": "将「devote」代入可见句子后不表达主释义「执行」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「蛋糕」不是「performance」的主释义「表演」或其他义项。"
       },
       {
-        "wordId": "w-mission",
-        "reason": "选项「任务」不是「performance」的主释义「表演」或其他义项。"
+        "wordId": "w-plan",
+        "reason": "选项「计划」不是「performance」的主释义「表演」或其他义项。"
       },
       {
-        "wordId": "w-belt",
-        "reason": "选项「腰带」不是「performance」的主释义「表演」或其他义项。"
+        "wordId": "w-mission",
+        "reason": "选项「任务」不是「performance」的主释义「表演」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「cake」的常见义项「蛋糕」不符合主释义「表演」。"
       },
       {
-        "wordId": "w-mission",
-        "reason": "英文「mission」的常见义项「任务」不符合主释义「表演」。"
+        "wordId": "w-plan",
+        "reason": "英文「plan」的常见义项「计划」不符合主释义「表演」。"
       },
       {
-        "wordId": "w-belt",
-        "reason": "英文「belt」的常见义项「腰带」不符合主释义「表演」。"
+        "wordId": "w-mission",
+        "reason": "英文「mission」的常见义项「任务」不符合主释义「表演」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「cake」代入可见句子后不表达主释义「表演」。"
       },
       {
+        "wordId": "w-plan",
+        "surfaceForm": "plan",
+        "reason": "将「plan」代入可见句子后不表达主释义「表演」。"
+      },
+      {
         "wordId": "w-mission",
         "surfaceForm": "mission",
         "reason": "将「mission」代入可见句子后不表达主释义「表演」。"
-      },
-      {
-        "wordId": "w-belt",
-        "surfaceForm": "belt",
-        "reason": "将「belt」代入可见句子后不表达主释义「表演」。"
       }
     ],
     "spelling": null
@@ -158,8 +158,8 @@
         "reason": "选项「干扰」不是「perfume」的主释义「香水」或其他义项。"
       },
       {
-        "wordId": "w-exile",
-        "reason": "选项「流亡」不是「perfume」的主释义「香水」或其他义项。"
+        "wordId": "w-pump",
+        "reason": "选项「泵」不是「perfume」的主释义「香水」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「interference」的常见义项「干扰」不符合主释义「香水」。"
       },
       {
-        "wordId": "w-exile",
-        "reason": "英文「exile」的常见义项「流亡」不符合主释义「香水」。"
+        "wordId": "w-pump",
+        "reason": "英文「pump」的常见义项「泵」不符合主释义「香水」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「interference」代入可见句子后不表达主释义「香水」。"
       },
       {
-        "wordId": "w-exile",
-        "surfaceForm": "exile",
-        "reason": "将「exile」代入可见句子后不表达主释义「香水」。"
+        "wordId": "w-pump",
+        "surfaceForm": "pump",
+        "reason": "将「pump」代入可见句子后不表达主释义「香水」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-perimeter",
     "enToZh": [
       {
+        "wordId": "w-puzzle",
+        "reason": "选项「谜题」不是「perimeter」的主释义「周长」或其他义项。"
+      },
+      {
         "wordId": "w-detector",
         "reason": "选项「探测器」不是「perimeter」的主释义「周长」或其他义项。"
       },
       {
         "wordId": "w-endurance",
         "reason": "选项「耐力」不是「perimeter」的主释义「周长」或其他义项。"
-      },
-      {
-        "wordId": "w-cathedral",
-        "reason": "选项「大教堂」不是「perimeter」的主释义「周长」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-puzzle",
+        "reason": "英文「puzzle」的常见义项「谜题」不符合主释义「周长」。"
+      },
       {
         "wordId": "w-detector",
         "reason": "英文「detector」的常见义项「探测器」不符合主释义「周长」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-endurance",
         "reason": "英文「endurance」的常见义项「耐力」不符合主释义「周长」。"
-      },
-      {
-        "wordId": "w-cathedral",
-        "reason": "英文「cathedral」的常见义项「大教堂」不符合主释义「周长」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-puzzle",
+        "surfaceForm": "puzzle",
+        "reason": "将「puzzle」代入可见句子后不表达主释义「周长」。"
+      },
       {
         "wordId": "w-detector",
         "surfaceForm": "detector",
@@ -333,11 +338,6 @@
         "wordId": "w-endurance",
         "surfaceForm": "endurance",
         "reason": "将「endurance」代入可见句子后不表达主释义「周长」。"
-      },
-      {
-        "wordId": "w-cathedral",
-        "surfaceForm": "cathedral",
-        "reason": "将「cathedral」代入可见句子后不表达主释义「周长」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「灰尘」不是「period」的主释义「时期」或其他义项。"
       },
       {
-        "wordId": "w-expense",
-        "reason": "选项「费用」不是「period」的主释义「时期」或其他义项。"
+        "wordId": "w-physics",
+        "reason": "选项「物理学」不是「period」的主释义「时期」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「dust」的常见义项「灰尘」不符合主释义「时期」。"
       },
       {
-        "wordId": "w-expense",
-        "reason": "英文「expense」的常见义项「费用」不符合主释义「时期」。"
+        "wordId": "w-physics",
+        "reason": "英文「physics」的常见义项「物理学」不符合主释义「时期」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「dust」代入可见句子后不表达主释义「时期」。"
       },
       {
-        "wordId": "w-expense",
-        "surfaceForm": "expense",
-        "reason": "将「expense」代入可见句子后不表达主释义「时期」。"
+        "wordId": "w-physics",
+        "surfaceForm": "physics",
+        "reason": "将「physics」代入可见句子后不表达主释义「时期」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「白兰地」不是「periodical」的主释义「期刊」或其他义项。"
       },
       {
-        "wordId": "w-diploma",
-        "reason": "选项「文凭」不是「periodical」的主释义「期刊」或其他义项。"
+        "wordId": "w-serpent",
+        "reason": "选项「蛇」不是「periodical」的主释义「期刊」或其他义项。"
       },
       {
-        "wordId": "w-ounce",
-        "reason": "选项「盎司」不是「periodical」的主释义「期刊」或其他义项。"
+        "wordId": "w-diploma",
+        "reason": "选项「文凭」不是「periodical」的主释义「期刊」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「brandy」的常见义项「白兰地」不符合主释义「期刊」。"
       },
       {
-        "wordId": "w-diploma",
-        "reason": "英文「diploma」的常见义项「文凭」不符合主释义「期刊」。"
+        "wordId": "w-serpent",
+        "reason": "英文「serpent」的常见义项「蛇」不符合主释义「期刊」。"
       },
       {
-        "wordId": "w-ounce",
-        "reason": "英文「ounce」的常见义项「盎司」不符合主释义「期刊」。"
+        "wordId": "w-diploma",
+        "reason": "英文「diploma」的常见义项「文凭」不符合主释义「期刊」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「brandy」代入可见句子后不表达主释义「期刊」。"
       },
       {
+        "wordId": "w-serpent",
+        "surfaceForm": "serpent",
+        "reason": "将「serpent」代入可见句子后不表达主释义「期刊」。"
+      },
+      {
         "wordId": "w-diploma",
         "surfaceForm": "diploma",
         "reason": "将「diploma」代入可见句子后不表达主释义「期刊」。"
-      },
-      {
-        "wordId": "w-ounce",
-        "surfaceForm": "ounce",
-        "reason": "将「ounce」代入可见句子后不表达主释义「期刊」。"
       }
     ],
     "spelling": null
@@ -497,12 +497,12 @@
         "reason": "选项「非常」不是「permanently」的主释义「永久地」或其他义项。"
       },
       {
-        "wordId": "w-badly",
-        "reason": "选项「糟糕地」不是「permanently」的主释义「永久地」或其他义项。"
+        "wordId": "w-tightly",
+        "reason": "选项「紧紧地」不是「permanently」的主释义「永久地」或其他义项。"
       },
       {
-        "wordId": "w-often",
-        "reason": "选项「经常」不是「permanently」的主释义「永久地」或其他义项。"
+        "wordId": "w-badly",
+        "reason": "选项「糟糕地」不是「permanently」的主释义「永久地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -511,12 +511,12 @@
         "reason": "英文「awfully」的常见义项「非常」不符合主释义「永久地」。"
       },
       {
-        "wordId": "w-badly",
-        "reason": "英文「badly」的常见义项「糟糕地」不符合主释义「永久地」。"
+        "wordId": "w-tightly",
+        "reason": "英文「tightly」的常见义项「紧紧地」不符合主释义「永久地」。"
       },
       {
-        "wordId": "w-often",
-        "reason": "英文「often」的常见义项「经常」不符合主释义「永久地」。"
+        "wordId": "w-badly",
+        "reason": "英文「badly」的常见义项「糟糕地」不符合主释义「永久地」。"
       }
     ],
     "contextChoice": [
@@ -526,14 +526,14 @@
         "reason": "将「awfully」代入可见句子后不表达主释义「永久地」。"
       },
       {
+        "wordId": "w-tightly",
+        "surfaceForm": "tightly",
+        "reason": "将「tightly」代入可见句子后不表达主释义「永久地」。"
+      },
+      {
         "wordId": "w-badly",
         "surfaceForm": "badly",
         "reason": "将「badly」代入可见句子后不表达主释义「永久地」。"
-      },
-      {
-        "wordId": "w-often",
-        "surfaceForm": "often",
-        "reason": "将「often」代入可见句子后不表达主释义「永久地」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「事件」不是「permission」的主释义「许可」或其他义项。"
       },
       {
-        "wordId": "w-majority",
-        "reason": "选项「大多数」不是「permission」的主释义「许可」或其他义项。"
+        "wordId": "w-salary",
+        "reason": "选项「工资」不是「permission」的主释义「许可」或其他义项。"
       },
       {
-        "wordId": "w-nonsense",
-        "reason": "选项「胡说」不是「permission」的主释义「许可」或其他义项。"
+        "wordId": "w-majority",
+        "reason": "选项「大多数」不是「permission」的主释义「许可」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「incident」的常见义项「事件」不符合主释义「许可」。"
       },
       {
-        "wordId": "w-majority",
-        "reason": "英文「majority」的常见义项「大多数」不符合主释义「许可」。"
+        "wordId": "w-salary",
+        "reason": "英文「salary」的常见义项「工资」不符合主释义「许可」。"
       },
       {
-        "wordId": "w-nonsense",
-        "reason": "英文「nonsense」的常见义项「胡说」不符合主释义「许可」。"
+        "wordId": "w-majority",
+        "reason": "英文「majority」的常见义项「大多数」不符合主释义「许可」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「incident」代入可见句子后不表达主释义「许可」。"
       },
       {
+        "wordId": "w-salary",
+        "surfaceForm": "salary",
+        "reason": "将「salary」代入可见句子后不表达主释义「许可」。"
+      },
+      {
         "wordId": "w-majority",
         "surfaceForm": "majority",
         "reason": "将「majority」代入可见句子后不表达主释义「许可」。"
-      },
-      {
-        "wordId": "w-nonsense",
-        "surfaceForm": "nonsense",
-        "reason": "将「nonsense」代入可见句子后不表达主释义「许可」。"
       }
     ],
     "spelling": null
@@ -640,19 +640,23 @@
     "wordId": "w-perpendicular",
     "enToZh": [
       {
+        "wordId": "w-stern",
+        "reason": "选项「严厉的」不是「perpendicular」的主释义「垂直的」或其他义项。"
+      },
+      {
         "wordId": "w-auxiliary",
         "reason": "选项「辅助的」不是「perpendicular」的主释义「垂直的」或其他义项。"
       },
       {
         "wordId": "w-maiden",
         "reason": "选项「首次的」不是「perpendicular」的主释义「垂直的」或其他义项。"
-      },
-      {
-        "wordId": "w-flat",
-        "reason": "选项「平坦的」不是「perpendicular」的主释义「垂直的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-stern",
+        "reason": "英文「stern」的常见义项「严厉的」不符合主释义「垂直的」。"
+      },
       {
         "wordId": "w-auxiliary",
         "reason": "英文「auxiliary」的常见义项「辅助的」不符合主释义「垂直的」。"
@@ -660,13 +664,14 @@
       {
         "wordId": "w-maiden",
         "reason": "英文「maiden」的常见义项「首次的」不符合主释义「垂直的」。"
-      },
-      {
-        "wordId": "w-flat",
-        "reason": "英文「flat」的常见义项「平坦的」不符合主释义「垂直的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-stern",
+        "surfaceForm": "stern",
+        "reason": "将「stern」代入可见句子后不表达主释义「垂直的」。"
+      },
       {
         "wordId": "w-auxiliary",
         "surfaceForm": "auxiliary",
@@ -676,11 +681,6 @@
         "wordId": "w-maiden",
         "surfaceForm": "maiden",
         "reason": "将「maiden」代入可见句子后不表达主释义「垂直的」。"
-      },
-      {
-        "wordId": "w-flat",
-        "surfaceForm": "flat",
-        "reason": "将「flat」代入可见句子后不表达主释义「垂直的」。"
       }
     ],
     "spelling": null
@@ -738,47 +738,47 @@
     "wordId": "w-persecute",
     "enToZh": [
       {
+        "wordId": "w-subtract",
+        "reason": "选项「减去」不是「persecute」的主释义「迫害」或其他义项。"
+      },
+      {
+        "wordId": "w-streamline",
+        "reason": "选项「精简」不是「persecute」的主释义「迫害」或其他义项。"
+      },
+      {
         "wordId": "w-bestow",
         "reason": "选项「授予」不是「persecute」的主释义「迫害」或其他义项。"
-      },
-      {
-        "wordId": "w-clasp",
-        "reason": "选项「紧握」不是「persecute」的主释义「迫害」或其他义项。"
-      },
-      {
-        "wordId": "w-ascertain",
-        "reason": "选项「查明」不是「persecute」的主释义「迫害」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-subtract",
+        "reason": "英文「subtract」的常见义项「减去」不符合主释义「迫害」。"
+      },
+      {
+        "wordId": "w-streamline",
+        "reason": "英文「streamline」的常见义项「精简」不符合主释义「迫害」。"
+      },
+      {
         "wordId": "w-bestow",
         "reason": "英文「bestow」的常见义项「授予」不符合主释义「迫害」。"
-      },
-      {
-        "wordId": "w-clasp",
-        "reason": "英文「clasp」的常见义项「紧握」不符合主释义「迫害」。"
-      },
-      {
-        "wordId": "w-ascertain",
-        "reason": "英文「ascertain」的常见义项「查明」不符合主释义「迫害」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-subtract",
+        "surfaceForm": "subtract",
+        "reason": "将「subtract」代入可见句子后不表达主释义「迫害」。"
+      },
+      {
+        "wordId": "w-streamline",
+        "surfaceForm": "streamline",
+        "reason": "将「streamline」代入可见句子后不表达主释义「迫害」。"
+      },
+      {
         "wordId": "w-bestow",
         "surfaceForm": "bestow",
         "reason": "将「bestow」代入可见句子后不表达主释义「迫害」。"
-      },
-      {
-        "wordId": "w-clasp",
-        "surfaceForm": "clasp",
-        "reason": "将「clasp」代入可见句子后不表达主释义「迫害」。"
-      },
-      {
-        "wordId": "w-ascertain",
-        "surfaceForm": "ascertain",
-        "reason": "将「ascertain」代入可见句子后不表达主释义「迫害」。"
       }
     ],
     "spelling": null
@@ -787,47 +787,47 @@
     "wordId": "w-persevere",
     "enToZh": [
       {
+        "wordId": "w-preclude",
+        "reason": "选项「阻止」不是「persevere」的主释义「坚持」或其他义项。"
+      },
+      {
+        "wordId": "w-tan",
+        "reason": "选项「晒黑」不是「persevere」的主释义「坚持」或其他义项。"
+      },
+      {
         "wordId": "w-enlighten",
         "reason": "选项「启发」不是「persevere」的主释义「坚持」或其他义项。"
-      },
-      {
-        "wordId": "w-beware",
-        "reason": "选项「当心」不是「persevere」的主释义「坚持」或其他义项。"
-      },
-      {
-        "wordId": "w-denote",
-        "reason": "选项「表示」不是「persevere」的主释义「坚持」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-preclude",
+        "reason": "英文「preclude」的常见义项「阻止」不符合主释义「坚持」。"
+      },
+      {
+        "wordId": "w-tan",
+        "reason": "英文「tan」的常见义项「晒黑」不符合主释义「坚持」。"
+      },
+      {
         "wordId": "w-enlighten",
         "reason": "英文「enlighten」的常见义项「启发」不符合主释义「坚持」。"
-      },
-      {
-        "wordId": "w-beware",
-        "reason": "英文「beware」的常见义项「当心」不符合主释义「坚持」。"
-      },
-      {
-        "wordId": "w-denote",
-        "reason": "英文「denote」的常见义项「表示」不符合主释义「坚持」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-preclude",
+        "surfaceForm": "preclude",
+        "reason": "将「preclude」代入可见句子后不表达主释义「坚持」。"
+      },
+      {
+        "wordId": "w-tan",
+        "surfaceForm": "tan",
+        "reason": "将「tan」代入可见句子后不表达主释义「坚持」。"
+      },
+      {
         "wordId": "w-enlighten",
         "surfaceForm": "enlighten",
         "reason": "将「enlighten」代入可见句子后不表达主释义「坚持」。"
-      },
-      {
-        "wordId": "w-beware",
-        "surfaceForm": "beware",
-        "reason": "将「beware」代入可见句子后不表达主释义「坚持」。"
-      },
-      {
-        "wordId": "w-denote",
-        "surfaceForm": "denote",
-        "reason": "将「denote」代入可见句子后不表达主释义「坚持」。"
       }
     ],
     "spelling": null
@@ -836,19 +836,23 @@
     "wordId": "w-persist",
     "enToZh": [
       {
+        "wordId": "w-scramble",
+        "reason": "选项「争抢」不是「persist」的主释义「持续」或其他义项。"
+      },
+      {
         "wordId": "w-exceed",
         "reason": "选项「超过」不是「persist」的主释义「持续」或其他义项。"
       },
       {
         "wordId": "w-brace",
         "reason": "选项「支撑」不是「persist」的主释义「持续」或其他义项。"
-      },
-      {
-        "wordId": "w-cheer",
-        "reason": "选项「欢呼」不是「persist」的主释义「持续」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-scramble",
+        "reason": "英文「scramble」的常见义项「争抢」不符合主释义「持续」。"
+      },
       {
         "wordId": "w-exceed",
         "reason": "英文「exceed」的常见义项「超过」不符合主释义「持续」。"
@@ -856,13 +860,14 @@
       {
         "wordId": "w-brace",
         "reason": "英文「brace」的常见义项「支撑」不符合主释义「持续」。"
-      },
-      {
-        "wordId": "w-cheer",
-        "reason": "英文「cheer」的常见义项「欢呼」不符合主释义「持续」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-scramble",
+        "surfaceForm": "scramble",
+        "reason": "将「scramble」代入可见句子后不表达主释义「持续」。"
+      },
       {
         "wordId": "w-exceed",
         "surfaceForm": "exceed",
@@ -872,11 +877,6 @@
         "wordId": "w-brace",
         "surfaceForm": "brace",
         "reason": "将「brace」代入可见句子后不表达主释义「持续」。"
-      },
-      {
-        "wordId": "w-cheer",
-        "surfaceForm": "cheer",
-        "reason": "将「cheer」代入可见句子后不表达主释义「持续」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「建造」不是「person」的主释义「人」或其他义项。"
       },
       {
-        "wordId": "w-member",
-        "reason": "选项「成员」不是「person」的主释义「人」或其他义项。"
+        "wordId": "w-possibility",
+        "reason": "选项「可能性」不是「person」的主释义「人」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「construction」的常见义项「建造」不符合主释义「人」。"
       },
       {
-        "wordId": "w-member",
-        "reason": "英文「member」的常见义项「成员」不符合主释义「人」。"
+        "wordId": "w-possibility",
+        "reason": "英文「possibility」的常见义项「可能性」不符合主释义「人」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「construction」代入可见句子后不表达主释义「人」。"
       },
       {
-        "wordId": "w-member",
-        "surfaceForm": "member",
-        "reason": "将「member」代入可见句子后不表达主释义「人」。"
+        "wordId": "w-possibility",
+        "surfaceForm": "possibility",
+        "reason": "将「possibility」代入可见句子后不表达主释义「人」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「投资」不是「personality」的主释义「性格」或其他义项。"
       },
       {
-        "wordId": "w-drug",
-        "reason": "选项「药物」不是「personality」的主释义「性格」或其他义项。"
+        "wordId": "w-prospect",
+        "reason": "选项「前景」不是「personality」的主释义「性格」或其他义项。"
       },
       {
-        "wordId": "w-consequence",
-        "reason": "选项「后果」不是「personality」的主释义「性格」或其他义项。"
+        "wordId": "w-drug",
+        "reason": "选项「药物」不是「personality」的主释义「性格」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「investment」的常见义项「投资」不符合主释义「性格」。"
       },
       {
-        "wordId": "w-drug",
-        "reason": "英文「drug」的常见义项「药物」不符合主释义「性格」。"
+        "wordId": "w-prospect",
+        "reason": "英文「prospect」的常见义项「前景」不符合主释义「性格」。"
       },
       {
-        "wordId": "w-consequence",
-        "reason": "英文「consequence」的常见义项「后果」不符合主释义「性格」。"
+        "wordId": "w-drug",
+        "reason": "英文「drug」的常见义项「药物」不符合主释义「性格」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「investment」代入可见句子后不表达主释义「性格」。"
       },
       {
+        "wordId": "w-prospect",
+        "surfaceForm": "prospect",
+        "reason": "将「prospect」代入可见句子后不表达主释义「性格」。"
+      },
+      {
         "wordId": "w-drug",
         "surfaceForm": "drug",
         "reason": "将「drug」代入可见句子后不表达主释义「性格」。"
-      },
-      {
-        "wordId": "w-consequence",
-        "surfaceForm": "consequence",
-        "reason": "将「consequence」代入可见句子后不表达主释义「性格」。"
       }
     ],
     "spelling": null
@@ -1040,8 +1040,8 @@
         "reason": "选项「同样地」不是「personally」的主释义「亲自」或其他义项。"
       },
       {
-        "wordId": "w-anyway",
-        "reason": "选项「无论如何」不是「personally」的主释义「亲自」或其他义项。"
+        "wordId": "w-sometimes",
+        "reason": "选项「有时」不是「personally」的主释义「亲自」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1054,8 +1054,8 @@
         "reason": "英文「equally」的常见义项「同样地」不符合主释义「亲自」。"
       },
       {
-        "wordId": "w-anyway",
-        "reason": "英文「anyway」的常见义项「无论如何」不符合主释义「亲自」。"
+        "wordId": "w-sometimes",
+        "reason": "英文「sometimes」的常见义项「有时」不符合主释义「亲自」。"
       }
     ],
     "contextChoice": [
@@ -1070,9 +1070,9 @@
         "reason": "将「equally」代入可见句子后不表达主释义「亲自」。"
       },
       {
-        "wordId": "w-anyway",
-        "surfaceForm": "anyway",
-        "reason": "将「anyway」代入可见句子后不表达主释义「亲自」。"
+        "wordId": "w-sometimes",
+        "surfaceForm": "sometimes",
+        "reason": "将「sometimes」代入可见句子后不表达主释义「亲自」。"
       }
     ],
     "spelling": null
@@ -1081,47 +1081,47 @@
     "wordId": "w-personnel",
     "enToZh": [
       {
+        "wordId": "w-substance",
+        "reason": "选项「物质」不是「personnel」的主释义「员工」或其他义项。"
+      },
+      {
+        "wordId": "w-reform",
+        "reason": "选项「改革」不是「personnel」的主释义「员工」或其他义项。"
+      },
+      {
         "wordId": "w-feature",
         "reason": "选项「特点」不是「personnel」的主释义「员工」或其他义项。"
-      },
-      {
-        "wordId": "w-asset",
-        "reason": "选项「资产」不是「personnel」的主释义「员工」或其他义项。"
-      },
-      {
-        "wordId": "w-energy",
-        "reason": "选项「能量」不是「personnel」的主释义「员工」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-substance",
+        "reason": "英文「substance」的常见义项「物质」不符合主释义「员工」。"
+      },
+      {
+        "wordId": "w-reform",
+        "reason": "英文「reform」的常见义项「改革」不符合主释义「员工」。"
+      },
+      {
         "wordId": "w-feature",
         "reason": "英文「feature」的常见义项「特点」不符合主释义「员工」。"
-      },
-      {
-        "wordId": "w-asset",
-        "reason": "英文「asset」的常见义项「资产」不符合主释义「员工」。"
-      },
-      {
-        "wordId": "w-energy",
-        "reason": "英文「energy」的常见义项「能量」不符合主释义「员工」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-substance",
+        "surfaceForm": "substance",
+        "reason": "将「substance」代入可见句子后不表达主释义「员工」。"
+      },
+      {
+        "wordId": "w-reform",
+        "surfaceForm": "reform",
+        "reason": "将「reform」代入可见句子后不表达主释义「员工」。"
+      },
+      {
         "wordId": "w-feature",
         "surfaceForm": "feature",
         "reason": "将「feature」代入可见句子后不表达主释义「员工」。"
-      },
-      {
-        "wordId": "w-asset",
-        "surfaceForm": "asset",
-        "reason": "将「asset」代入可见句子后不表达主释义「员工」。"
-      },
-      {
-        "wordId": "w-energy",
-        "surfaceForm": "energy",
-        "reason": "将「energy」代入可见句子后不表达主释义「员工」。"
       }
     ],
     "spelling": null
@@ -1183,12 +1183,12 @@
         "reason": "选项「归纳法」不是「perspiration」的主释义「汗水」或其他义项。"
       },
       {
-        "wordId": "w-diploma",
-        "reason": "选项「文凭」不是「perspiration」的主释义「汗水」或其他义项。"
+        "wordId": "w-steward",
+        "reason": "选项「乘务员」不是「perspiration」的主释义「汗水」或其他义项。"
       },
       {
-        "wordId": "w-bushel",
-        "reason": "选项「蒲式耳」不是「perspiration」的主释义「汗水」或其他义项。"
+        "wordId": "w-diploma",
+        "reason": "选项「文凭」不是「perspiration」的主释义「汗水」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1197,12 +1197,12 @@
         "reason": "英文「induction」的常见义项「归纳法」不符合主释义「汗水」。"
       },
       {
-        "wordId": "w-diploma",
-        "reason": "英文「diploma」的常见义项「文凭」不符合主释义「汗水」。"
+        "wordId": "w-steward",
+        "reason": "英文「steward」的常见义项「乘务员」不符合主释义「汗水」。"
       },
       {
-        "wordId": "w-bushel",
-        "reason": "英文「bushel」的常见义项「蒲式耳」不符合主释义「汗水」。"
+        "wordId": "w-diploma",
+        "reason": "英文「diploma」的常见义项「文凭」不符合主释义「汗水」。"
       }
     ],
     "contextChoice": [
@@ -1212,14 +1212,14 @@
         "reason": "将「induction」代入可见句子后不表达主释义「汗水」。"
       },
       {
+        "wordId": "w-steward",
+        "surfaceForm": "steward",
+        "reason": "将「steward」代入可见句子后不表达主释义「汗水」。"
+      },
+      {
         "wordId": "w-diploma",
         "surfaceForm": "diploma",
         "reason": "将「diploma」代入可见句子后不表达主释义「汗水」。"
-      },
-      {
-        "wordId": "w-bushel",
-        "surfaceForm": "bushel",
-        "reason": "将「bushel」代入可见句子后不表达主释义「汗水」。"
       }
     ],
     "spelling": null

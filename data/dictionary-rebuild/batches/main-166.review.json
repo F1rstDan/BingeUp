@@ -1,0 +1,21 @@
+{
+  "reviewer": "independent-sample-review-main-166",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-segment",
+    "w-semiconductor",
+    "w-seminate",
+    "w-senate",
+    "w-senior",
+    "w-sentiment",
+    "w-separate"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-separate",
+      "stage": "pronunciation",
+      "message": "词性为形容词、主释义为「分开的」，但选用的音标 /ˈsɛpɝˌeɪt/ 对应动词读音；形容词应读 /ˈsɛpɝɪt/ 或 /ˈsɛpɹət/。"
+    }
+  ]
+}

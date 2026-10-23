@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent-sample-review-main-151",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-rather",
+    "w-ray",
+    "w-reaction",
+    "w-read",
+    "w-really",
+    "w-rebel"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-read",
+      "stage": "pronunciation",
+      "message": "主词性为 v.、主释义为「阅读」，例句「I read a chapter of the novel every night.」使用现在时。当前 ipa-selections 选择索引 0 的 /ˈɹɛd/，这是过去式读音；规范词元 read 作「阅读」的现在时读音应为 /ˈɹid/。应改选索引 1，或新增 /ˈɹid/ 的独立转写。"
+    }
+  ]
+}

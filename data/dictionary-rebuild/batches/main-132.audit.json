@@ -3,19 +3,23 @@
     "wordId": "w-parcel",
     "enToZh": [
       {
+        "wordId": "w-stadium",
+        "reason": "选项「体育场」不是「parcel」的主释义「包裹」或其他义项。"
+      },
+      {
         "wordId": "w-keeper",
         "reason": "选项「看守人」不是「parcel」的主释义「包裹」或其他义项。"
       },
       {
         "wordId": "w-dam",
         "reason": "选项「水坝」不是「parcel」的主释义「包裹」或其他义项。"
-      },
-      {
-        "wordId": "w-disturbance",
-        "reason": "选项「干扰」不是「parcel」的主释义「包裹」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-stadium",
+        "reason": "英文「stadium」的常见义项「体育场」不符合主释义「包裹」。"
+      },
       {
         "wordId": "w-keeper",
         "reason": "英文「keeper」的常见义项「看守人」不符合主释义「包裹」。"
@@ -23,13 +27,14 @@
       {
         "wordId": "w-dam",
         "reason": "英文「dam」的常见义项「水坝」不符合主释义「包裹」。"
-      },
-      {
-        "wordId": "w-disturbance",
-        "reason": "英文「disturbance」的常见义项「干扰」不符合主释义「包裹」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-stadium",
+        "surfaceForm": "stadium",
+        "reason": "将「stadium」代入可见句子后不表达主释义「包裹」。"
+      },
       {
         "wordId": "w-keeper",
         "surfaceForm": "keeper",
@@ -39,11 +44,6 @@
         "wordId": "w-dam",
         "surfaceForm": "dam",
         "reason": "将「dam」代入可见句子后不表达主释义「包裹」。"
-      },
-      {
-        "wordId": "w-disturbance",
-        "surfaceForm": "disturbance",
-        "reason": "将「disturbance」代入可见句子后不表达主释义「包裹」。"
       }
     ],
     "spelling": null
@@ -52,47 +52,47 @@
     "wordId": "w-parent",
     "enToZh": [
       {
+        "wordId": "w-publicity",
+        "reason": "选项「宣传」不是「parent」的主释义「家长」或其他义项。"
+      },
+      {
         "wordId": "w-freedom",
         "reason": "选项「自由」不是「parent」的主释义「家长」或其他义项。"
       },
       {
-        "wordId": "w-friend",
-        "reason": "选项「朋友」不是「parent」的主释义「家长」或其他义项。"
-      },
-      {
-        "wordId": "w-audience",
-        "reason": "选项「观众」不是「parent」的主释义「家长」或其他义项。"
+        "wordId": "w-progress",
+        "reason": "选项「进步」不是「parent」的主释义「家长」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-publicity",
+        "reason": "英文「publicity」的常见义项「宣传」不符合主释义「家长」。"
+      },
       {
         "wordId": "w-freedom",
         "reason": "英文「freedom」的常见义项「自由」不符合主释义「家长」。"
       },
       {
-        "wordId": "w-friend",
-        "reason": "英文「friend」的常见义项「朋友」不符合主释义「家长」。"
-      },
-      {
-        "wordId": "w-audience",
-        "reason": "英文「audience」的常见义项「观众」不符合主释义「家长」。"
+        "wordId": "w-progress",
+        "reason": "英文「progress」的常见义项「进步」不符合主释义「家长」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-publicity",
+        "surfaceForm": "publicity",
+        "reason": "将「publicity」代入可见句子后不表达主释义「家长」。"
+      },
       {
         "wordId": "w-freedom",
         "surfaceForm": "freedom",
         "reason": "将「freedom」代入可见句子后不表达主释义「家长」。"
       },
       {
-        "wordId": "w-friend",
-        "surfaceForm": "friend",
-        "reason": "将「friend」代入可见句子后不表达主释义「家长」。"
-      },
-      {
-        "wordId": "w-audience",
-        "surfaceForm": "audience",
-        "reason": "将「audience」代入可见句子后不表达主释义「家长」。"
+        "wordId": "w-progress",
+        "surfaceForm": "progress",
+        "reason": "将「progress」代入可见句子后不表达主释义「家长」。"
       }
     ],
     "spelling": null
@@ -154,12 +154,12 @@
         "reason": "选项「成就」不是「parliament」的主释义「议会」或其他义项。"
       },
       {
-        "wordId": "w-customer",
-        "reason": "选项「顾客」不是「parliament」的主释义「议会」或其他义项。"
+        "wordId": "w-relation",
+        "reason": "选项「关系」不是「parliament」的主释义「议会」或其他义项。"
       },
       {
-        "wordId": "w-credit",
-        "reason": "选项「信用」不是「parliament」的主释义「议会」或其他义项。"
+        "wordId": "w-responsibility",
+        "reason": "选项「责任」不是「parliament」的主释义「议会」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -168,12 +168,12 @@
         "reason": "英文「achievement」的常见义项「成就」不符合主释义「议会」。"
       },
       {
-        "wordId": "w-customer",
-        "reason": "英文「customer」的常见义项「顾客」不符合主释义「议会」。"
+        "wordId": "w-relation",
+        "reason": "英文「relation」的常见义项「关系」不符合主释义「议会」。"
       },
       {
-        "wordId": "w-credit",
-        "reason": "英文「credit」的常见义项「信用」不符合主释义「议会」。"
+        "wordId": "w-responsibility",
+        "reason": "英文「responsibility」的常见义项「责任」不符合主释义「议会」。"
       }
     ],
     "contextChoice": [
@@ -183,14 +183,14 @@
         "reason": "将「achievement」代入可见句子后不表达主释义「议会」。"
       },
       {
-        "wordId": "w-customer",
-        "surfaceForm": "customer",
-        "reason": "将「customer」代入可见句子后不表达主释义「议会」。"
+        "wordId": "w-relation",
+        "surfaceForm": "relation",
+        "reason": "将「relation」代入可见句子后不表达主释义「议会」。"
       },
       {
-        "wordId": "w-credit",
-        "surfaceForm": "credit",
-        "reason": "将「credit」代入可见句子后不表达主释义「议会」。"
+        "wordId": "w-responsibility",
+        "surfaceForm": "responsibility",
+        "reason": "将「responsibility」代入可见句子后不表达主释义「议会」。"
       }
     ],
     "spelling": null
@@ -301,12 +301,12 @@
         "reason": "选项「因此」不是「partially」的主释义「部分地」或其他义项。"
       },
       {
-        "wordId": "w-instantly",
-        "reason": "选项「立即」不是「partially」的主释义「部分地」或其他义项。"
+        "wordId": "w-subsequently",
+        "reason": "选项「随后」不是「partially」的主释义「部分地」或其他义项。"
       },
       {
-        "wordId": "w-consistently",
-        "reason": "选项「一贯地」不是「partially」的主释义「部分地」或其他义项。"
+        "wordId": "w-instantly",
+        "reason": "选项「立即」不是「partially」的主释义「部分地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -315,12 +315,12 @@
         "reason": "英文「consequently」的常见义项「因此」不符合主释义「部分地」。"
       },
       {
-        "wordId": "w-instantly",
-        "reason": "英文「instantly」的常见义项「立即」不符合主释义「部分地」。"
+        "wordId": "w-subsequently",
+        "reason": "英文「subsequently」的常见义项「随后」不符合主释义「部分地」。"
       },
       {
-        "wordId": "w-consistently",
-        "reason": "英文「consistently」的常见义项「一贯地」不符合主释义「部分地」。"
+        "wordId": "w-instantly",
+        "reason": "英文「instantly」的常见义项「立即」不符合主释义「部分地」。"
       }
     ],
     "contextChoice": [
@@ -330,14 +330,14 @@
         "reason": "将「consequently」代入可见句子后不表达主释义「部分地」。"
       },
       {
+        "wordId": "w-subsequently",
+        "surfaceForm": "subsequently",
+        "reason": "将「subsequently」代入可见句子后不表达主释义「部分地」。"
+      },
+      {
         "wordId": "w-instantly",
         "surfaceForm": "instantly",
         "reason": "将「instantly」代入可见句子后不表达主释义「部分地」。"
-      },
-      {
-        "wordId": "w-consistently",
-        "surfaceForm": "consistently",
-        "reason": "将「consistently」代入可见句子后不表达主释义「部分地」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「加入」不是「participate」的主释义「参加」或其他义项。"
       },
       {
-        "wordId": "w-fill",
-        "reason": "选项「装满」不是「participate」的主释义「参加」或其他义项。"
+        "wordId": "w-strike",
+        "reason": "选项「击打」不是「participate」的主释义「参加」或其他义项。"
       },
       {
-        "wordId": "w-bake",
-        "reason": "选项「烘烤」不是「participate」的主释义「参加」或其他义项。"
+        "wordId": "w-fill",
+        "reason": "选项「装满」不是「participate」的主释义「参加」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「join」的常见义项「加入」不符合主释义「参加」。"
       },
       {
-        "wordId": "w-fill",
-        "reason": "英文「fill」的常见义项「装满」不符合主释义「参加」。"
+        "wordId": "w-strike",
+        "reason": "英文「strike」的常见义项「击打」不符合主释义「参加」。"
       },
       {
-        "wordId": "w-bake",
-        "reason": "英文「bake」的常见义项「烘烤」不符合主释义「参加」。"
+        "wordId": "w-fill",
+        "reason": "英文「fill」的常见义项「装满」不符合主释义「参加」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「join」代入可见句子后不表达主释义「参加」。"
       },
       {
+        "wordId": "w-strike",
+        "surfaceForm": "strike",
+        "reason": "将「strike」代入可见句子后不表达主释义「参加」。"
+      },
+      {
         "wordId": "w-fill",
         "surfaceForm": "fill",
         "reason": "将「fill」代入可见句子后不表达主释义「参加」。"
-      },
-      {
-        "wordId": "w-bake",
-        "surfaceForm": "bake",
-        "reason": "将「bake」代入可见句子后不表达主释义「参加」。"
       }
     ],
     "spelling": null
@@ -444,47 +444,47 @@
     "wordId": "w-participation",
     "enToZh": [
       {
+        "wordId": "w-smell",
+        "reason": "选项「气味」不是「participation」的主释义「参与」或其他义项。"
+      },
+      {
+        "wordId": "w-politician",
+        "reason": "选项「政治家」不是「participation」的主释义「参与」或其他义项。"
+      },
+      {
         "wordId": "w-monitor",
         "reason": "选项「显示器」不是「participation」的主释义「参与」或其他义项。"
-      },
-      {
-        "wordId": "w-duty",
-        "reason": "选项「责任」不是「participation」的主释义「参与」或其他义项。"
-      },
-      {
-        "wordId": "w-mechanism",
-        "reason": "选项「机制」不是「participation」的主释义「参与」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-smell",
+        "reason": "英文「smell」的常见义项「气味」不符合主释义「参与」。"
+      },
+      {
+        "wordId": "w-politician",
+        "reason": "英文「politician」的常见义项「政治家」不符合主释义「参与」。"
+      },
+      {
         "wordId": "w-monitor",
         "reason": "英文「monitor」的常见义项「显示器」不符合主释义「参与」。"
-      },
-      {
-        "wordId": "w-duty",
-        "reason": "英文「duty」的常见义项「责任」不符合主释义「参与」。"
-      },
-      {
-        "wordId": "w-mechanism",
-        "reason": "英文「mechanism」的常见义项「机制」不符合主释义「参与」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-smell",
+        "surfaceForm": "smell",
+        "reason": "将「smell」代入可见句子后不表达主释义「参与」。"
+      },
+      {
+        "wordId": "w-politician",
+        "surfaceForm": "politician",
+        "reason": "将「politician」代入可见句子后不表达主释义「参与」。"
+      },
+      {
         "wordId": "w-monitor",
         "surfaceForm": "monitor",
         "reason": "将「monitor」代入可见句子后不表达主释义「参与」。"
-      },
-      {
-        "wordId": "w-duty",
-        "surfaceForm": "duty",
-        "reason": "将「duty」代入可见句子后不表达主释义「参与」。"
-      },
-      {
-        "wordId": "w-mechanism",
-        "surfaceForm": "mechanism",
-        "reason": "将「mechanism」代入可见句子后不表达主释义「参与」。"
       }
     ],
     "spelling": null
@@ -542,47 +542,47 @@
     "wordId": "w-particular",
     "enToZh": [
       {
+        "wordId": "w-prompt",
+        "reason": "选项「迅速的」不是「particular」的主释义「特定的」或其他义项。"
+      },
+      {
         "wordId": "w-entire",
         "reason": "选项「全部的」不是「particular」的主释义「特定的」或其他义项。"
       },
       {
-        "wordId": "w-minor",
-        "reason": "选项「轻微的」不是「particular」的主释义「特定的」或其他义项。"
-      },
-      {
-        "wordId": "w-next",
-        "reason": "选项「下一个」不是「particular」的主释义「特定的」或其他义项。"
+        "wordId": "w-shallow",
+        "reason": "选项「浅的」不是「particular」的主释义「特定的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-prompt",
+        "reason": "英文「prompt」的常见义项「迅速的」不符合主释义「特定的」。"
+      },
       {
         "wordId": "w-entire",
         "reason": "英文「entire」的常见义项「全部的」不符合主释义「特定的」。"
       },
       {
-        "wordId": "w-minor",
-        "reason": "英文「minor」的常见义项「轻微的」不符合主释义「特定的」。"
-      },
-      {
-        "wordId": "w-next",
-        "reason": "英文「next」的常见义项「下一个」不符合主释义「特定的」。"
+        "wordId": "w-shallow",
+        "reason": "英文「shallow」的常见义项「浅的」不符合主释义「特定的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-prompt",
+        "surfaceForm": "prompt",
+        "reason": "将「prompt」代入可见句子后不表达主释义「特定的」。"
+      },
       {
         "wordId": "w-entire",
         "surfaceForm": "entire",
         "reason": "将「entire」代入可见句子后不表达主释义「特定的」。"
       },
       {
-        "wordId": "w-minor",
-        "surfaceForm": "minor",
-        "reason": "将「minor」代入可见句子后不表达主释义「特定的」。"
-      },
-      {
-        "wordId": "w-next",
-        "surfaceForm": "next",
-        "reason": "将「next」代入可见句子后不表达主释义「特定的」。"
+        "wordId": "w-shallow",
+        "surfaceForm": "shallow",
+        "reason": "将「shallow」代入可见句子后不表达主释义「特定的」。"
       }
     ],
     "spelling": null
@@ -591,47 +591,47 @@
     "wordId": "w-particularly",
     "enToZh": [
       {
-        "wordId": "w-lightly",
-        "reason": "选项「轻轻地」不是「particularly」的主释义「特别」或其他义项。"
+        "wordId": "w-tomorrow",
+        "reason": "选项「明天」不是「particularly」的主释义「特别」或其他义项。"
       },
       {
-        "wordId": "w-occasionally",
-        "reason": "选项「偶尔」不是「particularly」的主释义「特别」或其他义项。"
+        "wordId": "w-suddenly",
+        "reason": "选项「突然」不是「particularly」的主释义「特别」或其他义项。"
       },
       {
-        "wordId": "w-nowhere",
-        "reason": "选项「无处」不是「particularly」的主释义「特别」或其他义项。"
+        "wordId": "w-thus",
+        "reason": "选项「因此」不是「particularly」的主释义「特别」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-lightly",
-        "reason": "英文「lightly」的常见义项「轻轻地」不符合主释义「特别」。"
+        "wordId": "w-tomorrow",
+        "reason": "英文「tomorrow」的常见义项「明天」不符合主释义「特别」。"
       },
       {
-        "wordId": "w-occasionally",
-        "reason": "英文「occasionally」的常见义项「偶尔」不符合主释义「特别」。"
+        "wordId": "w-suddenly",
+        "reason": "英文「suddenly」的常见义项「突然」不符合主释义「特别」。"
       },
       {
-        "wordId": "w-nowhere",
-        "reason": "英文「nowhere」的常见义项「无处」不符合主释义「特别」。"
+        "wordId": "w-thus",
+        "reason": "英文「thus」的常见义项「因此」不符合主释义「特别」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-lightly",
-        "surfaceForm": "lightly",
-        "reason": "将「lightly」代入可见句子后不表达主释义「特别」。"
+        "wordId": "w-tomorrow",
+        "surfaceForm": "tomorrow",
+        "reason": "将「tomorrow」代入可见句子后不表达主释义「特别」。"
       },
       {
-        "wordId": "w-occasionally",
-        "surfaceForm": "occasionally",
-        "reason": "将「occasionally」代入可见句子后不表达主释义「特别」。"
+        "wordId": "w-suddenly",
+        "surfaceForm": "suddenly",
+        "reason": "将「suddenly」代入可见句子后不表达主释义「特别」。"
       },
       {
-        "wordId": "w-nowhere",
-        "surfaceForm": "nowhere",
-        "reason": "将「nowhere」代入可见句子后不表达主释义「特别」。"
+        "wordId": "w-thus",
+        "surfaceForm": "thus",
+        "reason": "将「thus」代入可见句子后不表达主释义「特别」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「不断地」不是「partly」的主释义「部分地」或其他义项。"
       },
       {
-        "wordId": "w-automatically",
-        "reason": "选项「自动地」不是「partly」的主释义「部分地」或其他义项。"
+        "wordId": "w-recently",
+        "reason": "选项「最近」不是「partly」的主释义「部分地」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「constantly」的常见义项「不断地」不符合主释义「部分地」。"
       },
       {
-        "wordId": "w-automatically",
-        "reason": "英文「automatically」的常见义项「自动地」不符合主释义「部分地」。"
+        "wordId": "w-recently",
+        "reason": "英文「recently」的常见义项「最近」不符合主释义「部分地」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「constantly」代入可见句子后不表达主释义「部分地」。"
       },
       {
-        "wordId": "w-automatically",
-        "surfaceForm": "automatically",
-        "reason": "将「automatically」代入可见句子后不表达主释义「部分地」。"
+        "wordId": "w-recently",
+        "surfaceForm": "recently",
+        "reason": "将「recently」代入可见句子后不表达主释义「部分地」。"
       }
     ],
     "spelling": null
@@ -746,8 +746,8 @@
         "reason": "选项「味道」不是「partnership」的主释义「合作关系」或其他义项。"
       },
       {
-        "wordId": "w-director",
-        "reason": "选项「主管」不是「partnership」的主释义「合作关系」或其他义项。"
+        "wordId": "w-route",
+        "reason": "选项「路线」不是「partnership」的主释义「合作关系」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -760,8 +760,8 @@
         "reason": "英文「flavour」的常见义项「味道」不符合主释义「合作关系」。"
       },
       {
-        "wordId": "w-director",
-        "reason": "英文「director」的常见义项「主管」不符合主释义「合作关系」。"
+        "wordId": "w-route",
+        "reason": "英文「route」的常见义项「路线」不符合主释义「合作关系」。"
       }
     ],
     "contextChoice": [
@@ -776,9 +776,9 @@
         "reason": "将「flavour」代入可见句子后不表达主释义「合作关系」。"
       },
       {
-        "wordId": "w-director",
-        "surfaceForm": "director",
-        "reason": "将「director」代入可见句子后不表达主释义「合作关系」。"
+        "wordId": "w-route",
+        "surfaceForm": "route",
+        "reason": "将「route」代入可见句子后不表达主释义「合作关系」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「经济」不是「party」的主释义「聚会」或其他义项。"
       },
       {
-        "wordId": "w-desire",
-        "reason": "选项「渴望」不是「party」的主释义「聚会」或其他义项。"
+        "wordId": "w-system",
+        "reason": "选项「系统」不是「party」的主释义「聚会」或其他义项。"
       },
       {
-        "wordId": "w-congress",
-        "reason": "选项「国会」不是「party」的主释义「聚会」或其他义项。"
+        "wordId": "w-desire",
+        "reason": "选项「渴望」不是「party」的主释义「聚会」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「economy」的常见义项「经济」不符合主释义「聚会」。"
       },
       {
-        "wordId": "w-desire",
-        "reason": "英文「desire」的常见义项「渴望」不符合主释义「聚会」。"
+        "wordId": "w-system",
+        "reason": "英文「system」的常见义项「系统」不符合主释义「聚会」。"
       },
       {
-        "wordId": "w-congress",
-        "reason": "英文「congress」的常见义项「国会」不符合主释义「聚会」。"
+        "wordId": "w-desire",
+        "reason": "英文「desire」的常见义项「渴望」不符合主释义「聚会」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「economy」代入可见句子后不表达主释义「聚会」。"
       },
       {
+        "wordId": "w-system",
+        "surfaceForm": "system",
+        "reason": "将「system」代入可见句子后不表达主释义「聚会」。"
+      },
+      {
         "wordId": "w-desire",
         "surfaceForm": "desire",
         "reason": "将「desire」代入可见句子后不表达主释义「聚会」。"
-      },
-      {
-        "wordId": "w-congress",
-        "surfaceForm": "congress",
-        "reason": "将「congress」代入可见句子后不表达主释义「聚会」。"
       }
     ],
     "spelling": null
@@ -840,12 +840,12 @@
         "reason": "选项「产生」不是「pass」的主释义「通过」或其他义项。"
       },
       {
-        "wordId": "w-cut",
-        "reason": "选项「切」不是「pass」的主释义「通过」或其他义项。"
+        "wordId": "w-start",
+        "reason": "选项「开始」不是「pass」的主释义「通过」或其他义项。"
       },
       {
-        "wordId": "w-dislike",
-        "reason": "选项「不喜欢」不是「pass」的主释义「通过」或其他义项。"
+        "wordId": "w-cut",
+        "reason": "选项「切」不是「pass」的主释义「通过」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -854,12 +854,12 @@
         "reason": "英文「generate」的常见义项「产生」不符合主释义「通过」。"
       },
       {
-        "wordId": "w-cut",
-        "reason": "英文「cut」的常见义项「切」不符合主释义「通过」。"
+        "wordId": "w-start",
+        "reason": "英文「start」的常见义项「开始」不符合主释义「通过」。"
       },
       {
-        "wordId": "w-dislike",
-        "reason": "英文「dislike」的常见义项「不喜欢」不符合主释义「通过」。"
+        "wordId": "w-cut",
+        "reason": "英文「cut」的常见义项「切」不符合主释义「通过」。"
       }
     ],
     "contextChoice": [
@@ -869,14 +869,14 @@
         "reason": "将「generate」代入可见句子后不表达主释义「通过」。"
       },
       {
+        "wordId": "w-start",
+        "surfaceForm": "start",
+        "reason": "将「start」代入可见句子后不表达主释义「通过」。"
+      },
+      {
         "wordId": "w-cut",
         "surfaceForm": "cut",
         "reason": "将「cut」代入可见句子后不表达主释义「通过」。"
-      },
-      {
-        "wordId": "w-dislike",
-        "surfaceForm": "dislike",
-        "reason": "将「dislike」代入可见句子后不表达主释义「通过」。"
       }
     ],
     "spelling": null
@@ -885,19 +885,23 @@
     "wordId": "w-passage",
     "enToZh": [
       {
+        "wordId": "w-speaker",
+        "reason": "选项「扬声器」不是「passage」的主释义「通道」或其他义项。"
+      },
+      {
         "wordId": "w-disapproval",
         "reason": "选项「不赞成」不是「passage」的主释义「通道」或其他义项。"
       },
       {
         "wordId": "w-coin",
         "reason": "选项「硬币」不是「passage」的主释义「通道」或其他义项。"
-      },
-      {
-        "wordId": "w-interior",
-        "reason": "选项「内部」不是「passage」的主释义「通道」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-speaker",
+        "reason": "英文「speaker」的常见义项「扬声器」不符合主释义「通道」。"
+      },
       {
         "wordId": "w-disapproval",
         "reason": "英文「disapproval」的常见义项「不赞成」不符合主释义「通道」。"
@@ -905,13 +909,14 @@
       {
         "wordId": "w-coin",
         "reason": "英文「coin」的常见义项「硬币」不符合主释义「通道」。"
-      },
-      {
-        "wordId": "w-interior",
-        "reason": "英文「interior」的常见义项「内部」不符合主释义「通道」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-speaker",
+        "surfaceForm": "speaker",
+        "reason": "将「speaker」代入可见句子后不表达主释义「通道」。"
+      },
       {
         "wordId": "w-disapproval",
         "surfaceForm": "disapproval",
@@ -921,11 +926,6 @@
         "wordId": "w-coin",
         "surfaceForm": "coin",
         "reason": "将「coin」代入可见句子后不表达主释义「通道」。"
-      },
-      {
-        "wordId": "w-interior",
-        "surfaceForm": "interior",
-        "reason": "将「interior」代入可见句子后不表达主释义「通道」。"
       }
     ],
     "spelling": null
@@ -934,19 +934,23 @@
     "wordId": "w-passenger",
     "enToZh": [
       {
+        "wordId": "w-slope",
+        "reason": "选项「斜坡」不是「passenger」的主释义「乘客」或其他义项。"
+      },
+      {
         "wordId": "w-context",
         "reason": "选项「语境」不是「passenger」的主释义「乘客」或其他义项。"
       },
       {
         "wordId": "w-cycle",
         "reason": "选项「循环」不是「passenger」的主释义「乘客」或其他义项。"
-      },
-      {
-        "wordId": "w-choice",
-        "reason": "选项「选择」不是「passenger」的主释义「乘客」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-slope",
+        "reason": "英文「slope」的常见义项「斜坡」不符合主释义「乘客」。"
+      },
       {
         "wordId": "w-context",
         "reason": "英文「context」的常见义项「语境」不符合主释义「乘客」。"
@@ -954,13 +958,14 @@
       {
         "wordId": "w-cycle",
         "reason": "英文「cycle」的常见义项「循环」不符合主释义「乘客」。"
-      },
-      {
-        "wordId": "w-choice",
-        "reason": "英文「choice」的常见义项「选择」不符合主释义「乘客」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-slope",
+        "surfaceForm": "slope",
+        "reason": "将「slope」代入可见句子后不表达主释义「乘客」。"
+      },
       {
         "wordId": "w-context",
         "surfaceForm": "context",
@@ -970,11 +975,6 @@
         "wordId": "w-cycle",
         "surfaceForm": "cycle",
         "reason": "将「cycle」代入可见句子后不表达主释义「乘客」。"
-      },
-      {
-        "wordId": "w-choice",
-        "surfaceForm": "choice",
-        "reason": "将「choice」代入可见句子后不表达主释义「乘客」。"
       }
     ],
     "spelling": null
@@ -1187,8 +1187,8 @@
         "reason": "选项「钻头」不是「pasture」的主释义「牧场」或其他义项。"
       },
       {
-        "wordId": "w-alliance",
-        "reason": "选项「联盟」不是「pasture」的主释义「牧场」或其他义项。"
+        "wordId": "w-shrub",
+        "reason": "选项「灌木」不是「pasture」的主释义「牧场」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1201,8 +1201,8 @@
         "reason": "英文「drill」的常见义项「钻头」不符合主释义「牧场」。"
       },
       {
-        "wordId": "w-alliance",
-        "reason": "英文「alliance」的常见义项「联盟」不符合主释义「牧场」。"
+        "wordId": "w-shrub",
+        "reason": "英文「shrub」的常见义项「灌木」不符合主释义「牧场」。"
       }
     ],
     "contextChoice": [
@@ -1217,9 +1217,9 @@
         "reason": "将「drill」代入可见句子后不表达主释义「牧场」。"
       },
       {
-        "wordId": "w-alliance",
-        "surfaceForm": "alliance",
-        "reason": "将「alliance」代入可见句子后不表达主释义「牧场」。"
+        "wordId": "w-shrub",
+        "surfaceForm": "shrub",
+        "reason": "将「shrub」代入可见句子后不表达主释义「牧场」。"
       }
     ],
     "spelling": null

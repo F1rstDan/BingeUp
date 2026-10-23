@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-prince",
+    "enToZh": [
+      {
+        "wordId": "w-height",
+        "reason": "选项「高度」不是「prince」的主释义「王子」或其他义项。"
+      },
+      {
+        "wordId": "w-minority",
+        "reason": "选项「少数」不是「prince」的主释义「王子」或其他义项。"
+      },
+      {
+        "wordId": "w-design",
+        "reason": "选项「设计」不是「prince」的主释义「王子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-height",
+        "reason": "英文「height」的常见义项「高度」不符合主释义「王子」。"
+      },
+      {
+        "wordId": "w-minority",
+        "reason": "英文「minority」的常见义项「少数」不符合主释义「王子」。"
+      },
+      {
+        "wordId": "w-design",
+        "reason": "英文「design」的常见义项「设计」不符合主释义「王子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-height",
+        "surfaceForm": "height",
+        "reason": "将「height」代入可见句子后不表达主释义「王子」。"
+      },
+      {
+        "wordId": "w-minority",
+        "surfaceForm": "minority",
+        "reason": "将「minority」代入可见句子后不表达主释义「王子」。"
+      },
+      {
+        "wordId": "w-design",
+        "surfaceForm": "design",
+        "reason": "将「design」代入可见句子后不表达主释义「王子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-princess",
+    "enToZh": [
+      {
+        "wordId": "w-message",
+        "reason": "选项「消息」不是「princess」的主释义「公主」或其他义项。"
+      },
+      {
+        "wordId": "w-library",
+        "reason": "选项「图书馆」不是「princess」的主释义「公主」或其他义项。"
+      },
+      {
+        "wordId": "w-delivery",
+        "reason": "选项「递送」不是「princess」的主释义「公主」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-message",
+        "reason": "英文「message」的常见义项「消息」不符合主释义「公主」。"
+      },
+      {
+        "wordId": "w-library",
+        "reason": "英文「library」的常见义项「图书馆」不符合主释义「公主」。"
+      },
+      {
+        "wordId": "w-delivery",
+        "reason": "英文「delivery」的常见义项「递送」不符合主释义「公主」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-message",
+        "surfaceForm": "message",
+        "reason": "将「message」代入可见句子后不表达主释义「公主」。"
+      },
+      {
+        "wordId": "w-library",
+        "surfaceForm": "library",
+        "reason": "将「library」代入可见句子后不表达主释义「公主」。"
+      },
+      {
+        "wordId": "w-delivery",
+        "surfaceForm": "delivery",
+        "reason": "将「delivery」代入可见句子后不表达主释义「公主」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-principal",
+    "enToZh": [
+      {
+        "wordId": "w-intermediate",
+        "reason": "选项「中级的」不是「principal」的主释义「主要的」或其他义项。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "reason": "选项「人道主义的」不是「principal」的主释义「主要的」或其他义项。"
+      },
+      {
+        "wordId": "w-noble",
+        "reason": "选项「高尚的」不是「principal」的主释义「主要的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intermediate",
+        "reason": "英文「intermediate」的常见义项「中级的」不符合主释义「主要的」。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "reason": "英文「humanitarian」的常见义项「人道主义的」不符合主释义「主要的」。"
+      },
+      {
+        "wordId": "w-noble",
+        "reason": "英文「noble」的常见义项「高尚的」不符合主释义「主要的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intermediate",
+        "surfaceForm": "intermediate",
+        "reason": "将「intermediate」代入可见句子后不表达主释义「主要的」。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "surfaceForm": "humanitarian",
+        "reason": "将「humanitarian」代入可见句子后不表达主释义「主要的」。"
+      },
+      {
+        "wordId": "w-noble",
+        "surfaceForm": "noble",
+        "reason": "将「noble」代入可见句子后不表达主释义「主要的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-principally",
+    "enToZh": [
+      {
+        "wordId": "w-moderately",
+        "reason": "选项「适度地」不是「principally」的主释义「主要地」或其他义项。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "选项「本能地」不是「principally」的主释义「主要地」或其他义项。"
+      },
+      {
+        "wordId": "w-intellectually",
+        "reason": "选项「智力上」不是「principally」的主释义「主要地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-moderately",
+        "reason": "英文「moderately」的常见义项「适度地」不符合主释义「主要地」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "英文「instinctively」的常见义项「本能地」不符合主释义「主要地」。"
+      },
+      {
+        "wordId": "w-intellectually",
+        "reason": "英文「intellectually」的常见义项「智力上」不符合主释义「主要地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-moderately",
+        "surfaceForm": "moderately",
+        "reason": "将「moderately」代入可见句子后不表达主释义「主要地」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "surfaceForm": "instinctively",
+        "reason": "将「instinctively」代入可见句子后不表达主释义「主要地」。"
+      },
+      {
+        "wordId": "w-intellectually",
+        "surfaceForm": "intellectually",
+        "reason": "将「intellectually」代入可见句子后不表达主释义「主要地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-principle",
+    "enToZh": [
+      {
+        "wordId": "w-pride",
+        "reason": "选项「自豪」不是「principle」的主释义「原则」或其他义项。"
+      },
+      {
+        "wordId": "w-belief",
+        "reason": "选项「信念」不是「principle」的主释义「原则」或其他义项。"
+      },
+      {
+        "wordId": "w-net",
+        "reason": "选项「网」不是「principle」的主释义「原则」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pride",
+        "reason": "英文「pride」的常见义项「自豪」不符合主释义「原则」。"
+      },
+      {
+        "wordId": "w-belief",
+        "reason": "英文「belief」的常见义项「信念」不符合主释义「原则」。"
+      },
+      {
+        "wordId": "w-net",
+        "reason": "英文「net」的常见义项「网」不符合主释义「原则」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pride",
+        "surfaceForm": "pride",
+        "reason": "将「pride」代入可见句子后不表达主释义「原则」。"
+      },
+      {
+        "wordId": "w-belief",
+        "surfaceForm": "belief",
+        "reason": "将「belief」代入可见句子后不表达主释义「原则」。"
+      },
+      {
+        "wordId": "w-net",
+        "surfaceForm": "net",
+        "reason": "将「net」代入可见句子后不表达主释义「原则」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-print",
+    "enToZh": [
+      {
+        "wordId": "w-disappear",
+        "reason": "选项「消失」不是「print」的主释义「打印」或其他义项。"
+      },
+      {
+        "wordId": "w-interrupt",
+        "reason": "选项「打断」不是「print」的主释义「打印」或其他义项。"
+      },
+      {
+        "wordId": "w-dominate",
+        "reason": "选项「主导」不是「print」的主释义「打印」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disappear",
+        "reason": "英文「disappear」的常见义项「消失」不符合主释义「打印」。"
+      },
+      {
+        "wordId": "w-interrupt",
+        "reason": "英文「interrupt」的常见义项「打断」不符合主释义「打印」。"
+      },
+      {
+        "wordId": "w-dominate",
+        "reason": "英文「dominate」的常见义项「主导」不符合主释义「打印」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disappear",
+        "surfaceForm": "disappear",
+        "reason": "将「disappear」代入可见句子后不表达主释义「打印」。"
+      },
+      {
+        "wordId": "w-interrupt",
+        "surfaceForm": "interrupt",
+        "reason": "将「interrupt」代入可见句子后不表达主释义「打印」。"
+      },
+      {
+        "wordId": "w-dominate",
+        "surfaceForm": "dominate",
+        "reason": "将「dominate」代入可见句子后不表达主释义「打印」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-printer",
+    "enToZh": [
+      {
+        "wordId": "w-knee",
+        "reason": "选项「膝盖」不是「printer」的主释义「打印机」或其他义项。"
+      },
+      {
+        "wordId": "w-fork",
+        "reason": "选项「叉子」不是「printer」的主释义「打印机」或其他义项。"
+      },
+      {
+        "wordId": "w-air",
+        "reason": "选项「空气」不是「printer」的主释义「打印机」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-knee",
+        "reason": "英文「knee」的常见义项「膝盖」不符合主释义「打印机」。"
+      },
+      {
+        "wordId": "w-fork",
+        "reason": "英文「fork」的常见义项「叉子」不符合主释义「打印机」。"
+      },
+      {
+        "wordId": "w-air",
+        "reason": "英文「air」的常见义项「空气」不符合主释义「打印机」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-knee",
+        "surfaceForm": "knee",
+        "reason": "将「knee」代入可见句子后不表达主释义「打印机」。"
+      },
+      {
+        "wordId": "w-fork",
+        "surfaceForm": "fork",
+        "reason": "将「fork」代入可见句子后不表达主释义「打印机」。"
+      },
+      {
+        "wordId": "w-air",
+        "surfaceForm": "air",
+        "reason": "将「air」代入可见句子后不表达主释义「打印机」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-priority",
+    "enToZh": [
+      {
+        "wordId": "w-pilot",
+        "reason": "选项「飞行员」不是「priority」的主释义「优先事项」或其他义项。"
+      },
+      {
+        "wordId": "w-coffee",
+        "reason": "选项「咖啡」不是「priority」的主释义「优先事项」或其他义项。"
+      },
+      {
+        "wordId": "w-chain",
+        "reason": "选项「链条」不是「priority」的主释义「优先事项」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pilot",
+        "reason": "英文「pilot」的常见义项「飞行员」不符合主释义「优先事项」。"
+      },
+      {
+        "wordId": "w-coffee",
+        "reason": "英文「coffee」的常见义项「咖啡」不符合主释义「优先事项」。"
+      },
+      {
+        "wordId": "w-chain",
+        "reason": "英文「chain」的常见义项「链条」不符合主释义「优先事项」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pilot",
+        "surfaceForm": "pilot",
+        "reason": "将「pilot」代入可见句子后不表达主释义「优先事项」。"
+      },
+      {
+        "wordId": "w-coffee",
+        "surfaceForm": "coffee",
+        "reason": "将「coffee」代入可见句子后不表达主释义「优先事项」。"
+      },
+      {
+        "wordId": "w-chain",
+        "surfaceForm": "chain",
+        "reason": "将「chain」代入可见句子后不表达主释义「优先事项」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-prism",
+    "enToZh": [
+      {
+        "wordId": "w-neuron",
+        "reason": "选项「神经元」不是「prism」的主释义「棱镜」或其他义项。"
+      },
+      {
+        "wordId": "w-fireman",
+        "reason": "选项「消防员」不是「prism」的主释义「棱镜」或其他义项。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "reason": "选项「兼容性」不是「prism」的主释义「棱镜」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-neuron",
+        "reason": "英文「neuron」的常见义项「神经元」不符合主释义「棱镜」。"
+      },
+      {
+        "wordId": "w-fireman",
+        "reason": "英文「fireman」的常见义项「消防员」不符合主释义「棱镜」。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "reason": "英文「compatibility」的常见义项「兼容性」不符合主释义「棱镜」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-neuron",
+        "surfaceForm": "neuron",
+        "reason": "将「neuron」代入可见句子后不表达主释义「棱镜」。"
+      },
+      {
+        "wordId": "w-fireman",
+        "surfaceForm": "fireman",
+        "reason": "将「fireman」代入可见句子后不表达主释义「棱镜」。"
+      },
+      {
+        "wordId": "w-compatibility",
+        "surfaceForm": "compatibility",
+        "reason": "将「compatibility」代入可见句子后不表达主释义「棱镜」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-prison",
+    "enToZh": [
+      {
+        "wordId": "w-deposit",
+        "reason": "选项「存款」不是「prison」的主释义「监狱」或其他义项。"
+      },
+      {
+        "wordId": "w-picture",
+        "reason": "选项「图片」不是「prison」的主释义「监狱」或其他义项。"
+      },
+      {
+        "wordId": "w-division",
+        "reason": "选项「分割」不是「prison」的主释义「监狱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deposit",
+        "reason": "英文「deposit」的常见义项「存款」不符合主释义「监狱」。"
+      },
+      {
+        "wordId": "w-picture",
+        "reason": "英文「picture」的常见义项「图片」不符合主释义「监狱」。"
+      },
+      {
+        "wordId": "w-division",
+        "reason": "英文「division」的常见义项「分割」不符合主释义「监狱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deposit",
+        "surfaceForm": "deposit",
+        "reason": "将「deposit」代入可见句子后不表达主释义「监狱」。"
+      },
+      {
+        "wordId": "w-picture",
+        "surfaceForm": "picture",
+        "reason": "将「picture」代入可见句子后不表达主释义「监狱」。"
+      },
+      {
+        "wordId": "w-division",
+        "surfaceForm": "division",
+        "reason": "将「division」代入可见句子后不表达主释义「监狱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-prisoner",
+    "enToZh": [
+      {
+        "wordId": "w-design",
+        "reason": "选项「设计」不是「prisoner」的主释义「囚犯」或其他义项。"
+      },
+      {
+        "wordId": "w-door",
+        "reason": "选项「门」不是「prisoner」的主释义「囚犯」或其他义项。"
+      },
+      {
+        "wordId": "w-light",
+        "reason": "选项「光线」不是「prisoner」的主释义「囚犯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-design",
+        "reason": "英文「design」的常见义项「设计」不符合主释义「囚犯」。"
+      },
+      {
+        "wordId": "w-door",
+        "reason": "英文「door」的常见义项「门」不符合主释义「囚犯」。"
+      },
+      {
+        "wordId": "w-light",
+        "reason": "英文「light」的常见义项「光线」不符合主释义「囚犯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-design",
+        "surfaceForm": "design",
+        "reason": "将「design」代入可见句子后不表达主释义「囚犯」。"
+      },
+      {
+        "wordId": "w-door",
+        "surfaceForm": "door",
+        "reason": "将「door」代入可见句子后不表达主释义「囚犯」。"
+      },
+      {
+        "wordId": "w-light",
+        "surfaceForm": "light",
+        "reason": "将「light」代入可见句子后不表达主释义「囚犯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-privacy",
+    "enToZh": [
+      {
+        "wordId": "w-appetite",
+        "reason": "选项「食欲」不是「privacy」的主释义「隐私」或其他义项。"
+      },
+      {
+        "wordId": "w-coefficient",
+        "reason": "选项「系数」不是「privacy」的主释义「隐私」或其他义项。"
+      },
+      {
+        "wordId": "w-correction",
+        "reason": "选项「改正」不是「privacy」的主释义「隐私」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-appetite",
+        "reason": "英文「appetite」的常见义项「食欲」不符合主释义「隐私」。"
+      },
+      {
+        "wordId": "w-coefficient",
+        "reason": "英文「coefficient」的常见义项「系数」不符合主释义「隐私」。"
+      },
+      {
+        "wordId": "w-correction",
+        "reason": "英文「correction」的常见义项「改正」不符合主释义「隐私」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-appetite",
+        "surfaceForm": "appetite",
+        "reason": "将「appetite」代入可见句子后不表达主释义「隐私」。"
+      },
+      {
+        "wordId": "w-coefficient",
+        "surfaceForm": "coefficient",
+        "reason": "将「coefficient」代入可见句子后不表达主释义「隐私」。"
+      },
+      {
+        "wordId": "w-correction",
+        "surfaceForm": "correction",
+        "reason": "将「correction」代入可见句子后不表达主释义「隐私」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-privilege",
+    "enToZh": [
+      {
+        "wordId": "w-scarf",
+        "reason": "选项「围巾」不是「privilege」的主释义「特权」或其他义项。"
+      },
+      {
+        "wordId": "w-aggression",
+        "reason": "选项「攻击性」不是「privilege」的主释义「特权」或其他义项。"
+      },
+      {
+        "wordId": "w-clue",
+        "reason": "选项「线索」不是「privilege」的主释义「特权」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-scarf",
+        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「特权」。"
+      },
+      {
+        "wordId": "w-aggression",
+        "reason": "英文「aggression」的常见义项「攻击性」不符合主释义「特权」。"
+      },
+      {
+        "wordId": "w-clue",
+        "reason": "英文「clue」的常见义项「线索」不符合主释义「特权」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-scarf",
+        "surfaceForm": "scarf",
+        "reason": "将「scarf」代入可见句子后不表达主释义「特权」。"
+      },
+      {
+        "wordId": "w-aggression",
+        "surfaceForm": "aggression",
+        "reason": "将「aggression」代入可见句子后不表达主释义「特权」。"
+      },
+      {
+        "wordId": "w-clue",
+        "surfaceForm": "clue",
+        "reason": "将「clue」代入可见句子后不表达主释义「特权」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-prize",
+    "enToZh": [
+      {
+        "wordId": "w-date",
+        "reason": "选项「日期」不是「prize」的主释义「奖品」或其他义项。"
+      },
+      {
+        "wordId": "w-noise",
+        "reason": "选项「噪音」不是「prize」的主释义「奖品」或其他义项。"
+      },
+      {
+        "wordId": "w-mail",
+        "reason": "选项「邮件」不是「prize」的主释义「奖品」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-date",
+        "reason": "英文「date」的常见义项「日期」不符合主释义「奖品」。"
+      },
+      {
+        "wordId": "w-noise",
+        "reason": "英文「noise」的常见义项「噪音」不符合主释义「奖品」。"
+      },
+      {
+        "wordId": "w-mail",
+        "reason": "英文「mail」的常见义项「邮件」不符合主释义「奖品」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-date",
+        "surfaceForm": "date",
+        "reason": "将「date」代入可见句子后不表达主释义「奖品」。"
+      },
+      {
+        "wordId": "w-noise",
+        "surfaceForm": "noise",
+        "reason": "将「noise」代入可见句子后不表达主释义「奖品」。"
+      },
+      {
+        "wordId": "w-mail",
+        "surfaceForm": "mail",
+        "reason": "将「mail」代入可见句子后不表达主释义「奖品」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-probability",
+    "enToZh": [
+      {
+        "wordId": "w-linen",
+        "reason": "选项「亚麻布」不是「probability」的主释义「概率」或其他义项。"
+      },
+      {
+        "wordId": "w-cruise",
+        "reason": "选项「乘船游览」不是「probability」的主释义「概率」或其他义项。"
+      },
+      {
+        "wordId": "w-intent",
+        "reason": "选项「意图」不是「probability」的主释义「概率」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-linen",
+        "reason": "英文「linen」的常见义项「亚麻布」不符合主释义「概率」。"
+      },
+      {
+        "wordId": "w-cruise",
+        "reason": "英文「cruise」的常见义项「乘船游览」不符合主释义「概率」。"
+      },
+      {
+        "wordId": "w-intent",
+        "reason": "英文「intent」的常见义项「意图」不符合主释义「概率」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-linen",
+        "surfaceForm": "linen",
+        "reason": "将「linen」代入可见句子后不表达主释义「概率」。"
+      },
+      {
+        "wordId": "w-cruise",
+        "surfaceForm": "cruise",
+        "reason": "将「cruise」代入可见句子后不表达主释义「概率」。"
+      },
+      {
+        "wordId": "w-intent",
+        "surfaceForm": "intent",
+        "reason": "将「intent」代入可见句子后不表达主释义「概率」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-probably",
+    "enToZh": [
+      {
+        "wordId": "w-obviously",
+        "reason": "选项「显然」不是「probably」的主释义「很可能」或其他义项。"
+      },
+      {
+        "wordId": "w-however",
+        "reason": "选项「然而」不是「probably」的主释义「很可能」或其他义项。"
+      },
+      {
+        "wordId": "w-forth",
+        "reason": "选项「向前」不是「probably」的主释义「很可能」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-obviously",
+        "reason": "英文「obviously」的常见义项「显然」不符合主释义「很可能」。"
+      },
+      {
+        "wordId": "w-however",
+        "reason": "英文「however」的常见义项「然而」不符合主释义「很可能」。"
+      },
+      {
+        "wordId": "w-forth",
+        "reason": "英文「forth」的常见义项「向前」不符合主释义「很可能」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-obviously",
+        "surfaceForm": "obviously",
+        "reason": "将「obviously」代入可见句子后不表达主释义「很可能」。"
+      },
+      {
+        "wordId": "w-however",
+        "surfaceForm": "however",
+        "reason": "将「however」代入可见句子后不表达主释义「很可能」。"
+      },
+      {
+        "wordId": "w-forth",
+        "surfaceForm": "forth",
+        "reason": "将「forth」代入可见句子后不表达主释义「很可能」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-problem",
+    "enToZh": [
+      {
+        "wordId": "w-brother",
+        "reason": "选项「兄弟」不是「problem」的主释义「问题」或其他义项。"
+      },
+      {
+        "wordId": "w-age",
+        "reason": "选项「年龄」不是「problem」的主释义「问题」或其他义项。"
+      },
+      {
+        "wordId": "w-environment",
+        "reason": "选项「环境」不是「problem」的主释义「问题」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brother",
+        "reason": "英文「brother」的常见义项「兄弟」不符合主释义「问题」。"
+      },
+      {
+        "wordId": "w-age",
+        "reason": "英文「age」的常见义项「年龄」不符合主释义「问题」。"
+      },
+      {
+        "wordId": "w-environment",
+        "reason": "英文「environment」的常见义项「环境」不符合主释义「问题」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brother",
+        "surfaceForm": "brother",
+        "reason": "将「brother」代入可见句子后不表达主释义「问题」。"
+      },
+      {
+        "wordId": "w-age",
+        "surfaceForm": "age",
+        "reason": "将「age」代入可见句子后不表达主释义「问题」。"
+      },
+      {
+        "wordId": "w-environment",
+        "surfaceForm": "environment",
+        "reason": "将「environment」代入可见句子后不表达主释义「问题」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-procedure",
+    "enToZh": [
+      {
+        "wordId": "w-charge",
+        "reason": "选项「费用」不是「procedure」的主释义「程序」或其他义项。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "选项「饼干」不是「procedure」的主释义「程序」或其他义项。"
+      },
+      {
+        "wordId": "w-debt",
+        "reason": "选项「债务」不是「procedure」的主释义「程序」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-charge",
+        "reason": "英文「charge」的常见义项「费用」不符合主释义「程序」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "英文「biscuit」的常见义项「饼干」不符合主释义「程序」。"
+      },
+      {
+        "wordId": "w-debt",
+        "reason": "英文「debt」的常见义项「债务」不符合主释义「程序」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-charge",
+        "surfaceForm": "charge",
+        "reason": "将「charge」代入可见句子后不表达主释义「程序」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "surfaceForm": "biscuit",
+        "reason": "将「biscuit」代入可见句子后不表达主释义「程序」。"
+      },
+      {
+        "wordId": "w-debt",
+        "surfaceForm": "debt",
+        "reason": "将「debt」代入可见句子后不表达主释义「程序」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-proceed",
+    "enToZh": [
+      {
+        "wordId": "w-clap",
+        "reason": "选项「鼓掌」不是「proceed」的主释义「继续进行」或其他义项。"
+      },
+      {
+        "wordId": "w-justify",
+        "reason": "选项「证明合理」不是「proceed」的主释义「继续进行」或其他义项。"
+      },
+      {
+        "wordId": "w-interpret",
+        "reason": "选项「解释」不是「proceed」的主释义「继续进行」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-clap",
+        "reason": "英文「clap」的常见义项「鼓掌」不符合主释义「继续进行」。"
+      },
+      {
+        "wordId": "w-justify",
+        "reason": "英文「justify」的常见义项「证明合理」不符合主释义「继续进行」。"
+      },
+      {
+        "wordId": "w-interpret",
+        "reason": "英文「interpret」的常见义项「解释」不符合主释义「继续进行」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-clap",
+        "surfaceForm": "clap",
+        "reason": "将「clap」代入可见句子后不表达主释义「继续进行」。"
+      },
+      {
+        "wordId": "w-justify",
+        "surfaceForm": "justify",
+        "reason": "将「justify」代入可见句子后不表达主释义「继续进行」。"
+      },
+      {
+        "wordId": "w-interpret",
+        "surfaceForm": "interpret",
+        "reason": "将「interpret」代入可见句子后不表达主释义「继续进行」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-process",
+    "enToZh": [
+      {
+        "wordId": "w-expression",
+        "reason": "选项「表达」不是「process」的主释义「过程」或其他义项。"
+      },
+      {
+        "wordId": "w-barrier",
+        "reason": "选项「障碍」不是「process」的主释义「过程」或其他义项。"
+      },
+      {
+        "wordId": "w-leaf",
+        "reason": "选项「叶子」不是「process」的主释义「过程」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-expression",
+        "reason": "英文「expression」的常见义项「表达」不符合主释义「过程」。"
+      },
+      {
+        "wordId": "w-barrier",
+        "reason": "英文「barrier」的常见义项「障碍」不符合主释义「过程」。"
+      },
+      {
+        "wordId": "w-leaf",
+        "reason": "英文「leaf」的常见义项「叶子」不符合主释义「过程」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-expression",
+        "surfaceForm": "expression",
+        "reason": "将「expression」代入可见句子后不表达主释义「过程」。"
+      },
+      {
+        "wordId": "w-barrier",
+        "surfaceForm": "barrier",
+        "reason": "将「barrier」代入可见句子后不表达主释义「过程」。"
+      },
+      {
+        "wordId": "w-leaf",
+        "surfaceForm": "leaf",
+        "reason": "将「leaf」代入可见句子后不表达主释义「过程」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-procession",
+    "enToZh": [
+      {
+        "wordId": "w-burial",
+        "reason": "选项「埋葬」不是「procession」的主释义「队伍」或其他义项。"
+      },
+      {
+        "wordId": "w-nucleus",
+        "reason": "选项「核心」不是「procession」的主释义「队伍」或其他义项。"
+      },
+      {
+        "wordId": "w-circuit",
+        "reason": "选项「电路」不是「procession」的主释义「队伍」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-burial",
+        "reason": "英文「burial」的常见义项「埋葬」不符合主释义「队伍」。"
+      },
+      {
+        "wordId": "w-nucleus",
+        "reason": "英文「nucleus」的常见义项「核心」不符合主释义「队伍」。"
+      },
+      {
+        "wordId": "w-circuit",
+        "reason": "英文「circuit」的常见义项「电路」不符合主释义「队伍」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-burial",
+        "surfaceForm": "burial",
+        "reason": "将「burial」代入可见句子后不表达主释义「队伍」。"
+      },
+      {
+        "wordId": "w-nucleus",
+        "surfaceForm": "nucleus",
+        "reason": "将「nucleus」代入可见句子后不表达主释义「队伍」。"
+      },
+      {
+        "wordId": "w-circuit",
+        "surfaceForm": "circuit",
+        "reason": "将「circuit」代入可见句子后不表达主释义「队伍」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-proclaim",
+    "enToZh": [
+      {
+        "wordId": "w-groan",
+        "reason": "选项「呻吟」不是「proclaim」的主释义「宣布」或其他义项。"
+      },
+      {
+        "wordId": "w-disperse",
+        "reason": "选项「散开」不是「proclaim」的主释义「宣布」或其他义项。"
+      },
+      {
+        "wordId": "w-bounce",
+        "reason": "选项「弹跳」不是「proclaim」的主释义「宣布」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-groan",
+        "reason": "英文「groan」的常见义项「呻吟」不符合主释义「宣布」。"
+      },
+      {
+        "wordId": "w-disperse",
+        "reason": "英文「disperse」的常见义项「散开」不符合主释义「宣布」。"
+      },
+      {
+        "wordId": "w-bounce",
+        "reason": "英文「bounce」的常见义项「弹跳」不符合主释义「宣布」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-groan",
+        "surfaceForm": "groan",
+        "reason": "将「groan」代入可见句子后不表达主释义「宣布」。"
+      },
+      {
+        "wordId": "w-disperse",
+        "surfaceForm": "disperse",
+        "reason": "将「disperse」代入可见句子后不表达主释义「宣布」。"
+      },
+      {
+        "wordId": "w-bounce",
+        "surfaceForm": "bounce",
+        "reason": "将「bounce」代入可见句子后不表达主释义「宣布」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-produce",
+    "enToZh": [
+      {
+        "wordId": "w-publish",
+        "reason": "选项「出版」不是「produce」的主释义「生产」或其他义项。"
+      },
+      {
+        "wordId": "w-cheat",
+        "reason": "选项「作弊」不是「produce」的主释义「生产」或其他义项。"
+      },
+      {
+        "wordId": "w-join",
+        "reason": "选项「加入」不是「produce」的主释义「生产」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-publish",
+        "reason": "英文「publish」的常见义项「出版」不符合主释义「生产」。"
+      },
+      {
+        "wordId": "w-cheat",
+        "reason": "英文「cheat」的常见义项「作弊」不符合主释义「生产」。"
+      },
+      {
+        "wordId": "w-join",
+        "reason": "英文「join」的常见义项「加入」不符合主释义「生产」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-publish",
+        "surfaceForm": "publish",
+        "reason": "将「publish」代入可见句子后不表达主释义「生产」。"
+      },
+      {
+        "wordId": "w-cheat",
+        "surfaceForm": "cheat",
+        "reason": "将「cheat」代入可见句子后不表达主释义「生产」。"
+      },
+      {
+        "wordId": "w-join",
+        "surfaceForm": "join",
+        "reason": "将「join」代入可见句子后不表达主释义「生产」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-producer",
+    "enToZh": [
+      {
+        "wordId": "w-pleasure",
+        "reason": "选项「乐趣」不是「producer」的主释义「生产者」或其他义项。"
+      },
+      {
+        "wordId": "w-alternative",
+        "reason": "选项「替代方案」不是「producer」的主释义「生产者」或其他义项。"
+      },
+      {
+        "wordId": "w-gas",
+        "reason": "选项「气体」不是「producer」的主释义「生产者」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pleasure",
+        "reason": "英文「pleasure」的常见义项「乐趣」不符合主释义「生产者」。"
+      },
+      {
+        "wordId": "w-alternative",
+        "reason": "英文「alternative」的常见义项「替代方案」不符合主释义「生产者」。"
+      },
+      {
+        "wordId": "w-gas",
+        "reason": "英文「gas」的常见义项「气体」不符合主释义「生产者」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pleasure",
+        "surfaceForm": "pleasure",
+        "reason": "将「pleasure」代入可见句子后不表达主释义「生产者」。"
+      },
+      {
+        "wordId": "w-alternative",
+        "surfaceForm": "alternative",
+        "reason": "将「alternative」代入可见句子后不表达主释义「生产者」。"
+      },
+      {
+        "wordId": "w-gas",
+        "surfaceForm": "gas",
+        "reason": "将「gas」代入可见句子后不表达主释义「生产者」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-product",
+    "enToZh": [
+      {
+        "wordId": "w-chest",
+        "reason": "选项「胸部」不是「product」的主释义「产品」或其他义项。"
+      },
+      {
+        "wordId": "w-enemy",
+        "reason": "选项「敌人」不是「product」的主释义「产品」或其他义项。"
+      },
+      {
+        "wordId": "w-history",
+        "reason": "选项「历史」不是「product」的主释义「产品」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chest",
+        "reason": "英文「chest」的常见义项「胸部」不符合主释义「产品」。"
+      },
+      {
+        "wordId": "w-enemy",
+        "reason": "英文「enemy」的常见义项「敌人」不符合主释义「产品」。"
+      },
+      {
+        "wordId": "w-history",
+        "reason": "英文「history」的常见义项「历史」不符合主释义「产品」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chest",
+        "surfaceForm": "chest",
+        "reason": "将「chest」代入可见句子后不表达主释义「产品」。"
+      },
+      {
+        "wordId": "w-enemy",
+        "surfaceForm": "enemy",
+        "reason": "将「enemy」代入可见句子后不表达主释义「产品」。"
+      },
+      {
+        "wordId": "w-history",
+        "surfaceForm": "history",
+        "reason": "将「history」代入可见句子后不表达主释义「产品」。"
+      }
+    ],
+    "spelling": null
+  }
+]

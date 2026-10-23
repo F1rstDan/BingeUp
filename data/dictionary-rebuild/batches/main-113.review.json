@@ -1,0 +1,19 @@
+{
+  "reviewer": "independent-sample-review-main-113",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-mask",
+    "w-maternity",
+    "w-maths",
+    "w-maturation",
+    "w-maturity"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-maturation",
+      "stage": "pronunciation",
+      "message": "主词性为 n.、主释义为「成熟」；当前 ipa-selections 选择索引 0 的 /ˌmætʃɝˈeɪʃən/，把 -ra- 的 /r/ 标成前一音节的 /ɝ/，未按常见美式读音 /ˌmætʃəˈreɪʃən/ 在主重音前保留 /r/ 起音。应改选索引 1 的 /ˌmætʃʊˈɹeɪʃən/，或补充独立转写。"
+    }
+  ]
+}

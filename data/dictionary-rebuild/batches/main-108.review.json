@@ -1,0 +1,24 @@
+{
+  "reviewer": "independent-sample-review-main-108",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-linger",
+    "w-lipstick",
+    "w-list",
+    "w-listener",
+    "w-literally"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-linger",
+      "stage": "pronunciation",
+      "message": "主词性为 v.、主释义为「逗留」；当前 ipa-selections 选择索引 0 的 /ˈɫɪŋɝ/，漏掉了 linger 中应读出的 /ɡ/，常见美式读音为 /ˈɫɪŋɡɝ/。应改选索引 1。"
+    },
+    {
+      "wordId": "w-literally",
+      "stage": "question",
+      "message": "英选中启用了 w-indeed（「确实」）。literally 本身可表示强调义「确实地」，且该词条已把「确实地」列为其他义项；题面只显示目标词，没有限定语境，因此「字面上地」与「确实」都可合理回答。应排除 w-indeed 或停用该方向的固定题组。"
+    }
+  ]
+}

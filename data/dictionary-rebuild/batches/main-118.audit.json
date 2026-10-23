@@ -7,12 +7,12 @@
         "reason": "选项「提示」不是「mobility」的主释义「移动能力」或其他义项。"
       },
       {
-        "wordId": "w-fixture",
-        "reason": "选项「固定装置」不是「mobility」的主释义「移动能力」或其他义项。"
+        "wordId": "w-prophet",
+        "reason": "选项「先知」不是「mobility」的主释义「移动能力」或其他义项。"
       },
       {
-        "wordId": "w-inspection",
-        "reason": "选项「检查」不是「mobility」的主释义「移动能力」或其他义项。"
+        "wordId": "w-fixture",
+        "reason": "选项「固定装置」不是「mobility」的主释义「移动能力」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -21,12 +21,12 @@
         "reason": "英文「hint」的常见义项「提示」不符合主释义「移动能力」。"
       },
       {
-        "wordId": "w-fixture",
-        "reason": "英文「fixture」的常见义项「固定装置」不符合主释义「移动能力」。"
+        "wordId": "w-prophet",
+        "reason": "英文「prophet」的常见义项「先知」不符合主释义「移动能力」。"
       },
       {
-        "wordId": "w-inspection",
-        "reason": "英文「inspection」的常见义项「检查」不符合主释义「移动能力」。"
+        "wordId": "w-fixture",
+        "reason": "英文「fixture」的常见义项「固定装置」不符合主释义「移动能力」。"
       }
     ],
     "contextChoice": [
@@ -36,14 +36,14 @@
         "reason": "将「hint」代入可见句子后不表达主释义「移动能力」。"
       },
       {
+        "wordId": "w-prophet",
+        "surfaceForm": "prophet",
+        "reason": "将「prophet」代入可见句子后不表达主释义「移动能力」。"
+      },
+      {
         "wordId": "w-fixture",
         "surfaceForm": "fixture",
         "reason": "将「fixture」代入可见句子后不表达主释义「移动能力」。"
-      },
-      {
-        "wordId": "w-inspection",
-        "surfaceForm": "inspection",
-        "reason": "将「inspection」代入可见句子后不表达主释义「移动能力」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「履行」不是「mock」的主释义「嘲笑」或其他义项。"
       },
       {
-        "wordId": "w-designate",
-        "reason": "选项「指定」不是「mock」的主释义「嘲笑」或其他义项。"
+        "wordId": "w-orient",
+        "reason": "选项「确定方向」不是「mock」的主释义「嘲笑」或其他义项。"
       },
       {
-        "wordId": "w-dedicate",
-        "reason": "选项「致力于」不是「mock」的主释义「嘲笑」或其他义项。"
+        "wordId": "w-designate",
+        "reason": "选项「指定」不是「mock」的主释义「嘲笑」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「fulfil」的常见义项「履行」不符合主释义「嘲笑」。"
       },
       {
-        "wordId": "w-designate",
-        "reason": "英文「designate」的常见义项「指定」不符合主释义「嘲笑」。"
+        "wordId": "w-orient",
+        "reason": "英文「orient」的常见义项「确定方向」不符合主释义「嘲笑」。"
       },
       {
-        "wordId": "w-dedicate",
-        "reason": "英文「dedicate」的常见义项「致力于」不符合主释义「嘲笑」。"
+        "wordId": "w-designate",
+        "reason": "英文「designate」的常见义项「指定」不符合主释义「嘲笑」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「fulfil」代入可见句子后不表达主释义「嘲笑」。"
       },
       {
+        "wordId": "w-orient",
+        "surfaceForm": "orient",
+        "reason": "将「orient」代入可见句子后不表达主释义「嘲笑」。"
+      },
+      {
         "wordId": "w-designate",
         "surfaceForm": "designate",
         "reason": "将「designate」代入可见句子后不表达主释义「嘲笑」。"
-      },
-      {
-        "wordId": "w-dedicate",
-        "surfaceForm": "dedicate",
-        "reason": "将「dedicate」代入可见句子后不表达主释义「嘲笑」。"
       }
     ],
     "spelling": null
@@ -150,19 +150,23 @@
     "wordId": "w-mode",
     "enToZh": [
       {
+        "wordId": "w-prisoner",
+        "reason": "选项「囚犯」不是「mode」的主释义「模式」或其他义项。"
+      },
+      {
         "wordId": "w-middle",
         "reason": "选项「中间」不是「mode」的主释义「模式」或其他义项。"
       },
       {
         "wordId": "w-jelly",
         "reason": "选项「果冻」不是「mode」的主释义「模式」或其他义项。"
-      },
-      {
-        "wordId": "w-east",
-        "reason": "选项「东方」不是「mode」的主释义「模式」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-prisoner",
+        "reason": "英文「prisoner」的常见义项「囚犯」不符合主释义「模式」。"
+      },
       {
         "wordId": "w-middle",
         "reason": "英文「middle」的常见义项「中间」不符合主释义「模式」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-jelly",
         "reason": "英文「jelly」的常见义项「果冻」不符合主释义「模式」。"
-      },
-      {
-        "wordId": "w-east",
-        "reason": "英文「east」的常见义项「东方」不符合主释义「模式」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-prisoner",
+        "surfaceForm": "prisoner",
+        "reason": "将「prisoner」代入可见句子后不表达主释义「模式」。"
+      },
       {
         "wordId": "w-middle",
         "surfaceForm": "middle",
@@ -186,11 +191,6 @@
         "wordId": "w-jelly",
         "surfaceForm": "jelly",
         "reason": "将「jelly」代入可见句子后不表达主释义「模式」。"
-      },
-      {
-        "wordId": "w-east",
-        "surfaceForm": "east",
-        "reason": "将「east」代入可见句子后不表达主释义「模式」。"
       }
     ],
     "spelling": null
@@ -207,8 +207,8 @@
         "reason": "选项「热」不是「model」的主释义「模型」或其他义项。"
       },
       {
-        "wordId": "w-drama",
-        "reason": "选项「戏剧」不是「model」的主释义「模型」或其他义项。"
+        "wordId": "w-phrase",
+        "reason": "选项「短语」不是「model」的主释义「模型」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -221,8 +221,8 @@
         "reason": "英文「heat」的常见义项「热」不符合主释义「模型」。"
       },
       {
-        "wordId": "w-drama",
-        "reason": "英文「drama」的常见义项「戏剧」不符合主释义「模型」。"
+        "wordId": "w-phrase",
+        "reason": "英文「phrase」的常见义项「短语」不符合主释义「模型」。"
       }
     ],
     "contextChoice": [
@@ -237,9 +237,9 @@
         "reason": "将「heat」代入可见句子后不表达主释义「模型」。"
       },
       {
-        "wordId": "w-drama",
-        "surfaceForm": "drama",
-        "reason": "将「drama」代入可见句子后不表达主释义「模型」。"
+        "wordId": "w-phrase",
+        "surfaceForm": "phrase",
+        "reason": "将「phrase」代入可见句子后不表达主释义「模型」。"
       }
     ],
     "spelling": null
@@ -395,19 +395,23 @@
     "wordId": "w-modification",
     "enToZh": [
       {
+        "wordId": "w-peril",
+        "reason": "选项「危险」不是「modification」的主释义「修改」或其他义项。"
+      },
+      {
         "wordId": "w-emperor",
         "reason": "选项「皇帝」不是「modification」的主释义「修改」或其他义项。"
       },
       {
         "wordId": "w-irrigation",
         "reason": "选项「灌溉」不是「modification」的主释义「修改」或其他义项。"
-      },
-      {
-        "wordId": "w-catalogue",
-        "reason": "选项「目录」不是「modification」的主释义「修改」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-peril",
+        "reason": "英文「peril」的常见义项「危险」不符合主释义「修改」。"
+      },
       {
         "wordId": "w-emperor",
         "reason": "英文「emperor」的常见义项「皇帝」不符合主释义「修改」。"
@@ -415,13 +419,14 @@
       {
         "wordId": "w-irrigation",
         "reason": "英文「irrigation」的常见义项「灌溉」不符合主释义「修改」。"
-      },
-      {
-        "wordId": "w-catalogue",
-        "reason": "英文「catalogue」的常见义项「目录」不符合主释义「修改」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-peril",
+        "surfaceForm": "peril",
+        "reason": "将「peril」代入可见句子后不表达主释义「修改」。"
+      },
       {
         "wordId": "w-emperor",
         "surfaceForm": "emperor",
@@ -431,11 +436,6 @@
         "wordId": "w-irrigation",
         "surfaceForm": "irrigation",
         "reason": "将「irrigation」代入可见句子后不表达主释义「修改」。"
-      },
-      {
-        "wordId": "w-catalogue",
-        "surfaceForm": "catalogue",
-        "reason": "将「catalogue」代入可见句子后不表达主释义「修改」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「相关联」不是「modify」的主释义「修改」或其他义项。"
       },
       {
-        "wordId": "w-elevate",
-        "reason": "选项「提升」不是「modify」的主释义「修改」或其他义项。"
+        "wordId": "w-precede",
+        "reason": "选项「先于」不是「modify」的主释义「修改」或其他义项。"
       },
       {
-        "wordId": "w-gauge",
-        "reason": "选项「估计」不是「modify」的主释义「修改」或其他义项。"
+        "wordId": "w-reinforce",
+        "reason": "选项「加强」不是「modify」的主释义「修改」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「correlate」的常见义项「相关联」不符合主释义「修改」。"
       },
       {
-        "wordId": "w-elevate",
-        "reason": "英文「elevate」的常见义项「提升」不符合主释义「修改」。"
+        "wordId": "w-precede",
+        "reason": "英文「precede」的常见义项「先于」不符合主释义「修改」。"
       },
       {
-        "wordId": "w-gauge",
-        "reason": "英文「gauge」的常见义项「估计」不符合主释义「修改」。"
+        "wordId": "w-reinforce",
+        "reason": "英文「reinforce」的常见义项「加强」不符合主释义「修改」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「correlate」代入可见句子后不表达主释义「修改」。"
       },
       {
-        "wordId": "w-elevate",
-        "surfaceForm": "elevate",
-        "reason": "将「elevate」代入可见句子后不表达主释义「修改」。"
+        "wordId": "w-precede",
+        "surfaceForm": "precede",
+        "reason": "将「precede」代入可见句子后不表达主释义「修改」。"
       },
       {
-        "wordId": "w-gauge",
-        "surfaceForm": "gauge",
-        "reason": "将「gauge」代入可见句子后不表达主释义「修改」。"
+        "wordId": "w-reinforce",
+        "surfaceForm": "reinforce",
+        "reason": "将「reinforce」代入可见句子后不表达主释义「修改」。"
       }
     ],
     "spelling": null
@@ -493,19 +493,23 @@
     "wordId": "w-modulate",
     "enToZh": [
       {
+        "wordId": "w-protend",
+        "reason": "选项「伸展」不是「modulate」的主释义「调节」或其他义项。"
+      },
+      {
         "wordId": "w-deform",
         "reason": "选项「使变形」不是「modulate」的主释义「调节」或其他义项。"
       },
       {
         "wordId": "w-quench",
         "reason": "选项「解渴」不是「modulate」的主释义「调节」或其他义项。"
-      },
-      {
-        "wordId": "w-envisage",
-        "reason": "选项「设想」不是「modulate」的主释义「调节」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-protend",
+        "reason": "英文「protend」的常见义项「伸展」不符合主释义「调节」。"
+      },
       {
         "wordId": "w-deform",
         "reason": "英文「deform」的常见义项「使变形」不符合主释义「调节」。"
@@ -513,13 +517,14 @@
       {
         "wordId": "w-quench",
         "reason": "英文「quench」的常见义项「解渴」不符合主释义「调节」。"
-      },
-      {
-        "wordId": "w-envisage",
-        "reason": "英文「envisage」的常见义项「设想」不符合主释义「调节」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-protend",
+        "surfaceForm": "protend",
+        "reason": "将「protend」代入可见句子后不表达主释义「调节」。"
+      },
       {
         "wordId": "w-deform",
         "surfaceForm": "deform",
@@ -529,11 +534,6 @@
         "wordId": "w-quench",
         "surfaceForm": "quench",
         "reason": "将「quench」代入可见句子后不表达主释义「调节」。"
-      },
-      {
-        "wordId": "w-envisage",
-        "surfaceForm": "envisage",
-        "reason": "将「envisage」代入可见句子后不表达主释义「调节」。"
       }
     ],
     "spelling": null
@@ -546,12 +546,12 @@
         "reason": "选项「继承人」不是「module」的主释义「模块」或其他义项。"
       },
       {
-        "wordId": "w-goose",
-        "reason": "选项「鹅」不是「module」的主释义「模块」或其他义项。"
+        "wordId": "w-odor",
+        "reason": "选项「气味」不是「module」的主释义「模块」或其他义项。"
       },
       {
-        "wordId": "w-glory",
-        "reason": "选项「荣耀」不是「module」的主释义「模块」或其他义项。"
+        "wordId": "w-precedent",
+        "reason": "选项「先例」不是「module」的主释义「模块」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「heir」的常见义项「继承人」不符合主释义「模块」。"
       },
       {
-        "wordId": "w-goose",
-        "reason": "英文「goose」的常见义项「鹅」不符合主释义「模块」。"
+        "wordId": "w-odor",
+        "reason": "英文「odor」的常见义项「气味」不符合主释义「模块」。"
       },
       {
-        "wordId": "w-glory",
-        "reason": "英文「glory」的常见义项「荣耀」不符合主释义「模块」。"
+        "wordId": "w-precedent",
+        "reason": "英文「precedent」的常见义项「先例」不符合主释义「模块」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「heir」代入可见句子后不表达主释义「模块」。"
       },
       {
-        "wordId": "w-goose",
-        "surfaceForm": "goose",
-        "reason": "将「goose」代入可见句子后不表达主释义「模块」。"
+        "wordId": "w-odor",
+        "surfaceForm": "odor",
+        "reason": "将「odor」代入可见句子后不表达主释义「模块」。"
       },
       {
-        "wordId": "w-glory",
-        "surfaceForm": "glory",
-        "reason": "将「glory」代入可见句子后不表达主释义「模块」。"
+        "wordId": "w-precedent",
+        "surfaceForm": "precedent",
+        "reason": "将「precedent」代入可见句子后不表达主释义「模块」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「仁慈」不是「moisture」的主释义「水分」或其他义项。"
       },
       {
-        "wordId": "w-genetics",
-        "reason": "选项「遗传学」不是「moisture」的主释义「水分」或其他义项。"
+        "wordId": "w-patron",
+        "reason": "选项「赞助人」不是「moisture」的主释义「水分」或其他义项。"
       },
       {
-        "wordId": "w-configuration",
-        "reason": "选项「配置」不是「moisture」的主释义「水分」或其他义项。"
+        "wordId": "w-genetics",
+        "reason": "选项「遗传学」不是「moisture」的主释义「水分」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「mercy」的常见义项「仁慈」不符合主释义「水分」。"
       },
       {
-        "wordId": "w-genetics",
-        "reason": "英文「genetics」的常见义项「遗传学」不符合主释义「水分」。"
+        "wordId": "w-patron",
+        "reason": "英文「patron」的常见义项「赞助人」不符合主释义「水分」。"
       },
       {
-        "wordId": "w-configuration",
-        "reason": "英文「configuration」的常见义项「配置」不符合主释义「水分」。"
+        "wordId": "w-genetics",
+        "reason": "英文「genetics」的常见义项「遗传学」不符合主释义「水分」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「mercy」代入可见句子后不表达主释义「水分」。"
       },
       {
+        "wordId": "w-patron",
+        "surfaceForm": "patron",
+        "reason": "将「patron」代入可见句子后不表达主释义「水分」。"
+      },
+      {
         "wordId": "w-genetics",
         "surfaceForm": "genetics",
         "reason": "将「genetics」代入可见句子后不表达主释义「水分」。"
-      },
-      {
-        "wordId": "w-configuration",
-        "surfaceForm": "configuration",
-        "reason": "将「configuration」代入可见句子后不表达主释义「水分」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「力量」不是「mom」的主释义「妈妈」或其他义项。"
       },
       {
-        "wordId": "w-coal",
-        "reason": "选项「煤」不是「mom」的主释义「妈妈」或其他义项。"
+        "wordId": "w-office",
+        "reason": "选项「办公室」不是「mom」的主释义「妈妈」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「force」的常见义项「力量」不符合主释义「妈妈」。"
       },
       {
-        "wordId": "w-coal",
-        "reason": "英文「coal」的常见义项「煤」不符合主释义「妈妈」。"
+        "wordId": "w-office",
+        "reason": "英文「office」的常见义项「办公室」不符合主释义「妈妈」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「force」代入可见句子后不表达主释义「妈妈」。"
       },
       {
-        "wordId": "w-coal",
-        "surfaceForm": "coal",
-        "reason": "将「coal」代入可见句子后不表达主释义「妈妈」。"
+        "wordId": "w-office",
+        "surfaceForm": "office",
+        "reason": "将「office」代入可见句子后不表达主释义「妈妈」。"
       }
     ],
     "spelling": null
@@ -746,8 +746,8 @@
         "reason": "选项「水果」不是「moment」的主释义「片刻」或其他义项。"
       },
       {
-        "wordId": "w-concert",
-        "reason": "选项「音乐会」不是「moment」的主释义「片刻」或其他义项。"
+        "wordId": "w-port",
+        "reason": "选项「港口」不是「moment」的主释义「片刻」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -760,8 +760,8 @@
         "reason": "英文「fruit」的常见义项「水果」不符合主释义「片刻」。"
       },
       {
-        "wordId": "w-concert",
-        "reason": "英文「concert」的常见义项「音乐会」不符合主释义「片刻」。"
+        "wordId": "w-port",
+        "reason": "英文「port」的常见义项「港口」不符合主释义「片刻」。"
       }
     ],
     "contextChoice": [
@@ -776,9 +776,9 @@
         "reason": "将「fruit」代入可见句子后不表达主释义「片刻」。"
       },
       {
-        "wordId": "w-concert",
-        "surfaceForm": "concert",
-        "reason": "将「concert」代入可见句子后不表达主释义「片刻」。"
+        "wordId": "w-port",
+        "surfaceForm": "port",
+        "reason": "将「port」代入可见句子后不表达主释义「片刻」。"
       }
     ],
     "spelling": null
@@ -844,8 +844,8 @@
         "reason": "选项「匆忙」不是「monarch」的主释义「君主」或其他义项。"
       },
       {
-        "wordId": "w-blaze",
-        "reason": "选项「大火」不是「monarch」的主释义「君主」或其他义项。"
+        "wordId": "w-paralysis",
+        "reason": "选项「瘫痪」不是「monarch」的主释义「君主」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -858,8 +858,8 @@
         "reason": "英文「haste」的常见义项「匆忙」不符合主释义「君主」。"
       },
       {
-        "wordId": "w-blaze",
-        "reason": "英文「blaze」的常见义项「大火」不符合主释义「君主」。"
+        "wordId": "w-paralysis",
+        "reason": "英文「paralysis」的常见义项「瘫痪」不符合主释义「君主」。"
       }
     ],
     "contextChoice": [
@@ -874,9 +874,9 @@
         "reason": "将「haste」代入可见句子后不表达主释义「君主」。"
       },
       {
-        "wordId": "w-blaze",
-        "surfaceForm": "blaze",
-        "reason": "将「blaze」代入可见句子后不表达主释义「君主」。"
+        "wordId": "w-paralysis",
+        "surfaceForm": "paralysis",
+        "reason": "将「paralysis」代入可见句子后不表达主释义「君主」。"
       }
     ],
     "spelling": null
@@ -934,47 +934,47 @@
     "wordId": "w-monitor",
     "enToZh": [
       {
+        "wordId": "w-prospect",
+        "reason": "选项「前景」不是「monitor」的主释义「显示器」或其他义项。"
+      },
+      {
+        "wordId": "w-mouse",
+        "reason": "选项「老鼠」不是「monitor」的主释义「显示器」或其他义项。"
+      },
+      {
         "wordId": "w-horse",
         "reason": "选项「马」不是「monitor」的主释义「显示器」或其他义项。"
-      },
-      {
-        "wordId": "w-implication",
-        "reason": "选项「含义」不是「monitor」的主释义「显示器」或其他义项。"
-      },
-      {
-        "wordId": "w-brother",
-        "reason": "选项「兄弟」不是「monitor」的主释义「显示器」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-prospect",
+        "reason": "英文「prospect」的常见义项「前景」不符合主释义「显示器」。"
+      },
+      {
+        "wordId": "w-mouse",
+        "reason": "英文「mouse」的常见义项「老鼠」不符合主释义「显示器」。"
+      },
+      {
         "wordId": "w-horse",
         "reason": "英文「horse」的常见义项「马」不符合主释义「显示器」。"
-      },
-      {
-        "wordId": "w-implication",
-        "reason": "英文「implication」的常见义项「含义」不符合主释义「显示器」。"
-      },
-      {
-        "wordId": "w-brother",
-        "reason": "英文「brother」的常见义项「兄弟」不符合主释义「显示器」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-prospect",
+        "surfaceForm": "prospect",
+        "reason": "将「prospect」代入可见句子后不表达主释义「显示器」。"
+      },
+      {
+        "wordId": "w-mouse",
+        "surfaceForm": "mouse",
+        "reason": "将「mouse」代入可见句子后不表达主释义「显示器」。"
+      },
+      {
         "wordId": "w-horse",
         "surfaceForm": "horse",
         "reason": "将「horse」代入可见句子后不表达主释义「显示器」。"
-      },
-      {
-        "wordId": "w-implication",
-        "surfaceForm": "implication",
-        "reason": "将「implication」代入可见句子后不表达主释义「显示器」。"
-      },
-      {
-        "wordId": "w-brother",
-        "surfaceForm": "brother",
-        "reason": "将「brother」代入可见句子后不表达主释义「显示器」。"
       }
     ],
     "spelling": null
@@ -1032,19 +1032,23 @@
     "wordId": "w-monkey",
     "enToZh": [
       {
+        "wordId": "w-nickname",
+        "reason": "选项「昵称」不是「monkey」的主释义「猴子」或其他义项。"
+      },
+      {
         "wordId": "w-aspiration",
         "reason": "选项「志向」不是「monkey」的主释义「猴子」或其他义项。"
       },
       {
         "wordId": "w-essence",
         "reason": "选项「本质」不是「monkey」的主释义「猴子」或其他义项。"
-      },
-      {
-        "wordId": "w-keeper",
-        "reason": "选项「看守人」不是「monkey」的主释义「猴子」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-nickname",
+        "reason": "英文「nickname」的常见义项「昵称」不符合主释义「猴子」。"
+      },
       {
         "wordId": "w-aspiration",
         "reason": "英文「aspiration」的常见义项「志向」不符合主释义「猴子」。"
@@ -1052,13 +1056,14 @@
       {
         "wordId": "w-essence",
         "reason": "英文「essence」的常见义项「本质」不符合主释义「猴子」。"
-      },
-      {
-        "wordId": "w-keeper",
-        "reason": "英文「keeper」的常见义项「看守人」不符合主释义「猴子」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-nickname",
+        "surfaceForm": "nickname",
+        "reason": "将「nickname」代入可见句子后不表达主释义「猴子」。"
+      },
       {
         "wordId": "w-aspiration",
         "surfaceForm": "aspiration",
@@ -1068,11 +1073,6 @@
         "wordId": "w-essence",
         "surfaceForm": "essence",
         "reason": "将「essence」代入可见句子后不表达主释义「猴子」。"
-      },
-      {
-        "wordId": "w-keeper",
-        "surfaceForm": "keeper",
-        "reason": "将「keeper」代入可见句子后不表达主释义「猴子」。"
       }
     ],
     "spelling": null
@@ -1089,8 +1089,8 @@
         "reason": "选项「骨折」不是「monopoly」的主释义「垄断」或其他义项。"
       },
       {
-        "wordId": "w-guilt",
-        "reason": "选项「内疚」不是「monopoly」的主释义「垄断」或其他义项。"
+        "wordId": "w-pedestrian",
+        "reason": "选项「行人」不是「monopoly」的主释义「垄断」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1103,8 +1103,8 @@
         "reason": "英文「fracture」的常见义项「骨折」不符合主释义「垄断」。"
       },
       {
-        "wordId": "w-guilt",
-        "reason": "英文「guilt」的常见义项「内疚」不符合主释义「垄断」。"
+        "wordId": "w-pedestrian",
+        "reason": "英文「pedestrian」的常见义项「行人」不符合主释义「垄断」。"
       }
     ],
     "contextChoice": [
@@ -1119,9 +1119,9 @@
         "reason": "将「fracture」代入可见句子后不表达主释义「垄断」。"
       },
       {
-        "wordId": "w-guilt",
-        "surfaceForm": "guilt",
-        "reason": "将「guilt」代入可见句子后不表达主释义「垄断」。"
+        "wordId": "w-pedestrian",
+        "surfaceForm": "pedestrian",
+        "reason": "将「pedestrian」代入可见句子后不表达主释义「垄断」。"
       }
     ],
     "spelling": null
@@ -1130,47 +1130,47 @@
     "wordId": "w-monster",
     "enToZh": [
       {
+        "wordId": "w-ratio",
+        "reason": "选项「比率」不是「monster」的主释义「怪物」或其他义项。"
+      },
+      {
+        "wordId": "w-realization",
+        "reason": "选项「领悟」不是「monster」的主释义「怪物」或其他义项。"
+      },
+      {
         "wordId": "w-carrier",
         "reason": "选项「运输公司」不是「monster」的主释义「怪物」或其他义项。"
-      },
-      {
-        "wordId": "w-composer",
-        "reason": "选项「作曲家」不是「monster」的主释义「怪物」或其他义项。"
-      },
-      {
-        "wordId": "w-log",
-        "reason": "选项「圆木」不是「monster」的主释义「怪物」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-ratio",
+        "reason": "英文「ratio」的常见义项「比率」不符合主释义「怪物」。"
+      },
+      {
+        "wordId": "w-realization",
+        "reason": "英文「realization」的常见义项「领悟」不符合主释义「怪物」。"
+      },
+      {
         "wordId": "w-carrier",
         "reason": "英文「carrier」的常见义项「运输公司」不符合主释义「怪物」。"
-      },
-      {
-        "wordId": "w-composer",
-        "reason": "英文「composer」的常见义项「作曲家」不符合主释义「怪物」。"
-      },
-      {
-        "wordId": "w-log",
-        "reason": "英文「log」的常见义项「圆木」不符合主释义「怪物」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-ratio",
+        "surfaceForm": "ratio",
+        "reason": "将「ratio」代入可见句子后不表达主释义「怪物」。"
+      },
+      {
+        "wordId": "w-realization",
+        "surfaceForm": "realization",
+        "reason": "将「realization」代入可见句子后不表达主释义「怪物」。"
+      },
+      {
         "wordId": "w-carrier",
         "surfaceForm": "carrier",
         "reason": "将「carrier」代入可见句子后不表达主释义「怪物」。"
-      },
-      {
-        "wordId": "w-composer",
-        "surfaceForm": "composer",
-        "reason": "将「composer」代入可见句子后不表达主释义「怪物」。"
-      },
-      {
-        "wordId": "w-log",
-        "surfaceForm": "log",
-        "reason": "将「log」代入可见句子后不表达主释义「怪物」。"
       }
     ],
     "spelling": null

@@ -1,0 +1,19 @@
+{
+  "reviewer": "independent-sample-review-main-135",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-perfectly",
+    "w-perfume",
+    "w-period",
+    "w-personally",
+    "w-perspective"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-perfume",
+      "stage": "pronunciation",
+      "message": "主词性为 n.、主释义为「香水」；固定来源只有 /pɝfˈjum/，主重音落在第二音节，这是动词读音；名词常见美式读音为 /ˈpɝfjum/。应补充名词读音的独立转写。"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "reviewer": "independent-sample-review-main-156",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-repeal",
+    "w-repeat",
+    "w-replace",
+    "w-replacement",
+    "w-reply",
+    "w-report",
+    "w-representative",
+    "w-republic",
+    "w-republican",
+    "w-request",
+    "w-require"
+  ],
+  "result": "pass",
+  "findings": []
+}

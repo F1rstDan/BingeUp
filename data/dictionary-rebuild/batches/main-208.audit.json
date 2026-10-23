@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-whereas",
+    "enToZh": [
+      {
+        "wordId": "w-though",
+        "reason": "选项「虽然」不是「whereas」的主释义「然而」或其他义项。"
+      },
+      {
+        "wordId": "w-while",
+        "reason": "选项「当……时」不是「whereas」的主释义「然而」或其他义项。"
+      },
+      {
+        "wordId": "w-whether",
+        "reason": "选项「是否」不是「whereas」的主释义「然而」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-though",
+        "reason": "英文「though」的常见义项「虽然」不符合主释义「然而」。"
+      },
+      {
+        "wordId": "w-while",
+        "reason": "英文「while」的常见义项「当……时」不符合主释义「然而」。"
+      },
+      {
+        "wordId": "w-whether",
+        "reason": "英文「whether」的常见义项「是否」不符合主释义「然而」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-though",
+        "surfaceForm": "though",
+        "reason": "将「though」代入可见句子后不表达主释义「然而」。"
+      },
+      {
+        "wordId": "w-while",
+        "surfaceForm": "while",
+        "reason": "将「while」代入可见句子后不表达主释义「然而」。"
+      },
+      {
+        "wordId": "w-whether",
+        "surfaceForm": "whether",
+        "reason": "将「whether」代入可见句子后不表达主释义「然而」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whereby",
+    "enToZh": [
+      {
+        "wordId": "w-incidentally",
+        "reason": "选项「顺便提一句」不是「whereby」的主释义「凭此」或其他义项。"
+      },
+      {
+        "wordId": "w-indefinitely",
+        "reason": "选项「无限期地」不是「whereby」的主释义「凭此」或其他义项。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "选项「本能地」不是「whereby」的主释义「凭此」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-incidentally",
+        "reason": "英文「incidentally」的常见义项「顺便提一句」不符合主释义「凭此」。"
+      },
+      {
+        "wordId": "w-indefinitely",
+        "reason": "英文「indefinitely」的常见义项「无限期地」不符合主释义「凭此」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "英文「instinctively」的常见义项「本能地」不符合主释义「凭此」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-incidentally",
+        "surfaceForm": "incidentally",
+        "reason": "将「incidentally」代入可见句子后不表达主释义「凭此」。"
+      },
+      {
+        "wordId": "w-indefinitely",
+        "surfaceForm": "indefinitely",
+        "reason": "将「indefinitely」代入可见句子后不表达主释义「凭此」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "surfaceForm": "instinctively",
+        "reason": "将「instinctively」代入可见句子后不表达主释义「凭此」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-wherever",
+    "enToZh": [
+      {
+        "wordId": "w-while",
+        "reason": "选项「当……时」不是「wherever」的主释义「无论哪里」或其他义项。"
+      },
+      {
+        "wordId": "w-whenever",
+        "reason": "选项「每当」不是「wherever」的主释义「无论哪里」或其他义项。"
+      },
+      {
+        "wordId": "w-although",
+        "reason": "选项「虽然」不是「wherever」的主释义「无论哪里」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-while",
+        "reason": "英文「while」的常见义项「当……时」不符合主释义「无论哪里」。"
+      },
+      {
+        "wordId": "w-whenever",
+        "reason": "英文「whenever」的常见义项「每当」不符合主释义「无论哪里」。"
+      },
+      {
+        "wordId": "w-although",
+        "reason": "英文「although」的常见义项「虽然」不符合主释义「无论哪里」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-while",
+        "surfaceForm": "while",
+        "reason": "将「while」代入可见句子后不表达主释义「无论哪里」。"
+      },
+      {
+        "wordId": "w-whenever",
+        "surfaceForm": "whenever",
+        "reason": "将「whenever」代入可见句子后不表达主释义「无论哪里」。"
+      },
+      {
+        "wordId": "w-although",
+        "surfaceForm": "although",
+        "reason": "将「although」代入可见句子后不表达主释义「无论哪里」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whether",
+    "enToZh": [
+      {
+        "wordId": "w-whenever",
+        "reason": "选项「每当」不是「whether」的主释义「是否」或其他义项。"
+      },
+      {
+        "wordId": "w-whereas",
+        "reason": "选项「然而」不是「whether」的主释义「是否」或其他义项。"
+      },
+      {
+        "wordId": "w-whilst",
+        "reason": "选项「当……时」不是「whether」的主释义「是否」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-whenever",
+        "reason": "英文「whenever」的常见义项「每当」不符合主释义「是否」。"
+      },
+      {
+        "wordId": "w-whereas",
+        "reason": "英文「whereas」的常见义项「然而」不符合主释义「是否」。"
+      },
+      {
+        "wordId": "w-whilst",
+        "reason": "英文「whilst」的常见义项「当……时」不符合主释义「是否」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-whenever",
+        "surfaceForm": "whenever",
+        "reason": "将「whenever」代入可见句子后不表达主释义「是否」。"
+      },
+      {
+        "wordId": "w-whereas",
+        "surfaceForm": "whereas",
+        "reason": "将「whereas」代入可见句子后不表达主释义「是否」。"
+      },
+      {
+        "wordId": "w-whilst",
+        "surfaceForm": "whilst",
+        "reason": "将「whilst」代入可见句子后不表达主释义「是否」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whichever",
+    "enToZh": [
+      {
+        "wordId": "w-whose",
+        "reason": "选项「谁的」不是「whichever」的主释义「无论哪个」或其他义项。"
+      },
+      {
+        "wordId": "w-neither",
+        "reason": "选项「两者都不」不是「whichever」的主释义「无论哪个」或其他义项。"
+      },
+      {
+        "wordId": "w-less",
+        "reason": "选项「更少的」不是「whichever」的主释义「无论哪个」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-whose",
+        "reason": "英文「whose」的常见义项「谁的」不符合主释义「无论哪个」。"
+      },
+      {
+        "wordId": "w-neither",
+        "reason": "英文「neither」的常见义项「两者都不」不符合主释义「无论哪个」。"
+      },
+      {
+        "wordId": "w-less",
+        "reason": "英文「less」的常见义项「更少的」不符合主释义「无论哪个」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-whose",
+        "surfaceForm": "whose",
+        "reason": "将「whose」代入可见句子后不表达主释义「无论哪个」。"
+      },
+      {
+        "wordId": "w-neither",
+        "surfaceForm": "neither",
+        "reason": "将「neither」代入可见句子后不表达主释义「无论哪个」。"
+      },
+      {
+        "wordId": "w-less",
+        "surfaceForm": "less",
+        "reason": "将「less」代入可见句子后不表达主释义「无论哪个」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-while",
+    "enToZh": [
+      {
+        "wordId": "w-whereas",
+        "reason": "选项「然而」不是「while」的主释义「当……时」或其他义项。"
+      },
+      {
+        "wordId": "w-nor",
+        "reason": "选项「也不」不是「while」的主释义「当……时」或其他义项。"
+      },
+      {
+        "wordId": "w-whether",
+        "reason": "选项「是否」不是「while」的主释义「当……时」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-whereas",
+        "reason": "英文「whereas」的常见义项「然而」不符合主释义「当……时」。"
+      },
+      {
+        "wordId": "w-nor",
+        "reason": "英文「nor」的常见义项「也不」不符合主释义「当……时」。"
+      },
+      {
+        "wordId": "w-whether",
+        "reason": "英文「whether」的常见义项「是否」不符合主释义「当……时」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-whereas",
+        "surfaceForm": "whereas",
+        "reason": "将「whereas」代入可见句子后不表达主释义「当……时」。"
+      },
+      {
+        "wordId": "w-nor",
+        "surfaceForm": "nor",
+        "reason": "将「nor」代入可见句子后不表达主释义「当……时」。"
+      },
+      {
+        "wordId": "w-whether",
+        "surfaceForm": "whether",
+        "reason": "将「whether」代入可见句子后不表达主释义「当……时」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whilst",
+    "enToZh": [
+      {
+        "wordId": "w-whenever",
+        "reason": "选项「每当」不是「whilst」的主释义「当……时」或其他义项。"
+      },
+      {
+        "wordId": "w-nor",
+        "reason": "选项「也不」不是「whilst」的主释义「当……时」或其他义项。"
+      },
+      {
+        "wordId": "w-whereas",
+        "reason": "选项「然而」不是「whilst」的主释义「当……时」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-whenever",
+        "reason": "英文「whenever」的常见义项「每当」不符合主释义「当……时」。"
+      },
+      {
+        "wordId": "w-nor",
+        "reason": "英文「nor」的常见义项「也不」不符合主释义「当……时」。"
+      },
+      {
+        "wordId": "w-whereas",
+        "reason": "英文「whereas」的常见义项「然而」不符合主释义「当……时」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-whenever",
+        "surfaceForm": "whenever",
+        "reason": "将「whenever」代入可见句子后不表达主释义「当……时」。"
+      },
+      {
+        "wordId": "w-nor",
+        "surfaceForm": "nor",
+        "reason": "将「nor」代入可见句子后不表达主释义「当……时」。"
+      },
+      {
+        "wordId": "w-whereas",
+        "surfaceForm": "whereas",
+        "reason": "将「whereas」代入可见句子后不表达主释义「当……时」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whip",
+    "enToZh": [
+      {
+        "wordId": "w-dessert",
+        "reason": "选项「甜点」不是「whip」的主释义「鞭子」或其他义项。"
+      },
+      {
+        "wordId": "w-jar",
+        "reason": "选项「罐子」不是「whip」的主释义「鞭子」或其他义项。"
+      },
+      {
+        "wordId": "w-foam",
+        "reason": "选项「泡沫」不是「whip」的主释义「鞭子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dessert",
+        "reason": "英文「dessert」的常见义项「甜点」不符合主释义「鞭子」。"
+      },
+      {
+        "wordId": "w-jar",
+        "reason": "英文「jar」的常见义项「罐子」不符合主释义「鞭子」。"
+      },
+      {
+        "wordId": "w-foam",
+        "reason": "英文「foam」的常见义项「泡沫」不符合主释义「鞭子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dessert",
+        "surfaceForm": "dessert",
+        "reason": "将「dessert」代入可见句子后不表达主释义「鞭子」。"
+      },
+      {
+        "wordId": "w-jar",
+        "surfaceForm": "jar",
+        "reason": "将「jar」代入可见句子后不表达主释义「鞭子」。"
+      },
+      {
+        "wordId": "w-foam",
+        "surfaceForm": "foam",
+        "reason": "将「foam」代入可见句子后不表达主释义「鞭子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whirl",
+    "enToZh": [
+      {
+        "wordId": "w-traverse",
+        "reason": "选项「穿过」不是「whirl」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-meditate",
+        "reason": "选项「冥想」不是「whirl」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-propagate",
+        "reason": "选项「繁殖」不是「whirl」的主释义「旋转」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-traverse",
+        "reason": "英文「traverse」的常见义项「穿过」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-meditate",
+        "reason": "英文「meditate」的常见义项「冥想」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-propagate",
+        "reason": "英文「propagate」的常见义项「繁殖」不符合主释义「旋转」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-traverse",
+        "surfaceForm": "traverse",
+        "reason": "将「traverse」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-meditate",
+        "surfaceForm": "meditate",
+        "reason": "将「meditate」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-propagate",
+        "surfaceForm": "propagate",
+        "reason": "将「propagate」代入可见句子后不表达主释义「旋转」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whisker",
+    "enToZh": [
+      {
+        "wordId": "w-compatibility",
+        "reason": "选项「兼容性」不是「whisker」的主释义「动物的胡须」或其他义项。"
+      },
+      {
+        "wordId": "w-famine",
+        "reason": "选项「饥荒」不是「whisker」的主释义「动物的胡须」或其他义项。"
+      },
+      {
+        "wordId": "w-impetus",
+        "reason": "选项「推动力」不是「whisker」的主释义「动物的胡须」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-compatibility",
+        "reason": "英文「compatibility」的常见义项「兼容性」不符合主释义「动物的胡须」。"
+      },
+      {
+        "wordId": "w-famine",
+        "reason": "英文「famine」的常见义项「饥荒」不符合主释义「动物的胡须」。"
+      },
+      {
+        "wordId": "w-impetus",
+        "reason": "英文「impetus」的常见义项「推动力」不符合主释义「动物的胡须」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-compatibility",
+        "surfaceForm": "compatibility",
+        "reason": "将「compatibility」代入可见句子后不表达主释义「动物的胡须」。"
+      },
+      {
+        "wordId": "w-famine",
+        "surfaceForm": "famine",
+        "reason": "将「famine」代入可见句子后不表达主释义「动物的胡须」。"
+      },
+      {
+        "wordId": "w-impetus",
+        "surfaceForm": "impetus",
+        "reason": "将「impetus」代入可见句子后不表达主释义「动物的胡须」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whisky",
+    "enToZh": [
+      {
+        "wordId": "w-maths",
+        "reason": "选项「数学」不是「whisky」的主释义「威士忌」或其他义项。"
+      },
+      {
+        "wordId": "w-waggon",
+        "reason": "选项「马车」不是「whisky」的主释义「威士忌」或其他义项。"
+      },
+      {
+        "wordId": "w-consul",
+        "reason": "选项「领事」不是「whisky」的主释义「威士忌」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-maths",
+        "reason": "英文「maths」的常见义项「数学」不符合主释义「威士忌」。"
+      },
+      {
+        "wordId": "w-waggon",
+        "reason": "英文「waggon」的常见义项「马车」不符合主释义「威士忌」。"
+      },
+      {
+        "wordId": "w-consul",
+        "reason": "英文「consul」的常见义项「领事」不符合主释义「威士忌」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-maths",
+        "surfaceForm": "maths",
+        "reason": "将「maths」代入可见句子后不表达主释义「威士忌」。"
+      },
+      {
+        "wordId": "w-waggon",
+        "surfaceForm": "waggon",
+        "reason": "将「waggon」代入可见句子后不表达主释义「威士忌」。"
+      },
+      {
+        "wordId": "w-consul",
+        "surfaceForm": "consul",
+        "reason": "将「consul」代入可见句子后不表达主释义「威士忌」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whisper",
+    "enToZh": [
+      {
+        "wordId": "w-claim",
+        "reason": "选项「声称」不是「whisper」的主释义「低声说」或其他义项。"
+      },
+      {
+        "wordId": "w-assure",
+        "reason": "选项「向…保证」不是「whisper」的主释义「低声说」或其他义项。"
+      },
+      {
+        "wordId": "w-admire",
+        "reason": "选项「钦佩」不是「whisper」的主释义「低声说」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-claim",
+        "reason": "英文「claim」的常见义项「声称」不符合主释义「低声说」。"
+      },
+      {
+        "wordId": "w-assure",
+        "reason": "英文「assure」的常见义项「向…保证」不符合主释义「低声说」。"
+      },
+      {
+        "wordId": "w-admire",
+        "reason": "英文「admire」的常见义项「钦佩」不符合主释义「低声说」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-claim",
+        "surfaceForm": "claim",
+        "reason": "将「claim」代入可见句子后不表达主释义「低声说」。"
+      },
+      {
+        "wordId": "w-assure",
+        "surfaceForm": "assure",
+        "reason": "将「assure」代入可见句子后不表达主释义「低声说」。"
+      },
+      {
+        "wordId": "w-admire",
+        "surfaceForm": "admire",
+        "reason": "将「admire」代入可见句子后不表达主释义「低声说」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whistle",
+    "enToZh": [
+      {
+        "wordId": "w-apologize",
+        "reason": "选项「道歉」不是「whistle」的主释义「吹口哨」或其他义项。"
+      },
+      {
+        "wordId": "w-fail",
+        "reason": "选项「失败」不是「whistle」的主释义「吹口哨」或其他义项。"
+      },
+      {
+        "wordId": "w-surround",
+        "reason": "选项「环绕」不是「whistle」的主释义「吹口哨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-apologize",
+        "reason": "英文「apologize」的常见义项「道歉」不符合主释义「吹口哨」。"
+      },
+      {
+        "wordId": "w-fail",
+        "reason": "英文「fail」的常见义项「失败」不符合主释义「吹口哨」。"
+      },
+      {
+        "wordId": "w-surround",
+        "reason": "英文「surround」的常见义项「环绕」不符合主释义「吹口哨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-apologize",
+        "surfaceForm": "apologize",
+        "reason": "将「apologize」代入可见句子后不表达主释义「吹口哨」。"
+      },
+      {
+        "wordId": "w-fail",
+        "surfaceForm": "fail",
+        "reason": "将「fail」代入可见句子后不表达主释义「吹口哨」。"
+      },
+      {
+        "wordId": "w-surround",
+        "surfaceForm": "surround",
+        "reason": "将「surround」代入可见句子后不表达主释义「吹口哨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-white",
+    "enToZh": [
+      {
+        "wordId": "w-main",
+        "reason": "选项「主要的」不是「white」的主释义「白色的」或其他义项。"
+      },
+      {
+        "wordId": "w-sick",
+        "reason": "选项「生病的」不是「white」的主释义「白色的」或其他义项。"
+      },
+      {
+        "wordId": "w-giant",
+        "reason": "选项「巨大的」不是「white」的主释义「白色的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-main",
+        "reason": "英文「main」的常见义项「主要的」不符合主释义「白色的」。"
+      },
+      {
+        "wordId": "w-sick",
+        "reason": "英文「sick」的常见义项「生病的」不符合主释义「白色的」。"
+      },
+      {
+        "wordId": "w-giant",
+        "reason": "英文「giant」的常见义项「巨大的」不符合主释义「白色的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-main",
+        "surfaceForm": "main",
+        "reason": "将「main」代入可见句子后不表达主释义「白色的」。"
+      },
+      {
+        "wordId": "w-sick",
+        "surfaceForm": "sick",
+        "reason": "将「sick」代入可见句子后不表达主释义「白色的」。"
+      },
+      {
+        "wordId": "w-giant",
+        "surfaceForm": "giant",
+        "reason": "将「giant」代入可见句子后不表达主释义「白色的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whitewash",
+    "enToZh": [
+      {
+        "wordId": "w-disorient",
+        "reason": "选项「使迷失方向」不是「whitewash」的主释义「粉刷」或其他义项。"
+      },
+      {
+        "wordId": "w-decompose",
+        "reason": "选项「分解」不是「whitewash」的主释义「粉刷」或其他义项。"
+      },
+      {
+        "wordId": "w-overhang",
+        "reason": "选项「悬垂」不是「whitewash」的主释义「粉刷」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disorient",
+        "reason": "英文「disorient」的常见义项「使迷失方向」不符合主释义「粉刷」。"
+      },
+      {
+        "wordId": "w-decompose",
+        "reason": "英文「decompose」的常见义项「分解」不符合主释义「粉刷」。"
+      },
+      {
+        "wordId": "w-overhang",
+        "reason": "英文「overhang」的常见义项「悬垂」不符合主释义「粉刷」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disorient",
+        "surfaceForm": "disorient",
+        "reason": "将「disorient」代入可见句子后不表达主释义「粉刷」。"
+      },
+      {
+        "wordId": "w-decompose",
+        "surfaceForm": "decompose",
+        "reason": "将「decompose」代入可见句子后不表达主释义「粉刷」。"
+      },
+      {
+        "wordId": "w-overhang",
+        "surfaceForm": "overhang",
+        "reason": "将「overhang」代入可见句子后不表达主释义「粉刷」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whoever",
+    "enToZh": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "选项「我们自己」不是「whoever」的主释义「无论谁」或其他义项。"
+      },
+      {
+        "wordId": "w-herself",
+        "reason": "选项「她自己」不是「whoever」的主释义「无论谁」或其他义项。"
+      },
+      {
+        "wordId": "w-itself",
+        "reason": "选项「它自己」不是「whoever」的主释义「无论谁」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "英文「ourselves」的常见义项「我们自己」不符合主释义「无论谁」。"
+      },
+      {
+        "wordId": "w-herself",
+        "reason": "英文「herself」的常见义项「她自己」不符合主释义「无论谁」。"
+      },
+      {
+        "wordId": "w-itself",
+        "reason": "英文「itself」的常见义项「它自己」不符合主释义「无论谁」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ourselves",
+        "surfaceForm": "ourselves",
+        "reason": "将「ourselves」代入可见句子后不表达主释义「无论谁」。"
+      },
+      {
+        "wordId": "w-herself",
+        "surfaceForm": "herself",
+        "reason": "将「herself」代入可见句子后不表达主释义「无论谁」。"
+      },
+      {
+        "wordId": "w-itself",
+        "surfaceForm": "itself",
+        "reason": "将「itself」代入可见句子后不表达主释义「无论谁」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whole",
+    "enToZh": [
+      {
+        "wordId": "w-japanese",
+        "reason": "选项「日本的」不是「whole」的主释义「整个的」或其他义项。"
+      },
+      {
+        "wordId": "w-parallel",
+        "reason": "选项「平行的」不是「whole」的主释义「整个的」或其他义项。"
+      },
+      {
+        "wordId": "w-italian",
+        "reason": "选项「意大利的」不是「whole」的主释义「整个的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-japanese",
+        "reason": "英文「Japanese」的常见义项「日本的」不符合主释义「整个的」。"
+      },
+      {
+        "wordId": "w-parallel",
+        "reason": "英文「parallel」的常见义项「平行的」不符合主释义「整个的」。"
+      },
+      {
+        "wordId": "w-italian",
+        "reason": "英文「Italian」的常见义项「意大利的」不符合主释义「整个的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-japanese",
+        "surfaceForm": "Japanese",
+        "reason": "将「Japanese」代入可见句子后不表达主释义「整个的」。"
+      },
+      {
+        "wordId": "w-parallel",
+        "surfaceForm": "parallel",
+        "reason": "将「parallel」代入可见句子后不表达主释义「整个的」。"
+      },
+      {
+        "wordId": "w-italian",
+        "surfaceForm": "Italian",
+        "reason": "将「Italian」代入可见句子后不表达主释义「整个的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-wholly",
+    "enToZh": [
+      {
+        "wordId": "w-secondly",
+        "reason": "选项「其次」不是「wholly」的主释义「完全地」或其他义项。"
+      },
+      {
+        "wordId": "w-predominantly",
+        "reason": "选项「主要地」不是「wholly」的主释义「完全地」或其他义项。"
+      },
+      {
+        "wordId": "w-thereafter",
+        "reason": "选项「此后」不是「wholly」的主释义「完全地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-secondly",
+        "reason": "英文「secondly」的常见义项「其次」不符合主释义「完全地」。"
+      },
+      {
+        "wordId": "w-predominantly",
+        "reason": "英文「predominantly」的常见义项「主要地」不符合主释义「完全地」。"
+      },
+      {
+        "wordId": "w-thereafter",
+        "reason": "英文「thereafter」的常见义项「此后」不符合主释义「完全地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-secondly",
+        "surfaceForm": "secondly",
+        "reason": "将「secondly」代入可见句子后不表达主释义「完全地」。"
+      },
+      {
+        "wordId": "w-predominantly",
+        "surfaceForm": "predominantly",
+        "reason": "将「predominantly」代入可见句子后不表达主释义「完全地」。"
+      },
+      {
+        "wordId": "w-thereafter",
+        "surfaceForm": "thereafter",
+        "reason": "将「thereafter」代入可见句子后不表达主释义「完全地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whom",
+    "enToZh": [
+      {
+        "wordId": "w-anyone",
+        "reason": "选项「任何人」不是「whom」的主释义「谁」或其他义项。"
+      },
+      {
+        "wordId": "w-himself",
+        "reason": "选项「他自己」不是「whom」的主释义「谁」或其他义项。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "选项「我的」不是「whom」的主释义「谁」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-anyone",
+        "reason": "英文「anyone」的常见义项「任何人」不符合主释义「谁」。"
+      },
+      {
+        "wordId": "w-himself",
+        "reason": "英文「himself」的常见义项「他自己」不符合主释义「谁」。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "英文「mine」的常见义项「我的」不符合主释义「谁」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-anyone",
+        "surfaceForm": "anyone",
+        "reason": "将「anyone」代入可见句子后不表达主释义「谁」。"
+      },
+      {
+        "wordId": "w-himself",
+        "surfaceForm": "himself",
+        "reason": "将「himself」代入可见句子后不表达主释义「谁」。"
+      },
+      {
+        "wordId": "w-mine",
+        "surfaceForm": "mine",
+        "reason": "将「mine」代入可见句子后不表达主释义「谁」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-whose",
+    "enToZh": [
+      {
+        "wordId": "w-neither",
+        "reason": "选项「两者都不」不是「whose」的主释义「谁的」或其他义项。"
+      },
+      {
+        "wordId": "w-less",
+        "reason": "选项「更少的」不是「whose」的主释义「谁的」或其他义项。"
+      },
+      {
+        "wordId": "w-whichever",
+        "reason": "选项「无论哪个」不是「whose」的主释义「谁的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-neither",
+        "reason": "英文「neither」的常见义项「两者都不」不符合主释义「谁的」。"
+      },
+      {
+        "wordId": "w-less",
+        "reason": "英文「less」的常见义项「更少的」不符合主释义「谁的」。"
+      },
+      {
+        "wordId": "w-whichever",
+        "reason": "英文「whichever」的常见义项「无论哪个」不符合主释义「谁的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-neither",
+        "surfaceForm": "neither",
+        "reason": "将「neither」代入可见句子后不表达主释义「谁的」。"
+      },
+      {
+        "wordId": "w-less",
+        "surfaceForm": "less",
+        "reason": "将「less」代入可见句子后不表达主释义「谁的」。"
+      },
+      {
+        "wordId": "w-whichever",
+        "surfaceForm": "whichever",
+        "reason": "将「whichever」代入可见句子后不表达主释义「谁的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-why",
+    "enToZh": [
+      {
+        "wordId": "w-even",
+        "reason": "选项「甚至」不是「why」的主释义「为什么」或其他义项。"
+      },
+      {
+        "wordId": "w-easily",
+        "reason": "选项「容易地」不是「why」的主释义「为什么」或其他义项。"
+      },
+      {
+        "wordId": "w-eventually",
+        "reason": "选项「最终」不是「why」的主释义「为什么」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-even",
+        "reason": "英文「even」的常见义项「甚至」不符合主释义「为什么」。"
+      },
+      {
+        "wordId": "w-easily",
+        "reason": "英文「easily」的常见义项「容易地」不符合主释义「为什么」。"
+      },
+      {
+        "wordId": "w-eventually",
+        "reason": "英文「eventually」的常见义项「最终」不符合主释义「为什么」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-even",
+        "surfaceForm": "even",
+        "reason": "将「even」代入可见句子后不表达主释义「为什么」。"
+      },
+      {
+        "wordId": "w-easily",
+        "surfaceForm": "easily",
+        "reason": "将「easily」代入可见句子后不表达主释义「为什么」。"
+      },
+      {
+        "wordId": "w-eventually",
+        "surfaceForm": "eventually",
+        "reason": "将「eventually」代入可见句子后不表达主释义「为什么」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-widely",
+    "enToZh": [
+      {
+        "wordId": "w-here",
+        "reason": "选项「这里」不是「widely」的主释义「广泛地」或其他义项。"
+      },
+      {
+        "wordId": "w-definitely",
+        "reason": "选项「肯定地」不是「widely」的主释义「广泛地」或其他义项。"
+      },
+      {
+        "wordId": "w-normally",
+        "reason": "选项「通常」不是「widely」的主释义「广泛地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-here",
+        "reason": "英文「here」的常见义项「这里」不符合主释义「广泛地」。"
+      },
+      {
+        "wordId": "w-definitely",
+        "reason": "英文「definitely」的常见义项「肯定地」不符合主释义「广泛地」。"
+      },
+      {
+        "wordId": "w-normally",
+        "reason": "英文「normally」的常见义项「通常」不符合主释义「广泛地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-here",
+        "surfaceForm": "here",
+        "reason": "将「here」代入可见句子后不表达主释义「广泛地」。"
+      },
+      {
+        "wordId": "w-definitely",
+        "surfaceForm": "definitely",
+        "reason": "将「definitely」代入可见句子后不表达主释义「广泛地」。"
+      },
+      {
+        "wordId": "w-normally",
+        "surfaceForm": "normally",
+        "reason": "将「normally」代入可见句子后不表达主释义「广泛地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-widen",
+    "enToZh": [
+      {
+        "wordId": "w-oblige",
+        "reason": "选项「迫使」不是「widen」的主释义「加宽」或其他义项。"
+      },
+      {
+        "wordId": "w-groan",
+        "reason": "选项「呻吟」不是「widen」的主释义「加宽」或其他义项。"
+      },
+      {
+        "wordId": "w-discard",
+        "reason": "选项「丢弃」不是「widen」的主释义「加宽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-oblige",
+        "reason": "英文「oblige」的常见义项「迫使」不符合主释义「加宽」。"
+      },
+      {
+        "wordId": "w-groan",
+        "reason": "英文「groan」的常见义项「呻吟」不符合主释义「加宽」。"
+      },
+      {
+        "wordId": "w-discard",
+        "reason": "英文「discard」的常见义项「丢弃」不符合主释义「加宽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-oblige",
+        "surfaceForm": "oblige",
+        "reason": "将「oblige」代入可见句子后不表达主释义「加宽」。"
+      },
+      {
+        "wordId": "w-groan",
+        "surfaceForm": "groan",
+        "reason": "将「groan」代入可见句子后不表达主释义「加宽」。"
+      },
+      {
+        "wordId": "w-discard",
+        "surfaceForm": "discard",
+        "reason": "将「discard」代入可见句子后不表达主释义「加宽」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-widow",
+    "enToZh": [
+      {
+        "wordId": "w-basement",
+        "reason": "选项「地下室」不是「widow」的主释义「寡妇」或其他义项。"
+      },
+      {
+        "wordId": "w-superiority",
+        "reason": "选项「优势」不是「widow」的主释义「寡妇」或其他义项。"
+      },
+      {
+        "wordId": "w-documentary",
+        "reason": "选项「纪录片」不是「widow」的主释义「寡妇」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-basement",
+        "reason": "英文「basement」的常见义项「地下室」不符合主释义「寡妇」。"
+      },
+      {
+        "wordId": "w-superiority",
+        "reason": "英文「superiority」的常见义项「优势」不符合主释义「寡妇」。"
+      },
+      {
+        "wordId": "w-documentary",
+        "reason": "英文「documentary」的常见义项「纪录片」不符合主释义「寡妇」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-basement",
+        "surfaceForm": "basement",
+        "reason": "将「basement」代入可见句子后不表达主释义「寡妇」。"
+      },
+      {
+        "wordId": "w-superiority",
+        "surfaceForm": "superiority",
+        "reason": "将「superiority」代入可见句子后不表达主释义「寡妇」。"
+      },
+      {
+        "wordId": "w-documentary",
+        "surfaceForm": "documentary",
+        "reason": "将「documentary」代入可见句子后不表达主释义「寡妇」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-width",
+    "enToZh": [
+      {
+        "wordId": "w-accommodation",
+        "reason": "选项「住处」不是「width」的主释义「宽度」或其他义项。"
+      },
+      {
+        "wordId": "w-demand",
+        "reason": "选项「需求」不是「width」的主释义「宽度」或其他义项。"
+      },
+      {
+        "wordId": "w-clock",
+        "reason": "选项「时钟」不是「width」的主释义「宽度」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accommodation",
+        "reason": "英文「accommodation」的常见义项「住处」不符合主释义「宽度」。"
+      },
+      {
+        "wordId": "w-demand",
+        "reason": "英文「demand」的常见义项「需求」不符合主释义「宽度」。"
+      },
+      {
+        "wordId": "w-clock",
+        "reason": "英文「clock」的常见义项「时钟」不符合主释义「宽度」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accommodation",
+        "surfaceForm": "accommodation",
+        "reason": "将「accommodation」代入可见句子后不表达主释义「宽度」。"
+      },
+      {
+        "wordId": "w-demand",
+        "surfaceForm": "demand",
+        "reason": "将「demand」代入可见句子后不表达主释义「宽度」。"
+      },
+      {
+        "wordId": "w-clock",
+        "surfaceForm": "clock",
+        "reason": "将「clock」代入可见句子后不表达主释义「宽度」。"
+      }
+    ],
+    "spelling": null
+  }
+]

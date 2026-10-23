@@ -150,19 +150,23 @@
     "wordId": "w-loaf",
     "enToZh": [
       {
+        "wordId": "w-province",
+        "reason": "选项「省」不是「loaf」的主释义「一条面包」或其他义项。"
+      },
+      {
         "wordId": "w-jungle",
         "reason": "选项「丛林」不是「loaf」的主释义「一条面包」或其他义项。"
       },
       {
         "wordId": "w-knob",
         "reason": "选项「旋钮」不是「loaf」的主释义「一条面包」或其他义项。"
-      },
-      {
-        "wordId": "w-feedback",
-        "reason": "选项「反馈」不是「loaf」的主释义「一条面包」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-province",
+        "reason": "英文「province」的常见义项「省」不符合主释义「一条面包」。"
+      },
       {
         "wordId": "w-jungle",
         "reason": "英文「jungle」的常见义项「丛林」不符合主释义「一条面包」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-knob",
         "reason": "英文「knob」的常见义项「旋钮」不符合主释义「一条面包」。"
-      },
-      {
-        "wordId": "w-feedback",
-        "reason": "英文「feedback」的常见义项「反馈」不符合主释义「一条面包」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-province",
+        "surfaceForm": "province",
+        "reason": "将「province」代入可见句子后不表达主释义「一条面包」。"
+      },
       {
         "wordId": "w-jungle",
         "surfaceForm": "jungle",
@@ -186,11 +191,6 @@
         "wordId": "w-knob",
         "surfaceForm": "knob",
         "reason": "将「knob」代入可见句子后不表达主释义「一条面包」。"
-      },
-      {
-        "wordId": "w-feedback",
-        "surfaceForm": "feedback",
-        "reason": "将「feedback」代入可见句子后不表达主释义「一条面包」。"
       }
     ],
     "spelling": null
@@ -199,47 +199,47 @@
     "wordId": "w-loan",
     "enToZh": [
       {
+        "wordId": "w-parent",
+        "reason": "选项「家长」不是「loan」的主释义「贷款」或其他义项。"
+      },
+      {
+        "wordId": "w-race",
+        "reason": "选项「比赛」不是「loan」的主释义「贷款」或其他义项。"
+      },
+      {
         "wordId": "w-bath",
         "reason": "选项「洗澡」不是「loan」的主释义「贷款」或其他义项。"
-      },
-      {
-        "wordId": "w-color",
-        "reason": "选项「颜色」不是「loan」的主释义「贷款」或其他义项。"
-      },
-      {
-        "wordId": "w-hero",
-        "reason": "选项「英雄」不是「loan」的主释义「贷款」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-parent",
+        "reason": "英文「parent」的常见义项「家长」不符合主释义「贷款」。"
+      },
+      {
+        "wordId": "w-race",
+        "reason": "英文「race」的常见义项「比赛」不符合主释义「贷款」。"
+      },
+      {
         "wordId": "w-bath",
         "reason": "英文「bath」的常见义项「洗澡」不符合主释义「贷款」。"
-      },
-      {
-        "wordId": "w-color",
-        "reason": "英文「color」的常见义项「颜色」不符合主释义「贷款」。"
-      },
-      {
-        "wordId": "w-hero",
-        "reason": "英文「hero」的常见义项「英雄」不符合主释义「贷款」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-parent",
+        "surfaceForm": "parent",
+        "reason": "将「parent」代入可见句子后不表达主释义「贷款」。"
+      },
+      {
+        "wordId": "w-race",
+        "surfaceForm": "race",
+        "reason": "将「race」代入可见句子后不表达主释义「贷款」。"
+      },
+      {
         "wordId": "w-bath",
         "surfaceForm": "bath",
         "reason": "将「bath」代入可见句子后不表达主释义「贷款」。"
-      },
-      {
-        "wordId": "w-color",
-        "surfaceForm": "color",
-        "reason": "将「color」代入可见句子后不表达主释义「贷款」。"
-      },
-      {
-        "wordId": "w-hero",
-        "surfaceForm": "hero",
-        "reason": "将「hero」代入可见句子后不表达主释义「贷款」。"
       }
     ],
     "spelling": null
@@ -248,47 +248,47 @@
     "wordId": "w-lobby",
     "enToZh": [
       {
+        "wordId": "w-nickname",
+        "reason": "选项「昵称」不是「lobby」的主释义「大厅」或其他义项。"
+      },
+      {
         "wordId": "w-livestock",
         "reason": "选项「牲畜」不是「lobby」的主释义「大厅」或其他义项。"
       },
       {
-        "wordId": "w-fraction",
-        "reason": "选项「小部分」不是「lobby」的主释义「大厅」或其他义项。"
-      },
-      {
-        "wordId": "w-vigour",
-        "reason": "选项「活力」不是「lobby」的主释义「大厅」或其他义项。"
+        "wordId": "w-monument",
+        "reason": "选项「纪念碑」不是「lobby」的主释义「大厅」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-nickname",
+        "reason": "英文「nickname」的常见义项「昵称」不符合主释义「大厅」。"
+      },
       {
         "wordId": "w-livestock",
         "reason": "英文「livestock」的常见义项「牲畜」不符合主释义「大厅」。"
       },
       {
-        "wordId": "w-fraction",
-        "reason": "英文「fraction」的常见义项「小部分」不符合主释义「大厅」。"
-      },
-      {
-        "wordId": "w-vigour",
-        "reason": "英文「vigour」的常见义项「活力」不符合主释义「大厅」。"
+        "wordId": "w-monument",
+        "reason": "英文「monument」的常见义项「纪念碑」不符合主释义「大厅」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-nickname",
+        "surfaceForm": "nickname",
+        "reason": "将「nickname」代入可见句子后不表达主释义「大厅」。"
+      },
       {
         "wordId": "w-livestock",
         "surfaceForm": "livestock",
         "reason": "将「livestock」代入可见句子后不表达主释义「大厅」。"
       },
       {
-        "wordId": "w-fraction",
-        "surfaceForm": "fraction",
-        "reason": "将「fraction」代入可见句子后不表达主释义「大厅」。"
-      },
-      {
-        "wordId": "w-vigour",
-        "surfaceForm": "vigour",
-        "reason": "将「vigour」代入可见句子后不表达主释义「大厅」。"
+        "wordId": "w-monument",
+        "surfaceForm": "monument",
+        "reason": "将「monument」代入可见句子后不表达主释义「大厅」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「通知」不是「locate」的主释义「找到位置」或其他义项。"
       },
       {
-        "wordId": "w-explore",
-        "reason": "选项「探索」不是「locate」的主释义「找到位置」或其他义项。"
+        "wordId": "w-persuade",
+        "reason": "选项「说服」不是「locate」的主释义「找到位置」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「inform」的常见义项「通知」不符合主释义「找到位置」。"
       },
       {
-        "wordId": "w-explore",
-        "reason": "英文「explore」的常见义项「探索」不符合主释义「找到位置」。"
+        "wordId": "w-persuade",
+        "reason": "英文「persuade」的常见义项「说服」不符合主释义「找到位置」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「inform」代入可见句子后不表达主释义「找到位置」。"
       },
       {
-        "wordId": "w-explore",
-        "surfaceForm": "explore",
-        "reason": "将「explore」代入可见句子后不表达主释义「找到位置」。"
+        "wordId": "w-persuade",
+        "surfaceForm": "persuade",
+        "reason": "将「persuade」代入可见句子后不表达主释义「找到位置」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「递送」不是「location」的主释义「位置」或其他义项。"
       },
       {
-        "wordId": "w-shame",
-        "reason": "选项「羞耻」不是「location」的主释义「位置」或其他义项。"
+        "wordId": "w-north",
+        "reason": "选项「北方」不是「location」的主释义「位置」或其他义项。"
       },
       {
-        "wordId": "w-form",
-        "reason": "选项「形式」不是「location」的主释义「位置」或其他义项。"
+        "wordId": "w-shame",
+        "reason": "选项「羞耻」不是「location」的主释义「位置」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「delivery」的常见义项「递送」不符合主释义「位置」。"
       },
       {
-        "wordId": "w-shame",
-        "reason": "英文「shame」的常见义项「羞耻」不符合主释义「位置」。"
+        "wordId": "w-north",
+        "reason": "英文「North」的常见义项「北方」不符合主释义「位置」。"
       },
       {
-        "wordId": "w-form",
-        "reason": "英文「form」的常见义项「形式」不符合主释义「位置」。"
+        "wordId": "w-shame",
+        "reason": "英文「shame」的常见义项「羞耻」不符合主释义「位置」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「delivery」代入可见句子后不表达主释义「位置」。"
       },
       {
+        "wordId": "w-north",
+        "surfaceForm": "North",
+        "reason": "将「North」代入可见句子后不表达主释义「位置」。"
+      },
+      {
         "wordId": "w-shame",
         "surfaceForm": "shame",
         "reason": "将「shame」代入可见句子后不表达主释义「位置」。"
-      },
-      {
-        "wordId": "w-form",
-        "surfaceForm": "form",
-        "reason": "将「form」代入可见句子后不表达主释义「位置」。"
       }
     ],
     "spelling": null
@@ -493,47 +493,47 @@
     "wordId": "w-locomotive",
     "enToZh": [
       {
+        "wordId": "w-outcry",
+        "reason": "选项「强烈抗议」不是「locomotive」的主释义「机车」或其他义项。"
+      },
+      {
+        "wordId": "w-peninsula",
+        "reason": "选项「半岛」不是「locomotive」的主释义「机车」或其他义项。"
+      },
+      {
         "wordId": "w-beggar",
         "reason": "选项「乞丐」不是「locomotive」的主释义「机车」或其他义项。"
-      },
-      {
-        "wordId": "w-limestone",
-        "reason": "选项「石灰岩」不是「locomotive」的主释义「机车」或其他义项。"
-      },
-      {
-        "wordId": "w-burglar",
-        "reason": "选项「入室窃贼」不是「locomotive」的主释义「机车」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-outcry",
+        "reason": "英文「outcry」的常见义项「强烈抗议」不符合主释义「机车」。"
+      },
+      {
+        "wordId": "w-peninsula",
+        "reason": "英文「peninsula」的常见义项「半岛」不符合主释义「机车」。"
+      },
+      {
         "wordId": "w-beggar",
         "reason": "英文「beggar」的常见义项「乞丐」不符合主释义「机车」。"
-      },
-      {
-        "wordId": "w-limestone",
-        "reason": "英文「limestone」的常见义项「石灰岩」不符合主释义「机车」。"
-      },
-      {
-        "wordId": "w-burglar",
-        "reason": "英文「burglar」的常见义项「入室窃贼」不符合主释义「机车」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-outcry",
+        "surfaceForm": "outcry",
+        "reason": "将「outcry」代入可见句子后不表达主释义「机车」。"
+      },
+      {
+        "wordId": "w-peninsula",
+        "surfaceForm": "peninsula",
+        "reason": "将「peninsula」代入可见句子后不表达主释义「机车」。"
+      },
+      {
         "wordId": "w-beggar",
         "surfaceForm": "beggar",
         "reason": "将「beggar」代入可见句子后不表达主释义「机车」。"
-      },
-      {
-        "wordId": "w-limestone",
-        "surfaceForm": "limestone",
-        "reason": "将「limestone」代入可见句子后不表达主释义「机车」。"
-      },
-      {
-        "wordId": "w-burglar",
-        "surfaceForm": "burglar",
-        "reason": "将「burglar」代入可见句子后不表达主释义「机车」。"
       }
     ],
     "spelling": null
@@ -542,19 +542,23 @@
     "wordId": "w-locust",
     "enToZh": [
       {
+        "wordId": "w-provost",
+        "reason": "选项「教务长」不是「locust」的主释义「蝗虫」或其他义项。"
+      },
+      {
         "wordId": "w-fowl",
         "reason": "选项「家禽」不是「locust」的主释义「蝗虫」或其他义项。"
       },
       {
         "wordId": "w-headmaster",
         "reason": "选项「校长」不是「locust」的主释义「蝗虫」或其他义项。"
-      },
-      {
-        "wordId": "w-longitude",
-        "reason": "选项「经度」不是「locust」的主释义「蝗虫」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-provost",
+        "reason": "英文「provost」的常见义项「教务长」不符合主释义「蝗虫」。"
+      },
       {
         "wordId": "w-fowl",
         "reason": "英文「fowl」的常见义项「家禽」不符合主释义「蝗虫」。"
@@ -562,13 +566,14 @@
       {
         "wordId": "w-headmaster",
         "reason": "英文「headmaster」的常见义项「校长」不符合主释义「蝗虫」。"
-      },
-      {
-        "wordId": "w-longitude",
-        "reason": "英文「longitude」的常见义项「经度」不符合主释义「蝗虫」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-provost",
+        "surfaceForm": "provost",
+        "reason": "将「provost」代入可见句子后不表达主释义「蝗虫」。"
+      },
       {
         "wordId": "w-fowl",
         "surfaceForm": "fowl",
@@ -578,11 +583,6 @@
         "wordId": "w-headmaster",
         "surfaceForm": "headmaster",
         "reason": "将「headmaster」代入可见句子后不表达主释义「蝗虫」。"
-      },
-      {
-        "wordId": "w-longitude",
-        "surfaceForm": "longitude",
-        "reason": "将「longitude」代入可见句子后不表达主释义「蝗虫」。"
       }
     ],
     "spelling": null
@@ -599,8 +599,8 @@
         "reason": "选项「看守人」不是「lodge」的主释义「小屋」或其他义项。"
       },
       {
-        "wordId": "w-certainty",
-        "reason": "选项「确定性」不是「lodge」的主释义「小屋」或其他义项。"
+        "wordId": "w-prey",
+        "reason": "选项「猎物」不是「lodge」的主释义「小屋」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -613,8 +613,8 @@
         "reason": "英文「keeper」的常见义项「看守人」不符合主释义「小屋」。"
       },
       {
-        "wordId": "w-certainty",
-        "reason": "英文「certainty」的常见义项「确定性」不符合主释义「小屋」。"
+        "wordId": "w-prey",
+        "reason": "英文「prey」的常见义项「猎物」不符合主释义「小屋」。"
       }
     ],
     "contextChoice": [
@@ -629,9 +629,9 @@
         "reason": "将「keeper」代入可见句子后不表达主释义「小屋」。"
       },
       {
-        "wordId": "w-certainty",
-        "surfaceForm": "certainty",
-        "reason": "将「certainty」代入可见句子后不表达主释义「小屋」。"
+        "wordId": "w-prey",
+        "surfaceForm": "prey",
+        "reason": "将「prey」代入可见句子后不表达主释义「小屋」。"
       }
     ],
     "spelling": null
@@ -640,47 +640,47 @@
     "wordId": "w-log",
     "enToZh": [
       {
-        "wordId": "w-commerce",
-        "reason": "选项「商业」不是「log」的主释义「圆木」或其他义项。"
+        "wordId": "w-pillow",
+        "reason": "选项「枕头」不是「log」的主释义「圆木」或其他义项。"
       },
       {
-        "wordId": "w-heir",
-        "reason": "选项「继承人」不是「log」的主释义「圆木」或其他义项。"
+        "wordId": "w-merchant",
+        "reason": "选项「商人」不是「log」的主释义「圆木」或其他义项。"
       },
       {
-        "wordId": "w-chaos",
-        "reason": "选项「混乱」不是「log」的主释义「圆木」或其他义项。"
+        "wordId": "w-physicist",
+        "reason": "选项「物理学家」不是「log」的主释义「圆木」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-commerce",
-        "reason": "英文「commerce」的常见义项「商业」不符合主释义「圆木」。"
+        "wordId": "w-pillow",
+        "reason": "英文「pillow」的常见义项「枕头」不符合主释义「圆木」。"
       },
       {
-        "wordId": "w-heir",
-        "reason": "英文「heir」的常见义项「继承人」不符合主释义「圆木」。"
+        "wordId": "w-merchant",
+        "reason": "英文「merchant」的常见义项「商人」不符合主释义「圆木」。"
       },
       {
-        "wordId": "w-chaos",
-        "reason": "英文「chaos」的常见义项「混乱」不符合主释义「圆木」。"
+        "wordId": "w-physicist",
+        "reason": "英文「physicist」的常见义项「物理学家」不符合主释义「圆木」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-commerce",
-        "surfaceForm": "commerce",
-        "reason": "将「commerce」代入可见句子后不表达主释义「圆木」。"
+        "wordId": "w-pillow",
+        "surfaceForm": "pillow",
+        "reason": "将「pillow」代入可见句子后不表达主释义「圆木」。"
       },
       {
-        "wordId": "w-heir",
-        "surfaceForm": "heir",
-        "reason": "将「heir」代入可见句子后不表达主释义「圆木」。"
+        "wordId": "w-merchant",
+        "surfaceForm": "merchant",
+        "reason": "将「merchant」代入可见句子后不表达主释义「圆木」。"
       },
       {
-        "wordId": "w-chaos",
-        "surfaceForm": "chaos",
-        "reason": "将「chaos」代入可见句子后不表达主释义「圆木」。"
+        "wordId": "w-physicist",
+        "surfaceForm": "physicist",
+        "reason": "将「physicist」代入可见句子后不表达主释义「圆木」。"
       }
     ],
     "spelling": null
@@ -738,19 +738,23 @@
     "wordId": "w-logistics",
     "enToZh": [
       {
+        "wordId": "w-prominence",
+        "reason": "选项「显要地位」不是「logistics」的主释义「物流」或其他义项。"
+      },
+      {
         "wordId": "w-flannel",
         "reason": "选项「法兰绒」不是「logistics」的主释义「物流」或其他义项。"
       },
       {
         "wordId": "w-zebra",
         "reason": "选项「斑马」不是「logistics」的主释义「物流」或其他义项。"
-      },
-      {
-        "wordId": "w-cloak",
-        "reason": "选项「斗篷」不是「logistics」的主释义「物流」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-prominence",
+        "reason": "英文「prominence」的常见义项「显要地位」不符合主释义「物流」。"
+      },
       {
         "wordId": "w-flannel",
         "reason": "英文「flannel」的常见义项「法兰绒」不符合主释义「物流」。"
@@ -758,13 +762,14 @@
       {
         "wordId": "w-zebra",
         "reason": "英文「zebra」的常见义项「斑马」不符合主释义「物流」。"
-      },
-      {
-        "wordId": "w-cloak",
-        "reason": "英文「cloak」的常见义项「斗篷」不符合主释义「物流」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-prominence",
+        "surfaceForm": "prominence",
+        "reason": "将「prominence」代入可见句子后不表达主释义「物流」。"
+      },
       {
         "wordId": "w-flannel",
         "surfaceForm": "flannel",
@@ -774,11 +779,6 @@
         "wordId": "w-zebra",
         "surfaceForm": "zebra",
         "reason": "将「zebra」代入可见句子后不表达主释义「物流」。"
-      },
-      {
-        "wordId": "w-cloak",
-        "surfaceForm": "cloak",
-        "reason": "将「cloak」代入可见句子后不表达主释义「物流」。"
       }
     ],
     "spelling": null
@@ -795,8 +795,8 @@
         "reason": "选项「随之而来的」不是「long」的主释义「长的」或其他义项。"
       },
       {
-        "wordId": "w-irregular",
-        "reason": "选项「不规则的」不是「long」的主释义「长的」或其他义项。"
+        "wordId": "w-proficient",
+        "reason": "选项「熟练的」不是「long」的主释义「长的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -809,8 +809,8 @@
         "reason": "英文「consequent」的常见义项「随之而来的」不符合主释义「长的」。"
       },
       {
-        "wordId": "w-irregular",
-        "reason": "英文「irregular」的常见义项「不规则的」不符合主释义「长的」。"
+        "wordId": "w-proficient",
+        "reason": "英文「proficient」的常见义项「熟练的」不符合主释义「长的」。"
       }
     ],
     "contextChoice": [
@@ -825,9 +825,9 @@
         "reason": "将「consequent」代入可见句子后不表达主释义「长的」。"
       },
       {
-        "wordId": "w-irregular",
-        "surfaceForm": "irregular",
-        "reason": "将「irregular」代入可见句子后不表达主释义「长的」。"
+        "wordId": "w-proficient",
+        "surfaceForm": "proficient",
+        "reason": "将「proficient」代入可见句子后不表达主释义「长的」。"
       }
     ],
     "spelling": null
@@ -885,47 +885,47 @@
     "wordId": "w-longitude",
     "enToZh": [
       {
+        "wordId": "w-pulley",
+        "reason": "选项「滑轮」不是「longitude」的主释义「经度」或其他义项。"
+      },
+      {
+        "wordId": "w-plutocrat",
+        "reason": "选项「财阀」不是「longitude」的主释义「经度」或其他义项。"
+      },
+      {
         "wordId": "w-eloquence",
         "reason": "选项「口才」不是「longitude」的主释义「经度」或其他义项。"
-      },
-      {
-        "wordId": "w-brook",
-        "reason": "选项「小溪」不是「longitude」的主释义「经度」或其他义项。"
-      },
-      {
-        "wordId": "w-firmness",
-        "reason": "选项「坚定」不是「longitude」的主释义「经度」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-pulley",
+        "reason": "英文「pulley」的常见义项「滑轮」不符合主释义「经度」。"
+      },
+      {
+        "wordId": "w-plutocrat",
+        "reason": "英文「plutocrat」的常见义项「财阀」不符合主释义「经度」。"
+      },
+      {
         "wordId": "w-eloquence",
         "reason": "英文「eloquence」的常见义项「口才」不符合主释义「经度」。"
-      },
-      {
-        "wordId": "w-brook",
-        "reason": "英文「brook」的常见义项「小溪」不符合主释义「经度」。"
-      },
-      {
-        "wordId": "w-firmness",
-        "reason": "英文「firmness」的常见义项「坚定」不符合主释义「经度」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-pulley",
+        "surfaceForm": "pulley",
+        "reason": "将「pulley」代入可见句子后不表达主释义「经度」。"
+      },
+      {
+        "wordId": "w-plutocrat",
+        "surfaceForm": "plutocrat",
+        "reason": "将「plutocrat」代入可见句子后不表达主释义「经度」。"
+      },
+      {
         "wordId": "w-eloquence",
         "surfaceForm": "eloquence",
         "reason": "将「eloquence」代入可见句子后不表达主释义「经度」。"
-      },
-      {
-        "wordId": "w-brook",
-        "surfaceForm": "brook",
-        "reason": "将「brook」代入可见句子后不表达主释义「经度」。"
-      },
-      {
-        "wordId": "w-firmness",
-        "surfaceForm": "firmness",
-        "reason": "将「firmness」代入可见句子后不表达主释义「经度」。"
       }
     ],
     "spelling": null
@@ -938,12 +938,12 @@
         "reason": "选项「津贴」不是「loop」的主释义「环」或其他义项。"
       },
       {
-        "wordId": "w-completion",
-        "reason": "选项「完成」不是「loop」的主释义「环」或其他义项。"
+        "wordId": "w-oak",
+        "reason": "选项「橡树」不是「loop」的主释义「环」或其他义项。"
       },
       {
-        "wordId": "w-chill",
-        "reason": "选项「寒意」不是「loop」的主释义「环」或其他义项。"
+        "wordId": "w-completion",
+        "reason": "选项「完成」不是「loop」的主释义「环」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -952,12 +952,12 @@
         "reason": "英文「allowance」的常见义项「津贴」不符合主释义「环」。"
       },
       {
-        "wordId": "w-completion",
-        "reason": "英文「completion」的常见义项「完成」不符合主释义「环」。"
+        "wordId": "w-oak",
+        "reason": "英文「oak」的常见义项「橡树」不符合主释义「环」。"
       },
       {
-        "wordId": "w-chill",
-        "reason": "英文「chill」的常见义项「寒意」不符合主释义「环」。"
+        "wordId": "w-completion",
+        "reason": "英文「completion」的常见义项「完成」不符合主释义「环」。"
       }
     ],
     "contextChoice": [
@@ -967,14 +967,14 @@
         "reason": "将「allowance」代入可见句子后不表达主释义「环」。"
       },
       {
+        "wordId": "w-oak",
+        "surfaceForm": "oak",
+        "reason": "将「oak」代入可见句子后不表达主释义「环」。"
+      },
+      {
         "wordId": "w-completion",
         "surfaceForm": "completion",
         "reason": "将「completion」代入可见句子后不表达主释义「环」。"
-      },
-      {
-        "wordId": "w-chill",
-        "surfaceForm": "chill",
-        "reason": "将「chill」代入可见句子后不表达主释义「环」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「具体的」不是「loose」的主释义「松的」或其他义项。"
       },
       {
-        "wordId": "w-japanese",
-        "reason": "选项「日本的」不是「loose」的主释义「松的」或其他义项。"
+        "wordId": "w-normal",
+        "reason": "选项「正常的」不是「loose」的主释义「松的」或其他义项。"
       },
       {
-        "wordId": "w-human",
-        "reason": "选项「人类的」不是「loose」的主释义「松的」或其他义项。"
+        "wordId": "w-pale",
+        "reason": "选项「苍白的」不是「loose」的主释义「松的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「concrete」的常见义项「具体的」不符合主释义「松的」。"
       },
       {
-        "wordId": "w-japanese",
-        "reason": "英文「Japanese」的常见义项「日本的」不符合主释义「松的」。"
+        "wordId": "w-normal",
+        "reason": "英文「normal」的常见义项「正常的」不符合主释义「松的」。"
       },
       {
-        "wordId": "w-human",
-        "reason": "英文「human」的常见义项「人类的」不符合主释义「松的」。"
+        "wordId": "w-pale",
+        "reason": "英文「pale」的常见义项「苍白的」不符合主释义「松的」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「concrete」代入可见句子后不表达主释义「松的」。"
       },
       {
-        "wordId": "w-japanese",
-        "surfaceForm": "Japanese",
-        "reason": "将「Japanese」代入可见句子后不表达主释义「松的」。"
+        "wordId": "w-normal",
+        "surfaceForm": "normal",
+        "reason": "将「normal」代入可见句子后不表达主释义「松的」。"
       },
       {
-        "wordId": "w-human",
-        "surfaceForm": "human",
-        "reason": "将「human」代入可见句子后不表达主释义「松的」。"
+        "wordId": "w-pale",
+        "surfaceForm": "pale",
+        "reason": "将「pale」代入可见句子后不表达主释义「松的」。"
       }
     ],
     "spelling": null
@@ -1085,12 +1085,12 @@
         "reason": "选项「承认」不是「loosen」的主释义「松开」或其他义项。"
       },
       {
-        "wordId": "w-blink",
-        "reason": "选项「眨眼」不是「loosen」的主释义「松开」或其他义项。"
+        "wordId": "w-provoke",
+        "reason": "选项「激怒」不是「loosen」的主释义「松开」或其他义项。"
       },
       {
-        "wordId": "w-conquer",
-        "reason": "选项「征服」不是「loosen」的主释义「松开」或其他义项。"
+        "wordId": "w-reap",
+        "reason": "选项「收割」不是「loosen」的主释义「松开」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1099,12 +1099,12 @@
         "reason": "英文「concede」的常见义项「承认」不符合主释义「松开」。"
       },
       {
-        "wordId": "w-blink",
-        "reason": "英文「blink」的常见义项「眨眼」不符合主释义「松开」。"
+        "wordId": "w-provoke",
+        "reason": "英文「provoke」的常见义项「激怒」不符合主释义「松开」。"
       },
       {
-        "wordId": "w-conquer",
-        "reason": "英文「conquer」的常见义项「征服」不符合主释义「松开」。"
+        "wordId": "w-reap",
+        "reason": "英文「reap」的常见义项「收割」不符合主释义「松开」。"
       }
     ],
     "contextChoice": [
@@ -1114,14 +1114,14 @@
         "reason": "将「concede」代入可见句子后不表达主释义「松开」。"
       },
       {
-        "wordId": "w-blink",
-        "surfaceForm": "blink",
-        "reason": "将「blink」代入可见句子后不表达主释义「松开」。"
+        "wordId": "w-provoke",
+        "surfaceForm": "provoke",
+        "reason": "将「provoke」代入可见句子后不表达主释义「松开」。"
       },
       {
-        "wordId": "w-conquer",
-        "surfaceForm": "conquer",
-        "reason": "将「conquer」代入可见句子后不表达主释义「松开」。"
+        "wordId": "w-reap",
+        "surfaceForm": "reap",
+        "reason": "将「reap」代入可见句子后不表达主释义「松开」。"
       }
     ],
     "spelling": null

@@ -1,0 +1,22 @@
+{
+  "reviewer": "independent-sample-review-main-175",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-solitary",
+    "w-somebody",
+    "w-someone",
+    "w-something",
+    "w-sometimes",
+    "w-somewhat",
+    "w-sophisticate",
+    "w-southwards"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-sophisticate",
+      "stage": "pronunciation",
+      "message": "词性为名词、主释义为「见多识广的人」，但选用的音标 /səˈfɪstəˌkeɪt/ 是动词读音；名词应读 /səˈfɪstəkət/。"
+    }
+  ]
+}

@@ -105,12 +105,12 @@
         "reason": "选项「荣耀」不是「lime」的主释义「青柠」或其他义项。"
       },
       {
-        "wordId": "w-lion",
-        "reason": "选项「狮子」不是「lime」的主释义「青柠」或其他义项。"
+        "wordId": "w-proximity",
+        "reason": "选项「邻近」不是「lime」的主释义「青柠」或其他义项。"
       },
       {
-        "wordId": "w-bang",
-        "reason": "选项「巨响」不是「lime」的主释义「青柠」或其他义项。"
+        "wordId": "w-rebellion",
+        "reason": "选项「叛乱」不是「lime」的主释义「青柠」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「glory」的常见义项「荣耀」不符合主释义「青柠」。"
       },
       {
-        "wordId": "w-lion",
-        "reason": "英文「lion」的常见义项「狮子」不符合主释义「青柠」。"
+        "wordId": "w-proximity",
+        "reason": "英文「proximity」的常见义项「邻近」不符合主释义「青柠」。"
       },
       {
-        "wordId": "w-bang",
-        "reason": "英文「bang」的常见义项「巨响」不符合主释义「青柠」。"
+        "wordId": "w-rebellion",
+        "reason": "英文「rebellion」的常见义项「叛乱」不符合主释义「青柠」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「glory」代入可见句子后不表达主释义「青柠」。"
       },
       {
-        "wordId": "w-lion",
-        "surfaceForm": "lion",
-        "reason": "将「lion」代入可见句子后不表达主释义「青柠」。"
+        "wordId": "w-proximity",
+        "surfaceForm": "proximity",
+        "reason": "将「proximity」代入可见句子后不表达主释义「青柠」。"
       },
       {
-        "wordId": "w-bang",
-        "surfaceForm": "bang",
-        "reason": "将「bang」代入可见句子后不表达主释义「青柠」。"
+        "wordId": "w-rebellion",
+        "surfaceForm": "rebellion",
+        "reason": "将「rebellion」代入可见句子后不表达主释义「青柠」。"
       }
     ],
     "spelling": null
@@ -150,19 +150,23 @@
     "wordId": "w-limestone",
     "enToZh": [
       {
+        "wordId": "w-locomotive",
+        "reason": "选项「机车」不是「limestone」的主释义「石灰岩」或其他义项。"
+      },
+      {
         "wordId": "w-jupiter",
         "reason": "选项「木星」不是「limestone」的主释义「石灰岩」或其他义项。"
       },
       {
         "wordId": "w-cassette",
         "reason": "选项「盒式磁带」不是「limestone」的主释义「石灰岩」或其他义项。"
-      },
-      {
-        "wordId": "w-arithmetic",
-        "reason": "选项「算术」不是「limestone」的主释义「石灰岩」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-locomotive",
+        "reason": "英文「locomotive」的常见义项「机车」不符合主释义「石灰岩」。"
+      },
       {
         "wordId": "w-jupiter",
         "reason": "英文「Jupiter」的常见义项「木星」不符合主释义「石灰岩」。"
@@ -170,13 +174,14 @@
       {
         "wordId": "w-cassette",
         "reason": "英文「cassette」的常见义项「盒式磁带」不符合主释义「石灰岩」。"
-      },
-      {
-        "wordId": "w-arithmetic",
-        "reason": "英文「arithmetic」的常见义项「算术」不符合主释义「石灰岩」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-locomotive",
+        "surfaceForm": "locomotive",
+        "reason": "将「locomotive」代入可见句子后不表达主释义「石灰岩」。"
+      },
       {
         "wordId": "w-jupiter",
         "surfaceForm": "Jupiter",
@@ -186,11 +191,6 @@
         "wordId": "w-cassette",
         "surfaceForm": "cassette",
         "reason": "将「cassette」代入可见句子后不表达主释义「石灰岩」。"
-      },
-      {
-        "wordId": "w-arithmetic",
-        "surfaceForm": "arithmetic",
-        "reason": "将「arithmetic」代入可见句子后不表达主释义「石灰岩」。"
       }
     ],
     "spelling": null
@@ -252,12 +252,12 @@
         "reason": "选项「破产」不是「limitation」的主释义「局限性」或其他义项。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "选项「梳子」不是「limitation」的主释义「局限性」或其他义项。"
+        "wordId": "w-prophet",
+        "reason": "选项「先知」不是「limitation」的主释义「局限性」或其他义项。"
       },
       {
-        "wordId": "w-classification",
-        "reason": "选项「分类」不是「limitation」的主释义「局限性」或其他义项。"
+        "wordId": "w-parade",
+        "reason": "选项「游行」不是「limitation」的主释义「局限性」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -266,12 +266,12 @@
         "reason": "英文「bankruptcy」的常见义项「破产」不符合主释义「局限性」。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "英文「comb」的常见义项「梳子」不符合主释义「局限性」。"
+        "wordId": "w-prophet",
+        "reason": "英文「prophet」的常见义项「先知」不符合主释义「局限性」。"
       },
       {
-        "wordId": "w-classification",
-        "reason": "英文「classification」的常见义项「分类」不符合主释义「局限性」。"
+        "wordId": "w-parade",
+        "reason": "英文「parade」的常见义项「游行」不符合主释义「局限性」。"
       }
     ],
     "contextChoice": [
@@ -281,14 +281,14 @@
         "reason": "将「bankruptcy」代入可见句子后不表达主释义「局限性」。"
       },
       {
-        "wordId": "w-comb",
-        "surfaceForm": "comb",
-        "reason": "将「comb」代入可见句子后不表达主释义「局限性」。"
+        "wordId": "w-prophet",
+        "surfaceForm": "prophet",
+        "reason": "将「prophet」代入可见句子后不表达主释义「局限性」。"
       },
       {
-        "wordId": "w-classification",
-        "surfaceForm": "classification",
-        "reason": "将「classification」代入可见句子后不表达主释义「局限性」。"
+        "wordId": "w-parade",
+        "surfaceForm": "parade",
+        "reason": "将「parade」代入可见句子后不表达主释义「局限性」。"
       }
     ],
     "spelling": null
@@ -301,12 +301,12 @@
         "reason": "选项「同情」不是「limp」的主释义「跛行」或其他义项。"
       },
       {
-        "wordId": "w-dread",
-        "reason": "选项「害怕」不是「limp」的主释义「跛行」或其他义项。"
+        "wordId": "w-safeguard",
+        "reason": "选项「保护」不是「limp」的主释义「跛行」或其他义项。"
       },
       {
-        "wordId": "w-flutter",
-        "reason": "选项「飘动」不是「limp」的主释义「跛行」或其他义项。"
+        "wordId": "w-dread",
+        "reason": "选项「害怕」不是「limp」的主释义「跛行」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -315,12 +315,12 @@
         "reason": "英文「sympathize」的常见义项「同情」不符合主释义「跛行」。"
       },
       {
-        "wordId": "w-dread",
-        "reason": "英文「dread」的常见义项「害怕」不符合主释义「跛行」。"
+        "wordId": "w-safeguard",
+        "reason": "英文「safeguard」的常见义项「保护」不符合主释义「跛行」。"
       },
       {
-        "wordId": "w-flutter",
-        "reason": "英文「flutter」的常见义项「飘动」不符合主释义「跛行」。"
+        "wordId": "w-dread",
+        "reason": "英文「dread」的常见义项「害怕」不符合主释义「跛行」。"
       }
     ],
     "contextChoice": [
@@ -330,14 +330,14 @@
         "reason": "将「sympathize」代入可见句子后不表达主释义「跛行」。"
       },
       {
+        "wordId": "w-safeguard",
+        "surfaceForm": "safeguard",
+        "reason": "将「safeguard」代入可见句子后不表达主释义「跛行」。"
+      },
+      {
         "wordId": "w-dread",
         "surfaceForm": "dread",
         "reason": "将「dread」代入可见句子后不表达主释义「跛行」。"
-      },
-      {
-        "wordId": "w-flutter",
-        "surfaceForm": "flutter",
-        "reason": "将「flutter」代入可见句子后不表达主释义「跛行」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「形象」不是「line」的主释义「线」或其他义项。"
       },
       {
-        "wordId": "w-license",
-        "reason": "选项「执照」不是「line」的主释义「线」或其他义项。"
+        "wordId": "w-regime",
+        "reason": "选项「政治体制」不是「line」的主释义「线」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「image」的常见义项「形象」不符合主释义「线」。"
       },
       {
-        "wordId": "w-license",
-        "reason": "英文「license」的常见义项「执照」不符合主释义「线」。"
+        "wordId": "w-regime",
+        "reason": "英文「regime」的常见义项「政治体制」不符合主释义「线」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「image」代入可见句子后不表达主释义「线」。"
       },
       {
-        "wordId": "w-license",
-        "surfaceForm": "license",
-        "reason": "将「license」代入可见句子后不表达主释义「线」。"
+        "wordId": "w-regime",
+        "surfaceForm": "regime",
+        "reason": "将「regime」代入可见句子后不表达主释义「线」。"
       }
     ],
     "spelling": null
@@ -395,19 +395,23 @@
     "wordId": "w-linen",
     "enToZh": [
       {
+        "wordId": "w-quilt",
+        "reason": "选项「被子」不是「linen」的主释义「亚麻布」或其他义项。"
+      },
+      {
         "wordId": "w-complexity",
         "reason": "选项「复杂性」不是「linen」的主释义「亚麻布」或其他义项。"
       },
       {
         "wordId": "w-exile",
         "reason": "选项「流亡」不是「linen」的主释义「亚麻布」或其他义项。"
-      },
-      {
-        "wordId": "w-forehead",
-        "reason": "选项「额头」不是「linen」的主释义「亚麻布」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-quilt",
+        "reason": "英文「quilt」的常见义项「被子」不符合主释义「亚麻布」。"
+      },
       {
         "wordId": "w-complexity",
         "reason": "英文「complexity」的常见义项「复杂性」不符合主释义「亚麻布」。"
@@ -415,13 +419,14 @@
       {
         "wordId": "w-exile",
         "reason": "英文「exile」的常见义项「流亡」不符合主释义「亚麻布」。"
-      },
-      {
-        "wordId": "w-forehead",
-        "reason": "英文「forehead」的常见义项「额头」不符合主释义「亚麻布」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-quilt",
+        "surfaceForm": "quilt",
+        "reason": "将「quilt」代入可见句子后不表达主释义「亚麻布」。"
+      },
       {
         "wordId": "w-complexity",
         "surfaceForm": "complexity",
@@ -431,11 +436,6 @@
         "wordId": "w-exile",
         "surfaceForm": "exile",
         "reason": "将「exile」代入可见句子后不表达主释义「亚麻布」。"
-      },
-      {
-        "wordId": "w-forehead",
-        "surfaceForm": "forehead",
-        "reason": "将「forehead」代入可见句子后不表达主释义「亚麻布」。"
       }
     ],
     "spelling": null
@@ -501,8 +501,8 @@
         "reason": "选项「漂流」不是「linger」的主释义「逗留」或其他义项。"
       },
       {
-        "wordId": "w-accumulate",
-        "reason": "选项「积累」不是「linger」的主释义「逗留」或其他义项。"
+        "wordId": "w-plead",
+        "reason": "选项「恳求」不是「linger」的主释义「逗留」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -515,8 +515,8 @@
         "reason": "英文「drift」的常见义项「漂流」不符合主释义「逗留」。"
       },
       {
-        "wordId": "w-accumulate",
-        "reason": "英文「accumulate」的常见义项「积累」不符合主释义「逗留」。"
+        "wordId": "w-plead",
+        "reason": "英文「plead」的常见义项「恳求」不符合主释义「逗留」。"
       }
     ],
     "contextChoice": [
@@ -531,9 +531,9 @@
         "reason": "将「drift」代入可见句子后不表达主释义「逗留」。"
       },
       {
-        "wordId": "w-accumulate",
-        "surfaceForm": "accumulate",
-        "reason": "将「accumulate」代入可见句子后不表达主释义「逗留」。"
+        "wordId": "w-plead",
+        "surfaceForm": "plead",
+        "reason": "将「plead」代入可见句子后不表达主释义「逗留」。"
       }
     ],
     "spelling": null
@@ -550,8 +550,8 @@
         "reason": "选项「属于」不是「link」的主释义「连接」或其他义项。"
       },
       {
-        "wordId": "w-fasten",
-        "reason": "选项「系紧」不是「link」的主释义「连接」或其他义项。"
+        "wordId": "w-propose",
+        "reason": "选项「提议」不是「link」的主释义「连接」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -564,8 +564,8 @@
         "reason": "英文「belong」的常见义项「属于」不符合主释义「连接」。"
       },
       {
-        "wordId": "w-fasten",
-        "reason": "英文「fasten」的常见义项「系紧」不符合主释义「连接」。"
+        "wordId": "w-propose",
+        "reason": "英文「propose」的常见义项「提议」不符合主释义「连接」。"
       }
     ],
     "contextChoice": [
@@ -580,9 +580,9 @@
         "reason": "将「belong」代入可见句子后不表达主释义「连接」。"
       },
       {
-        "wordId": "w-fasten",
-        "surfaceForm": "fasten",
-        "reason": "将「fasten」代入可见句子后不表达主释义「连接」。"
+        "wordId": "w-propose",
+        "surfaceForm": "propose",
+        "reason": "将「propose」代入可见句子后不表达主释义「连接」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「追随者」不是「lion」的主释义「狮子」或其他义项。"
       },
       {
-        "wordId": "w-beam",
-        "reason": "选项「光束」不是「lion」的主释义「狮子」或其他义项。"
+        "wordId": "w-orientation",
+        "reason": "选项「朝向」不是「lion」的主释义「狮子」或其他义项。"
       },
       {
-        "wordId": "w-intercourse",
-        "reason": "选项「性交」不是「lion」的主释义「狮子」或其他义项。"
+        "wordId": "w-beam",
+        "reason": "选项「光束」不是「lion」的主释义「狮子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「follower」的常见义项「追随者」不符合主释义「狮子」。"
       },
       {
-        "wordId": "w-beam",
-        "reason": "英文「beam」的常见义项「光束」不符合主释义「狮子」。"
+        "wordId": "w-orientation",
+        "reason": "英文「orientation」的常见义项「朝向」不符合主释义「狮子」。"
       },
       {
-        "wordId": "w-intercourse",
-        "reason": "英文「intercourse」的常见义项「性交」不符合主释义「狮子」。"
+        "wordId": "w-beam",
+        "reason": "英文「beam」的常见义项「光束」不符合主释义「狮子」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「follower」代入可见句子后不表达主释义「狮子」。"
       },
       {
+        "wordId": "w-orientation",
+        "surfaceForm": "orientation",
+        "reason": "将「orientation」代入可见句子后不表达主释义「狮子」。"
+      },
+      {
         "wordId": "w-beam",
         "surfaceForm": "beam",
         "reason": "将「beam」代入可见句子后不表达主释义「狮子」。"
-      },
-      {
-        "wordId": "w-intercourse",
-        "surfaceForm": "intercourse",
-        "reason": "将「intercourse」代入可见句子后不表达主释义「狮子」。"
       }
     ],
     "spelling": null
@@ -640,19 +640,23 @@
     "wordId": "w-lip",
     "enToZh": [
       {
+        "wordId": "w-moon",
+        "reason": "选项「月亮」不是「lip」的主释义「嘴唇」或其他义项。"
+      },
+      {
         "wordId": "w-knot",
         "reason": "选项「结」不是「lip」的主释义「嘴唇」或其他义项。"
       },
       {
         "wordId": "w-achievement",
         "reason": "选项「成就」不是「lip」的主释义「嘴唇」或其他义项。"
-      },
-      {
-        "wordId": "w-effort",
-        "reason": "选项「努力」不是「lip」的主释义「嘴唇」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-moon",
+        "reason": "英文「moon」的常见义项「月亮」不符合主释义「嘴唇」。"
+      },
       {
         "wordId": "w-knot",
         "reason": "英文「knot」的常见义项「结」不符合主释义「嘴唇」。"
@@ -660,13 +664,14 @@
       {
         "wordId": "w-achievement",
         "reason": "英文「achievement」的常见义项「成就」不符合主释义「嘴唇」。"
-      },
-      {
-        "wordId": "w-effort",
-        "reason": "英文「effort」的常见义项「努力」不符合主释义「嘴唇」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-moon",
+        "surfaceForm": "moon",
+        "reason": "将「moon」代入可见句子后不表达主释义「嘴唇」。"
+      },
       {
         "wordId": "w-knot",
         "surfaceForm": "knot",
@@ -676,11 +681,6 @@
         "wordId": "w-achievement",
         "surfaceForm": "achievement",
         "reason": "将「achievement」代入可见句子后不表达主释义「嘴唇」。"
-      },
-      {
-        "wordId": "w-effort",
-        "surfaceForm": "effort",
-        "reason": "将「effort」代入可见句子后不表达主释义「嘴唇」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「孩子」不是「list」的主释义「清单」或其他义项。"
       },
       {
-        "wordId": "w-foot",
-        "reason": "选项「脚」不是「list」的主释义「清单」或其他义项。"
+        "wordId": "w-progress",
+        "reason": "选项「进步」不是「list」的主释义「清单」或其他义项。"
       },
       {
-        "wordId": "w-fiction",
-        "reason": "选项「小说」不是「list」的主释义「清单」或其他义项。"
+        "wordId": "w-foot",
+        "reason": "选项「脚」不是「list」的主释义「清单」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「kid」的常见义项「孩子」不符合主释义「清单」。"
       },
       {
-        "wordId": "w-foot",
-        "reason": "英文「foot」的常见义项「脚」不符合主释义「清单」。"
+        "wordId": "w-progress",
+        "reason": "英文「progress」的常见义项「进步」不符合主释义「清单」。"
       },
       {
-        "wordId": "w-fiction",
-        "reason": "英文「fiction」的常见义项「小说」不符合主释义「清单」。"
+        "wordId": "w-foot",
+        "reason": "英文「foot」的常见义项「脚」不符合主释义「清单」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「kid」代入可见句子后不表达主释义「清单」。"
       },
       {
+        "wordId": "w-progress",
+        "surfaceForm": "progress",
+        "reason": "将「progress」代入可见句子后不表达主释义「清单」。"
+      },
+      {
         "wordId": "w-foot",
         "surfaceForm": "foot",
         "reason": "将「foot」代入可见句子后不表达主释义「清单」。"
-      },
-      {
-        "wordId": "w-fiction",
-        "surfaceForm": "fiction",
-        "reason": "将「fiction」代入可见句子后不表达主释义「清单」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「类比」不是「listener」的主释义「倾听者」或其他义项。"
       },
       {
-        "wordId": "w-foil",
-        "reason": "选项「箔」不是「listener」的主释义「倾听者」或其他义项。"
+        "wordId": "w-ownership",
+        "reason": "选项「所有权」不是「listener」的主释义「倾听者」或其他义项。"
       },
       {
-        "wordId": "w-ethics",
-        "reason": "选项「伦理」不是「listener」的主释义「倾听者」或其他义项。"
+        "wordId": "w-foil",
+        "reason": "选项「箔」不是「listener」的主释义「倾听者」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「analogy」的常见义项「类比」不符合主释义「倾听者」。"
       },
       {
-        "wordId": "w-foil",
-        "reason": "英文「foil」的常见义项「箔」不符合主释义「倾听者」。"
+        "wordId": "w-ownership",
+        "reason": "英文「ownership」的常见义项「所有权」不符合主释义「倾听者」。"
       },
       {
-        "wordId": "w-ethics",
-        "reason": "英文「ethics」的常见义项「伦理」不符合主释义「倾听者」。"
+        "wordId": "w-foil",
+        "reason": "英文「foil」的常见义项「箔」不符合主释义「倾听者」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「analogy」代入可见句子后不表达主释义「倾听者」。"
       },
       {
+        "wordId": "w-ownership",
+        "surfaceForm": "ownership",
+        "reason": "将「ownership」代入可见句子后不表达主释义「倾听者」。"
+      },
+      {
         "wordId": "w-foil",
         "surfaceForm": "foil",
         "reason": "将「foil」代入可见句子后不表达主释义「倾听者」。"
-      },
-      {
-        "wordId": "w-ethics",
-        "surfaceForm": "ethics",
-        "reason": "将「ethics」代入可见句子后不表达主释义「倾听者」。"
       }
     ],
     "spelling": null
@@ -934,19 +934,23 @@
     "wordId": "w-liter",
     "enToZh": [
       {
+        "wordId": "w-scenery",
+        "reason": "选项「风景」不是「liter」的主释义「升」或其他义项。"
+      },
+      {
         "wordId": "w-dismay",
         "reason": "选项「沮丧」不是「liter」的主释义「升」或其他义项。"
       },
       {
         "wordId": "w-englishman",
         "reason": "选项「英格兰人」不是「liter」的主释义「升」或其他义项。"
-      },
-      {
-        "wordId": "w-harp",
-        "reason": "选项「竖琴」不是「liter」的主释义「升」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-scenery",
+        "reason": "英文「scenery」的常见义项「风景」不符合主释义「升」。"
+      },
       {
         "wordId": "w-dismay",
         "reason": "英文「dismay」的常见义项「沮丧」不符合主释义「升」。"
@@ -954,13 +958,14 @@
       {
         "wordId": "w-englishman",
         "reason": "英文「Englishman」的常见义项「英格兰人」不符合主释义「升」。"
-      },
-      {
-        "wordId": "w-harp",
-        "reason": "英文「harp」的常见义项「竖琴」不符合主释义「升」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-scenery",
+        "surfaceForm": "scenery",
+        "reason": "将「scenery」代入可见句子后不表达主释义「升」。"
+      },
       {
         "wordId": "w-dismay",
         "surfaceForm": "dismay",
@@ -970,11 +975,6 @@
         "wordId": "w-englishman",
         "surfaceForm": "Englishman",
         "reason": "将「Englishman」代入可见句子后不表达主释义「升」。"
-      },
-      {
-        "wordId": "w-harp",
-        "surfaceForm": "harp",
-        "reason": "将「harp」代入可见句子后不表达主释义「升」。"
       }
     ],
     "spelling": null
@@ -1032,23 +1032,19 @@
     "wordId": "w-literally",
     "enToZh": [
       {
-        "wordId": "w-indeed",
-        "reason": "选项「确实」不是「literally」的主释义「字面上地」或其他义项。"
-      },
-      {
         "wordId": "w-eventually",
         "reason": "选项「最终」不是「literally」的主释义「字面上地」或其他义项。"
       },
       {
         "wordId": "w-forth",
         "reason": "选项「向前」不是「literally」的主释义「字面上地」或其他义项。"
+      },
+      {
+        "wordId": "w-finely",
+        "reason": "选项「精细地」不是「literally」的主释义「字面上地」或其他义项。"
       }
     ],
     "zhToEn": [
-      {
-        "wordId": "w-indeed",
-        "reason": "英文「indeed」的常见义项「确实」不符合主释义「字面上地」。"
-      },
       {
         "wordId": "w-eventually",
         "reason": "英文「eventually」的常见义项「最终」不符合主释义「字面上地」。"
@@ -1056,14 +1052,13 @@
       {
         "wordId": "w-forth",
         "reason": "英文「forth」的常见义项「向前」不符合主释义「字面上地」。"
+      },
+      {
+        "wordId": "w-finely",
+        "reason": "英文「finely」的常见义项「精细地」不符合主释义「字面上地」。"
       }
     ],
     "contextChoice": [
-      {
-        "wordId": "w-indeed",
-        "surfaceForm": "indeed",
-        "reason": "将「indeed」代入可见句子后不表达主释义「字面上地」。"
-      },
       {
         "wordId": "w-eventually",
         "surfaceForm": "eventually",
@@ -1073,6 +1068,11 @@
         "wordId": "w-forth",
         "surfaceForm": "forth",
         "reason": "将「forth」代入可见句子后不表达主释义「字面上地」。"
+      },
+      {
+        "wordId": "w-finely",
+        "surfaceForm": "finely",
+        "reason": "将「finely」代入可见句子后不表达主释义「字面上地」。"
       }
     ],
     "spelling": null
@@ -1081,47 +1081,47 @@
     "wordId": "w-literature",
     "enToZh": [
       {
-        "wordId": "w-attorney",
-        "reason": "选项「律师」不是「literature」的主释义「文学」或其他义项。"
+        "wordId": "w-poll",
+        "reason": "选项「民意调查」不是「literature」的主释义「文学」或其他义项。"
       },
       {
-        "wordId": "w-condition",
-        "reason": "选项「条件」不是「literature」的主释义「文学」或其他义项。"
+        "wordId": "w-nurse",
+        "reason": "选项「护士」不是「literature」的主释义「文学」或其他义项。"
       },
       {
-        "wordId": "w-lie",
-        "reason": "选项「谎言」不是「literature」的主释义「文学」或其他义项。"
+        "wordId": "w-mode",
+        "reason": "选项「模式」不是「literature」的主释义「文学」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-attorney",
-        "reason": "英文「attorney」的常见义项「律师」不符合主释义「文学」。"
+        "wordId": "w-poll",
+        "reason": "英文「poll」的常见义项「民意调查」不符合主释义「文学」。"
       },
       {
-        "wordId": "w-condition",
-        "reason": "英文「condition」的常见义项「条件」不符合主释义「文学」。"
+        "wordId": "w-nurse",
+        "reason": "英文「nurse」的常见义项「护士」不符合主释义「文学」。"
       },
       {
-        "wordId": "w-lie",
-        "reason": "英文「lie」的常见义项「谎言」不符合主释义「文学」。"
+        "wordId": "w-mode",
+        "reason": "英文「mode」的常见义项「模式」不符合主释义「文学」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-attorney",
-        "surfaceForm": "attorney",
-        "reason": "将「attorney」代入可见句子后不表达主释义「文学」。"
+        "wordId": "w-poll",
+        "surfaceForm": "poll",
+        "reason": "将「poll」代入可见句子后不表达主释义「文学」。"
       },
       {
-        "wordId": "w-condition",
-        "surfaceForm": "condition",
-        "reason": "将「condition」代入可见句子后不表达主释义「文学」。"
+        "wordId": "w-nurse",
+        "surfaceForm": "nurse",
+        "reason": "将「nurse」代入可见句子后不表达主释义「文学」。"
       },
       {
-        "wordId": "w-lie",
-        "surfaceForm": "lie",
-        "reason": "将「lie」代入可见句子后不表达主释义「文学」。"
+        "wordId": "w-mode",
+        "surfaceForm": "mode",
+        "reason": "将「mode」代入可见句子后不表达主释义「文学」。"
       }
     ],
     "spelling": null
@@ -1187,8 +1187,8 @@
         "reason": "选项「基本的」不是「little」的主释义「小的」或其他义项。"
       },
       {
-        "wordId": "w-catholic",
-        "reason": "选项「广泛的」不是「little」的主释义「小的」或其他义项。"
+        "wordId": "w-primary",
+        "reason": "选项「主要的」不是「little」的主释义「小的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1201,8 +1201,8 @@
         "reason": "英文「basic」的常见义项「基本的」不符合主释义「小的」。"
       },
       {
-        "wordId": "w-catholic",
-        "reason": "英文「catholic」的常见义项「广泛的」不符合主释义「小的」。"
+        "wordId": "w-primary",
+        "reason": "英文「primary」的常见义项「主要的」不符合主释义「小的」。"
       }
     ],
     "contextChoice": [
@@ -1217,9 +1217,9 @@
         "reason": "将「basic」代入可见句子后不表达主释义「小的」。"
       },
       {
-        "wordId": "w-catholic",
-        "surfaceForm": "catholic",
-        "reason": "将「catholic」代入可见句子后不表达主释义「小的」。"
+        "wordId": "w-primary",
+        "surfaceForm": "primary",
+        "reason": "将「primary」代入可见句子后不表达主释义「小的」。"
       }
     ],
     "spelling": null

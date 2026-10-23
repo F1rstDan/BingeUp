@@ -87,6 +87,11 @@
       "reason": "固定美式来源缺项；按留声机义和规范词元独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-interruption": {
+      "ipa": "/ˌɪntɚˈɹʌpʃən/",
+      "reason": "固定来源音标缺少 -ruption 的 /r/ 且重音错位；按名词「中断」独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-jewellery": {
       "ipa": "/ˈdʒuːəlri/",
       "reason": "固定美式来源未收录英式拼写 jewellery；按珠宝义独立转写。",
@@ -97,6 +102,11 @@
       "reason": "固定美式来源缺项；按名词「哀叹」和规范词元独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-linger": {
+      "ipa": "/ˈlɪŋɡɚ/",
+      "reason": "固定来源候选漏读 /ɡ/；按动词「逗留」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-manoeuvre": {
       "ipa": "/məˈnuvɚ/",
       "reason": "固定美式来源未收录英式拼写 manoeuvre；按规范词元与常见美式读音独立转写。",
@@ -105,6 +115,11 @@
     "w-maths": {
       "ipa": "/mæθs/",
       "reason": "固定美式来源未收录英式拼写 maths；按数学义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-modulate": {
+      "ipa": "/ˈmɑdʒəˌleɪt/",
+      "reason": "固定来源候选在 /dʒ/ 后保留 /j/ 且元音不符；按动词「调节」独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
     "w-motorway": {
@@ -137,9 +152,64 @@
       "reason": "固定美式来源未收录英式拼写 pedlar；按小贩义独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     },
+    "w-perfume": {
+      "ipa": "/ˈpɝfjum/",
+      "reason": "主词性为名词「香水」，固定来源为动词重音；按名词重音独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-preposition": {
+      "ipa": "/ˌprɛpəˈzɪʃən/",
+      "reason": "固定美式来源缺项；按名词「介词」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-protend": {
+      "ipa": "/pɹoʊˈtɛnd/",
+      "reason": "固定美式来源缺项；按动词「伸出」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-pyjamas": {
+      "ipa": "/pəˈdʒɑməz/",
+      "reason": "固定美式来源未收录英式拼写 pyjamas；按睡衣义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-seminate": {
+      "ipa": "/ˈsɛmɪneɪt/",
+      "reason": "固定美式来源缺项；按动词「播种」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-southwards": {
+      "ipa": "/ˈsaʊθwɚdz/",
+      "reason": "固定美式来源缺项；按副词「向南」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-tradesman": {
+      "ipa": "/ˈtɹeɪdzmən/",
+      "reason": "固定美式来源缺项；按名词「商人」和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
     "w-vigour": {
       "ipa": "/ˈvɪɡɚ/",
       "reason": "ipa-dict en_US 未收录英式拼写 vigour；按规范词元与常见美式读音独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-vitamine": {
+      "ipa": "/ˈvaɪtəmɪn/",
+      "reason": "固定美式来源未收录旧拼写 vitamine；按维生素义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-waggon": {
+      "ipa": "/ˈwæɡən/",
+      "reason": "固定美式来源未收录英式拼写 waggon；按运货车义独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-workpiece": {
+      "ipa": "/ˈwɝkpis/",
+      "reason": "固定美式来源未收录 workpiece 的独立密码；按工件义和规范词元独立转写。",
+      "reviewedBy": "independent-ipa-review-v1"
+    },
+    "w-refugee": {
+      "ipa": "/ˌɹɛfjuˈdʒi/",
+      "reason": "固定来源主重音错误；按名词「难民」和常见美式读音独立转写。",
       "reviewedBy": "independent-ipa-review-v1"
     }
   }

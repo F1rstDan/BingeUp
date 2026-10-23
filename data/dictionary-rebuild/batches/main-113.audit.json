@@ -52,47 +52,47 @@
     "wordId": "w-marxism",
     "enToZh": [
       {
+        "wordId": "w-mister",
+        "reason": "选项「先生」不是「Marxism」的主释义「马克思主义」或其他义项。"
+      },
+      {
         "wordId": "w-brood",
         "reason": "选项「一窝雏鸟」不是「Marxism」的主释义「马克思主义」或其他义项。"
       },
       {
-        "wordId": "w-diligence",
-        "reason": "选项「勤奋」不是「Marxism」的主释义「马克思主义」或其他义项。"
-      },
-      {
-        "wordId": "w-jealousy",
-        "reason": "选项「嫉妒」不是「Marxism」的主释义「马克思主义」或其他义项。"
+        "wordId": "w-paralysis",
+        "reason": "选项「瘫痪」不是「Marxism」的主释义「马克思主义」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-mister",
+        "reason": "英文「Mister」的常见义项「先生」不符合主释义「马克思主义」。"
+      },
       {
         "wordId": "w-brood",
         "reason": "英文「brood」的常见义项「一窝雏鸟」不符合主释义「马克思主义」。"
       },
       {
-        "wordId": "w-diligence",
-        "reason": "英文「diligence」的常见义项「勤奋」不符合主释义「马克思主义」。"
-      },
-      {
-        "wordId": "w-jealousy",
-        "reason": "英文「jealousy」的常见义项「嫉妒」不符合主释义「马克思主义」。"
+        "wordId": "w-paralysis",
+        "reason": "英文「paralysis」的常见义项「瘫痪」不符合主释义「马克思主义」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-mister",
+        "surfaceForm": "Mister",
+        "reason": "将「Mister」代入可见句子后不表达主释义「马克思主义」。"
+      },
       {
         "wordId": "w-brood",
         "surfaceForm": "brood",
         "reason": "将「brood」代入可见句子后不表达主释义「马克思主义」。"
       },
       {
-        "wordId": "w-diligence",
-        "surfaceForm": "diligence",
-        "reason": "将「diligence」代入可见句子后不表达主释义「马克思主义」。"
-      },
-      {
-        "wordId": "w-jealousy",
-        "surfaceForm": "jealousy",
-        "reason": "将「jealousy」代入可见句子后不表达主释义「马克思主义」。"
+        "wordId": "w-paralysis",
+        "surfaceForm": "paralysis",
+        "reason": "将「paralysis」代入可见句子后不表达主释义「马克思主义」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「易爆的」不是「masculine」的主释义「男性的」或其他义项。"
       },
       {
-        "wordId": "w-infinite",
-        "reason": "选项「无限的」不是「masculine」的主释义「男性的」或其他义项。"
+        "wordId": "w-principal",
+        "reason": "选项「主要的」不是「masculine」的主释义「男性的」或其他义项。"
       },
       {
-        "wordId": "w-integral",
-        "reason": "选项「不可缺少的」不是「masculine」的主释义「男性的」或其他义项。"
+        "wordId": "w-progressive",
+        "reason": "选项「进步的」不是「masculine」的主释义「男性的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「explosive」的常见义项「易爆的」不符合主释义「男性的」。"
       },
       {
-        "wordId": "w-infinite",
-        "reason": "英文「infinite」的常见义项「无限的」不符合主释义「男性的」。"
+        "wordId": "w-principal",
+        "reason": "英文「principal」的常见义项「主要的」不符合主释义「男性的」。"
       },
       {
-        "wordId": "w-integral",
-        "reason": "英文「integral」的常见义项「不可缺少的」不符合主释义「男性的」。"
+        "wordId": "w-progressive",
+        "reason": "英文「progressive」的常见义项「进步的」不符合主释义「男性的」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「explosive」代入可见句子后不表达主释义「男性的」。"
       },
       {
-        "wordId": "w-infinite",
-        "surfaceForm": "infinite",
-        "reason": "将「infinite」代入可见句子后不表达主释义「男性的」。"
+        "wordId": "w-principal",
+        "surfaceForm": "principal",
+        "reason": "将「principal」代入可见句子后不表达主释义「男性的」。"
       },
       {
-        "wordId": "w-integral",
-        "surfaceForm": "integral",
-        "reason": "将「integral」代入可见句子后不表达主释义「男性的」。"
+        "wordId": "w-progressive",
+        "surfaceForm": "progressive",
+        "reason": "将「progressive」代入可见句子后不表达主释义「男性的」。"
       }
     ],
     "spelling": null
@@ -256,8 +256,8 @@
         "reason": "选项「作者」不是「mass」的主释义「大量」或其他义项。"
       },
       {
-        "wordId": "w-friend",
-        "reason": "选项「朋友」不是「mass」的主释义「大量」或其他义项。"
+        "wordId": "w-personnel",
+        "reason": "选项「员工」不是「mass」的主释义「大量」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「author」的常见义项「作者」不符合主释义「大量」。"
       },
       {
-        "wordId": "w-friend",
-        "reason": "英文「friend」的常见义项「朋友」不符合主释义「大量」。"
+        "wordId": "w-personnel",
+        "reason": "英文「personnel」的常见义项「员工」不符合主释义「大量」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「author」代入可见句子后不表达主释义「大量」。"
       },
       {
-        "wordId": "w-friend",
-        "surfaceForm": "friend",
-        "reason": "将「friend」代入可见句子后不表达主释义「大量」。"
+        "wordId": "w-personnel",
+        "surfaceForm": "personnel",
+        "reason": "将「personnel」代入可见句子后不表达主释义「大量」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「初学者」不是「mast」的主释义「桅杆」或其他义项。"
       },
       {
-        "wordId": "w-infancy",
-        "reason": "选项「婴儿期」不是「mast」的主释义「桅杆」或其他义项。"
+        "wordId": "w-propulsion",
+        "reason": "选项「推进力」不是「mast」的主释义「桅杆」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「beginner」的常见义项「初学者」不符合主释义「桅杆」。"
       },
       {
-        "wordId": "w-infancy",
-        "reason": "英文「infancy」的常见义项「婴儿期」不符合主释义「桅杆」。"
+        "wordId": "w-propulsion",
+        "reason": "英文「propulsion」的常见义项「推进力」不符合主释义「桅杆」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「beginner」代入可见句子后不表达主释义「桅杆」。"
       },
       {
-        "wordId": "w-infancy",
-        "surfaceForm": "infancy",
-        "reason": "将「infancy」代入可见句子后不表达主释义「桅杆」。"
+        "wordId": "w-propulsion",
+        "surfaceForm": "propulsion",
+        "reason": "将「propulsion」代入可见句子后不表达主释义「桅杆」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「制造商」不是「master」的主释义「大师」或其他义项。"
       },
       {
-        "wordId": "w-brother",
-        "reason": "选项「兄弟」不是「master」的主释义「大师」或其他义项。"
+        "wordId": "w-painting",
+        "reason": "选项「画作」不是「master」的主释义「大师」或其他义项。"
       },
       {
-        "wordId": "w-lack",
-        "reason": "选项「缺乏」不是「master」的主释义「大师」或其他义项。"
+        "wordId": "w-brother",
+        "reason": "选项「兄弟」不是「master」的主释义「大师」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「manufacturer」的常见义项「制造商」不符合主释义「大师」。"
       },
       {
-        "wordId": "w-brother",
-        "reason": "英文「brother」的常见义项「兄弟」不符合主释义「大师」。"
+        "wordId": "w-painting",
+        "reason": "英文「painting」的常见义项「画作」不符合主释义「大师」。"
       },
       {
-        "wordId": "w-lack",
-        "reason": "英文「lack」的常见义项「缺乏」不符合主释义「大师」。"
+        "wordId": "w-brother",
+        "reason": "英文「brother」的常见义项「兄弟」不符合主释义「大师」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「manufacturer」代入可见句子后不表达主释义「大师」。"
       },
       {
+        "wordId": "w-painting",
+        "surfaceForm": "painting",
+        "reason": "将「painting」代入可见句子后不表达主释义「大师」。"
+      },
+      {
         "wordId": "w-brother",
         "surfaceForm": "brother",
         "reason": "将「brother」代入可见句子后不表达主释义「大师」。"
-      },
-      {
-        "wordId": "w-lack",
-        "surfaceForm": "lack",
-        "reason": "将「lack」代入可见句子后不表达主释义「大师」。"
       }
     ],
     "spelling": null
@@ -448,12 +448,12 @@
         "reason": "选项「检查员」不是「masterpiece」的主释义「杰作」或其他义项。"
       },
       {
-        "wordId": "w-architect",
-        "reason": "选项「建筑师」不是「masterpiece」的主释义「杰作」或其他义项。"
+        "wordId": "w-orphan",
+        "reason": "选项「孤儿」不是「masterpiece」的主释义「杰作」或其他义项。"
       },
       {
-        "wordId": "w-librarian",
-        "reason": "选项「图书管理员」不是「masterpiece」的主释义「杰作」或其他义项。"
+        "wordId": "w-pipeline",
+        "reason": "选项「管道」不是「masterpiece」的主释义「杰作」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -462,12 +462,12 @@
         "reason": "英文「inspector」的常见义项「检查员」不符合主释义「杰作」。"
       },
       {
-        "wordId": "w-architect",
-        "reason": "英文「architect」的常见义项「建筑师」不符合主释义「杰作」。"
+        "wordId": "w-orphan",
+        "reason": "英文「orphan」的常见义项「孤儿」不符合主释义「杰作」。"
       },
       {
-        "wordId": "w-librarian",
-        "reason": "英文「librarian」的常见义项「图书管理员」不符合主释义「杰作」。"
+        "wordId": "w-pipeline",
+        "reason": "英文「pipeline」的常见义项「管道」不符合主释义「杰作」。"
       }
     ],
     "contextChoice": [
@@ -477,14 +477,14 @@
         "reason": "将「inspector」代入可见句子后不表达主释义「杰作」。"
       },
       {
-        "wordId": "w-architect",
-        "surfaceForm": "architect",
-        "reason": "将「architect」代入可见句子后不表达主释义「杰作」。"
+        "wordId": "w-orphan",
+        "surfaceForm": "orphan",
+        "reason": "将「orphan」代入可见句子后不表达主释义「杰作」。"
       },
       {
-        "wordId": "w-librarian",
-        "surfaceForm": "librarian",
-        "reason": "将「librarian」代入可见句子后不表达主释义「杰作」。"
+        "wordId": "w-pipeline",
+        "surfaceForm": "pipeline",
+        "reason": "将「pipeline」代入可见句子后不表达主释义「杰作」。"
       }
     ],
     "spelling": null
@@ -599,8 +599,8 @@
         "reason": "选项「离开」不是「match」的主释义「比赛」或其他义项。"
       },
       {
-        "wordId": "w-forecast",
-        "reason": "选项「预报」不是「match」的主释义「比赛」或其他义项。"
+        "wordId": "w-metal",
+        "reason": "选项「金属」不是「match」的主释义「比赛」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -613,8 +613,8 @@
         "reason": "英文「departure」的常见义项「离开」不符合主释义「比赛」。"
       },
       {
-        "wordId": "w-forecast",
-        "reason": "英文「forecast」的常见义项「预报」不符合主释义「比赛」。"
+        "wordId": "w-metal",
+        "reason": "英文「metal」的常见义项「金属」不符合主释义「比赛」。"
       }
     ],
     "contextChoice": [
@@ -629,9 +629,9 @@
         "reason": "将「departure」代入可见句子后不表达主释义「比赛」。"
       },
       {
-        "wordId": "w-forecast",
-        "surfaceForm": "forecast",
-        "reason": "将「forecast」代入可见句子后不表达主释义「比赛」。"
+        "wordId": "w-metal",
+        "surfaceForm": "metal",
+        "reason": "将「metal」代入可见句子后不表达主释义「比赛」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「缺点」不是「materialism」的主释义「物质主义」或其他义项。"
       },
       {
-        "wordId": "w-dormitory",
-        "reason": "选项「宿舍」不是「materialism」的主释义「物质主义」或其他义项。"
+        "wordId": "w-mischief",
+        "reason": "选项「恶作剧」不是「materialism」的主释义「物质主义」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「shortcoming」的常见义项「缺点」不符合主释义「物质主义」。"
       },
       {
-        "wordId": "w-dormitory",
-        "reason": "英文「dormitory」的常见义项「宿舍」不符合主释义「物质主义」。"
+        "wordId": "w-mischief",
+        "reason": "英文「mischief」的常见义项「恶作剧」不符合主释义「物质主义」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「shortcoming」代入可见句子后不表达主释义「物质主义」。"
       },
       {
-        "wordId": "w-dormitory",
-        "surfaceForm": "dormitory",
-        "reason": "将「dormitory」代入可见句子后不表达主释义「物质主义」。"
+        "wordId": "w-mischief",
+        "surfaceForm": "mischief",
+        "reason": "将「mischief」代入可见句子后不表达主释义「物质主义」。"
       }
     ],
     "spelling": null
@@ -787,19 +787,23 @@
     "wordId": "w-math",
     "enToZh": [
       {
+        "wordId": "w-place",
+        "reason": "选项「地方」不是「math」的主释义「数学」或其他义项。"
+      },
+      {
         "wordId": "w-hero",
         "reason": "选项「英雄」不是「math」的主释义「数学」或其他义项。"
       },
       {
         "wordId": "w-goods",
         "reason": "选项「商品」不是「math」的主释义「数学」或其他义项。"
-      },
-      {
-        "wordId": "w-luggage",
-        "reason": "选项「行李」不是「math」的主释义「数学」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-place",
+        "reason": "英文「place」的常见义项「地方」不符合主释义「数学」。"
+      },
       {
         "wordId": "w-hero",
         "reason": "英文「hero」的常见义项「英雄」不符合主释义「数学」。"
@@ -807,13 +811,14 @@
       {
         "wordId": "w-goods",
         "reason": "英文「goods」的常见义项「商品」不符合主释义「数学」。"
-      },
-      {
-        "wordId": "w-luggage",
-        "reason": "英文「luggage」的常见义项「行李」不符合主释义「数学」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-place",
+        "surfaceForm": "place",
+        "reason": "将「place」代入可见句子后不表达主释义「数学」。"
+      },
       {
         "wordId": "w-hero",
         "surfaceForm": "hero",
@@ -823,11 +828,6 @@
         "wordId": "w-goods",
         "surfaceForm": "goods",
         "reason": "将「goods」代入可见句子后不表达主释义「数学」。"
-      },
-      {
-        "wordId": "w-luggage",
-        "surfaceForm": "luggage",
-        "reason": "将「luggage」代入可见句子后不表达主释义「数学」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「气压计」不是「maths」的主释义「数学」或其他义项。"
       },
       {
-        "wordId": "w-bridegroom",
-        "reason": "选项「新郎」不是「maths」的主释义「数学」或其他义项。"
+        "wordId": "w-provost",
+        "reason": "选项「教务长」不是「maths」的主释义「数学」或其他义项。"
       },
       {
-        "wordId": "w-aeroplane",
-        "reason": "选项「飞机」不是「maths」的主释义「数学」或其他义项。"
+        "wordId": "w-bridegroom",
+        "reason": "选项「新郎」不是「maths」的主释义「数学」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「barometer」的常见义项「气压计」不符合主释义「数学」。"
       },
       {
-        "wordId": "w-bridegroom",
-        "reason": "英文「bridegroom」的常见义项「新郎」不符合主释义「数学」。"
+        "wordId": "w-provost",
+        "reason": "英文「provost」的常见义项「教务长」不符合主释义「数学」。"
       },
       {
-        "wordId": "w-aeroplane",
-        "reason": "英文「aeroplane」的常见义项「飞机」不符合主释义「数学」。"
+        "wordId": "w-bridegroom",
+        "reason": "英文「bridegroom」的常见义项「新郎」不符合主释义「数学」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「barometer」代入可见句子后不表达主释义「数学」。"
       },
       {
+        "wordId": "w-provost",
+        "surfaceForm": "provost",
+        "reason": "将「provost」代入可见句子后不表达主释义「数学」。"
+      },
+      {
         "wordId": "w-bridegroom",
         "surfaceForm": "bridegroom",
         "reason": "将「bridegroom」代入可见句子后不表达主释义「数学」。"
-      },
-      {
-        "wordId": "w-aeroplane",
-        "surfaceForm": "aeroplane",
-        "reason": "将「aeroplane」代入可见句子后不表达主释义「数学」。"
       }
     ],
     "spelling": null
@@ -942,8 +942,8 @@
         "reason": "选项「家具」不是「matter」的主释义「事情」或其他义项。"
       },
       {
-        "wordId": "w-artist",
-        "reason": "选项「艺术家」不是「matter」的主释义「事情」或其他义项。"
+        "wordId": "w-millimetre",
+        "reason": "选项「毫米」不是「matter」的主释义「事情」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -956,8 +956,8 @@
         "reason": "英文「furniture」的常见义项「家具」不符合主释义「事情」。"
       },
       {
-        "wordId": "w-artist",
-        "reason": "英文「artist」的常见义项「艺术家」不符合主释义「事情」。"
+        "wordId": "w-millimetre",
+        "reason": "英文「millimetre」的常见义项「毫米」不符合主释义「事情」。"
       }
     ],
     "contextChoice": [
@@ -972,9 +972,9 @@
         "reason": "将「furniture」代入可见句子后不表达主释义「事情」。"
       },
       {
-        "wordId": "w-artist",
-        "surfaceForm": "artist",
-        "reason": "将「artist」代入可见句子后不表达主释义「事情」。"
+        "wordId": "w-millimetre",
+        "surfaceForm": "millimetre",
+        "reason": "将「millimetre」代入可见句子后不表达主释义「事情」。"
       }
     ],
     "spelling": null
@@ -1040,8 +1040,8 @@
         "reason": "选项「女仆」不是「maturity」的主释义「成熟」或其他义项。"
       },
       {
-        "wordId": "w-scarf",
-        "reason": "选项「围巾」不是「maturity」的主释义「成熟」或其他义项。"
+        "wordId": "w-precaution",
+        "reason": "选项「预防措施」不是「maturity」的主释义「成熟」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1054,8 +1054,8 @@
         "reason": "英文「maid」的常见义项「女仆」不符合主释义「成熟」。"
       },
       {
-        "wordId": "w-scarf",
-        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「成熟」。"
+        "wordId": "w-precaution",
+        "reason": "英文「precaution」的常见义项「预防措施」不符合主释义「成熟」。"
       }
     ],
     "contextChoice": [
@@ -1070,9 +1070,9 @@
         "reason": "将「maid」代入可见句子后不表达主释义「成熟」。"
       },
       {
-        "wordId": "w-scarf",
-        "surfaceForm": "scarf",
-        "reason": "将「scarf」代入可见句子后不表达主释义「成熟」。"
+        "wordId": "w-precaution",
+        "surfaceForm": "precaution",
+        "reason": "将「precaution」代入可见句子后不表达主释义「成熟」。"
       }
     ],
     "spelling": null
@@ -1138,8 +1138,8 @@
         "reason": "选项「不断地」不是「maybe」的主释义「也许」或其他义项。"
       },
       {
-        "wordId": "w-forth",
-        "reason": "选项「向前」不是「maybe」的主释义「也许」或其他义项。"
+        "wordId": "w-physically",
+        "reason": "选项「身体上」不是「maybe」的主释义「也许」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1152,8 +1152,8 @@
         "reason": "英文「constantly」的常见义项「不断地」不符合主释义「也许」。"
       },
       {
-        "wordId": "w-forth",
-        "reason": "英文「forth」的常见义项「向前」不符合主释义「也许」。"
+        "wordId": "w-physically",
+        "reason": "英文「physically」的常见义项「身体上」不符合主释义「也许」。"
       }
     ],
     "contextChoice": [
@@ -1168,9 +1168,9 @@
         "reason": "将「constantly」代入可见句子后不表达主释义「也许」。"
       },
       {
-        "wordId": "w-forth",
-        "surfaceForm": "forth",
-        "reason": "将「forth」代入可见句子后不表达主释义「也许」。"
+        "wordId": "w-physically",
+        "surfaceForm": "physically",
+        "reason": "将「physically」代入可见句子后不表达主释义「也许」。"
       }
     ],
     "spelling": null

@@ -1,0 +1,22 @@
+{
+  "reviewer": "independent-sample-review-main-132",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-parcel",
+    "w-partially",
+    "w-particle",
+    "w-particular",
+    "w-particularly",
+    "w-passage",
+    "w-passion",
+    "w-pastime"
+  ],
+  "result": "fail",
+  "findings": [
+    {
+      "wordId": "w-particular",
+      "stage": "pronunciation",
+      "message": "主词性为 adj.、主释义为「特定的」；当前选择索引 0 的 /ˌpɑˈtɪkjəɫɝ/ 缺少首音节 /r/，且首元音与常见美式读音 /pɝˈtɪkjəɫɝ/ 或 /pɑɹˈtɪkjəɫɝ/ 不符。应改选索引 1，或补充完整读音的独立转写。"
+    }
+  ]
+}
