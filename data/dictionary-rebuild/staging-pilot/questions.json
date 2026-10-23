@@ -1047,23 +1047,7 @@
     }
   },
   {
-    "contextChoice": {
-      "checkedContentHash": "61a4bc96828768c085cfa7dad9bb5190f52a3848f670b951bf3cc31938e72dc7",
-      "distractors": [
-        {
-          "surfaceForm": "drop",
-          "wordId": "w-drop"
-        },
-        {
-          "surfaceForm": "detect",
-          "wordId": "w-detect"
-        },
-        {
-          "surfaceForm": "hire",
-          "wordId": "w-hire"
-        }
-      ]
-    },
+    "contextChoice": null,
     "enToZh": {
       "checkedContentHash": "bef712ad4715bcb77910a16744ea6afefae041e50d84fa96ea9b18f3cf1efe8b",
       "distractors": [
@@ -2724,23 +2708,7 @@
     }
   },
   {
-    "contextChoice": {
-      "checkedContentHash": "e9c4ce0113be5291042ca2bf4daa42df1f3e2b9bfa2d75ea8fece01e7d023c1a",
-      "distractors": [
-        {
-          "surfaceForm": "untie",
-          "wordId": "w-untie"
-        },
-        {
-          "surfaceForm": "deceive",
-          "wordId": "w-deceive"
-        },
-        {
-          "surfaceForm": "misunderstand",
-          "wordId": "w-misunderstand"
-        }
-      ]
-    },
+    "contextChoice": null,
     "enToZh": {
       "checkedContentHash": "18a35921e1fbd743731f09a30e278eefe5dea5084c6f2effd26d83213b5aa83b",
       "distractors": [
@@ -3704,23 +3672,7 @@
     }
   },
   {
-    "contextChoice": {
-      "checkedContentHash": "b2eb9314aaa5497967256af3c82e8a775d213d592ffdc6ddfc9ebcfa8876122b",
-      "distractors": [
-        {
-          "surfaceForm": "hire",
-          "wordId": "w-hire"
-        },
-        {
-          "surfaceForm": "cover",
-          "wordId": "w-cover"
-        },
-        {
-          "surfaceForm": "swallow",
-          "wordId": "w-swallow"
-        }
-      ]
-    },
+    "contextChoice": null,
     "enToZh": {
       "checkedContentHash": "a85dd4b3626f0d2b0f1e40ae86d52f9d3fdb960473c61faa7fe005f3d120b50b",
       "distractors": [

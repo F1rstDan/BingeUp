@@ -23,6 +23,7 @@ import type {
   SiteStateResponse,
 } from '@/messaging/messages';
 import type { DataOperationResult } from '@/storage/data-transfer';
+import { ContentUnavailableError } from '@/learning/planned-questions';
 
 /**
  * Content / Popup → Background 消息客户端。封装 chrome.runtime.sendMessage，
@@ -186,6 +187,9 @@ async function send<T>(message: ExtensionMessage): Promise<T> {
     '__bingeupError' in response &&
     typeof response.__bingeupError === 'string'
   ) {
+    if (response.__bingeupErrorCode === 'content-unavailable') {
+      throw new ContentUnavailableError('unknown', response.__bingeupError);
+    }
     throw new Error(response.__bingeupError);
   }
   return response as T;

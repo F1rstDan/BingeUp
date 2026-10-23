@@ -168,6 +168,32 @@ describe('备份 v1/v2 与身份转换 — Issue #59', () => {
     );
   });
 
+  it('v1 自定义词库的卡成员关系在规范化后校验', async () => {
+    const payload = v1Payload(
+      [
+        {
+          ...CARD_A,
+          id: 'card-custom-deck',
+          wordId: 'w-bench',
+          deckId: 'user-deck',
+        },
+      ],
+      [],
+    );
+    payload.data.decks.push({
+      id: 'user-deck',
+      name: '用户词库',
+      source: 'user',
+      license: 'user',
+      wordIds: ['w-candle'],
+    });
+    const result = await importLocalData(store, payload);
+    expect(result.ok).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([expect.stringContaining('不属于引用的自定义词库')]),
+    );
+  });
+
   it('v2 往返保留兼容记录，重复导入不追加事实', async () => {
     await importLocalData(store, v1Payload([CARD_A, CARD_B], [LOG_A]));
     const exported = (await exportLocalData(store)) as ExportPayloadV2;
@@ -221,5 +247,22 @@ describe('备份 v1/v2 与身份转换 — Issue #59', () => {
       expect.arrayContaining([expect.stringContaining('内容版本与当前词库不一致')]),
     );
     expect(await idbGetAll<CardRecord>(db, STORES.cards)).toHaveLength(1);
+  });
+
+  it('损坏的兼容记录返回错误列表而不是抛出异常', async () => {
+    await importLocalData(store, v1Payload([CARD_A], [LOG_A]));
+    const exported = (await exportLocalData(store)) as ExportPayloadV2;
+    const broken = {
+      ...exported,
+      compatibility: {
+        ...exported.compatibility!,
+        deactivatedCardIds: undefined as never,
+      },
+    };
+    const result = await importLocalData(store, broken);
+    expect(result.ok).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([expect.stringContaining('兼容记录结构非法')]),
+    );
   });
 });

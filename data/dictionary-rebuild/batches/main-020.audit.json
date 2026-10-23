@@ -101,19 +101,23 @@
     "wordId": "w-boast",
     "enToZh": [
       {
+        "wordId": "w-brace",
+        "reason": "选项「支撑」不是「boast」的主释义「吹嘘」或其他义项。"
+      },
+      {
         "wordId": "w-accelerate",
         "reason": "选项「加速」不是「boast」的主释义「吹嘘」或其他义项。"
       },
       {
         "wordId": "w-contaminate",
         "reason": "选项「污染」不是「boast」的主释义「吹嘘」或其他义项。"
-      },
-      {
-        "wordId": "w-attribute",
-        "reason": "选项「把…归因于」不是「boast」的主释义「吹嘘」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-brace",
+        "reason": "英文「brace」的常见义项「支撑」不符合主释义「吹嘘」。"
+      },
       {
         "wordId": "w-accelerate",
         "reason": "英文「accelerate」的常见义项「加速」不符合主释义「吹嘘」。"
@@ -121,13 +125,14 @@
       {
         "wordId": "w-contaminate",
         "reason": "英文「contaminate」的常见义项「污染」不符合主释义「吹嘘」。"
-      },
-      {
-        "wordId": "w-attribute",
-        "reason": "英文「attribute」的常见义项「把…归因于」不符合主释义「吹嘘」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-brace",
+        "surfaceForm": "brace",
+        "reason": "将「brace」代入可见句子后不表达主释义「吹嘘」。"
+      },
       {
         "wordId": "w-accelerate",
         "surfaceForm": "accelerate",
@@ -137,11 +142,6 @@
         "wordId": "w-contaminate",
         "surfaceForm": "contaminate",
         "reason": "将「contaminate」代入可见句子后不表达主释义「吹嘘」。"
-      },
-      {
-        "wordId": "w-attribute",
-        "surfaceForm": "attribute",
-        "reason": "将「attribute」代入可见句子后不表达主释义「吹嘘」。"
       }
     ],
     "spelling": null
@@ -203,12 +203,12 @@
         "reason": "选项「木板」不是「body」的主释义「身体」或其他义项。"
       },
       {
-        "wordId": "w-advertisement",
-        "reason": "选项「广告」不是「body」的主释义「身体」或其他义项。"
+        "wordId": "w-boy",
+        "reason": "选项「男孩」不是「body」的主释义「身体」或其他义项。"
       },
       {
-        "wordId": "w-analyst",
-        "reason": "选项「分析师」不是「body」的主释义「身体」或其他义项。"
+        "wordId": "w-advertisement",
+        "reason": "选项「广告」不是「body」的主释义「身体」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -217,12 +217,12 @@
         "reason": "英文「board」的常见义项「木板」不符合主释义「身体」。"
       },
       {
-        "wordId": "w-advertisement",
-        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「身体」。"
+        "wordId": "w-boy",
+        "reason": "英文「boy」的常见义项「男孩」不符合主释义「身体」。"
       },
       {
-        "wordId": "w-analyst",
-        "reason": "英文「analyst」的常见义项「分析师」不符合主释义「身体」。"
+        "wordId": "w-advertisement",
+        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「身体」。"
       }
     ],
     "contextChoice": [
@@ -232,14 +232,14 @@
         "reason": "将「board」代入可见句子后不表达主释义「身体」。"
       },
       {
+        "wordId": "w-boy",
+        "surfaceForm": "boy",
+        "reason": "将「boy」代入可见句子后不表达主释义「身体」。"
+      },
+      {
         "wordId": "w-advertisement",
         "surfaceForm": "advertisement",
         "reason": "将「advertisement」代入可见句子后不表达主释义「身体」。"
-      },
-      {
-        "wordId": "w-analyst",
-        "surfaceForm": "analyst",
-        "reason": "将「analyst」代入可见句子后不表达主释义「身体」。"
       }
     ],
     "spelling": null
@@ -550,8 +550,8 @@
         "reason": "选项「英亩」不是「bonus」的主释义「奖金」或其他义项。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "选项「评估」不是「bonus」的主释义「奖金」或其他义项。"
+        "wordId": "w-breakdown",
+        "reason": "选项「故障」不是「bonus」的主释义「奖金」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -564,8 +564,8 @@
         "reason": "英文「acre」的常见义项「英亩」不符合主释义「奖金」。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「奖金」。"
+        "wordId": "w-breakdown",
+        "reason": "英文「breakdown」的常见义项「故障」不符合主释义「奖金」。"
       }
     ],
     "contextChoice": [
@@ -580,9 +580,9 @@
         "reason": "将「acre」代入可见句子后不表达主释义「奖金」。"
       },
       {
-        "wordId": "w-appraisal",
-        "surfaceForm": "appraisal",
-        "reason": "将「appraisal」代入可见句子后不表达主释义「奖金」。"
+        "wordId": "w-breakdown",
+        "surfaceForm": "breakdown",
+        "reason": "将「breakdown」代入可见句子后不表达主释义「奖金」。"
       }
     ],
     "spelling": null
@@ -693,12 +693,12 @@
         "reason": "选项「活动」不是「boot」的主释义「靴子」或其他义项。"
       },
       {
-        "wordId": "w-art",
-        "reason": "选项「艺术」不是「boot」的主释义「靴子」或其他义项。"
+        "wordId": "w-brain",
+        "reason": "选项「大脑」不是「boot」的主释义「靴子」或其他义项。"
       },
       {
-        "wordId": "w-statistics",
-        "reason": "选项「统计数据」不是「boot」的主释义「靴子」或其他义项。"
+        "wordId": "w-art",
+        "reason": "选项「艺术」不是「boot」的主释义「靴子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -707,12 +707,12 @@
         "reason": "英文「activity」的常见义项「活动」不符合主释义「靴子」。"
       },
       {
-        "wordId": "w-art",
-        "reason": "英文「art」的常见义项「艺术」不符合主释义「靴子」。"
+        "wordId": "w-brain",
+        "reason": "英文「brain」的常见义项「大脑」不符合主释义「靴子」。"
       },
       {
-        "wordId": "w-statistics",
-        "reason": "英文「statistics」的常见义项「统计数据」不符合主释义「靴子」。"
+        "wordId": "w-art",
+        "reason": "英文「art」的常见义项「艺术」不符合主释义「靴子」。"
       }
     ],
     "contextChoice": [
@@ -722,14 +722,14 @@
         "reason": "将「activity」代入可见句子后不表达主释义「靴子」。"
       },
       {
+        "wordId": "w-brain",
+        "surfaceForm": "brain",
+        "reason": "将「brain」代入可见句子后不表达主释义「靴子」。"
+      },
+      {
         "wordId": "w-art",
         "surfaceForm": "art",
         "reason": "将「art」代入可见句子后不表达主释义「靴子」。"
-      },
-      {
-        "wordId": "w-statistics",
-        "surfaceForm": "statistics",
-        "reason": "将「statistics」代入可见句子后不表达主释义「靴子」。"
       }
     ],
     "spelling": null
@@ -1138,8 +1138,8 @@
         "reason": "选项「混合」不是「bounce」的主释义「弹跳」或其他义项。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "选项「鼓掌」不是「bounce」的主释义「弹跳」或其他义项。"
+        "wordId": "w-brace",
+        "reason": "选项「支撑」不是「bounce」的主释义「弹跳」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1152,8 +1152,8 @@
         "reason": "英文「blend」的常见义项「混合」不符合主释义「弹跳」。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「弹跳」。"
+        "wordId": "w-brace",
+        "reason": "英文「brace」的常见义项「支撑」不符合主释义「弹跳」。"
       }
     ],
     "contextChoice": [
@@ -1168,9 +1168,9 @@
         "reason": "将「blend」代入可见句子后不表达主释义「弹跳」。"
       },
       {
-        "wordId": "w-applaud",
-        "surfaceForm": "applaud",
-        "reason": "将「applaud」代入可见句子后不表达主释义「弹跳」。"
+        "wordId": "w-brace",
+        "surfaceForm": "brace",
+        "reason": "将「brace」代入可见句子后不表达主释义「弹跳」。"
       }
     ],
     "spelling": null

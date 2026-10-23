@@ -49,6 +49,7 @@ const PROMPTS = {
   review: join(DATA_DIR, 'prompts/review.md'),
 };
 const IPA_PATH = join(DATA_DIR, 'sources/en_US.txt');
+const IPA_SHA256 = '2af6f154a5c363275f052d1f85acedef38ed185ca9745aa4314be77f6b70de67';
 const IPA_SELECTIONS_PATH = join(DATA_DIR, 'ipa-selections.json');
 const IPA_OVERRIDES_PATH = join(DATA_DIR, 'ipa-overrides.json');
 const PLAN_OVERRIDES_PATH = join(DATA_DIR, 'plan-overrides.json');
@@ -112,6 +113,8 @@ interface BatchState {
   samplingSeed: string;
   sampleWordIds: string[];
   outputHash: string | null;
+  /** 仅词条候选文件的哈希；用于区分重验与新生成。 */
+  entryHash?: string | null;
   generationPromptHash: string;
   status: 'pending' | 'running' | 'needs-fix' | 'verified';
   attempts: number;
@@ -150,6 +153,7 @@ interface RebuildState {
   defaultPromptHashes: { generate: string; review: string };
   registryHash: string;
   seedReview: { reviewedWordIds: string[]; failures: Array<{ wordId: string; reason: string }> };
+  wordAttempts?: Record<string, { promptHash: string; attempts: number }>;
   batches: BatchState[];
 }
 
@@ -264,8 +268,13 @@ function effectiveWords(seed: Seed, registry: LegacyRegistry): EffectiveWord[] {
 
 function loadIpaCandidates(): Map<string, string[]> {
   if (cachedIpa) return cachedIpa;
+  const bytes = readFileSync(IPA_PATH);
+  const actual = createHash('sha256').update(bytes).digest('hex');
+  if (actual !== IPA_SHA256) {
+    throw new Error(`IPA 来源哈希不符：期望 ${IPA_SHA256}，实际 ${actual}`);
+  }
   const result = new Map<string, string[]>();
-  for (const line of readFileSync(IPA_PATH, 'utf8').split(/\r?\n/)) {
+  for (const line of bytes.toString('utf8').split(/\r?\n/)) {
     const match = line.match(/^([^\t]+)\t(.+)$/);
     if (!match) continue;
     const word = match[1]!.toLowerCase();
@@ -420,6 +429,7 @@ function prepare(force = false): void {
     defaultPromptHashes: prompt,
     registryHash: registry.registryHash,
     seedReview: { reviewedWordIds: registry.entries.map((entry) => entry.legacyId), failures: [] },
+    wordAttempts: {},
     batches,
   };
   writeJsonAtomic(STATE_PATH, state);
@@ -470,6 +480,7 @@ function createBatch(
     samplingSeed,
     sampleWordIds: kind === 'pilot' ? [...wordIds] : sampleIds(id, wordIds, samplingSeed),
     outputHash: null,
+    entryHash: null,
     generationPromptHash: prompt.generate,
     status: 'pending',
     attempts: 0,
@@ -484,7 +495,9 @@ function createBatch(
 }
 
 function loadState(): RebuildState {
-  return readJson<RebuildState>(STATE_PATH);
+  const state = readJson<RebuildState>(STATE_PATH);
+  state.wordAttempts ??= {};
+  return state;
 }
 
 function saveState(state: RebuildState): void {
@@ -495,6 +508,54 @@ function getBatch(state: RebuildState, id: string): BatchState {
   const batch = state.batches.find((item) => item.id === id);
   if (!batch) throw new Error(`未知批次：${id}`);
   return batch;
+}
+
+function verifyBatchArtifacts(
+  batch: BatchState,
+  seed: Seed,
+  registry: LegacyRegistry,
+  prompt: { generate: string; review: string },
+): string[] {
+  const errors: string[] = [];
+  const input = readJsonl<Record<string, unknown>>(batchPath(batch.id, 'input.jsonl'));
+  const expectedInputHash = nodeSha256(
+    canonicalJson({
+      batchId: batch.id,
+      wordIds: batch.wordIds,
+      input,
+      contractVersion: CONTENT_CONTRACT_VERSION,
+      generatePromptHash: prompt.generate,
+      registryHash: registry.registryHash,
+      datasetId: seed.datasetId,
+    }),
+  );
+  if (expectedInputHash !== batch.inputHash) errors.push('输入或依赖哈希不符');
+  if (batch.generationPromptHash !== prompt.generate) errors.push('生成提示版本已改变');
+  if (batch.outputHash === null) errors.push('缺少输出哈希');
+  const entries = readJsonl<CandidateEntry>(batchPath(batch.id, 'output.jsonl'));
+  const plans = readJsonl<WordQuestionPlan>(batchPath(batch.id, 'questions.jsonl'));
+  const audit = readJson<unknown[]>(batchPath(batch.id, 'audit.json'));
+  const expectedOutputHash = nodeSha256(
+    canonicalJson({
+      words: nodeSha256(canonicalJson(entries)),
+      questions: nodeSha256(canonicalJson(plans)),
+      audit: nodeSha256(canonicalJson(audit)),
+    }),
+  );
+  if (expectedOutputHash !== batch.outputHash) errors.push('输出、题组或自检依据哈希不符');
+  if (!batch.review) {
+    errors.push('缺少复核记录');
+  } else {
+    if (batch.review.outputHash !== batch.outputHash) errors.push('复核未绑定当前输出');
+    if (batch.review.promptHash !== prompt.review) errors.push('复核提示版本已改变');
+    if (batch.kind === 'pilot' && batch.review.mode !== 'full') errors.push('试批不是逐词复核');
+    for (const wordId of batch.sampleWordIds) {
+      if (!batch.review.inspectedWordIds.includes(wordId)) {
+        errors.push(`复核样本缺失：${wordId}`);
+      }
+    }
+  }
+  return errors;
 }
 
 function parseEntry(raw: unknown, wordId: string): CandidateEntry {
@@ -654,8 +715,10 @@ async function buildPlans(
   if (en.length < 3) throw new Error(`${target.id}: 英选中干扰项不足`);
   const zh = chooseDistractors(target, pool, 'zh-to-en', excluded);
   const context = chooseDistractors(target, pool, 'context-choice', excluded);
+  const surfaceIsLemma = target.surfaceFormInExample?.toLowerCase() === target.word.toLowerCase();
   const allowContext =
-    batchKind === 'pilot' ? override?.contextChoice !== false : override?.contextChoice === true;
+    surfaceIsLemma &&
+    (batchKind === 'pilot' ? override?.contextChoice !== false : override?.contextChoice === true);
   const allowSpelling =
     batchKind === 'pilot' ? override?.spelling !== false : override?.spelling === true;
   const draft: WordQuestionPlan = {
@@ -737,6 +800,17 @@ function acceptedEntriesFromBatch(id: string): CandidateEntry[] {
   return readJsonl<CandidateEntry>(path);
 }
 
+function incrementWordAttempts(state: RebuildState, wordIds: string[], promptHash: string): void {
+  state.wordAttempts ??= {};
+  for (const wordId of wordIds) {
+    const current = state.wordAttempts[wordId];
+    state.wordAttempts[wordId] = {
+      promptHash,
+      attempts: current?.promptHash === promptHash ? current.attempts + 1 : 1,
+    };
+  }
+}
+
 function buildPool(
   state: RebuildState,
   seed: Seed,
@@ -770,6 +844,13 @@ async function accept(batchId: string): Promise<void> {
     const batch = getBatch(state, batchId);
     if (batch.status === 'verified')
       throw new Error(`${batchId}: 已验证批次不能直接覆盖，请先标记返工`);
+    const exhausted = batch.wordIds.filter((wordId) => {
+      const record = state.wordAttempts?.[wordId];
+      return record?.promptHash === promptHashes().generate && record.attempts >= 3;
+    });
+    if (exhausted.length > 0) {
+      throw new Error(`${batchId}: 以下词已达到同提示 3 次生成上限：${exhausted.join(',')}`);
+    }
     const seed = loadSeed();
     const registry = loadRegistry();
     const effectiveById = new Map(effectiveWords(seed, registry).map((word) => [word.id, word]));
@@ -869,7 +950,11 @@ async function accept(batchId: string): Promise<void> {
     }
 
     const pool = buildPool(state, seed, registry, pending);
-    const byId = new Map(pool.map((word) => [word.id, word]));
+    const pilotIds = new Set(
+      state.batches.filter((item) => item.kind === 'pilot').flatMap((item) => item.wordIds),
+    );
+    const planPool = batch.kind === 'pilot' ? pool.filter((word) => pilotIds.has(word.id)) : pool;
+    const byId = new Map(planPool.map((word) => [word.id, word]));
     const plans: WordQuestionPlan[] = [];
     const audits: Record<string, unknown>[] = [];
     for (const input of inputs) {
@@ -877,7 +962,7 @@ async function accept(batchId: string): Promise<void> {
       const entry = entries.get(input.wordId)!;
       const target = byId.get(input.wordId) ?? toWordRecord(entry, effective);
       try {
-        const { plan, audit } = await buildPlans(target, pool, batch.kind);
+        const { plan, audit } = await buildPlans(target, planPool, batch.kind);
         plans.push(plan);
         audits.push(audit);
       } catch (error) {
@@ -899,6 +984,7 @@ async function accept(batchId: string): Promise<void> {
     }
 
     const outputEntries = inputs.map((input) => entries.get(input.wordId)!);
+    const entryHash = nodeSha256(canonicalJson(outputEntries));
     writeJsonl(outputPath, outputEntries);
     writeJsonl(batchPath(batchId, 'questions.jsonl'), plans);
     writeJsonAtomic(batchPath(batchId, 'audit.json'), audits);
@@ -906,6 +992,7 @@ async function accept(batchId: string): Promise<void> {
       canonicalJson({
         words: nodeSha256(canonicalJson(outputEntries)),
         questions: nodeSha256(canonicalJson(plans)),
+        audit: nodeSha256(canonicalJson(audits)),
       }),
     );
     batch.status = 'needs-fix';
@@ -933,6 +1020,10 @@ async function accept(batchId: string): Promise<void> {
       batch.cost = meta.cost ?? null;
     }
     batch.review = null;
+    if (batch.entryHash !== entryHash) {
+      incrementWordAttempts(state, batch.wordIds, promptHashes().generate);
+    }
+    batch.entryHash = entryHash;
     saveState(state);
     console.log(`${batchId}: ${outputEntries.length} 词与题组已登记，等待独立复核`);
     console.log(`outputHash ${outputHash}`);
@@ -1010,6 +1101,19 @@ async function buildPackage(pilotOnly = false): Promise<void> {
     const state = loadState();
     const seed = loadSeed();
     const registry = loadRegistry();
+    const prompt = promptHashes();
+    if (state.seedHash !== nodeSha256(canonicalJson(seed))) {
+      throw new Error('种子已改变，不能继续使用现有批次');
+    }
+    if (state.registryHash !== registry.registryHash) {
+      throw new Error('注册表已改变，不能继续使用现有批次');
+    }
+    if (
+      state.defaultPromptHashes.generate !== prompt.generate ||
+      state.defaultPromptHashes.review !== prompt.review
+    ) {
+      throw new Error('生成或复核提示已改变，需要重新验证受影响批次');
+    }
     const selectedBatches = pilotOnly
       ? state.batches.filter((batch) => batch.kind === 'pilot')
       : state.batches;
@@ -1021,7 +1125,26 @@ async function buildPackage(pilotOnly = false): Promise<void> {
     const effectiveById = new Map(effective.map((word) => [word.id, word]));
     const wordsById = new Map<string, WordRecord>();
     const plansById = new Map<string, WordQuestionPlan>();
+    const invalidBatches: string[] = [];
     for (const batch of selectedBatches) {
+      const errors = verifyBatchArtifacts(batch, seed, registry, prompt);
+      if (errors.length > 0) {
+        batch.status = 'needs-fix';
+        batch.outputHash = null;
+        batch.review = null;
+        batch.failures = [
+          ...batch.failures,
+          ...errors.map((message) => ({
+            wordId: '*',
+            stage: 'structure' as const,
+            code: 'artifact-hash-mismatch',
+            message,
+            attempts: batch.attempts,
+          })),
+        ];
+        invalidBatches.push(`${batch.id}: ${errors.join('；')}`);
+        continue;
+      }
       const entries = readJsonl<CandidateEntry>(batchPath(batch.id, 'output.jsonl'));
       const plans = readJsonl<WordQuestionPlan>(batchPath(batch.id, 'questions.jsonl'));
       if (entries.length !== batch.wordIds.length) throw new Error(`${batch.id}: 词条数量不一致`);
@@ -1036,6 +1159,10 @@ async function buildPackage(pilotOnly = false): Promise<void> {
         if (plansById.has(plan.wordId)) throw new Error(`重复题组：${plan.wordId}`);
         plansById.set(plan.wordId, plan);
       }
+    }
+    if (invalidBatches.length > 0) {
+      saveState(state);
+      throw new Error(`批次产物已失效：${invalidBatches.slice(0, 5).join('；')}`);
     }
     if (wordsById.size !== effective.length) {
       throw new Error(`有效词覆盖不完整：${wordsById.size}/${effective.length}`);
@@ -1239,6 +1366,18 @@ function status(): void {
     }
   }
   if (pending.length > 10) console.log(`  … 还有 ${pending.length - 10} 个未验证批次`);
+}
+
+function reopen(batchId: string): void {
+  withLock(() => {
+    const state = loadState();
+    const batch = getBatch(state, batchId);
+    batch.status = 'needs-fix';
+    batch.outputHash = null;
+    batch.review = null;
+    saveState(state);
+    console.log(`${batchId}: 已标记返工`);
+  });
 }
 
 function checkRegistry(): void {
@@ -1506,12 +1645,13 @@ async function main(): Promise<void> {
   if (command === 'review' && args[0] && args[1]) return review(args[0], args[1]);
   if (command === 'build') return buildPackage(args.includes('--pilot'));
   if (command === 'status') return status();
+  if (command === 'reopen' && args[0]) return reopen(args[0]);
   if (command === 'check-registry') return checkRegistry();
   if (command === 'ipa-list') return ipaReviewList();
   if (command === 'ipa-apply' && args[0]) return ipaReviewApply(args[0]);
   if (command === 'ipa-auto') return ipaAutoSelect();
   throw new Error(
-    '用法：pipeline.ts prepare | accept <batchId> | review <batchId> <review.json> | build [--pilot] | status | check-registry | ipa-auto | ipa-list | ipa-apply <file>',
+    '用法：pipeline.ts prepare | accept <batchId> | review <batchId> <review.json> | reopen <batchId> | build [--pilot] | status | check-registry | ipa-auto | ipa-list | ipa-apply <file>',
   );
 }
 

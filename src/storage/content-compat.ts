@@ -5,7 +5,7 @@ import type {
   LegacyRegistryEntry,
   ReviewLogRecord,
 } from '@/types';
-import { STORES, idbGet, idbGetAll } from '@/storage/database';
+import { STORES, idbGet } from '@/storage/database';
 
 export const CONTENT_COMPAT_ID = 'content-compat-v1';
 
@@ -257,21 +257,65 @@ export async function prepareContentCompatibility(
   contentVersion: string,
   now: number,
 ): Promise<ContentCompatibilityRecord> {
-  const existing = await getContentCompatibility(db);
-  if (
-    existing &&
-    existing.contentVersion === contentVersion &&
-    existing.registryHash === registry.registryHash
-  ) {
-    return existing;
-  }
-  const [cards, logs] = await Promise.all([
-    idbGetAll<CardRecord>(db, STORES.cards),
-    idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
-  ]);
-  const plan = buildCompatibilityPlan({ cards, logs, registry, contentVersion, now });
-  await applyCompatibilityPlan(db, plan);
-  return plan.record;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(
+      [STORES.cards, STORES.reviewLogs, STORES.authoritativeState],
+      'readwrite',
+    );
+    const cardsStore = tx.objectStore(STORES.cards);
+    const logsStore = tx.objectStore(STORES.reviewLogs);
+    const stateStore = tx.objectStore(STORES.authoritativeState);
+    const cardsRequest = cardsStore.getAll();
+    const logsRequest = logsStore.getAll();
+    const compatibilityRequest = stateStore.get(CONTENT_COMPAT_ID);
+    let cards: CardRecord[] | null = null;
+    let logs: ReviewLogRecord[] | null = null;
+    let existing: ContentCompatibilityRecord | null | undefined;
+    let result: ContentCompatibilityRecord | null = null;
+
+    const finish = (): void => {
+      if (cards === null || logs === null || existing === undefined) return;
+      if (
+        existing &&
+        existing.contentVersion === contentVersion &&
+        existing.registryHash === registry.registryHash
+      ) {
+        result = existing;
+        return;
+      }
+      try {
+        const plan = buildCompatibilityPlan({ cards, logs, registry, contentVersion, now });
+        result = plan.record;
+        cardsStore.clear();
+        for (const card of plan.cards) cardsStore.put(card);
+        logsStore.clear();
+        for (const log of plan.logs) logsStore.put(log);
+        stateStore.put(plan.record);
+      } catch (error) {
+        tx.abort();
+        reject(error instanceof Error ? error : new Error(String(error)));
+      }
+    };
+
+    cardsRequest.onsuccess = () => {
+      cards = cardsRequest.result as CardRecord[];
+      finish();
+    };
+    logsRequest.onsuccess = () => {
+      logs = logsRequest.result as ReviewLogRecord[];
+      finish();
+    };
+    compatibilityRequest.onsuccess = () => {
+      existing = (compatibilityRequest.result as ContentCompatibilityRecord | undefined) ?? null;
+      finish();
+    };
+    tx.oncomplete = () => {
+      if (result) resolve(result);
+      else reject(new Error('内容兼容转换未产生完成标记'));
+    };
+    tx.onerror = () => reject(tx.error ?? new Error('内容兼容转换失败'));
+    tx.onabort = () => reject(tx.error ?? new Error('内容兼容转换事务已中止'));
+  });
 }
 
 /** 冻结的旧成员关系，用于 v1 备份先校验原引用。 */

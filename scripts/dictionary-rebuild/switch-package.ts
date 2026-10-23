@@ -3,7 +3,15 @@
  *
  * 只应在整包验收通过后运行；运行前会完整归档当前 v1 词库。
  */
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import type {
   DeckRecord,
@@ -56,7 +64,26 @@ async function main(): Promise<void> {
   const archive = join(DATA_DIR, 'archive', `legacy-v1-${stamp}`);
   mkdirSync(archive, { recursive: true });
   cpSync(PUBLIC, archive, { recursive: true });
-  cpSync(STAGING, PUBLIC, { recursive: true, force: true });
+  const next = join(ROOT, 'public/dictionaries.next');
+  const previous = join(ROOT, 'public/dictionaries.prev');
+  rmSync(next, { recursive: true, force: true });
+  cpSync(STAGING, next, { recursive: true, force: true });
+  // 复制后再次校验，防止复制中断产生混版目录。
+  const copiedManifest = JSON.parse(
+    readFileSync(join(next, 'manifest.json'), 'utf8'),
+  ) as DictionaryContentManifest;
+  if (copiedManifest.registryHash !== manifest.registryHash) {
+    rmSync(next, { recursive: true, force: true });
+    throw new Error('复制后的候选包 manifest 不一致，未切换正式目录');
+  }
+  rmSync(previous, { recursive: true, force: true });
+  try {
+    renameSync(PUBLIC, previous);
+    renameSync(next, PUBLIC);
+  } catch (error) {
+    if (!existsSync(PUBLIC) && existsSync(previous)) renameSync(previous, PUBLIC);
+    throw error;
+  }
   writeFileSync(
     join(DATA_DIR, 'archive', `switch-${stamp}.json`),
     `${JSON.stringify(

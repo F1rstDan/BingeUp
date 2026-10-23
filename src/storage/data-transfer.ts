@@ -73,6 +73,7 @@ export type ImportResult = DataOperationResult;
 
 interface BuiltInContent {
   contentVersion: string;
+  contentKind: 'legacy-v1' | 'content-v2';
   registry: LegacyRegistry | null;
   /** 有效内置词与全部旧身份 ID，用于拒绝自定义内容占用保留 ID。 */
   allWordIds: Set<string>;
@@ -98,6 +99,7 @@ async function loadBuiltInContent(): Promise<BuiltInContent> {
   }
   return {
     contentVersion: wordBank.getContentVersion(),
+    contentKind: wordBank.getContentKind(),
     registry,
     allWordIds,
     decksById: new Map(
@@ -126,7 +128,7 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
   const builtIn = await loadBuiltInContent();
   const exportedAt = Date.now();
   const compat: ContentCompatibilityRecord | null =
-    builtIn.contentVersion !== 'content-v2'
+    builtIn.contentKind !== 'content-v2'
       ? null
       : (compatibility ??
         (builtIn.registry
@@ -409,6 +411,16 @@ function validateBaseReferences(
       errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
     if (!deckIds.has(card.deckId) && !builtIn.decksById.has(card.deckId))
       errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
+    const customDeck = data.decks.find((deck) => deck.id === card.deckId);
+    if (customDeck) {
+      const canonical = (wordId: string) =>
+        builtIn.registry
+          ? (resolveIdentity(builtIn.registry, wordId)?.canonicalId ?? wordId)
+          : wordId;
+      if (!customDeck.wordIds.map(canonical).includes(canonical(card.wordId))) {
+        errors.push(`data.cards[${index}] 的单词不属于引用的自定义词库`);
+      }
+    }
   });
   data.reviewLogs.forEach((log, index) => {
     const card = cardsById.get(log.cardId);
@@ -464,17 +476,33 @@ function validateV2Compatibility(
       errors.push('兼容记录注册表哈希不一致');
     }
   }
-  if (!Array.isArray(compat.originals) || !Array.isArray(compat.merges)) {
+  if (
+    !Array.isArray(compat.originals) ||
+    !Array.isArray(compat.merges) ||
+    !Array.isArray(compat.deactivatedCardIds)
+  ) {
     errors.push('兼容记录结构非法');
     return;
   }
   const cardsById = new Map(payload.data.cards.map((card) => [card.id, card]));
   const logIds = new Set(payload.data.reviewLogs.map((log) => log.id));
+  const originalCardIds = new Set<string>();
   for (const original of compat.originals) {
-    if (!isRecord(original) || !isRecord(original.card) || !isNonEmptyString(original.card.id)) {
+    if (
+      !isRecord(original) ||
+      !isRecord(original.card) ||
+      !isNonEmptyString(original.card.id) ||
+      !isNonEmptyString(original.canonicalWordId) ||
+      !Array.isArray(original.reviewLogIds) ||
+      !original.reviewLogIds.every(isNonEmptyString)
+    ) {
       errors.push('兼容记录原卡结构非法');
       continue;
     }
+    if (originalCardIds.has(original.card.id)) {
+      errors.push(`兼容记录原卡重复：${original.card.id}`);
+    }
+    originalCardIds.add(original.card.id);
     if (!builtIn.registry) continue;
     const resolved = resolveIdentity(builtIn.registry, original.card.wordId);
     if (!resolved || resolved.canonicalId !== original.canonicalWordId) {
@@ -485,9 +513,21 @@ function validateV2Compatibility(
     }
   }
   for (const merge of compat.merges) {
+    if (
+      !isRecord(merge) ||
+      !isNonEmptyString(merge.fromCardId) ||
+      !isNonEmptyString(merge.toCardId)
+    ) {
+      errors.push('兼容合并记录结构非法');
+      continue;
+    }
     if (!cardsById.has(merge.toCardId)) errors.push(`兼容合并目标不存在：${merge.toCardId}`);
   }
   for (const cardId of compat.deactivatedCardIds) {
+    if (!isNonEmptyString(cardId)) {
+      errors.push('停用卡引用结构非法');
+      continue;
+    }
     const card = cardsById.get(cardId);
     if (!card) errors.push(`停用卡不存在：${cardId}`);
     else if (!card.disabled) errors.push(`停用卡未标记 disabled：${cardId}`);
@@ -571,6 +611,14 @@ async function parseAndValidateBackup(input: unknown): Promise<ParsedBackup> {
       errors.push(
         `备份内容版本与当前词库不一致：${payload.content.version} / ${builtIn.contentVersion}`,
       );
+    }
+    if (isRecord(payload.content)) {
+      if (payload.content.registryVersion !== (builtIn.registry?.registryVersion ?? null)) {
+        errors.push('备份注册表版本与当前词库不一致');
+      }
+      if (payload.content.registryHash !== (builtIn.registry?.registryHash ?? null)) {
+        errors.push('备份注册表哈希与当前词库不一致');
+      }
     }
   }
   if (errors.length > 0) return { ok: false, errors, builtIn };

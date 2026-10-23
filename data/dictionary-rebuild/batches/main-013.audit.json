@@ -52,19 +52,23 @@
     "wordId": "w-author",
     "enToZh": [
       {
+        "wordId": "w-bible",
+        "reason": "选项「圣经」不是「author」的主释义「作者」或其他义项。"
+      },
+      {
         "wordId": "w-alarm",
         "reason": "选项「警报」不是「author」的主释义「作者」或其他义项。"
       },
       {
         "wordId": "w-adventure",
         "reason": "选项「冒险」不是「author」的主释义「作者」或其他义项。"
-      },
-      {
-        "wordId": "w-balance",
-        "reason": "选项「平衡」不是「author」的主释义「作者」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-bible",
+        "reason": "英文「bible」的常见义项「圣经」不符合主释义「作者」。"
+      },
       {
         "wordId": "w-alarm",
         "reason": "英文「alarm」的常见义项「警报」不符合主释义「作者」。"
@@ -72,13 +76,14 @@
       {
         "wordId": "w-adventure",
         "reason": "英文「adventure」的常见义项「冒险」不符合主释义「作者」。"
-      },
-      {
-        "wordId": "w-balance",
-        "reason": "英文「balance」的常见义项「平衡」不符合主释义「作者」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-bible",
+        "surfaceForm": "bible",
+        "reason": "将「bible」代入可见句子后不表达主释义「作者」。"
+      },
       {
         "wordId": "w-alarm",
         "surfaceForm": "alarm",
@@ -88,11 +93,6 @@
         "wordId": "w-adventure",
         "surfaceForm": "adventure",
         "reason": "将「adventure」代入可见句子后不表达主释义「作者」。"
-      },
-      {
-        "wordId": "w-balance",
-        "surfaceForm": "balance",
-        "reason": "将「balance」代入可见句子后不表达主释义「作者」。"
       }
     ],
     "spelling": null
@@ -256,8 +256,8 @@
         "reason": "选项「解渴」不是「automate」的主释义「使自动化」或其他义项。"
       },
       {
-        "wordId": "w-adjoin",
-        "reason": "选项「毗邻」不是「automate」的主释义「使自动化」或其他义项。"
+        "wordId": "w-bewilder",
+        "reason": "选项「使困惑」不是「automate」的主释义「使自动化」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -270,8 +270,8 @@
         "reason": "英文「quench」的常见义项「解渴」不符合主释义「使自动化」。"
       },
       {
-        "wordId": "w-adjoin",
-        "reason": "英文「adjoin」的常见义项「毗邻」不符合主释义「使自动化」。"
+        "wordId": "w-bewilder",
+        "reason": "英文「bewilder」的常见义项「使困惑」不符合主释义「使自动化」。"
       }
     ],
     "contextChoice": [
@@ -286,9 +286,9 @@
         "reason": "将「quench」代入可见句子后不表达主释义「使自动化」。"
       },
       {
-        "wordId": "w-adjoin",
-        "surfaceForm": "adjoin",
-        "reason": "将「adjoin」代入可见句子后不表达主释义「使自动化」。"
+        "wordId": "w-bewilder",
+        "surfaceForm": "bewilder",
+        "reason": "将「bewilder」代入可见句子后不表达主释义「使自动化」。"
       }
     ],
     "spelling": null
@@ -297,19 +297,23 @@
     "wordId": "w-automatic",
     "enToZh": [
       {
+        "wordId": "w-blank",
+        "reason": "选项「空白的」不是「automatic」的主释义「自动的」或其他义项。"
+      },
+      {
         "wordId": "w-plain",
         "reason": "选项「简单的」不是「automatic」的主释义「自动的」或其他义项。"
       },
       {
         "wordId": "w-bad",
         "reason": "选项「坏的」不是「automatic」的主释义「自动的」或其他义项。"
-      },
-      {
-        "wordId": "w-asian",
-        "reason": "选项「亚洲的」不是「automatic」的主释义「自动的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-blank",
+        "reason": "英文「blank」的常见义项「空白的」不符合主释义「自动的」。"
+      },
       {
         "wordId": "w-plain",
         "reason": "英文「plain」的常见义项「简单的」不符合主释义「自动的」。"
@@ -317,13 +321,14 @@
       {
         "wordId": "w-bad",
         "reason": "英文「bad」的常见义项「坏的」不符合主释义「自动的」。"
-      },
-      {
-        "wordId": "w-asian",
-        "reason": "英文「Asian」的常见义项「亚洲的」不符合主释义「自动的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-blank",
+        "surfaceForm": "blank",
+        "reason": "将「blank」代入可见句子后不表达主释义「自动的」。"
+      },
       {
         "wordId": "w-plain",
         "surfaceForm": "plain",
@@ -333,11 +338,6 @@
         "wordId": "w-bad",
         "surfaceForm": "bad",
         "reason": "将「bad」代入可见句子后不表达主释义「自动的」。"
-      },
-      {
-        "wordId": "w-asian",
-        "surfaceForm": "Asian",
-        "reason": "将「Asian」代入可见句子后不表达主释义「自动的」。"
       }
     ],
     "spelling": null
@@ -395,47 +395,47 @@
     "wordId": "w-automation",
     "enToZh": [
       {
+        "wordId": "w-breadth",
+        "reason": "选项「宽度」不是「automation」的主释义「自动化」或其他义项。"
+      },
+      {
         "wordId": "w-baron",
         "reason": "选项「男爵」不是「automation」的主释义「自动化」或其他义项。"
       },
       {
-        "wordId": "w-banquet",
-        "reason": "选项「宴会」不是「automation」的主释义「自动化」或其他义项。"
-      },
-      {
-        "wordId": "w-nuisance",
-        "reason": "选项「令人讨厌的事物」不是「automation」的主释义「自动化」或其他义项。"
+        "wordId": "w-bosom",
+        "reason": "选项「胸部」不是「automation」的主释义「自动化」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-breadth",
+        "reason": "英文「breadth」的常见义项「宽度」不符合主释义「自动化」。"
+      },
       {
         "wordId": "w-baron",
         "reason": "英文「baron」的常见义项「男爵」不符合主释义「自动化」。"
       },
       {
-        "wordId": "w-banquet",
-        "reason": "英文「banquet」的常见义项「宴会」不符合主释义「自动化」。"
-      },
-      {
-        "wordId": "w-nuisance",
-        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「自动化」。"
+        "wordId": "w-bosom",
+        "reason": "英文「bosom」的常见义项「胸部」不符合主释义「自动化」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-breadth",
+        "surfaceForm": "breadth",
+        "reason": "将「breadth」代入可见句子后不表达主释义「自动化」。"
+      },
       {
         "wordId": "w-baron",
         "surfaceForm": "baron",
         "reason": "将「baron」代入可见句子后不表达主释义「自动化」。"
       },
       {
-        "wordId": "w-banquet",
-        "surfaceForm": "banquet",
-        "reason": "将「banquet」代入可见句子后不表达主释义「自动化」。"
-      },
-      {
-        "wordId": "w-nuisance",
-        "surfaceForm": "nuisance",
-        "reason": "将「nuisance」代入可见句子后不表达主释义「自动化」。"
+        "wordId": "w-bosom",
+        "surfaceForm": "bosom",
+        "reason": "将「bosom」代入可见句子后不表达主释义「自动化」。"
       }
     ],
     "spelling": null
@@ -493,19 +493,23 @@
     "wordId": "w-auxiliary",
     "enToZh": [
       {
+        "wordId": "w-bourgeois",
+        "reason": "选项「中产阶级的」不是「auxiliary」的主释义「辅助的」或其他义项。"
+      },
+      {
         "wordId": "w-bankrupt",
         "reason": "选项「破产的」不是「auxiliary」的主释义「辅助的」或其他义项。"
       },
       {
         "wordId": "w-atlantic",
         "reason": "选项「大西洋的」不是「auxiliary」的主释义「辅助的」或其他义项。"
-      },
-      {
-        "wordId": "w-gross",
-        "reason": "选项「总的」不是「auxiliary」的主释义「辅助的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-bourgeois",
+        "reason": "英文「bourgeois」的常见义项「中产阶级的」不符合主释义「辅助的」。"
+      },
       {
         "wordId": "w-bankrupt",
         "reason": "英文「bankrupt」的常见义项「破产的」不符合主释义「辅助的」。"
@@ -513,13 +517,14 @@
       {
         "wordId": "w-atlantic",
         "reason": "英文「Atlantic」的常见义项「大西洋的」不符合主释义「辅助的」。"
-      },
-      {
-        "wordId": "w-gross",
-        "reason": "英文「gross」的常见义项「总的」不符合主释义「辅助的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-bourgeois",
+        "surfaceForm": "bourgeois",
+        "reason": "将「bourgeois」代入可见句子后不表达主释义「辅助的」。"
+      },
       {
         "wordId": "w-bankrupt",
         "surfaceForm": "bankrupt",
@@ -529,11 +534,6 @@
         "wordId": "w-atlantic",
         "surfaceForm": "Atlantic",
         "reason": "将「Atlantic」代入可见句子后不表达主释义「辅助的」。"
-      },
-      {
-        "wordId": "w-gross",
-        "surfaceForm": "gross",
-        "reason": "将「gross」代入可见句子后不表达主释义「辅助的」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「熟人」不是「availability」的主释义「可获得性」或其他义项。"
       },
       {
-        "wordId": "w-alignment",
-        "reason": "选项「对齐」不是「availability」的主释义「可获得性」或其他义项。"
+        "wordId": "w-basin",
+        "reason": "选项「盆」不是「availability」的主释义「可获得性」或其他义项。"
       },
       {
-        "wordId": "w-admission",
-        "reason": "选项「承认」不是「availability」的主释义「可获得性」或其他义项。"
+        "wordId": "w-alignment",
+        "reason": "选项「对齐」不是「availability」的主释义「可获得性」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「可获得性」。"
       },
       {
-        "wordId": "w-alignment",
-        "reason": "英文「alignment」的常见义项「对齐」不符合主释义「可获得性」。"
+        "wordId": "w-basin",
+        "reason": "英文「basin」的常见义项「盆」不符合主释义「可获得性」。"
       },
       {
-        "wordId": "w-admission",
-        "reason": "英文「admission」的常见义项「承认」不符合主释义「可获得性」。"
+        "wordId": "w-alignment",
+        "reason": "英文「alignment」的常见义项「对齐」不符合主释义「可获得性」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「acquaintance」代入可见句子后不表达主释义「可获得性」。"
       },
       {
+        "wordId": "w-basin",
+        "surfaceForm": "basin",
+        "reason": "将「basin」代入可见句子后不表达主释义「可获得性」。"
+      },
+      {
         "wordId": "w-alignment",
         "surfaceForm": "alignment",
         "reason": "将「alignment」代入可见句子后不表达主释义「可获得性」。"
-      },
-      {
-        "wordId": "w-admission",
-        "surfaceForm": "admission",
-        "reason": "将「admission」代入可见句子后不表达主释义「可获得性」。"
       }
     ],
     "spelling": null
@@ -644,12 +644,12 @@
         "reason": "选项「忠诚」不是「avenue」的主释义「大街」或其他义项。"
       },
       {
-        "wordId": "w-antenna",
-        "reason": "选项「天线」不是「avenue」的主释义「大街」或其他义项。"
+        "wordId": "w-blanket",
+        "reason": "选项「毯子」不是「avenue」的主释义「大街」或其他义项。"
       },
       {
-        "wordId": "w-barn",
-        "reason": "选项「谷仓」不是「avenue」的主释义「大街」或其他义项。"
+        "wordId": "w-antenna",
+        "reason": "选项「天线」不是「avenue」的主释义「大街」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -658,12 +658,12 @@
         "reason": "英文「allegiance」的常见义项「忠诚」不符合主释义「大街」。"
       },
       {
-        "wordId": "w-antenna",
-        "reason": "英文「antenna」的常见义项「天线」不符合主释义「大街」。"
+        "wordId": "w-blanket",
+        "reason": "英文「blanket」的常见义项「毯子」不符合主释义「大街」。"
       },
       {
-        "wordId": "w-barn",
-        "reason": "英文「barn」的常见义项「谷仓」不符合主释义「大街」。"
+        "wordId": "w-antenna",
+        "reason": "英文「antenna」的常见义项「天线」不符合主释义「大街」。"
       }
     ],
     "contextChoice": [
@@ -673,14 +673,14 @@
         "reason": "将「allegiance」代入可见句子后不表达主释义「大街」。"
       },
       {
+        "wordId": "w-blanket",
+        "surfaceForm": "blanket",
+        "reason": "将「blanket」代入可见句子后不表达主释义「大街」。"
+      },
+      {
         "wordId": "w-antenna",
         "surfaceForm": "antenna",
         "reason": "将「antenna」代入可见句子后不表达主释义「大街」。"
-      },
-      {
-        "wordId": "w-barn",
-        "surfaceForm": "barn",
-        "reason": "将「barn」代入可见句子后不表达主释义「大街」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「亚洲的」不是「average」的主释义「平均的」或其他义项。"
       },
       {
-        "wordId": "w-right",
-        "reason": "选项「正确的」不是「average」的主释义「平均的」或其他义项。"
+        "wordId": "w-blue",
+        "reason": "选项「蓝色的」不是「average」的主释义「平均的」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「Asian」的常见义项「亚洲的」不符合主释义「平均的」。"
       },
       {
-        "wordId": "w-right",
-        "reason": "英文「right」的常见义项「正确的」不符合主释义「平均的」。"
+        "wordId": "w-blue",
+        "reason": "英文「blue」的常见义项「蓝色的」不符合主释义「平均的」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「Asian」代入可见句子后不表达主释义「平均的」。"
       },
       {
-        "wordId": "w-right",
-        "surfaceForm": "right",
-        "reason": "将「right」代入可见句子后不表达主释义「平均的」。"
+        "wordId": "w-blue",
+        "surfaceForm": "blue",
+        "reason": "将「blue」代入可见句子后不表达主释义「平均的」。"
       }
     ],
     "spelling": null
@@ -791,12 +791,12 @@
         "reason": "选项「巨响」不是「aviation」的主释义「航空」或其他义项。"
       },
       {
-        "wordId": "w-scarf",
-        "reason": "选项「围巾」不是「aviation」的主释义「航空」或其他义项。"
+        "wordId": "w-bishop",
+        "reason": "选项「主教」不是「aviation」的主释义「航空」或其他义项。"
       },
       {
-        "wordId": "w-catalog",
-        "reason": "选项「目录」不是「aviation」的主释义「航空」或其他义项。"
+        "wordId": "w-scarf",
+        "reason": "选项「围巾」不是「aviation」的主释义「航空」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -805,12 +805,12 @@
         "reason": "英文「bang」的常见义项「巨响」不符合主释义「航空」。"
       },
       {
-        "wordId": "w-scarf",
-        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「航空」。"
+        "wordId": "w-bishop",
+        "reason": "英文「bishop」的常见义项「主教」不符合主释义「航空」。"
       },
       {
-        "wordId": "w-catalog",
-        "reason": "英文「catalog」的常见义项「目录」不符合主释义「航空」。"
+        "wordId": "w-scarf",
+        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「航空」。"
       }
     ],
     "contextChoice": [
@@ -820,14 +820,14 @@
         "reason": "将「bang」代入可见句子后不表达主释义「航空」。"
       },
       {
+        "wordId": "w-bishop",
+        "surfaceForm": "bishop",
+        "reason": "将「bishop」代入可见句子后不表达主释义「航空」。"
+      },
+      {
         "wordId": "w-scarf",
         "surfaceForm": "scarf",
         "reason": "将「scarf」代入可见句子后不表达主释义「航空」。"
-      },
-      {
-        "wordId": "w-catalog",
-        "surfaceForm": "catalog",
-        "reason": "将「catalog」代入可见句子后不表达主释义「航空」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「鼓掌」不是「await」的主释义「等待」或其他义项。"
       },
       {
-        "wordId": "w-arouse",
-        "reason": "选项「引起」不是「await」的主释义「等待」或其他义项。"
+        "wordId": "w-blur",
+        "reason": "选项「使模糊」不是「await」的主释义「等待」或其他义项。"
       },
       {
-        "wordId": "w-accustom",
-        "reason": "选项「使习惯」不是「await」的主释义「等待」或其他义项。"
+        "wordId": "w-arouse",
+        "reason": "选项「引起」不是「await」的主释义「等待」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「等待」。"
       },
       {
-        "wordId": "w-arouse",
-        "reason": "英文「arouse」的常见义项「引起」不符合主释义「等待」。"
+        "wordId": "w-blur",
+        "reason": "英文「blur」的常见义项「使模糊」不符合主释义「等待」。"
       },
       {
-        "wordId": "w-accustom",
-        "reason": "英文「accustom」的常见义项「使习惯」不符合主释义「等待」。"
+        "wordId": "w-arouse",
+        "reason": "英文「arouse」的常见义项「引起」不符合主释义「等待」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「applaud」代入可见句子后不表达主释义「等待」。"
       },
       {
+        "wordId": "w-blur",
+        "surfaceForm": "blur",
+        "reason": "将「blur」代入可见句子后不表达主释义「等待」。"
+      },
+      {
         "wordId": "w-arouse",
         "surfaceForm": "arouse",
         "reason": "将「arouse」代入可见句子后不表达主释义「等待」。"
-      },
-      {
-        "wordId": "w-accustom",
-        "surfaceForm": "accustom",
-        "reason": "将「accustom」代入可见句子后不表达主释义「等待」。"
       }
     ],
     "spelling": null
@@ -934,47 +934,47 @@
     "wordId": "w-award",
     "enToZh": [
       {
+        "wordId": "w-body",
+        "reason": "选项「身体」不是「award」的主释义「奖项」或其他义项。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "选项「木板」不是「award」的主释义「奖项」或其他义项。"
+      },
+      {
         "wordId": "w-answer",
         "reason": "选项「答案」不是「award」的主释义「奖项」或其他义项。"
-      },
-      {
-        "wordId": "w-emergency",
-        "reason": "选项「紧急情况」不是「award」的主释义「奖项」或其他义项。"
-      },
-      {
-        "wordId": "w-argument",
-        "reason": "选项「争论」不是「award」的主释义「奖项」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-body",
+        "reason": "英文「body」的常见义项「身体」不符合主释义「奖项」。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "英文「board」的常见义项「木板」不符合主释义「奖项」。"
+      },
+      {
         "wordId": "w-answer",
         "reason": "英文「answer」的常见义项「答案」不符合主释义「奖项」。"
-      },
-      {
-        "wordId": "w-emergency",
-        "reason": "英文「emergency」的常见义项「紧急情况」不符合主释义「奖项」。"
-      },
-      {
-        "wordId": "w-argument",
-        "reason": "英文「argument」的常见义项「争论」不符合主释义「奖项」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-body",
+        "surfaceForm": "body",
+        "reason": "将「body」代入可见句子后不表达主释义「奖项」。"
+      },
+      {
+        "wordId": "w-board",
+        "surfaceForm": "board",
+        "reason": "将「board」代入可见句子后不表达主释义「奖项」。"
+      },
+      {
         "wordId": "w-answer",
         "surfaceForm": "answer",
         "reason": "将「answer」代入可见句子后不表达主释义「奖项」。"
-      },
-      {
-        "wordId": "w-emergency",
-        "surfaceForm": "emergency",
-        "reason": "将「emergency」代入可见句子后不表达主释义「奖项」。"
-      },
-      {
-        "wordId": "w-argument",
-        "surfaceForm": "argument",
-        "reason": "将「argument」代入可见句子后不表达主释义「奖项」。"
       }
     ],
     "spelling": null
@@ -983,19 +983,23 @@
     "wordId": "w-awareness",
     "enToZh": [
       {
+        "wordId": "w-bowl",
+        "reason": "选项「碗」不是「awareness」的主释义「意识」或其他义项。"
+      },
+      {
         "wordId": "w-background",
         "reason": "选项「背景」不是「awareness」的主释义「意识」或其他义项。"
       },
       {
         "wordId": "w-association",
         "reason": "选项「协会」不是「awareness」的主释义「意识」或其他义项。"
-      },
-      {
-        "wordId": "w-accident",
-        "reason": "选项「事故」不是「awareness」的主释义「意识」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-bowl",
+        "reason": "英文「bowl」的常见义项「碗」不符合主释义「意识」。"
+      },
       {
         "wordId": "w-background",
         "reason": "英文「background」的常见义项「背景」不符合主释义「意识」。"
@@ -1003,13 +1007,14 @@
       {
         "wordId": "w-association",
         "reason": "英文「association」的常见义项「协会」不符合主释义「意识」。"
-      },
-      {
-        "wordId": "w-accident",
-        "reason": "英文「accident」的常见义项「事故」不符合主释义「意识」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-bowl",
+        "surfaceForm": "bowl",
+        "reason": "将「bowl」代入可见句子后不表达主释义「意识」。"
+      },
       {
         "wordId": "w-background",
         "surfaceForm": "background",
@@ -1019,11 +1024,6 @@
         "wordId": "w-association",
         "surfaceForm": "association",
         "reason": "将「association」代入可见句子后不表达主释义「意识」。"
-      },
-      {
-        "wordId": "w-accident",
-        "surfaceForm": "accident",
-        "reason": "将「accident」代入可见句子后不表达主释义「意识」。"
       }
     ],
     "spelling": null

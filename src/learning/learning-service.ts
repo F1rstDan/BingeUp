@@ -74,7 +74,7 @@ export interface WordBankPort {
   /** 新内容包读取固定题组；旧内容或自定义词库可不提供。 */
   getQuestionPlan?(wordId: string): Promise<WordQuestionPlan | null>;
   /** 当前内容包类型，用于区分旧动态出题与新固定题组。 */
-  getContentVersion?(): 'legacy-v1' | 'content-v2';
+  getContentKind?(): 'legacy-v1' | 'content-v2';
 }
 
 /** 时钟端口，便于测试注入。 */
@@ -248,7 +248,7 @@ export class LearningService {
     if ((await this.countTodayNewWords(allCards, now)) >= dailyLimit) {
       if (options?.allowEarlyShortTermReview) {
         const earlyShortTerm = this.findEarliestShortTermForActiveReview(
-          allCards,
+          availableCards,
           now,
           excludedWordIds,
         );
@@ -709,6 +709,7 @@ export class LearningService {
       .filter(
         (card) =>
           card.stage === 'short-term' &&
+          !card.disabled &&
           card.nextReviewAt !== undefined &&
           card.nextReviewAt > now &&
           !excludedWordIds?.has(card.wordId),
@@ -765,7 +766,7 @@ export class LearningService {
 
     const plan = (await this.deps.words.getQuestionPlan?.(card.wordId)) ?? null;
     if (plan) return this.makePlannedQuestion(card, targetWord, plan, allowSpelling);
-    if (this.deps.words.getContentVersion?.() === 'content-v2') {
+    if (this.deps.words.getContentKind?.() === 'content-v2') {
       throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
     }
 

@@ -7,12 +7,12 @@
         "reason": "选项「类比」不是「architect」的主释义「建筑师」或其他义项。"
       },
       {
-        "wordId": "w-allegiance",
-        "reason": "选项「忠诚」不是「architect」的主释义「建筑师」或其他义项。"
+        "wordId": "w-ballet",
+        "reason": "选项「芭蕾舞」不是「architect」的主释义「建筑师」或其他义项。"
       },
       {
-        "wordId": "w-submarine",
-        "reason": "选项「潜艇」不是「architect」的主释义「建筑师」或其他义项。"
+        "wordId": "w-allegiance",
+        "reason": "选项「忠诚」不是「architect」的主释义「建筑师」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -21,12 +21,12 @@
         "reason": "英文「analogy」的常见义项「类比」不符合主释义「建筑师」。"
       },
       {
-        "wordId": "w-allegiance",
-        "reason": "英文「allegiance」的常见义项「忠诚」不符合主释义「建筑师」。"
+        "wordId": "w-ballet",
+        "reason": "英文「ballet」的常见义项「芭蕾舞」不符合主释义「建筑师」。"
       },
       {
-        "wordId": "w-submarine",
-        "reason": "英文「submarine」的常见义项「潜艇」不符合主释义「建筑师」。"
+        "wordId": "w-allegiance",
+        "reason": "英文「allegiance」的常见义项「忠诚」不符合主释义「建筑师」。"
       }
     ],
     "contextChoice": [
@@ -36,14 +36,14 @@
         "reason": "将「analogy」代入可见句子后不表达主释义「建筑师」。"
       },
       {
+        "wordId": "w-ballet",
+        "surfaceForm": "ballet",
+        "reason": "将「ballet」代入可见句子后不表达主释义「建筑师」。"
+      },
+      {
         "wordId": "w-allegiance",
         "surfaceForm": "allegiance",
         "reason": "将「allegiance」代入可见句子后不表达主释义「建筑师」。"
-      },
-      {
-        "wordId": "w-submarine",
-        "surfaceForm": "submarine",
-        "reason": "将「submarine」代入可见句子后不表达主释义「建筑师」。"
       }
     ],
     "spelling": null
@@ -158,8 +158,8 @@
         "reason": "选项「建议」不是「argue」的主释义「争论」或其他义项。"
       },
       {
-        "wordId": "w-alter",
-        "reason": "选项「改变」不是「argue」的主释义「争论」或其他义项。"
+        "wordId": "w-assess",
+        "reason": "选项「评估」不是「argue」的主释义「争论」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「advise」的常见义项「建议」不符合主释义「争论」。"
       },
       {
-        "wordId": "w-alter",
-        "reason": "英文「alter」的常见义项「改变」不符合主释义「争论」。"
+        "wordId": "w-assess",
+        "reason": "英文「assess」的常见义项「评估」不符合主释义「争论」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「advise」代入可见句子后不表达主释义「争论」。"
       },
       {
-        "wordId": "w-alter",
-        "surfaceForm": "alter",
-        "reason": "将「alter」代入可见句子后不表达主释义「争论」。"
+        "wordId": "w-assess",
+        "surfaceForm": "assess",
+        "reason": "将「assess」代入可见句子后不表达主释义「争论」。"
       }
     ],
     "spelling": null
@@ -199,47 +199,47 @@
     "wordId": "w-argument",
     "enToZh": [
       {
+        "wordId": "w-baggage",
+        "reason": "选项「行李」不是「argument」的主释义「争论」或其他义项。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "选项「饼干」不是「argument」的主释义「争论」或其他义项。"
+      },
+      {
         "wordId": "w-advertising",
         "reason": "选项「广告宣传」不是「argument」的主释义「争论」或其他义项。"
-      },
-      {
-        "wordId": "w-portrait",
-        "reason": "选项「肖像」不是「argument」的主释义「争论」或其他义项。"
-      },
-      {
-        "wordId": "w-angle",
-        "reason": "选项「角度」不是「argument」的主释义「争论」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-baggage",
+        "reason": "英文「baggage」的常见义项「行李」不符合主释义「争论」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "英文「biscuit」的常见义项「饼干」不符合主释义「争论」。"
+      },
+      {
         "wordId": "w-advertising",
         "reason": "英文「advertising」的常见义项「广告宣传」不符合主释义「争论」。"
-      },
-      {
-        "wordId": "w-portrait",
-        "reason": "英文「portrait」的常见义项「肖像」不符合主释义「争论」。"
-      },
-      {
-        "wordId": "w-angle",
-        "reason": "英文「angle」的常见义项「角度」不符合主释义「争论」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-baggage",
+        "surfaceForm": "baggage",
+        "reason": "将「baggage」代入可见句子后不表达主释义「争论」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "surfaceForm": "biscuit",
+        "reason": "将「biscuit」代入可见句子后不表达主释义「争论」。"
+      },
+      {
         "wordId": "w-advertising",
         "surfaceForm": "advertising",
         "reason": "将「advertising」代入可见句子后不表达主释义「争论」。"
-      },
-      {
-        "wordId": "w-portrait",
-        "surfaceForm": "portrait",
-        "reason": "将「portrait」代入可见句子后不表达主释义「争论」。"
-      },
-      {
-        "wordId": "w-angle",
-        "surfaceForm": "angle",
-        "reason": "将「angle」代入可见句子后不表达主释义「争论」。"
       }
     ],
     "spelling": null
@@ -301,12 +301,12 @@
         "reason": "选项「陨石」不是「arithmetic」的主释义「算术」或其他义项。"
       },
       {
-        "wordId": "w-nuisance",
-        "reason": "选项「令人讨厌的事物」不是「arithmetic」的主释义「算术」或其他义项。"
+        "wordId": "w-automation",
+        "reason": "选项「自动化」不是「arithmetic」的主释义「算术」或其他义项。"
       },
       {
-        "wordId": "w-aerospace",
-        "reason": "选项「航空航天」不是「arithmetic」的主释义「算术」或其他义项。"
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「arithmetic」的主释义「算术」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -315,12 +315,12 @@
         "reason": "英文「meteorite」的常见义项「陨石」不符合主释义「算术」。"
       },
       {
-        "wordId": "w-nuisance",
-        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「算术」。"
+        "wordId": "w-automation",
+        "reason": "英文「automation」的常见义项「自动化」不符合主释义「算术」。"
       },
       {
-        "wordId": "w-aerospace",
-        "reason": "英文「aerospace」的常见义项「航空航天」不符合主释义「算术」。"
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「算术」。"
       }
     ],
     "contextChoice": [
@@ -330,14 +330,14 @@
         "reason": "将「meteorite」代入可见句子后不表达主释义「算术」。"
       },
       {
+        "wordId": "w-automation",
+        "surfaceForm": "automation",
+        "reason": "将「automation」代入可见句子后不表达主释义「算术」。"
+      },
+      {
         "wordId": "w-nuisance",
         "surfaceForm": "nuisance",
         "reason": "将「nuisance」代入可见句子后不表达主释义「算术」。"
-      },
-      {
-        "wordId": "w-aerospace",
-        "surfaceForm": "aerospace",
-        "reason": "将「aerospace」代入可见句子后不表达主释义「算术」。"
       }
     ],
     "spelling": null
@@ -346,47 +346,47 @@
     "wordId": "w-arm",
     "enToZh": [
       {
+        "wordId": "w-author",
+        "reason": "选项「作者」不是「arm」的主释义「手臂」或其他义项。"
+      },
+      {
+        "wordId": "w-aspect",
+        "reason": "选项「方面」不是「arm」的主释义「手臂」或其他义项。"
+      },
+      {
         "wordId": "w-arrow",
         "reason": "选项「箭头」不是「arm」的主释义「手臂」或其他义项。"
-      },
-      {
-        "wordId": "w-liquid",
-        "reason": "选项「液体」不是「arm」的主释义「手臂」或其他义项。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "reason": "选项「广告」不是「arm」的主释义「手臂」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-author",
+        "reason": "英文「author」的常见义项「作者」不符合主释义「手臂」。"
+      },
+      {
+        "wordId": "w-aspect",
+        "reason": "英文「aspect」的常见义项「方面」不符合主释义「手臂」。"
+      },
+      {
         "wordId": "w-arrow",
         "reason": "英文「arrow」的常见义项「箭头」不符合主释义「手臂」。"
-      },
-      {
-        "wordId": "w-liquid",
-        "reason": "英文「liquid」的常见义项「液体」不符合主释义「手臂」。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "reason": "英文「advertisement」的常见义项「广告」不符合主释义「手臂」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-author",
+        "surfaceForm": "author",
+        "reason": "将「author」代入可见句子后不表达主释义「手臂」。"
+      },
+      {
+        "wordId": "w-aspect",
+        "surfaceForm": "aspect",
+        "reason": "将「aspect」代入可见句子后不表达主释义「手臂」。"
+      },
+      {
         "wordId": "w-arrow",
         "surfaceForm": "arrow",
         "reason": "将「arrow」代入可见句子后不表达主释义「手臂」。"
-      },
-      {
-        "wordId": "w-liquid",
-        "surfaceForm": "liquid",
-        "reason": "将「liquid」代入可见句子后不表达主释义「手臂」。"
-      },
-      {
-        "wordId": "w-advertisement",
-        "surfaceForm": "advertisement",
-        "reason": "将「advertisement」代入可见句子后不表达主释义「手臂」。"
       }
     ],
     "spelling": null
@@ -395,47 +395,47 @@
     "wordId": "w-army",
     "enToZh": [
       {
+        "wordId": "w-bomb",
+        "reason": "选项「炸弹」不是「army」的主释义「军队」或其他义项。"
+      },
+      {
+        "wordId": "w-balance",
+        "reason": "选项「平衡」不是「army」的主释义「军队」或其他义项。"
+      },
+      {
         "wordId": "w-agency",
         "reason": "选项「机构」不是「army」的主释义「军队」或其他义项。"
-      },
-      {
-        "wordId": "w-ankle",
-        "reason": "选项「脚踝」不是「army」的主释义「军队」或其他义项。"
-      },
-      {
-        "wordId": "w-production",
-        "reason": "选项「生产」不是「army」的主释义「军队」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-bomb",
+        "reason": "英文「bomb」的常见义项「炸弹」不符合主释义「军队」。"
+      },
+      {
+        "wordId": "w-balance",
+        "reason": "英文「balance」的常见义项「平衡」不符合主释义「军队」。"
+      },
+      {
         "wordId": "w-agency",
         "reason": "英文「agency」的常见义项「机构」不符合主释义「军队」。"
-      },
-      {
-        "wordId": "w-ankle",
-        "reason": "英文「ankle」的常见义项「脚踝」不符合主释义「军队」。"
-      },
-      {
-        "wordId": "w-production",
-        "reason": "英文「production」的常见义项「生产」不符合主释义「军队」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-bomb",
+        "surfaceForm": "bomb",
+        "reason": "将「bomb」代入可见句子后不表达主释义「军队」。"
+      },
+      {
+        "wordId": "w-balance",
+        "surfaceForm": "balance",
+        "reason": "将「balance」代入可见句子后不表达主释义「军队」。"
+      },
+      {
         "wordId": "w-agency",
         "surfaceForm": "agency",
         "reason": "将「agency」代入可见句子后不表达主释义「军队」。"
-      },
-      {
-        "wordId": "w-ankle",
-        "surfaceForm": "ankle",
-        "reason": "将「ankle」代入可见句子后不表达主释义「军队」。"
-      },
-      {
-        "wordId": "w-production",
-        "surfaceForm": "production",
-        "reason": "将「production」代入可见句子后不表达主释义「军队」。"
       }
     ],
     "spelling": null
@@ -444,47 +444,47 @@
     "wordId": "w-around",
     "enToZh": [
       {
+        "wordId": "w-beside",
+        "reason": "选项「在…旁边」不是「around」的主释义「在……周围」或其他义项。"
+      },
+      {
+        "wordId": "w-beneath",
+        "reason": "选项「在…下面」不是「around」的主释义「在……周围」或其他义项。"
+      },
+      {
         "wordId": "w-among",
         "reason": "选项「在……中间」不是「around」的主释义「在……周围」或其他义项。"
-      },
-      {
-        "wordId": "w-alongside",
-        "reason": "选项「在……旁边」不是「around」的主释义「在……周围」或其他义项。"
-      },
-      {
-        "wordId": "w-along",
-        "reason": "选项「沿着」不是「around」的主释义「在……周围」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-beside",
+        "reason": "英文「beside」的常见义项「在…旁边」不符合主释义「在……周围」。"
+      },
+      {
+        "wordId": "w-beneath",
+        "reason": "英文「beneath」的常见义项「在…下面」不符合主释义「在……周围」。"
+      },
+      {
         "wordId": "w-among",
         "reason": "英文「among」的常见义项「在……中间」不符合主释义「在……周围」。"
-      },
-      {
-        "wordId": "w-alongside",
-        "reason": "英文「alongside」的常见义项「在……旁边」不符合主释义「在……周围」。"
-      },
-      {
-        "wordId": "w-along",
-        "reason": "英文「along」的常见义项「沿着」不符合主释义「在……周围」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-beside",
+        "surfaceForm": "beside",
+        "reason": "将「beside」代入可见句子后不表达主释义「在……周围」。"
+      },
+      {
+        "wordId": "w-beneath",
+        "surfaceForm": "beneath",
+        "reason": "将「beneath」代入可见句子后不表达主释义「在……周围」。"
+      },
+      {
         "wordId": "w-among",
         "surfaceForm": "among",
         "reason": "将「among」代入可见句子后不表达主释义「在……周围」。"
-      },
-      {
-        "wordId": "w-alongside",
-        "surfaceForm": "alongside",
-        "reason": "将「alongside」代入可见句子后不表达主释义「在……周围」。"
-      },
-      {
-        "wordId": "w-along",
-        "surfaceForm": "along",
-        "reason": "将「along」代入可见句子后不表达主释义「在……周围」。"
       }
     ],
     "spelling": null
@@ -497,12 +497,12 @@
         "reason": "选项「使筋疲力尽」不是「arouse」的主释义「引起」或其他义项。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "选项「主持」不是「arouse」的主释义「引起」或其他义项。"
+        "wordId": "w-avert",
+        "reason": "选项「避免」不是「arouse」的主释义「引起」或其他义项。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "选项「鼓掌」不是「arouse」的主释义「引起」或其他义项。"
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「arouse」的主释义「引起」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -511,12 +511,12 @@
         "reason": "英文「exhaust」的常见义项「使筋疲力尽」不符合主释义「引起」。"
       },
       {
-        "wordId": "w-preside",
-        "reason": "英文「preside」的常见义项「主持」不符合主释义「引起」。"
+        "wordId": "w-avert",
+        "reason": "英文「avert」的常见义项「避免」不符合主释义「引起」。"
       },
       {
-        "wordId": "w-applaud",
-        "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「引起」。"
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「引起」。"
       }
     ],
     "contextChoice": [
@@ -526,14 +526,14 @@
         "reason": "将「exhaust」代入可见句子后不表达主释义「引起」。"
       },
       {
+        "wordId": "w-avert",
+        "surfaceForm": "avert",
+        "reason": "将「avert」代入可见句子后不表达主释义「引起」。"
+      },
+      {
         "wordId": "w-preside",
         "surfaceForm": "preside",
         "reason": "将「preside」代入可见句子后不表达主释义「引起」。"
-      },
-      {
-        "wordId": "w-applaud",
-        "surfaceForm": "applaud",
-        "reason": "将「applaud」代入可见句子后不表达主释义「引起」。"
       }
     ],
     "spelling": null
@@ -595,12 +595,12 @@
         "reason": "选项「出版物」不是「arrangement」的主释义「安排」或其他义项。"
       },
       {
-        "wordId": "w-angle",
-        "reason": "选项「角度」不是「arrangement」的主释义「安排」或其他义项。"
+        "wordId": "w-board",
+        "reason": "选项「木板」不是「arrangement」的主释义「安排」或其他义项。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "选项「动物」不是「arrangement」的主释义「安排」或其他义项。"
+        "wordId": "w-angle",
+        "reason": "选项「角度」不是「arrangement」的主释义「安排」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -609,12 +609,12 @@
         "reason": "英文「publication」的常见义项「出版物」不符合主释义「安排」。"
       },
       {
-        "wordId": "w-angle",
-        "reason": "英文「angle」的常见义项「角度」不符合主释义「安排」。"
+        "wordId": "w-board",
+        "reason": "英文「board」的常见义项「木板」不符合主释义「安排」。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "英文「animal」的常见义项「动物」不符合主释义「安排」。"
+        "wordId": "w-angle",
+        "reason": "英文「angle」的常见义项「角度」不符合主释义「安排」。"
       }
     ],
     "contextChoice": [
@@ -624,14 +624,14 @@
         "reason": "将「publication」代入可见句子后不表达主释义「安排」。"
       },
       {
+        "wordId": "w-board",
+        "surfaceForm": "board",
+        "reason": "将「board」代入可见句子后不表达主释义「安排」。"
+      },
+      {
         "wordId": "w-angle",
         "surfaceForm": "angle",
         "reason": "将「angle」代入可见句子后不表达主释义「安排」。"
-      },
-      {
-        "wordId": "w-animal",
-        "surfaceForm": "animal",
-        "reason": "将「animal」代入可见句子后不表达主释义「安排」。"
       }
     ],
     "spelling": null
@@ -648,8 +648,8 @@
         "reason": "选项「潜艇」不是「array」的主释义「一系列」或其他义项。"
       },
       {
-        "wordId": "w-vigour",
-        "reason": "选项「活力」不是「array」的主释义「一系列」或其他义项。"
+        "wordId": "w-bonus",
+        "reason": "选项「奖金」不是「array」的主释义「一系列」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -662,8 +662,8 @@
         "reason": "英文「submarine」的常见义项「潜艇」不符合主释义「一系列」。"
       },
       {
-        "wordId": "w-vigour",
-        "reason": "英文「vigour」的常见义项「活力」不符合主释义「一系列」。"
+        "wordId": "w-bonus",
+        "reason": "英文「bonus」的常见义项「奖金」不符合主释义「一系列」。"
       }
     ],
     "contextChoice": [
@@ -678,9 +678,9 @@
         "reason": "将「submarine」代入可见句子后不表达主释义「一系列」。"
       },
       {
-        "wordId": "w-vigour",
-        "surfaceForm": "vigour",
-        "reason": "将「vigour」代入可见句子后不表达主释义「一系列」。"
+        "wordId": "w-bonus",
+        "surfaceForm": "bonus",
+        "reason": "将「bonus」代入可见句子后不表达主释义「一系列」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「建议」不是「arrest」的主释义「逮捕」或其他义项。"
       },
       {
-        "wordId": "w-apologize",
-        "reason": "选项「道歉」不是「arrest」的主释义「逮捕」或其他义项。"
+        "wordId": "w-avoid",
+        "reason": "选项「避免」不是「arrest」的主释义「逮捕」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「advise」的常见义项「建议」不符合主释义「逮捕」。"
       },
       {
-        "wordId": "w-apologize",
-        "reason": "英文「apologize」的常见义项「道歉」不符合主释义「逮捕」。"
+        "wordId": "w-avoid",
+        "reason": "英文「avoid」的常见义项「避免」不符合主释义「逮捕」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「advise」代入可见句子后不表达主释义「逮捕」。"
       },
       {
-        "wordId": "w-apologize",
-        "surfaceForm": "apologize",
-        "reason": "将「apologize」代入可见句子后不表达主释义「逮捕」。"
+        "wordId": "w-avoid",
+        "surfaceForm": "avoid",
+        "reason": "将「avoid」代入可见句子后不表达主释义「逮捕」。"
       }
     ],
     "spelling": null
@@ -742,12 +742,12 @@
         "reason": "选项「文章」不是「arrival」的主释义「到达」或其他义项。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "选项「协议」不是「arrival」的主释义「到达」或其他义项。"
+        "wordId": "w-birth",
+        "reason": "选项「出生」不是「arrival」的主释义「到达」或其他义项。"
       },
       {
-        "wordId": "w-advantage",
-        "reason": "选项「优势」不是「arrival」的主释义「到达」或其他义项。"
+        "wordId": "w-agreement",
+        "reason": "选项「协议」不是「arrival」的主释义「到达」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -756,12 +756,12 @@
         "reason": "英文「article」的常见义项「文章」不符合主释义「到达」。"
       },
       {
-        "wordId": "w-agreement",
-        "reason": "英文「agreement」的常见义项「协议」不符合主释义「到达」。"
+        "wordId": "w-birth",
+        "reason": "英文「birth」的常见义项「出生」不符合主释义「到达」。"
       },
       {
-        "wordId": "w-advantage",
-        "reason": "英文「advantage」的常见义项「优势」不符合主释义「到达」。"
+        "wordId": "w-agreement",
+        "reason": "英文「agreement」的常见义项「协议」不符合主释义「到达」。"
       }
     ],
     "contextChoice": [
@@ -771,14 +771,14 @@
         "reason": "将「article」代入可见句子后不表达主释义「到达」。"
       },
       {
+        "wordId": "w-birth",
+        "surfaceForm": "birth",
+        "reason": "将「birth」代入可见句子后不表达主释义「到达」。"
+      },
+      {
         "wordId": "w-agreement",
         "surfaceForm": "agreement",
         "reason": "将「agreement」代入可见句子后不表达主释义「到达」。"
-      },
-      {
-        "wordId": "w-advantage",
-        "surfaceForm": "advantage",
-        "reason": "将「advantage」代入可见句子后不表达主释义「到达」。"
       }
     ],
     "spelling": null
@@ -836,47 +836,47 @@
     "wordId": "w-arrow",
     "enToZh": [
       {
+        "wordId": "w-bed",
+        "reason": "选项「床」不是「arrow」的主释义「箭头」或其他义项。"
+      },
+      {
+        "wordId": "w-blade",
+        "reason": "选项「刀刃」不是「arrow」的主释义「箭头」或其他义项。"
+      },
+      {
         "wordId": "w-appearance",
         "reason": "选项「外表」不是「arrow」的主释义「箭头」或其他义项。"
-      },
-      {
-        "wordId": "w-airline",
-        "reason": "选项「航空公司」不是「arrow」的主释义「箭头」或其他义项。"
-      },
-      {
-        "wordId": "w-anxiety",
-        "reason": "选项「焦虑」不是「arrow」的主释义「箭头」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-bed",
+        "reason": "英文「bed」的常见义项「床」不符合主释义「箭头」。"
+      },
+      {
+        "wordId": "w-blade",
+        "reason": "英文「blade」的常见义项「刀刃」不符合主释义「箭头」。"
+      },
+      {
         "wordId": "w-appearance",
         "reason": "英文「appearance」的常见义项「外表」不符合主释义「箭头」。"
-      },
-      {
-        "wordId": "w-airline",
-        "reason": "英文「airline」的常见义项「航空公司」不符合主释义「箭头」。"
-      },
-      {
-        "wordId": "w-anxiety",
-        "reason": "英文「anxiety」的常见义项「焦虑」不符合主释义「箭头」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-bed",
+        "surfaceForm": "bed",
+        "reason": "将「bed」代入可见句子后不表达主释义「箭头」。"
+      },
+      {
+        "wordId": "w-blade",
+        "surfaceForm": "blade",
+        "reason": "将「blade」代入可见句子后不表达主释义「箭头」。"
+      },
+      {
         "wordId": "w-appearance",
         "surfaceForm": "appearance",
         "reason": "将「appearance」代入可见句子后不表达主释义「箭头」。"
-      },
-      {
-        "wordId": "w-airline",
-        "surfaceForm": "airline",
-        "reason": "将「airline」代入可见句子后不表达主释义「箭头」。"
-      },
-      {
-        "wordId": "w-anxiety",
-        "surfaceForm": "anxiety",
-        "reason": "将「anxiety」代入可见句子后不表达主释义「箭头」。"
       }
     ],
     "spelling": null
@@ -885,19 +885,23 @@
     "wordId": "w-article",
     "enToZh": [
       {
+        "wordId": "w-breath",
+        "reason": "选项「呼吸」不是「article」的主释义「文章」或其他义项。"
+      },
+      {
         "wordId": "w-accident",
         "reason": "选项「事故」不是「article」的主释义「文章」或其他义项。"
       },
       {
         "wordId": "w-portrait",
         "reason": "选项「肖像」不是「article」的主释义「文章」或其他义项。"
-      },
-      {
-        "wordId": "w-approach",
-        "reason": "选项「方法」不是「article」的主释义「文章」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-breath",
+        "reason": "英文「breath」的常见义项「呼吸」不符合主释义「文章」。"
+      },
       {
         "wordId": "w-accident",
         "reason": "英文「accident」的常见义项「事故」不符合主释义「文章」。"
@@ -905,13 +909,14 @@
       {
         "wordId": "w-portrait",
         "reason": "英文「portrait」的常见义项「肖像」不符合主释义「文章」。"
-      },
-      {
-        "wordId": "w-approach",
-        "reason": "英文「approach」的常见义项「方法」不符合主释义「文章」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-breath",
+        "surfaceForm": "breath",
+        "reason": "将「breath」代入可见句子后不表达主释义「文章」。"
+      },
       {
         "wordId": "w-accident",
         "surfaceForm": "accident",
@@ -921,11 +926,6 @@
         "wordId": "w-portrait",
         "surfaceForm": "portrait",
         "reason": "将「portrait」代入可见句子后不表达主释义「文章」。"
-      },
-      {
-        "wordId": "w-approach",
-        "surfaceForm": "approach",
-        "reason": "将「approach」代入可见句子后不表达主释义「文章」。"
       }
     ],
     "spelling": null
@@ -938,12 +938,12 @@
         "reason": "选项「成就」不是「artist」的主释义「艺术家」或其他义项。"
       },
       {
-        "wordId": "w-aircraft",
-        "reason": "选项「飞机」不是「artist」的主释义「艺术家」或其他义项。"
+        "wordId": "w-attorney",
+        "reason": "选项「律师」不是「artist」的主释义「艺术家」或其他义项。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "选项「动物」不是「artist」的主释义「艺术家」或其他义项。"
+        "wordId": "w-assault",
+        "reason": "选项「袭击」不是「artist」的主释义「艺术家」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -952,12 +952,12 @@
         "reason": "英文「achievement」的常见义项「成就」不符合主释义「艺术家」。"
       },
       {
-        "wordId": "w-aircraft",
-        "reason": "英文「aircraft」的常见义项「飞机」不符合主释义「艺术家」。"
+        "wordId": "w-attorney",
+        "reason": "英文「attorney」的常见义项「律师」不符合主释义「艺术家」。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "英文「animal」的常见义项「动物」不符合主释义「艺术家」。"
+        "wordId": "w-assault",
+        "reason": "英文「assault」的常见义项「袭击」不符合主释义「艺术家」。"
       }
     ],
     "contextChoice": [
@@ -967,14 +967,14 @@
         "reason": "将「achievement」代入可见句子后不表达主释义「艺术家」。"
       },
       {
-        "wordId": "w-aircraft",
-        "surfaceForm": "aircraft",
-        "reason": "将「aircraft」代入可见句子后不表达主释义「艺术家」。"
+        "wordId": "w-attorney",
+        "surfaceForm": "attorney",
+        "reason": "将「attorney」代入可见句子后不表达主释义「艺术家」。"
       },
       {
-        "wordId": "w-animal",
-        "surfaceForm": "animal",
-        "reason": "将「animal」代入可见句子后不表达主释义「艺术家」。"
+        "wordId": "w-assault",
+        "surfaceForm": "assault",
+        "reason": "将「assault」代入可见句子后不表达主释义「艺术家」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「折磨」不是「ascend」的主释义「上升」或其他义项。"
       },
       {
-        "wordId": "w-appraise",
-        "reason": "选项「估价」不是「ascend」的主释义「上升」或其他义项。"
+        "wordId": "w-assimilate",
+        "reason": "选项「吸收」不是「ascend」的主释义「上升」或其他义项。"
       },
       {
-        "wordId": "w-sympathize",
-        "reason": "选项「同情」不是「ascend」的主释义「上升」或其他义项。"
+        "wordId": "w-appraise",
+        "reason": "选项「估价」不是「ascend」的主释义「上升」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「afflict」的常见义项「折磨」不符合主释义「上升」。"
       },
       {
-        "wordId": "w-appraise",
-        "reason": "英文「appraise」的常见义项「估价」不符合主释义「上升」。"
+        "wordId": "w-assimilate",
+        "reason": "英文「assimilate」的常见义项「吸收」不符合主释义「上升」。"
       },
       {
-        "wordId": "w-sympathize",
-        "reason": "英文「sympathize」的常见义项「同情」不符合主释义「上升」。"
+        "wordId": "w-appraise",
+        "reason": "英文「appraise」的常见义项「估价」不符合主释义「上升」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「afflict」代入可见句子后不表达主释义「上升」。"
       },
       {
+        "wordId": "w-assimilate",
+        "surfaceForm": "assimilate",
+        "reason": "将「assimilate」代入可见句子后不表达主释义「上升」。"
+      },
+      {
         "wordId": "w-appraise",
         "surfaceForm": "appraise",
         "reason": "将「appraise」代入可见句子后不表达主释义「上升」。"
-      },
-      {
-        "wordId": "w-sympathize",
-        "surfaceForm": "sympathize",
-        "reason": "将「sympathize」代入可见句子后不表达主释义「上升」。"
       }
     ],
     "spelling": null
@@ -1036,12 +1036,12 @@
         "reason": "选项「归因于」不是「ascertain」的主释义「查明」或其他义项。"
       },
       {
-        "wordId": "w-aggravate",
-        "reason": "选项「加重」不是「ascertain」的主释义「查明」或其他义项。"
+        "wordId": "w-avail",
+        "reason": "选项「利用」不是「ascertain」的主释义「查明」或其他义项。"
       },
       {
-        "wordId": "w-amplify",
-        "reason": "选项「放大」不是「ascertain」的主释义「查明」或其他义项。"
+        "wordId": "w-aggravate",
+        "reason": "选项「加重」不是「ascertain」的主释义「查明」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1050,12 +1050,12 @@
         "reason": "英文「ascribe」的常见义项「归因于」不符合主释义「查明」。"
       },
       {
-        "wordId": "w-aggravate",
-        "reason": "英文「aggravate」的常见义项「加重」不符合主释义「查明」。"
+        "wordId": "w-avail",
+        "reason": "英文「avail」的常见义项「利用」不符合主释义「查明」。"
       },
       {
-        "wordId": "w-amplify",
-        "reason": "英文「amplify」的常见义项「放大」不符合主释义「查明」。"
+        "wordId": "w-aggravate",
+        "reason": "英文「aggravate」的常见义项「加重」不符合主释义「查明」。"
       }
     ],
     "contextChoice": [
@@ -1065,14 +1065,14 @@
         "reason": "将「ascribe」代入可见句子后不表达主释义「查明」。"
       },
       {
+        "wordId": "w-avail",
+        "surfaceForm": "avail",
+        "reason": "将「avail」代入可见句子后不表达主释义「查明」。"
+      },
+      {
         "wordId": "w-aggravate",
         "surfaceForm": "aggravate",
         "reason": "将「aggravate」代入可见句子后不表达主释义「查明」。"
-      },
-      {
-        "wordId": "w-amplify",
-        "surfaceForm": "amplify",
-        "reason": "将「amplify」代入可见句子后不表达主释义「查明」。"
       }
     ],
     "spelling": null
@@ -1081,47 +1081,47 @@
     "wordId": "w-ascribe",
     "enToZh": [
       {
+        "wordId": "w-avail",
+        "reason": "选项「利用」不是「ascribe」的主释义「归因于」或其他义项。"
+      },
+      {
+        "wordId": "w-boycott",
+        "reason": "选项「抵制」不是「ascribe」的主释义「归因于」或其他义项。"
+      },
+      {
         "wordId": "w-untie",
         "reason": "选项「解开」不是「ascribe」的主释义「归因于」或其他义项。"
-      },
-      {
-        "wordId": "w-misunderstand",
-        "reason": "选项「误解」不是「ascribe」的主释义「归因于」或其他义项。"
-      },
-      {
-        "wordId": "w-appraise",
-        "reason": "选项「估价」不是「ascribe」的主释义「归因于」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-avail",
+        "reason": "英文「avail」的常见义项「利用」不符合主释义「归因于」。"
+      },
+      {
+        "wordId": "w-boycott",
+        "reason": "英文「boycott」的常见义项「抵制」不符合主释义「归因于」。"
+      },
+      {
         "wordId": "w-untie",
         "reason": "英文「untie」的常见义项「解开」不符合主释义「归因于」。"
-      },
-      {
-        "wordId": "w-misunderstand",
-        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「归因于」。"
-      },
-      {
-        "wordId": "w-appraise",
-        "reason": "英文「appraise」的常见义项「估价」不符合主释义「归因于」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-avail",
+        "surfaceForm": "avail",
+        "reason": "将「avail」代入可见句子后不表达主释义「归因于」。"
+      },
+      {
+        "wordId": "w-boycott",
+        "surfaceForm": "boycott",
+        "reason": "将「boycott」代入可见句子后不表达主释义「归因于」。"
+      },
+      {
         "wordId": "w-untie",
         "surfaceForm": "untie",
         "reason": "将「untie」代入可见句子后不表达主释义「归因于」。"
-      },
-      {
-        "wordId": "w-misunderstand",
-        "surfaceForm": "misunderstand",
-        "reason": "将「misunderstand」代入可见句子后不表达主释义「归因于」。"
-      },
-      {
-        "wordId": "w-appraise",
-        "surfaceForm": "appraise",
-        "reason": "将「appraise」代入可见句子后不表达主释义「归因于」。"
       }
     ],
     "spelling": null
@@ -1130,47 +1130,47 @@
     "wordId": "w-ash",
     "enToZh": [
       {
+        "wordId": "w-bias",
+        "reason": "选项「偏见」不是「ash」的主释义「灰烬」或其他义项。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "reason": "选项「志向」不是「ash」的主释义「灰烬」或其他义项。"
+      },
+      {
         "wordId": "w-bow",
         "reason": "选项「弓」不是「ash」的主释义「灰烬」或其他义项。"
-      },
-      {
-        "wordId": "w-applause",
-        "reason": "选项「掌声」不是「ash」的主释义「灰烬」或其他义项。"
-      },
-      {
-        "wordId": "w-ambiguity",
-        "reason": "选项「歧义」不是「ash」的主释义「灰烬」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-bias",
+        "reason": "英文「bias」的常见义项「偏见」不符合主释义「灰烬」。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "reason": "英文「aspiration」的常见义项「志向」不符合主释义「灰烬」。"
+      },
+      {
         "wordId": "w-bow",
         "reason": "英文「bow」的常见义项「弓」不符合主释义「灰烬」。"
-      },
-      {
-        "wordId": "w-applause",
-        "reason": "英文「applause」的常见义项「掌声」不符合主释义「灰烬」。"
-      },
-      {
-        "wordId": "w-ambiguity",
-        "reason": "英文「ambiguity」的常见义项「歧义」不符合主释义「灰烬」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-bias",
+        "surfaceForm": "bias",
+        "reason": "将「bias」代入可见句子后不表达主释义「灰烬」。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "surfaceForm": "aspiration",
+        "reason": "将「aspiration」代入可见句子后不表达主释义「灰烬」。"
+      },
+      {
         "wordId": "w-bow",
         "surfaceForm": "bow",
         "reason": "将「bow」代入可见句子后不表达主释义「灰烬」。"
-      },
-      {
-        "wordId": "w-applause",
-        "surfaceForm": "applause",
-        "reason": "将「applause」代入可见句子后不表达主释义「灰烬」。"
-      },
-      {
-        "wordId": "w-ambiguity",
-        "surfaceForm": "ambiguity",
-        "reason": "将「ambiguity」代入可见句子后不表达主释义「灰烬」。"
       }
     ],
     "spelling": null
@@ -1183,12 +1183,12 @@
         "reason": "选项「本能地」不是「ashore」的主释义「到岸上」或其他义项。"
       },
       {
-        "wordId": "w-anyhow",
-        "reason": "选项「无论如何」不是「ashore」的主释义「到岸上」或其他义项。"
+        "wordId": "w-beforehand",
+        "reason": "选项「预先」不是「ashore」的主释义「到岸上」或其他义项。"
       },
       {
-        "wordId": "w-accordingly",
-        "reason": "选项「因此」不是「ashore」的主释义「到岸上」或其他义项。"
+        "wordId": "w-bluntly",
+        "reason": "选项「直率地」不是「ashore」的主释义「到岸上」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1197,12 +1197,12 @@
         "reason": "英文「instinctively」的常见义项「本能地」不符合主释义「到岸上」。"
       },
       {
-        "wordId": "w-anyhow",
-        "reason": "英文「anyhow」的常见义项「无论如何」不符合主释义「到岸上」。"
+        "wordId": "w-beforehand",
+        "reason": "英文「beforehand」的常见义项「预先」不符合主释义「到岸上」。"
       },
       {
-        "wordId": "w-accordingly",
-        "reason": "英文「accordingly」的常见义项「因此」不符合主释义「到岸上」。"
+        "wordId": "w-bluntly",
+        "reason": "英文「bluntly」的常见义项「直率地」不符合主释义「到岸上」。"
       }
     ],
     "contextChoice": [
@@ -1212,14 +1212,14 @@
         "reason": "将「instinctively」代入可见句子后不表达主释义「到岸上」。"
       },
       {
-        "wordId": "w-anyhow",
-        "surfaceForm": "anyhow",
-        "reason": "将「anyhow」代入可见句子后不表达主释义「到岸上」。"
+        "wordId": "w-beforehand",
+        "surfaceForm": "beforehand",
+        "reason": "将「beforehand」代入可见句子后不表达主释义「到岸上」。"
       },
       {
-        "wordId": "w-accordingly",
-        "surfaceForm": "accordingly",
-        "reason": "将「accordingly」代入可见句子后不表达主释义「到岸上」。"
+        "wordId": "w-bluntly",
+        "surfaceForm": "bluntly",
+        "reason": "将「bluntly」代入可见句子后不表达主释义「到岸上」。"
       }
     ],
     "spelling": null

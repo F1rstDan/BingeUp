@@ -11,8 +11,8 @@
         "reason": "选项「成年人」不是「agent」的主释义「代理人」或其他义项。"
       },
       {
-        "wordId": "w-achievement",
-        "reason": "选项「成就」不是「agent」的主释义「代理人」或其他义项。"
+        "wordId": "w-basketball",
+        "reason": "选项「篮球」不是「agent」的主释义「代理人」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -25,8 +25,8 @@
         "reason": "英文「adult」的常见义项「成年人」不符合主释义「代理人」。"
       },
       {
-        "wordId": "w-achievement",
-        "reason": "英文「achievement」的常见义项「成就」不符合主释义「代理人」。"
+        "wordId": "w-basketball",
+        "reason": "英文「basketball」的常见义项「篮球」不符合主释义「代理人」。"
       }
     ],
     "contextChoice": [
@@ -41,9 +41,9 @@
         "reason": "将「adult」代入可见句子后不表达主释义「代理人」。"
       },
       {
-        "wordId": "w-achievement",
-        "surfaceForm": "achievement",
-        "reason": "将「achievement」代入可见句子后不表达主释义「代理人」。"
+        "wordId": "w-basketball",
+        "surfaceForm": "basketball",
+        "reason": "将「basketball」代入可见句子后不表达主释义「代理人」。"
       }
     ],
     "spelling": null
@@ -60,8 +60,8 @@
         "reason": "选项「反抗」不是「aggravate」的主释义「加重」或其他义项。"
       },
       {
-        "wordId": "w-incline",
-        "reason": "选项「倾斜」不是「aggravate」的主释义「加重」或其他义项。"
+        "wordId": "w-amplify",
+        "reason": "选项「放大」不是「aggravate」的主释义「加重」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -74,8 +74,8 @@
         "reason": "英文「revolt」的常见义项「反抗」不符合主释义「加重」。"
       },
       {
-        "wordId": "w-incline",
-        "reason": "英文「incline」的常见义项「倾斜」不符合主释义「加重」。"
+        "wordId": "w-amplify",
+        "reason": "英文「amplify」的常见义项「放大」不符合主释义「加重」。"
       }
     ],
     "contextChoice": [
@@ -90,9 +90,9 @@
         "reason": "将「revolt」代入可见句子后不表达主释义「加重」。"
       },
       {
-        "wordId": "w-incline",
-        "surfaceForm": "incline",
-        "reason": "将「incline」代入可见句子后不表达主释义「加重」。"
+        "wordId": "w-amplify",
+        "surfaceForm": "amplify",
+        "reason": "将「amplify」代入可见句子后不表达主释义「加重」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「女演员」不是「aggression」的主释义「攻击性」或其他义项。"
       },
       {
-        "wordId": "w-alien",
-        "reason": "选项「外星人」不是「aggression」的主释义「攻击性」或其他义项。"
+        "wordId": "w-bolt",
+        "reason": "选项「螺栓」不是「aggression」的主释义「攻击性」或其他义项。"
       },
       {
-        "wordId": "w-catalog",
-        "reason": "选项「目录」不是「aggression」的主释义「攻击性」或其他义项。"
+        "wordId": "w-altitude",
+        "reason": "选项「海拔」不是「aggression」的主释义「攻击性」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「actress」的常见义项「女演员」不符合主释义「攻击性」。"
       },
       {
-        "wordId": "w-alien",
-        "reason": "英文「alien」的常见义项「外星人」不符合主释义「攻击性」。"
+        "wordId": "w-bolt",
+        "reason": "英文「bolt」的常见义项「螺栓」不符合主释义「攻击性」。"
       },
       {
-        "wordId": "w-catalog",
-        "reason": "英文「catalog」的常见义项「目录」不符合主释义「攻击性」。"
+        "wordId": "w-altitude",
+        "reason": "英文「altitude」的常见义项「海拔」不符合主释义「攻击性」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「actress」代入可见句子后不表达主释义「攻击性」。"
       },
       {
-        "wordId": "w-alien",
-        "surfaceForm": "alien",
-        "reason": "将「alien」代入可见句子后不表达主释义「攻击性」。"
+        "wordId": "w-bolt",
+        "surfaceForm": "bolt",
+        "reason": "将「bolt」代入可见句子后不表达主释义「攻击性」。"
       },
       {
-        "wordId": "w-catalog",
-        "surfaceForm": "catalog",
-        "reason": "将「catalog」代入可见句子后不表达主释义「攻击性」。"
+        "wordId": "w-altitude",
+        "surfaceForm": "altitude",
+        "reason": "将「altitude」代入可见句子后不表达主释义「攻击性」。"
       }
     ],
     "spelling": null
@@ -154,12 +154,12 @@
         "reason": "选项「缺点」不是「agitation」的主释义「焦虑」或其他义项。"
       },
       {
-        "wordId": "w-acceleration",
-        "reason": "选项「加速」不是「agitation」的主释义「焦虑」或其他义项。"
+        "wordId": "w-brandy",
+        "reason": "选项「白兰地」不是「agitation」的主释义「焦虑」或其他义项。"
       },
       {
-        "wordId": "w-adjective",
-        "reason": "选项「形容词」不是「agitation」的主释义「焦虑」或其他义项。"
+        "wordId": "w-astonishment",
+        "reason": "选项「惊讶」不是「agitation」的主释义「焦虑」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -168,12 +168,12 @@
         "reason": "英文「shortcoming」的常见义项「缺点」不符合主释义「焦虑」。"
       },
       {
-        "wordId": "w-acceleration",
-        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「焦虑」。"
+        "wordId": "w-brandy",
+        "reason": "英文「brandy」的常见义项「白兰地」不符合主释义「焦虑」。"
       },
       {
-        "wordId": "w-adjective",
-        "reason": "英文「adjective」的常见义项「形容词」不符合主释义「焦虑」。"
+        "wordId": "w-astonishment",
+        "reason": "英文「astonishment」的常见义项「惊讶」不符合主释义「焦虑」。"
       }
     ],
     "contextChoice": [
@@ -183,14 +183,14 @@
         "reason": "将「shortcoming」代入可见句子后不表达主释义「焦虑」。"
       },
       {
-        "wordId": "w-acceleration",
-        "surfaceForm": "acceleration",
-        "reason": "将「acceleration」代入可见句子后不表达主释义「焦虑」。"
+        "wordId": "w-brandy",
+        "surfaceForm": "brandy",
+        "reason": "将「brandy」代入可见句子后不表达主释义「焦虑」。"
       },
       {
-        "wordId": "w-adjective",
-        "surfaceForm": "adjective",
-        "reason": "将「adjective」代入可见句子后不表达主释义「焦虑」。"
+        "wordId": "w-astonishment",
+        "surfaceForm": "astonishment",
+        "reason": "将「astonishment」代入可见句子后不表达主释义「焦虑」。"
       }
     ],
     "spelling": null
@@ -199,47 +199,47 @@
     "wordId": "w-ago",
     "enToZh": [
       {
-        "wordId": "w-somewhere",
-        "reason": "选项「在某处」不是「ago」的主释义「以前」或其他义项。"
+        "wordId": "w-aloud",
+        "reason": "选项「出声地」不是「ago」的主释义「以前」或其他义项。"
       },
       {
-        "wordId": "w-absolutely",
-        "reason": "选项「完全地」不是「ago」的主释义「以前」或其他义项。"
+        "wordId": "w-automatically",
+        "reason": "选项「自动地」不是「ago」的主释义「以前」或其他义项。"
       },
       {
-        "wordId": "w-actually",
-        "reason": "选项「实际上」不是「ago」的主释义「以前」或其他义项。"
+        "wordId": "w-approximately",
+        "reason": "选项「大约」不是「ago」的主释义「以前」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-somewhere",
-        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「以前」。"
+        "wordId": "w-aloud",
+        "reason": "英文「aloud」的常见义项「出声地」不符合主释义「以前」。"
       },
       {
-        "wordId": "w-absolutely",
-        "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「以前」。"
+        "wordId": "w-automatically",
+        "reason": "英文「automatically」的常见义项「自动地」不符合主释义「以前」。"
       },
       {
-        "wordId": "w-actually",
-        "reason": "英文「actually」的常见义项「实际上」不符合主释义「以前」。"
+        "wordId": "w-approximately",
+        "reason": "英文「approximately」的常见义项「大约」不符合主释义「以前」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-somewhere",
-        "surfaceForm": "somewhere",
-        "reason": "将「somewhere」代入可见句子后不表达主释义「以前」。"
+        "wordId": "w-aloud",
+        "surfaceForm": "aloud",
+        "reason": "将「aloud」代入可见句子后不表达主释义「以前」。"
       },
       {
-        "wordId": "w-absolutely",
-        "surfaceForm": "absolutely",
-        "reason": "将「absolutely」代入可见句子后不表达主释义「以前」。"
+        "wordId": "w-automatically",
+        "surfaceForm": "automatically",
+        "reason": "将「automatically」代入可见句子后不表达主释义「以前」。"
       },
       {
-        "wordId": "w-actually",
-        "surfaceForm": "actually",
-        "reason": "将「actually」代入可见句子后不表达主释义「以前」。"
+        "wordId": "w-approximately",
+        "surfaceForm": "approximately",
+        "reason": "将「approximately」代入可见句子后不表达主释义「以前」。"
       }
     ],
     "spelling": null
@@ -248,47 +248,47 @@
     "wordId": "w-agony",
     "enToZh": [
       {
+        "wordId": "w-angel",
+        "reason": "选项「天使」不是「agony」的主释义「极度痛苦」或其他义项。"
+      },
+      {
+        "wordId": "w-blouse",
+        "reason": "选项「女式衬衫」不是「agony」的主释义「极度痛苦」或其他义项。"
+      },
+      {
         "wordId": "w-acquaintance",
         "reason": "选项「熟人」不是「agony」的主释义「极度痛苦」或其他义项。"
-      },
-      {
-        "wordId": "w-abundance",
-        "reason": "选项「大量」不是「agony」的主释义「极度痛苦」或其他义项。"
-      },
-      {
-        "wordId": "w-radar",
-        "reason": "选项「雷达」不是「agony」的主释义「极度痛苦」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-angel",
+        "reason": "英文「angel」的常见义项「天使」不符合主释义「极度痛苦」。"
+      },
+      {
+        "wordId": "w-blouse",
+        "reason": "英文「blouse」的常见义项「女式衬衫」不符合主释义「极度痛苦」。"
+      },
+      {
         "wordId": "w-acquaintance",
         "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「极度痛苦」。"
-      },
-      {
-        "wordId": "w-abundance",
-        "reason": "英文「abundance」的常见义项「大量」不符合主释义「极度痛苦」。"
-      },
-      {
-        "wordId": "w-radar",
-        "reason": "英文「radar」的常见义项「雷达」不符合主释义「极度痛苦」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-angel",
+        "surfaceForm": "angel",
+        "reason": "将「angel」代入可见句子后不表达主释义「极度痛苦」。"
+      },
+      {
+        "wordId": "w-blouse",
+        "surfaceForm": "blouse",
+        "reason": "将「blouse」代入可见句子后不表达主释义「极度痛苦」。"
+      },
+      {
         "wordId": "w-acquaintance",
         "surfaceForm": "acquaintance",
         "reason": "将「acquaintance」代入可见句子后不表达主释义「极度痛苦」。"
-      },
-      {
-        "wordId": "w-abundance",
-        "surfaceForm": "abundance",
-        "reason": "将「abundance」代入可见句子后不表达主释义「极度痛苦」。"
-      },
-      {
-        "wordId": "w-radar",
-        "surfaceForm": "radar",
-        "reason": "将「radar」代入可见句子后不表达主释义「极度痛苦」。"
       }
     ],
     "spelling": null
@@ -301,12 +301,12 @@
         "reason": "选项「买得起」不是「agree」的主释义「同意」或其他义项。"
       },
       {
-        "wordId": "w-absorb",
-        "reason": "选项「吸收」不是「agree」的主释义「同意」或其他义项。"
+        "wordId": "w-amaze",
+        "reason": "选项「使惊奇」不是「agree」的主释义「同意」或其他义项。"
       },
       {
-        "wordId": "w-acknowledge",
-        "reason": "选项「承认」不是「agree」的主释义「同意」或其他义项。"
+        "wordId": "w-bet",
+        "reason": "选项「打赌」不是「agree」的主释义「同意」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -315,12 +315,12 @@
         "reason": "英文「afford」的常见义项「买得起」不符合主释义「同意」。"
       },
       {
-        "wordId": "w-absorb",
-        "reason": "英文「absorb」的常见义项「吸收」不符合主释义「同意」。"
+        "wordId": "w-amaze",
+        "reason": "英文「amaze」的常见义项「使惊奇」不符合主释义「同意」。"
       },
       {
-        "wordId": "w-acknowledge",
-        "reason": "英文「acknowledge」的常见义项「承认」不符合主释义「同意」。"
+        "wordId": "w-bet",
+        "reason": "英文「bet」的常见义项「打赌」不符合主释义「同意」。"
       }
     ],
     "contextChoice": [
@@ -330,14 +330,14 @@
         "reason": "将「afford」代入可见句子后不表达主释义「同意」。"
       },
       {
-        "wordId": "w-absorb",
-        "surfaceForm": "absorb",
-        "reason": "将「absorb」代入可见句子后不表达主释义「同意」。"
+        "wordId": "w-amaze",
+        "surfaceForm": "amaze",
+        "reason": "将「amaze」代入可见句子后不表达主释义「同意」。"
       },
       {
-        "wordId": "w-acknowledge",
-        "surfaceForm": "acknowledge",
-        "reason": "将「acknowledge」代入可见句子后不表达主释义「同意」。"
+        "wordId": "w-bet",
+        "surfaceForm": "bet",
+        "reason": "将「bet」代入可见句子后不表达主释义「同意」。"
       }
     ],
     "spelling": null
@@ -354,8 +354,8 @@
         "reason": "选项「管道」不是「agreement」的主释义「协议」或其他义项。"
       },
       {
-        "wordId": "w-administrator",
-        "reason": "选项「管理员」不是「agreement」的主释义「协议」或其他义项。"
+        "wordId": "w-bicycle",
+        "reason": "选项「自行车」不是「agreement」的主释义「协议」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -368,8 +368,8 @@
         "reason": "英文「pipe」的常见义项「管道」不符合主释义「协议」。"
       },
       {
-        "wordId": "w-administrator",
-        "reason": "英文「administrator」的常见义项「管理员」不符合主释义「协议」。"
+        "wordId": "w-bicycle",
+        "reason": "英文「bicycle」的常见义项「自行车」不符合主释义「协议」。"
       }
     ],
     "contextChoice": [
@@ -384,9 +384,9 @@
         "reason": "将「pipe」代入可见句子后不表达主释义「协议」。"
       },
       {
-        "wordId": "w-administrator",
-        "surfaceForm": "administrator",
-        "reason": "将「administrator」代入可见句子后不表达主释义「协议」。"
+        "wordId": "w-bicycle",
+        "surfaceForm": "bicycle",
+        "reason": "将「bicycle」代入可见句子后不表达主释义「协议」。"
       }
     ],
     "spelling": null
@@ -399,12 +399,12 @@
         "reason": "选项「采用」不是「agriculture」的主释义「农业」或其他义项。"
       },
       {
-        "wordId": "w-allegation",
-        "reason": "选项「指控」不是「agriculture」的主释义「农业」或其他义项。"
+        "wordId": "w-announcer",
+        "reason": "选项「播音员」不是「agriculture」的主释义「农业」或其他义项。"
       },
       {
-        "wordId": "w-playground",
-        "reason": "选项「操场」不是「agriculture」的主释义「农业」或其他义项。"
+        "wordId": "w-angel",
+        "reason": "选项「天使」不是「agriculture」的主释义「农业」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -413,12 +413,12 @@
         "reason": "英文「adoption」的常见义项「采用」不符合主释义「农业」。"
       },
       {
-        "wordId": "w-allegation",
-        "reason": "英文「allegation」的常见义项「指控」不符合主释义「农业」。"
+        "wordId": "w-announcer",
+        "reason": "英文「announcer」的常见义项「播音员」不符合主释义「农业」。"
       },
       {
-        "wordId": "w-playground",
-        "reason": "英文「playground」的常见义项「操场」不符合主释义「农业」。"
+        "wordId": "w-angel",
+        "reason": "英文「angel」的常见义项「天使」不符合主释义「农业」。"
       }
     ],
     "contextChoice": [
@@ -428,14 +428,14 @@
         "reason": "将「adoption」代入可见句子后不表达主释义「农业」。"
       },
       {
-        "wordId": "w-allegation",
-        "surfaceForm": "allegation",
-        "reason": "将「allegation」代入可见句子后不表达主释义「农业」。"
+        "wordId": "w-announcer",
+        "surfaceForm": "announcer",
+        "reason": "将「announcer」代入可见句子后不表达主释义「农业」。"
       },
       {
-        "wordId": "w-playground",
-        "surfaceForm": "playground",
-        "reason": "将「playground」代入可见句子后不表达主释义「农业」。"
+        "wordId": "w-angel",
+        "surfaceForm": "angel",
+        "reason": "将「angel」代入可见句子后不表达主释义「农业」。"
       }
     ],
     "spelling": null
@@ -444,47 +444,47 @@
     "wordId": "w-aid",
     "enToZh": [
       {
+        "wordId": "w-beauty",
+        "reason": "选项「美丽」不是「aid」的主释义「援助」或其他义项。"
+      },
+      {
+        "wordId": "w-brick",
+        "reason": "选项「砖」不是「aid」的主释义「援助」或其他义项。"
+      },
+      {
         "wordId": "w-alarm",
         "reason": "选项「警报」不是「aid」的主释义「援助」或其他义项。"
-      },
-      {
-        "wordId": "w-west",
-        "reason": "选项「西方」不是「aid」的主释义「援助」或其他义项。"
-      },
-      {
-        "wordId": "w-accent",
-        "reason": "选项「口音」不是「aid」的主释义「援助」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-beauty",
+        "reason": "英文「beauty」的常见义项「美丽」不符合主释义「援助」。"
+      },
+      {
+        "wordId": "w-brick",
+        "reason": "英文「brick」的常见义项「砖」不符合主释义「援助」。"
+      },
+      {
         "wordId": "w-alarm",
         "reason": "英文「alarm」的常见义项「警报」不符合主释义「援助」。"
-      },
-      {
-        "wordId": "w-west",
-        "reason": "英文「west」的常见义项「西方」不符合主释义「援助」。"
-      },
-      {
-        "wordId": "w-accent",
-        "reason": "英文「accent」的常见义项「口音」不符合主释义「援助」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-beauty",
+        "surfaceForm": "beauty",
+        "reason": "将「beauty」代入可见句子后不表达主释义「援助」。"
+      },
+      {
+        "wordId": "w-brick",
+        "surfaceForm": "brick",
+        "reason": "将「brick」代入可见句子后不表达主释义「援助」。"
+      },
+      {
         "wordId": "w-alarm",
         "surfaceForm": "alarm",
         "reason": "将「alarm」代入可见句子后不表达主释义「援助」。"
-      },
-      {
-        "wordId": "w-west",
-        "surfaceForm": "west",
-        "reason": "将「west」代入可见句子后不表达主释义「援助」。"
-      },
-      {
-        "wordId": "w-accent",
-        "surfaceForm": "accent",
-        "reason": "将「accent」代入可见句子后不表达主释义「援助」。"
       }
     ],
     "spelling": null
@@ -493,47 +493,47 @@
     "wordId": "w-aim",
     "enToZh": [
       {
-        "wordId": "w-emergency",
-        "reason": "选项「紧急情况」不是「aim」的主释义「目标」或其他义项。"
+        "wordId": "w-biology",
+        "reason": "选项「生物学」不是「aim」的主释义「目标」或其他义项。"
       },
       {
-        "wordId": "w-absence",
-        "reason": "选项「缺席」不是「aim」的主释义「目标」或其他义项。"
+        "wordId": "w-box",
+        "reason": "选项「盒子」不是「aim」的主释义「目标」或其他义项。"
       },
       {
-        "wordId": "w-adult",
-        "reason": "选项「成年人」不是「aim」的主释义「目标」或其他义项。"
+        "wordId": "w-brain",
+        "reason": "选项「大脑」不是「aim」的主释义「目标」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-emergency",
-        "reason": "英文「emergency」的常见义项「紧急情况」不符合主释义「目标」。"
+        "wordId": "w-biology",
+        "reason": "英文「biology」的常见义项「生物学」不符合主释义「目标」。"
       },
       {
-        "wordId": "w-absence",
-        "reason": "英文「absence」的常见义项「缺席」不符合主释义「目标」。"
+        "wordId": "w-box",
+        "reason": "英文「box」的常见义项「盒子」不符合主释义「目标」。"
       },
       {
-        "wordId": "w-adult",
-        "reason": "英文「adult」的常见义项「成年人」不符合主释义「目标」。"
+        "wordId": "w-brain",
+        "reason": "英文「brain」的常见义项「大脑」不符合主释义「目标」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-emergency",
-        "surfaceForm": "emergency",
-        "reason": "将「emergency」代入可见句子后不表达主释义「目标」。"
+        "wordId": "w-biology",
+        "surfaceForm": "biology",
+        "reason": "将「biology」代入可见句子后不表达主释义「目标」。"
       },
       {
-        "wordId": "w-absence",
-        "surfaceForm": "absence",
-        "reason": "将「absence」代入可见句子后不表达主释义「目标」。"
+        "wordId": "w-box",
+        "surfaceForm": "box",
+        "reason": "将「box」代入可见句子后不表达主释义「目标」。"
       },
       {
-        "wordId": "w-adult",
-        "surfaceForm": "adult",
-        "reason": "将「adult」代入可见句子后不表达主释义「目标」。"
+        "wordId": "w-brain",
+        "surfaceForm": "brain",
+        "reason": "将「brain」代入可见句子后不表达主释义「目标」。"
       }
     ],
     "spelling": null
@@ -546,12 +546,12 @@
         "reason": "选项「机构」不是「air」的主释义「空气」或其他义项。"
       },
       {
-        "wordId": "w-application",
-        "reason": "选项「申请」不是「air」的主释义「空气」或其他义项。"
+        "wordId": "w-bear",
+        "reason": "选项「熊」不是「air」的主释义「空气」或其他义项。"
       },
       {
-        "wordId": "w-ad",
-        "reason": "选项「广告」不是「air」的主释义「空气」或其他义项。"
+        "wordId": "w-application",
+        "reason": "选项「申请」不是「air」的主释义「空气」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「agency」的常见义项「机构」不符合主释义「空气」。"
       },
       {
-        "wordId": "w-application",
-        "reason": "英文「application」的常见义项「申请」不符合主释义「空气」。"
+        "wordId": "w-bear",
+        "reason": "英文「bear」的常见义项「熊」不符合主释义「空气」。"
       },
       {
-        "wordId": "w-ad",
-        "reason": "英文「ad」的常见义项「广告」不符合主释义「空气」。"
+        "wordId": "w-application",
+        "reason": "英文「application」的常见义项「申请」不符合主释义「空气」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「agency」代入可见句子后不表达主释义「空气」。"
       },
       {
+        "wordId": "w-bear",
+        "surfaceForm": "bear",
+        "reason": "将「bear」代入可见句子后不表达主释义「空气」。"
+      },
+      {
         "wordId": "w-application",
         "surfaceForm": "application",
         "reason": "将「application」代入可见句子后不表达主释义「空气」。"
-      },
-      {
-        "wordId": "w-ad",
-        "surfaceForm": "ad",
-        "reason": "将「ad」代入可见句子后不表达主释义「空气」。"
       }
     ],
     "spelling": null
@@ -591,47 +591,47 @@
     "wordId": "w-aircraft",
     "enToZh": [
       {
-        "wordId": "w-account",
-        "reason": "选项「账户」不是「aircraft」的主释义「飞机」或其他义项。"
+        "wordId": "w-boy",
+        "reason": "选项「男孩」不是「aircraft」的主释义「飞机」或其他义项。"
       },
       {
-        "wordId": "w-mate",
-        "reason": "选项「伙伴」不是「aircraft」的主释义「飞机」或其他义项。"
+        "wordId": "w-bath",
+        "reason": "选项「洗澡」不是「aircraft」的主释义「飞机」或其他义项。"
       },
       {
-        "wordId": "w-agent",
-        "reason": "选项「代理人」不是「aircraft」的主释义「飞机」或其他义项。"
+        "wordId": "w-baseball",
+        "reason": "选项「棒球」不是「aircraft」的主释义「飞机」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-account",
-        "reason": "英文「account」的常见义项「账户」不符合主释义「飞机」。"
+        "wordId": "w-boy",
+        "reason": "英文「boy」的常见义项「男孩」不符合主释义「飞机」。"
       },
       {
-        "wordId": "w-mate",
-        "reason": "英文「mate」的常见义项「伙伴」不符合主释义「飞机」。"
+        "wordId": "w-bath",
+        "reason": "英文「bath」的常见义项「洗澡」不符合主释义「飞机」。"
       },
       {
-        "wordId": "w-agent",
-        "reason": "英文「agent」的常见义项「代理人」不符合主释义「飞机」。"
+        "wordId": "w-baseball",
+        "reason": "英文「baseball」的常见义项「棒球」不符合主释义「飞机」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-account",
-        "surfaceForm": "account",
-        "reason": "将「account」代入可见句子后不表达主释义「飞机」。"
+        "wordId": "w-boy",
+        "surfaceForm": "boy",
+        "reason": "将「boy」代入可见句子后不表达主释义「飞机」。"
       },
       {
-        "wordId": "w-mate",
-        "surfaceForm": "mate",
-        "reason": "将「mate」代入可见句子后不表达主释义「飞机」。"
+        "wordId": "w-bath",
+        "surfaceForm": "bath",
+        "reason": "将「bath」代入可见句子后不表达主释义「飞机」。"
       },
       {
-        "wordId": "w-agent",
-        "surfaceForm": "agent",
-        "reason": "将「agent」代入可见句子后不表达主释义「飞机」。"
+        "wordId": "w-baseball",
+        "surfaceForm": "baseball",
+        "reason": "将「baseball」代入可见句子后不表达主释义「飞机」。"
       }
     ],
     "spelling": null
@@ -644,12 +644,12 @@
         "reason": "选项「冒险」不是「airline」的主释义「航空公司」或其他义项。"
       },
       {
-        "wordId": "w-ad",
-        "reason": "选项「广告」不是「airline」的主释义「航空公司」或其他义项。"
+        "wordId": "w-beauty",
+        "reason": "选项「美丽」不是「airline」的主释义「航空公司」或其他义项。"
       },
       {
-        "wordId": "w-accident",
-        "reason": "选项「事故」不是「airline」的主释义「航空公司」或其他义项。"
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「airline」的主释义「航空公司」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -658,12 +658,12 @@
         "reason": "英文「adventure」的常见义项「冒险」不符合主释义「航空公司」。"
       },
       {
-        "wordId": "w-ad",
-        "reason": "英文「ad」的常见义项「广告」不符合主释义「航空公司」。"
+        "wordId": "w-beauty",
+        "reason": "英文「beauty」的常见义项「美丽」不符合主释义「航空公司」。"
       },
       {
-        "wordId": "w-accident",
-        "reason": "英文「accident」的常见义项「事故」不符合主释义「航空公司」。"
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「航空公司」。"
       }
     ],
     "contextChoice": [
@@ -673,14 +673,14 @@
         "reason": "将「adventure」代入可见句子后不表达主释义「航空公司」。"
       },
       {
-        "wordId": "w-ad",
-        "surfaceForm": "ad",
-        "reason": "将「ad」代入可见句子后不表达主释义「航空公司」。"
+        "wordId": "w-beauty",
+        "surfaceForm": "beauty",
+        "reason": "将「beauty」代入可见句子后不表达主释义「航空公司」。"
       },
       {
-        "wordId": "w-accident",
-        "surfaceForm": "accident",
-        "reason": "将「accident」代入可见句子后不表达主释义「航空公司」。"
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「航空公司」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「成就」不是「airplane」的主释义「飞机」或其他义项。"
       },
       {
-        "wordId": "w-agriculture",
-        "reason": "选项「农业」不是「airplane」的主释义「飞机」或其他义项。"
+        "wordId": "w-bias",
+        "reason": "选项「偏见」不是「airplane」的主释义「飞机」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「飞机」。"
       },
       {
-        "wordId": "w-agriculture",
-        "reason": "英文「agriculture」的常见义项「农业」不符合主释义「飞机」。"
+        "wordId": "w-bias",
+        "reason": "英文「bias」的常见义项「偏见」不符合主释义「飞机」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「accomplishment」代入可见句子后不表达主释义「飞机」。"
       },
       {
-        "wordId": "w-agriculture",
-        "surfaceForm": "agriculture",
-        "reason": "将「agriculture」代入可见句子后不表达主释义「飞机」。"
+        "wordId": "w-bias",
+        "surfaceForm": "bias",
+        "reason": "将「bias」代入可见句子后不表达主释义「飞机」。"
       }
     ],
     "spelling": null
@@ -738,19 +738,23 @@
     "wordId": "w-airport",
     "enToZh": [
       {
+        "wordId": "w-brand",
+        "reason": "选项「品牌」不是「airport」的主释义「机场」或其他义项。"
+      },
+      {
         "wordId": "w-mayor",
         "reason": "选项「市长」不是「airport」的主释义「机场」或其他义项。"
       },
       {
         "wordId": "w-air",
         "reason": "选项「空气」不是「airport」的主释义「机场」或其他义项。"
-      },
-      {
-        "wordId": "w-achievement",
-        "reason": "选项「成就」不是「airport」的主释义「机场」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-brand",
+        "reason": "英文「brand」的常见义项「品牌」不符合主释义「机场」。"
+      },
       {
         "wordId": "w-mayor",
         "reason": "英文「mayor」的常见义项「市长」不符合主释义「机场」。"
@@ -758,13 +762,14 @@
       {
         "wordId": "w-air",
         "reason": "英文「air」的常见义项「空气」不符合主释义「机场」。"
-      },
-      {
-        "wordId": "w-achievement",
-        "reason": "英文「achievement」的常见义项「成就」不符合主释义「机场」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-brand",
+        "surfaceForm": "brand",
+        "reason": "将「brand」代入可见句子后不表达主释义「机场」。"
+      },
       {
         "wordId": "w-mayor",
         "surfaceForm": "mayor",
@@ -774,11 +779,6 @@
         "wordId": "w-air",
         "surfaceForm": "air",
         "reason": "将「air」代入可见句子后不表达主释义「机场」。"
-      },
-      {
-        "wordId": "w-achievement",
-        "surfaceForm": "achievement",
-        "reason": "将「achievement」代入可见句子后不表达主释义「机场」。"
       }
     ],
     "spelling": null
@@ -787,19 +787,23 @@
     "wordId": "w-alarm",
     "enToZh": [
       {
+        "wordId": "w-bean",
+        "reason": "选项「豆子」不是「alarm」的主释义「警报」或其他义项。"
+      },
+      {
         "wordId": "w-agreement",
         "reason": "选项「协议」不是「alarm」的主释义「警报」或其他义项。"
       },
       {
         "wordId": "w-art",
         "reason": "选项「艺术」不是「alarm」的主释义「警报」或其他义项。"
-      },
-      {
-        "wordId": "w-status",
-        "reason": "选项「地位」不是「alarm」的主释义「警报」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-bean",
+        "reason": "英文「bean」的常见义项「豆子」不符合主释义「警报」。"
+      },
       {
         "wordId": "w-agreement",
         "reason": "英文「agreement」的常见义项「协议」不符合主释义「警报」。"
@@ -807,13 +811,14 @@
       {
         "wordId": "w-art",
         "reason": "英文「art」的常见义项「艺术」不符合主释义「警报」。"
-      },
-      {
-        "wordId": "w-status",
-        "reason": "英文「status」的常见义项「地位」不符合主释义「警报」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-bean",
+        "surfaceForm": "bean",
+        "reason": "将「bean」代入可见句子后不表达主释义「警报」。"
+      },
       {
         "wordId": "w-agreement",
         "surfaceForm": "agreement",
@@ -823,11 +828,6 @@
         "wordId": "w-art",
         "surfaceForm": "art",
         "reason": "将「art」代入可见句子后不表达主释义「警报」。"
-      },
-      {
-        "wordId": "w-status",
-        "surfaceForm": "status",
-        "reason": "将「status」代入可见句子后不表达主释义「警报」。"
       }
     ],
     "spelling": null
@@ -836,47 +836,47 @@
     "wordId": "w-album",
     "enToZh": [
       {
+        "wordId": "w-assessment",
+        "reason": "选项「评估」不是「album」的主释义「音乐专辑」或其他义项。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "选项「腰带」不是「album」的主释义「音乐专辑」或其他义项。"
+      },
+      {
         "wordId": "w-decade",
         "reason": "选项「十年」不是「album」的主释义「音乐专辑」或其他义项。"
-      },
-      {
-        "wordId": "w-account",
-        "reason": "选项「账户」不是「album」的主释义「音乐专辑」或其他义项。"
-      },
-      {
-        "wordId": "w-affection",
-        "reason": "选项「喜爱」不是「album」的主释义「音乐专辑」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-assessment",
+        "reason": "英文「assessment」的常见义项「评估」不符合主释义「音乐专辑」。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "英文「belt」的常见义项「腰带」不符合主释义「音乐专辑」。"
+      },
+      {
         "wordId": "w-decade",
         "reason": "英文「decade」的常见义项「十年」不符合主释义「音乐专辑」。"
-      },
-      {
-        "wordId": "w-account",
-        "reason": "英文「account」的常见义项「账户」不符合主释义「音乐专辑」。"
-      },
-      {
-        "wordId": "w-affection",
-        "reason": "英文「affection」的常见义项「喜爱」不符合主释义「音乐专辑」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-assessment",
+        "surfaceForm": "assessment",
+        "reason": "将「assessment」代入可见句子后不表达主释义「音乐专辑」。"
+      },
+      {
+        "wordId": "w-belt",
+        "surfaceForm": "belt",
+        "reason": "将「belt」代入可见句子后不表达主释义「音乐专辑」。"
+      },
+      {
         "wordId": "w-decade",
         "surfaceForm": "decade",
         "reason": "将「decade」代入可见句子后不表达主释义「音乐专辑」。"
-      },
-      {
-        "wordId": "w-account",
-        "surfaceForm": "account",
-        "reason": "将「account」代入可见句子后不表达主释义「音乐专辑」。"
-      },
-      {
-        "wordId": "w-affection",
-        "surfaceForm": "affection",
-        "reason": "将「affection」代入可见句子后不表达主释义「音乐专辑」。"
       }
     ],
     "spelling": null
@@ -885,19 +885,23 @@
     "wordId": "w-alcohol",
     "enToZh": [
       {
+        "wordId": "w-birth",
+        "reason": "选项「出生」不是「alcohol」的主释义「酒精」或其他义项。"
+      },
+      {
         "wordId": "w-ad",
         "reason": "选项「广告」不是「alcohol」的主释义「酒精」或其他义项。"
       },
       {
         "wordId": "w-agreement",
         "reason": "选项「协议」不是「alcohol」的主释义「酒精」或其他义项。"
-      },
-      {
-        "wordId": "w-art",
-        "reason": "选项「艺术」不是「alcohol」的主释义「酒精」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-birth",
+        "reason": "英文「birth」的常见义项「出生」不符合主释义「酒精」。"
+      },
       {
         "wordId": "w-ad",
         "reason": "英文「ad」的常见义项「广告」不符合主释义「酒精」。"
@@ -905,13 +909,14 @@
       {
         "wordId": "w-agreement",
         "reason": "英文「agreement」的常见义项「协议」不符合主释义「酒精」。"
-      },
-      {
-        "wordId": "w-art",
-        "reason": "英文「art」的常见义项「艺术」不符合主释义「酒精」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-birth",
+        "surfaceForm": "birth",
+        "reason": "将「birth」代入可见句子后不表达主释义「酒精」。"
+      },
       {
         "wordId": "w-ad",
         "surfaceForm": "ad",
@@ -921,11 +926,6 @@
         "wordId": "w-agreement",
         "surfaceForm": "agreement",
         "reason": "将「agreement」代入可见句子后不表达主释义「酒精」。"
-      },
-      {
-        "wordId": "w-art",
-        "surfaceForm": "art",
-        "reason": "将「art」代入可见句子后不表达主释义「酒精」。"
       }
     ],
     "spelling": null
@@ -934,47 +934,47 @@
     "wordId": "w-algebra",
     "enToZh": [
       {
+        "wordId": "w-baron",
+        "reason": "选项「男爵」不是「algebra」的主释义「代数」或其他义项。"
+      },
+      {
         "wordId": "w-shortcoming",
         "reason": "选项「缺点」不是「algebra」的主释义「代数」或其他义项。"
       },
       {
-        "wordId": "w-absorption",
-        "reason": "选项「吸收」不是「algebra」的主释义「代数」或其他义项。"
-      },
-      {
-        "wordId": "w-acceleration",
-        "reason": "选项「加速」不是「algebra」的主释义「代数」或其他义项。"
+        "wordId": "w-bribe",
+        "reason": "选项「贿赂」不是「algebra」的主释义「代数」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-baron",
+        "reason": "英文「baron」的常见义项「男爵」不符合主释义「代数」。"
+      },
       {
         "wordId": "w-shortcoming",
         "reason": "英文「shortcoming」的常见义项「缺点」不符合主释义「代数」。"
       },
       {
-        "wordId": "w-absorption",
-        "reason": "英文「absorption」的常见义项「吸收」不符合主释义「代数」。"
-      },
-      {
-        "wordId": "w-acceleration",
-        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「代数」。"
+        "wordId": "w-bribe",
+        "reason": "英文「bribe」的常见义项「贿赂」不符合主释义「代数」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-baron",
+        "surfaceForm": "baron",
+        "reason": "将「baron」代入可见句子后不表达主释义「代数」。"
+      },
       {
         "wordId": "w-shortcoming",
         "surfaceForm": "shortcoming",
         "reason": "将「shortcoming」代入可见句子后不表达主释义「代数」。"
       },
       {
-        "wordId": "w-absorption",
-        "surfaceForm": "absorption",
-        "reason": "将「absorption」代入可见句子后不表达主释义「代数」。"
-      },
-      {
-        "wordId": "w-acceleration",
-        "surfaceForm": "acceleration",
-        "reason": "将「acceleration」代入可见句子后不表达主释义「代数」。"
+        "wordId": "w-bribe",
+        "surfaceForm": "bribe",
+        "reason": "将「bribe」代入可见句子后不表达主释义「代数」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「梳子」不是「alien」的主释义「外星人」或其他义项。"
       },
       {
-        "wordId": "w-reservoir",
-        "reason": "选项「水库」不是「alien」的主释义「外星人」或其他义项。"
+        "wordId": "w-ambiguity",
+        "reason": "选项「歧义」不是「alien」的主释义「外星人」或其他义项。"
       },
       {
-        "wordId": "w-academy",
-        "reason": "选项「学院」不是「alien」的主释义「外星人」或其他义项。"
+        "wordId": "w-appetite",
+        "reason": "选项「食欲」不是「alien」的主释义「外星人」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「comb」的常见义项「梳子」不符合主释义「外星人」。"
       },
       {
-        "wordId": "w-reservoir",
-        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「外星人」。"
+        "wordId": "w-ambiguity",
+        "reason": "英文「ambiguity」的常见义项「歧义」不符合主释义「外星人」。"
       },
       {
-        "wordId": "w-academy",
-        "reason": "英文「academy」的常见义项「学院」不符合主释义「外星人」。"
+        "wordId": "w-appetite",
+        "reason": "英文「appetite」的常见义项「食欲」不符合主释义「外星人」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「comb」代入可见句子后不表达主释义「外星人」。"
       },
       {
-        "wordId": "w-reservoir",
-        "surfaceForm": "reservoir",
-        "reason": "将「reservoir」代入可见句子后不表达主释义「外星人」。"
+        "wordId": "w-ambiguity",
+        "surfaceForm": "ambiguity",
+        "reason": "将「ambiguity」代入可见句子后不表达主释义「外星人」。"
       },
       {
-        "wordId": "w-academy",
-        "surfaceForm": "academy",
-        "reason": "将「academy」代入可见句子后不表达主释义「外星人」。"
+        "wordId": "w-appetite",
+        "surfaceForm": "appetite",
+        "reason": "将「appetite」代入可见句子后不表达主释义「外星人」。"
       }
     ],
     "spelling": null
@@ -1036,12 +1036,12 @@
         "reason": "选项「女演员」不是「alignment」的主释义「对齐」或其他义项。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "选项「梳子」不是「alignment」的主释义「对齐」或其他义项。"
+        "wordId": "w-ass",
+        "reason": "选项「屁股」不是「alignment」的主释义「对齐」或其他义项。"
       },
       {
-        "wordId": "w-accessory",
-        "reason": "选项「配件」不是「alignment」的主释义「对齐」或其他义项。"
+        "wordId": "w-comb",
+        "reason": "选项「梳子」不是「alignment」的主释义「对齐」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1050,12 +1050,12 @@
         "reason": "英文「actress」的常见义项「女演员」不符合主释义「对齐」。"
       },
       {
-        "wordId": "w-comb",
-        "reason": "英文「comb」的常见义项「梳子」不符合主释义「对齐」。"
+        "wordId": "w-ass",
+        "reason": "英文「ass」的常见义项「屁股」不符合主释义「对齐」。"
       },
       {
-        "wordId": "w-accessory",
-        "reason": "英文「accessory」的常见义项「配件」不符合主释义「对齐」。"
+        "wordId": "w-comb",
+        "reason": "英文「comb」的常见义项「梳子」不符合主释义「对齐」。"
       }
     ],
     "contextChoice": [
@@ -1065,14 +1065,14 @@
         "reason": "将「actress」代入可见句子后不表达主释义「对齐」。"
       },
       {
+        "wordId": "w-ass",
+        "surfaceForm": "ass",
+        "reason": "将「ass」代入可见句子后不表达主释义「对齐」。"
+      },
+      {
         "wordId": "w-comb",
         "surfaceForm": "comb",
         "reason": "将「comb」代入可见句子后不表达主释义「对齐」。"
-      },
-      {
-        "wordId": "w-accessory",
-        "surfaceForm": "accessory",
-        "reason": "将「accessory」代入可见句子后不表达主释义「对齐」。"
       }
     ],
     "spelling": null
@@ -1081,47 +1081,47 @@
     "wordId": "w-allegation",
     "enToZh": [
       {
-        "wordId": "w-essence",
-        "reason": "选项「本质」不是「allegation」的主释义「指控」或其他义项。"
+        "wordId": "w-appraisal",
+        "reason": "选项「评估」不是「allegation」的主释义「指控」或其他义项。"
       },
       {
-        "wordId": "w-radar",
-        "reason": "选项「雷达」不是「allegation」的主释义「指控」或其他义项。"
+        "wordId": "w-applause",
+        "reason": "选项「掌声」不是「allegation」的主释义「指控」或其他义项。"
       },
       {
-        "wordId": "w-alignment",
-        "reason": "选项「对齐」不是「allegation」的主释义「指控」或其他义项。"
+        "wordId": "w-bead",
+        "reason": "选项「珠子」不是「allegation」的主释义「指控」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-essence",
-        "reason": "英文「essence」的常见义项「本质」不符合主释义「指控」。"
+        "wordId": "w-appraisal",
+        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「指控」。"
       },
       {
-        "wordId": "w-radar",
-        "reason": "英文「radar」的常见义项「雷达」不符合主释义「指控」。"
+        "wordId": "w-applause",
+        "reason": "英文「applause」的常见义项「掌声」不符合主释义「指控」。"
       },
       {
-        "wordId": "w-alignment",
-        "reason": "英文「alignment」的常见义项「对齐」不符合主释义「指控」。"
+        "wordId": "w-bead",
+        "reason": "英文「bead」的常见义项「珠子」不符合主释义「指控」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-essence",
-        "surfaceForm": "essence",
-        "reason": "将「essence」代入可见句子后不表达主释义「指控」。"
+        "wordId": "w-appraisal",
+        "surfaceForm": "appraisal",
+        "reason": "将「appraisal」代入可见句子后不表达主释义「指控」。"
       },
       {
-        "wordId": "w-radar",
-        "surfaceForm": "radar",
-        "reason": "将「radar」代入可见句子后不表达主释义「指控」。"
+        "wordId": "w-applause",
+        "surfaceForm": "applause",
+        "reason": "将「applause」代入可见句子后不表达主释义「指控」。"
       },
       {
-        "wordId": "w-alignment",
-        "surfaceForm": "alignment",
-        "reason": "将「alignment」代入可见句子后不表达主释义「指控」。"
+        "wordId": "w-bead",
+        "surfaceForm": "bead",
+        "reason": "将「bead」代入可见句子后不表达主释义「指控」。"
       }
     ],
     "spelling": null
@@ -1138,8 +1138,8 @@
         "reason": "选项「积累」不是「allege」的主释义「声称」或其他义项。"
       },
       {
-        "wordId": "w-adore",
-        "reason": "选项「喜爱」不是「allege」的主释义「声称」或其他义项。"
+        "wordId": "w-blink",
+        "reason": "选项「眨眼」不是「allege」的主释义「声称」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1152,8 +1152,8 @@
         "reason": "英文「accumulate」的常见义项「积累」不符合主释义「声称」。"
       },
       {
-        "wordId": "w-adore",
-        "reason": "英文「adore」的常见义项「喜爱」不符合主释义「声称」。"
+        "wordId": "w-blink",
+        "reason": "英文「blink」的常见义项「眨眼」不符合主释义「声称」。"
       }
     ],
     "contextChoice": [
@@ -1168,9 +1168,9 @@
         "reason": "将「accumulate」代入可见句子后不表达主释义「声称」。"
       },
       {
-        "wordId": "w-adore",
-        "surfaceForm": "adore",
-        "reason": "将「adore」代入可见句子后不表达主释义「声称」。"
+        "wordId": "w-blink",
+        "surfaceForm": "blink",
+        "reason": "将「blink」代入可见句子后不表达主释义「声称」。"
       }
     ],
     "spelling": null
@@ -1179,47 +1179,47 @@
     "wordId": "w-allegiance",
     "enToZh": [
       {
+        "wordId": "w-appreciation",
+        "reason": "选项「感激」不是「allegiance」的主释义「忠诚」或其他义项。"
+      },
+      {
+        "wordId": "w-applicant",
+        "reason": "选项「申请人」不是「allegiance」的主释义「忠诚」或其他义项。"
+      },
+      {
         "wordId": "w-liver",
         "reason": "选项「肝脏」不是「allegiance」的主释义「忠诚」或其他义项。"
-      },
-      {
-        "wordId": "w-airplane",
-        "reason": "选项「飞机」不是「allegiance」的主释义「忠诚」或其他义项。"
-      },
-      {
-        "wordId": "w-outset",
-        "reason": "选项「开端」不是「allegiance」的主释义「忠诚」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-appreciation",
+        "reason": "英文「appreciation」的常见义项「感激」不符合主释义「忠诚」。"
+      },
+      {
+        "wordId": "w-applicant",
+        "reason": "英文「applicant」的常见义项「申请人」不符合主释义「忠诚」。"
+      },
+      {
         "wordId": "w-liver",
         "reason": "英文「liver」的常见义项「肝脏」不符合主释义「忠诚」。"
-      },
-      {
-        "wordId": "w-airplane",
-        "reason": "英文「airplane」的常见义项「飞机」不符合主释义「忠诚」。"
-      },
-      {
-        "wordId": "w-outset",
-        "reason": "英文「outset」的常见义项「开端」不符合主释义「忠诚」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-appreciation",
+        "surfaceForm": "appreciation",
+        "reason": "将「appreciation」代入可见句子后不表达主释义「忠诚」。"
+      },
+      {
+        "wordId": "w-applicant",
+        "surfaceForm": "applicant",
+        "reason": "将「applicant」代入可见句子后不表达主释义「忠诚」。"
+      },
+      {
         "wordId": "w-liver",
         "surfaceForm": "liver",
         "reason": "将「liver」代入可见句子后不表达主释义「忠诚」。"
-      },
-      {
-        "wordId": "w-airplane",
-        "surfaceForm": "airplane",
-        "reason": "将「airplane」代入可见句子后不表达主释义「忠诚」。"
-      },
-      {
-        "wordId": "w-outset",
-        "surfaceForm": "outset",
-        "reason": "将「outset」代入可见句子后不表达主释义「忠诚」。"
       }
     ],
     "spelling": null

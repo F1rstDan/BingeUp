@@ -115,7 +115,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
     if (!db) return Promise.resolve();
     contentReady ??= (async () => {
       const registry = await wordBank.getLegacyRegistry();
-      if (!registry || wordBank.getContentVersion() !== 'content-v2') return;
+      if (!registry || wordBank.getContentKind() !== 'content-v2') return;
       await prepareContentCompatibility(db, registry, wordBank.getContentVersion(), Date.now());
     })().catch((error) => {
       contentReady = null;

@@ -7,12 +7,12 @@
         "reason": "选项「吸收」不是「axle」的主释义「车轴」或其他义项。"
       },
       {
-        "wordId": "w-zebra",
-        "reason": "选项「斑马」不是「axle」的主释义「车轴」或其他义项。"
+        "wordId": "w-boiler",
+        "reason": "选项「锅炉」不是「axle」的主释义「车轴」或其他义项。"
       },
       {
-        "wordId": "w-alloy",
-        "reason": "选项「合金」不是「axle」的主释义「车轴」或其他义项。"
+        "wordId": "w-blaze",
+        "reason": "选项「大火」不是「axle」的主释义「车轴」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -21,12 +21,12 @@
         "reason": "英文「assimilation」的常见义项「吸收」不符合主释义「车轴」。"
       },
       {
-        "wordId": "w-zebra",
-        "reason": "英文「zebra」的常见义项「斑马」不符合主释义「车轴」。"
+        "wordId": "w-boiler",
+        "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「车轴」。"
       },
       {
-        "wordId": "w-alloy",
-        "reason": "英文「alloy」的常见义项「合金」不符合主释义「车轴」。"
+        "wordId": "w-blaze",
+        "reason": "英文「blaze」的常见义项「大火」不符合主释义「车轴」。"
       }
     ],
     "contextChoice": [
@@ -36,14 +36,14 @@
         "reason": "将「assimilation」代入可见句子后不表达主释义「车轴」。"
       },
       {
-        "wordId": "w-zebra",
-        "surfaceForm": "zebra",
-        "reason": "将「zebra」代入可见句子后不表达主释义「车轴」。"
+        "wordId": "w-boiler",
+        "surfaceForm": "boiler",
+        "reason": "将「boiler」代入可见句子后不表达主释义「车轴」。"
       },
       {
-        "wordId": "w-alloy",
-        "surfaceForm": "alloy",
-        "reason": "将「alloy」代入可见句子后不表达主释义「车轴」。"
+        "wordId": "w-blaze",
+        "surfaceForm": "blaze",
+        "reason": "将「blaze」代入可见句子后不表达主释义「车轴」。"
       }
     ],
     "spelling": null
@@ -105,12 +105,12 @@
         "reason": "选项「采用」不是「bachelor」的主释义「单身男子」或其他义项。"
       },
       {
-        "wordId": "w-array",
-        "reason": "选项「一系列」不是「bachelor」的主释义「单身男子」或其他义项。"
+        "wordId": "w-batch",
+        "reason": "选项「一批」不是「bachelor」的主释义「单身男子」或其他义项。"
       },
       {
-        "wordId": "w-balcony",
-        "reason": "选项「阳台」不是「bachelor」的主释义「单身男子」或其他义项。"
+        "wordId": "w-array",
+        "reason": "选项「一系列」不是「bachelor」的主释义「单身男子」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -119,12 +119,12 @@
         "reason": "英文「adoption」的常见义项「采用」不符合主释义「单身男子」。"
       },
       {
-        "wordId": "w-array",
-        "reason": "英文「array」的常见义项「一系列」不符合主释义「单身男子」。"
+        "wordId": "w-batch",
+        "reason": "英文「batch」的常见义项「一批」不符合主释义「单身男子」。"
       },
       {
-        "wordId": "w-balcony",
-        "reason": "英文「balcony」的常见义项「阳台」不符合主释义「单身男子」。"
+        "wordId": "w-array",
+        "reason": "英文「array」的常见义项「一系列」不符合主释义「单身男子」。"
       }
     ],
     "contextChoice": [
@@ -134,14 +134,14 @@
         "reason": "将「adoption」代入可见句子后不表达主释义「单身男子」。"
       },
       {
+        "wordId": "w-batch",
+        "surfaceForm": "batch",
+        "reason": "将「batch」代入可见句子后不表达主释义「单身男子」。"
+      },
+      {
         "wordId": "w-array",
         "surfaceForm": "array",
         "reason": "将「array」代入可见句子后不表达主释义「单身男子」。"
-      },
-      {
-        "wordId": "w-balcony",
-        "surfaceForm": "balcony",
-        "reason": "将「balcony」代入可见句子后不表达主释义「单身男子」。"
       }
     ],
     "spelling": null
@@ -207,8 +207,8 @@
         "reason": "选项「能力」不是「background」的主释义「背景」或其他义项。"
       },
       {
-        "wordId": "w-battery",
-        "reason": "选项「电池」不是「background」的主释义「背景」或其他义项。"
+        "wordId": "w-bible",
+        "reason": "选项「圣经」不是「background」的主释义「背景」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -221,8 +221,8 @@
         "reason": "英文「ability」的常见义项「能力」不符合主释义「背景」。"
       },
       {
-        "wordId": "w-battery",
-        "reason": "英文「battery」的常见义项「电池」不符合主释义「背景」。"
+        "wordId": "w-bible",
+        "reason": "英文「bible」的常见义项「圣经」不符合主释义「背景」。"
       }
     ],
     "contextChoice": [
@@ -237,9 +237,9 @@
         "reason": "将「ability」代入可见句子后不表达主释义「背景」。"
       },
       {
-        "wordId": "w-battery",
-        "surfaceForm": "battery",
-        "reason": "将「battery」代入可见句子后不表达主释义「背景」。"
+        "wordId": "w-bible",
+        "surfaceForm": "bible",
+        "reason": "将「bible」代入可见句子后不表达主释义「背景」。"
       }
     ],
     "spelling": null
@@ -248,19 +248,23 @@
     "wordId": "w-backward",
     "enToZh": [
       {
+        "wordId": "w-barely",
+        "reason": "选项「几乎不」不是「backward」的主释义「向后」或其他义项。"
+      },
+      {
         "wordId": "w-aloud",
         "reason": "选项「出声地」不是「backward」的主释义「向后」或其他义项。"
       },
       {
         "wordId": "w-badly",
         "reason": "选项「糟糕地」不是「backward」的主释义「向后」或其他义项。"
-      },
-      {
-        "wordId": "w-annually",
-        "reason": "选项「每年」不是「backward」的主释义「向后」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-barely",
+        "reason": "英文「barely」的常见义项「几乎不」不符合主释义「向后」。"
+      },
       {
         "wordId": "w-aloud",
         "reason": "英文「aloud」的常见义项「出声地」不符合主释义「向后」。"
@@ -268,13 +272,14 @@
       {
         "wordId": "w-badly",
         "reason": "英文「badly」的常见义项「糟糕地」不符合主释义「向后」。"
-      },
-      {
-        "wordId": "w-annually",
-        "reason": "英文「annually」的常见义项「每年」不符合主释义「向后」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-barely",
+        "surfaceForm": "barely",
+        "reason": "将「barely」代入可见句子后不表达主释义「向后」。"
+      },
       {
         "wordId": "w-aloud",
         "surfaceForm": "aloud",
@@ -284,11 +289,6 @@
         "wordId": "w-badly",
         "surfaceForm": "badly",
         "reason": "将「badly」代入可见句子后不表达主释义「向后」。"
-      },
-      {
-        "wordId": "w-annually",
-        "surfaceForm": "annually",
-        "reason": "将「annually」代入可见句子后不表达主释义「向后」。"
       }
     ],
     "spelling": null
@@ -346,19 +346,23 @@
     "wordId": "w-bacterium",
     "enToZh": [
       {
+        "wordId": "w-attendance",
+        "reason": "选项「出勤」不是「bacterium」的主释义「细菌」或其他义项。"
+      },
+      {
         "wordId": "w-ash",
         "reason": "选项「灰烬」不是「bacterium」的主释义「细菌」或其他义项。"
       },
       {
         "wordId": "w-applause",
         "reason": "选项「掌声」不是「bacterium」的主释义「细菌」或其他义项。"
-      },
-      {
-        "wordId": "w-appreciation",
-        "reason": "选项「感激」不是「bacterium」的主释义「细菌」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-attendance",
+        "reason": "英文「attendance」的常见义项「出勤」不符合主释义「细菌」。"
+      },
       {
         "wordId": "w-ash",
         "reason": "英文「ash」的常见义项「灰烬」不符合主释义「细菌」。"
@@ -366,13 +370,14 @@
       {
         "wordId": "w-applause",
         "reason": "英文「applause」的常见义项「掌声」不符合主释义「细菌」。"
-      },
-      {
-        "wordId": "w-appreciation",
-        "reason": "英文「appreciation」的常见义项「感激」不符合主释义「细菌」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-attendance",
+        "surfaceForm": "attendance",
+        "reason": "将「attendance」代入可见句子后不表达主释义「细菌」。"
+      },
       {
         "wordId": "w-ash",
         "surfaceForm": "ash",
@@ -382,11 +387,6 @@
         "wordId": "w-applause",
         "surfaceForm": "applause",
         "reason": "将「applause」代入可见句子后不表达主释义「细菌」。"
-      },
-      {
-        "wordId": "w-appreciation",
-        "surfaceForm": "appreciation",
-        "reason": "将「appreciation」代入可见句子后不表达主释义「细菌」。"
       }
     ],
     "spelling": null
@@ -395,19 +395,23 @@
     "wordId": "w-bad",
     "enToZh": [
       {
+        "wordId": "w-black",
+        "reason": "选项「黑色的」不是「bad」的主释义「坏的」或其他义项。"
+      },
+      {
         "wordId": "w-annual",
         "reason": "选项「每年的」不是「bad」的主释义「坏的」或其他义项。"
       },
       {
         "wordId": "w-american",
         "reason": "选项「美国的」不是「bad」的主释义「坏的」或其他义项。"
-      },
-      {
-        "wordId": "w-right",
-        "reason": "选项「正确的」不是「bad」的主释义「坏的」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-black",
+        "reason": "英文「black」的常见义项「黑色的」不符合主释义「坏的」。"
+      },
       {
         "wordId": "w-annual",
         "reason": "英文「annual」的常见义项「每年的」不符合主释义「坏的」。"
@@ -415,13 +419,14 @@
       {
         "wordId": "w-american",
         "reason": "英文「American」的常见义项「美国的」不符合主释义「坏的」。"
-      },
-      {
-        "wordId": "w-right",
-        "reason": "英文「right」的常见义项「正确的」不符合主释义「坏的」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-black",
+        "surfaceForm": "black",
+        "reason": "将「black」代入可见句子后不表达主释义「坏的」。"
+      },
       {
         "wordId": "w-annual",
         "surfaceForm": "annual",
@@ -431,11 +436,6 @@
         "wordId": "w-american",
         "surfaceForm": "American",
         "reason": "将「American」代入可见句子后不表达主释义「坏的」。"
-      },
-      {
-        "wordId": "w-right",
-        "surfaceForm": "right",
-        "reason": "将「right」代入可见句子后不表达主释义「坏的」。"
       }
     ],
     "spelling": null
@@ -444,47 +444,47 @@
     "wordId": "w-badge",
     "enToZh": [
       {
+        "wordId": "w-avenue",
+        "reason": "选项「大街」不是「badge」的主释义「徽章」或其他义项。"
+      },
+      {
         "wordId": "w-scarf",
         "reason": "选项「围巾」不是「badge」的主释义「徽章」或其他义项。"
       },
       {
-        "wordId": "w-soy",
-        "reason": "选项「大豆」不是「badge」的主释义「徽章」或其他义项。"
-      },
-      {
-        "wordId": "w-agony",
-        "reason": "选项「极度痛苦」不是「badge」的主释义「徽章」或其他义项。"
+        "wordId": "w-blossom",
+        "reason": "选项「花」不是「badge」的主释义「徽章」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-avenue",
+        "reason": "英文「avenue」的常见义项「大街」不符合主释义「徽章」。"
+      },
       {
         "wordId": "w-scarf",
         "reason": "英文「scarf」的常见义项「围巾」不符合主释义「徽章」。"
       },
       {
-        "wordId": "w-soy",
-        "reason": "英文「soy」的常见义项「大豆」不符合主释义「徽章」。"
-      },
-      {
-        "wordId": "w-agony",
-        "reason": "英文「agony」的常见义项「极度痛苦」不符合主释义「徽章」。"
+        "wordId": "w-blossom",
+        "reason": "英文「blossom」的常见义项「花」不符合主释义「徽章」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-avenue",
+        "surfaceForm": "avenue",
+        "reason": "将「avenue」代入可见句子后不表达主释义「徽章」。"
+      },
       {
         "wordId": "w-scarf",
         "surfaceForm": "scarf",
         "reason": "将「scarf」代入可见句子后不表达主释义「徽章」。"
       },
       {
-        "wordId": "w-soy",
-        "surfaceForm": "soy",
-        "reason": "将「soy」代入可见句子后不表达主释义「徽章」。"
-      },
-      {
-        "wordId": "w-agony",
-        "surfaceForm": "agony",
-        "reason": "将「agony」代入可见句子后不表达主释义「徽章」。"
+        "wordId": "w-blossom",
+        "surfaceForm": "blossom",
+        "reason": "将「blossom」代入可见句子后不表达主释义「徽章」。"
       }
     ],
     "spelling": null
@@ -546,12 +546,12 @@
         "reason": "选项「缩写」不是「badminton」的主释义「羽毛球」或其他义项。"
       },
       {
-        "wordId": "w-seaman",
-        "reason": "选项「海员」不是「badminton」的主释义「羽毛球」或其他义项。"
+        "wordId": "w-bridegroom",
+        "reason": "选项「新郎」不是「badminton」的主释义「羽毛球」或其他义项。"
       },
       {
-        "wordId": "w-adverb",
-        "reason": "选项「副词」不是「badminton」的主释义「羽毛球」或其他义项。"
+        "wordId": "w-seaman",
+        "reason": "选项「海员」不是「badminton」的主释义「羽毛球」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -560,12 +560,12 @@
         "reason": "英文「abbreviation」的常见义项「缩写」不符合主释义「羽毛球」。"
       },
       {
-        "wordId": "w-seaman",
-        "reason": "英文「seaman」的常见义项「海员」不符合主释义「羽毛球」。"
+        "wordId": "w-bridegroom",
+        "reason": "英文「bridegroom」的常见义项「新郎」不符合主释义「羽毛球」。"
       },
       {
-        "wordId": "w-adverb",
-        "reason": "英文「adverb」的常见义项「副词」不符合主释义「羽毛球」。"
+        "wordId": "w-seaman",
+        "reason": "英文「seaman」的常见义项「海员」不符合主释义「羽毛球」。"
       }
     ],
     "contextChoice": [
@@ -575,14 +575,14 @@
         "reason": "将「abbreviation」代入可见句子后不表达主释义「羽毛球」。"
       },
       {
+        "wordId": "w-bridegroom",
+        "surfaceForm": "bridegroom",
+        "reason": "将「bridegroom」代入可见句子后不表达主释义「羽毛球」。"
+      },
+      {
         "wordId": "w-seaman",
         "surfaceForm": "seaman",
         "reason": "将「seaman」代入可见句子后不表达主释义「羽毛球」。"
-      },
-      {
-        "wordId": "w-adverb",
-        "surfaceForm": "adverb",
-        "reason": "将「adverb」代入可见句子后不表达主释义「羽毛球」。"
       }
     ],
     "spelling": null
@@ -640,47 +640,47 @@
     "wordId": "w-bag",
     "enToZh": [
       {
-        "wordId": "w-absence",
-        "reason": "选项「缺席」不是「bag」的主释义「袋子」或其他义项。"
+        "wordId": "w-battle",
+        "reason": "选项「战斗」不是「bag」的主释义「袋子」或其他义项。"
       },
       {
-        "wordId": "w-africa",
-        "reason": "选项「非洲」不是「bag」的主释义「袋子」或其他义项。"
+        "wordId": "w-biology",
+        "reason": "选项「生物学」不是「bag」的主释义「袋子」或其他义项。"
       },
       {
-        "wordId": "w-ally",
-        "reason": "选项「盟友」不是「bag」的主释义「袋子」或其他义项。"
+        "wordId": "w-boy",
+        "reason": "选项「男孩」不是「bag」的主释义「袋子」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-absence",
-        "reason": "英文「absence」的常见义项「缺席」不符合主释义「袋子」。"
+        "wordId": "w-battle",
+        "reason": "英文「battle」的常见义项「战斗」不符合主释义「袋子」。"
       },
       {
-        "wordId": "w-africa",
-        "reason": "英文「Africa」的常见义项「非洲」不符合主释义「袋子」。"
+        "wordId": "w-biology",
+        "reason": "英文「biology」的常见义项「生物学」不符合主释义「袋子」。"
       },
       {
-        "wordId": "w-ally",
-        "reason": "英文「ally」的常见义项「盟友」不符合主释义「袋子」。"
+        "wordId": "w-boy",
+        "reason": "英文「boy」的常见义项「男孩」不符合主释义「袋子」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-absence",
-        "surfaceForm": "absence",
-        "reason": "将「absence」代入可见句子后不表达主释义「袋子」。"
+        "wordId": "w-battle",
+        "surfaceForm": "battle",
+        "reason": "将「battle」代入可见句子后不表达主释义「袋子」。"
       },
       {
-        "wordId": "w-africa",
-        "surfaceForm": "Africa",
-        "reason": "将「Africa」代入可见句子后不表达主释义「袋子」。"
+        "wordId": "w-biology",
+        "surfaceForm": "biology",
+        "reason": "将「biology」代入可见句子后不表达主释义「袋子」。"
       },
       {
-        "wordId": "w-ally",
-        "surfaceForm": "ally",
-        "reason": "将「ally」代入可见句子后不表达主释义「袋子」。"
+        "wordId": "w-boy",
+        "surfaceForm": "boy",
+        "reason": "将「boy」代入可见句子后不表达主释义「袋子」。"
       }
     ],
     "spelling": null
@@ -689,47 +689,47 @@
     "wordId": "w-baggage",
     "enToZh": [
       {
-        "wordId": "w-balance",
-        "reason": "选项「平衡」不是「baggage」的主释义「行李」或其他义项。"
+        "wordId": "w-brick",
+        "reason": "选项「砖」不是「baggage」的主释义「行李」或其他义项。"
       },
       {
-        "wordId": "w-alarm",
-        "reason": "选项「警报」不是「baggage」的主释义「行李」或其他义项。"
+        "wordId": "w-bedroom",
+        "reason": "选项「卧室」不是「baggage」的主释义「行李」或其他义项。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "选项「袭击」不是「baggage」的主释义「行李」或其他义项。"
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「baggage」的主释义「行李」或其他义项。"
       }
     ],
     "zhToEn": [
       {
-        "wordId": "w-balance",
-        "reason": "英文「balance」的常见义项「平衡」不符合主释义「行李」。"
+        "wordId": "w-brick",
+        "reason": "英文「brick」的常见义项「砖」不符合主释义「行李」。"
       },
       {
-        "wordId": "w-alarm",
-        "reason": "英文「alarm」的常见义项「警报」不符合主释义「行李」。"
+        "wordId": "w-bedroom",
+        "reason": "英文「bedroom」的常见义项「卧室」不符合主释义「行李」。"
       },
       {
-        "wordId": "w-assault",
-        "reason": "英文「assault」的常见义项「袭击」不符合主释义「行李」。"
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「行李」。"
       }
     ],
     "contextChoice": [
       {
-        "wordId": "w-balance",
-        "surfaceForm": "balance",
-        "reason": "将「balance」代入可见句子后不表达主释义「行李」。"
+        "wordId": "w-brick",
+        "surfaceForm": "brick",
+        "reason": "将「brick」代入可见句子后不表达主释义「行李」。"
       },
       {
-        "wordId": "w-alarm",
-        "surfaceForm": "alarm",
-        "reason": "将「alarm」代入可见句子后不表达主释义「行李」。"
+        "wordId": "w-bedroom",
+        "surfaceForm": "bedroom",
+        "reason": "将「bedroom」代入可见句子后不表达主释义「行李」。"
       },
       {
-        "wordId": "w-assault",
-        "surfaceForm": "assault",
-        "reason": "将「assault」代入可见句子后不表达主释义「行李」。"
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「行李」。"
       }
     ],
     "spelling": null
@@ -738,47 +738,47 @@
     "wordId": "w-bait",
     "enToZh": [
       {
+        "wordId": "w-banner",
+        "reason": "选项「横幅」不是「bait」的主释义「诱饵」或其他义项。"
+      },
+      {
         "wordId": "w-candle",
         "reason": "选项「蜡烛」不是「bait」的主释义「诱饵」或其他义项。"
       },
       {
-        "wordId": "w-ballot",
-        "reason": "选项「选票」不是「bait」的主释义「诱饵」或其他义项。"
-      },
-      {
-        "wordId": "w-diversion",
-        "reason": "选项「转移」不是「bait」的主释义「诱饵」或其他义项。"
+        "wordId": "w-beneficiary",
+        "reason": "选项「受益人」不是「bait」的主释义「诱饵」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-banner",
+        "reason": "英文「banner」的常见义项「横幅」不符合主释义「诱饵」。"
+      },
       {
         "wordId": "w-candle",
         "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「诱饵」。"
       },
       {
-        "wordId": "w-ballot",
-        "reason": "英文「ballot」的常见义项「选票」不符合主释义「诱饵」。"
-      },
-      {
-        "wordId": "w-diversion",
-        "reason": "英文「diversion」的常见义项「转移」不符合主释义「诱饵」。"
+        "wordId": "w-beneficiary",
+        "reason": "英文「beneficiary」的常见义项「受益人」不符合主释义「诱饵」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-banner",
+        "surfaceForm": "banner",
+        "reason": "将「banner」代入可见句子后不表达主释义「诱饵」。"
+      },
       {
         "wordId": "w-candle",
         "surfaceForm": "candle",
         "reason": "将「candle」代入可见句子后不表达主释义「诱饵」。"
       },
       {
-        "wordId": "w-ballot",
-        "surfaceForm": "ballot",
-        "reason": "将「ballot」代入可见句子后不表达主释义「诱饵」。"
-      },
-      {
-        "wordId": "w-diversion",
-        "surfaceForm": "diversion",
-        "reason": "将「diversion」代入可见句子后不表达主释义「诱饵」。"
+        "wordId": "w-beneficiary",
+        "surfaceForm": "beneficiary",
+        "reason": "将「beneficiary」代入可见句子后不表达主释义「诱饵」。"
       }
     ],
     "spelling": null
@@ -787,19 +787,23 @@
     "wordId": "w-bake",
     "enToZh": [
       {
+        "wordId": "w-blow",
+        "reason": "选项「吹」不是「bake」的主释义「烘烤」或其他义项。"
+      },
+      {
         "wordId": "w-drop",
         "reason": "选项「落下」不是「bake」的主释义「烘烤」或其他义项。"
       },
       {
         "wordId": "w-add",
         "reason": "选项「添加」不是「bake」的主释义「烘烤」或其他义项。"
-      },
-      {
-        "wordId": "w-arrange",
-        "reason": "选项「安排」不是「bake」的主释义「烘烤」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-blow",
+        "reason": "英文「blow」的常见义项「吹」不符合主释义「烘烤」。"
+      },
       {
         "wordId": "w-drop",
         "reason": "英文「drop」的常见义项「落下」不符合主释义「烘烤」。"
@@ -807,13 +811,14 @@
       {
         "wordId": "w-add",
         "reason": "英文「add」的常见义项「添加」不符合主释义「烘烤」。"
-      },
-      {
-        "wordId": "w-arrange",
-        "reason": "英文「arrange」的常见义项「安排」不符合主释义「烘烤」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-blow",
+        "surfaceForm": "blow",
+        "reason": "将「blow」代入可见句子后不表达主释义「烘烤」。"
+      },
       {
         "wordId": "w-drop",
         "surfaceForm": "drop",
@@ -823,11 +828,6 @@
         "wordId": "w-add",
         "surfaceForm": "add",
         "reason": "将「add」代入可见句子后不表达主释义「烘烤」。"
-      },
-      {
-        "wordId": "w-arrange",
-        "surfaceForm": "arrange",
-        "reason": "将「arrange」代入可见句子后不表达主释义「烘烤」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「娱乐」不是「balcony」的主释义「阳台」或其他义项。"
       },
       {
-        "wordId": "w-abundance",
-        "reason": "选项「大量」不是「balcony」的主释义「阳台」或其他义项。"
+        "wordId": "w-batch",
+        "reason": "选项「一批」不是「balcony」的主释义「阳台」或其他义项。"
       },
       {
-        "wordId": "w-architecture",
-        "reason": "选项「建筑风格」不是「balcony」的主释义「阳台」或其他义项。"
+        "wordId": "w-abundance",
+        "reason": "选项「大量」不是「balcony」的主释义「阳台」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「amusement」的常见义项「娱乐」不符合主释义「阳台」。"
       },
       {
-        "wordId": "w-abundance",
-        "reason": "英文「abundance」的常见义项「大量」不符合主释义「阳台」。"
+        "wordId": "w-batch",
+        "reason": "英文「batch」的常见义项「一批」不符合主释义「阳台」。"
       },
       {
-        "wordId": "w-architecture",
-        "reason": "英文「architecture」的常见义项「建筑风格」不符合主释义「阳台」。"
+        "wordId": "w-abundance",
+        "reason": "英文「abundance」的常见义项「大量」不符合主释义「阳台」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「amusement」代入可见句子后不表达主释义「阳台」。"
       },
       {
+        "wordId": "w-batch",
+        "surfaceForm": "batch",
+        "reason": "将「batch」代入可见句子后不表达主释义「阳台」。"
+      },
+      {
         "wordId": "w-abundance",
         "surfaceForm": "abundance",
         "reason": "将「abundance」代入可见句子后不表达主释义「阳台」。"
-      },
-      {
-        "wordId": "w-architecture",
-        "surfaceForm": "architecture",
-        "reason": "将「architecture」代入可见句子后不表达主释义「阳台」。"
       }
     ],
     "spelling": null
@@ -987,12 +987,12 @@
         "reason": "选项「集会」不是「ballet」的主释义「芭蕾舞」或其他义项。"
       },
       {
-        "wordId": "w-soy",
-        "reason": "选项「大豆」不是「ballet」的主释义「芭蕾舞」或其他义项。"
+        "wordId": "w-blanket",
+        "reason": "选项「毯子」不是「ballet」的主释义「芭蕾舞」或其他义项。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "选项「评估」不是「ballet」的主释义「芭蕾舞」或其他义项。"
+        "wordId": "w-availability",
+        "reason": "选项「可获得性」不是「ballet」的主释义「芭蕾舞」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -1001,12 +1001,12 @@
         "reason": "英文「assembly」的常见义项「集会」不符合主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-soy",
-        "reason": "英文「soy」的常见义项「大豆」不符合主释义「芭蕾舞」。"
+        "wordId": "w-blanket",
+        "reason": "英文「blanket」的常见义项「毯子」不符合主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-appraisal",
-        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「芭蕾舞」。"
+        "wordId": "w-availability",
+        "reason": "英文「availability」的常见义项「可获得性」不符合主释义「芭蕾舞」。"
       }
     ],
     "contextChoice": [
@@ -1016,14 +1016,14 @@
         "reason": "将「assembly」代入可见句子后不表达主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-soy",
-        "surfaceForm": "soy",
-        "reason": "将「soy」代入可见句子后不表达主释义「芭蕾舞」。"
+        "wordId": "w-blanket",
+        "surfaceForm": "blanket",
+        "reason": "将「blanket」代入可见句子后不表达主释义「芭蕾舞」。"
       },
       {
-        "wordId": "w-appraisal",
-        "surfaceForm": "appraisal",
-        "reason": "将「appraisal」代入可见句子后不表达主释义「芭蕾舞」。"
+        "wordId": "w-availability",
+        "surfaceForm": "availability",
+        "reason": "将「availability」代入可见句子后不表达主释义「芭蕾舞」。"
       }
     ],
     "spelling": null
@@ -1130,19 +1130,23 @@
     "wordId": "w-bamboo",
     "enToZh": [
       {
+        "wordId": "w-bleach",
+        "reason": "选项「漂白剂」不是「bamboo」的主释义「竹子」或其他义项。"
+      },
+      {
         "wordId": "w-agitation",
         "reason": "选项「焦虑」不是「bamboo」的主释义「竹子」或其他义项。"
       },
       {
         "wordId": "w-algebra",
         "reason": "选项「代数」不是「bamboo」的主释义「竹子」或其他义项。"
-      },
-      {
-        "wordId": "w-rupture",
-        "reason": "选项「破裂」不是「bamboo」的主释义「竹子」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-bleach",
+        "reason": "英文「bleach」的常见义项「漂白剂」不符合主释义「竹子」。"
+      },
       {
         "wordId": "w-agitation",
         "reason": "英文「agitation」的常见义项「焦虑」不符合主释义「竹子」。"
@@ -1150,13 +1154,14 @@
       {
         "wordId": "w-algebra",
         "reason": "英文「algebra」的常见义项「代数」不符合主释义「竹子」。"
-      },
-      {
-        "wordId": "w-rupture",
-        "reason": "英文「rupture」的常见义项「破裂」不符合主释义「竹子」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-bleach",
+        "surfaceForm": "bleach",
+        "reason": "将「bleach」代入可见句子后不表达主释义「竹子」。"
+      },
       {
         "wordId": "w-agitation",
         "surfaceForm": "agitation",
@@ -1166,11 +1171,6 @@
         "wordId": "w-algebra",
         "surfaceForm": "algebra",
         "reason": "将「algebra」代入可见句子后不表达主释义「竹子」。"
-      },
-      {
-        "wordId": "w-rupture",
-        "surfaceForm": "rupture",
-        "reason": "将「rupture」代入可见句子后不表达主释义「竹子」。"
       }
     ],
     "spelling": null

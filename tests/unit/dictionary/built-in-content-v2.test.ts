@@ -19,7 +19,8 @@ describe('BuiltInWordBank — 内容包 v2', () => {
     const bank = new BuiltInWordBank();
 
     expect(await bank.listWords()).toHaveLength(4);
-    expect(bank.getContentVersion()).toBe('content-v2');
+    expect(bank.getContentVersion()).toBe('2026.10.1');
+    expect(bank.getContentKind()).toBe('content-v2');
     expect((await bank.getWord('w-reservior'))?.word).toBe('reservoir');
     expect((await bank.getQuestionPlan('w-reservior'))?.wordId).toBe('w-reservoir');
     expect((await bank.getLegacyRegistry())?.entries).toHaveLength(5);

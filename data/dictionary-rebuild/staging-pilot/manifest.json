@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "contentContractVersion": "learning-content-v1",
   "dictionaryVersion": "2026.10.1-pilot",
-  "generatedAt": "2026-10-23T14:27:52.012Z",
+  "generatedAt": "2026-10-23T14:53:18.099Z",
   "datasetId": "bingeup-legacy-2026-10-23-pilot",
   "registryVersion": "legacy-registry-1-pilot",
   "registryHash": "c1b941e996909c7f0fa15aec17f69a48dd1c91431fb14cf46be7f8f1c327d297",
@@ -17,8 +17,8 @@
       "bytes": 8767
     },
     "questions": {
-      "sha256": "078a925b79c4ec7643e834b7f9e490ff4c5d42b7719f588011956ace2c9cd7c7",
-      "bytes": 96569
+      "sha256": "8020e2e64a3cee134674453f11776bb2cdf7e36d774de0bdcd4de376b2b74efd",
+      "bytes": 95397
     },
     "legacyRegistry": {
       "sha256": "7f0477876d9d53cd46f550277a6b0be47e3dadeca3edeb6b31917a10e3e17f65",

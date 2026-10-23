@@ -28,7 +28,8 @@ export class BuiltInWordBank implements WordBankPort {
   private registry: LegacyRegistry | null = null;
   private aliasToCanonical: Map<string, string> = new Map();
   private defaultDeckId: string | null = null;
-  private contentVersion: 'legacy-v1' | 'content-v2' = 'legacy-v1';
+  private contentVersion = 'legacy-v1';
+  private contentKind: 'legacy-v1' | 'content-v2' = 'legacy-v1';
   private loaded = false;
   private loadingPromise: Promise<void> | null = null;
 
@@ -79,6 +80,7 @@ export class BuiltInWordBank implements WordBankPort {
     }
     this.loadMaps(wordsData, decksData);
     this.contentVersion = 'legacy-v1';
+    this.contentKind = 'legacy-v1';
   }
 
   /** 新整包：先校验 manifest 与全部依赖哈希，再允许任何学习内容进入内存。 */
@@ -125,7 +127,8 @@ export class BuiltInWordBank implements WordBankPort {
       this.aliasToCanonical.set(entry.legacyId, entry.canonicalId);
       this.aliasToCanonical.set(entry.canonicalId, entry.canonicalId);
     }
-    this.contentVersion = 'content-v2';
+    this.contentKind = 'content-v2';
+    this.contentVersion = manifest.dictionaryVersion;
   }
 
   private loadMaps(wordsData: WordRecord[], decksData: DeckRecord[]): void {
@@ -145,8 +148,12 @@ export class BuiltInWordBank implements WordBankPort {
   }
 
   /** 内容包类型；旧包没有固定题组。 */
-  getContentVersion(): 'legacy-v1' | 'content-v2' {
+  getContentVersion(): string {
     return this.contentVersion;
+  }
+
+  getContentKind(): 'legacy-v1' | 'content-v2' {
+    return this.contentKind;
   }
 
   /** 读取版本化身份注册表；旧包返回 null。 */

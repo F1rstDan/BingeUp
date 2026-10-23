@@ -7,12 +7,12 @@
         "reason": "选项「宴会」不是「bitterness」的主释义「苦味」或其他义项。"
       },
       {
-        "wordId": "w-chimney",
-        "reason": "选项「烟囱」不是「bitterness」的主释义「苦味」或其他义项。"
+        "wordId": "w-bosom",
+        "reason": "选项「胸部」不是「bitterness」的主释义「苦味」或其他义项。"
       },
       {
-        "wordId": "w-affluence",
-        "reason": "选项「富裕」不是「bitterness」的主释义「苦味」或其他义项。"
+        "wordId": "w-chimney",
+        "reason": "选项「烟囱」不是「bitterness」的主释义「苦味」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -21,12 +21,12 @@
         "reason": "英文「banquet」的常见义项「宴会」不符合主释义「苦味」。"
       },
       {
-        "wordId": "w-chimney",
-        "reason": "英文「chimney」的常见义项「烟囱」不符合主释义「苦味」。"
+        "wordId": "w-bosom",
+        "reason": "英文「bosom」的常见义项「胸部」不符合主释义「苦味」。"
       },
       {
-        "wordId": "w-affluence",
-        "reason": "英文「affluence」的常见义项「富裕」不符合主释义「苦味」。"
+        "wordId": "w-chimney",
+        "reason": "英文「chimney」的常见义项「烟囱」不符合主释义「苦味」。"
       }
     ],
     "contextChoice": [
@@ -36,14 +36,14 @@
         "reason": "将「banquet」代入可见句子后不表达主释义「苦味」。"
       },
       {
+        "wordId": "w-bosom",
+        "surfaceForm": "bosom",
+        "reason": "将「bosom」代入可见句子后不表达主释义「苦味」。"
+      },
+      {
         "wordId": "w-chimney",
         "surfaceForm": "chimney",
         "reason": "将「chimney」代入可见句子后不表达主释义「苦味」。"
-      },
-      {
-        "wordId": "w-affluence",
-        "surfaceForm": "affluence",
-        "reason": "将「affluence」代入可见句子后不表达主释义「苦味」。"
       }
     ],
     "spelling": null
@@ -403,8 +403,8 @@
         "reason": "选项「生物技术」不是「blaze」的主释义「大火」或其他义项。"
       },
       {
-        "wordId": "w-barge",
-        "reason": "选项「驳船」不是「blaze」的主释义「大火」或其他义项。"
+        "wordId": "w-bribe",
+        "reason": "选项「贿赂」不是「blaze」的主释义「大火」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -417,8 +417,8 @@
         "reason": "英文「biotech」的常见义项「生物技术」不符合主释义「大火」。"
       },
       {
-        "wordId": "w-barge",
-        "reason": "英文「barge」的常见义项「驳船」不符合主释义「大火」。"
+        "wordId": "w-bribe",
+        "reason": "英文「bribe」的常见义项「贿赂」不符合主释义「大火」。"
       }
     ],
     "contextChoice": [
@@ -433,9 +433,9 @@
         "reason": "将「biotech」代入可见句子后不表达主释义「大火」。"
       },
       {
-        "wordId": "w-barge",
-        "surfaceForm": "barge",
-        "reason": "将「barge」代入可见句子后不表达主释义「大火」。"
+        "wordId": "w-bribe",
+        "surfaceForm": "bribe",
+        "reason": "将「bribe」代入可见句子后不表达主释义「大火」。"
       }
     ],
     "spelling": null
@@ -542,47 +542,47 @@
     "wordId": "w-blend",
     "enToZh": [
       {
+        "wordId": "w-boast",
+        "reason": "选项「吹嘘」不是「blend」的主释义「混合」或其他义项。"
+      },
+      {
+        "wordId": "w-bounce",
+        "reason": "选项「弹跳」不是「blend」的主释义「混合」或其他义项。"
+      },
+      {
         "wordId": "w-exhaust",
         "reason": "选项「使筋疲力尽」不是「blend」的主释义「混合」或其他义项。"
-      },
-      {
-        "wordId": "w-accommodate",
-        "reason": "选项「容纳」不是「blend」的主释义「混合」或其他义项。"
-      },
-      {
-        "wordId": "w-transplant",
-        "reason": "选项「移植」不是「blend」的主释义「混合」或其他义项。"
       }
     ],
     "zhToEn": [
       {
+        "wordId": "w-boast",
+        "reason": "英文「boast」的常见义项「吹嘘」不符合主释义「混合」。"
+      },
+      {
+        "wordId": "w-bounce",
+        "reason": "英文「bounce」的常见义项「弹跳」不符合主释义「混合」。"
+      },
+      {
         "wordId": "w-exhaust",
         "reason": "英文「exhaust」的常见义项「使筋疲力尽」不符合主释义「混合」。"
-      },
-      {
-        "wordId": "w-accommodate",
-        "reason": "英文「accommodate」的常见义项「容纳」不符合主释义「混合」。"
-      },
-      {
-        "wordId": "w-transplant",
-        "reason": "英文「transplant」的常见义项「移植」不符合主释义「混合」。"
       }
     ],
     "contextChoice": [
       {
+        "wordId": "w-boast",
+        "surfaceForm": "boast",
+        "reason": "将「boast」代入可见句子后不表达主释义「混合」。"
+      },
+      {
+        "wordId": "w-bounce",
+        "surfaceForm": "bounce",
+        "reason": "将「bounce」代入可见句子后不表达主释义「混合」。"
+      },
+      {
         "wordId": "w-exhaust",
         "surfaceForm": "exhaust",
         "reason": "将「exhaust」代入可见句子后不表达主释义「混合」。"
-      },
-      {
-        "wordId": "w-accommodate",
-        "surfaceForm": "accommodate",
-        "reason": "将「accommodate」代入可见句子后不表达主释义「混合」。"
-      },
-      {
-        "wordId": "w-transplant",
-        "surfaceForm": "transplant",
-        "reason": "将「transplant」代入可见句子后不表达主释义「混合」。"
       }
     ],
     "spelling": null
@@ -697,8 +697,8 @@
         "reason": "选项「主持」不是「blink」的主释义「眨眼」或其他义项。"
       },
       {
-        "wordId": "w-abolish",
-        "reason": "选项「废除」不是「blink」的主释义「眨眼」或其他义项。"
+        "wordId": "w-boost",
+        "reason": "选项「提高」不是「blink」的主释义「眨眼」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -711,8 +711,8 @@
         "reason": "英文「preside」的常见义项「主持」不符合主释义「眨眼」。"
       },
       {
-        "wordId": "w-abolish",
-        "reason": "英文「abolish」的常见义项「废除」不符合主释义「眨眼」。"
+        "wordId": "w-boost",
+        "reason": "英文「boost」的常见义项「提高」不符合主释义「眨眼」。"
       }
     ],
     "contextChoice": [
@@ -727,9 +727,9 @@
         "reason": "将「preside」代入可见句子后不表达主释义「眨眼」。"
       },
       {
-        "wordId": "w-abolish",
-        "surfaceForm": "abolish",
-        "reason": "将「abolish」代入可见句子后不表达主释义「眨眼」。"
+        "wordId": "w-boost",
+        "surfaceForm": "boost",
+        "reason": "将「boost」代入可见句子后不表达主释义「眨眼」。"
       }
     ],
     "spelling": null
@@ -889,12 +889,12 @@
         "reason": "选项「灰烬」不是「blossom」的主释义「花」或其他义项。"
       },
       {
-        "wordId": "w-adoption",
-        "reason": "选项「采用」不是「blossom」的主释义「花」或其他义项。"
+        "wordId": "w-bonus",
+        "reason": "选项「奖金」不是「blossom」的主释义「花」或其他义项。"
       },
       {
-        "wordId": "w-aviation",
-        "reason": "选项「航空」不是「blossom」的主释义「花」或其他义项。"
+        "wordId": "w-adoption",
+        "reason": "选项「采用」不是「blossom」的主释义「花」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -903,12 +903,12 @@
         "reason": "英文「ash」的常见义项「灰烬」不符合主释义「花」。"
       },
       {
-        "wordId": "w-adoption",
-        "reason": "英文「adoption」的常见义项「采用」不符合主释义「花」。"
+        "wordId": "w-bonus",
+        "reason": "英文「bonus」的常见义项「奖金」不符合主释义「花」。"
       },
       {
-        "wordId": "w-aviation",
-        "reason": "英文「aviation」的常见义项「航空」不符合主释义「花」。"
+        "wordId": "w-adoption",
+        "reason": "英文「adoption」的常见义项「采用」不符合主释义「花」。"
       }
     ],
     "contextChoice": [
@@ -918,14 +918,14 @@
         "reason": "将「ash」代入可见句子后不表达主释义「花」。"
       },
       {
+        "wordId": "w-bonus",
+        "surfaceForm": "bonus",
+        "reason": "将「bonus」代入可见句子后不表达主释义「花」。"
+      },
+      {
         "wordId": "w-adoption",
         "surfaceForm": "adoption",
         "reason": "将「adoption」代入可见句子后不表达主释义「花」。"
-      },
-      {
-        "wordId": "w-aviation",
-        "surfaceForm": "aviation",
-        "reason": "将「aviation」代入可见句子后不表达主释义「花」。"
       }
     ],
     "spelling": null
@@ -1081,19 +1081,23 @@
     "wordId": "w-blunder",
     "enToZh": [
       {
+        "wordId": "w-boiler",
+        "reason": "选项「锅炉」不是「blunder」的主释义「严重错误」或其他义项。"
+      },
+      {
         "wordId": "w-bitterness",
         "reason": "选项「苦味」不是「blunder」的主释义「严重错误」或其他义项。"
       },
       {
         "wordId": "w-bandit",
         "reason": "选项「强盗」不是「blunder」的主释义「严重错误」或其他义项。"
-      },
-      {
-        "wordId": "w-alteration",
-        "reason": "选项「改动」不是「blunder」的主释义「严重错误」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-boiler",
+        "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「严重错误」。"
+      },
       {
         "wordId": "w-bitterness",
         "reason": "英文「bitterness」的常见义项「苦味」不符合主释义「严重错误」。"
@@ -1101,13 +1105,14 @@
       {
         "wordId": "w-bandit",
         "reason": "英文「bandit」的常见义项「强盗」不符合主释义「严重错误」。"
-      },
-      {
-        "wordId": "w-alteration",
-        "reason": "英文「alteration」的常见义项「改动」不符合主释义「严重错误」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-boiler",
+        "surfaceForm": "boiler",
+        "reason": "将「boiler」代入可见句子后不表达主释义「严重错误」。"
+      },
       {
         "wordId": "w-bitterness",
         "surfaceForm": "bitterness",
@@ -1117,11 +1122,6 @@
         "wordId": "w-bandit",
         "surfaceForm": "bandit",
         "reason": "将「bandit」代入可见句子后不表达主释义「严重错误」。"
-      },
-      {
-        "wordId": "w-alteration",
-        "surfaceForm": "alteration",
-        "reason": "将「alteration」代入可见句子后不表达主释义「严重错误」。"
       }
     ],
     "spelling": null

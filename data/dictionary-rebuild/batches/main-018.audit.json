@@ -158,8 +158,8 @@
         "reason": "选项「引起」不是「betray」的主释义「背叛」或其他义项。"
       },
       {
-        "wordId": "w-affirm",
-        "reason": "选项「证实」不是「betray」的主释义「背叛」或其他义项。"
+        "wordId": "w-blink",
+        "reason": "选项「眨眼」不是「betray」的主释义「背叛」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -172,8 +172,8 @@
         "reason": "英文「arouse」的常见义项「引起」不符合主释义「背叛」。"
       },
       {
-        "wordId": "w-affirm",
-        "reason": "英文「affirm」的常见义项「证实」不符合主释义「背叛」。"
+        "wordId": "w-blink",
+        "reason": "英文「blink」的常见义项「眨眼」不符合主释义「背叛」。"
       }
     ],
     "contextChoice": [
@@ -188,9 +188,9 @@
         "reason": "将「arouse」代入可见句子后不表达主释义「背叛」。"
       },
       {
-        "wordId": "w-affirm",
-        "surfaceForm": "affirm",
-        "reason": "将「affirm」代入可见句子后不表达主释义「背叛」。"
+        "wordId": "w-blink",
+        "surfaceForm": "blink",
+        "reason": "将「blink」代入可见句子后不表达主释义「背叛」。"
       }
     ],
     "spelling": null
@@ -493,19 +493,23 @@
     "wordId": "w-bicycle",
     "enToZh": [
       {
+        "wordId": "w-blood",
+        "reason": "选项「血」不是「bicycle」的主释义「自行车」或其他义项。"
+      },
+      {
         "wordId": "w-awareness",
         "reason": "选项「意识」不是「bicycle」的主释义「自行车」或其他义项。"
       },
       {
         "wordId": "w-address",
         "reason": "选项「地址」不是「bicycle」的主释义「自行车」或其他义项。"
-      },
-      {
-        "wordId": "w-association",
-        "reason": "选项「协会」不是「bicycle」的主释义「自行车」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-blood",
+        "reason": "英文「blood」的常见义项「血」不符合主释义「自行车」。"
+      },
       {
         "wordId": "w-awareness",
         "reason": "英文「awareness」的常见义项「意识」不符合主释义「自行车」。"
@@ -513,13 +517,14 @@
       {
         "wordId": "w-address",
         "reason": "英文「address」的常见义项「地址」不符合主释义「自行车」。"
-      },
-      {
-        "wordId": "w-association",
-        "reason": "英文「association」的常见义项「协会」不符合主释义「自行车」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-blood",
+        "surfaceForm": "blood",
+        "reason": "将「blood」代入可见句子后不表达主释义「自行车」。"
+      },
       {
         "wordId": "w-awareness",
         "surfaceForm": "awareness",
@@ -529,11 +534,6 @@
         "wordId": "w-address",
         "surfaceForm": "address",
         "reason": "将「address」代入可见句子后不表达主释义「自行车」。"
-      },
-      {
-        "wordId": "w-association",
-        "surfaceForm": "association",
-        "reason": "将「association」代入可见句子后不表达主释义「自行车」。"
       }
     ],
     "spelling": null
@@ -644,12 +644,12 @@
         "reason": "选项「争论」不是「bill」的主释义「账单」或其他义项。"
       },
       {
-        "wordId": "w-admiration",
-        "reason": "选项「钦佩」不是「bill」的主释义「账单」或其他义项。"
+        "wordId": "w-breakfast",
+        "reason": "选项「早餐」不是「bill」的主释义「账单」或其他义项。"
       },
       {
-        "wordId": "w-birth",
-        "reason": "选项「出生」不是「bill」的主释义「账单」或其他义项。"
+        "wordId": "w-admiration",
+        "reason": "选项「钦佩」不是「bill」的主释义「账单」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -658,12 +658,12 @@
         "reason": "英文「argument」的常见义项「争论」不符合主释义「账单」。"
       },
       {
-        "wordId": "w-admiration",
-        "reason": "英文「admiration」的常见义项「钦佩」不符合主释义「账单」。"
+        "wordId": "w-breakfast",
+        "reason": "英文「breakfast」的常见义项「早餐」不符合主释义「账单」。"
       },
       {
-        "wordId": "w-birth",
-        "reason": "英文「birth」的常见义项「出生」不符合主释义「账单」。"
+        "wordId": "w-admiration",
+        "reason": "英文「admiration」的常见义项「钦佩」不符合主释义「账单」。"
       }
     ],
     "contextChoice": [
@@ -673,14 +673,14 @@
         "reason": "将「argument」代入可见句子后不表达主释义「账单」。"
       },
       {
+        "wordId": "w-breakfast",
+        "surfaceForm": "breakfast",
+        "reason": "将「breakfast」代入可见句子后不表达主释义「账单」。"
+      },
+      {
         "wordId": "w-admiration",
         "surfaceForm": "admiration",
         "reason": "将「admiration」代入可见句子后不表达主释义「账单」。"
-      },
-      {
-        "wordId": "w-birth",
-        "surfaceForm": "birth",
-        "reason": "将「birth」代入可见句子后不表达主释义「账单」。"
       }
     ],
     "spelling": null
@@ -811,12 +811,12 @@
         "reason": "选项「形容词」不是「biotech」的主释义「生物技术」或其他义项。"
       },
       {
-        "wordId": "w-backbone",
-        "reason": "选项「脊柱」不是「biotech」的主释义「生物技术」或其他义项。"
+        "wordId": "w-bitterness",
+        "reason": "选项「苦味」不是「biotech」的主释义「生物技术」或其他义项。"
       },
       {
-        "wordId": "w-alloy",
-        "reason": "选项「合金」不是「biotech」的主释义「生物技术」或其他义项。"
+        "wordId": "w-backbone",
+        "reason": "选项「脊柱」不是「biotech」的主释义「生物技术」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -825,12 +825,12 @@
         "reason": "英文「adjective」的常见义项「形容词」不符合主释义「生物技术」。"
       },
       {
-        "wordId": "w-backbone",
-        "reason": "英文「backbone」的常见义项「脊柱」不符合主释义「生物技术」。"
+        "wordId": "w-bitterness",
+        "reason": "英文「bitterness」的常见义项「苦味」不符合主释义「生物技术」。"
       },
       {
-        "wordId": "w-alloy",
-        "reason": "英文「alloy」的常见义项「合金」不符合主释义「生物技术」。"
+        "wordId": "w-backbone",
+        "reason": "英文「backbone」的常见义项「脊柱」不符合主释义「生物技术」。"
       }
     ],
     "contextChoice": [
@@ -840,14 +840,14 @@
         "reason": "将「adjective」代入可见句子后不表达主释义「生物技术」。"
       },
       {
+        "wordId": "w-bitterness",
+        "surfaceForm": "bitterness",
+        "reason": "将「bitterness」代入可见句子后不表达主释义「生物技术」。"
+      },
+      {
         "wordId": "w-backbone",
         "surfaceForm": "backbone",
         "reason": "将「backbone」代入可见句子后不表达主释义「生物技术」。"
-      },
-      {
-        "wordId": "w-alloy",
-        "surfaceForm": "alloy",
-        "reason": "将「alloy」代入可见句子后不表达主释义「生物技术」。"
       }
     ],
     "spelling": null
@@ -860,12 +860,12 @@
         "reason": "选项「酒精」不是「bird」的主释义「鸟」或其他义项。"
       },
       {
-        "wordId": "w-bike",
-        "reason": "选项「自行车」不是「bird」的主释义「鸟」或其他义项。"
+        "wordId": "w-body",
+        "reason": "选项「身体」不是「bird」的主释义「鸟」或其他义项。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "选项「婴儿」不是「bird」的主释义「鸟」或其他义项。"
+        "wordId": "w-bike",
+        "reason": "选项「自行车」不是「bird」的主释义「鸟」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -874,12 +874,12 @@
         "reason": "英文「alcohol」的常见义项「酒精」不符合主释义「鸟」。"
       },
       {
-        "wordId": "w-bike",
-        "reason": "英文「bike」的常见义项「自行车」不符合主释义「鸟」。"
+        "wordId": "w-body",
+        "reason": "英文「body」的常见义项「身体」不符合主释义「鸟」。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "英文「baby」的常见义项「婴儿」不符合主释义「鸟」。"
+        "wordId": "w-bike",
+        "reason": "英文「bike」的常见义项「自行车」不符合主释义「鸟」。"
       }
     ],
     "contextChoice": [
@@ -889,14 +889,14 @@
         "reason": "将「alcohol」代入可见句子后不表达主释义「鸟」。"
       },
       {
+        "wordId": "w-body",
+        "surfaceForm": "body",
+        "reason": "将「body」代入可见句子后不表达主释义「鸟」。"
+      },
+      {
         "wordId": "w-bike",
         "surfaceForm": "bike",
         "reason": "将「bike」代入可见句子后不表达主释义「鸟」。"
-      },
-      {
-        "wordId": "w-baby",
-        "surfaceForm": "baby",
-        "reason": "将「baby」代入可见句子后不表达主释义「鸟」。"
       }
     ],
     "spelling": null
@@ -909,12 +909,12 @@
         "reason": "选项「尝试」不是「birth」的主释义「出生」或其他义项。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "选项「动物」不是「birth」的主释义「出生」或其他义项。"
+        "wordId": "w-boat",
+        "reason": "选项「小船」不是「birth」的主释义「出生」或其他义项。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "选项「婴儿」不是「birth」的主释义「出生」或其他义项。"
+        "wordId": "w-animal",
+        "reason": "选项「动物」不是「birth」的主释义「出生」或其他义项。"
       }
     ],
     "zhToEn": [
@@ -923,12 +923,12 @@
         "reason": "英文「attempt」的常见义项「尝试」不符合主释义「出生」。"
       },
       {
-        "wordId": "w-animal",
-        "reason": "英文「animal」的常见义项「动物」不符合主释义「出生」。"
+        "wordId": "w-boat",
+        "reason": "英文「boat」的常见义项「小船」不符合主释义「出生」。"
       },
       {
-        "wordId": "w-baby",
-        "reason": "英文「baby」的常见义项「婴儿」不符合主释义「出生」。"
+        "wordId": "w-animal",
+        "reason": "英文「animal」的常见义项「动物」不符合主释义「出生」。"
       }
     ],
     "contextChoice": [
@@ -938,14 +938,14 @@
         "reason": "将「attempt」代入可见句子后不表达主释义「出生」。"
       },
       {
+        "wordId": "w-boat",
+        "surfaceForm": "boat",
+        "reason": "将「boat」代入可见句子后不表达主释义「出生」。"
+      },
+      {
         "wordId": "w-animal",
         "surfaceForm": "animal",
         "reason": "将「animal」代入可见句子后不表达主释义「出生」。"
-      },
-      {
-        "wordId": "w-baby",
-        "surfaceForm": "baby",
-        "reason": "将「baby」代入可见句子后不表达主释义「出生」。"
       }
     ],
     "spelling": null
@@ -954,19 +954,23 @@
     "wordId": "w-birthday",
     "enToZh": [
       {
+        "wordId": "w-blade",
+        "reason": "选项「刀刃」不是「birthday」的主释义「生日」或其他义项。"
+      },
+      {
         "wordId": "w-approach",
         "reason": "选项「方法」不是「birthday」的主释义「生日」或其他义项。"
       },
       {
         "wordId": "w-behalf",
         "reason": "选项「代表（某人）」不是「birthday」的主释义「生日」或其他义项。"
-      },
-      {
-        "wordId": "w-association",
-        "reason": "选项「协会」不是「birthday」的主释义「生日」或其他义项。"
       }
     ],
     "zhToEn": [
+      {
+        "wordId": "w-blade",
+        "reason": "英文「blade」的常见义项「刀刃」不符合主释义「生日」。"
+      },
       {
         "wordId": "w-approach",
         "reason": "英文「approach」的常见义项「方法」不符合主释义「生日」。"
@@ -974,13 +978,14 @@
       {
         "wordId": "w-behalf",
         "reason": "英文「behalf」的常见义项「代表（某人）」不符合主释义「生日」。"
-      },
-      {
-        "wordId": "w-association",
-        "reason": "英文「association」的常见义项「协会」不符合主释义「生日」。"
       }
     ],
     "contextChoice": [
+      {
+        "wordId": "w-blade",
+        "surfaceForm": "blade",
+        "reason": "将「blade」代入可见句子后不表达主释义「生日」。"
+      },
       {
         "wordId": "w-approach",
         "surfaceForm": "approach",
@@ -990,11 +995,6 @@
         "wordId": "w-behalf",
         "surfaceForm": "behalf",
         "reason": "将「behalf」代入可见句子后不表达主释义「生日」。"
-      },
-      {
-        "wordId": "w-association",
-        "surfaceForm": "association",
-        "reason": "将「association」代入可见句子后不表达主释义「生日」。"
       }
     ],
     "spelling": null
