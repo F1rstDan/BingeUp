@@ -285,17 +285,46 @@ describe('OptionsApp — Issue #10', () => {
     expect(saved.dailyNewWordLimit).toBe(20);
   });
 
-  it('点击恢复默认调用 resetAppSettings', async () => {
+  it('保存成功提示可以手动关闭', async () => {
+    renderOptions();
+    await screen.findByRole('button', { name: '保存设置' });
+
+    fireEvent.click(screen.getByRole('button', { name: '保存设置' }));
+    await screen.findByText('设置已保存');
+
+    fireEvent.click(screen.getByRole('button', { name: '关闭提示' }));
+    expect(screen.queryByText('设置已保存')).not.toBeInTheDocument();
+  });
+
+  it('恢复默认需要二次确认，确认后调用 resetAppSettings', async () => {
     renderOptions();
     await waitFor(() => {
-      expect(screen.getByText('恢复默认')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '恢复默认' })).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('恢复默认'));
+    fireEvent.click(screen.getByRole('button', { name: '恢复默认' }));
+
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText(/确定要恢复默认学习设置吗/)).toBeInTheDocument();
+    expect(mocks.resetAppSettings).not.toHaveBeenCalled();
+
+    fireEvent.click(within(dialog).getByRole('button', { name: '恢复默认' }));
 
     await waitFor(() => {
       expect(mocks.resetAppSettings).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('取消恢复默认不调用 resetAppSettings', async () => {
+    renderOptions();
+    await screen.findByRole('button', { name: '恢复默认' });
+
+    fireEvent.click(screen.getByRole('button', { name: '恢复默认' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '取消' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(mocks.resetAppSettings).not.toHaveBeenCalled();
   });
 
   it('恢复默认后重新读取失败时不把当前显示状态报告为成功', async () => {
@@ -304,9 +333,11 @@ describe('OptionsApp — Issue #10', () => {
       .mockRejectedValueOnce(new Error('重新读取失败'))
       .mockResolvedValue({ ...DEFAULT_SETTINGS });
     renderOptions();
-    await screen.findByText('恢复默认');
+    await screen.findByRole('button', { name: '恢复默认' });
 
-    fireEvent.click(screen.getByText('恢复默认'));
+    fireEvent.click(screen.getByRole('button', { name: '恢复默认' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '恢复默认' }));
     await screen.findByText(/加载失败：重新读取失败/);
     expect(
       screen.getByText('默认设置已恢复，但重新读取失败；当前显示状态未确认'),

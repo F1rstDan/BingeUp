@@ -57,15 +57,38 @@ interface ConfirmRequest {
   onConfirm: () => void;
 }
 
+interface NoticeMessage {
+  id: number;
+  text: string;
+  /** 失败或状态未确认的提示不自动关闭，避免用户错过关键信息。 */
+  persistent: boolean;
+}
+
+const NOTICE_AUTO_DISMISS_MS = 6000;
+
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
   const [siteInput, setSiteInput] = useState('');
   const [siteAdding, setSiteAdding] = useState(false);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useState<NoticeMessage | null>(null);
   const [error, setError] = useState<LoadError | null>(null);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const showNotice = useCallback((message: string | null) => {
+    if (message === null) {
+      setNotice(null);
+      return;
+    }
+    setNotice((current) => ({
+      id: (current?.id ?? 0) + 1,
+      text: message,
+      persistent: message.includes('失败') || message.includes('未确认'),
+    }));
+  }, []);
+
+  const dismissNotice = useCallback(() => setNotice(null), []);
 
   const load = useCallback(async () => {
     try {
@@ -97,6 +120,12 @@ export function OptionsApp(): JSX.Element {
     void load();
   }, [load]);
 
+  useEffect(() => {
+    if (notice === null || notice.persistent) return undefined;
+    const timer = window.setTimeout(() => setNotice(null), NOTICE_AUTO_DISMISS_MS);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
   const closeConfirm = useCallback(() => setConfirm(null), []);
   const acceptConfirm = useCallback(() => {
     if (confirm === null) return;
@@ -111,9 +140,19 @@ export function OptionsApp(): JSX.Element {
       message:
         '确定要清除所有学习进度吗？此操作不可撤销，将删除全部学习卡、复习日志与学习会话及其统计，但保留设置与词库。',
       okLabel: '清除学习进度',
-      onConfirm: () => void handleClearProgress(load, setNotice),
+      onConfirm: () => void handleClearProgress(load, showNotice),
     });
-  }, [load]);
+  }, [load, showNotice]);
+
+  const requestReset = useCallback(() => {
+    setConfirm({
+      title: '恢复默认学习设置',
+      message:
+        '确定要恢复默认学习设置吗？词库、学习水平、每日新词上限、拼写题与冷却等设置会恢复默认值；学习进度与网站设置不会删除。',
+      okLabel: '恢复默认',
+      onConfirm: () => void handleReset(load, showNotice),
+    });
+  }, [load, showNotice]);
 
   const requestClearAll = useCallback(() => {
     setConfirm({
@@ -121,9 +160,9 @@ export function OptionsApp(): JSX.Element {
       message:
         '确定要清除全部本地数据吗？此操作不可撤销，将删除所有学习数据、设置与词库，恢复到初始状态。',
       okLabel: '清除全部数据',
-      onConfirm: () => void handleClearAll(load, setNotice),
+      onConfirm: () => void handleClearAll(load, showNotice),
     });
-  }, [load]);
+  }, [load, showNotice]);
 
   const requestRebuildDatabase = useCallback(() => {
     setConfirm({
@@ -137,11 +176,11 @@ export function OptionsApp(): JSX.Element {
           title: '最后确认',
           message: '最后确认：永久清除本地用户数据并重建，且无法撤销。确定执行吗？',
           okLabel: '确定执行',
-          onConfirm: () => void handleRebuildDatabase(load, setNotice, setError),
+          onConfirm: () => void handleRebuildDatabase(load, showNotice, setError),
         });
       },
     });
-  }, [load]);
+  }, [load, showNotice]);
 
   const confirmModal = (
     <Modal
@@ -164,6 +203,23 @@ export function OptionsApp(): JSX.Element {
     </Modal>
   );
 
+  const noticeToast =
+    notice === null ? null : (
+      <div className="bingeup-toast">
+        <p className="bingeup-notice-text" role="status">
+          {notice.text}
+        </p>
+        <button
+          type="button"
+          className="bingeup-toast-close"
+          aria-label="关闭提示"
+          onClick={dismissNotice}
+        >
+          ×
+        </button>
+      </div>
+    );
+
   if (error !== null) {
     return (
       <IslandPage className="bingeup-options" label="刷刷升级设置">
@@ -172,11 +228,6 @@ export function OptionsApp(): JSX.Element {
         </h1>
         <Card className="bingeup-card">
           <p className="bingeup-error">{error.message}</p>
-          {notice !== null && (
-            <p className="bingeup-notice-text" role="status">
-              {notice}
-            </p>
-          )}
           <div className="bingeup-actions">
             <Button type="primary" onClick={() => void load()}>
               重试
@@ -188,6 +239,7 @@ export function OptionsApp(): JSX.Element {
             )}
           </div>
         </Card>
+        {noticeToast}
         {confirmModal}
       </IslandPage>
     );
@@ -325,11 +377,18 @@ export function OptionsApp(): JSX.Element {
         />
       </Field>
 
-      <div className="bingeup-actions">
-        <Button type="primary" onClick={() => void handleSave(settings, load, setNotice)}>
-          保存设置
+      <div className="bingeup-actions bingeup-learning-actions">
+        <Button
+          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
+        >
+          查看学习统计
         </Button>
-        <Button onClick={() => void handleReset(load, setNotice)}>恢复默认</Button>
+        <div className="bingeup-learning-save-actions">
+          <Button onClick={requestReset}>恢复默认</Button>
+          <Button type="primary" onClick={() => void handleSave(settings, load, showNotice)}>
+            保存设置
+          </Button>
+        </div>
       </div>
     </Card>
   );
@@ -342,7 +401,7 @@ export function OptionsApp(): JSX.Element {
           className="bingeup-site-add"
           onSubmit={(event) => {
             event.preventDefault();
-            void handleAddWebsite(siteInput, load, setSiteInput, setSiteAdding, setNotice);
+            void handleAddWebsite(siteInput, load, setSiteInput, setSiteAdding, showNotice);
           }}
         >
           <label className="bingeup-field-label" htmlFor="bingeup-site-address">
@@ -371,11 +430,11 @@ export function OptionsApp(): JSX.Element {
             <SiteRow
               key={entry.hostname}
               entry={entry}
-              onEnabledChange={() => void handleSiteEnabledChange(entry, load, setNotice)}
+              onEnabledChange={() => void handleSiteEnabledChange(entry, load, showNotice)}
               onTriggersChange={(triggers) =>
-                void handleSiteTriggersChange(entry.hostname, triggers, load, setNotice)
+                void handleSiteTriggersChange(entry.hostname, triggers, load, showNotice)
               }
-              onRemove={() => void handleRemoveSite(entry.hostname, load, setNotice)}
+              onRemove={() => void handleRemoveSite(entry.hostname, load, showNotice)}
             />
           ))}
         </div>
@@ -390,7 +449,7 @@ export function OptionsApp(): JSX.Element {
         恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
       </p>
       <div className="bingeup-actions">
-        <Button type="primary" onClick={() => void handleExport(setNotice)}>
+        <Button type="primary" onClick={() => void handleExport(showNotice)}>
           导出数据
         </Button>
         <Button onClick={() => fileInputRef.current?.click()}>导入数据</Button>
@@ -399,7 +458,7 @@ export function OptionsApp(): JSX.Element {
           type="file"
           accept="application/json"
           className="bingeup-file-input"
-          onChange={(e) => void handleImport(e, load, setNotice)}
+          onChange={(e) => void handleImport(e, load, showNotice)}
         />
       </div>
       <div className="bingeup-actions">
@@ -415,27 +474,9 @@ export function OptionsApp(): JSX.Element {
 
   return (
     <IslandPage className="bingeup-options" label="刷刷升级设置">
-      <div className="bingeup-actions">
-        <h1 className="bingeup-title">
-          <Title size="large">刷刷升级 — 设置</Title>
-        </h1>
-        <Button
-          type="text"
-          size="small"
-          aria-label="查看学习统计"
-          onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
-        >
-          查看学习统计
-        </Button>
-      </div>
-
-      {notice !== null && (
-        <Card className="bingeup-notice">
-          <p className="bingeup-notice-text" role="status">
-            {notice}
-          </p>
-        </Card>
-      )}
+      <h1 className="bingeup-title">
+        <Title size="large">刷刷升级 — 设置</Title>
+      </h1>
 
       <Tabs
         className="bingeup-tabs"
@@ -447,6 +488,7 @@ export function OptionsApp(): JSX.Element {
       />
 
       <FeedbackLink />
+      {noticeToast}
       {confirmModal}
     </IslandPage>
   );

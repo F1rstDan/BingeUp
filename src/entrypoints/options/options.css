@@ -59,21 +59,103 @@ body {
   padding-top: var(--island-space-sm);
 }
 
+/* 学习设置底部操作行：统计入口靠左，保存与恢复默认靠右。 */
+.bingeup-learning-actions {
+  justify-content: space-between;
+}
+
+.bingeup-learning-save-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--island-space-md);
+  margin-left: auto;
+}
+
 .bingeup-hint {
   margin: 0;
   color: var(--island-text-color-secondary);
   line-height: 1.6;
 }
 
-.bingeup-notice {
-  display: grid;
-  gap: var(--island-space-sm);
-}
-
 .bingeup-notice-text {
   margin: 0;
   color: var(--island-text-color);
   font-weight: 700;
+}
+
+/* 操作结果轻提示：固定在右下角，不进入文档流，避免顶开页面内容。 */
+.bingeup-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--island-space-sm);
+  width: min(360px, calc(100% - 32px));
+  padding: 12px 12px 12px 16px;
+  background: var(--island-bg-color);
+  border: 1px solid var(--island-border-color);
+  border-radius: var(--island-radius-sm);
+  box-shadow: var(--animal-shadow-lg, 0 8px 24px 0 rgb(61 52 40 / 14%));
+  animation: bingeup-toast-in var(--island-motion-duration) var(--island-motion-ease);
+}
+
+.bingeup-toast .bingeup-notice-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.bingeup-toast-close {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: -4px -4px 0 0;
+  padding: 0;
+  color: var(--island-text-color-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bingeup-toast-close:hover {
+  color: var(--island-text-color);
+  background: var(--island-bg-color-secondary);
+}
+
+@keyframes bingeup-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 540px) {
+  .bingeup-toast {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bingeup-toast {
+    animation: none;
+  }
 }
 
 .bingeup-error {
