@@ -43,13 +43,11 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [spelledAnswer, setSpelledAnswer] = useState('');
   const [answerChanges, setAnswerChanges] = useState(0);
-  const [secondaryOpen, setSecondaryOpen] = useState(false);
   const [done, setDone] = useState(false);
   const actionLockedRef = useRef(false);
   const startTimeRef = useRef<number>(Date.now());
   const spellingInputRef = useRef<HTMLDivElement | null>(null);
   const ownerId = useId();
-  const secondaryPanelId = useId();
 
   /** 终态动作：禁用所有交互并发出回调。 */
   const fireFinal = useCallback(
@@ -185,53 +183,63 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
         <Card className="bingeup-card">
-          {isContinuous && (
-            <div className="bingeup-continuous-badge">
-              <Tag size="small">连续学习</Tag>
-            </div>
-          )}
           <div className="bingeup-new-word">
+            <div className="bingeup-new-word-toolbar">
+              <SpeechControls
+                ownerId={ownerId}
+                wordText={word.word}
+                phonetic={word.phonetic}
+                disabled={done}
+                variant="word"
+              />
+              {isContinuous && (
+                <div className="bingeup-new-word-badge">
+                  <Tag size="small">连续学习</Tag>
+                </div>
+              )}
+            </div>
             <div className="bingeup-prompt" lang="en">
               {word.word}
             </div>
-            <div className="bingeup-part-of-speech">
+            <div className="bingeup-new-word-meaning">
               <Tag size="small">{word.partOfSpeech.join('/')}</Tag>
+              <span>{word.coreMeaningZh.join('；')}</span>
             </div>
-            {word.phonetic && <div className="bingeup-phonetic">{word.phonetic}</div>}
-            <div className="bingeup-meaning">{word.coreMeaningZh.join('；')}</div>
-            <SpeechControls
-              ownerId={ownerId}
-              wordText={word.word}
-              exampleText={word.exampleSentence}
-              disabled={done}
-            />
-            <div className="bingeup-example" lang="en">
-              {word.exampleSentence}
-            </div>
-            <div className="bingeup-example-translation">{word.exampleTranslation}</div>
-            {secondary.length > 0 && (
-              <div className="bingeup-secondary" onKeyDown={(event) => event.stopPropagation()}>
-                <button
-                  type="button"
-                  className="bingeup-secondary-toggle"
-                  aria-expanded={secondaryOpen}
-                  aria-controls={secondaryPanelId}
-                  onClick={() => setSecondaryOpen((current) => !current)}
+            <div className="bingeup-example-panel">
+              <div className="bingeup-example-row">
+                <SpeechControls
+                  ownerId={ownerId}
+                  wordText={word.word}
+                  exampleText={word.exampleSentence}
                   disabled={done}
-                >
-                  {secondaryOpen ? '收起其他常见义' : `其他常见义（${secondary.length}）`}
-                </button>
-                {secondaryOpen && (
-                  <ul className="bingeup-secondary-list" id={secondaryPanelId}>
-                    {secondary.map((meaning) => (
-                      <li key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}>
-                        <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>
-                        <span>{meaning.meaningZh}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                  variant="example"
+                />
+                <div className="bingeup-example-content">
+                  <p className="bingeup-example" lang="en">
+                    {word.exampleSentence}
+                  </p>
+                  <p className="bingeup-example-translation">{word.exampleTranslation}</p>
+                </div>
               </div>
+            </div>
+            {secondary.length > 0 && (
+              <p className="bingeup-secondary">
+                <span className="bingeup-secondary-label">其他常见义</span>
+                {secondary.map((meaning, index) => (
+                  <span
+                    className="bingeup-secondary-item"
+                    key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}
+                  >
+                    <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>{' '}
+                    <span>{meaning.meaningZh}</span>
+                    {index < secondary.length - 1 && (
+                      <span className="bingeup-secondary-separator" aria-hidden="true">
+                        ·
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </p>
             )}
           </div>
           <div className="bingeup-actions bingeup-actions-new-word">

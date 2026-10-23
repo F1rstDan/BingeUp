@@ -199,6 +199,8 @@ interface ShadowState {
     backdropFilter: string;
     overflowY: string;
     rect: RectSnapshot;
+    scrollWidth: number;
+    clientWidth: number;
     scrollHeight: number;
     clientHeight: number;
     scrollTop: number;
@@ -226,7 +228,11 @@ async function readShadowState(page: Page): Promise<ShadowState> {
     const shadow = host?.shadowRoot ?? null;
     const overlay = shadow?.querySelector('.bingeup-overlay') ?? null;
     const card = shadow?.querySelector('.bingeup-card') ?? null;
-    const button = shadow?.querySelector('button[class*="animal-btn"]') ?? null;
+    // 网页朗读也是原版 Button；视觉断言仍应落在底部主操作按钮上。
+    const button =
+      shadow?.querySelector('.bingeup-actions button[class*="animal-btn"]') ??
+      shadow?.querySelector('button[class*="animal-btn"]') ??
+      null;
     const styleText = shadow?.querySelector('style')?.textContent ?? '';
     const styleOf = (element: Element | null) => (element ? getComputedStyle(element) : null);
     const rectOf = (element: Element | null) => {
@@ -273,6 +279,8 @@ async function readShadowState(page: Page): Promise<ShadowState> {
               backdropFilter: cardStyle.backdropFilter,
               overflowY: cardStyle.overflowY,
               rect: rectOf(card) as RectSnapshot,
+              scrollWidth: card.scrollWidth,
+              clientWidth: card.clientWidth,
               scrollHeight: card.scrollHeight,
               clientHeight: card.clientHeight,
               scrollTop: card.scrollTop,
@@ -673,7 +681,8 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
 
     const page = await context.newPage();
     await page.setViewportSize({ width: 900, height: 700 });
-    await fulfillSyntheticPage(page, { playerWidth: 360, playerHeight: 200, pageHeight: 2400 });
+    // 覆盖要求的窄宽下限：320px 播放器内卡片约 290px。
+    await fulfillSyntheticPage(page, { playerWidth: 320, playerHeight: 200, pageHeight: 2400 });
     await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
 
     const tabId = await findSyntheticTabId(control);
@@ -688,6 +697,7 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     expect(state.card!.rect.right).toBeLessThanOrEqual(player!.right + 2);
     expect(state.card!.rect.top).toBeGreaterThanOrEqual(player!.top - 2);
     expect(state.card!.rect.bottom).toBeLessThanOrEqual(player!.bottom + 2);
+    expect(state.card!.scrollWidth).toBeLessThanOrEqual(state.card!.clientWidth + 1);
     // 小窗内容必然超出卡片高度：卡片必须可滚动。
     expect(state.card!.scrollHeight).toBeGreaterThan(state.card!.clientHeight);
 

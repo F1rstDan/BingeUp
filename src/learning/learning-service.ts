@@ -85,6 +85,9 @@ interface Clock {
 /** 短期学习词接受后最早可测试的延迟（CONTEXT.md：最早十分钟后才可测试）。 */
 const SHORT_TERM_DELAY_MS = 10 * 60_000;
 
+/** 同一题已完成提交的幂等窗口，覆盖重复按钮和迟到的重复消息。 */
+const SUBMISSION_IDEMPOTENCY_MS = 30_000;
+
 /** 自报认识词验证题延迟区间：一至两天后（CONTEXT.md）。 */
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const SELF_REPORTED_MIN_DELAY_MS = ONE_DAY_MS;
@@ -605,6 +608,11 @@ export class LearningService {
 
   /** 同一题目在途提交的 Promise 缓存；完成或失败后移除。 */
   private readonly inFlightSubmissions = new Map<string, Promise<SubmissionResult>>();
+  /** 已完成提交的短幂等窗口：重复消息在第一条完成后到达时仍返回同一结果。 */
+  private readonly recentSubmissions = new Map<
+    string,
+    { result: SubmissionResult; expiresAt: number }
+  >();
   /** 同一复习日志在途纠正的 Promise 缓存；完成或失败后移除。 */
   private readonly inFlightCorrections = new Map<string, Promise<CorrectionResult>>();
 
@@ -617,13 +625,35 @@ export class LearningService {
     questionId: string,
     run: () => Promise<SubmissionResult>,
   ): Promise<SubmissionResult> {
+    const now = this.deps.clock.now();
+    const cached = this.recentSubmissions.get(questionId);
+    if (cached) {
+      if (cached.expiresAt > now) return Promise.resolve(cached.result);
+      this.recentSubmissions.delete(questionId);
+    }
     const existing = this.inFlightSubmissions.get(questionId);
     if (existing) return existing;
-    const promise = run().finally(() => {
-      this.inFlightSubmissions.delete(questionId);
-    });
+    const promise = run()
+      .then((result) => {
+        this.recentSubmissions.set(questionId, {
+          result,
+          expiresAt: this.deps.clock.now() + SUBMISSION_IDEMPOTENCY_MS,
+        });
+        this.pruneRecentSubmissions();
+        return result;
+      })
+      .finally(() => {
+        this.inFlightSubmissions.delete(questionId);
+      });
     this.inFlightSubmissions.set(questionId, promise);
     return promise;
+  }
+
+  private pruneRecentSubmissions(): void {
+    const now = this.deps.clock.now();
+    for (const [questionId, entry] of this.recentSubmissions) {
+      if (entry.expiresAt <= now) this.recentSubmissions.delete(questionId);
+    }
   }
 
   /** 同一复习日志的并发纠正共享同一次结果（Issue #19 AC4）。 */

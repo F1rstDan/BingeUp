@@ -15,6 +15,8 @@ npx tsx scripts/dictionary-rebuild/pipeline.ts accept <batchId>
 npx tsx scripts/dictionary-rebuild/pipeline.ts review <batchId> <review.json>
 npm run dictionary:build -- --pilot  # 仅用已通过试批生成演示包
 npm run dictionary:build      # 全部批次通过后生成正式 staging 候选包
+npm run dictionary:switch     # 把 staging 切换为正式 public/dictionaries
+npm run dictionary:rollback -- --dry-run  # 检查可回滚的旧包
 ```
 
 `seed.json` 只保存旧 ID、规范词形、词频、难度和词库成员关系，不保存旧释义、例句或音标。`legacy-registry.json` 是身份去向的唯一来源；`state.json` 只保存批次、哈希、用量和复核绑定。`plan-overrides.json` 记录独立复核后停用的可选题型或需要排除的干扰项。
@@ -27,7 +29,7 @@ npm run dictionary:build      # 全部批次通过后生成正式 staging 候选
 
 当前全量包包含 5,376 个原始 ID、5,374 个有效词、5,374 个固定题组和 3 个词库。`public/dictionaries/` 与 `data/dictionary-rebuild/staging/` 内容一致，`data/dictionary-rebuild/archive/switch-*.json` 记录切换时间和新包哈希。
 
-需要兼容回滚时，把 `data/dictionary-rebuild/archive/legacy-v1-*` 复制回 `public/dictionaries/` 并重新构建。回滚前先导出当前 v2 数据；回滚后导入该 v2 备份以恢复新进度。不要把旧包留在 `public/`，否则 WXT 会把它一起打进扩展包。
+需要兼容回滚时，先运行 `npm run dictionary:rollback -- --dry-run` 确认源包，再运行 `npm run dictionary:rollback`，然后重新构建。回滚前先导出当前 v2 数据；回滚后导入该 v2 备份以恢复新进度。命令会把切换前的包归档到 `archive/pre-rollback-*`。不要把旧包留在 `public/`，否则 WXT 会把它一起打进扩展包。
 
 ### 旧 ECDICT 构建器（历史，待清理）
 

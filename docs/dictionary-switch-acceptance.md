@@ -43,11 +43,13 @@
 ## 回滚步骤
 
 1. 在设置页导出当前 v2 数据。
-2. 把 `public/dictionaries/` 移到单独目录，保留当前包证据。
-3. 复制 `data/dictionary-rebuild/archive/legacy-v1-2026-10-23T20-43-21-936Z/` 到 `public/dictionaries/`。
+2. 运行 `npm run dictionary:rollback -- --dry-run`，确认源包和当前 schema。
+3. 运行 `npm run dictionary:rollback`。命令会把当前包归档到 `archive/pre-rollback-*`。
 4. 运行 `npm run build` 与 `npm run build:edge`。
 5. 重新加载扩展，导入第 1 步的 v2 备份，检查学习卡、历史和额度。
 6. 回滚验收完成后，恢复 schema 2 包并再次构建。
+
+完整的人工步骤见 [词库真机验收清单](dictionary-manual-acceptance.md)。
 
 ## 尚未完成的人工验收
 

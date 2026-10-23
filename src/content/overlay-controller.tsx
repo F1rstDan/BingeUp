@@ -30,7 +30,7 @@ const OVERLAY_SHELL_CSS = `
     line-height: var(--animal-line-height-base);
   }
   .bingeup-overlay .bingeup-card {
-    width: min(470px, 100%); max-height: 100%; overflow-y: auto; overflow-x: auto;
+    width: min(470px, 100%); min-width: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden;
     overscroll-behavior: contain;
   }
   .bingeup-continuous-badge {
@@ -40,37 +40,74 @@ const OVERLAY_SHELL_CSS = `
     margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
     letter-spacing: 0.01em; text-align: center;
   }
+  .bingeup-new-word { min-width: 0; }
+  .bingeup-new-word .bingeup-prompt { margin-bottom: var(--animal-spacing-xs); }
+  .bingeup-new-word-toolbar {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: var(--animal-spacing-sm); min-width: 0; margin-bottom: var(--animal-spacing-sm);
+  }
+  .bingeup-new-word-toolbar > .bingeup-speech-controls { flex: 1 1 auto; min-width: 0; }
+  .bingeup-new-word-badge { flex: 0 0 auto; }
   .bingeup-phonetic {
     margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-base); text-align: center;
   }
   .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: var(--animal-spacing-sm); }
-  .bingeup-meaning { margin-bottom: var(--animal-spacing-sm); font-size: 17px; font-weight: 700; text-align: center; }
+  .bingeup-new-word-meaning {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: var(--animal-spacing-xs) var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-md);
+    font-size: 17px; font-weight: 700; line-height: 1.45; text-align: center; overflow-wrap: anywhere;
+  }
+  .bingeup-new-word-meaning > span { min-width: 0; }
+  .bingeup-example-panel {
+    margin-bottom: var(--animal-spacing-sm); padding: var(--animal-spacing-sm) var(--animal-spacing-md);
+    border-radius: var(--animal-border-radius-lg); background: var(--animal-bg-color-secondary);
+  }
+  .bingeup-example-row { display: flex; align-items: flex-start; gap: var(--animal-spacing-xs); min-width: 0; }
+  .bingeup-example-row > .bingeup-speech-controls { flex: 0 0 auto; }
+  .bingeup-example-content { flex: 1 1 auto; min-width: 0; }
   .bingeup-example {
-    margin-bottom: var(--animal-spacing-xs); font-size: var(--animal-font-size-base);
-    font-style: italic; line-height: 1.5;
+    flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--animal-font-size-base);
+    font-style: italic; line-height: 1.5; overflow-wrap: anywhere;
   }
   .bingeup-example-translation {
-    margin-bottom: var(--animal-spacing-lg); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm);
+    margin: var(--animal-spacing-xs) 0 0; color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); line-height: 1.5;
   }
-  .bingeup-speech-controls { margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md); text-align: center; }
+  .bingeup-speech-controls { min-width: 0; margin: 0; text-align: center; }
+  .bingeup-speech-controls--word {
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: var(--animal-spacing-xs); text-align: left;
+  }
+  .bingeup-word-speech-row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--animal-spacing-xs) var(--animal-spacing-sm); min-width: 0;
+  }
+  .bingeup-word-pronunciation {
+    display: inline-flex; flex-wrap: wrap; align-items: baseline;
+    gap: var(--animal-spacing-xs); min-width: 0;
+  }
+  .bingeup-new-word-phonetic {
+    min-width: 0; max-width: 100%; color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); line-height: 1.4; overflow-wrap: anywhere;
+  }
   .bingeup-speech-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--animal-spacing-sm); }
-  .bingeup-speech-button, .bingeup-speech-retry, .bingeup-secondary-toggle {
-    padding: 6px 10px; border: var(--animal-border-width) solid var(--animal-border-color);
-    border-radius: 10px; background: var(--animal-bg-color); color: var(--animal-text-color);
-    font-family: var(--animal-font-family); font-size: 13px; font-weight: 700; cursor: pointer;
+  .bingeup-speech-status {
+    max-width: 100%; margin: 0; color: var(--animal-text-color-secondary);
+    font-size: 12px; line-height: 1.4; text-align: left; overflow-wrap: anywhere;
   }
-  .bingeup-speech-button:hover, .bingeup-speech-retry:hover, .bingeup-secondary-toggle:hover {
-    border-color: var(--animal-primary-color); color: var(--animal-primary-color-active);
+  .bingeup-secondary {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--animal-spacing-xs);
+    margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md);
+    font-size: var(--animal-font-size-sm); line-height: 1.6; text-align: left;
   }
-  .bingeup-speech-button:focus-visible, .bingeup-speech-retry:focus-visible,
-  .bingeup-secondary-toggle:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
-  .bingeup-speech-status { margin: 6px 0 0; font-size: 12px; line-height: 1.4; }
-  .bingeup-speech-note { margin: 6px 0 0; color: var(--animal-text-color-secondary); font-size: 11px; line-height: 1.4; }
-  .bingeup-secondary { margin-top: var(--animal-spacing-sm); }
-  .bingeup-secondary-list { margin: var(--animal-spacing-sm) 0 0; padding-left: 20px; text-align: left; font-size: 14px; line-height: 1.6; }
-  .bingeup-secondary-pos { display: inline-block; margin-right: 6px; color: var(--animal-text-color-secondary); font-size: 12px; font-weight: 700; }
+  .bingeup-secondary-label {
+    margin-right: var(--animal-spacing-xs); color: var(--animal-text-color-secondary);
+    font-weight: 700; white-space: nowrap;
+  }
+  .bingeup-secondary-item { min-width: 0; overflow-wrap: anywhere; }
+  .bingeup-secondary-pos { margin-right: 3px; font-weight: 700; }
+  .bingeup-secondary-separator { margin-left: var(--animal-spacing-xs); color: var(--animal-text-color-secondary); }
   .bingeup-spelling-hint { margin: 0 0 var(--animal-spacing-md); padding: var(--animal-spacing-sm) var(--animal-spacing-md); border: 1px dashed var(--animal-border-color); border-radius: 12px; text-align: left; }
   .bingeup-spelling-example { margin: 0 0 4px; font-size: 14px; font-style: italic; line-height: 1.5; }
   .bingeup-spelling-meta { margin: 0; color: var(--animal-text-color-secondary); font-size: 13px; }

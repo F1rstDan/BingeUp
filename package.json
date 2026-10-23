@@ -27,6 +27,7 @@
     "dictionary:build": "tsx scripts/dictionary-rebuild/pipeline.ts build",
     "dictionary:verify-package": "tsx scripts/dictionary-rebuild/verify-package.ts",
     "dictionary:switch": "tsx scripts/dictionary-rebuild/switch-package.ts",
+    "dictionary:rollback": "tsx scripts/dictionary-rebuild/rollback-package.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run dictionary:check"
