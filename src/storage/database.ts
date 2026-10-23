@@ -127,6 +127,17 @@ export async function idbPut<T>(db: IDBDatabase, store: StoreName, value: T): Pr
   await awaitTransaction(tx);
 }
 
+/** 按 key 删除单条记录；key 不存在时视为成功。 */
+export async function idbDelete(
+  db: IDBDatabase,
+  store: StoreName,
+  key: IDBValidKey,
+): Promise<void> {
+  const tx = db.transaction(store, 'readwrite');
+  tx.objectStore(store).delete(key);
+  await awaitTransaction(tx);
+}
+
 /** 读取仓库内所有记录。 */
 export async function idbGetAll<T>(db: IDBDatabase, store: StoreName): Promise<T[]> {
   const tx = db.transaction(store, 'readonly');

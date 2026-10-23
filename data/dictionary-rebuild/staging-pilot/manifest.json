@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "contentContractVersion": "learning-content-v1",
+  "dictionaryVersion": "2026.10.1-pilot",
+  "generatedAt": "2026-10-23T14:27:52.012Z",
+  "datasetId": "bingeup-legacy-2026-10-23-pilot",
+  "registryVersion": "legacy-registry-1-pilot",
+  "registryHash": "c1b941e996909c7f0fa15aec17f69a48dd1c91431fb14cf46be7f8f1c327d297",
+  "questionTemplateVersion": "fixed-question-v1",
+  "files": {
+    "words": {
+      "sha256": "d4d54998770a3e866d979110ebac970e19a50d5d27a932285da6167c6dbb7851",
+      "bytes": 61897
+    },
+    "decks": {
+      "sha256": "740cac0497b5016f944aa67babfa818651980b25f64cb02b3ec5e3576b630789",
+      "bytes": 8767
+    },
+    "questions": {
+      "sha256": "078a925b79c4ec7643e834b7f9e490ff4c5d42b7719f588011956ace2c9cd7c7",
+      "bytes": 96569
+    },
+    "legacyRegistry": {
+      "sha256": "7f0477876d9d53cd46f550277a6b0be47e3dadeca3edeb6b31917a10e3e17f65",
+      "bytes": 75430
+    },
+    "sourceMetadata": {
+      "sha256": "b86ee1f855e08275cc3576c3d4bf9d27e3c71d910f40bf491bf5dd6e74182aeb",
+      "bytes": 1095
+    },
+    "license": {
+      "sha256": "817848e3634aaed7a5bbf02c6327287ff72b58d1453b341a0b353c513058f489",
+      "bytes": 536
+    }
+  },
+  "counts": {
+    "legacyWords": 101,
+    "effectiveWords": 100,
+    "decks": 3,
+    "questionPlans": 100
+  },
+  "source": {
+    "content": "bingeup-dictionary",
+    "license": "LicenseRef-BingeUp-Dictionary-v1"
+  }
+}

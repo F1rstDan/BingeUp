@@ -18,6 +18,7 @@ import { pauseForInteraction, restore, type VideoPlaybackPort } from '@/video/pl
 import type { StartLearningResponse } from '@/messaging/messages';
 import type { DevCardType, PrepareDevCardResult, DevShowCardResult } from '@/dev-tools/messages';
 import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
+import { ContentUnavailableError } from '@/learning/planned-questions';
 
 /** 站点适配器端口：内容控制器只通过它接收视频变化事件。 */
 export interface SiteAdapterPort {
@@ -119,6 +120,10 @@ export interface ContentControllerDeps {
   playbackRecoveryNotice?: { show(): Promise<void> };
   /** 已保存答案的独立反馈；不重复提交答案或改变视频恢复结果。 */
   learningFeedbackNotice?: LearningFeedbackNoticePort;
+  /** 恢复视频前停止本插件持有的系统朗读。 */
+  stopSpeech?: () => void;
+  /** 内容包无法为到期卡出题时的明确提示。 */
+  contentUnavailableNotice?: { show(): void };
 }
 
 interface ActiveInteraction {
@@ -259,6 +264,13 @@ export class ContentController {
         });
       } catch (error) {
         console.error('[BingeUp] 获取连续学习项目失败，恢复视频', error);
+        if (error instanceof ContentUnavailableError) {
+          try {
+            this.deps.contentUnavailableNotice?.show();
+          } catch (noticeError) {
+            console.error('[BingeUp] 显示内容不可用提示失败', noticeError);
+          }
+        }
         if (playback !== null && snapshot !== null) await this.restorePlayback(playback, snapshot);
         return { ok: false, reason: 'failed' };
       }
@@ -667,6 +679,13 @@ export class ContentController {
   /** 任何学习/界面异常都优先解除遮罩并恢复用户原有播放状态。 */
   private async recoverFromFailure(error: unknown): Promise<void> {
     console.error('[BingeUp] 学习交互失败，正在返回视频', error);
+    if (error instanceof ContentUnavailableError) {
+      try {
+        this.deps.contentUnavailableNotice?.show();
+      } catch (noticeError) {
+        console.error('[BingeUp] 显示内容不可用提示失败', noticeError);
+      }
+    }
     const active = this.active;
     this.triggerInProgress = false;
     if (active === null) return;
@@ -701,6 +720,7 @@ export class ContentController {
     playback: VideoPlaybackPort,
     snapshot: PlaybackSnapshot,
   ): Promise<void> {
+    this.deps.stopSpeech?.();
     const restored = await restore(playback, snapshot);
     if (restored) return;
     console.error('[BingeUp] 视频未能自动继续，请用户手动播放');

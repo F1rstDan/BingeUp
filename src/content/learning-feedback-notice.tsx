@@ -52,6 +52,32 @@ export const LEARNING_FEEDBACK_CSS = `
     margin: var(--animal-spacing-md) 0 0;
     color: var(--animal-text-color); font-size: 16px; font-weight: 600; line-height: 1.6;
   }
+  .bingeup-feedback-details-toggle {
+    margin-top: var(--animal-spacing-sm); padding: 5px 10px;
+    border: var(--animal-border-width) solid var(--animal-border-color); border-radius: 10px;
+    background: var(--animal-bg-color); color: var(--animal-text-color);
+    font-family: var(--animal-font-family); font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .bingeup-feedback-details-toggle:hover { border-color: var(--animal-primary-color); }
+  .bingeup-feedback-details-toggle:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
+  .bingeup-feedback-details { margin-top: var(--animal-spacing-md); text-align: left; }
+  .bingeup-feedback-details__phonetic { margin: 4px 0; color: var(--animal-text-color-secondary); text-align: center; }
+  .bingeup-feedback-details__example { margin: var(--animal-spacing-sm) 0 4px; font-style: italic; line-height: 1.5; }
+  .bingeup-feedback-details__translation { margin: 0 0 var(--animal-spacing-sm); color: var(--animal-text-color-secondary); font-size: 13px; line-height: 1.5; }
+  .bingeup-feedback-details__secondary { margin: 0 0 var(--animal-spacing-sm); padding-left: 20px; font-size: 13px; line-height: 1.6; }
+  .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: 4px; }
+  .bingeup-secondary-pos { display: inline-block; margin-right: 6px; color: var(--animal-text-color-secondary); font-size: 12px; font-weight: 700; }
+  .bingeup-speech-controls { margin-top: var(--animal-spacing-sm); text-align: center; }
+  .bingeup-speech-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--animal-spacing-sm); }
+  .bingeup-speech-button, .bingeup-speech-retry {
+    padding: 5px 10px; border: var(--animal-border-width) solid var(--animal-border-color);
+    border-radius: 10px; background: var(--animal-bg-color); color: var(--animal-text-color);
+    font-family: var(--animal-font-family); font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+  .bingeup-speech-button:hover, .bingeup-speech-retry:hover { border-color: var(--animal-primary-color); }
+  .bingeup-speech-button:focus-visible, .bingeup-speech-retry:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
+  .bingeup-speech-status { margin: 6px 0 0; font-size: 12px; }
+  .bingeup-speech-note { margin: 6px 0 0; color: var(--animal-text-color-secondary); font-size: 11px; line-height: 1.4; }
   .bingeup-learning-feedback__submitted-answer {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
     gap: var(--animal-spacing-sm) var(--animal-spacing-md);

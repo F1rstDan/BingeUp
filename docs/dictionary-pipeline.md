@@ -2,6 +2,33 @@
 
 本文说明内置词库的来源、构建和运行方式。本文依据 2026-10-23 的仓库实现。
 
+## 重建流水线（规格 #54）
+
+新内置词库的冻结依据、批次状态和候选包位于 `data/dictionary-rebuild/`。正式切换前，运行中的 `public/dictionaries/` 仍是旧词库。
+
+```bash
+npm run dictionary:seed       # 从旧词库身份元数据生成 seed.json 和身份注册表
+npm run dictionary:check      # 逐旧 ID 核对注册表、成员关系、哈希和稳定元数据
+npm run dictionary:prepare    # 冻结 100 词试批和其余稳定 ID 批次
+npm run dictionary:status     # 查看批次状态和失败项
+npx tsx scripts/dictionary-rebuild/pipeline.ts accept <batchId>
+npx tsx scripts/dictionary-rebuild/pipeline.ts review <batchId> <review.json>
+npm run dictionary:build -- --pilot  # 仅用已通过试批生成演示包
+npm run dictionary:build      # 全部批次通过后生成正式 staging 候选包
+```
+
+`seed.json` 只保存旧 ID、规范词形、词频、难度和词库成员关系，不保存旧释义、例句或音标。`legacy-registry.json` 是身份去向的唯一来源；`state.json` 只保存批次、哈希、用量和复核绑定。`plan-overrides.json` 记录独立复核后停用的可选题型或需要排除的干扰项。
+
+批次输入每批 25 词。生成内容只包含一个主词性、一个主释义、最多两个其他义项、例句、翻译和表层词形；IPA 从 `sources/en_US.txt` 固定快照合入，多候选和缺项必须逐词选择或独立转写。固定题组在接收批次时生成并写入 `questions.jsonl`，审计理由写入 `audit.json`。
+
+试批 100 词必须逐词独立复核。后续批次按冻结样本复核，困难项额外复核。复核失败时批次回到 `needs-fix`，已接受内容保留。只有全部批次验证且候选包全量检查通过，才允许写入 staging 和切换正式词库。
+
+正式包包含 `words.json`、`decks.json`、`questions.json`、`legacy-registry.json`、`manifest.json`、`source-metadata.json`、`LICENSE.txt` 和 `licenses/`。运行时先校验 manifest 与文件哈希，再校验词条、题组引用和身份注册表；任一失败都拒绝加载，避免资源混版。
+
+### 旧 ECDICT 构建器（待切换后删除）
+
+以下内容描述旧词库，只用于切换前的兼容和来源追溯。
+
 ## 来源
 
 内置词库来自 ECDICT 的固定快照 `bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b`。ECDICT 使用 MIT License。许可证保存在 `public/dictionaries/LICENSE.txt`。

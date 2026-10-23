@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
+import { ContentUnavailableError } from '@/learning/planned-questions';
 import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import { TimedLearningAdapter, type VisibilityPort } from '@/adapters/timed-learning';
@@ -293,6 +294,8 @@ function makeController(
     withSessionLogger?: boolean;
     globallyPaused?: boolean;
     playbackRecoveryNotice?: { show(): Promise<void> };
+    stopSpeech?: () => void;
+    contentUnavailableNotice?: { show(): void };
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -326,6 +329,8 @@ function makeController(
     pauseState,
     playbackRecoveryNotice: opts.playbackRecoveryNotice,
     learningFeedbackNotice,
+    stopSpeech: opts.stopSpeech,
+    contentUnavailableNotice: opts.contentUnavailableNotice,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -1725,6 +1730,45 @@ describe('ContentController — 会话标识并发唯一（Issue #19 AC5）', ()
 });
 
 describe('ContentController — 故障恢复（Issue #13）', () => {
+  it('到期卡内容不可用时显示明确错误并恢复播放', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const notice = { show: vi.fn() };
+    const { adapter, playback, learningService } = makeController({
+      contentUnavailableNotice: notice,
+    });
+    learningService.getNextItem = async () => {
+      throw new ContentUnavailableError('w-1');
+    };
+
+    adapter.emit('bv-1', {});
+    await flush();
+
+    expect(notice.show).toHaveBeenCalledTimes(1);
+    expect(playback.playCalls).toBe(1);
+    errorSpy.mockRestore();
+  });
+
+  it('恢复视频前先停止本插件持有的朗读', async () => {
+    const calls: string[] = [];
+    const playback = fakePlayback({ playing: true });
+    playback.play = vi.fn(async () => {
+      calls.push('play');
+      playback.playCalls += 1;
+      playback.setPlaying(true);
+    });
+    const { adapter, overlay } = makeController({
+      playback,
+      stopSpeech: () => calls.push('stop'),
+    });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(calls).toEqual(['stop', 'play']);
+  });
+
   it('内部恢复不记录为用户跳过，也不更新冷却', async () => {
     const { adapter, overlay, cooldownStore } = makeController();
 

@@ -44,6 +44,7 @@ const OVERLAY_SHELL_CSS = `
     margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-base); text-align: center;
   }
+  .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: var(--animal-spacing-sm); }
   .bingeup-meaning { margin-bottom: var(--animal-spacing-sm); font-size: 17px; font-weight: 700; text-align: center; }
   .bingeup-example {
     margin-bottom: var(--animal-spacing-xs); font-size: var(--animal-font-size-base);
@@ -53,6 +54,26 @@ const OVERLAY_SHELL_CSS = `
     margin-bottom: var(--animal-spacing-lg); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-sm);
   }
+  .bingeup-speech-controls { margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md); text-align: center; }
+  .bingeup-speech-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--animal-spacing-sm); }
+  .bingeup-speech-button, .bingeup-speech-retry, .bingeup-secondary-toggle {
+    padding: 6px 10px; border: var(--animal-border-width) solid var(--animal-border-color);
+    border-radius: 10px; background: var(--animal-bg-color); color: var(--animal-text-color);
+    font-family: var(--animal-font-family); font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .bingeup-speech-button:hover, .bingeup-speech-retry:hover, .bingeup-secondary-toggle:hover {
+    border-color: var(--animal-primary-color); color: var(--animal-primary-color-active);
+  }
+  .bingeup-speech-button:focus-visible, .bingeup-speech-retry:focus-visible,
+  .bingeup-secondary-toggle:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
+  .bingeup-speech-status { margin: 6px 0 0; font-size: 12px; line-height: 1.4; }
+  .bingeup-speech-note { margin: 6px 0 0; color: var(--animal-text-color-secondary); font-size: 11px; line-height: 1.4; }
+  .bingeup-secondary { margin-top: var(--animal-spacing-sm); }
+  .bingeup-secondary-list { margin: var(--animal-spacing-sm) 0 0; padding-left: 20px; text-align: left; font-size: 14px; line-height: 1.6; }
+  .bingeup-secondary-pos { display: inline-block; margin-right: 6px; color: var(--animal-text-color-secondary); font-size: 12px; font-weight: 700; }
+  .bingeup-spelling-hint { margin: 0 0 var(--animal-spacing-md); padding: var(--animal-spacing-sm) var(--animal-spacing-md); border: 1px dashed var(--animal-border-color); border-radius: 12px; text-align: left; }
+  .bingeup-spelling-example { margin: 0 0 4px; font-size: 14px; font-style: italic; line-height: 1.5; }
+  .bingeup-spelling-meta { margin: 0; color: var(--animal-text-color-secondary); font-size: 13px; }
   .bingeup-options { display: grid; gap: var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-lg); }
   .bingeup-option {
     display: flex; align-items: center; gap: var(--animal-spacing-md); width: 100%;

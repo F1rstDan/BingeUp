@@ -1,0 +1,33 @@
+{
+  "reviewer": "independent-review-pilot-02-fix-verification",
+  "mode": "full",
+  "inspectedWordIds": [
+    "w-grey",
+    "w-zebra",
+    "w-contaminate",
+    "w-faint",
+    "w-liver",
+    "w-vigour",
+    "w-arab",
+    "w-status",
+    "w-quench",
+    "w-radar",
+    "w-art",
+    "w-leisure",
+    "w-preside",
+    "w-drop",
+    "w-untie",
+    "w-detect",
+    "w-disturb",
+    "w-sympathize",
+    "w-radish",
+    "w-steer",
+    "w-lavatory",
+    "w-costume",
+    "w-reduce",
+    "w-expertise",
+    "w-forehead"
+  ],
+  "result": "pass",
+  "findings": []
+}

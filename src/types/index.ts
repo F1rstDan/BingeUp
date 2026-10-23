@@ -150,6 +150,13 @@ export type CardOrigin = 'accepted-new' | 'self-reported';
 export type CardStage = 'new' | 'short-term' | 'long-term' | 'self-reported-known';
 
 /** 单词记录：词库中的一条可学习内容，不包含用户进度。 */
+export interface SecondaryMeaning {
+  /** 该义项的词性。 */
+  partOfSpeech: string;
+  /** 中文释义，只展示，不参与出题。 */
+  meaningZh: string;
+}
+
 export interface WordRecord {
   id: string;
   /** 词形（lemma）。 */
@@ -160,6 +167,11 @@ export interface WordRecord {
   partOfSpeech: string[];
   /** 核心中文释义，至少一项。 */
   coreMeaningZh: string[];
+  /**
+   * 其他常见义项（0–2 项），只用于详情展示。
+   * 正式内置词条每项必须带词性，且不与主释义或彼此重复。
+   */
+  secondaryMeanings?: SecondaryMeaning[];
   exampleSentence?: string;
   exampleTranslation?: string;
   /**
@@ -176,6 +188,118 @@ export interface WordRecord {
   source: string;
   /** 许可证标识。 */
   license: string;
+}
+
+/** 语境题干扰项：在本句中的实际词形。 */
+export interface ContextChoiceDistractor {
+  wordId: string;
+  surfaceForm: string;
+}
+
+/** 一组已检查的固定干扰项。 */
+export interface CheckedDistractorSet<T> {
+  distractors: [T, T, T];
+  /** 绑定模板、可见题面、答案、选项和引用词条内容的 SHA-256。 */
+  checkedContentHash: string;
+}
+
+/** 单个单词的固定题组计划。 */
+export interface WordQuestionPlan {
+  wordId: string;
+  /** 英文选中文必填；干扰项保存单词 ID。 */
+  enToZh: CheckedDistractorSet<string>;
+  /** 中文选英文；无法消歧时为 null。 */
+  zhToEn: CheckedDistractorSet<string> | null;
+  /** 语境选择；无法保证唯一合理答案时为 null。 */
+  contextChoice: CheckedDistractorSet<ContextChoiceDistractor> | null;
+  /** 拼写提示；无法消歧、词元过短或泄露全词时为 null。 */
+  spelling: {
+    prefixLength: number;
+    checkedContentHash: string;
+  } | null;
+}
+
+/** 旧身份去向：保留、纠正、合并或停用。 */
+export type LegacyDisposition = 'keep' | 'correct' | 'merge' | 'deactivate';
+
+/** 身份注册表中的单条旧 ID 结论。 */
+export interface LegacyRegistryEntry {
+  legacyId: string;
+  disposition: LegacyDisposition;
+  /** 有效规范 ID；合并项指向承接身份的旧 ID。 */
+  canonicalId: string;
+  /** 规范词形；纠正大小写时可能与原词形不同。 */
+  canonicalWord: string;
+  reason: string;
+  evidence: string[];
+  /** 原始种子条目的哈希，用于确认身份元数据未被改写。 */
+  seedEntryHash: string;
+  original: {
+    word: string;
+    difficulty: number;
+    frequencyRank: number;
+    decks: Array<{ deckId: string; difficulty: number }>;
+  };
+}
+
+/** 版本化身份注册表。 */
+export interface LegacyRegistry {
+  schemaVersion: 1;
+  registryVersion: string;
+  /** 注册表内容版本哈希；manifest 与兼容记录绑定此值。 */
+  registryHash: string;
+  datasetId: string;
+  seedHash: string;
+  source: {
+    name: string;
+    repository: string;
+    commit: string;
+    license: string;
+    capturedAt: string;
+    note: string;
+  };
+  review: {
+    reviewedAt: string;
+    method: string;
+    evidenceSources: string[];
+  };
+  entries: LegacyRegistryEntry[];
+}
+
+/** 包内文件哈希。 */
+export interface ContentFileHash {
+  sha256: string;
+  bytes: number;
+}
+
+/** 新内容包 manifest（schema 2）。 */
+export interface DictionaryContentManifest {
+  schemaVersion: 2;
+  contentContractVersion: string;
+  dictionaryVersion: string;
+  generatedAt: string;
+  datasetId: string;
+  registryVersion: string;
+  registryHash: string;
+  questionTemplateVersion: string;
+  files: {
+    words: ContentFileHash;
+    decks: ContentFileHash;
+    questions: ContentFileHash;
+    legacyRegistry: ContentFileHash;
+    sourceMetadata: ContentFileHash;
+    license: ContentFileHash;
+  };
+  counts: {
+    legacyWords: number;
+    effectiveWords: number;
+    decks: number;
+    questionPlans: number;
+  };
+  source: {
+    content: string;
+    license: string;
+  };
 }
 
 /** 词库记录：围绕某个学习目标整理的一组单词。 */
@@ -222,6 +346,8 @@ export interface CardRecord {
    * 仅投影最近三条复习日志；undefined 表示该窗口内没有答错。
    */
   lastWrongAt?: number;
+  /** 停用词的已有卡保留历史，但不再引入或调度复习。 */
+  disabled?: boolean;
 }
 
 /** 复习日志：一次完成题目的判定记录。 */
@@ -262,6 +388,8 @@ export interface QuestionExplanation {
   phonetic?: string;
   partOfSpeech: string[];
   meanings: string[];
+  /** 其他常见义项，只用于详情展示。 */
+  secondaryMeanings?: SecondaryMeaning[];
   exampleSentence?: string;
   exampleTranslation?: string;
 }
@@ -293,6 +421,13 @@ export interface SpellingQuestion {
   correctAnswer: string;
   /** 可接受的其他正确形式（如词形变化），可选。 */
   acceptableAnswers?: string[];
+  /** 固定拼写计划的消歧提示；旧内容缺省。 */
+  hint?: {
+    partOfSpeech: string;
+    exampleSentence: string;
+    prefix: string;
+    letterCount: number;
+  };
   explanation: QuestionExplanation;
 }
 

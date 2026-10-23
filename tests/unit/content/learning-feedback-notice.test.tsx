@@ -29,7 +29,9 @@ const RESULT: SubmissionResult = {
     phonetic: '/əbˈzɔːrb/',
     partOfSpeech: ['v.'],
     meanings: ['吸收', '理解'],
+    secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '使专心' }],
     exampleSentence: 'Plants absorb sunlight.',
+    exampleTranslation: '植物吸收阳光。',
   },
   rating: 'good',
   nextReviewAt: 123_456,
@@ -132,9 +134,10 @@ describe('LearningFeedbackNotice', () => {
     expect(host.shadowRoot).toBe(shadowRoot);
     expect(feedback.tagName).toBe('SECTION');
     expect(feedback).toHaveClass('bingeup-learning-feedback');
-    expect(feedback).toHaveAttribute('role', 'status');
-    expect(feedback).toHaveAttribute('aria-live', 'polite');
-    expect(feedback).toHaveAttribute('aria-atomic', 'true');
+    expect(feedback).toHaveAttribute('role', 'region');
+    const liveSummary = feedback.querySelector('[role="status"]');
+    expect(liveSummary).toHaveAttribute('aria-live', 'polite');
+    expect(liveSummary).toHaveAttribute('aria-atomic', 'true');
     expect(feedback).toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
@@ -152,7 +155,7 @@ describe('LearningFeedbackNotice', () => {
     expect(content).toHaveTextContent('吸收；理解');
     expect(content).not.toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(shadowRoot.querySelectorAll('[role="status"]')).toHaveLength(1);
-    expect(feedback.querySelectorAll('[role="status"]')).toHaveLength(0);
+    expect(feedback.querySelectorAll('[role="status"]')).toHaveLength(1);
   });
 
   it('使用非模态纸片通知和纯文字 h2，并在同 ShadowRoot 保留原 SVG blob', () => {
@@ -205,17 +208,41 @@ describe('LearningFeedbackNotice', () => {
     const onTooEasy = vi.fn().mockResolvedValue(CORRECTION_RESULT);
 
     let shown = showNotice(RESULT, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['太简单了', '继续答题']);
+    expect(buttonNames(shown.feedback)).toEqual(['详情', '太简单了', '继续答题']);
 
     shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['关闭', '继续答题']);
+    expect(buttonNames(shown.feedback)).toEqual(['详情', '关闭', '继续答题']);
     expect(shown.queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
 
     shown = showNotice(RESULT, { onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['太简单了', '关闭']);
+    expect(buttonNames(shown.feedback)).toEqual(['详情', '太简单了', '关闭']);
 
     shown = showNotice({ ...RESULT, isCorrect: false });
-    expect(buttonNames(shown.feedback)).toEqual(['关闭']);
+    expect(buttonNames(shown.feedback)).toEqual(['详情', '关闭']);
+  });
+
+  it('详情原位展开，展开期间暂停自动关闭，收起后按剩余时间关闭', () => {
+    const { feedback, queries } = showNotice();
+    advanceTime(1_000);
+
+    fireEvent.click(queries.getByRole('button', { name: '详情' }));
+    const details = feedback.querySelector('.bingeup-feedback-details');
+    expect(details).toHaveTextContent('/əbˈzɔːrb/');
+    expect(details).toHaveTextContent('Plants absorb sunlight.');
+    expect(details).toHaveTextContent('植物吸收阳光。');
+    expect(details).toHaveTextContent('使专心');
+    expect(queries.getByRole('button', { name: '收起详情' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+
+    advanceTime(6_000);
+    expect(queryFeedback()).not.toBeNull();
+
+    fireEvent.click(queries.getByRole('button', { name: '收起详情' }));
+    advanceTime(LEARNING_FEEDBACK_DURATION_MS);
+    finishExit();
+    expect(queryFeedback()).toBeNull();
   });
 
   it('挂载到 documentElement 的开放 ShadowRoot，样式限定为非模态右下角通知且不改宿主页', () => {

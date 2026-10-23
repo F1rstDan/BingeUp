@@ -120,6 +120,9 @@ function setSiteEnabledState(hostname: string, enabled: boolean): SiteStateRespo
 }
 
 export const messageClient = {
+  async prepareContent(): Promise<void> {
+    return undefined;
+  },
   async getCooldownStatus(): Promise<CooldownStatusResponse> {
     return { nextAllowedAt: Date.now() + 2 * 60 * 1000, consecutiveSkipCount: 0 };
   },

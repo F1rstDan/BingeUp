@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "description": "独立复核发现歧义后的逐词题组停用或干扰项排除。只影响题组，不改词条。",
+  "synonymGroups": [["w-drop", "w-reduce"]],
+  "words": {
+    "w-grey": { "spelling": false, "reason": "同词库 grey/gray 拼写提示无法区分。" },
+    "w-win": { "contextChoice": false, "reason": "cover 可自然代入同一句。" },
+    "w-somewhere": { "spelling": false, "reason": "someplace 可满足同一拼写提示。" },
+    "w-cover": { "spelling": false, "reason": "cloak 可满足同一拼写提示。" },
+    "w-misunderstand": { "contextChoice": false, "reason": "deceive 可自然代入同一句。" },
+    "w-faint": { "contextChoice": false, "reason": "grey 可自然代入同一句。" },
+    "w-liver": { "contextChoice": false, "reason": "forehead 可自然代入同一句。" },
+    "w-drop": { "contextChoice": false, "reason": "reduce 可自然代入同一句。" },
+    "w-reduce": { "contextChoice": false, "reason": "drop 可自然代入同一句。" },
+    "w-application": { "contextChoice": false, "reason": "statistics、mate 可自然代入同一句。" },
+    "w-undoubtedly": { "contextChoice": false, "reason": "again 可自然代入同一句。" },
+    "w-right": { "contextChoice": false, "reason": "plain 可自然代入同一句。" },
+    "w-refuge": { "contextChoice": false, "reason": "acceptance 可自然代入同一句。" },
+    "w-again": { "contextChoice": false, "reason": "somewhere、instinctively 可自然代入同一句。" },
+    "w-seaman": { "spelling": false, "reason": "sailor 可满足同一拼写提示。" },
+    "w-comb": { "contextChoice": false, "reason": "bow、catalog 可自然代入同一句。" }
+  }
+}

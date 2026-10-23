@@ -1,0 +1,1218 @@
+[
+  {
+    "wordId": "w-accomplish",
+    "enToZh": [
+      {
+        "wordId": "w-acknowledge",
+        "reason": "选项「承认」不是「accomplish」的主释义「完成」或其他义项。"
+      },
+      {
+        "wordId": "w-need",
+        "reason": "选项「需要」不是「accomplish」的主释义「完成」或其他义项。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "选项「察觉」不是「accomplish」的主释义「完成」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-acknowledge",
+        "reason": "英文「acknowledge」的常见义项「承认」不符合主释义「完成」。"
+      },
+      {
+        "wordId": "w-need",
+        "reason": "英文「need」的常见义项「需要」不符合主释义「完成」。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "英文「detect」的常见义项「察觉」不符合主释义「完成」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-acknowledge",
+        "surfaceForm": "acknowledge",
+        "reason": "将「acknowledge」代入可见句子后不表达主释义「完成」。"
+      },
+      {
+        "wordId": "w-need",
+        "surfaceForm": "need",
+        "reason": "将「need」代入可见句子后不表达主释义「完成」。"
+      },
+      {
+        "wordId": "w-detect",
+        "surfaceForm": "detect",
+        "reason": "将「detect」代入可见句子后不表达主释义「完成」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accomplishment",
+    "enToZh": [
+      {
+        "wordId": "w-accuracy",
+        "reason": "选项「准确性」不是「accomplishment」的主释义「成就」或其他义项。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "选项「专业知识」不是「accomplishment」的主释义「成就」或其他义项。"
+      },
+      {
+        "wordId": "w-diversion",
+        "reason": "选项「转移」不是「accomplishment」的主释义「成就」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accuracy",
+        "reason": "英文「accuracy」的常见义项「准确性」不符合主释义「成就」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "英文「expertise」的常见义项「专业知识」不符合主释义「成就」。"
+      },
+      {
+        "wordId": "w-diversion",
+        "reason": "英文「diversion」的常见义项「转移」不符合主释义「成就」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accuracy",
+        "surfaceForm": "accuracy",
+        "reason": "将「accuracy」代入可见句子后不表达主释义「成就」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "surfaceForm": "expertise",
+        "reason": "将「expertise」代入可见句子后不表达主释义「成就」。"
+      },
+      {
+        "wordId": "w-diversion",
+        "surfaceForm": "diversion",
+        "reason": "将「diversion」代入可见句子后不表达主释义「成就」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accord",
+    "enToZh": [
+      {
+        "wordId": "w-scarf",
+        "reason": "选项「围巾」不是「accord」的主释义「协议」或其他义项。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "选项「蜡烛」不是「accord」的主释义「协议」或其他义项。"
+      },
+      {
+        "wordId": "w-bow",
+        "reason": "选项「弓」不是「accord」的主释义「协议」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-scarf",
+        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「协议」。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「协议」。"
+      },
+      {
+        "wordId": "w-bow",
+        "reason": "英文「bow」的常见义项「弓」不符合主释义「协议」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-scarf",
+        "surfaceForm": "scarf",
+        "reason": "将「scarf」代入可见句子后不表达主释义「协议」。"
+      },
+      {
+        "wordId": "w-candle",
+        "surfaceForm": "candle",
+        "reason": "将「candle」代入可见句子后不表达主释义「协议」。"
+      },
+      {
+        "wordId": "w-bow",
+        "surfaceForm": "bow",
+        "reason": "将「bow」代入可见句子后不表达主释义「协议」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accordance",
+    "enToZh": [
+      {
+        "wordId": "w-acceleration",
+        "reason": "选项「加速」不是「accordance」的主释义「一致」或其他义项。"
+      },
+      {
+        "wordId": "w-shortcoming",
+        "reason": "选项「缺点」不是「accordance」的主释义「一致」或其他义项。"
+      },
+      {
+        "wordId": "w-workman",
+        "reason": "选项「工人」不是「accordance」的主释义「一致」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-acceleration",
+        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「一致」。"
+      },
+      {
+        "wordId": "w-shortcoming",
+        "reason": "英文「shortcoming」的常见义项「缺点」不符合主释义「一致」。"
+      },
+      {
+        "wordId": "w-workman",
+        "reason": "英文「workman」的常见义项「工人」不符合主释义「一致」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-acceleration",
+        "surfaceForm": "acceleration",
+        "reason": "将「acceleration」代入可见句子后不表达主释义「一致」。"
+      },
+      {
+        "wordId": "w-shortcoming",
+        "surfaceForm": "shortcoming",
+        "reason": "将「shortcoming」代入可见句子后不表达主释义「一致」。"
+      },
+      {
+        "wordId": "w-workman",
+        "surfaceForm": "workman",
+        "reason": "将「workman」代入可见句子后不表达主释义「一致」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accordingly",
+    "enToZh": [
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "选项「毫无疑问」不是「accordingly」的主释义「因此」或其他义项。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "选项「再次」不是「accordingly」的主释义「因此」或其他义项。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "reason": "选项「完全地」不是「accordingly」的主释义「因此」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "英文「undoubtedly」的常见义项「毫无疑问」不符合主释义「因此」。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "英文「again」的常见义项「再次」不符合主释义「因此」。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "reason": "英文「absolutely」的常见义项「完全地」不符合主释义「因此」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-undoubtedly",
+        "surfaceForm": "undoubtedly",
+        "reason": "将「undoubtedly」代入可见句子后不表达主释义「因此」。"
+      },
+      {
+        "wordId": "w-again",
+        "surfaceForm": "again",
+        "reason": "将「again」代入可见句子后不表达主释义「因此」。"
+      },
+      {
+        "wordId": "w-absolutely",
+        "surfaceForm": "absolutely",
+        "reason": "将「absolutely」代入可见句子后不表达主释义「因此」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-account",
+    "enToZh": [
+      {
+        "wordId": "w-abuse",
+        "reason": "选项「虐待」不是「account」的主释义「账户」或其他义项。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "选项「出版物」不是「account」的主释义「账户」或其他义项。"
+      },
+      {
+        "wordId": "w-partner",
+        "reason": "选项「伙伴」不是「account」的主释义「账户」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-abuse",
+        "reason": "英文「abuse」的常见义项「虐待」不符合主释义「账户」。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "英文「publication」的常见义项「出版物」不符合主释义「账户」。"
+      },
+      {
+        "wordId": "w-partner",
+        "reason": "英文「partner」的常见义项「伙伴」不符合主释义「账户」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-abuse",
+        "surfaceForm": "abuse",
+        "reason": "将「abuse」代入可见句子后不表达主释义「账户」。"
+      },
+      {
+        "wordId": "w-publication",
+        "surfaceForm": "publication",
+        "reason": "将「publication」代入可见句子后不表达主释义「账户」。"
+      },
+      {
+        "wordId": "w-partner",
+        "surfaceForm": "partner",
+        "reason": "将「partner」代入可见句子后不表达主释义「账户」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accumulate",
+    "enToZh": [
+      {
+        "wordId": "w-adhere",
+        "reason": "选项「遵守」不是「accumulate」的主释义「积累」或其他义项。"
+      },
+      {
+        "wordId": "w-abolish",
+        "reason": "选项「废除」不是「accumulate」的主释义「积累」或其他义项。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "选项「移植」不是「accumulate」的主释义「积累」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-adhere",
+        "reason": "英文「adhere」的常见义项「遵守」不符合主释义「积累」。"
+      },
+      {
+        "wordId": "w-abolish",
+        "reason": "英文「abolish」的常见义项「废除」不符合主释义「积累」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "英文「transplant」的常见义项「移植」不符合主释义「积累」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-adhere",
+        "surfaceForm": "adhere",
+        "reason": "将「adhere」代入可见句子后不表达主释义「积累」。"
+      },
+      {
+        "wordId": "w-abolish",
+        "surfaceForm": "abolish",
+        "reason": "将「abolish」代入可见句子后不表达主释义「积累」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "surfaceForm": "transplant",
+        "reason": "将「transplant」代入可见句子后不表达主释义「积累」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accuracy",
+    "enToZh": [
+      {
+        "wordId": "w-leisure",
+        "reason": "选项「闲暇」不是「accuracy」的主释义「准确性」或其他义项。"
+      },
+      {
+        "wordId": "w-accomplishment",
+        "reason": "选项「成就」不是「accuracy」的主释义「准确性」或其他义项。"
+      },
+      {
+        "wordId": "w-guitar",
+        "reason": "选项「吉他」不是「accuracy」的主释义「准确性」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-leisure",
+        "reason": "英文「leisure」的常见义项「闲暇」不符合主释义「准确性」。"
+      },
+      {
+        "wordId": "w-accomplishment",
+        "reason": "英文「accomplishment」的常见义项「成就」不符合主释义「准确性」。"
+      },
+      {
+        "wordId": "w-guitar",
+        "reason": "英文「guitar」的常见义项「吉他」不符合主释义「准确性」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-leisure",
+        "surfaceForm": "leisure",
+        "reason": "将「leisure」代入可见句子后不表达主释义「准确性」。"
+      },
+      {
+        "wordId": "w-accomplishment",
+        "surfaceForm": "accomplishment",
+        "reason": "将「accomplishment」代入可见句子后不表达主释义「准确性」。"
+      },
+      {
+        "wordId": "w-guitar",
+        "surfaceForm": "guitar",
+        "reason": "将「guitar」代入可见句子后不表达主释义「准确性」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accuse",
+    "enToZh": [
+      {
+        "wordId": "w-win",
+        "reason": "选项「赢得」不是「accuse」的主释义「指控」或其他义项。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "选项「大声喊叫」不是「accuse」的主释义「指控」或其他义项。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「accuse」的主释义「指控」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-win",
+        "reason": "英文「win」的常见义项「赢得」不符合主释义「指控」。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "英文「yell」的常见义项「大声喊叫」不符合主释义「指控」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「指控」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-win",
+        "surfaceForm": "win",
+        "reason": "将「win」代入可见句子后不表达主释义「指控」。"
+      },
+      {
+        "wordId": "w-yell",
+        "surfaceForm": "yell",
+        "reason": "将「yell」代入可见句子后不表达主释义「指控」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「指控」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-accustom",
+    "enToZh": [
+      {
+        "wordId": "w-accelerate",
+        "reason": "选项「加速」不是「accustom」的主释义「使习惯」或其他义项。"
+      },
+      {
+        "wordId": "w-abolish",
+        "reason": "选项「废除」不是「accustom」的主释义「使习惯」或其他义项。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "选项「调查」不是「accustom」的主释义「使习惯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accelerate",
+        "reason": "英文「accelerate」的常见义项「加速」不符合主释义「使习惯」。"
+      },
+      {
+        "wordId": "w-abolish",
+        "reason": "英文「abolish」的常见义项「废除」不符合主释义「使习惯」。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "英文「probe」的常见义项「调查」不符合主释义「使习惯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accelerate",
+        "surfaceForm": "accelerate",
+        "reason": "将「accelerate」代入可见句子后不表达主释义「使习惯」。"
+      },
+      {
+        "wordId": "w-abolish",
+        "surfaceForm": "abolish",
+        "reason": "将「abolish」代入可见句子后不表达主释义「使习惯」。"
+      },
+      {
+        "wordId": "w-probe",
+        "surfaceForm": "probe",
+        "reason": "将「probe」代入可见句子后不表达主释义「使习惯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ache",
+    "enToZh": [
+      {
+        "wordId": "w-expertise",
+        "reason": "选项「专业知识」不是「ache」的主释义「疼痛」或其他义项。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "选项「蜡烛」不是「ache」的主释义「疼痛」或其他义项。"
+      },
+      {
+        "wordId": "w-scarf",
+        "reason": "选项「围巾」不是「ache」的主释义「疼痛」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-expertise",
+        "reason": "英文「expertise」的常见义项「专业知识」不符合主释义「疼痛」。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「疼痛」。"
+      },
+      {
+        "wordId": "w-scarf",
+        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「疼痛」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-expertise",
+        "surfaceForm": "expertise",
+        "reason": "将「expertise」代入可见句子后不表达主释义「疼痛」。"
+      },
+      {
+        "wordId": "w-candle",
+        "surfaceForm": "candle",
+        "reason": "将「candle」代入可见句子后不表达主释义「疼痛」。"
+      },
+      {
+        "wordId": "w-scarf",
+        "surfaceForm": "scarf",
+        "reason": "将「scarf」代入可见句子后不表达主释义「疼痛」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-achieve",
+    "enToZh": [
+      {
+        "wordId": "w-reduce",
+        "reason": "选项「减少」不是「achieve」的主释义「实现」或其他义项。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "选项「允许」不是「achieve」的主释义「实现」或其他义项。"
+      },
+      {
+        "wordId": "w-drop",
+        "reason": "选项「落下」不是「achieve」的主释义「实现」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reduce",
+        "reason": "英文「reduce」的常见义项「减少」不符合主释义「实现」。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "英文「permit」的常见义项「允许」不符合主释义「实现」。"
+      },
+      {
+        "wordId": "w-drop",
+        "reason": "英文「drop」的常见义项「落下」不符合主释义「实现」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reduce",
+        "surfaceForm": "reduce",
+        "reason": "将「reduce」代入可见句子后不表达主释义「实现」。"
+      },
+      {
+        "wordId": "w-permit",
+        "surfaceForm": "permit",
+        "reason": "将「permit」代入可见句子后不表达主释义「实现」。"
+      },
+      {
+        "wordId": "w-drop",
+        "surfaceForm": "drop",
+        "reason": "将「drop」代入可见句子后不表达主释义「实现」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-achievement",
+    "enToZh": [
+      {
+        "wordId": "w-complaint",
+        "reason": "选项「抱怨」不是「achievement」的主释义「成就」或其他义项。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "选项「事故」不是「achievement」的主释义「成就」或其他义项。"
+      },
+      {
+        "wordId": "w-absence",
+        "reason": "选项「缺席」不是「achievement」的主释义「成就」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-complaint",
+        "reason": "英文「complaint」的常见义项「抱怨」不符合主释义「成就」。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "英文「accident」的常见义项「事故」不符合主释义「成就」。"
+      },
+      {
+        "wordId": "w-absence",
+        "reason": "英文「absence」的常见义项「缺席」不符合主释义「成就」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-complaint",
+        "surfaceForm": "complaint",
+        "reason": "将「complaint」代入可见句子后不表达主释义「成就」。"
+      },
+      {
+        "wordId": "w-accident",
+        "surfaceForm": "accident",
+        "reason": "将「accident」代入可见句子后不表达主释义「成就」。"
+      },
+      {
+        "wordId": "w-absence",
+        "surfaceForm": "absence",
+        "reason": "将「absence」代入可见句子后不表达主释义「成就」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acid",
+    "enToZh": [
+      {
+        "wordId": "w-account",
+        "reason": "选项「账户」不是「acid」的主释义「酸」或其他义项。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "选项「事故」不是「acid」的主释义「酸」或其他义项。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "选项「情绪」不是「acid」的主释义「酸」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-account",
+        "reason": "英文「account」的常见义项「账户」不符合主释义「酸」。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "英文「accident」的常见义项「事故」不符合主释义「酸」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "英文「emotion」的常见义项「情绪」不符合主释义「酸」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-account",
+        "surfaceForm": "account",
+        "reason": "将「account」代入可见句子后不表达主释义「酸」。"
+      },
+      {
+        "wordId": "w-accident",
+        "surfaceForm": "accident",
+        "reason": "将「accident」代入可见句子后不表达主释义「酸」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "surfaceForm": "emotion",
+        "reason": "将「emotion」代入可见句子后不表达主释义「酸」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acknowledge",
+    "enToZh": [
+      {
+        "wordId": "w-disturb",
+        "reason": "选项「打扰」不是「acknowledge」的主释义「承认」或其他义项。"
+      },
+      {
+        "wordId": "w-accompany",
+        "reason": "选项「陪同」不是「acknowledge」的主释义「承认」或其他义项。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "选项「允许」不是「acknowledge」的主释义「承认」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disturb",
+        "reason": "英文「disturb」的常见义项「打扰」不符合主释义「承认」。"
+      },
+      {
+        "wordId": "w-accompany",
+        "reason": "英文「accompany」的常见义项「陪同」不符合主释义「承认」。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "英文「permit」的常见义项「允许」不符合主释义「承认」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disturb",
+        "surfaceForm": "disturb",
+        "reason": "将「disturb」代入可见句子后不表达主释义「承认」。"
+      },
+      {
+        "wordId": "w-accompany",
+        "surfaceForm": "accompany",
+        "reason": "将「accompany」代入可见句子后不表达主释义「承认」。"
+      },
+      {
+        "wordId": "w-permit",
+        "surfaceForm": "permit",
+        "reason": "将「permit」代入可见句子后不表达主释义「承认」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acquaint",
+    "enToZh": [
+      {
+        "wordId": "w-abide",
+        "reason": "选项「遵守」不是「acquaint」的主释义「使熟悉」或其他义项。"
+      },
+      {
+        "wordId": "w-untie",
+        "reason": "选项「解开」不是「acquaint」的主释义「使熟悉」或其他义项。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "选项「误解」不是「acquaint」的主释义「使熟悉」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-abide",
+        "reason": "英文「abide」的常见义项「遵守」不符合主释义「使熟悉」。"
+      },
+      {
+        "wordId": "w-untie",
+        "reason": "英文「untie」的常见义项「解开」不符合主释义「使熟悉」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「使熟悉」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-abide",
+        "surfaceForm": "abide",
+        "reason": "将「abide」代入可见句子后不表达主释义「使熟悉」。"
+      },
+      {
+        "wordId": "w-untie",
+        "surfaceForm": "untie",
+        "reason": "将「untie」代入可见句子后不表达主释义「使熟悉」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "surfaceForm": "misunderstand",
+        "reason": "将「misunderstand」代入可见句子后不表达主释义「使熟悉」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acquaintance",
+    "enToZh": [
+      {
+        "wordId": "w-diversion",
+        "reason": "选项「转移」不是「acquaintance」的主释义「熟人」或其他义项。"
+      },
+      {
+        "wordId": "w-academy",
+        "reason": "选项「学院」不是「acquaintance」的主释义「熟人」或其他义项。"
+      },
+      {
+        "wordId": "w-acre",
+        "reason": "选项「英亩」不是「acquaintance」的主释义「熟人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-diversion",
+        "reason": "英文「diversion」的常见义项「转移」不符合主释义「熟人」。"
+      },
+      {
+        "wordId": "w-academy",
+        "reason": "英文「academy」的常见义项「学院」不符合主释义「熟人」。"
+      },
+      {
+        "wordId": "w-acre",
+        "reason": "英文「acre」的常见义项「英亩」不符合主释义「熟人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-diversion",
+        "surfaceForm": "diversion",
+        "reason": "将「diversion」代入可见句子后不表达主释义「熟人」。"
+      },
+      {
+        "wordId": "w-academy",
+        "surfaceForm": "academy",
+        "reason": "将「academy」代入可见句子后不表达主释义「熟人」。"
+      },
+      {
+        "wordId": "w-acre",
+        "surfaceForm": "acre",
+        "reason": "将「acre」代入可见句子后不表达主释义「熟人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acquire",
+    "enToZh": [
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「acquire」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "选项「倾倒」不是「acquire」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-steer",
+        "reason": "选项「驾驶」不是「acquire」的主释义「获得」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "英文「pour」的常见义项「倾倒」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-steer",
+        "reason": "英文「steer」的常见义项「驾驶」不符合主释义「获得」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-pour",
+        "surfaceForm": "pour",
+        "reason": "将「pour」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-steer",
+        "surfaceForm": "steer",
+        "reason": "将「steer」代入可见句子后不表达主释义「获得」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acquisition",
+    "enToZh": [
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「acquisition」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "选项「镍」不是「acquisition」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "选项「接受」不是「acquisition」的主释义「获得」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "英文「nickel」的常见义项「镍」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "英文「acceptance」的常见义项「接受」不符合主释义「获得」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "surfaceForm": "nickel",
+        "reason": "将「nickel」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "surfaceForm": "acceptance",
+        "reason": "将「acceptance」代入可见句子后不表达主释义「获得」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-acre",
+    "enToZh": [
+      {
+        "wordId": "w-acquisition",
+        "reason": "选项「获得」不是「acre」的主释义「英亩」或其他义项。"
+      },
+      {
+        "wordId": "w-diversion",
+        "reason": "选项「转移」不是「acre」的主释义「英亩」或其他义项。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "reason": "选项「熟人」不是「acre」的主释义「英亩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-acquisition",
+        "reason": "英文「acquisition」的常见义项「获得」不符合主释义「英亩」。"
+      },
+      {
+        "wordId": "w-diversion",
+        "reason": "英文「diversion」的常见义项「转移」不符合主释义「英亩」。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "reason": "英文「acquaintance」的常见义项「熟人」不符合主释义「英亩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-acquisition",
+        "surfaceForm": "acquisition",
+        "reason": "将「acquisition」代入可见句子后不表达主释义「英亩」。"
+      },
+      {
+        "wordId": "w-diversion",
+        "surfaceForm": "diversion",
+        "reason": "将「diversion」代入可见句子后不表达主释义「英亩」。"
+      },
+      {
+        "wordId": "w-acquaintance",
+        "surfaceForm": "acquaintance",
+        "reason": "将「acquaintance」代入可见句子后不表达主释义「英亩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-across",
+    "enToZh": [
+      {
+        "wordId": "w-above",
+        "reason": "选项「在……上方」不是「across」的主释义「穿过」或其他义项。"
+      },
+      {
+        "wordId": "w-aboard",
+        "reason": "选项「在……上」不是「across」的主释义「穿过」或其他义项。"
+      },
+      {
+        "wordId": "w-acquire",
+        "reason": "选项「获得」不是「across」的主释义「穿过」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-above",
+        "reason": "英文「above」的常见义项「在……上方」不符合主释义「穿过」。"
+      },
+      {
+        "wordId": "w-aboard",
+        "reason": "英文「aboard」的常见义项「在……上」不符合主释义「穿过」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-above",
+        "surfaceForm": "above",
+        "reason": "将「above」代入可见句子后不表达主释义「穿过」。"
+      },
+      {
+        "wordId": "w-aboard",
+        "surfaceForm": "aboard",
+        "reason": "将「aboard」代入可见句子后不表达主释义「穿过」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-act",
+    "enToZh": [
+      {
+        "wordId": "w-escape",
+        "reason": "选项「逃脱」不是「act」的主释义「行动」或其他义项。"
+      },
+      {
+        "wordId": "w-acquire",
+        "reason": "选项「获得」不是「act」的主释义「行动」或其他义项。"
+      },
+      {
+        "wordId": "w-receive",
+        "reason": "选项「收到」不是「act」的主释义「行动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-escape",
+        "reason": "英文「escape」的常见义项「逃脱」不符合主释义「行动」。"
+      },
+      {
+        "wordId": "w-acquire",
+        "reason": "英文「acquire」的常见义项「获得」不符合主释义「行动」。"
+      },
+      {
+        "wordId": "w-receive",
+        "reason": "英文「receive」的常见义项「收到」不符合主释义「行动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-escape",
+        "surfaceForm": "escape",
+        "reason": "将「escape」代入可见句子后不表达主释义「行动」。"
+      },
+      {
+        "wordId": "w-acquire",
+        "surfaceForm": "acquire",
+        "reason": "将「acquire」代入可见句子后不表达主释义「行动」。"
+      },
+      {
+        "wordId": "w-receive",
+        "surfaceForm": "receive",
+        "reason": "将「receive」代入可见句子后不表达主释义「行动」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-action",
+    "enToZh": [
+      {
+        "wordId": "w-art",
+        "reason": "选项「艺术」不是「action」的主释义「行动」或其他义项。"
+      },
+      {
+        "wordId": "w-shame",
+        "reason": "选项「羞耻」不是「action」的主释义「行动」或其他义项。"
+      },
+      {
+        "wordId": "w-production",
+        "reason": "选项「生产」不是「action」的主释义「行动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-art",
+        "reason": "英文「art」的常见义项「艺术」不符合主释义「行动」。"
+      },
+      {
+        "wordId": "w-shame",
+        "reason": "英文「shame」的常见义项「羞耻」不符合主释义「行动」。"
+      },
+      {
+        "wordId": "w-production",
+        "reason": "英文「production」的常见义项「生产」不符合主释义「行动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-art",
+        "surfaceForm": "art",
+        "reason": "将「art」代入可见句子后不表达主释义「行动」。"
+      },
+      {
+        "wordId": "w-shame",
+        "surfaceForm": "shame",
+        "reason": "将「shame」代入可见句子后不表达主释义「行动」。"
+      },
+      {
+        "wordId": "w-production",
+        "surfaceForm": "production",
+        "reason": "将「production」代入可见句子后不表达主释义「行动」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-activist",
+    "enToZh": [
+      {
+        "wordId": "w-art",
+        "reason": "选项「艺术」不是「activist」的主释义「活动人士」或其他义项。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "选项「申请」不是「activist」的主释义「活动人士」或其他义项。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "选项「统计数据」不是「activist」的主释义「活动人士」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-art",
+        "reason": "英文「art」的常见义项「艺术」不符合主释义「活动人士」。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "英文「application」的常见义项「申请」不符合主释义「活动人士」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "英文「statistics」的常见义项「统计数据」不符合主释义「活动人士」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-art",
+        "surfaceForm": "art",
+        "reason": "将「art」代入可见句子后不表达主释义「活动人士」。"
+      },
+      {
+        "wordId": "w-application",
+        "surfaceForm": "application",
+        "reason": "将「application」代入可见句子后不表达主释义「活动人士」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "surfaceForm": "statistics",
+        "reason": "将「statistics」代入可见句子后不表达主释义「活动人士」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-activity",
+    "enToZh": [
+      {
+        "wordId": "w-account",
+        "reason": "选项「账户」不是「activity」的主释义「活动」或其他义项。"
+      },
+      {
+        "wordId": "w-access",
+        "reason": "选项「使用权」不是「activity」的主释义「活动」或其他义项。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "选项「事故」不是「activity」的主释义「活动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-account",
+        "reason": "英文「account」的常见义项「账户」不符合主释义「活动」。"
+      },
+      {
+        "wordId": "w-access",
+        "reason": "英文「access」的常见义项「使用权」不符合主释义「活动」。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "英文「accident」的常见义项「事故」不符合主释义「活动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-account",
+        "surfaceForm": "account",
+        "reason": "将「account」代入可见句子后不表达主释义「活动」。"
+      },
+      {
+        "wordId": "w-access",
+        "surfaceForm": "access",
+        "reason": "将「access」代入可见句子后不表达主释义「活动」。"
+      },
+      {
+        "wordId": "w-accident",
+        "surfaceForm": "accident",
+        "reason": "将「accident」代入可见句子后不表达主释义「活动」。"
+      }
+    ],
+    "spelling": null
+  }
+]

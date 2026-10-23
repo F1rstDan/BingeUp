@@ -331,6 +331,12 @@ describe('message-router — Issue #9 新增消息', () => {
   });
 
   it('GET_POPUP_DATA：返回站点/引导/暂停综合数据（AC3）', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
+      const url = String(input);
+      if (url.endsWith('/words.json')) return new Response(DICTIONARY_WORDS_JSON);
+      if (url.endsWith('/decks.json')) return new Response(DICTIONARY_DECKS_JSON);
+      throw new Error(`未预期的词库请求：${url}`);
+    });
     await store.markOnboardingCompleted();
     await store.enableSite('bilibili.com');
     await store.setGlobalPausedUntil(7_000_000);
@@ -792,7 +798,7 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as ExportPayload;
 
-    expect(res.version).toBe(1);
+    expect(res.version).toBe(2);
     expect(res.authoritativeState.appSettings.dailyNewWordLimit).toBe(15);
     expect(res.data.cards).toHaveLength(1);
     expect(res.data.reviewLogs).toHaveLength(1);

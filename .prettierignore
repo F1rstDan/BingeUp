@@ -4,6 +4,10 @@ dist/
 node_modules/
 .npm-cache/
 public/dictionaries/
+data/dictionary-rebuild/batches/
+data/dictionary-rebuild/staging/
+data/dictionary-rebuild/staging-pilot/
+data/dictionary-rebuild/state.json
 scripts/build-dictionary/.cache/
 package-lock.json
 .agents/

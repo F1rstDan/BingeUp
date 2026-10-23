@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-basic",
+    "enToZh": [
+      {
+        "wordId": "w-american",
+        "reason": "选项「美国的」不是「basic」的主释义「基本的」或其他义项。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "选项「正确的」不是「basic」的主释义「基本的」或其他义项。"
+      },
+      {
+        "wordId": "w-african",
+        "reason": "选项「非洲的」不是「basic」的主释义「基本的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-american",
+        "reason": "英文「American」的常见义项「美国的」不符合主释义「基本的」。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "英文「right」的常见义项「正确的」不符合主释义「基本的」。"
+      },
+      {
+        "wordId": "w-african",
+        "reason": "英文「African」的常见义项「非洲的」不符合主释义「基本的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-american",
+        "surfaceForm": "American",
+        "reason": "将「American」代入可见句子后不表达主释义「基本的」。"
+      },
+      {
+        "wordId": "w-right",
+        "surfaceForm": "right",
+        "reason": "将「right」代入可见句子后不表达主释义「基本的」。"
+      },
+      {
+        "wordId": "w-african",
+        "surfaceForm": "African",
+        "reason": "将「African」代入可见句子后不表达主释义「基本的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-basically",
+    "enToZh": [
+      {
+        "wordId": "w-aside",
+        "reason": "选项「到一边」不是「basically」的主释义「基本上」或其他义项。"
+      },
+      {
+        "wordId": "w-apart",
+        "reason": "选项「分开地」不是「basically」的主释义「基本上」或其他义项。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "选项「再次」不是「basically」的主释义「基本上」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aside",
+        "reason": "英文「aside」的常见义项「到一边」不符合主释义「基本上」。"
+      },
+      {
+        "wordId": "w-apart",
+        "reason": "英文「apart」的常见义项「分开地」不符合主释义「基本上」。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "英文「again」的常见义项「再次」不符合主释义「基本上」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aside",
+        "surfaceForm": "aside",
+        "reason": "将「aside」代入可见句子后不表达主释义「基本上」。"
+      },
+      {
+        "wordId": "w-apart",
+        "surfaceForm": "apart",
+        "reason": "将「apart」代入可见句子后不表达主释义「基本上」。"
+      },
+      {
+        "wordId": "w-again",
+        "surfaceForm": "again",
+        "reason": "将「again」代入可见句子后不表达主释义「基本上」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-basin",
+    "enToZh": [
+      {
+        "wordId": "w-barrel",
+        "reason": "选项「桶」不是「basin」的主释义「盆」或其他义项。"
+      },
+      {
+        "wordId": "w-automobile",
+        "reason": "选项「汽车」不是「basin」的主释义「盆」或其他义项。"
+      },
+      {
+        "wordId": "w-applause",
+        "reason": "选项「掌声」不是「basin」的主释义「盆」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-barrel",
+        "reason": "英文「barrel」的常见义项「桶」不符合主释义「盆」。"
+      },
+      {
+        "wordId": "w-automobile",
+        "reason": "英文「automobile」的常见义项「汽车」不符合主释义「盆」。"
+      },
+      {
+        "wordId": "w-applause",
+        "reason": "英文「applause」的常见义项「掌声」不符合主释义「盆」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-barrel",
+        "surfaceForm": "barrel",
+        "reason": "将「barrel」代入可见句子后不表达主释义「盆」。"
+      },
+      {
+        "wordId": "w-automobile",
+        "surfaceForm": "automobile",
+        "reason": "将「automobile」代入可见句子后不表达主释义「盆」。"
+      },
+      {
+        "wordId": "w-applause",
+        "surfaceForm": "applause",
+        "reason": "将「applause」代入可见句子后不表达主释义「盆」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-basis",
+    "enToZh": [
+      {
+        "wordId": "w-award",
+        "reason": "选项「奖项」不是「basis」的主释义「基础」或其他义项。"
+      },
+      {
+        "wordId": "w-adviser",
+        "reason": "选项「顾问」不是「basis」的主释义「基础」或其他义项。"
+      },
+      {
+        "wordId": "w-baggage",
+        "reason": "选项「行李」不是「basis」的主释义「基础」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-award",
+        "reason": "英文「award」的常见义项「奖项」不符合主释义「基础」。"
+      },
+      {
+        "wordId": "w-adviser",
+        "reason": "英文「adviser」的常见义项「顾问」不符合主释义「基础」。"
+      },
+      {
+        "wordId": "w-baggage",
+        "reason": "英文「baggage」的常见义项「行李」不符合主释义「基础」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-award",
+        "surfaceForm": "award",
+        "reason": "将「award」代入可见句子后不表达主释义「基础」。"
+      },
+      {
+        "wordId": "w-adviser",
+        "surfaceForm": "adviser",
+        "reason": "将「adviser」代入可见句子后不表达主释义「基础」。"
+      },
+      {
+        "wordId": "w-baggage",
+        "surfaceForm": "baggage",
+        "reason": "将「baggage」代入可见句子后不表达主释义「基础」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-basketball",
+    "enToZh": [
+      {
+        "wordId": "w-alphabet",
+        "reason": "选项「字母表」不是「basketball」的主释义「篮球」或其他义项。"
+      },
+      {
+        "wordId": "w-account",
+        "reason": "选项「账户」不是「basketball」的主释义「篮球」或其他义项。"
+      },
+      {
+        "wordId": "w-army",
+        "reason": "选项「军队」不是「basketball」的主释义「篮球」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alphabet",
+        "reason": "英文「alphabet」的常见义项「字母表」不符合主释义「篮球」。"
+      },
+      {
+        "wordId": "w-account",
+        "reason": "英文「account」的常见义项「账户」不符合主释义「篮球」。"
+      },
+      {
+        "wordId": "w-army",
+        "reason": "英文「army」的常见义项「军队」不符合主释义「篮球」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alphabet",
+        "surfaceForm": "alphabet",
+        "reason": "将「alphabet」代入可见句子后不表达主释义「篮球」。"
+      },
+      {
+        "wordId": "w-account",
+        "surfaceForm": "account",
+        "reason": "将「account」代入可见句子后不表达主释义「篮球」。"
+      },
+      {
+        "wordId": "w-army",
+        "surfaceForm": "army",
+        "reason": "将「army」代入可见句子后不表达主释义「篮球」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bat",
+    "enToZh": [
+      {
+        "wordId": "w-reservoir",
+        "reason": "选项「水库」不是「bat」的主释义「蝙蝠」或其他义项。"
+      },
+      {
+        "wordId": "w-assurance",
+        "reason": "选项「保证」不是「bat」的主释义「蝙蝠」或其他义项。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "选项「本质」不是「bat」的主释义「蝙蝠」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reservoir",
+        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「蝙蝠」。"
+      },
+      {
+        "wordId": "w-assurance",
+        "reason": "英文「assurance」的常见义项「保证」不符合主释义「蝙蝠」。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "英文「essence」的常见义项「本质」不符合主释义「蝙蝠」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reservoir",
+        "surfaceForm": "reservoir",
+        "reason": "将「reservoir」代入可见句子后不表达主释义「蝙蝠」。"
+      },
+      {
+        "wordId": "w-assurance",
+        "surfaceForm": "assurance",
+        "reason": "将「assurance」代入可见句子后不表达主释义「蝙蝠」。"
+      },
+      {
+        "wordId": "w-essence",
+        "surfaceForm": "essence",
+        "reason": "将「essence」代入可见句子后不表达主释义「蝙蝠」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-batch",
+    "enToZh": [
+      {
+        "wordId": "w-ambiguity",
+        "reason": "选项「歧义」不是「batch」的主释义「一批」或其他义项。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "选项「水库」不是「batch」的主释义「一批」或其他义项。"
+      },
+      {
+        "wordId": "w-allowance",
+        "reason": "选项「津贴」不是「batch」的主释义「一批」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ambiguity",
+        "reason": "英文「ambiguity」的常见义项「歧义」不符合主释义「一批」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「一批」。"
+      },
+      {
+        "wordId": "w-allowance",
+        "reason": "英文「allowance」的常见义项「津贴」不符合主释义「一批」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ambiguity",
+        "surfaceForm": "ambiguity",
+        "reason": "将「ambiguity」代入可见句子后不表达主释义「一批」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "surfaceForm": "reservoir",
+        "reason": "将「reservoir」代入可见句子后不表达主释义「一批」。"
+      },
+      {
+        "wordId": "w-allowance",
+        "surfaceForm": "allowance",
+        "reason": "将「allowance」代入可见句子后不表达主释义「一批」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bath",
+    "enToZh": [
+      {
+        "wordId": "w-army",
+        "reason": "选项「军队」不是「bath」的主释义「洗澡」或其他义项。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "选项「海滩」不是「bath」的主释义「洗澡」或其他义项。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "选项「箭头」不是「bath」的主释义「洗澡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-army",
+        "reason": "英文「army」的常见义项「军队」不符合主释义「洗澡」。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "英文「beach」的常见义项「海滩」不符合主释义「洗澡」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "英文「arrow」的常见义项「箭头」不符合主释义「洗澡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-army",
+        "surfaceForm": "army",
+        "reason": "将「army」代入可见句子后不表达主释义「洗澡」。"
+      },
+      {
+        "wordId": "w-beach",
+        "surfaceForm": "beach",
+        "reason": "将「beach」代入可见句子后不表达主释义「洗澡」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "surfaceForm": "arrow",
+        "reason": "将「arrow」代入可见句子后不表达主释义「洗澡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bathe",
+    "enToZh": [
+      {
+        "wordId": "w-allege",
+        "reason": "选项「声称」不是「bathe」的主释义「给…洗澡」或其他义项。"
+      },
+      {
+        "wordId": "w-affirm",
+        "reason": "选项「证实」不是「bathe」的主释义「给…洗澡」或其他义项。"
+      },
+      {
+        "wordId": "w-avert",
+        "reason": "选项「避免」不是「bathe」的主释义「给…洗澡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-allege",
+        "reason": "英文「allege」的常见义项「声称」不符合主释义「给…洗澡」。"
+      },
+      {
+        "wordId": "w-affirm",
+        "reason": "英文「affirm」的常见义项「证实」不符合主释义「给…洗澡」。"
+      },
+      {
+        "wordId": "w-avert",
+        "reason": "英文「avert」的常见义项「避免」不符合主释义「给…洗澡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-allege",
+        "surfaceForm": "allege",
+        "reason": "将「allege」代入可见句子后不表达主释义「给…洗澡」。"
+      },
+      {
+        "wordId": "w-affirm",
+        "surfaceForm": "affirm",
+        "reason": "将「affirm」代入可见句子后不表达主释义「给…洗澡」。"
+      },
+      {
+        "wordId": "w-avert",
+        "surfaceForm": "avert",
+        "reason": "将「avert」代入可见句子后不表达主释义「给…洗澡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bathroom",
+    "enToZh": [
+      {
+        "wordId": "w-asset",
+        "reason": "选项「资产」不是「bathroom」的主释义「浴室」或其他义项。"
+      },
+      {
+        "wordId": "w-abortion",
+        "reason": "选项「人工流产」不是「bathroom」的主释义「浴室」或其他义项。"
+      },
+      {
+        "wordId": "w-atmosphere",
+        "reason": "选项「大气层」不是「bathroom」的主释义「浴室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-asset",
+        "reason": "英文「asset」的常见义项「资产」不符合主释义「浴室」。"
+      },
+      {
+        "wordId": "w-abortion",
+        "reason": "英文「abortion」的常见义项「人工流产」不符合主释义「浴室」。"
+      },
+      {
+        "wordId": "w-atmosphere",
+        "reason": "英文「atmosphere」的常见义项「大气层」不符合主释义「浴室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-asset",
+        "surfaceForm": "asset",
+        "reason": "将「asset」代入可见句子后不表达主释义「浴室」。"
+      },
+      {
+        "wordId": "w-abortion",
+        "surfaceForm": "abortion",
+        "reason": "将「abortion」代入可见句子后不表达主释义「浴室」。"
+      },
+      {
+        "wordId": "w-atmosphere",
+        "surfaceForm": "atmosphere",
+        "reason": "将「atmosphere」代入可见句子后不表达主释义「浴室」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-battle",
+    "enToZh": [
+      {
+        "wordId": "w-arrangement",
+        "reason": "选项「安排」不是「battle」的主释义「战斗」或其他义项。"
+      },
+      {
+        "wordId": "w-alarm",
+        "reason": "选项「警报」不是「battle」的主释义「战斗」或其他义项。"
+      },
+      {
+        "wordId": "w-ambition",
+        "reason": "选项「志向」不是「battle」的主释义「战斗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-arrangement",
+        "reason": "英文「arrangement」的常见义项「安排」不符合主释义「战斗」。"
+      },
+      {
+        "wordId": "w-alarm",
+        "reason": "英文「alarm」的常见义项「警报」不符合主释义「战斗」。"
+      },
+      {
+        "wordId": "w-ambition",
+        "reason": "英文「ambition」的常见义项「志向」不符合主释义「战斗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-arrangement",
+        "surfaceForm": "arrangement",
+        "reason": "将「arrangement」代入可见句子后不表达主释义「战斗」。"
+      },
+      {
+        "wordId": "w-alarm",
+        "surfaceForm": "alarm",
+        "reason": "将「alarm」代入可见句子后不表达主释义「战斗」。"
+      },
+      {
+        "wordId": "w-ambition",
+        "surfaceForm": "ambition",
+        "reason": "将「ambition」代入可见句子后不表达主释义「战斗」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bay",
+    "enToZh": [
+      {
+        "wordId": "w-activity",
+        "reason": "选项「活动」不是「bay」的主释义「海湾」或其他义项。"
+      },
+      {
+        "wordId": "w-background",
+        "reason": "选项「背景」不是「bay」的主释义「海湾」或其他义项。"
+      },
+      {
+        "wordId": "w-answer",
+        "reason": "选项「答案」不是「bay」的主释义「海湾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-activity",
+        "reason": "英文「activity」的常见义项「活动」不符合主释义「海湾」。"
+      },
+      {
+        "wordId": "w-background",
+        "reason": "英文「background」的常见义项「背景」不符合主释义「海湾」。"
+      },
+      {
+        "wordId": "w-answer",
+        "reason": "英文「answer」的常见义项「答案」不符合主释义「海湾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-activity",
+        "surfaceForm": "activity",
+        "reason": "将「activity」代入可见句子后不表达主释义「海湾」。"
+      },
+      {
+        "wordId": "w-background",
+        "surfaceForm": "background",
+        "reason": "将「background」代入可见句子后不表达主释义「海湾」。"
+      },
+      {
+        "wordId": "w-answer",
+        "surfaceForm": "answer",
+        "reason": "将「answer」代入可见句子后不表达主释义「海湾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bazaar",
+    "enToZh": [
+      {
+        "wordId": "w-badminton",
+        "reason": "选项「羽毛球」不是「bazaar」的主释义「集市」或其他义项。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "选项「安培」不是「bazaar」的主释义「集市」或其他义项。"
+      },
+      {
+        "wordId": "w-analogue",
+        "reason": "选项「类似物」不是「bazaar」的主释义「集市」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-badminton",
+        "reason": "英文「badminton」的常见义项「羽毛球」不符合主释义「集市」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "英文「ampere」的常见义项「安培」不符合主释义「集市」。"
+      },
+      {
+        "wordId": "w-analogue",
+        "reason": "英文「analogue」的常见义项「类似物」不符合主释义「集市」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-badminton",
+        "surfaceForm": "badminton",
+        "reason": "将「badminton」代入可见句子后不表达主释义「集市」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "surfaceForm": "ampere",
+        "reason": "将「ampere」代入可见句子后不表达主释义「集市」。"
+      },
+      {
+        "wordId": "w-analogue",
+        "surfaceForm": "analogue",
+        "reason": "将「analogue」代入可见句子后不表达主释义「集市」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beach",
+    "enToZh": [
+      {
+        "wordId": "w-airline",
+        "reason": "选项「航空公司」不是「beach」的主释义「海滩」或其他义项。"
+      },
+      {
+        "wordId": "w-attorney",
+        "reason": "选项「律师」不是「beach」的主释义「海滩」或其他义项。"
+      },
+      {
+        "wordId": "w-baseball",
+        "reason": "选项「棒球」不是「beach」的主释义「海滩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-airline",
+        "reason": "英文「airline」的常见义项「航空公司」不符合主释义「海滩」。"
+      },
+      {
+        "wordId": "w-attorney",
+        "reason": "英文「attorney」的常见义项「律师」不符合主释义「海滩」。"
+      },
+      {
+        "wordId": "w-baseball",
+        "reason": "英文「baseball」的常见义项「棒球」不符合主释义「海滩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-airline",
+        "surfaceForm": "airline",
+        "reason": "将「airline」代入可见句子后不表达主释义「海滩」。"
+      },
+      {
+        "wordId": "w-attorney",
+        "surfaceForm": "attorney",
+        "reason": "将「attorney」代入可见句子后不表达主释义「海滩」。"
+      },
+      {
+        "wordId": "w-baseball",
+        "surfaceForm": "baseball",
+        "reason": "将「baseball」代入可见句子后不表达主释义「海滩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bead",
+    "enToZh": [
+      {
+        "wordId": "w-axis",
+        "reason": "选项「轴」不是「bead」的主释义「珠子」或其他义项。"
+      },
+      {
+        "wordId": "w-accessory",
+        "reason": "选项「配件」不是「bead」的主释义「珠子」或其他义项。"
+      },
+      {
+        "wordId": "w-barn",
+        "reason": "选项「谷仓」不是「bead」的主释义「珠子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-axis",
+        "reason": "英文「axis」的常见义项「轴」不符合主释义「珠子」。"
+      },
+      {
+        "wordId": "w-accessory",
+        "reason": "英文「accessory」的常见义项「配件」不符合主释义「珠子」。"
+      },
+      {
+        "wordId": "w-barn",
+        "reason": "英文「barn」的常见义项「谷仓」不符合主释义「珠子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-axis",
+        "surfaceForm": "axis",
+        "reason": "将「axis」代入可见句子后不表达主释义「珠子」。"
+      },
+      {
+        "wordId": "w-accessory",
+        "surfaceForm": "accessory",
+        "reason": "将「accessory」代入可见句子后不表达主释义「珠子」。"
+      },
+      {
+        "wordId": "w-barn",
+        "surfaceForm": "barn",
+        "reason": "将「barn」代入可见句子后不表达主释义「珠子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beam",
+    "enToZh": [
+      {
+        "wordId": "w-affiliate",
+        "reason": "选项「附属机构」不是「beam」的主释义「光束」或其他义项。"
+      },
+      {
+        "wordId": "w-apparatus",
+        "reason": "选项「设备」不是「beam」的主释义「光束」或其他义项。"
+      },
+      {
+        "wordId": "w-angel",
+        "reason": "选项「天使」不是「beam」的主释义「光束」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-affiliate",
+        "reason": "英文「affiliate」的常见义项「附属机构」不符合主释义「光束」。"
+      },
+      {
+        "wordId": "w-apparatus",
+        "reason": "英文「apparatus」的常见义项「设备」不符合主释义「光束」。"
+      },
+      {
+        "wordId": "w-angel",
+        "reason": "英文「angel」的常见义项「天使」不符合主释义「光束」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-affiliate",
+        "surfaceForm": "affiliate",
+        "reason": "将「affiliate」代入可见句子后不表达主释义「光束」。"
+      },
+      {
+        "wordId": "w-apparatus",
+        "surfaceForm": "apparatus",
+        "reason": "将「apparatus」代入可见句子后不表达主释义「光束」。"
+      },
+      {
+        "wordId": "w-angel",
+        "surfaceForm": "angel",
+        "reason": "将「angel」代入可见句子后不表达主释义「光束」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bean",
+    "enToZh": [
+      {
+        "wordId": "w-bay",
+        "reason": "选项「海湾」不是「bean」的主释义「豆子」或其他义项。"
+      },
+      {
+        "wordId": "w-status",
+        "reason": "选项「地位」不是「bean」的主释义「豆子」或其他义项。"
+      },
+      {
+        "wordId": "w-ability",
+        "reason": "选项「能力」不是「bean」的主释义「豆子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bay",
+        "reason": "英文「bay」的常见义项「海湾」不符合主释义「豆子」。"
+      },
+      {
+        "wordId": "w-status",
+        "reason": "英文「status」的常见义项「地位」不符合主释义「豆子」。"
+      },
+      {
+        "wordId": "w-ability",
+        "reason": "英文「ability」的常见义项「能力」不符合主释义「豆子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bay",
+        "surfaceForm": "bay",
+        "reason": "将「bay」代入可见句子后不表达主释义「豆子」。"
+      },
+      {
+        "wordId": "w-status",
+        "surfaceForm": "status",
+        "reason": "将「status」代入可见句子后不表达主释义「豆子」。"
+      },
+      {
+        "wordId": "w-ability",
+        "surfaceForm": "ability",
+        "reason": "将「ability」代入可见句子后不表达主释义「豆子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bear",
+    "enToZh": [
+      {
+        "wordId": "w-audience",
+        "reason": "选项「观众」不是「bear」的主释义「熊」或其他义项。"
+      },
+      {
+        "wordId": "w-accent",
+        "reason": "选项「口音」不是「bear」的主释义「熊」或其他义项。"
+      },
+      {
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「bear」的主释义「熊」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-audience",
+        "reason": "英文「audience」的常见义项「观众」不符合主释义「熊」。"
+      },
+      {
+        "wordId": "w-accent",
+        "reason": "英文「accent」的常见义项「口音」不符合主释义「熊」。"
+      },
+      {
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「熊」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-audience",
+        "surfaceForm": "audience",
+        "reason": "将「audience」代入可见句子后不表达主释义「熊」。"
+      },
+      {
+        "wordId": "w-accent",
+        "surfaceForm": "accent",
+        "reason": "将「accent」代入可见句子后不表达主释义「熊」。"
+      },
+      {
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「熊」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beard",
+    "enToZh": [
+      {
+        "wordId": "w-angle",
+        "reason": "选项「角度」不是「beard」的主释义「胡须」或其他义项。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「beard」的主释义「胡须」或其他义项。"
+      },
+      {
+        "wordId": "w-age",
+        "reason": "选项「年龄」不是「beard」的主释义「胡须」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-angle",
+        "reason": "英文「angle」的常见义项「角度」不符合主释义「胡须」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「胡须」。"
+      },
+      {
+        "wordId": "w-age",
+        "reason": "英文「age」的常见义项「年龄」不符合主释义「胡须」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-angle",
+        "surfaceForm": "angle",
+        "reason": "将「angle」代入可见句子后不表达主释义「胡须」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「胡须」。"
+      },
+      {
+        "wordId": "w-age",
+        "surfaceForm": "age",
+        "reason": "将「age」代入可见句子后不表达主释义「胡须」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beast",
+    "enToZh": [
+      {
+        "wordId": "w-architecture",
+        "reason": "选项「建筑风格」不是「beast」的主释义「野兽」或其他义项。"
+      },
+      {
+        "wordId": "w-arc",
+        "reason": "选项「弧线」不是「beast」的主释义「野兽」或其他义项。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「beast」的主释义「野兽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-architecture",
+        "reason": "英文「architecture」的常见义项「建筑风格」不符合主释义「野兽」。"
+      },
+      {
+        "wordId": "w-arc",
+        "reason": "英文「arc」的常见义项「弧线」不符合主释义「野兽」。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「野兽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-architecture",
+        "surfaceForm": "architecture",
+        "reason": "将「architecture」代入可见句子后不表达主释义「野兽」。"
+      },
+      {
+        "wordId": "w-arc",
+        "surfaceForm": "arc",
+        "reason": "将「arc」代入可见句子后不表达主释义「野兽」。"
+      },
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「野兽」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beat",
+    "enToZh": [
+      {
+        "wordId": "w-analyze",
+        "reason": "选项「分析」不是「beat」的主释义「打败」或其他义项。"
+      },
+      {
+        "wordId": "w-worship",
+        "reason": "选项「崇拜」不是「beat」的主释义「打败」或其他义项。"
+      },
+      {
+        "wordId": "w-arrive",
+        "reason": "选项「到达」不是「beat」的主释义「打败」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-analyze",
+        "reason": "英文「analyze」的常见义项「分析」不符合主释义「打败」。"
+      },
+      {
+        "wordId": "w-worship",
+        "reason": "英文「worship」的常见义项「崇拜」不符合主释义「打败」。"
+      },
+      {
+        "wordId": "w-arrive",
+        "reason": "英文「arrive」的常见义项「到达」不符合主释义「打败」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-analyze",
+        "surfaceForm": "analyze",
+        "reason": "将「analyze」代入可见句子后不表达主释义「打败」。"
+      },
+      {
+        "wordId": "w-worship",
+        "surfaceForm": "worship",
+        "reason": "将「worship」代入可见句子后不表达主释义「打败」。"
+      },
+      {
+        "wordId": "w-arrive",
+        "surfaceForm": "arrive",
+        "reason": "将「arrive」代入可见句子后不表达主释义「打败」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-beauty",
+    "enToZh": [
+      {
+        "wordId": "w-amount",
+        "reason": "选项「数量」不是「beauty」的主释义「美丽」或其他义项。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "选项「海滩」不是「beauty」的主释义「美丽」或其他义项。"
+      },
+      {
+        "wordId": "w-angle",
+        "reason": "选项「角度」不是「beauty」的主释义「美丽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-amount",
+        "reason": "英文「amount」的常见义项「数量」不符合主释义「美丽」。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "英文「beach」的常见义项「海滩」不符合主释义「美丽」。"
+      },
+      {
+        "wordId": "w-angle",
+        "reason": "英文「angle」的常见义项「角度」不符合主释义「美丽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-amount",
+        "surfaceForm": "amount",
+        "reason": "将「amount」代入可见句子后不表达主释义「美丽」。"
+      },
+      {
+        "wordId": "w-beach",
+        "surfaceForm": "beach",
+        "reason": "将「beach」代入可见句子后不表达主释义「美丽」。"
+      },
+      {
+        "wordId": "w-angle",
+        "surfaceForm": "angle",
+        "reason": "将「angle」代入可见句子后不表达主释义「美丽」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-become",
+    "enToZh": [
+      {
+        "wordId": "w-apply",
+        "reason": "选项「申请」不是「become」的主释义「变成」或其他义项。"
+      },
+      {
+        "wordId": "w-win",
+        "reason": "选项「赢得」不是「become」的主释义「变成」或其他义项。"
+      },
+      {
+        "wordId": "w-amuse",
+        "reason": "选项「逗乐」不是「become」的主释义「变成」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-apply",
+        "reason": "英文「apply」的常见义项「申请」不符合主释义「变成」。"
+      },
+      {
+        "wordId": "w-win",
+        "reason": "英文「win」的常见义项「赢得」不符合主释义「变成」。"
+      },
+      {
+        "wordId": "w-amuse",
+        "reason": "英文「amuse」的常见义项「逗乐」不符合主释义「变成」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-apply",
+        "surfaceForm": "apply",
+        "reason": "将「apply」代入可见句子后不表达主释义「变成」。"
+      },
+      {
+        "wordId": "w-win",
+        "surfaceForm": "win",
+        "reason": "将「win」代入可见句子后不表达主释义「变成」。"
+      },
+      {
+        "wordId": "w-amuse",
+        "surfaceForm": "amuse",
+        "reason": "将「amuse」代入可见句子后不表达主释义「变成」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bed",
+    "enToZh": [
+      {
+        "wordId": "w-ally",
+        "reason": "选项「盟友」不是「bed」的主释义「床」或其他义项。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "选项「出版物」不是「bed」的主释义「床」或其他义项。"
+      },
+      {
+        "wordId": "w-area",
+        "reason": "选项「区域」不是「bed」的主释义「床」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ally",
+        "reason": "英文「ally」的常见义项「盟友」不符合主释义「床」。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "英文「publication」的常见义项「出版物」不符合主释义「床」。"
+      },
+      {
+        "wordId": "w-area",
+        "reason": "英文「area」的常见义项「区域」不符合主释义「床」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ally",
+        "surfaceForm": "ally",
+        "reason": "将「ally」代入可见句子后不表达主释义「床」。"
+      },
+      {
+        "wordId": "w-publication",
+        "surfaceForm": "publication",
+        "reason": "将「publication」代入可见句子后不表达主释义「床」。"
+      },
+      {
+        "wordId": "w-area",
+        "surfaceForm": "area",
+        "reason": "将「area」代入可见句子后不表达主释义「床」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bedroom",
+    "enToZh": [
+      {
+        "wordId": "w-barrier",
+        "reason": "选项「障碍」不是「bedroom」的主释义「卧室」或其他义项。"
+      },
+      {
+        "wordId": "w-ability",
+        "reason": "选项「能力」不是「bedroom」的主释义「卧室」或其他义项。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "选项「地址」不是「bedroom」的主释义「卧室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-barrier",
+        "reason": "英文「barrier」的常见义项「障碍」不符合主释义「卧室」。"
+      },
+      {
+        "wordId": "w-ability",
+        "reason": "英文「ability」的常见义项「能力」不符合主释义「卧室」。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "英文「address」的常见义项「地址」不符合主释义「卧室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-barrier",
+        "surfaceForm": "barrier",
+        "reason": "将「barrier」代入可见句子后不表达主释义「卧室」。"
+      },
+      {
+        "wordId": "w-ability",
+        "surfaceForm": "ability",
+        "reason": "将「ability」代入可见句子后不表达主释义「卧室」。"
+      },
+      {
+        "wordId": "w-address",
+        "surfaceForm": "address",
+        "reason": "将「address」代入可见句子后不表达主释义「卧室」。"
+      }
+    ],
+    "spelling": null
+  }
+]

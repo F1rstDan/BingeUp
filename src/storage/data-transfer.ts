@@ -3,13 +3,14 @@ import type {
   BehaviorEventRecord,
   CardRecord,
   DeckRecord,
+  LegacyRegistry,
   ReviewLogRecord,
   SchedulerState,
   SessionLogRecord,
   SiteSettings,
   WordRecord,
 } from '@/types';
-import { STORES, idbGetAll, idbReplaceAll } from '@/storage/database';
+import { STORES, idbDelete, idbGetAll, idbReplaceAll } from '@/storage/database';
 import {
   AUTHORITATIVE_STATE_ID,
   DEFAULT_AUTHORITATIVE_STATE,
@@ -18,26 +19,50 @@ import {
 } from '@/storage/local-settings';
 import { validateAppSettings } from '@/settings/validator';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
+import {
+  CONTENT_COMPAT_ID,
+  buildCompatibilityPlan,
+  legacyMembership,
+  resolveIdentity,
+  type ContentCompatibilityRecord,
+} from '@/storage/content-compat';
 
-/** 首次公开备份格式；开发期格式不兼容。 */
-export const EXPORT_VERSION = 1;
+/** 当前导出版本。导入仍支持 v1。 */
+export const EXPORT_VERSION = 2;
 
 export interface ExportedData {
   cards: CardRecord[];
   reviewLogs: ReviewLogRecord[];
   sessionLogs: SessionLogRecord[];
   behaviorEvents: BehaviorEventRecord[];
-  /** 仅未来用户创建/导入的内容；内置内容不导出。 */
+  /** 仅用户创建/导入的内容；内置内容不导出。 */
   words: WordRecord[];
   decks: DeckRecord[];
 }
 
-export interface ExportPayload {
+export interface ExportPayloadV1 {
   version: 1;
   exportedAt: number;
   authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
   data: ExportedData;
 }
+
+export interface ExportContentIdentity {
+  version: string;
+  registryVersion: string | null;
+  registryHash: string | null;
+}
+
+export interface ExportPayloadV2 {
+  version: 2;
+  exportedAt: number;
+  authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
+  content: ExportContentIdentity;
+  compatibility: ContentCompatibilityRecord | null;
+  data: ExportedData;
+}
+
+export type ExportPayload = ExportPayloadV1 | ExportPayloadV2;
 
 export interface DataOperationResult {
   ok: boolean;
@@ -47,48 +72,92 @@ export interface DataOperationResult {
 export type ImportResult = DataOperationResult;
 
 interface BuiltInContent {
-  wordIds: Set<string>;
+  contentVersion: string;
+  registry: LegacyRegistry | null;
+  /** 有效内置词与全部旧身份 ID，用于拒绝自定义内容占用保留 ID。 */
+  allWordIds: Set<string>;
   decksById: Map<string, DeckRecord>;
+  originalMembership: Map<string, Set<string>>;
 }
 
 /** 与学习服务读取同一份运行时 JSON，不把内置词库打进备份或后台 bundle。 */
-async function loadBuiltInContent(deckIds: string[]): Promise<BuiltInContent> {
+async function loadBuiltInContent(): Promise<BuiltInContent> {
   const wordBank = new BuiltInWordBank();
-  const [words, decks] = await Promise.all([
+  const [words, decks, registry] = await Promise.all([
     wordBank.listWords(),
-    Promise.all([...new Set(deckIds)].map((id) => wordBank.getDeck(id))),
+    Promise.all(
+      ['deck-daily-high-frequency', 'deck-cet4', 'deck-cet6'].map((id) => wordBank.getDeck(id)),
+    ),
+    wordBank.getLegacyRegistry(),
   ]);
+  const effectiveWordIds = new Set(words.map(({ id }) => id));
+  const allWordIds = new Set(effectiveWordIds);
+  for (const entry of registry?.entries ?? []) {
+    allWordIds.add(entry.legacyId);
+    allWordIds.add(entry.canonicalId);
+  }
   return {
-    wordIds: new Set(words.map(({ id }) => id)),
+    contentVersion: wordBank.getContentVersion(),
+    registry,
+    allWordIds,
     decksById: new Map(
       decks.filter((deck): deck is DeckRecord => deck !== null).map((deck) => [deck.id, deck]),
     ),
+    originalMembership: registry ? legacyMembership(registry) : new Map(),
   };
 }
 
 export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
   const db = store.database;
-  const [state, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] = await Promise.all([
-    store.getAuthoritativeState(),
-    idbGetAll<CardRecord>(db, STORES.cards),
-    idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
-    idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
-    idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents),
-    idbGetAll<WordRecord>(db, STORES.words),
-    idbGetAll<DeckRecord>(db, STORES.decks),
-  ]);
+  const [state, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks, compatibility] =
+    await Promise.all([
+      store.getAuthoritativeState(),
+      idbGetAll<CardRecord>(db, STORES.cards),
+      idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
+      idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
+      idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents),
+      idbGetAll<WordRecord>(db, STORES.words),
+      idbGetAll<DeckRecord>(db, STORES.decks),
+      idbGetAll<ContentCompatibilityRecord>(db, STORES.authoritativeState).then(
+        (records) => records.find((record) => record.id === CONTENT_COMPAT_ID) ?? null,
+      ),
+    ]);
   const { id: _id, ...authoritativeState } = state;
-  const builtIn = await loadBuiltInContent(decks.map(({ id }) => id));
+  const builtIn = await loadBuiltInContent();
+  const exportedAt = Date.now();
+  const compat: ContentCompatibilityRecord | null =
+    builtIn.contentVersion !== 'content-v2'
+      ? null
+      : (compatibility ??
+        (builtIn.registry
+          ? {
+              id: CONTENT_COMPAT_ID,
+              schemaVersion: 1,
+              contentVersion: builtIn.contentVersion,
+              registryVersion: builtIn.registry.registryVersion,
+              registryHash: builtIn.registry.registryHash,
+              completedAt: exportedAt,
+              originals: [],
+              merges: [],
+              deactivatedCardIds: [],
+            }
+          : null));
   return {
-    version: EXPORT_VERSION,
-    exportedAt: Date.now(),
+    version: 2,
+    exportedAt,
     authoritativeState,
+    content: {
+      version: builtIn.contentVersion,
+      registryVersion: builtIn.registry?.registryVersion ?? null,
+      registryHash: builtIn.registry?.registryHash ?? null,
+    },
+    compatibility: compat,
     data: {
       cards,
       reviewLogs,
       sessionLogs,
       behaviorEvents,
-      words: words.filter(({ id }) => !builtIn.wordIds.has(id)),
+      words: words.filter(({ id }) => !builtIn.allWordIds.has(id)),
       decks: decks.filter(({ id }) => !builtIn.decksById.has(id)),
     },
   };
@@ -161,6 +230,7 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
       nextReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
       schedulerState: (candidate) => isOptional(candidate, isSchedulerState),
       lastWrongAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+      disabled: (candidate) => isOptional(candidate, (flag) => typeof flag === 'boolean'),
     }),
   reviewLogs: (value) =>
     hasFields(value, {
@@ -245,6 +315,18 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
         Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
       coreMeaningZh: (candidate) =>
         Array.isArray(candidate) && candidate.length > 0 && candidate.every(isNonEmptyString),
+      secondaryMeanings: (candidate) =>
+        isOptional(
+          candidate,
+          (items) =>
+            Array.isArray(items) &&
+            items.every((item) =>
+              hasFields(item, {
+                partOfSpeech: isNonEmptyString,
+                meaningZh: isNonEmptyString,
+              }),
+            ),
+        ),
       exampleSentence: isNonEmptyString,
       exampleTranslation: isNonEmptyString,
       difficulty: (candidate) => isFiniteNumber(candidate) && candidate > 0,
@@ -291,17 +373,17 @@ function validateEntities(data: ExportedData, errors: string[]): void {
   });
 }
 
-function validateReferences(
-  payload: ExportPayload,
+function validateBaseReferences(
+  data: ExportedData,
+  authoritativeState: Omit<AuthoritativeStateRecord, 'id'>,
   builtIn: BuiltInContent,
   errors: string[],
 ): void {
-  const { data, authoritativeState } = payload;
   const wordIds = new Set(data.words.map(({ id }) => id));
   const deckIds = new Set(data.decks.map(({ id }) => id));
   const cardsById = new Map(data.cards.map((card) => [card.id, card]));
   data.words.forEach(({ id }, index) => {
-    if (builtIn.wordIds.has(id)) errors.push(`data.words[${index}] 与内置单词 id 冲突：${id}`);
+    if (builtIn.allWordIds.has(id)) errors.push(`data.words[${index}] 与内置单词 id 冲突：${id}`);
   });
   data.decks.forEach(({ id }, index) => {
     if (builtIn.decksById.has(id)) errors.push(`data.decks[${index}] 与内置词库 id 冲突：${id}`);
@@ -316,32 +398,24 @@ function validateReferences(
   ] as const) {
     if (new Set(ids).size !== ids.length) errors.push(`data.${collection} 包含重复 id`);
   }
-  if (new Set(data.cards.map(({ wordId }) => wordId)).size !== data.cards.length) {
-    errors.push('data.cards 中同一单词存在多张学习卡');
-  }
   data.decks.forEach((deck, index) =>
     deck.wordIds.forEach((wordId) => {
-      if (!wordIds.has(wordId) && !builtIn.wordIds.has(wordId))
+      if (!wordIds.has(wordId) && !builtIn.allWordIds.has(wordId))
         errors.push(`data.decks[${index}] 引用不存在的单词：${wordId}`);
     }),
   );
   data.cards.forEach((card, index) => {
-    if (!wordIds.has(card.wordId) && !builtIn.wordIds.has(card.wordId))
+    if (!wordIds.has(card.wordId) && !builtIn.allWordIds.has(card.wordId))
       errors.push(`data.cards[${index}] 引用不存在的单词：${card.wordId}`);
     if (!deckIds.has(card.deckId) && !builtIn.decksById.has(card.deckId))
       errors.push(`data.cards[${index}] 引用不存在的词库：${card.deckId}`);
-    const deck =
-      data.decks.find(({ id }) => id === card.deckId) ?? builtIn.decksById.get(card.deckId);
-    if (deck && !deck.wordIds.includes(card.wordId)) {
-      errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
-    }
   });
   data.reviewLogs.forEach((log, index) => {
     const card = cardsById.get(log.cardId);
     if (!card) errors.push(`data.reviewLogs[${index}] 引用不存在的学习卡：${log.cardId}`);
     else if (card.wordId !== log.wordId)
       errors.push(`data.reviewLogs[${index}] 的单词引用与学习卡不一致`);
-    if (!wordIds.has(log.wordId) && !builtIn.wordIds.has(log.wordId))
+    if (!wordIds.has(log.wordId) && !builtIn.allWordIds.has(log.wordId))
       errors.push(`data.reviewLogs[${index}] 引用不存在的单词：${log.wordId}`);
   });
   const selectedDeckId = authoritativeState.appSettings.selectedDeckId;
@@ -352,41 +426,226 @@ function validateReferences(
   }
 }
 
-export async function validateExportPayload(input: unknown): Promise<string[]> {
-  if (!isRecord(input)) return ['payload 不是对象'];
-  if (input.version !== EXPORT_VERSION) {
-    return [`不支持的备份版本：${String(input.version)}（当前支持版本：1）`];
+/** v1 先按冻结原成员关系检查，不允许先映射再洗白非法引用。 */
+function validateV1Membership(data: ExportedData, builtIn: BuiltInContent, errors: string[]): void {
+  for (const [index, card] of data.cards.entries()) {
+    const deck = builtIn.decksById.get(card.deckId);
+    if (!deck) continue;
+    const original = builtIn.originalMembership.get(card.deckId);
+    if (original && !original.has(card.wordId)) {
+      errors.push(`data.cards[${index}] 的单词不属于原词库：${card.wordId}`);
+    } else if (!original && !deck.wordIds.includes(card.wordId)) {
+      errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
+    }
+  }
+}
+
+function validateV2Compatibility(
+  payload: ExportPayloadV2,
+  builtIn: BuiltInContent,
+  errors: string[],
+): void {
+  const compat = payload.compatibility;
+  if (!compat) {
+    if (builtIn.registry) errors.push('v2 备份缺少兼容记录');
+    return;
+  }
+  if (compat.id !== CONTENT_COMPAT_ID || compat.schemaVersion !== 1) {
+    errors.push('兼容记录版本不支持');
+  }
+  if (compat.contentVersion !== builtIn.contentVersion) {
+    errors.push(`兼容记录内容版本不一致：${compat.contentVersion}`);
+  }
+  if (builtIn.registry) {
+    if (compat.registryVersion !== builtIn.registry.registryVersion) {
+      errors.push('兼容记录注册表版本不一致');
+    }
+    if (compat.registryHash !== builtIn.registry.registryHash) {
+      errors.push('兼容记录注册表哈希不一致');
+    }
+  }
+  if (!Array.isArray(compat.originals) || !Array.isArray(compat.merges)) {
+    errors.push('兼容记录结构非法');
+    return;
+  }
+  const cardsById = new Map(payload.data.cards.map((card) => [card.id, card]));
+  const logIds = new Set(payload.data.reviewLogs.map((log) => log.id));
+  for (const original of compat.originals) {
+    if (!isRecord(original) || !isRecord(original.card) || !isNonEmptyString(original.card.id)) {
+      errors.push('兼容记录原卡结构非法');
+      continue;
+    }
+    if (!builtIn.registry) continue;
+    const resolved = resolveIdentity(builtIn.registry, original.card.wordId);
+    if (!resolved || resolved.canonicalId !== original.canonicalWordId) {
+      errors.push(`兼容记录原卡身份无法解释：${original.card.id}`);
+    }
+    for (const logId of original.reviewLogIds ?? []) {
+      if (!logIds.has(logId)) errors.push(`兼容记录引用不存在的日志：${logId}`);
+    }
+  }
+  for (const merge of compat.merges) {
+    if (!cardsById.has(merge.toCardId)) errors.push(`兼容合并目标不存在：${merge.toCardId}`);
+  }
+  for (const cardId of compat.deactivatedCardIds) {
+    const card = cardsById.get(cardId);
+    if (!card) errors.push(`停用卡不存在：${cardId}`);
+    else if (!card.disabled) errors.push(`停用卡未标记 disabled：${cardId}`);
+  }
+}
+
+function validateCardUniqueness(cards: CardRecord[], errors: string[]): void {
+  if (new Set(cards.map(({ wordId }) => wordId)).size !== cards.length) {
+    errors.push('data.cards 中同一单词存在多张学习卡');
+  }
+}
+
+function normalizeCustomDecks(decks: DeckRecord[], registry: LegacyRegistry | null): DeckRecord[] {
+  return decks.map((deck) => {
+    if (!registry) return deck;
+    const seen = new Set<string>();
+    const wordIds: string[] = [];
+    for (const wordId of deck.wordIds) {
+      const mapped = resolveIdentity(registry, wordId)?.canonicalId ?? wordId;
+      if (seen.has(mapped)) continue;
+      seen.add(mapped);
+      wordIds.push(mapped);
+    }
+    return { ...deck, wordIds };
+  });
+}
+
+interface ParsedBackup {
+  ok: boolean;
+  errors: string[];
+  payload?: ExportPayloadV1 | ExportPayloadV2;
+  normalized?: {
+    authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
+    data: ExportedData;
+    compatibility: ContentCompatibilityRecord | null;
+  };
+  builtIn?: BuiltInContent;
+}
+
+async function parseAndValidateBackup(input: unknown): Promise<ParsedBackup> {
+  if (!isRecord(input)) return { ok: false, errors: ['payload 不是对象'] };
+  const version = input.version;
+  if (version !== 1 && version !== 2) {
+    return {
+      ok: false,
+      errors: [`不支持的备份版本：${String(version)}（当前支持版本：1、2）`],
+    };
   }
   const errors: string[] = [];
   if (!isFiniteNumber(input.exportedAt)) errors.push('exportedAt 必须为数字');
   validateAuthoritativeState(input.authoritativeState, errors);
   if (!isRecord(input.data)) errors.push('缺少 data 字段');
-  else
+  else {
     for (const collection of Object.keys(ENTITY_VALIDATORS) as (keyof ExportedData)[]) {
       if (!Array.isArray(input.data[collection])) errors.push(`data.${collection} 必须为数组`);
     }
-  if (errors.length === 0) validateEntities(input.data as unknown as ExportedData, errors);
-  if (errors.length === 0) {
-    const payload = input as unknown as ExportPayload;
-    let builtIn: BuiltInContent;
-    try {
-      builtIn = await loadBuiltInContent([
-        payload.authoritativeState.appSettings.selectedDeckId,
-        ...payload.data.cards.map(({ deckId }) => deckId),
-        ...payload.data.decks.map(({ id }) => id),
-      ]);
-    } catch (error) {
-      errors.push(
-        `内置词库加载失败，无法校验备份：${error instanceof Error ? error.message : String(error)}`,
-      );
-      return errors;
-    }
-    validateReferences(payload, builtIn, errors);
   }
-  return errors;
+  if (errors.length > 0) return { ok: false, errors };
+
+  const payload = input as unknown as ExportPayloadV1 | ExportPayloadV2;
+  validateEntities(payload.data, errors);
+  if (errors.length > 0) return { ok: false, errors };
+
+  let builtIn: BuiltInContent;
+  try {
+    builtIn = await loadBuiltInContent();
+  } catch (error) {
+    return {
+      ok: false,
+      errors: [
+        `词库加载失败，无法校验备份：${error instanceof Error ? error.message : String(error)}`,
+      ],
+    };
+  }
+
+  validateBaseReferences(payload.data, payload.authoritativeState, builtIn, errors);
+  if (payload.version === 2) {
+    if (!isRecord(payload.content) || !isNonEmptyString(payload.content.version)) {
+      errors.push('v2 备份缺少内容版本');
+    } else if (payload.content.version !== builtIn.contentVersion) {
+      errors.push(
+        `备份内容版本与当前词库不一致：${payload.content.version} / ${builtIn.contentVersion}`,
+      );
+    }
+  }
+  if (errors.length > 0) return { ok: false, errors, builtIn };
+
+  if (payload.version === 1) {
+    validateV1Membership(payload.data, builtIn, errors);
+    validateCardUniqueness(payload.data.cards, errors);
+    if (errors.length > 0) return { ok: false, errors, builtIn };
+    const normalizedDecks = normalizeCustomDecks(payload.data.decks, builtIn.registry);
+    let data: ExportedData = { ...payload.data, decks: normalizedDecks };
+    let compatibility: ContentCompatibilityRecord | null = null;
+    if (builtIn.registry) {
+      const plan = buildCompatibilityPlan({
+        cards: payload.data.cards,
+        logs: payload.data.reviewLogs,
+        registry: builtIn.registry,
+        contentVersion: builtIn.contentVersion,
+        now: Date.now(),
+      });
+      data = { ...data, cards: plan.cards, reviewLogs: plan.logs };
+      compatibility = plan.record;
+    }
+    validateCardUniqueness(data.cards, errors);
+    validateV2CardMembership(data, builtIn, errors);
+    if (errors.length > 0) return { ok: false, errors, builtIn };
+    return {
+      ok: true,
+      errors: [],
+      payload,
+      builtIn,
+      normalized: { authoritativeState: payload.authoritativeState, data, compatibility },
+    };
+  }
+
+  validateV2Compatibility(payload as ExportPayloadV2, builtIn, errors);
+  validateCardUniqueness(payload.data.cards, errors);
+  validateV2CardMembership(payload.data, builtIn, errors);
+  if (errors.length > 0) return { ok: false, errors, builtIn };
+  return {
+    ok: true,
+    errors: [],
+    payload,
+    builtIn,
+    normalized: {
+      authoritativeState: payload.authoritativeState,
+      data: payload.data,
+      compatibility: (payload as ExportPayloadV2).compatibility,
+    },
+  };
 }
 
-function authoritativeRecord(payload: ExportPayload): AuthoritativeStateRecord {
+/** 规范化后的引用检查：内置卡必须仍属于当前词库；停用卡按原关系保留。 */
+function validateV2CardMembership(
+  data: ExportedData,
+  builtIn: BuiltInContent,
+  errors: string[],
+): void {
+  data.cards.forEach((card, index) => {
+    const deck = builtIn.decksById.get(card.deckId);
+    if (!deck) return;
+    if (deck.wordIds.includes(card.wordId)) return;
+    const original = builtIn.originalMembership.get(card.deckId);
+    if (card.disabled && original?.has(card.wordId)) return;
+    errors.push(`data.cards[${index}] 的单词不属于引用的词库`);
+  });
+}
+
+export async function validateExportPayload(input: unknown): Promise<string[]> {
+  const parsed = await parseAndValidateBackup(input);
+  return parsed.errors;
+}
+
+function authoritativeRecord(payload: {
+  authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
+}) {
   return { id: AUTHORITATIVE_STATE_ID, ...payload.authoritativeState };
 }
 
@@ -405,19 +664,24 @@ export async function importLocalData(
   store: LocalSettingsStore,
   input: unknown,
 ): Promise<ImportResult> {
-  const db = store.database;
-  const errors = await validateExportPayload(input);
-  if (errors.length > 0) return { ok: false, errors, warnings: [] };
-  const payload = input as ExportPayload;
+  const parsed = await parseAndValidateBackup(input);
+  if (!parsed.ok || !parsed.normalized) {
+    return { ok: false, errors: parsed.errors, warnings: [] };
+  }
+  const { normalized } = parsed;
+  const authoritativeState = [
+    authoritativeRecord({ authoritativeState: normalized.authoritativeState }),
+    ...(normalized.compatibility ? [normalized.compatibility] : []),
+  ];
   try {
-    await idbReplaceAll(db, {
-      [STORES.authoritativeState]: [authoritativeRecord(payload)],
-      [STORES.cards]: payload.data.cards,
-      [STORES.reviewLogs]: payload.data.reviewLogs,
-      [STORES.sessionLogs]: payload.data.sessionLogs,
-      [STORES.behaviorEvents]: payload.data.behaviorEvents,
-      [STORES.words]: payload.data.words,
-      [STORES.decks]: payload.data.decks,
+    await idbReplaceAll(store.database, {
+      [STORES.authoritativeState]: authoritativeState,
+      [STORES.cards]: normalized.data.cards,
+      [STORES.reviewLogs]: normalized.data.reviewLogs,
+      [STORES.sessionLogs]: normalized.data.sessionLogs,
+      [STORES.behaviorEvents]: normalized.data.behaviorEvents,
+      [STORES.words]: normalized.data.words,
+      [STORES.decks]: normalized.data.decks,
     });
   } catch (error) {
     return {
@@ -431,15 +695,41 @@ export async function importLocalData(
   return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
 }
 
+/** 清除学习进度：卡、日志、会话、行为事件和兼容记录在同一事务内清空。 */
 export async function clearLearningProgress(
   db: IDBDatabase,
   siteBaselines: BehaviorEventRecord[] = [],
 ): Promise<void> {
-  await idbReplaceAll(db, {
-    [STORES.cards]: [],
-    [STORES.reviewLogs]: [],
-    [STORES.sessionLogs]: [],
-    [STORES.behaviorEvents]: siteBaselines,
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(
+      [
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+        STORES.authoritativeState,
+      ],
+      'readwrite',
+    );
+    try {
+      for (const store of [
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+      ]) {
+        tx.objectStore(store).clear();
+      }
+      for (const event of siteBaselines) tx.objectStore(STORES.behaviorEvents).put(event);
+      tx.objectStore(STORES.authoritativeState).delete(CONTENT_COMPAT_ID);
+    } catch (error) {
+      tx.abort();
+      reject(error instanceof Error ? error : new Error(String(error)));
+      return;
+    }
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error ?? new Error('清除学习进度失败'));
+    tx.onabort = () => reject(tx.error ?? new Error('清除学习进度事务已中止'));
   });
 }
 
@@ -465,4 +755,9 @@ export async function clearAllLocalData(store: LocalSettingsStore): Promise<Data
     };
   }
   return { ok: true, errors: [], warnings: await resetRuntimeState(store) };
+}
+
+/** 清除兼容记录；供测试或故障恢复显式调用。 */
+export async function clearContentCompatibility(db: IDBDatabase): Promise<void> {
+  await idbDelete(db, STORES.authoritativeState, CONTENT_COMPAT_ID);
 }

@@ -11,6 +11,7 @@ import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island
  */
 
 const NOTICE_ID = 'bingeup-playback-recovery-notice';
+const CONTENT_ERROR_NOTICE_ID = 'bingeup-content-error-notice';
 const NOTICE_DURATION_MS = 6_000;
 
 /**
@@ -46,16 +47,16 @@ function removeCurrentNotice(): void {
 }
 
 /** Shows a non-modal hint without covering or intercepting the site's player controls. */
-export function showPlaybackRecoveryNotice(): void {
+function showShadowNotice(hostId: string, text: string): void {
   removeCurrentNotice();
   // 兼容旧实现的单例约束：清理同 id 的残留宿主。
-  document.getElementById(NOTICE_ID)?.remove();
+  document.getElementById(hostId)?.remove();
 
   const bundle = getIslandShadowStyleBundle();
   registerIslandFontFaces(bundle.fontFaces);
 
   const host = document.createElement('div');
-  host.id = NOTICE_ID;
+  host.id = hostId;
   Object.assign(host.style, {
     position: 'fixed',
     right: '20px',
@@ -74,7 +75,7 @@ export function showPlaybackRecoveryNotice(): void {
   const notice = document.createElement('div');
   notice.className = 'bingeup-recovery-notice';
   notice.setAttribute('role', 'status');
-  notice.textContent = '视频未能自动继续，请手动播放';
+  notice.textContent = text;
   shadow.appendChild(notice);
 
   let disposed = false;
@@ -89,4 +90,12 @@ export function showPlaybackRecoveryNotice(): void {
   activeNoticeDispose = dispose;
 
   document.documentElement.appendChild(host);
+}
+
+export function showPlaybackRecoveryNotice(): void {
+  showShadowNotice(NOTICE_ID, '视频未能自动继续，请手动播放');
+}
+
+export function showContentUnavailableNotice(): void {
+  showShadowNotice(CONTENT_ERROR_NOTICE_ID, '学习内容暂时不可用，视频已恢复播放');
 }

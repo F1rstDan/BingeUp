@@ -17,6 +17,7 @@ import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
  */
 
 export type ExtensionMessage =
+  | { type: 'CONTENT_PREPARE' }
   | { type: 'COOLDOWN_GET_STATUS' }
   | { type: 'COOLDOWN_COMPLETE_QUESTION' }
   | { type: 'COOLDOWN_SKIP_QUESTION' }

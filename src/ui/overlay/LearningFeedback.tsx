@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { Button } from 'animal-island-ui';
+import { useEffect, useId, useRef, useState } from 'react';
+import { Button, Tag } from 'animal-island-ui';
 import { CheckCircleIcon, XCircleIcon } from 'naive-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
+import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
+import { SpeechControls } from '@/ui/speech/SpeechControls';
 
 export const LEARNING_FEEDBACK_DURATION_MS = 5_000;
 export const LEARNING_FEEDBACK_EXIT_DURATION_MS = 0;
@@ -40,6 +42,7 @@ export function LearningFeedback({
   const [continuing, setContinuing] = useState(false);
   const [markingTooEasy, setMarkingTooEasy] = useState(false);
   const [tooEasySaved, setTooEasySaved] = useState(false);
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
@@ -47,20 +50,40 @@ export function LearningFeedback({
   const continuationPending = useRef(false);
   const tooEasyPending = useRef(false);
   const canMarkTooEasy = result.isCorrect && onTooEasy !== undefined;
+  const ownerId = useId();
+  const detailsId = useId();
+  const speech = useLocalSpeech(ownerId);
+  const speechBusy =
+    speech.state.ownerId === ownerId &&
+    (speech.state.status === 'preparing' || speech.state.status === 'speaking');
 
   const dismiss = (): void => {
-    if (!continuationPending.current && !tooEasyPending.current) setExiting(true);
+    if (!continuationPending.current && !tooEasyPending.current) {
+      localSpeech.stopOwnedBy(ownerId);
+      setExiting(true);
+    }
   };
 
   useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
+      localSpeech.stopOwnedBy(ownerId);
     };
-  }, []);
+  }, [ownerId]);
 
   useEffect(() => {
-    if (hovered || focused || continuing || markingTooEasy || exiting || failure !== null) return;
+    if (
+      hovered ||
+      focused ||
+      continuing ||
+      markingTooEasy ||
+      detailsExpanded ||
+      speechBusy ||
+      exiting ||
+      failure !== null
+    )
+      return;
 
     const startedAt = Date.now();
     const timer = window.setTimeout(() => setExiting(true), remainingMs.current);
@@ -68,7 +91,7 @@ export function LearningFeedback({
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
-  }, [hovered, focused, continuing, markingTooEasy, exiting, failure]);
+  }, [hovered, focused, continuing, markingTooEasy, detailsExpanded, speechBusy, exiting, failure]);
 
   useEffect(() => {
     if (!exiting) return;
@@ -80,6 +103,7 @@ export function LearningFeedback({
   const continueLearning = async (): Promise<void> => {
     if (!onContinue || continuationPending.current || tooEasyPending.current || exiting) return;
     continuationPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
     setContinuing(true);
     setFailure(null);
 
@@ -111,6 +135,7 @@ export function LearningFeedback({
     }
 
     tooEasyPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
     setMarkingTooEasy(true);
     setFailure(null);
 
@@ -144,9 +169,8 @@ export function LearningFeedback({
       {!exiting && (
         <section
           className="bingeup-learning-feedback"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
+          role="region"
+          aria-label="答题反馈"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onFocusCapture={() => setFocused(true)}
@@ -157,21 +181,25 @@ export function LearningFeedback({
           // 用户主动操作反馈按钮时，按键只作用于该按钮，不触发下一题快捷键。
           onKeyDown={(event) => event.stopPropagation()}
         >
-          <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
-            {result.isCorrect ? (
-              <CheckCircleIcon size={20} aria-hidden="true" />
-            ) : (
-              <XCircleIcon size={20} aria-hidden="true" />
-            )}
-            <span>{result.isCorrect ? '答对了' : '答错了'}</span>
-          </span>
+          <div role="status" aria-live="polite" aria-atomic="true">
+            <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
+              {result.isCorrect ? (
+                <CheckCircleIcon size={20} aria-hidden="true" />
+              ) : (
+                <XCircleIcon size={20} aria-hidden="true" />
+              )}
+              <span>{result.isCorrect ? '答对了' : '答错了'}</span>
+            </span>
+            <div className="bingeup-learning-feedback__content">
+              <h2 className="bingeup-learning-feedback__word" lang="en">
+                {result.explanation.word}
+              </h2>
+              <p className="bingeup-learning-feedback__meaning">
+                {result.explanation.meanings.join('；')}
+              </p>
+            </div>
+          </div>
           <div className="bingeup-learning-feedback__content">
-            <h2 className="bingeup-learning-feedback__word" lang="en">
-              {result.explanation.word}
-            </h2>
-            <p className="bingeup-learning-feedback__meaning">
-              {result.explanation.meanings.join('；')}
-            </p>
             {!result.isCorrect && result.submittedAnswer && (
               <div className="bingeup-learning-feedback__submitted-answer">
                 <span className="bingeup-learning-feedback__answer-label">你的答案</span>
@@ -179,6 +207,52 @@ export function LearningFeedback({
                   <XCircleIcon size={20} aria-hidden="true" />
                   <span>{result.submittedAnswer}</span>
                 </span>
+              </div>
+            )}
+            <button
+              type="button"
+              className="bingeup-feedback-details-toggle"
+              aria-expanded={detailsExpanded}
+              aria-controls={detailsId}
+              onClick={() => setDetailsExpanded((current) => !current)}
+            >
+              {detailsExpanded ? '收起详情' : '详情'}
+            </button>
+            {detailsExpanded && (
+              <div className="bingeup-feedback-details" id={detailsId}>
+                <div className="bingeup-part-of-speech">
+                  <Tag size="small">{result.explanation.partOfSpeech.join('/')}</Tag>
+                </div>
+                {result.explanation.phonetic && (
+                  <p className="bingeup-feedback-details__phonetic">
+                    {result.explanation.phonetic}
+                  </p>
+                )}
+                {result.explanation.exampleSentence && (
+                  <p className="bingeup-feedback-details__example" lang="en">
+                    {result.explanation.exampleSentence}
+                  </p>
+                )}
+                {result.explanation.exampleTranslation && (
+                  <p className="bingeup-feedback-details__translation">
+                    {result.explanation.exampleTranslation}
+                  </p>
+                )}
+                {(result.explanation.secondaryMeanings ?? []).length > 0 && (
+                  <ul className="bingeup-feedback-details__secondary">
+                    {(result.explanation.secondaryMeanings ?? []).map((meaning) => (
+                      <li key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}>
+                        <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>
+                        <span>{meaning.meaningZh}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <SpeechControls
+                  ownerId={ownerId}
+                  wordText={result.explanation.word}
+                  exampleText={result.explanation.exampleSentence}
+                />
               </div>
             )}
             {failure && (
