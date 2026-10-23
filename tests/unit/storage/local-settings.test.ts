@@ -30,7 +30,7 @@ async function deleteDatabase(): Promise<void> {
   });
 }
 
-describe('LocalSettingsStore — ADR-0003 存储边界', () => {
+describe('LocalSettingsStore — ADR-0001 存储边界', () => {
   let db: IDBDatabase;
   let runtime: ReturnType<typeof installRuntimeStorageMock>;
 

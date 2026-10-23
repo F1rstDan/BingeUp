@@ -92,7 +92,7 @@ describe('迁移 v2 — sessionLogs 仓库与索引（Issue #12）', () => {
   it('迁移后 sessionLogs 仓库存在', async () => {
     const db = await openDatabase(TEST_DB, MIGRATIONS);
     expect(db.objectStoreNames.contains(STORES.sessionLogs)).toBe(true);
-    // Issue #26 新增 v5 迁移（behaviorEvents 指标源事件仓库）。
+    // Issue #26 新增 v5 迁移（behaviorEvents 行为事件仓库）。
     expect(db.version).toBe(5);
     db.close();
   });

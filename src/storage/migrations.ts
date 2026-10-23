@@ -1,7 +1,7 @@
 import { STORES, type Migration } from '@/storage/database';
 import type { CardRecord, ReviewLogRecord } from '@/types';
 
-/** ADR-0003 直接切换后的数据空间；旧开发数据库不做运行时迁移。 */
+/** ADR-0001 直接切换后的数据空间；旧开发数据库不做运行时迁移。 */
 export const DATABASE_NAME = 'bingeup-v1';
 
 /**
@@ -9,7 +9,7 @@ export const DATABASE_NAME = 'bingeup-v1';
  *
  * 版本 1：创建 cards（带 wordId 索引）、reviewLogs（带 cardId 索引）、words、decks。
  * 版本 2：新增 sessionLogs 仓库（带 startedAt 索引），用于本地学习统计（Issue #12）。
- * 版本 3：新增权威状态仓库；开发期数据不迁移（ADR-0003）。
+ * 版本 3：新增权威状态仓库；开发期数据不迁移（ADR-0001）。
  * 版本 4：将 cards.byWordId 索引升级为唯一索引，持久化层强制一单词一卡（Issue #19 AC1）。
  *         按 wordId 合并：保留最早学习关系、最新进度，并将全部复习日志重绑到保留卡。
  */
@@ -112,7 +112,7 @@ export const MIGRATIONS: Migration[] = [
   },
   {
     version: 5,
-    description: '新增 behaviorEvents 仓库及 occurredAt 索引（Issue #26 本地指标源事件）',
+    description: '新增 behaviorEvents 仓库及 occurredAt 索引（Issue #26 本地行为事件）',
     run: (db) => {
       const events = db.createObjectStore(STORES.behaviorEvents, { keyPath: 'id' });
       events.createIndex('byOccurredAt', 'occurredAt', { unique: false });

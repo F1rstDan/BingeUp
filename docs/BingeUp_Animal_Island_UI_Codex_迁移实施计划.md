@@ -1,6 +1,6 @@
 # BingeUp × Animal Island UI：Codex 渐进式完整视觉迁移实施计划
 
-> 历史存档（迁移已完成）：本文记录 2026 年 10 月的迁移计划与执行步骤，仅用于追溯；不是当前实现说明，也不是 AI Agent 必读上下文。当前长期决策见 [ADR 0005](./adr/0005-adopt-animal-island-ui.md)。
+> 历史存档（迁移已完成）：本文记录 2026 年 10 月的迁移计划与执行步骤，仅用于追溯；不是当前实现说明，也不是 AI Agent 必读上下文。当前长期决策见 [ADR 0003（原编号 0005）](./adr/0003-adopt-animal-island-ui.md)。
 
 版本：v1.0（2026-10-09）
 
@@ -96,7 +96,7 @@ Animal Island UI：`skills/animal-island-ui-style/SKILL.md`、`skills/animal-isl
 - 创建工作分支 `feat/animal-island-ui-migration`，记录 BingeUp 当前 HEAD，保存旧 UI 的 Popup/Options/Onboarding/Stats/Overlay 的截图基线。
 - 安装/锁定 `animal-island-ui@2.1.1`、`classnames@2.5.1`，如果直接导入图标则将 `naive-icons@1.2.0` 列为项目的直接依赖；不要安装组件库源码仓库本身。
 - 可安装 **项目级 Codex Skill**：`npx skills add guokaigdg/animal-island-ui --skill animal-island-ui-style -a codex --copy`。审查安装后文件与根 `AGENTS.md` 的关系；Skill 原版英文 `SKILL.md` 用于 agent，中文翻译供人审核。
-- 增加 `docs/adr/0005-adopt-animal-island-ui.md`，记录原版配色、原生组件与内容脚本替代的边界、许可证处理。
+- 增加 `docs/adr/0003-adopt-animal-island-ui.md`（原编号 0005），记录视觉方向；当前组件、隔离和许可证细节见 `docs/ui-implementation-contract.md`。
 - 运行并记录 `npm run typecheck`、`npm test`、`npm run lint`、`npm run build`、`npm run build:edge`，基线失败单独列出，禁止把旧问题归到新 PR。
 - 验收：没有产品功能变更，依赖锁定，原有基线报告和截图可复现。
 
@@ -229,7 +229,7 @@ e2e/
   overlay-visual.spec.ts
 
 docs/
-  adr/0005-adopt-animal-island-ui.md
+  adr/0003-adopt-animal-island-ui.md
   ui-migration-evidence.md
   third-party-notices.md
 ```

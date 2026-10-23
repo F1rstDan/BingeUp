@@ -96,7 +96,7 @@ export function DevTools(): JSX.Element {
     if (clearing) return;
     if (
       !window.confirm(
-        '这是全局操作：将清除所有词库共享的学习卡、复习记录、学习会话和指标源事件，但保留单词、词库与网站设置。确定继续吗？',
+        '这是全局操作：将清除所有词库共享的学习卡、复习记录、学习会话和行为事件，但保留单词、词库与网站设置。确定继续吗？',
       )
     ) {
       return;

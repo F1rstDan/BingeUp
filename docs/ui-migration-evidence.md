@@ -1,13 +1,13 @@
 # BingeUp × Animal Island UI 迁移：M0 基线与依赖锁定
 
-> 历史存档（迁移已完成）：本文记录迁移基线与各阶段证据，仅用于追溯；不是 AI Agent 必读上下文。当前长期决策见 [ADR 0005](./adr/0005-adopt-animal-island-ui.md)。
+> 历史存档（迁移已完成）：本文记录迁移基线与各阶段证据，仅用于追溯；不是 AI Agent 必读上下文。当前长期决策见 [ADR 0003（原编号 0005）](./adr/0003-adopt-animal-island-ui.md)。
 
-工单：#37（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜执行计划：docs/BingeUp_Animal_Island_UI_Codex_迁移实施计划.md
+工单：#37（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜执行计划：docs/BingeUp_Animal_Island_UI_Codex_迁移实施计划.md
 
 - 工作分支：codex/ticket-37-m0，从集成分支 feat/animal-island-ui-migration 切出
 - 起点 commit：86fe48e131a0585162cf5fe4c38ef803fca1cc4b（集成分支与 origin 上的 tip 相同）
 - 扩展版本：0.0.1；构建目标 chrome-mv3 与 edge-mv3
-- ADR 0005 与迁移实施计划已随起点提交 86fe48e 入库
+- ADR 0003（原编号 0005）与迁移实施计划已随起点提交 86fe48e 入库
 
 ## 1. 环境
 
@@ -20,7 +20,7 @@
 
 ## 2. 依赖锁定
 
-安装前复核最新稳定版，结果与 ADR 0005 的预期一致：
+安装前复核最新稳定版，结果与当时的 ADR 预期一致：
 
 | 命令 | 结果 |
 | --- | --- |
@@ -179,7 +179,7 @@ $env:CAPTURE_BASELINE='1'; npx playwright test e2e/migration-baseline.spec.ts
 
 ## M1 Popup 垂直切片
 
-工单：#38（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-38-m1-popup-slice（从集成分支 tip 2844b82 切出）
+工单：#38（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-38-m1-popup-slice（从集成分支 tip 2844b82 切出）
 
 ### 1. 改动概览
 
@@ -293,7 +293,7 @@ $env:CAPTURE_M1='1'; npx playwright test e2e/migration-m1.spec.ts
 
 ## M2 Popup 完整迁移与基础模块
 
-工单：#39（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-39-m2-popup-complete（从集成分支 tip 42d5979 切出）
+工单：#39（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-39-m2-popup-complete（从集成分支 tip 42d5979 切出）
 
 ### 1. 改动概览
 
@@ -411,7 +411,7 @@ M2 增量与合并前一致：相对 M4 合并态（11,303,228 B / 56 文件 / z
 
 ## M3a 安装引导迁移
 
-工单：#40（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
+工单：#40（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-40-m3a-onboarding（从集成分支 tip e69640f 切出）
 
 ### 1. 改动概览
 
@@ -529,7 +529,7 @@ $env:CAPTURE_M3A='1'; npx playwright test e2e/migration-m3a.spec.ts
 
 ## M3b 设置页迁移
 
-工单：#41（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-41-m3b-options（从集成分支 tip e69640f 切出）
+工单：#41（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-41-m3b-options（从集成分支 tip e69640f 切出）
 
 ### 1. 改动概览
 
@@ -663,7 +663,7 @@ $env:CAPTURE_M3B='1'; npx playwright test e2e/migration-m3b.spec.ts
 
 ## M3c 学习统计迁移
 
-工单：#42（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-42-m3c-stats（从集成分支 tip e69640f 切出）
+工单：#42（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-42-m3c-stats（从集成分支 tip e69640f 切出）
 
 ### 1. 改动概览
 
@@ -1053,7 +1053,7 @@ node scripts/measure-bundle-baseline.mjs
 
 ## M6b 迁移清理、许可与文档收尾
 
-工单：#46（父 issue #36）｜决策记录：docs/adr/0005-adopt-animal-island-ui.md｜分支：codex/ticket-46-m6b-cleanup（从集成分支 tip ae12164 切出）｜执行时间：2026-10-14。
+工单：#46（父 issue #36）｜决策记录：docs/adr/0003-adopt-animal-island-ui.md｜分支：codex/ticket-46-m6b-cleanup（从集成分支 tip ae12164 切出）｜执行时间：2026-10-14。
 
 ### 1. 改动概览
 
@@ -1061,7 +1061,7 @@ node scripts/measure-bundle-baseline.mjs
 - **dev-tools 页面迁移**：`src/entrypoints/dev-tools/{main.tsx,dev-tools.css}` 与 `src/ui/popup/dev-tools.css` 改用 island 主题别名（--island-* → --animal-*）；开发数据页入口新增恰好一次的原版样式导入。该页面仍不进入生产构建，既有校验脚本保持通过。
 - **字体交付统一（补充验收项）**：`wxt.config.ts` 新增构建期 Vite 插件（vite:build:extendConfig），把 animal-island-ui 发布 CSS 的字体 URL 改写为 /files/ 公共路径；Vite 不再发射 assets/<hash>.woff2，扩展页面与遮罩 ShadowRoot 共用 build:publicAssets 复制的一份 files/ 字体。插件只作用于生产构建，dev 服务器行为保持原样。
 - **测试**：`tests/unit/ui/island-theme.test.ts` 新增「旧视觉清零」静态规则——src 全目录不含 --bingeup / bingeup-btn- / bingeup-status-，两个旧样式文件不存在，dev-tools 两份样式不含旧令牌与写死色值。
-- **文档与许可**：ADR 0005 勘误与更新（Modal 支持 variant（`default` / `game`）、Modal/Drawer/Image 预览用 createPortal 与 Notification 新建 React Root 的准确表述、字体体积实测、计划文档不一致清单）；新增 `THIRD-PARTY-NOTICES.md`（animal-island-ui / naive-icons 的 MIT 全文与版权声明、Nunito / Noto Sans SC 的 OFL-1.1 全文与来源）；README 更新 showcase 拼图与 hero / workflow 插画（island 配色）并在 License 节引用第三方声明；`docs/beta-acceptance-matrix.md` 增补 UI 验收项（G8 统一原版视觉、G9 字体离线加载）与自动化覆盖清单；本证据文档按 M0→M6a 重排并修复「+## M3b」先导记号（重排前后非空行数一致：797）。
+- **文档与许可**：ADR 0003（原编号 0005）勘误与更新（Modal 支持 variant（`default` / `game`）、Modal/Drawer/Image 预览用 createPortal 与 Notification 新建 React Root 的准确表述、字体体积实测、计划文档不一致清单）；新增 `THIRD-PARTY-NOTICES.md`（animal-island-ui / naive-icons 的 MIT 全文与版权声明、Nunito / Noto Sans SC 的 OFL-1.1 全文与来源）；README 更新 showcase 拼图与 hero / workflow 插画（island 配色）并在 License 节引用第三方声明；`docs/beta-acceptance-matrix.md` 增补 UI 验收项（G8 统一原版视觉、G9 字体离线加载）与自动化覆盖清单；本证据文档按 M0→M6a 重排并修复「+## M3b」先导记号（重排前后非空行数一致：797）。
 - **脚本**：`scripts/measure-bundle-baseline.mjs` 新增 Stats 入口闭包指标（只追加字段）；`scripts/verify-island-shadow-assets.mjs` 新增单一字体交付断言（assets/ 下不得出现 woff2；页面 CSS 必须引用 /files/ 公共路径），随 build / build:edge 执行。
 
 ### 2. 字体去重（工单 #46 补充验收）
@@ -1116,7 +1116,7 @@ node scripts/measure-bundle-baseline.mjs
 
 #### 6.1 修复项与证据
 
-1. **反馈链接最小交互圆角（硬违规）**：`src/ui/island/island-layout.css` 的 `.island-link` 圆角由写死的 `6px` 改为 `var(--island-radius-sm)`（桥接 `--animal-border-radius-sm`，实测 16px）。该别名满足 ADR 0005 的 12px 最小交互圆角，也满足本文件「圆角一律使用 --island-* 别名」的既有约定；圆角只作用于键盘焦点环的轮廓，链接无背景与边框。证据：全量单测通过；CAPTURE_M2 复采的 9 张 Popup 截图与合并态逐字节一致（`docs/assets/migration-m2/` 无 diff）。焦点环未出现在截图中，其像素表现未做截图比对。
+1. **反馈链接最小交互圆角（硬违规）**：`src/ui/island/island-layout.css` 的 `.island-link` 圆角由写死的 `6px` 改为 `var(--island-radius-sm)`（桥接 `--animal-border-radius-sm`，实测 16px）。该别名满足 [UI 实现契约](./ui-implementation-contract.md) 的 12px 最小交互圆角，也满足本文件「圆角一律使用 --island-* 别名」的既有约定；圆角只作用于键盘焦点环的轮廓，链接无背景与边框。证据：全量单测通过；CAPTURE_M2 复采的 9 张 Popup 截图与合并态逐字节一致（`docs/assets/migration-m2/` 无 diff）。焦点环未出现在截图中，其像素表现未做截图比对。
 2. **遮罩反馈按钮组重复（判断项）**：`OverlayApp.tsx` 新增 `FeedbackActions` 展示组件（禁用状态与「继续」处理函数由参数注入），选择与拼写反馈阶段的重复按钮组改为调用它。按钮文案、快捷键提示、禁用逻辑、role / aria-label 与 OverlayAction 发出序列均不变；OverlayApp 既有单测未改动、全绿（全量 48 文件 857 用例通过）。
 3. **设置页词库描述可见（Spec 缺项）**：`OptionsApp.tsx` 在「当前词库」Select 下方渲染所选词库 `description`（`BUILT_IN_DECKS` 查找；用 `--island-text-color-secondary` / `--island-font-size-sm` 着色，不覆盖库组件样式；窄视口随字段列铺满）。新增 OptionsApp 单测「所选词库的描述在 Select 下方可见并随选择更新」。M3b 记录的「唯一能力差异」消除；描述仍不在下拉面板内部展示（库组件能力边界不变）。
 4. **M4/M5 遮罩进入延迟复测（Spec 缺项）**：采样方法抽取为 `e2e/overlay-timing.ts`（原 M0 脚本内联实现，行为不变）；新增 `e2e/migration-m6b-latency.spec.ts`，在最终构建上复测 6 次，见 6.2。M0 采集脚本改用共享实现后已复跑验证，并修正启用提示用例的过期选择器（M6a 起卡片类名为 `.bingeup-enable-prompt-card`）；复跑产生的截图改动已恢复为历史存档，未入库。

@@ -36,7 +36,7 @@ import {
 import { computeDifficulty, computeDeckDifficulty, isValidLearningWord } from './difficulty';
 import { validateAllWords } from './validate';
 
-// ECDICT 固定 commit：master 分支 2025-03-28 快照（与 ADR 003 / source-metadata.json 一致）。
+// ECDICT 固定 commit：master 分支 2025-03-28 快照（与 ADR 0002 / source-metadata.json 一致）。
 // raw.githubusercontent.com 上确有 ecdict.csv 文件（约 63MB，76 万词条基础版）。
 const ECDICT_COMMIT = 'bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b';
 const ECDICT_CSV_URL = `https://raw.githubusercontent.com/skywind3000/ECDICT/${ECDICT_COMMIT}/ecdict.csv`;
