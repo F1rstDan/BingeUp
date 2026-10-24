@@ -4,7 +4,7 @@ import { CheckCircleIcon, XCircleIcon } from 'naive-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
 import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
-import { SpeechControls } from '@/ui/speech/SpeechControls';
+import { ExampleSpeechPanel, SpeechControls } from '@/ui/speech/SpeechControls';
 
 export const LEARNING_FEEDBACK_DURATION_MS = 5_000;
 export const LEARNING_FEEDBACK_EXIT_DURATION_MS = 0;
@@ -42,7 +42,6 @@ export function LearningFeedback({
   const [continuing, setContinuing] = useState(false);
   const [markingTooEasy, setMarkingTooEasy] = useState(false);
   const [tooEasySaved, setTooEasySaved] = useState(false);
-  const [detailsExpanded, setDetailsExpanded] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
@@ -51,11 +50,13 @@ export function LearningFeedback({
   const tooEasyPending = useRef(false);
   const canMarkTooEasy = result.isCorrect && onTooEasy !== undefined;
   const ownerId = useId();
-  const detailsId = useId();
   const speech = useLocalSpeech(ownerId);
   const speechBusy =
     speech.state.ownerId === ownerId &&
     (speech.state.status === 'preparing' || speech.state.status === 'speaking');
+  const actionsLocked = continuing || markingTooEasy;
+  const { explanation } = result;
+  const secondaryMeanings = explanation.secondaryMeanings ?? [];
 
   const dismiss = (): void => {
     if (!continuationPending.current && !tooEasyPending.current) {
@@ -78,7 +79,6 @@ export function LearningFeedback({
       focused ||
       continuing ||
       markingTooEasy ||
-      detailsExpanded ||
       speechBusy ||
       exiting ||
       failure !== null
@@ -91,7 +91,7 @@ export function LearningFeedback({
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
-  }, [hovered, focused, continuing, markingTooEasy, detailsExpanded, speechBusy, exiting, failure]);
+  }, [hovered, focused, continuing, markingTooEasy, speechBusy, exiting, failure]);
 
   useEffect(() => {
     if (!exiting) return;
@@ -181,6 +181,15 @@ export function LearningFeedback({
           // 用户主动操作反馈按钮时，按键只作用于该按钮，不触发下一题快捷键。
           onKeyDown={(event) => event.stopPropagation()}
         >
+          <Button
+            className="bingeup-learning-feedback__close"
+            type="text"
+            size="small"
+            disabled={actionsLocked || exiting}
+            onClick={dismiss}
+          >
+            关闭
+          </Button>
           <div role="status" aria-live="polite" aria-atomic="true">
             <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
               {result.isCorrect ? (
@@ -192,10 +201,21 @@ export function LearningFeedback({
             </span>
             <div className="bingeup-learning-feedback__content">
               <h2 className="bingeup-learning-feedback__word" lang="en">
-                {result.explanation.word}
+                {explanation.word}
               </h2>
+              <SpeechControls
+                ownerId={ownerId}
+                wordText={explanation.word}
+                phonetic={explanation.phonetic}
+                disabled={actionsLocked || exiting}
+              />
+              {explanation.partOfSpeech.length > 0 && (
+                <div className="bingeup-part-of-speech">
+                  <Tag size="small">{explanation.partOfSpeech.join('/')}</Tag>
+                </div>
+              )}
               <p className="bingeup-learning-feedback__meaning">
-                {result.explanation.meanings.join('；')}
+                {explanation.meanings.join('；')}
               </p>
             </div>
           </div>
@@ -209,51 +229,42 @@ export function LearningFeedback({
                 </span>
               </div>
             )}
-            <button
-              type="button"
-              className="bingeup-feedback-details-toggle"
-              aria-expanded={detailsExpanded}
-              aria-controls={detailsId}
-              onClick={() => setDetailsExpanded((current) => !current)}
-            >
-              {detailsExpanded ? '收起详情' : '详情'}
-            </button>
-            {detailsExpanded && (
-              <div className="bingeup-feedback-details" id={detailsId}>
-                <div className="bingeup-part-of-speech">
-                  <Tag size="small">{result.explanation.partOfSpeech.join('/')}</Tag>
-                </div>
-                {result.explanation.phonetic && (
-                  <p className="bingeup-feedback-details__phonetic">
-                    {result.explanation.phonetic}
-                  </p>
+            {explanation.exampleSentence ? (
+              <ExampleSpeechPanel
+                ownerId={ownerId}
+                exampleText={explanation.exampleSentence}
+                disabled={actionsLocked || exiting}
+              >
+                <p className="bingeup-example" lang="en">
+                  {explanation.exampleSentence}
+                </p>
+                {explanation.exampleTranslation && (
+                  <p className="bingeup-example-translation">{explanation.exampleTranslation}</p>
                 )}
-                {result.explanation.exampleSentence && (
-                  <p className="bingeup-feedback-details__example" lang="en">
-                    {result.explanation.exampleSentence}
-                  </p>
-                )}
-                {result.explanation.exampleTranslation && (
-                  <p className="bingeup-feedback-details__translation">
-                    {result.explanation.exampleTranslation}
-                  </p>
-                )}
-                {(result.explanation.secondaryMeanings ?? []).length > 0 && (
-                  <ul className="bingeup-feedback-details__secondary">
-                    {(result.explanation.secondaryMeanings ?? []).map((meaning) => (
-                      <li key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}>
-                        <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>
-                        <span>{meaning.meaningZh}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <SpeechControls
-                  ownerId={ownerId}
-                  wordText={result.explanation.word}
-                  exampleText={result.explanation.exampleSentence}
-                />
-              </div>
+              </ExampleSpeechPanel>
+            ) : (
+              explanation.exampleTranslation && (
+                <p className="bingeup-example-translation">{explanation.exampleTranslation}</p>
+              )
+            )}
+            {secondaryMeanings.length > 0 && (
+              <p className="bingeup-secondary bingeup-learning-feedback__secondary">
+                <span className="bingeup-secondary-label">其他常见义</span>
+                {secondaryMeanings.map((meaning, index) => (
+                  <span
+                    className="bingeup-secondary-item"
+                    key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}
+                  >
+                    <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>{' '}
+                    <span>{meaning.meaningZh}</span>
+                    {index < secondaryMeanings.length - 1 && (
+                      <span className="bingeup-secondary-separator" aria-hidden="true">
+                        ·
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </p>
             )}
             {failure && (
               <p className="bingeup-learning-feedback__failure" role="alert">
@@ -266,7 +277,7 @@ export function LearningFeedback({
               <Button
                 size="small"
                 loading={markingTooEasy}
-                disabled={continuing || markingTooEasy || exiting}
+                disabled={actionsLocked || exiting}
                 onClick={() => void markTooEasy()}
               >
                 太简单了
@@ -275,16 +286,11 @@ export function LearningFeedback({
             {tooEasySaved && (
               <span className="bingeup-learning-feedback__too-easy-success">已标记为太简单</span>
             )}
-            {(!result.isCorrect || !onContinue) && (
-              <Button size="small" disabled={continuing || markingTooEasy} onClick={dismiss}>
-                关闭
-              </Button>
-            )}
             {onContinue && (
               <Button
                 size="small"
                 loading={continuing}
-                disabled={continuing || markingTooEasy || exiting}
+                disabled={actionsLocked || exiting}
                 onClick={() => void continueLearning()}
               >
                 继续答题

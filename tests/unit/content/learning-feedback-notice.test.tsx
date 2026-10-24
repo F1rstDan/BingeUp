@@ -89,9 +89,11 @@ function finishExit(): void {
   advanceTime(LEARNING_FEEDBACK_EXIT_DURATION_MS);
 }
 
-function buttonNames(feedback: HTMLElement): string[] {
-  return within(feedback)
-    .getAllByRole('button')
+function actionNames(feedback: HTMLElement): string[] {
+  const actions = feedback.querySelector<HTMLElement>('.bingeup-learning-feedback__actions');
+  if (!actions) throw new Error('Expected feedback actions');
+  return within(actions)
+    .queryAllByRole('button')
     .map((button) => button.textContent?.trim() ?? '');
 }
 
@@ -141,8 +143,11 @@ describe('LearningFeedbackNotice', () => {
     expect(feedback).toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
-    expect(feedback).not.toHaveTextContent('/əbˈzɔːrb/');
-    expect(feedback).not.toHaveTextContent('Plants absorb sunlight.');
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
+    expect(feedback).toHaveTextContent('Plants absorb sunlight.');
+    expect(feedback).toHaveTextContent('植物吸收阳光。');
+    expect(feedback).toHaveTextContent('使专心');
+    expect(feedback).not.toHaveTextContent('详情');
     expect(feedback).not.toHaveTextContent('学习信息');
     expect(feedback).not.toHaveTextContent('good');
     expect(feedback).not.toHaveTextContent('undefined');
@@ -153,6 +158,7 @@ describe('LearningFeedbackNotice', () => {
     expect(status?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     expect(content).toHaveTextContent('absorb');
     expect(content).toHaveTextContent('吸收；理解');
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
     expect(content).not.toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(shadowRoot.querySelectorAll('[role="status"]')).toHaveLength(1);
     expect(feedback.querySelectorAll('[role="status"]')).toHaveLength(1);
@@ -171,7 +177,8 @@ describe('LearningFeedbackNotice', () => {
     expect(feedback.querySelector('#' + CLIP_PATH_ID)).toBeNull();
     expect(shadowRoot.querySelector('[class*="animal-modalGame"]')).toBeNull();
     expect(shadowRoot.querySelector('[class*="animal-ribbon"]')).toBeNull();
-    expect(LEARNING_FEEDBACK_CSS).toContain('font-size: 36px');
+    expect(LEARNING_FEEDBACK_CSS).toContain('font-size: 34px');
+    expect(LEARNING_FEEDBACK_CSS).not.toContain('bingeup-feedback-details-toggle');
     expect(LEARNING_FEEDBACK_CSS).toContain('overflow-wrap: anywhere');
   });
 
@@ -208,39 +215,43 @@ describe('LearningFeedbackNotice', () => {
     const onTooEasy = vi.fn().mockResolvedValue(CORRECTION_RESULT);
 
     let shown = showNotice(RESULT, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['详情', '太简单了', '继续答题']);
+    expect(actionNames(shown.feedback)).toEqual(['太简单了', '继续答题']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
 
     shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['详情', '关闭', '继续答题']);
+    expect(actionNames(shown.feedback)).toEqual(['继续答题']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
     expect(shown.queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
 
     shown = showNotice(RESULT, { onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['详情', '太简单了', '关闭']);
+    expect(actionNames(shown.feedback)).toEqual(['太简单了']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
 
     shown = showNotice({ ...RESULT, isCorrect: false });
-    expect(buttonNames(shown.feedback)).toEqual(['详情', '关闭']);
+    expect(actionNames(shown.feedback)).toEqual([]);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
   });
 
-  it('详情原位展开，展开期间暂停自动关闭，收起后按剩余时间关闭', () => {
+  it('音标、词性、例句、译文和其他常见义默认常显，不再折叠详情', () => {
     const { feedback, queries } = showNotice();
-    advanceTime(1_000);
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
+    expect(feedback).toHaveTextContent('v.');
+    expect(feedback).toHaveTextContent('Plants absorb sunlight.');
+    expect(feedback).toHaveTextContent('植物吸收阳光。');
+    expect(feedback).toHaveTextContent('其他常见义');
+    expect(feedback).toHaveTextContent('v. 使专心');
+    expect(queries.queryByRole('button', { name: /详情/ })).not.toBeInTheDocument();
+    expect(feedback.querySelector('.bingeup-feedback-details')).toBeNull();
 
-    fireEvent.click(queries.getByRole('button', { name: '详情' }));
-    const details = feedback.querySelector('.bingeup-feedback-details');
-    expect(details).toHaveTextContent('/əbˈzɔːrb/');
-    expect(details).toHaveTextContent('Plants absorb sunlight.');
-    expect(details).toHaveTextContent('植物吸收阳光。');
-    expect(details).toHaveTextContent('使专心');
-    expect(queries.getByRole('button', { name: '收起详情' })).toHaveAttribute(
-      'aria-expanded',
-      'true',
-    );
+    const example = queries.getByRole('button', { name: '朗读例句' });
+    expect(example).toHaveClass('bingeup-example-action');
+    expect(example).toContainElement(queries.getByText('Plants absorb sunlight.'));
+    expect(within(example).queryAllByRole('button')).toHaveLength(0);
+    expect(example.querySelector('svg')).toBeInTheDocument();
 
-    advanceTime(6_000);
+    advanceTime(LEARNING_FEEDBACK_DURATION_MS - 1);
     expect(queryFeedback()).not.toBeNull();
-
-    fireEvent.click(queries.getByRole('button', { name: '收起详情' }));
-    advanceTime(LEARNING_FEEDBACK_DURATION_MS);
+    advanceTime(1);
     finishExit();
     expect(queryFeedback()).toBeNull();
   });

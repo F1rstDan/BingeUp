@@ -126,6 +126,30 @@ describe('OverlayApp — 新词展示', () => {
     expect(screen.queryByRole('group', { name: /选项/ })).not.toBeInTheDocument();
   });
 
+  it('例句整块是朗读入口，文字和译文可选中且没有嵌套按钮', () => {
+    const onAction = vi.fn();
+    const { container } = render(
+      <OverlayApp
+        item={{ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION }}
+        onAction={onAction}
+      />,
+    );
+    const example = container.querySelector('.bingeup-example-action');
+
+    expect(example).not.toBeNull();
+    expect(example).toHaveAttribute('role', 'button');
+    expect(example).toHaveAttribute('tabindex', '0');
+    expect(example).toHaveTextContent('He abandoned his car.');
+    expect(example).toHaveTextContent('他抛弃了他的车。');
+    expect(example?.querySelectorAll('button')).toHaveLength(0);
+    expect(example?.querySelector('svg')).toBeInTheDocument();
+
+    fireEvent.click(example!);
+    fireEvent.keyDown(example!, { key: 'Enter' });
+    fireEvent.keyDown(example!, { key: ' ' });
+    expect(onAction).not.toHaveBeenCalled();
+  });
+
   it('渲染"知道了"、"我认识，换一个"、"跳过"三个按钮', () => {
     renderOverlay({ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION });
     expect(screen.getByRole('button', { name: /知道了/ })).toBeInTheDocument();
@@ -180,6 +204,16 @@ describe('OverlayApp — 题目交互', () => {
     expect(screen.getByText('释放')).toBeInTheDocument();
     expect(screen.getByText('反射')).toBeInTheDocument();
     expect(screen.getByText('聚集')).toBeInTheDocument();
+  });
+
+  it('选项序号使用 1-4，不再使用 A-D', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: QUESTION }} onAction={vi.fn()} />,
+    );
+    const keys = [...container.querySelectorAll('.bingeup-option-key')].map(
+      (element) => element.textContent,
+    );
+    expect(keys).toEqual(['1', '2', '3', '4']);
   });
 
   it('未选择时提交按钮禁用', () => {
@@ -430,19 +464,26 @@ describe('OverlayApp — 快捷键', () => {
   });
 
   describe('题目快捷键', () => {
-    it('按下数字键 1-4 选择对应选项', () => {
+    it.each([
+      ['1', 0],
+      ['2', 1],
+      ['3', 2],
+      ['4', 3],
+      ['a', 0],
+      ['b', 1],
+      ['c', 2],
+      ['d', 3],
+      ['A', 0],
+      ['B', 1],
+      ['C', 2],
+      ['D', 3],
+    ] as const)('按下 %s 选择第 %i 个选项', (key, index) => {
       renderOverlay({ kind: 'question', question: QUESTION });
-      pressKey('1');
-      const selectedOption = screen.getByText('吸收').closest('button');
+      pressKey(key);
+      const selectedOption = screen.getByText(QUESTION.options[index]!).closest('button');
       expect(selectedOption).toHaveAttribute('aria-pressed', 'true');
       // M5：选中状态用原版令牌样式 + naive-icons 图标表达，不仅依赖颜色。
       expect(selectedOption?.querySelector('svg')).not.toBeNull();
-    });
-
-    it('按下字母键 A-D 选择对应选项', () => {
-      renderOverlay({ kind: 'question', question: QUESTION });
-      pressKey('b');
-      expect(screen.getByText('释放').closest('button')).toHaveAttribute('aria-pressed', 'true');
     });
 
     it('选择后按 Enter 提交', () => {
@@ -695,7 +736,15 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
       expect(onAction).toHaveBeenCalledWith(
         type === 'exit-learning' ? { type } : { type, wordId: 'w-1' },
       );
-      for (const action of screen.getAllByRole('button')) expect(action).toBeDisabled();
+      for (const action of screen
+        .getAllByRole('button')
+        .filter((button) => button.tagName === 'BUTTON')) {
+        expect(action).toBeDisabled();
+      }
+      expect(screen.getByRole('button', { name: '朗读例句' })).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
     });
   });
 });

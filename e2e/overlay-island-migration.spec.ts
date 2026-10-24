@@ -31,6 +31,8 @@ const captureEnabled = process.env.CAPTURE_M5 === '1';
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = resolve(projectRoot, 'docs', 'assets', 'migration-m5');
 const resultPath = resolve(projectRoot, '.output', 'migration-m5-capture.json');
+const layoutCaptureEnabled = process.env.CAPTURE_LAYOUT === '1';
+const layoutOutDir = resolve(projectRoot, '.output', 'layout-evidence');
 
 const SYNTHETIC_URL = 'https://www.bilibili.com/video/BV1M5OVERLAY';
 
@@ -375,6 +377,146 @@ async function captureViewport(
     file,
     detail: detail === undefined ? undefined : JSON.stringify(detail),
   });
+}
+
+interface LayoutExampleState {
+  label: string | null;
+  role: string | null;
+  tabIndex: string | null;
+  nestedButtons: number;
+  iconColor: string;
+  iconFill: string;
+  iconStroke: string;
+}
+
+interface LayoutFeedbackState {
+  closeText: string | null;
+  closeVisible: boolean;
+  closeHit: boolean;
+  detailsButton: boolean;
+  phonetic: string;
+  wordSpeechLabel: string | null;
+  wordSpeechBorderWidth: string;
+  wordSpeechBorderStyle: string;
+  example: LayoutExampleState | null;
+  secondary: string;
+  text: string;
+}
+
+interface LayoutState {
+  kind: 'new-word' | 'question' | 'spelling' | null;
+  example: LayoutExampleState | null;
+  optionKeys: string[];
+  feedback: LayoutFeedbackState | null;
+}
+
+async function inspectLayout(page: Page): Promise<LayoutState> {
+  return (await page.evaluate(() => {
+    const overlayShadow = document.getElementById('bingeup-overlay-host')?.shadowRoot ?? null;
+    const feedbackShadow =
+      document.getElementById('bingeup-learning-feedback-notice')?.shadowRoot ?? null;
+    const overlay = overlayShadow?.querySelector('.bingeup-overlay') ?? null;
+    const kind = !overlay
+      ? null
+      : overlay.querySelector('button.bingeup-option')
+        ? 'question'
+        : overlay.querySelector('input')
+          ? 'spelling'
+          : overlay.querySelector('.bingeup-new-word')
+            ? 'new-word'
+            : null;
+    const exampleState = (scope: ParentNode | null): LayoutExampleState | null => {
+      const action = scope?.querySelector<HTMLElement>('.bingeup-example-action') ?? null;
+      if (!action) return null;
+      const icon = action.querySelector<SVGElement>('.bingeup-example-speaker') ?? null;
+      const path = icon?.querySelector('path') ?? null;
+      return {
+        label: action.getAttribute('aria-label'),
+        role: action.getAttribute('role'),
+        tabIndex: action.getAttribute('tabindex'),
+        nestedButtons: action.querySelectorAll('button').length,
+        iconColor: icon ? getComputedStyle(icon).color : '',
+        iconFill: path ? getComputedStyle(path).fill : '',
+        iconStroke: path ? getComputedStyle(path).stroke : '',
+      };
+    };
+    const feedback = feedbackShadow?.querySelector<HTMLElement>('.bingeup-learning-feedback');
+    const close = feedback
+      ? [...feedback.querySelectorAll('button')].find(
+          (button) => (button.textContent ?? '').trim() === '关闭',
+        )
+      : null;
+    const closeRect = close?.getBoundingClientRect();
+    const closeHit =
+      closeRect && feedbackShadow
+        ? Boolean(
+            (() => {
+              const hit = feedbackShadow.elementFromPoint(
+                closeRect.left + closeRect.width / 2,
+                closeRect.top + closeRect.height / 2,
+              );
+              return hit === close || close?.contains(hit);
+            })(),
+          )
+        : false;
+    const wordSpeech = feedback?.querySelector<HTMLButtonElement>(
+      'button[aria-label="系统朗读单词"], button[aria-label="停止朗读单词"]',
+    );
+    const wordSpeechStyle = wordSpeech ? getComputedStyle(wordSpeech) : null;
+    return {
+      kind,
+      example: exampleState(overlayShadow),
+      optionKeys: overlay
+        ? [...overlay.querySelectorAll('.bingeup-option-key')].map(
+            (element) => element.textContent?.trim() ?? '',
+          )
+        : [],
+      feedback: feedback
+        ? {
+            closeText: close?.textContent?.trim() ?? null,
+            closeVisible: close ? close.getBoundingClientRect().width > 0 : false,
+            closeHit,
+            detailsButton: Boolean(
+              [...feedback.querySelectorAll('button')].find((button) =>
+                /详情/.test(button.textContent ?? ''),
+              ),
+            ),
+            phonetic:
+              feedback.querySelector('.bingeup-new-word-phonetic')?.textContent?.trim() ?? '',
+            wordSpeechLabel: wordSpeech?.getAttribute('aria-label') ?? null,
+            wordSpeechBorderWidth: wordSpeechStyle?.borderTopWidth ?? '',
+            wordSpeechBorderStyle: wordSpeechStyle?.borderTopStyle ?? '',
+            example: exampleState(feedback),
+            secondary:
+              feedback
+                .querySelector('.bingeup-learning-feedback__secondary')
+                ?.textContent?.replace(/\s+/g, ' ')
+                .trim() ?? '',
+            text: (feedback.textContent ?? '').replace(/\s+/g, ' ').trim(),
+          }
+        : null,
+    } as LayoutState;
+  })) as LayoutState;
+}
+
+async function clickOverlayButton(page: Page, labels: string[]): Promise<string | null> {
+  return page.evaluate((wanted) => {
+    const shadow = document.getElementById('bingeup-overlay-host')?.shadowRoot;
+    if (!shadow) return null;
+    const buttons = [...shadow.querySelectorAll<HTMLButtonElement>('button')].filter(
+      (button) => !button.disabled,
+    );
+    for (const label of wanted) {
+      const button = buttons.find((candidate) =>
+        (candidate.textContent ?? '').replace(/\s+/g, '').includes(label.replace(/\s+/g, '')),
+      );
+      if (button) {
+        button.click();
+        return label;
+      }
+    }
+    return null;
+  }, labels);
 }
 
 /**
@@ -741,6 +883,210 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     await page.keyboard.press('Escape');
     await expect(page.locator('#bingeup-overlay-host')).toHaveCount(0, { timeout: 10_000 });
 
+    await control.close();
+    await page.close();
+  });
+
+  test('UI 修正：例句整块单色朗读、反馈常显详情、选项 1-4', async ({ context, extensionId }) => {
+    const control = await context.newPage();
+    await warmUp(control, extensionId);
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await fulfillSyntheticPage(page, { playerWidth: 960, playerHeight: 720, pageHeight: 1400 });
+    await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
+    if (layoutCaptureEnabled) mkdirSync(layoutOutDir, { recursive: true });
+
+    const tabId = await findSyntheticTabId(control);
+    expect(tabId).not.toBeNull();
+    await ensureOverlay(page, control, tabId!);
+
+    let sawNewWord = false;
+    let sawQuestion = false;
+    let sawFeedback = false;
+    let capturedNewWord = false;
+    let capturedFeedback = false;
+
+    for (let round = 0; round < 16 && !(sawNewWord && sawQuestion && sawFeedback); round += 1) {
+      if ((await page.locator('#bingeup-overlay-host').count()) === 0) {
+        const reopened = await sendToContent(control, tabId!, {
+          type: 'START_CONTINUOUS_LEARNING',
+        });
+        if (reopened.ok !== true) break;
+        await expect(page.locator('#bingeup-overlay-host')).toHaveCount(1, { timeout: 15_000 });
+        await expect.poll(() => cardVisible(page), { timeout: 15_000 }).toBe(true);
+      }
+
+      const state = await inspectLayout(page);
+      if (state.kind === 'new-word') {
+        sawNewWord = true;
+        expect(state.example).not.toBeNull();
+        expect(state.example!.role).toBe('button');
+        expect(state.example!.tabIndex).toBe('0');
+        expect(state.example!.nestedButtons).toBe(0);
+        expect(state.example!.iconFill).toBe(state.example!.iconColor);
+        expect(state.example!.iconStroke).toBe(state.example!.iconColor);
+
+        if (layoutCaptureEnabled && !capturedNewWord) {
+          capturedNewWord = true;
+          const clip = await page.evaluate(() => {
+            const panel = document
+              .getElementById('bingeup-overlay-host')
+              ?.shadowRoot?.querySelector('.bingeup-example-panel');
+            const rect = panel?.getBoundingClientRect();
+            return rect
+              ? {
+                  x: Math.max(0, rect.left),
+                  y: Math.max(0, rect.top),
+                  width: Math.min(rect.width, window.innerWidth),
+                  height: Math.min(rect.height, window.innerHeight),
+                }
+              : null;
+          });
+          await page.screenshot({ path: resolve(layoutOutDir, 'new-word-card.png') });
+          if (clip && clip.width > 0 && clip.height > 0) {
+            await page.screenshot({ path: resolve(layoutOutDir, 'new-word-example.png'), clip });
+          }
+        }
+
+        if (
+          !(await clickOverlayButton(page, ['知道了，继续', '知道了', '我认识，换一个', '跳过']))
+        ) {
+          break;
+        }
+        await page.waitForTimeout(350);
+        continue;
+      }
+
+      if (state.kind === 'question') {
+        sawQuestion = true;
+        expect(state.optionKeys).toEqual(['1', '2', '3', '4']);
+        await page.evaluate(() => {
+          const option = document
+            .getElementById('bingeup-overlay-host')
+            ?.shadowRoot?.querySelector<HTMLButtonElement>('button.bingeup-option');
+          option?.click();
+        });
+        await page.waitForTimeout(100);
+      } else if (state.kind === 'spelling') {
+        await page.locator('#bingeup-overlay-host').locator('input').fill('x');
+        await page.waitForTimeout(100);
+      } else {
+        await page.waitForTimeout(250);
+        continue;
+      }
+
+      if (!(await clickOverlayButton(page, ['提交并继续']))) break;
+      await expect
+        .poll(async () => (await inspectLayout(page)).feedback !== null, { timeout: 10_000 })
+        .toBe(true);
+      const feedback = (await inspectLayout(page)).feedback!;
+      sawFeedback = true;
+      expect(feedback.closeText).toBe('关闭');
+      expect(feedback.closeVisible).toBe(true);
+      expect(feedback.closeHit).toBe(true);
+      expect(feedback.detailsButton).toBe(false);
+      expect(feedback.phonetic).toMatch(/\//);
+      expect(feedback.wordSpeechLabel).toMatch(/朗读单词/);
+      expect(feedback.wordSpeechBorderStyle).toBe('solid');
+      expect(Number.parseFloat(feedback.wordSpeechBorderWidth)).toBeGreaterThan(0);
+      expect(feedback.example).not.toBeNull();
+      expect(feedback.example!.nestedButtons).toBe(0);
+      expect(feedback.example!.iconFill).toBe(feedback.example!.iconColor);
+      expect(feedback.example!.iconStroke).toBe(feedback.example!.iconColor);
+
+      const feedbackRect = await page.evaluate(() => {
+        const element = document
+          .getElementById('bingeup-learning-feedback-notice')
+          ?.shadowRoot?.querySelector('.bingeup-learning-feedback');
+        const rect = element?.getBoundingClientRect();
+        return rect
+          ? {
+              x: Math.max(0, rect.left),
+              y: Math.max(0, rect.top),
+              width: Math.min(rect.width, window.innerWidth),
+              height: Math.min(rect.height, window.innerHeight),
+            }
+          : null;
+      });
+      if (feedbackRect) {
+        await page.mouse.move(feedbackRect.x + feedbackRect.width / 2, feedbackRect.y + 16);
+      }
+      if (layoutCaptureEnabled && !capturedFeedback && feedbackRect) {
+        capturedFeedback = true;
+        await page.screenshot({ path: resolve(layoutOutDir, 'feedback-with-overlay.png') });
+        if (feedbackRect.width > 0 && feedbackRect.height > 0) {
+          await page.screenshot({
+            path: resolve(layoutOutDir, 'feedback-notice.png'),
+            clip: feedbackRect,
+          });
+        }
+      }
+
+      await page.evaluate(() => {
+        const shadow = document.getElementById('bingeup-learning-feedback-notice')?.shadowRoot;
+        const close = [...(shadow?.querySelectorAll<HTMLButtonElement>('button') ?? [])].find(
+          (button) => (button.textContent ?? '').trim() === '关闭',
+        );
+        close?.click();
+      });
+      await expect
+        .poll(async () => (await inspectLayout(page)).feedback === null, { timeout: 5_000 })
+        .toBe(true);
+      await page.waitForTimeout(250);
+    }
+
+    expect(sawNewWord).toBe(true);
+    expect(sawQuestion).toBe(true);
+    expect(sawFeedback).toBe(true);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#bingeup-overlay-host')).toHaveCount(0, { timeout: 10_000 });
+    await control.close();
+    await page.close();
+  });
+
+  test('真实浏览器本地朗读进入 speaking 状态', async ({ context, extensionId }) => {
+    test.skip(process.env.E2E_SPEECH !== '1', '真实语音只在带系统语音的浏览器中运行');
+    const control = await context.newPage();
+    await warmUp(control, extensionId);
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await fulfillSyntheticPage(page, { playerWidth: 960, playerHeight: 540, pageHeight: 1400 });
+    await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
+
+    const tabId = await findSyntheticTabId(control);
+    expect(tabId).not.toBeNull();
+    await ensureOverlay(page, control, tabId!);
+    await expect(page.locator('.bingeup-new-word')).toBeVisible();
+
+    const voices = await page.evaluate(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return window.speechSynthesis
+        .getVoices()
+        .filter((voice) => voice.localService && /^en/i.test(voice.lang))
+        .map((voice) => ({ name: voice.name, lang: voice.lang }));
+    });
+    expect(voices.length).toBeGreaterThan(0);
+
+    await page.locator('button[aria-label="系统朗读单词"]').click();
+    const started = await page.evaluate(
+      () =>
+        new Promise<boolean>((resolve) => {
+          const timer = window.setInterval(() => {
+            if (window.speechSynthesis.speaking) {
+              window.clearInterval(timer);
+              resolve(true);
+            }
+          }, 50);
+          window.setTimeout(() => {
+            window.clearInterval(timer);
+            resolve(false);
+          }, 3_000);
+        }),
+    );
+    expect(started).toBe(true);
+
+    await page.keyboard.press('Escape');
     await control.close();
     await page.close();
   });

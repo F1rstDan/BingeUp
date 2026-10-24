@@ -190,6 +190,12 @@ export class LocalSpeechController {
       voiceLang: voice.lang,
       message: '正在准备系统朗读…',
     });
+    // Chrome/Edge 可能在后台标签或页面切换后暂停合成队列；恢复后再入队。
+    try {
+      this.synth.resume();
+    } catch {
+      // 某些实现没有 resume 或拒绝恢复；继续尝试 speak。
+    }
     this.startTimer = window.setTimeout(() => {
       if (token !== this.token || this.state.status !== 'preparing') return;
       this.owned = false;

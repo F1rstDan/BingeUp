@@ -3,6 +3,7 @@ import type { StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
 import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 
 const NOTICE_ID = 'bingeup-learning-feedback-notice';
 
@@ -22,17 +23,21 @@ export const LEARNING_FEEDBACK_CSS = `
   :host { all: initial; }
   .bingeup-learning-feedback__clip { position: absolute; width: 0; height: 0; }
   .bingeup-learning-feedback {
-    display: flex; flex-direction: column; width: 100%; min-width: 0;
-    max-height: calc(100dvh - 32px); padding: 32px 32px 28px;
+    position: relative; display: flex; flex-direction: column; width: 100%; min-width: 0;
+    max-height: calc(100dvh - 32px); padding: 30px 24px 22px;
     background: color-mix(in srgb, var(--animal-bg-color) 90%, var(--animal-warning-color));
     color: var(--animal-text-color); font-family: var(--animal-font-family);
     clip-path: url(#bingeup-feedback-clip); pointer-events: auto;
     animation: bingeup-feedback-enter var(--animal-motion-duration-base) var(--animal-motion-ease);
   }
+  .bingeup-learning-feedback__close {
+    position: absolute; top: 30px; right: 34px; z-index: 1;
+    height: 26px; min-width: 0; padding: 0 8px; font-size: 12px;
+  }
   .bingeup-learning-feedback__status {
-    display: flex; align-items: center; justify-content: center;
+    display: flex; flex: none; align-items: center; justify-content: center;
     gap: var(--animal-spacing-sm); width: 100%;
-    margin-bottom: var(--animal-spacing-md);
+    margin-bottom: var(--animal-spacing-sm);
     font-size: 18px; font-weight: 800; line-height: 1.4;
   }
   .bingeup-learning-feedback__status[data-correct="true"] {
@@ -45,43 +50,47 @@ export const LEARNING_FEEDBACK_CSS = `
     text-align: center; overflow-wrap: anywhere; overflow-y: auto;
   }
   .bingeup-learning-feedback__word {
-    margin: 0; color: var(--animal-text-color); font-size: 36px; font-weight: 900;
+    margin: 0; color: var(--animal-text-color); font-size: 34px; font-weight: 900;
     line-height: 1.2; letter-spacing: 0.01em; overflow-wrap: anywhere;
   }
   .bingeup-learning-feedback__meaning {
-    margin: var(--animal-spacing-md) 0 0;
+    margin: var(--animal-spacing-sm) 0 0;
     color: var(--animal-text-color); font-size: 16px; font-weight: 600; line-height: 1.6;
   }
-  .bingeup-feedback-details-toggle {
-    margin-top: var(--animal-spacing-sm); padding: 5px 10px;
-    border: var(--animal-border-width) solid var(--animal-border-color); border-radius: 10px;
-    background: var(--animal-bg-color); color: var(--animal-text-color);
-    font-family: var(--animal-font-family); font-size: 13px; font-weight: 700; cursor: pointer;
+  .bingeup-learning-feedback .bingeup-speech-controls--word { align-items: center; text-align: center; }
+  .bingeup-learning-feedback .bingeup-word-speech-row {
+    justify-content: center; margin-top: 2px;
   }
-  .bingeup-feedback-details-toggle:hover { border-color: var(--animal-primary-color); }
-  .bingeup-feedback-details-toggle:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
-  .bingeup-feedback-details { margin-top: var(--animal-spacing-md); text-align: left; }
-  .bingeup-feedback-details__phonetic { margin: 4px 0; color: var(--animal-text-color-secondary); text-align: center; }
-  .bingeup-feedback-details__example { margin: var(--animal-spacing-sm) 0 4px; font-style: italic; line-height: 1.5; }
-  .bingeup-feedback-details__translation { margin: 0 0 var(--animal-spacing-sm); color: var(--animal-text-color-secondary); font-size: 13px; line-height: 1.5; }
-  .bingeup-feedback-details__secondary { margin: 0 0 var(--animal-spacing-sm); padding-left: 20px; font-size: 13px; line-height: 1.6; }
-  .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: 4px; }
-  .bingeup-secondary-pos { display: inline-block; margin-right: 6px; color: var(--animal-text-color-secondary); font-size: 12px; font-weight: 700; }
-  .bingeup-speech-controls { margin-top: var(--animal-spacing-sm); text-align: center; }
-  .bingeup-speech-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--animal-spacing-sm); }
-  .bingeup-speech-button, .bingeup-speech-retry {
-    padding: 5px 10px; border: var(--animal-border-width) solid var(--animal-border-color);
-    border-radius: 10px; background: var(--animal-bg-color); color: var(--animal-text-color);
-    font-family: var(--animal-font-family); font-size: 12px; font-weight: 700; cursor: pointer;
+  .bingeup-part-of-speech {
+    display: flex; justify-content: center;
+    margin-top: var(--animal-spacing-xs); margin-bottom: 2px;
   }
-  .bingeup-speech-button:hover, .bingeup-speech-retry:hover { border-color: var(--animal-primary-color); }
-  .bingeup-speech-button:focus-visible, .bingeup-speech-retry:focus-visible { outline: 2px solid var(--animal-primary-color); outline-offset: 2px; }
-  .bingeup-speech-status { margin: 6px 0 0; font-size: 12px; }
-  .bingeup-speech-note { margin: 6px 0 0; color: var(--animal-text-color-secondary); font-size: 11px; line-height: 1.4; }
+  .bingeup-learning-feedback .bingeup-example-panel {
+    margin: var(--animal-spacing-md) 0 0;
+  }
+  .bingeup-secondary {
+    display: flex; align-items: baseline; gap: 2px var(--animal-spacing-xs);
+    font-size: var(--animal-font-size-sm); line-height: 1.5; text-align: left;
+  }
+  .bingeup-learning-feedback__secondary {
+    flex-wrap: nowrap; justify-content: flex-start; overflow: hidden;
+    margin: var(--animal-spacing-sm) 0 0; padding: 0 2px; white-space: nowrap;
+  }
+  .bingeup-learning-feedback__secondary .bingeup-secondary-label {
+    flex: none; margin-right: var(--animal-spacing-xs);
+    color: var(--animal-text-color-secondary); font-weight: 700; white-space: nowrap;
+  }
+  .bingeup-learning-feedback__secondary .bingeup-secondary-item {
+    flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  }
+  .bingeup-secondary-pos { margin-right: 3px; font-weight: 700; }
+  .bingeup-secondary-separator {
+    margin-left: var(--animal-spacing-xs); color: var(--animal-text-color-secondary);
+  }
   .bingeup-learning-feedback__submitted-answer {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
     gap: var(--animal-spacing-sm) var(--animal-spacing-md);
-    margin-top: var(--animal-spacing-lg); padding-top: var(--animal-spacing-md);
+    margin-top: var(--animal-spacing-sm); padding-top: var(--animal-spacing-sm);
     border-top: 1px solid var(--animal-border-color);
   }
   .bingeup-learning-feedback__answer-label { font-size: 14px; font-weight: 600; }
@@ -93,8 +102,8 @@ export const LEARNING_FEEDBACK_CSS = `
   .bingeup-learning-feedback__wrong-value svg { flex: none; }
   .bingeup-learning-feedback__wrong-value > span { min-width: 0; overflow-wrap: anywhere; }
   .bingeup-learning-feedback__actions {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
-    gap: var(--animal-spacing-md); width: 100%; margin-top: var(--animal-spacing-lg);
+    display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+    gap: var(--animal-spacing-md); width: 100%; margin-top: var(--animal-spacing-md);
   }
   .bingeup-learning-feedback__too-easy-success {
     color: var(--animal-text-color); font-size: 13px; font-weight: 600;
@@ -104,7 +113,7 @@ export const LEARNING_FEEDBACK_CSS = `
     color: var(--animal-text-color); font-size: 14px; line-height: 1.5;
   }
   @media (max-width: 480px) {
-    .bingeup-learning-feedback { padding: 28px 24px 24px; }
+    .bingeup-learning-feedback { padding: 28px 20px 20px; }
     .bingeup-learning-feedback__word { font-size: 30px; }
   }
   @keyframes bingeup-feedback-enter {
@@ -150,7 +159,7 @@ export class LearningFeedbackNotice implements LearningFeedbackNoticePort {
 
     const style = document.createElement('style');
     style.id = 'bingeup-learning-feedback-style';
-    style.textContent = bundle.css + '\n' + LEARNING_FEEDBACK_CSS;
+    style.textContent = bundle.css + '\n' + SPEECH_CONTROLS_CSS + '\n' + LEARNING_FEEDBACK_CSS;
     shadow.append(style, mount);
     const root = createRoot(mount);
 

@@ -3,7 +3,7 @@ import { Button, Card, Input, Tag } from 'animal-island-ui';
 import { CheckIcon } from 'naive-icons';
 import type { LearningItem, OverlayAction } from '@/types';
 import { localSpeech } from '@/ui/speech/local-speech';
-import { SpeechControls } from '@/ui/speech/SpeechControls';
+import { ExampleSpeechPanel, SpeechControls } from '@/ui/speech/SpeechControls';
 
 export type { OverlayAction };
 
@@ -190,7 +190,6 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                 wordText={word.word}
                 phonetic={word.phonetic}
                 disabled={done}
-                variant="word"
               />
               {isContinuous && (
                 <div className="bingeup-new-word-badge">
@@ -205,23 +204,20 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
               <Tag size="small">{word.partOfSpeech.join('/')}</Tag>
               <span>{word.coreMeaningZh.join('；')}</span>
             </div>
-            <div className="bingeup-example-panel">
-              <div className="bingeup-example-row">
-                <SpeechControls
-                  ownerId={ownerId}
-                  wordText={word.word}
-                  exampleText={word.exampleSentence}
-                  disabled={done}
-                  variant="example"
-                />
-                <div className="bingeup-example-content">
-                  <p className="bingeup-example" lang="en">
-                    {word.exampleSentence}
-                  </p>
+            {word.exampleSentence && (
+              <ExampleSpeechPanel
+                ownerId={ownerId}
+                exampleText={word.exampleSentence}
+                disabled={done}
+              >
+                <p className="bingeup-example" lang="en">
+                  {word.exampleSentence}
+                </p>
+                {word.exampleTranslation && (
                   <p className="bingeup-example-translation">{word.exampleTranslation}</p>
-                </div>
-              </div>
-            </div>
+                )}
+              </ExampleSpeechPanel>
+            )}
             {secondary.length > 0 && (
               <p className="bingeup-secondary">
                 <span className="bingeup-secondary-label">其他常见义</span>
@@ -366,7 +362,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   disabled={done}
                 >
                   <span className="bingeup-option-key" aria-hidden="true">
-                    {String.fromCharCode(65 + idx)}
+                    {idx + 1}
                   </span>
                   <span className="bingeup-option-text">{option}</span>
                   {selectedOption && <CheckIcon className="bingeup-option-icon" size={18} />}

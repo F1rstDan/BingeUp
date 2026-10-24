@@ -15,6 +15,7 @@ class FakeSpeechSynthesis {
   voices: SpeechSynthesisVoice[] = [];
   spoken: FakeUtterance[] = [];
   cancelCount = 0;
+  resumeCount = 0;
   private listeners = new Set<() => void>();
   getVoices() {
     return this.voices;
@@ -33,6 +34,9 @@ class FakeSpeechSynthesis {
   }
   cancel() {
     this.cancelCount += 1;
+  }
+  resume() {
+    this.resumeCount += 1;
   }
 }
 
@@ -83,6 +87,7 @@ describe('LocalSpeechController', () => {
     expect(synth.spoken[0]?.text).toBe('hello');
     expect(synth.spoken[0]?.voice?.name).toBe('local');
     expect(controller.getState().voiceLang).toBe('en-US');
+    expect(synth.resumeCount).toBe(1);
   });
 
   it('仅远程 voice 时 3 秒后显示不可用且不朗读', () => {

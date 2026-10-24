@@ -4,6 +4,7 @@ import { Button, Card } from 'animal-island-ui';
 import { AlertCircleIcon } from 'naive-icons';
 import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
 
@@ -59,43 +60,6 @@ const OVERLAY_SHELL_CSS = `
     font-size: 17px; font-weight: 700; line-height: 1.45; text-align: center; overflow-wrap: anywhere;
   }
   .bingeup-new-word-meaning > span { min-width: 0; }
-  .bingeup-example-panel {
-    margin-bottom: var(--animal-spacing-sm); padding: var(--animal-spacing-sm) var(--animal-spacing-md);
-    border-radius: var(--animal-border-radius-lg); background: var(--animal-bg-color-secondary);
-  }
-  .bingeup-example-row { display: flex; align-items: flex-start; gap: var(--animal-spacing-xs); min-width: 0; }
-  .bingeup-example-row > .bingeup-speech-controls { flex: 0 0 auto; }
-  .bingeup-example-content { flex: 1 1 auto; min-width: 0; }
-  .bingeup-example {
-    flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--animal-font-size-base);
-    font-style: italic; line-height: 1.5; overflow-wrap: anywhere;
-  }
-  .bingeup-example-translation {
-    margin: var(--animal-spacing-xs) 0 0; color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm); line-height: 1.5;
-  }
-  .bingeup-speech-controls { min-width: 0; margin: 0; text-align: center; }
-  .bingeup-speech-controls--word {
-    display: flex; flex-direction: column; align-items: flex-start;
-    gap: var(--animal-spacing-xs); text-align: left;
-  }
-  .bingeup-word-speech-row {
-    display: flex; flex-wrap: wrap; align-items: center;
-    gap: var(--animal-spacing-xs) var(--animal-spacing-sm); min-width: 0;
-  }
-  .bingeup-word-pronunciation {
-    display: inline-flex; flex-wrap: wrap; align-items: baseline;
-    gap: var(--animal-spacing-xs); min-width: 0;
-  }
-  .bingeup-new-word-phonetic {
-    min-width: 0; max-width: 100%; color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm); line-height: 1.4; overflow-wrap: anywhere;
-  }
-  .bingeup-speech-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--animal-spacing-sm); }
-  .bingeup-speech-status {
-    max-width: 100%; margin: 0; color: var(--animal-text-color-secondary);
-    font-size: 12px; line-height: 1.4; text-align: left; overflow-wrap: anywhere;
-  }
   .bingeup-secondary {
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--animal-spacing-xs);
     margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md);
@@ -217,7 +181,7 @@ export class OverlayController implements OverlayPort {
     registerIslandFontFaces(bundle.fontFaces);
     this.mountShadow({
       hostId: OVERLAY_HOST_ID,
-      css: OVERLAY_RESET_CSS + '\n' + bundle.css + '\n' + OVERLAY_SHELL_CSS,
+      css: OVERLAY_RESET_CSS + '\n' + bundle.css + '\n' + OVERLAY_SHELL_CSS + SPEECH_CONTROLS_CSS,
       target,
       mode,
       render: () => (
