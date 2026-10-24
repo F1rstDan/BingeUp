@@ -117,6 +117,7 @@ export function makeDemoChoiceQuestion(): MultipleChoiceQuestion {
       meanings: word.coreMeaningZh,
       exampleSentence: word.exampleSentence,
       exampleTranslation: word.exampleTranslation,
+      secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '仔细考虑' }],
     },
   };
 }
