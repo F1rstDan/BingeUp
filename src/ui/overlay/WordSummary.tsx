@@ -216,7 +216,8 @@ export const WORD_SUMMARY_CSS = `
   .bingeup-secondary {
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--animal-spacing-xs);
     margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md);
-    font-size: var(--animal-font-size-sm); line-height: 1.6; text-align: left;
+    justify-content: center; font-size: var(--animal-font-size-sm); line-height: 1.6;
+    text-align: center;
   }
   .bingeup-secondary-label {
     margin-right: var(--animal-spacing-xs); color: var(--animal-text-color-secondary);

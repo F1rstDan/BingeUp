@@ -42,10 +42,30 @@ const OVERLAY_SHELL_CSS = `
   .bingeup-continuous-badge {
     display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
   }
+  .bingeup-previous-result {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; margin: 0 0 var(--animal-spacing-sm); padding: 5px 10px;
+    border-radius: 999px; background: var(--animal-bg-color-secondary);
+    color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); font-weight: 700; line-height: 1.4;
+  }
+  .bingeup-previous-result[data-correct="true"] { color: var(--animal-success-color-active); }
+  .bingeup-previous-result[data-correct="false"] { color: var(--animal-error-color-active); }
+  .bingeup-previous-result__icon {
+    display: inline-flex; flex: none; width: 22px; height: 22px;
+    align-items: center; justify-content: center; border-radius: 50%; color: #fff;
+  }
+  .bingeup-previous-result__icon[data-correct="true"] {
+    background: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result__icon[data-correct="false"] {
+    background: var(--animal-error-color-active);
+  }
   .bingeup-prompt {
     margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
     letter-spacing: 0.01em; text-align: center;
   }
+  .bingeup-prompt--context { font-size: 19px; font-weight: 700; line-height: 1.55; }
   .bingeup-phonetic {
     margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-base); text-align: center;
@@ -126,6 +146,8 @@ export interface OverlayShadowOptions {
   item: LearningItem;
   onAction?: (action: OverlayAction) => unknown | Promise<unknown>;
   isContinuous?: boolean;
+  /** 连续模式提交并继续时，演示控制器如何打开下一题。 */
+  nextItem?: (result: SubmissionResult) => LearningItem | null;
 }
 
 export interface OverlayShadowMount {
@@ -159,11 +181,16 @@ export function mountOverlayShadow(
 
   const root = createRoot(mountPoint);
   const feedbackNotice = new LearningFeedbackNotice();
+  let currentItem = options.item;
+  let previousResult: Pick<SubmissionResult, 'isCorrect'> | undefined;
+  let renderVersion = 0;
   const renderQuestion = () => {
+    feedbackNotice.close();
     host.style.pointerEvents = 'auto';
     root.render(
       <OverlayApp
-        item={options.item}
+        key={renderVersion}
+        item={currentItem}
         onAction={async (action) => {
           const result = await options.onAction?.(action);
           if (
@@ -173,11 +200,26 @@ export function mountOverlayShadow(
             'isCorrect' in result
           ) {
             const feedback = result as SubmissionResult;
+            const continues =
+              action.type === 'submit-and-continue' ||
+              action.type === 'submit-spelling-and-continue';
+            const nextItem =
+              options.isContinuous && continues ? options.nextItem?.(feedback) : null;
+            if (nextItem) {
+              currentItem = nextItem;
+              previousResult = { isCorrect: feedback.isCorrect };
+              renderVersion += 1;
+              renderQuestion();
+              return;
+            }
             root.render(null);
             host.style.pointerEvents = 'none';
             feedbackNotice.show(feedback, {
               onContinue: async () => {
                 feedbackNotice.close();
+                currentItem = options.item;
+                previousResult = undefined;
+                renderVersion += 1;
                 renderQuestion();
                 return { ok: true };
               },
@@ -189,10 +231,19 @@ export function mountOverlayShadow(
                       correction: 'too-easy',
                     })) as CorrectionResult
                 : undefined,
+              onTooHard: feedback.isCorrect
+                ? async () =>
+                    (await options.onAction?.({
+                      type: 'correct-rating',
+                      reviewLogId: feedback.reviewLogId,
+                      correction: 'too-hard',
+                    })) as CorrectionResult
+                : undefined,
             });
           }
         }}
         isContinuous={options.isContinuous}
+        previousResult={previousResult}
       />,
     );
   };

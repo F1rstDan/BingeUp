@@ -122,6 +122,29 @@ export function makeDemoChoiceQuestion(): MultipleChoiceQuestion {
   };
 }
 
+/** 语境题：例句挖空，选项为句中应填入的英文词形。 */
+export function makeDemoContextChoiceQuestion(): MultipleChoiceQuestion {
+  const word = demoWord('deliberate');
+  return {
+    id: 'demo-question-context-1',
+    type: 'context-choice',
+    cardId: 'demo-card-deliberate',
+    wordId: word.id,
+    prompt: 'His silence was a ____ choice.',
+    options: ['deliberate', 'enhance', 'mitigate', 'frequent'],
+    correctIndex: 0,
+    explanation: {
+      word: word.word,
+      phonetic: word.phonetic,
+      partOfSpeech: word.partOfSpeech,
+      meanings: word.coreMeaningZh,
+      exampleSentence: word.exampleSentence,
+      exampleTranslation: word.exampleTranslation,
+      secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '仔细考虑' }],
+    },
+  };
+}
+
 /** 拼写题：中文释义 → 英文词形（仅连续学习模式出现）。 */
 export function makeDemoSpellingQuestion(): SpellingQuestion {
   const word = demoWord('mitigate');

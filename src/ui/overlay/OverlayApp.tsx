@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Button, Card, Input, Tag } from 'animal-island-ui';
 import { CheckIcon } from 'naive-icons';
-import type { LearningItem, OverlayAction } from '@/types';
+import { BadgeXIcon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
+import type { LearningItem, OverlayAction, SubmissionResult } from '@/types';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { localSpeech } from '@/ui/speech/local-speech';
 import { PronunciationTag, WordSummary } from '@/ui/overlay/WordSummary';
 
@@ -17,6 +19,8 @@ interface OverlayAppProps {
   onAction: (action: OverlayAction) => unknown | Promise<unknown>;
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
+  /** 连续学习提交后，在下一题顶部显示上一题正误。 */
+  previousResult?: Pick<SubmissionResult, 'isCorrect'>;
 }
 
 /**
@@ -34,12 +38,13 @@ interface OverlayAppProps {
  * 连续学习模式（Issue #8）：
  * - 选择题/拼写题动作固定为"跳过" + "提交并继续" + "提交并结束"；
  * - 新词展示动作变为"学到了，继续" / "我认识，换一个" + "结束学习"；
+ * - "提交并继续"由控制器直接打开下一题，并在新题顶部显示上一题正误；
  * - "跳过"不提交当前题；"提交并结束"提交当前题并按完成处理。
  *
  * 所有动作均锁定当前界面，防止保存期间改答、跳过或重复提交。
  * Enter 单题提交或连续提交并结束；Shift + Enter 始终提交并继续。
  */
-export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
+export function OverlayApp({ item, onAction, isContinuous, previousResult }: OverlayAppProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [spelledAnswer, setSpelledAnswer] = useState('');
   const [answerChanges, setAnswerChanges] = useState(0);
@@ -177,6 +182,9 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
         <Card className="bingeup-card">
+          {isContinuous && previousResult && (
+            <PreviousResultBanner isCorrect={previousResult.isCorrect} />
+          )}
           <div className="bingeup-new-word">
             {isContinuous && (
               <div className="bingeup-new-word-badge">
@@ -251,6 +259,9 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
   const spellingHint = item.kind === 'spelling-question' ? item.question.hint : undefined;
   const promptLang =
     question.type === 'en-to-zh' || question.type === 'context-choice' ? 'en' : 'zh-CN';
+  // 只有题干已经显示目标词时才展示读音；其余题型展示音标会泄露答案。
+  const showQuestionPronunciation =
+    question.type === 'en-to-zh' && Boolean(question.explanation.phonetic);
   const canSubmit =
     item.kind === 'spelling-question' ? spelledAnswer.trim() !== '' : selected !== null;
 
@@ -261,15 +272,21 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
       aria-label={item.kind === 'spelling-question' ? '单词拼写' : '单词学习'}
     >
       <Card className="bingeup-card">
+        {isContinuous && previousResult && (
+          <PreviousResultBanner isCorrect={previousResult.isCorrect} />
+        )}
         {isContinuous && (
           <div className="bingeup-continuous-badge">
             <Tag size="small">连续学习</Tag>
           </div>
         )}
-        <div className="bingeup-prompt" lang={promptLang}>
+        <div
+          className={`bingeup-prompt${question.type === 'context-choice' ? ' bingeup-prompt--context' : ''}`}
+          lang={promptLang}
+        >
           {question.prompt}
         </div>
-        {question.explanation.phonetic && (
+        {showQuestionPronunciation && (
           <div className="bingeup-question-pronunciation">
             <PronunciationTag
               ownerId={ownerId}
@@ -354,6 +371,17 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
           </Button>
         </div>
       </Card>
+    </div>
+  );
+}
+
+function PreviousResultBanner({ isCorrect }: { isCorrect: boolean }): JSX.Element {
+  return (
+    <div className="bingeup-previous-result" data-correct={isCorrect} role="status">
+      <span className="bingeup-previous-result__icon" data-correct={isCorrect}>
+        <HugeIcon icon={isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={16} />
+      </span>
+      <span>{isCorrect ? '上一题答对了' : '上一题答错了'}</span>
     </div>
   );
 }

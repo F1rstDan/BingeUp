@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { Button } from 'animal-island-ui';
 import { BadgeXIcon, Cancel01Icon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
@@ -35,7 +35,7 @@ export interface LearningFeedbackProps {
   staticPreview?: boolean;
 }
 
-/** 右下角非模态答题反馈；不转移焦点、不拦截页面快捷键。 */
+/** 右下角非模态答题反馈；点击反馈后取消自动关闭，不转移焦点或拦截页面快捷键。 */
 export function LearningFeedback({
   result,
   onContinue,
@@ -53,6 +53,8 @@ export function LearningFeedback({
   const [tooHardSaved, setTooHardSaved] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
+  const [countdownProgress, setCountdownProgress] = useState(staticPreview ? 0.45 : 0);
+  const [countdownCancelled, setCountdownCancelled] = useState(false);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
   const mounted = useRef(false);
   const continuationPending = useRef(false);
@@ -67,6 +69,9 @@ export function LearningFeedback({
     (speech.state.status === 'preparing' || speech.state.status === 'speaking');
   const actionsLocked = continuing || markingTooEasy || markingTooHard;
   const { explanation } = result;
+  const hasSubmittedAnswer = !result.isCorrect && Boolean(result.submittedAnswer);
+  const hasActions =
+    canMarkTooEasy || canMarkTooHard || tooEasySaved || tooHardSaved || onContinue !== undefined;
 
   const dismiss = (): void => {
     if (staticPreview) return;
@@ -74,6 +79,12 @@ export function LearningFeedback({
       localSpeech.stopOwnedBy(ownerId);
       setExiting(true);
     }
+  };
+
+  const cancelAutoClose = (): void => {
+    if (staticPreview || countdownCancelled) return;
+    setCountdownCancelled(true);
+    setCountdownProgress(0);
   };
 
   useEffect(() => {
@@ -85,7 +96,7 @@ export function LearningFeedback({
   }, [ownerId]);
 
   useEffect(() => {
-    if (staticPreview) return;
+    if (staticPreview || countdownCancelled) return;
     if (
       hovered ||
       focused ||
@@ -99,8 +110,15 @@ export function LearningFeedback({
       return;
 
     const startedAt = Date.now();
+    const startingRemaining = remainingMs.current;
+    setCountdownProgress(1 - startingRemaining / LEARNING_FEEDBACK_DURATION_MS);
+    const interval = window.setInterval(() => {
+      const remaining = Math.max(0, startingRemaining - (Date.now() - startedAt));
+      setCountdownProgress(1 - remaining / LEARNING_FEEDBACK_DURATION_MS);
+    }, 50);
     const timer = window.setTimeout(() => setExiting(true), remainingMs.current);
     return () => {
+      window.clearInterval(interval);
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
@@ -114,6 +132,7 @@ export function LearningFeedback({
     exiting,
     failure,
     staticPreview,
+    countdownCancelled,
   ]);
 
   useEffect(() => {
@@ -244,6 +263,7 @@ export function LearningFeedback({
           aria-label="答题反馈"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
+          onClickCapture={cancelAutoClose}
           onFocusCapture={() => setFocused(true)}
           onBlurCapture={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null))
@@ -252,16 +272,26 @@ export function LearningFeedback({
           // 用户主动操作反馈按钮时，按键只作用于该按钮，不触发下一题快捷键。
           onKeyDown={(event) => event.stopPropagation()}
         >
-          <Button
-            className="bingeup-learning-feedback__close"
-            type="text"
-            size="small"
-            icon={<HugeIcon icon={Cancel01Icon} size={18} />}
-            aria-label="关闭"
-            title="关闭"
-            disabled={actionsLocked || exiting}
-            onClick={dismiss}
-          />
+          <span
+            className="bingeup-learning-feedback__close-control"
+            data-countdown-cancelled={countdownCancelled}
+          >
+            <span
+              className="bingeup-learning-feedback__close-timer"
+              style={{ '--feedback-countdown': countdownProgress } as CSSProperties}
+              aria-hidden="true"
+            />
+            <Button
+              className="bingeup-learning-feedback__close"
+              type="text"
+              size="small"
+              icon={<HugeIcon icon={Cancel01Icon} size={18} />}
+              aria-label="关闭"
+              title="关闭"
+              disabled={actionsLocked || exiting}
+              onClick={dismiss}
+            />
+          </span>
           <div role="status" aria-live="polite" aria-atomic="true">
             <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
               <span
@@ -289,7 +319,7 @@ export function LearningFeedback({
               disabled={actionsLocked || exiting}
               showExample={false}
             />
-            {!result.isCorrect && result.submittedAnswer && (
+            {hasSubmittedAnswer && (
               <div className="bingeup-learning-feedback__submitted-answer">
                 <span className="bingeup-learning-feedback__answer-label">你的答案</span>
                 <span className="bingeup-learning-feedback__wrong-value">
@@ -303,7 +333,11 @@ export function LearningFeedback({
               </p>
             )}
           </div>
-          <div className="bingeup-learning-feedback__actions">
+          <div
+            className="bingeup-learning-feedback__actions"
+            data-has-actions={hasActions}
+            data-after-answer={hasSubmittedAnswer}
+          >
             <div className="bingeup-learning-feedback__rating-actions">
               {canMarkTooEasy && !tooEasySaved && !tooHardSaved && (
                 <Button

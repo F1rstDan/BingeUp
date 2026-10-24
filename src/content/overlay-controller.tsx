@@ -38,9 +38,35 @@ export const OVERLAY_SHELL_CSS = `
   .bingeup-continuous-badge {
     display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
   }
+  .bingeup-previous-result {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; margin: 0 0 var(--animal-spacing-sm); padding: 5px 10px;
+    border-radius: 999px; background: var(--animal-bg-color-secondary);
+    color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); font-weight: 700; line-height: 1.4;
+  }
+  .bingeup-previous-result[data-correct="true"] {
+    color: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result[data-correct="false"] {
+    color: var(--animal-error-color-active);
+  }
+  .bingeup-previous-result__icon {
+    display: inline-flex; flex: none; width: 22px; height: 22px;
+    align-items: center; justify-content: center; border-radius: 50%; color: #fff;
+  }
+  .bingeup-previous-result__icon[data-correct="true"] {
+    background: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result__icon[data-correct="false"] {
+    background: var(--animal-error-color-active);
+  }
   .bingeup-prompt {
     margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
     letter-spacing: 0.01em; text-align: center;
+  }
+  .bingeup-prompt--context {
+    font-size: 19px; font-weight: 700; line-height: 1.55;
   }
   .bingeup-new-word { min-width: 0; }
   .bingeup-new-word .bingeup-prompt { margin-bottom: var(--animal-spacing-xs); }
@@ -64,7 +90,8 @@ export const OVERLAY_SHELL_CSS = `
   .bingeup-secondary {
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--animal-spacing-xs);
     margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md);
-    font-size: var(--animal-font-size-sm); line-height: 1.6; text-align: left;
+    justify-content: center; font-size: var(--animal-font-size-sm); line-height: 1.6;
+    text-align: center;
   }
   .bingeup-secondary-label {
     margin-right: var(--animal-spacing-xs); color: var(--animal-text-color-secondary);
@@ -198,6 +225,7 @@ export class OverlayController implements OverlayPort {
             item={item}
             onAction={(action) => this.actionHandler?.(action)}
             isContinuous={options?.isContinuous}
+            previousResult={options?.previousResult}
           />
         </OverlayErrorBoundary>
       ),

@@ -179,6 +179,8 @@ describe('LearningFeedbackNotice', () => {
     expect(LEARNING_FEEDBACK_CSS).toContain('font-size: 34px');
     expect(LEARNING_FEEDBACK_CSS).not.toContain('bingeup-feedback-details-toggle');
     expect(LEARNING_FEEDBACK_CSS).toContain('overflow-wrap: anywhere');
+    expect(LEARNING_FEEDBACK_CSS).toContain('conic-gradient(');
+    expect(LEARNING_FEEDBACK_CSS).toContain('1px dashed var(--animal-border-color-light)');
   });
 
   it('答错时显示可见标签、实际拼写和错误图标，同时保留正确答案', () => {
@@ -331,6 +333,25 @@ describe('LearningFeedbackNotice', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it('点击反馈任意位置后取消自动关闭并隐藏外圈倒计时', () => {
+    const { feedback } = showNotice(RESULT, { onContinue: vi.fn() });
+    const closeControl = feedback.querySelector<HTMLElement>(
+      '.bingeup-learning-feedback__close-control',
+    );
+    const timer = feedback.querySelector<HTMLElement>('.bingeup-learning-feedback__close-timer');
+
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
+    advanceTime(1_000);
+    expect(Number(timer?.style.getPropertyValue('--feedback-countdown'))).toBeCloseTo(0.2, 1);
+
+    fireEvent.click(feedback.querySelector('.bingeup-learning-feedback__content')!);
+
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'true');
+    expect(timer?.style.getPropertyValue('--feedback-countdown')).toBe('0');
+    advanceTime(60_000);
+    expect(queryFeedback()).toBe(feedback);
+  });
+
   it.each([
     ['.bingeup-learning-feedback__status', '标题'],
     ['.bingeup-learning-feedback__content', '内容'],
@@ -373,7 +394,7 @@ describe('LearningFeedbackNotice', () => {
     expect(document.getElementById(NOTICE_ID)).toBeNull();
   });
 
-  it('TooEasy 成功后防重复，并清除悬停或聚焦造成的计时暂停', async () => {
+  it('TooEasy 成功后防重复，并取消本次自动关闭', async () => {
     let resolve!: (value: CorrectionResult) => void;
     const onTooEasy = vi.fn(() => new Promise<CorrectionResult>((done) => (resolve = done)));
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
@@ -392,13 +413,13 @@ describe('LearningFeedbackNotice', () => {
     await act(async () => resolve(CORRECTION_RESULT));
     expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
     expect(feedback).toHaveTextContent('已标记为太简单');
+    expect(feedback.querySelector('.bingeup-learning-feedback__close-control')).toHaveAttribute(
+      'data-countdown-cancelled',
+      'true',
+    );
 
-    advanceTime(4_999);
-    expect(queryFeedback()).not.toBeNull();
-    advanceTime(1);
-    expect(queryFeedback()).toBeNull();
-    finishExit();
-    expect(document.getElementById(NOTICE_ID)).toBeNull();
+    advanceTime(60_000);
+    expect(queryFeedback()).toBe(feedback);
   });
 
   it('TooEasy 失败保留错误并允许重试，重试成功后才显示已标记', async () => {

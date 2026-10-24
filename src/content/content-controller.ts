@@ -32,11 +32,13 @@ export interface SiteAdapterPort {
 
 /**
  * 学习遮罩端口：控制器通过它打开/关闭界面并接收用户动作（Issue #6 / #8）。
- * 普通提交后关闭遮罩；提交并继续时替换为下一题。答题结果由独立提示承载。
+ * 普通提交后关闭遮罩并显示独立反馈；提交并继续时把正误带到下一题，不显示独立反馈。
  */
 export interface OverlayOpenOptions {
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
+  /** 连续学习提交后，在下一题顶部显示上一题正误。 */
+  previousResult?: Pick<SubmissionResult, 'isCorrect'>;
 }
 
 export interface OverlayPort {
@@ -165,7 +167,7 @@ function pauseIfPlaying(playback: VideoPlaybackPort | null): void {
 
 /**
  * 内容侧学习会话控制器。协调：视频变化 → 触发判定 → 暂停 → 获取学习项目 →
- * 打开遮罩 → 保存答案 →（连续加载下一题 / 关闭并恢复视频）→ 轻量反馈。
+ * 打开遮罩 → 保存答案 →（连续加载下一题 / 关闭并恢复视频）→ 轻量反馈或内联正误。
  *
  * 该控制器是核心编排边界，不包含网站选择器、FSRS、题目生成、冷却计算等细节。
  *
@@ -498,24 +500,29 @@ export class ContentController {
       this.recordSubmittedQuestion(active);
       const continueLearning =
         action.type === 'submit-and-continue' || action.type === 'submit-spelling-and-continue';
+      let nextQuestionLoaded = false;
       if (continueLearning && active.effects === 'standard') {
-        await this.loadNextContinuous(active);
+        nextQuestionLoaded = await this.loadNextContinuous(active, {
+          isCorrect: result.isCorrect,
+        });
       } else {
         await this.endInteraction(active, 'submitted');
       }
-      this.deps.learningFeedbackNotice?.show(result, {
-        // 普通提交已经结束原会话；按钮从当前页面重新取上下文并开始主动学习。
-        onContinue:
-          this.active === null && active.effects === 'standard'
-            ? () => this.startContinuousLearning()
+      if (!nextQuestionLoaded) {
+        this.deps.learningFeedbackNotice?.show(result, {
+          // 普通提交已经结束原会话；按钮从当前页面重新取上下文并开始主动学习。
+          onContinue:
+            this.active === null && active.effects === 'standard'
+              ? () => this.startContinuousLearning()
+              : undefined,
+          onTooEasy: result.isCorrect
+            ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
             : undefined,
-        onTooEasy: result.isCorrect
-          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
-          : undefined,
-        onTooHard: result.isCorrect
-          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-hard')
-          : undefined,
-      });
+          onTooHard: result.isCorrect
+            ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-hard')
+            : undefined,
+        });
+      }
       return result;
     }
 
@@ -593,10 +600,13 @@ export class ContentController {
 
   /**
    * 加载下一道连续学习题目（Issue #8 验收标准 1）。
-   * 视频保持暂停，遮罩更新为下一题，结果由独立提示展示。
+   * 视频保持暂停，遮罩更新为下一题，并把上一题正误放在下一题顶部。
    * 若无更多内容，自动结束连续学习。
    */
-  private async loadNextContinuous(active: ActiveInteraction): Promise<void> {
+  private async loadNextContinuous(
+    active: ActiveInteraction,
+    previousResult?: Pick<SubmissionResult, 'isCorrect'>,
+  ): Promise<boolean> {
     pauseIfPlaying(active.playback);
     const nextItem = await this.deps.learningService.getNextItem({
       excludedWordIds: this.sessionWordIds,
@@ -607,7 +617,7 @@ export class ContentController {
     if (nextItem === null) {
       // 无更多学习内容：结束连续学习，应用默认冷却。
       await this.endInteraction(active, 'submitted');
-      return;
+      return false;
     }
 
     // 进入连续学习模式（Issue #12：会话日志需正确记录 mode）。
@@ -619,7 +629,9 @@ export class ContentController {
     pauseIfPlaying(active.playback);
     this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
       isContinuous: true,
+      previousResult,
     });
+    return true;
   }
 
   /**

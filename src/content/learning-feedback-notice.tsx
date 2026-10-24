@@ -32,10 +32,45 @@ export const LEARNING_FEEDBACK_CSS = `
     clip-path: url(#bingeup-feedback-clip); pointer-events: auto;
     animation: bingeup-feedback-enter var(--animal-motion-duration-base) var(--animal-motion-ease);
   }
+  .bingeup-learning-feedback__close-control {
+    position: absolute; top: 23px; right: 27px; z-index: 2;
+    display: grid; width: 40px; height: 40px; place-items: center; pointer-events: none;
+  }
+  .bingeup-learning-feedback__close-control::before {
+    content: ""; position: absolute; inset: 0; border: 1px solid var(--animal-border-color-light);
+    border-radius: 50%; transition: opacity var(--animal-motion-duration-fast) var(--animal-motion-ease);
+  }
+  .bingeup-learning-feedback__close-timer {
+    position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+    background: conic-gradient(
+      var(--animal-error-color-active) calc(var(--feedback-countdown) * 1turn),
+      transparent 0
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    transition: opacity var(--animal-motion-duration-fast) var(--animal-motion-ease);
+  }
+  .bingeup-learning-feedback__close-control[data-countdown-cancelled="true"]::before,
+  .bingeup-learning-feedback__close-control[data-countdown-cancelled="true"]
+    .bingeup-learning-feedback__close-timer {
+    opacity: 0;
+  }
   .bingeup-learning-feedback__close {
-    position: absolute; top: 30px; right: 34px; z-index: 1;
-    width: 32px; height: 32px; min-width: 32px; padding: 0; border-radius: 50%;
-    border: 1px solid var(--animal-border-color); background: var(--animal-bg-color);
+    position: relative; z-index: 1; width: 32px; height: 32px; min-width: 32px; padding: 0;
+    border: var(--animal-border-width) solid var(--animal-border-color); border-radius: 50%;
+    background: color-mix(in srgb, var(--animal-bg-color) 38%, transparent);
+    color: var(--animal-text-color); box-shadow: none; pointer-events: auto;
+    transition: background var(--animal-motion-duration-fast) var(--animal-motion-ease),
+      border-color var(--animal-motion-duration-fast) var(--animal-motion-ease),
+      color var(--animal-motion-duration-fast) var(--animal-motion-ease);
+  }
+  .bingeup-learning-feedback__close:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--animal-error-color) 52%, var(--animal-border-color));
+    background: color-mix(in srgb, var(--animal-error-color) 15%, transparent);
+    color: var(--animal-error-color-active);
+  }
+  .bingeup-learning-feedback__close:active:not(:disabled) {
+    background: color-mix(in srgb, var(--animal-error-color) 24%, transparent);
   }
   .bingeup-learning-feedback__status {
     display: flex; flex: none; align-items: center; justify-content: center;
@@ -83,10 +118,11 @@ export const LEARNING_FEEDBACK_CSS = `
   }
   .bingeup-secondary {
     display: flex; align-items: baseline; gap: 2px var(--animal-spacing-xs);
-    font-size: var(--animal-font-size-sm); line-height: 1.5; text-align: left;
+    justify-content: center; font-size: var(--animal-font-size-sm); line-height: 1.5;
+    text-align: center;
   }
   .bingeup-learning-feedback__secondary {
-    flex-wrap: nowrap; justify-content: flex-start; overflow: hidden;
+    flex-wrap: nowrap; justify-content: center; overflow: hidden;
     margin: var(--animal-spacing-sm) 0 0; padding: 0 2px; white-space: nowrap;
   }
   .bingeup-learning-feedback__secondary .bingeup-secondary-label {
@@ -104,7 +140,7 @@ export const LEARNING_FEEDBACK_CSS = `
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
     gap: var(--animal-spacing-sm) var(--animal-spacing-md);
     margin-top: var(--animal-spacing-sm); padding-top: var(--animal-spacing-sm);
-    border-top: 1px solid var(--animal-border-color);
+    border-top: 1px dashed var(--animal-border-color-light);
   }
   .bingeup-learning-feedback__answer-label { font-size: 14px; font-weight: 600; }
   .bingeup-learning-feedback__wrong-value {
@@ -117,6 +153,13 @@ export const LEARNING_FEEDBACK_CSS = `
   .bingeup-learning-feedback__actions {
     display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: space-between;
     gap: var(--animal-spacing-md); width: 100%; margin-top: var(--animal-spacing-md);
+  }
+  .bingeup-learning-feedback__actions[data-has-actions="true"] {
+    padding-top: var(--animal-spacing-md);
+    border-top: 1px dashed var(--animal-border-color-light);
+  }
+  .bingeup-learning-feedback__actions[data-has-actions="true"][data-after-answer="true"] {
+    padding-top: 0; border-top: 0;
   }
   .bingeup-learning-feedback__rating-actions,
   .bingeup-learning-feedback__flow-actions {

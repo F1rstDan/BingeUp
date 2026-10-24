@@ -8,16 +8,18 @@ import { showEnablePrompt } from '@/content/enable-prompt';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
 import { LEARNING_FEEDBACK_CSS, LearningFeedbackNotice } from '@/content/learning-feedback-notice';
 import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
 import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { PopupApp } from '@/ui/popup/PopupApp';
 import { StatsApp } from '@/ui/stats/StatsApp';
-import type { CorrectionResult, LearningItem, OverlayAction } from '@/types';
+import type { CorrectionResult, LearningItem, OverlayAction, SubmissionResult } from '@/types';
 
 import { grantPreviewOrigin, revokePreviewOrigin, setActiveTabScenario } from './chrome-shim';
 import {
   makeDemoChoiceQuestion,
+  makeDemoContextChoiceQuestion,
   makeDemoNewWordItem,
   makeDemoSpellingQuestion,
   makeDemoSubmissionResult,
@@ -408,12 +410,14 @@ function OverlayStage({
   hint,
   item,
   isContinuous,
+  nextItem,
   driver,
 }: {
   title: string;
   hint: string;
   item: LearningItem;
   isContinuous?: boolean;
+  nextItem?: (result: SubmissionResult) => LearningItem | null;
   driver?: (shadow: ShadowRoot) => () => void;
 }): JSX.Element {
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -426,6 +430,7 @@ function OverlayStage({
     const mount = mountOverlayShadow(stage, {
       item,
       isContinuous,
+      nextItem,
       onAction: (action) => {
         setLog((entries) => [formatOverlayAction(action), ...entries].slice(0, 5));
         return demoOverlayActionHandler(action);
@@ -466,8 +471,10 @@ function OverlayStage({
 
 const newWordItem: LearningItem = makeDemoNewWordItem();
 const choiceQuestion = makeDemoChoiceQuestion();
+const contextQuestion = makeDemoContextChoiceQuestion();
 const spellingQuestion = makeDemoSpellingQuestion();
 const choiceItem: LearningItem = { kind: 'question', question: choiceQuestion };
+const contextItem: LearningItem = { kind: 'question', question: contextQuestion };
 const spellingItem: LearningItem = { kind: 'spelling-question', question: spellingQuestion };
 
 function OverlayStages(): JSX.Element {
@@ -484,10 +491,16 @@ function OverlayStages(): JSX.Element {
         item={choiceItem}
       />
       <OverlayStage
+        title="遮罩 · 语境填空"
+        hint="例句挖空后选择英文词形；四项顺序来自固定题组，提交后显示标准反馈"
+        item={contextItem}
+      />
+      <OverlayStage
         title="遮罩 · 拼写题（连续学习）"
-        hint="输入英文词后 Enter 或点击按钮；跳过 / 提交并继续 / 提交并结束"
+        hint="提交并继续会直接显示下一题，并在下一题顶部展示上一题答对或答错；不弹右下角提示"
         item={spellingItem}
         isContinuous
+        nextItem={(result) => (result.isCorrect ? choiceItem : contextItem)}
       />
     </div>
   );
@@ -504,7 +517,7 @@ function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Eleme
         {isCorrect ? '答对提示（常驻）' : '答错提示（常驻）'}
       </div>
       <ShadowFrame
-        pageCss={`${LEARNING_FEEDBACK_CSS}\n${SPEECH_CONTROLS_CSS}\n.preview-feedback-canvas { min-height: 0; padding: 0; background: transparent; }`}
+        pageCss={`${WORD_SUMMARY_CSS}\n${SPEECH_CONTROLS_CSS}\n${LEARNING_FEEDBACK_CSS}\n.preview-feedback-canvas { min-height: 0; padding: 0; background: transparent; }`}
         canvasClassName="preview-feedback-canvas"
       >
         <LearningFeedback

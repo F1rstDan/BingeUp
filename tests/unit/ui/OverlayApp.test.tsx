@@ -46,6 +46,14 @@ const QUESTION: MultipleChoiceQuestion = {
   },
 };
 
+const CONTEXT_QUESTION: MultipleChoiceQuestion = {
+  ...QUESTION,
+  id: 'q-context-1',
+  type: 'context-choice',
+  prompt: 'Plants ____ sunlight.',
+  options: ['absorb', 'release', 'reflect', 'gather'],
+};
+
 const SPELLING_QUESTION: SpellingQuestion = {
   id: 'q-spell-1',
   type: 'spelling',
@@ -225,6 +233,15 @@ describe('OverlayApp — 题目交互', () => {
       '/əbˈzɔːrb/',
     );
     expect(container.querySelector('.bingeup-part-of-speech')).toBeNull();
+  });
+
+  it('语境题不展示会泄露答案的音标和朗读入口', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: CONTEXT_QUESTION }} onAction={vi.fn()} />,
+    );
+
+    expect(container.querySelector('.bingeup-question-pronunciation')).toBeNull();
+    expect(screen.queryByRole('button', { name: '朗读单词' })).not.toBeInTheDocument();
   });
 
   it('未选择时提交按钮禁用', () => {
@@ -634,6 +651,26 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
       expect(screen.queryByText('上一题反馈')).not.toBeInTheDocument();
       expect(screen.queryByRole('group', { name: '评分纠正' })).not.toBeInTheDocument();
+    });
+
+    it.each([
+      [true, '上一题答对了'],
+      [false, '上一题答错了'],
+    ])('下一题顶部显示上一题正误 %s', (isCorrect, label) => {
+      const { container } = render(
+        <OverlayApp
+          item={{ kind: 'question', question: QUESTION }}
+          onAction={vi.fn()}
+          isContinuous
+          previousResult={{ isCorrect }}
+        />,
+      );
+
+      const banner = within(container).getByRole('status');
+      expect(banner).toHaveTextContent(label);
+      expect(banner).toHaveAttribute('data-correct', String(isCorrect));
+      expect(banner.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+      expect(container.querySelector('.bingeup-card')?.firstElementChild).toBe(banner);
     });
   });
 
