@@ -111,8 +111,9 @@ export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
  * 用户在反馈阶段的纠正评分（Issue #1 规格：其实是蒙的 / 这个太简单）。
  * - `guessed`：用户声明其实是蒙对的，应降低评分；
  * - `too-easy`：用户声明太简单，应提高评分。
+ * - `too-hard`：用户声明太难，应降低到 hard。
  */
-export type UserCorrection = 'guessed' | 'too-easy';
+export type UserCorrection = 'guessed' | 'too-easy' | 'too-hard';
 export type LearningItemSource = 'natural' | 'manual' | 'continuous';
 
 /**

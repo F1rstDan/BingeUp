@@ -213,18 +213,19 @@ describe('LearningFeedbackNotice', () => {
   it('按正误和回调提供正确的动作，并始终允许关闭', () => {
     const onContinue = vi.fn().mockResolvedValue({ ok: true });
     const onTooEasy = vi.fn().mockResolvedValue(CORRECTION_RESULT);
+    const onTooHard = vi.fn().mockResolvedValue(CORRECTION_RESULT);
 
-    let shown = showNotice(RESULT, { onContinue, onTooEasy });
-    expect(actionNames(shown.feedback)).toEqual(['太简单了', '继续答题']);
+    let shown = showNotice(RESULT, { onContinue, onTooEasy, onTooHard });
+    expect(actionNames(shown.feedback)).toEqual(['太简单', '太难了', '继续答题']);
     expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
 
-    shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy });
+    shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy, onTooHard });
     expect(actionNames(shown.feedback)).toEqual(['继续答题']);
     expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
-    expect(shown.queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    expect(shown.queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
 
     shown = showNotice(RESULT, { onTooEasy });
-    expect(actionNames(shown.feedback)).toEqual(['太简单了']);
+    expect(actionNames(shown.feedback)).toEqual(['太简单']);
     expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
 
     shown = showNotice({ ...RESULT, isCorrect: false });
@@ -254,6 +255,18 @@ describe('LearningFeedbackNotice', () => {
     advanceTime(1);
     finishExit();
     expect(queryFeedback()).toBeNull();
+  });
+
+  it('太难了纠正调用 onTooHard，成功后两个评分按钮一起隐藏', async () => {
+    const onTooHard = vi.fn().mockResolvedValue({ ...CORRECTION_RESULT, rating: 'hard' });
+    const { feedback, queries } = showNotice(RESULT, { onTooHard });
+
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太难了' })));
+
+    expect(onTooHard).toHaveBeenCalledTimes(1);
+    expect(queries.queryByRole('button', { name: '太难了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
+    expect(feedback).toHaveTextContent('已标记为太难了');
   });
 
   it('挂载到 documentElement 的开放 ShadowRoot，样式限定为非模态右下角通知且不改宿主页', () => {
@@ -372,7 +385,7 @@ describe('LearningFeedbackNotice', () => {
     let resolve!: (value: CorrectionResult) => void;
     const onTooEasy = vi.fn(() => new Promise<CorrectionResult>((done) => (resolve = done)));
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
-    const button = queries.getByRole('button', { name: '太简单了' });
+    const button = queries.getByRole('button', { name: '太简单' });
 
     fireEvent.mouseEnter(feedback);
     act(() => button.focus());
@@ -385,7 +398,7 @@ describe('LearningFeedbackNotice', () => {
     expect(button).toBeDisabled();
 
     await act(async () => resolve(CORRECTION_RESULT));
-    expect(queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
     expect(feedback).toHaveTextContent('已标记为太简单');
 
     advanceTime(4_999);
@@ -403,16 +416,16 @@ describe('LearningFeedbackNotice', () => {
       .mockResolvedValueOnce(CORRECTION_RESULT);
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
 
-    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单了' })));
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单' })));
     expect(queries.getByRole('alert')).toHaveTextContent('暂时无法标记，请重试。');
-    expect(queries.getByRole('button', { name: '太简单了' })).toBeEnabled();
+    expect(queries.getByRole('button', { name: '太简单' })).toBeEnabled();
     advanceTime(60_000);
     expect(feedback).toBeInTheDocument();
 
-    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单了' })));
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单' })));
     expect(onTooEasy).toHaveBeenCalledTimes(2);
     expect(feedback).toHaveTextContent('已标记为太简单');
-    expect(queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
   });
 
   it('TooEasy 处理中与 continue 互斥，成功后才可继续', async () => {
@@ -421,7 +434,7 @@ describe('LearningFeedbackNotice', () => {
     const onContinue = vi.fn().mockResolvedValue({ ok: true });
     const { queries } = showNotice(RESULT, { onTooEasy, onContinue });
 
-    fireEvent.click(queries.getByRole('button', { name: '太简单了' }));
+    fireEvent.click(queries.getByRole('button', { name: '太简单' }));
     const continueButton = queries.getByRole('button', { name: '继续答题' });
     expect(continueButton).toBeDisabled();
     fireEvent.click(continueButton);
@@ -442,7 +455,7 @@ describe('LearningFeedbackNotice', () => {
     const { queries } = showNotice(RESULT, { onContinue, onTooEasy });
 
     fireEvent.click(queries.getByRole('button', { name: '继续答题' }));
-    const tooEasyButton = queries.getByRole('button', { name: '太简单了' });
+    const tooEasyButton = queries.getByRole('button', { name: '太简单' });
     expect(tooEasyButton).toBeDisabled();
     fireEvent.click(tooEasyButton);
     expect(onTooEasy).not.toHaveBeenCalled();

@@ -532,6 +532,7 @@ export class LearningService {
    *
    * - `guessed`（其实是蒙的）：将评分降低至 again（如果是答对的话）；
    * - `too-easy`（这个太简单）：将评分提升至 easy。
+   * - `too-hard`（太难了）：将评分降低至 hard。
    *
    * 纠正会回滚到评分前的调度器状态，再用纠正后的评分重新调度，
    * 避免重复推进调度器状态。并更新复习日志的评分与纠正标记。
@@ -710,6 +711,9 @@ export class LearningService {
     if (correction === 'guessed') {
       // 蒙对的：降低到 again（重新学习）
       return 'again';
+    }
+    if (correction === 'too-hard') {
+      return 'hard';
     }
     // too-easy：提升到 easy
     return 'easy';

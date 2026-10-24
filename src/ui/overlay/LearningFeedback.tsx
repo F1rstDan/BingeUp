@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { Button, Tag } from 'animal-island-ui';
-import { CheckCircleIcon, XCircleIcon } from 'naive-icons';
+import { Button } from 'animal-island-ui';
+import { CheckCircleIcon, CloseIcon, XCircleIcon } from 'naive-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
 import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
-import { ExampleSpeechPanel, SpeechControls } from '@/ui/speech/SpeechControls';
+import { WordSummary } from '@/ui/overlay/WordSummary';
 
 export const LEARNING_FEEDBACK_DURATION_MS = 5_000;
 export const LEARNING_FEEDBACK_EXIT_DURATION_MS = 0;
@@ -18,6 +18,7 @@ const FAILURE_MESSAGES: Record<StartLearningFailureReason, string> = {
 };
 
 const TOO_EASY_FAILURE_MESSAGE = '暂时无法标记，请重试。';
+const TOO_HARD_FAILURE_MESSAGE = '暂时无法标记，请重试。';
 
 // 沿用 animal-island-ui 2.3.0 的 Modal 纸片轮廓；反馈不挂载 Modal 的遮罩、焦点锁与滚动锁。
 const FEEDBACK_PAPER_PATH =
@@ -27,6 +28,7 @@ export interface LearningFeedbackProps {
   result: SubmissionResult;
   onContinue?: () => Promise<StartLearningResponse>;
   onTooEasy?: () => Promise<CorrectionResult>;
+  onTooHard?: () => Promise<CorrectionResult>;
   onClose: () => void;
   /** 预览页常驻展示：不自动收起，按钮只用于观察布局。 */
   staticPreview?: boolean;
@@ -37,6 +39,7 @@ export function LearningFeedback({
   result,
   onContinue,
   onTooEasy,
+  onTooHard,
   onClose,
   staticPreview = false,
 }: LearningFeedbackProps) {
@@ -45,25 +48,28 @@ export function LearningFeedback({
   const [continuing, setContinuing] = useState(false);
   const [markingTooEasy, setMarkingTooEasy] = useState(false);
   const [tooEasySaved, setTooEasySaved] = useState(false);
+  const [markingTooHard, setMarkingTooHard] = useState(false);
+  const [tooHardSaved, setTooHardSaved] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
   const mounted = useRef(false);
   const continuationPending = useRef(false);
   const tooEasyPending = useRef(false);
+  const tooHardPending = useRef(false);
   const canMarkTooEasy = result.isCorrect && onTooEasy !== undefined;
+  const canMarkTooHard = result.isCorrect && onTooHard !== undefined;
   const ownerId = useId();
   const speech = useLocalSpeech(ownerId);
   const speechBusy =
     speech.state.ownerId === ownerId &&
     (speech.state.status === 'preparing' || speech.state.status === 'speaking');
-  const actionsLocked = continuing || markingTooEasy;
+  const actionsLocked = continuing || markingTooEasy || markingTooHard;
   const { explanation } = result;
-  const secondaryMeanings = explanation.secondaryMeanings ?? [];
 
   const dismiss = (): void => {
     if (staticPreview) return;
-    if (!continuationPending.current && !tooEasyPending.current) {
+    if (!continuationPending.current && !tooEasyPending.current && !tooHardPending.current) {
       localSpeech.stopOwnedBy(ownerId);
       setExiting(true);
     }
@@ -84,6 +90,7 @@ export function LearningFeedback({
       focused ||
       continuing ||
       markingTooEasy ||
+      markingTooHard ||
       speechBusy ||
       exiting ||
       failure !== null
@@ -96,7 +103,17 @@ export function LearningFeedback({
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
-  }, [hovered, focused, continuing, markingTooEasy, speechBusy, exiting, failure, staticPreview]);
+  }, [
+    hovered,
+    focused,
+    continuing,
+    markingTooEasy,
+    markingTooHard,
+    speechBusy,
+    exiting,
+    failure,
+    staticPreview,
+  ]);
 
   useEffect(() => {
     if (!exiting) return;
@@ -107,7 +124,14 @@ export function LearningFeedback({
 
   const continueLearning = async (): Promise<void> => {
     if (staticPreview) return;
-    if (!onContinue || continuationPending.current || tooEasyPending.current || exiting) return;
+    if (
+      !onContinue ||
+      continuationPending.current ||
+      tooEasyPending.current ||
+      tooHardPending.current ||
+      exiting
+    )
+      return;
     continuationPending.current = true;
     localSpeech.stopOwnedBy(ownerId);
     setContinuing(true);
@@ -134,7 +158,9 @@ export function LearningFeedback({
       !onTooEasy ||
       !result.isCorrect ||
       tooEasySaved ||
+      tooHardSaved ||
       tooEasyPending.current ||
+      tooHardPending.current ||
       continuationPending.current ||
       exiting
     ) {
@@ -160,6 +186,43 @@ export function LearningFeedback({
       if (mounted.current) {
         tooEasyPending.current = false;
         setMarkingTooEasy(false);
+      }
+    }
+  };
+
+  const markTooHard = async (): Promise<void> => {
+    if (staticPreview) return;
+    if (
+      !onTooHard ||
+      !result.isCorrect ||
+      tooHardSaved ||
+      tooEasySaved ||
+      tooHardPending.current ||
+      tooEasyPending.current ||
+      continuationPending.current ||
+      exiting
+    ) {
+      return;
+    }
+
+    tooHardPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
+    setMarkingTooHard(true);
+    setFailure(null);
+
+    try {
+      await onTooHard();
+      if (mounted.current) {
+        setTooHardSaved(true);
+        setFocused(false);
+        setHovered(false);
+      }
+    } catch {
+      if (mounted.current) setFailure(TOO_HARD_FAILURE_MESSAGE);
+    } finally {
+      if (mounted.current) {
+        tooHardPending.current = false;
+        setMarkingTooHard(false);
       }
     }
   };
@@ -192,41 +255,37 @@ export function LearningFeedback({
             className="bingeup-learning-feedback__close"
             type="text"
             size="small"
+            icon={<CloseIcon size={18} aria-hidden="true" />}
+            aria-label="关闭"
+            title="关闭"
             disabled={actionsLocked || exiting}
             onClick={dismiss}
-          >
-            关闭
-          </Button>
+          />
           <div role="status" aria-live="polite" aria-atomic="true">
             <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
               {result.isCorrect ? (
-                <CheckCircleIcon size={20} aria-hidden="true" />
+                <CheckCircleIcon size={28} aria-hidden="true" />
               ) : (
-                <XCircleIcon size={20} aria-hidden="true" />
+                <XCircleIcon size={28} aria-hidden="true" />
               )}
               <span>{result.isCorrect ? '答对了' : '答错了'}</span>
             </span>
-            <div className="bingeup-learning-feedback__content">
-              <h2 className="bingeup-learning-feedback__word" lang="en">
-                {explanation.word}
-              </h2>
-              <SpeechControls
-                ownerId={ownerId}
-                wordText={explanation.word}
-                phonetic={explanation.phonetic}
-                disabled={actionsLocked || exiting}
-              />
-              {explanation.partOfSpeech.length > 0 && (
-                <div className="bingeup-part-of-speech">
-                  <Tag size="small">{explanation.partOfSpeech.join('/')}</Tag>
-                </div>
-              )}
-              <p className="bingeup-learning-feedback__meaning">
-                {explanation.meanings.join('；')}
-              </p>
-            </div>
           </div>
           <div className="bingeup-learning-feedback__content">
+            <WordSummary
+              ownerId={ownerId}
+              data={{
+                word: explanation.word,
+                phonetic: explanation.phonetic,
+                partOfSpeech: explanation.partOfSpeech,
+                meanings: explanation.meanings,
+                exampleSentence: explanation.exampleSentence,
+                exampleTranslation: explanation.exampleTranslation,
+                secondaryMeanings: explanation.secondaryMeanings,
+              }}
+              wordClassName="bingeup-learning-feedback__word"
+              disabled={actionsLocked || exiting}
+            />
             {!result.isCorrect && result.submittedAnswer && (
               <div className="bingeup-learning-feedback__submitted-answer">
                 <span className="bingeup-learning-feedback__answer-label">你的答案</span>
@@ -236,43 +295,6 @@ export function LearningFeedback({
                 </span>
               </div>
             )}
-            {explanation.exampleSentence ? (
-              <ExampleSpeechPanel
-                ownerId={ownerId}
-                exampleText={explanation.exampleSentence}
-                disabled={actionsLocked || exiting}
-              >
-                <p className="bingeup-example" lang="en">
-                  {explanation.exampleSentence}
-                </p>
-                {explanation.exampleTranslation && (
-                  <p className="bingeup-example-translation">{explanation.exampleTranslation}</p>
-                )}
-              </ExampleSpeechPanel>
-            ) : (
-              explanation.exampleTranslation && (
-                <p className="bingeup-example-translation">{explanation.exampleTranslation}</p>
-              )
-            )}
-            {secondaryMeanings.length > 0 && (
-              <p className="bingeup-secondary bingeup-learning-feedback__secondary">
-                <span className="bingeup-secondary-label">其他常见义</span>
-                {secondaryMeanings.map((meaning, index) => (
-                  <span
-                    className="bingeup-secondary-item"
-                    key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}
-                  >
-                    <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>{' '}
-                    <span>{meaning.meaningZh}</span>
-                    {index < secondaryMeanings.length - 1 && (
-                      <span className="bingeup-secondary-separator" aria-hidden="true">
-                        ·
-                      </span>
-                    )}
-                  </span>
-                ))}
-              </p>
-            )}
             {failure && (
               <p className="bingeup-learning-feedback__failure" role="alert">
                 {failure}
@@ -280,29 +302,46 @@ export function LearningFeedback({
             )}
           </div>
           <div className="bingeup-learning-feedback__actions">
-            {canMarkTooEasy && !tooEasySaved && (
-              <Button
-                size="small"
-                loading={markingTooEasy}
-                disabled={actionsLocked || exiting}
-                onClick={() => void markTooEasy()}
-              >
-                太简单了
-              </Button>
-            )}
-            {tooEasySaved && (
-              <span className="bingeup-learning-feedback__too-easy-success">已标记为太简单</span>
-            )}
-            {onContinue && (
-              <Button
-                size="small"
-                loading={continuing}
-                disabled={actionsLocked || exiting}
-                onClick={() => void continueLearning()}
-              >
-                继续答题
-              </Button>
-            )}
+            <div className="bingeup-learning-feedback__rating-actions">
+              {canMarkTooEasy && !tooEasySaved && !tooHardSaved && (
+                <Button
+                  size="small"
+                  loading={markingTooEasy}
+                  disabled={actionsLocked || exiting}
+                  onClick={() => void markTooEasy()}
+                >
+                  太简单
+                </Button>
+              )}
+              {tooEasySaved && (
+                <span className="bingeup-learning-feedback__too-easy-success">已标记为太简单</span>
+              )}
+              {canMarkTooHard && !tooHardSaved && !tooEasySaved && (
+                <Button
+                  size="small"
+                  loading={markingTooHard}
+                  disabled={actionsLocked || exiting}
+                  onClick={() => void markTooHard()}
+                >
+                  太难了
+                </Button>
+              )}
+              {tooHardSaved && (
+                <span className="bingeup-learning-feedback__too-easy-success">已标记为太难了</span>
+              )}
+            </div>
+            <div className="bingeup-learning-feedback__flow-actions">
+              {onContinue && (
+                <Button
+                  size="small"
+                  loading={continuing}
+                  disabled={actionsLocked || exiting}
+                  onClick={() => void continueLearning()}
+                >
+                  继续答题
+                </Button>
+              )}
+            </div>
           </div>
         </section>
       )}

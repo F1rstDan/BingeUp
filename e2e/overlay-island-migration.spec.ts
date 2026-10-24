@@ -441,11 +441,8 @@ async function inspectLayout(page: Page): Promise<LayoutState> {
       };
     };
     const feedback = feedbackShadow?.querySelector<HTMLElement>('.bingeup-learning-feedback');
-    const close = feedback
-      ? [...feedback.querySelectorAll('button')].find(
-          (button) => (button.textContent ?? '').trim() === '关闭',
-        )
-      : null;
+    const close =
+      feedback?.querySelector<HTMLButtonElement>('button.bingeup-learning-feedback__close') ?? null;
     const closeRect = close?.getBoundingClientRect();
     const closeHit =
       closeRect && feedbackShadow
@@ -460,9 +457,10 @@ async function inspectLayout(page: Page): Promise<LayoutState> {
           )
         : false;
     const wordSpeech = feedback?.querySelector<HTMLButtonElement>(
-      'button[aria-label="系统朗读单词"], button[aria-label="停止朗读单词"]',
+      'button[aria-label="朗读单词"], button[aria-label="停止朗读单词"]',
     );
-    const wordSpeechStyle = wordSpeech ? getComputedStyle(wordSpeech) : null;
+    const wordSpeechTag = feedback?.querySelector<HTMLElement>('.bingeup-pronunciation-tag');
+    const wordSpeechStyle = wordSpeechTag ? getComputedStyle(wordSpeechTag) : null;
     return {
       kind,
       example: exampleState(overlayShadow),
@@ -473,7 +471,7 @@ async function inspectLayout(page: Page): Promise<LayoutState> {
         : [],
       feedback: feedback
         ? {
-            closeText: close?.textContent?.trim() ?? null,
+            closeText: close?.getAttribute('aria-label') ?? null,
             closeVisible: close ? close.getBoundingClientRect().width > 0 : false,
             closeHit,
             detailsButton: Boolean(
@@ -489,7 +487,7 @@ async function inspectLayout(page: Page): Promise<LayoutState> {
             example: exampleState(feedback),
             secondary:
               feedback
-                .querySelector('.bingeup-learning-feedback__secondary')
+                .querySelector('.bingeup-secondary')
                 ?.textContent?.replace(/\s+/g, ' ')
                 .trim() ?? '',
             text: (feedback.textContent ?? '').replace(/\s+/g, ' ').trim(),
@@ -521,7 +519,7 @@ async function clickOverlayButton(page: Page, labels: string[]): Promise<string 
 
 /**
  * 采集用：把遮罩推进到下一状态（选择题先选第一项、拼写题先输入一个字符，
- * 再点击"提交并继续/知道了，继续"）。返回实际点击的按钮文案。
+ * 再点击"提交并继续/学到了，继续"）。返回实际点击的按钮文案。
  */
 async function advanceOverlayState(page: Page): Promise<string | null> {
   const hasInput = await page.evaluate(() => {
@@ -556,7 +554,7 @@ async function advanceOverlayState(page: Page): Promise<string | null> {
       return true;
     };
     if (clickEnabled('提交并继续')) return '提交并继续';
-    if (clickEnabled('知道了，继续')) return '知道了，继续';
+    if (clickEnabled('学到了，继续')) return '学到了，继续';
     return null;
   });
 }
@@ -949,7 +947,7 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
         }
 
         if (
-          !(await clickOverlayButton(page, ['知道了，继续', '知道了', '我认识，换一个', '跳过']))
+          !(await clickOverlayButton(page, ['学到了，继续', '学到了', '我认识，换一个', '跳过']))
         ) {
           break;
         }
@@ -987,7 +985,7 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
       expect(feedback.detailsButton).toBe(false);
       expect(feedback.phonetic).toMatch(/\//);
       expect(feedback.wordSpeechLabel).toMatch(/朗读单词/);
-      expect(feedback.wordSpeechBorderStyle).toBe('solid');
+      expect(feedback.wordSpeechBorderStyle).toBe('dashed');
       expect(Number.parseFloat(feedback.wordSpeechBorderWidth)).toBeGreaterThan(0);
       expect(feedback.example).not.toBeNull();
       expect(feedback.example!.nestedButtons).toBe(0);
@@ -1024,8 +1022,8 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
 
       await page.evaluate(() => {
         const shadow = document.getElementById('bingeup-learning-feedback-notice')?.shadowRoot;
-        const close = [...(shadow?.querySelectorAll<HTMLButtonElement>('button') ?? [])].find(
-          (button) => (button.textContent ?? '').trim() === '关闭',
+        const close = shadow?.querySelector<HTMLButtonElement>(
+          'button.bingeup-learning-feedback__close',
         );
         close?.click();
       });
@@ -1073,7 +1071,7 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     await expect(page.locator('.bingeup-new-word')).toBeVisible();
     await expect
       .poll(
-        () => page.locator('.bingeup-speech-controls--word').getAttribute('data-preferred-voice'),
+        () => page.locator('.bingeup-pronunciation-wrap').getAttribute('data-preferred-voice'),
         { timeout: 5_000, message: '朗读音色设置未进入内容脚本' },
       )
       .toContain('David');
@@ -1087,9 +1085,9 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     });
     expect(voices.length).toBeGreaterThan(0);
 
-    await page.locator('button[aria-label="系统朗读单词"]').click();
+    await page.locator('button[aria-label="朗读单词"]').click();
     await expect
-      .poll(() => page.locator('.bingeup-speech-controls--word').getAttribute('data-voice-name'), {
+      .poll(() => page.locator('.bingeup-pronunciation-wrap').getAttribute('data-voice-name'), {
         timeout: 3_000,
         message: '朗读没有使用设置页选择的 David',
       })

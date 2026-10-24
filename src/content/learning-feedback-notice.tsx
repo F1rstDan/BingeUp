@@ -3,6 +3,7 @@ import type { StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
 import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
 import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 
 const NOTICE_ID = 'bingeup-learning-feedback-notice';
@@ -13,6 +14,7 @@ export interface LearningFeedbackNoticePort {
     options?: {
       onContinue?: () => Promise<StartLearningResponse>;
       onTooEasy?: () => Promise<CorrectionResult>;
+      onTooHard?: () => Promise<CorrectionResult>;
     },
   ): void;
   close(): void;
@@ -32,7 +34,7 @@ export const LEARNING_FEEDBACK_CSS = `
   }
   .bingeup-learning-feedback__close {
     position: absolute; top: 30px; right: 34px; z-index: 1;
-    height: 26px; min-width: 0; padding: 0 8px; font-size: 12px;
+    width: 32px; height: 32px; min-width: 32px; padding: 0; border-radius: 50%;
   }
   .bingeup-learning-feedback__status {
     display: flex; flex: none; align-items: center; justify-content: center;
@@ -102,9 +104,15 @@ export const LEARNING_FEEDBACK_CSS = `
   .bingeup-learning-feedback__wrong-value svg { flex: none; }
   .bingeup-learning-feedback__wrong-value > span { min-width: 0; overflow-wrap: anywhere; }
   .bingeup-learning-feedback__actions {
-    display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+    display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: space-between;
     gap: var(--animal-spacing-md); width: 100%; margin-top: var(--animal-spacing-md);
   }
+  .bingeup-learning-feedback__rating-actions,
+  .bingeup-learning-feedback__flow-actions {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--animal-spacing-sm);
+  }
+  .bingeup-learning-feedback__rating-actions { justify-content: flex-start; }
+  .bingeup-learning-feedback__flow-actions { justify-content: flex-end; margin-left: auto; }
   .bingeup-learning-feedback__too-easy-success {
     color: var(--animal-text-color); font-size: 13px; font-weight: 600;
   }
@@ -135,6 +143,7 @@ export class LearningFeedbackNotice implements LearningFeedbackNoticePort {
     options: {
       onContinue?: () => Promise<StartLearningResponse>;
       onTooEasy?: () => Promise<CorrectionResult>;
+      onTooHard?: () => Promise<CorrectionResult>;
     } = {},
   ): void {
     this.close();
@@ -159,7 +168,14 @@ export class LearningFeedbackNotice implements LearningFeedbackNoticePort {
 
     const style = document.createElement('style');
     style.id = 'bingeup-learning-feedback-style';
-    style.textContent = bundle.css + '\n' + SPEECH_CONTROLS_CSS + '\n' + LEARNING_FEEDBACK_CSS;
+    style.textContent =
+      bundle.css +
+      '\n' +
+      SPEECH_CONTROLS_CSS +
+      '\n' +
+      WORD_SUMMARY_CSS +
+      '\n' +
+      LEARNING_FEEDBACK_CSS;
     shadow.append(style, mount);
     const root = createRoot(mount);
 
@@ -181,6 +197,7 @@ export class LearningFeedbackNotice implements LearningFeedbackNoticePort {
         result={result}
         onContinue={options.onContinue}
         onTooEasy={options.onTooEasy}
+        onTooHard={options.onTooHard}
         onClose={dispose}
       />,
     );

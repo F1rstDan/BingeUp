@@ -3,7 +3,7 @@ import { Button, Card, Input, Tag } from 'animal-island-ui';
 import { CheckIcon } from 'naive-icons';
 import type { LearningItem, OverlayAction } from '@/types';
 import { localSpeech } from '@/ui/speech/local-speech';
-import { ExampleSpeechPanel, SpeechControls } from '@/ui/speech/SpeechControls';
+import { PronunciationTag, WordSummary } from '@/ui/overlay/WordSummary';
 
 export type { OverlayAction };
 
@@ -27,13 +27,13 @@ interface OverlayAppProps {
  * 不覆盖库组件的颜色、圆角或阴影。
  *
  * 单题模式：根据 LearningItem 渲染新词展示或题目。
- * - 新词展示：词形、释义、例句 + "知道了"/"我认识，换一个"/"跳过"；
+ * - 新词展示：词形、释义、例句 + "学到了"/"我认识，换一个"/"跳过"；
  * - 题目：选择或输入答案，再提交；结果由控制器关闭当前题卡后以独立非模态提示展示。
  * - 快捷键仅在组件挂载期间生效（document 级监听，卸载即移除）。
  *
  * 连续学习模式（Issue #8）：
  * - 选择题/拼写题动作固定为"跳过" + "提交并继续" + "提交并结束"；
- * - 新词展示动作变为"知道了，继续" / "我认识，换一个" + "结束学习"；
+ * - 新词展示动作变为"学到了，继续" / "我认识，换一个" + "结束学习"；
  * - "跳过"不提交当前题；"提交并结束"提交当前题并按完成处理。
  *
  * 所有动作均锁定当前界面，防止保存期间改答、跳过或重复提交。
@@ -158,14 +158,9 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
       }
       if (item.kind === 'spelling-question') return;
 
-      // 选择题：数字或字母选择答案，不干预拼写输入。
+      // 选择题：数字键选择答案，不干预拼写输入。
       if (key >= '1' && key <= '4') {
         const idx = parseInt(key, 10) - 1;
-        if (idx < item.question.options.length) {
-          selectAnswer(idx);
-        }
-      } else if (key.match(/^[a-dA-D]$/)) {
-        const idx = key.toLowerCase().charCodeAt(0) - 97;
         if (idx < item.question.options.length) {
           selectAnswer(idx);
         }
@@ -179,64 +174,29 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
   // ─── 新词展示 ──────────────────────────────────────────────
   if (item.kind === 'new-word-presentation') {
     const { word } = item.presentation;
-    const secondary = word.secondaryMeanings ?? [];
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
         <Card className="bingeup-card">
           <div className="bingeup-new-word">
-            <div className="bingeup-new-word-toolbar">
-              <SpeechControls
-                ownerId={ownerId}
-                wordText={word.word}
-                phonetic={word.phonetic}
-                disabled={done}
-              />
-              {isContinuous && (
-                <div className="bingeup-new-word-badge">
-                  <Tag size="small">连续学习</Tag>
-                </div>
-              )}
-            </div>
-            <div className="bingeup-prompt" lang="en">
-              {word.word}
-            </div>
-            <div className="bingeup-new-word-meaning">
-              <Tag size="small">{word.partOfSpeech.join('/')}</Tag>
-              <span>{word.coreMeaningZh.join('；')}</span>
-            </div>
-            {word.exampleSentence && (
-              <ExampleSpeechPanel
-                ownerId={ownerId}
-                exampleText={word.exampleSentence}
-                disabled={done}
-              >
-                <p className="bingeup-example" lang="en">
-                  {word.exampleSentence}
-                </p>
-                {word.exampleTranslation && (
-                  <p className="bingeup-example-translation">{word.exampleTranslation}</p>
-                )}
-              </ExampleSpeechPanel>
+            {isContinuous && (
+              <div className="bingeup-new-word-badge">
+                <Tag size="small">连续学习</Tag>
+              </div>
             )}
-            {secondary.length > 0 && (
-              <p className="bingeup-secondary">
-                <span className="bingeup-secondary-label">其他常见义</span>
-                {secondary.map((meaning, index) => (
-                  <span
-                    className="bingeup-secondary-item"
-                    key={`${meaning.partOfSpeech}:${meaning.meaningZh}`}
-                  >
-                    <span className="bingeup-secondary-pos">{meaning.partOfSpeech}</span>{' '}
-                    <span>{meaning.meaningZh}</span>
-                    {index < secondary.length - 1 && (
-                      <span className="bingeup-secondary-separator" aria-hidden="true">
-                        ·
-                      </span>
-                    )}
-                  </span>
-                ))}
-              </p>
-            )}
+            <WordSummary
+              ownerId={ownerId}
+              data={{
+                word: word.word,
+                phonetic: word.phonetic,
+                partOfSpeech: word.partOfSpeech,
+                meanings: word.coreMeaningZh,
+                exampleSentence: word.exampleSentence,
+                exampleTranslation: word.exampleTranslation,
+                secondaryMeanings: word.secondaryMeanings,
+              }}
+              wordClassName="bingeup-prompt"
+              disabled={done}
+            />
           </div>
           <div className="bingeup-actions bingeup-actions-new-word">
             {isContinuous ? (
@@ -248,7 +208,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   }
                   disabled={done}
                 >
-                  知道了，继续 <KeyHint>1</KeyHint>
+                  学到了，继续 <KeyHint>1</KeyHint>
                 </Button>
                 <Button
                   onClick={() => fireFinal({ type: 'self-report-and-continue', wordId: word.id })}
@@ -267,7 +227,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   onClick={() => fireFinal({ type: 'accept-new-word', wordId: word.id })}
                   disabled={done}
                 >
-                  知道了 <KeyHint>1</KeyHint>
+                  学到了 <KeyHint>1</KeyHint>
                 </Button>
                 <Button
                   onClick={() => fireFinal({ type: 'self-report', wordId: word.id })}
@@ -309,9 +269,16 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
         <div className="bingeup-prompt" lang={promptLang}>
           {question.prompt}
         </div>
-        <div className="bingeup-part-of-speech">
-          <Tag size="small">{question.explanation.partOfSpeech.join('/')}</Tag>
-        </div>
+        {question.explanation.phonetic && (
+          <div className="bingeup-question-pronunciation">
+            <PronunciationTag
+              ownerId={ownerId}
+              wordText={question.explanation.word}
+              phonetic={question.explanation.phonetic}
+              disabled={done}
+            />
+          </div>
+        )}
         {item.kind === 'spelling-question' ? (
           <>
             {spellingHint && (

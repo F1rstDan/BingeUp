@@ -1482,6 +1482,18 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
     expect(log!.userCorrection).toBe('too-easy');
   });
 
+  it('“太难了”纠正：评分降为 hard，重新调度', async () => {
+    const { env, result } = await prepareSubmittedLongTerm();
+
+    const corrected = await env.service.correctRating(result.reviewLogId, 'too-hard');
+
+    expect(corrected.rating).toBe('hard');
+    expect(corrected.nextReviewAt).toBeDefined();
+    const log = await env.logs.getById(result.reviewLogId);
+    expect(log!.rating).toBe('hard');
+    expect(log!.userCorrection).toBe('too-hard');
+  });
+
   it('纠正后调度更新持久化：刷新后仍可读取新评分', async () => {
     const logs = new FakeReviewLogRepository();
     const cards = new FakeCardRepository().bindLogs(logs);

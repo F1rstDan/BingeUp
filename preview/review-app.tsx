@@ -475,12 +475,12 @@ function OverlayStages(): JSX.Element {
     <div className="preview-grid">
       <OverlayStage
         title="遮罩 · 认识新词"
-        hint="单题模式新词展示：知道了 / 我认识，换一个 / 跳过"
+        hint="单题模式新词展示：学到了 / 我认识，换一个 / 跳过"
         item={newWordItem}
       />
       <OverlayStage
         title="遮罩 · 选择题"
-        hint="可交互：点击选项后提交；快捷键 1-4 / A-D、Enter、Esc 生效"
+        hint="可交互：点击选项后提交；快捷键 1-4、Enter、Esc 生效"
         item={choiceItem}
       />
       <OverlayStage
@@ -514,6 +514,12 @@ function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Eleme
             cardId: 'preview-card',
             reviewLogId: 'preview-log',
             rating: 'easy',
+            nextReviewAt: Date.now() + 86_400_000,
+          })}
+          onTooHard={async () => ({
+            cardId: 'preview-card',
+            reviewLogId: 'preview-log',
+            rating: 'hard',
             nextReviewAt: Date.now() + 86_400_000,
           })}
           onClose={() => {}}

@@ -734,7 +734,11 @@ describe('ContentController — 核心闭环编排', () => {
       expect(playback.playCalls).toBe(1);
       expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
         expect.objectContaining({ isCorrect: true, reviewLogId: 'log-1' }),
-        { onContinue: expect.any(Function), onTooEasy: expect.any(Function) },
+        {
+          onContinue: expect.any(Function),
+          onTooEasy: expect.any(Function),
+          onTooHard: expect.any(Function),
+        },
       );
     });
 
@@ -1029,7 +1033,11 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(overlay.lastOptions).toEqual({ isContinuous: true });
       expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
         expect.objectContaining({ reviewLogId: 'log-1' }),
-        { onContinue: undefined, onTooEasy: expect.any(Function) },
+        {
+          onContinue: undefined,
+          onTooEasy: expect.any(Function),
+          onTooHard: expect.any(Function),
+        },
       );
       expect(playback.playCalls).toBe(0);
     });

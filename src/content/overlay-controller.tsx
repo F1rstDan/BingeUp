@@ -4,6 +4,7 @@ import { Button, Card } from 'animal-island-ui';
 import { AlertCircleIcon } from 'naive-icons';
 import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
+import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
 import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
@@ -43,17 +44,17 @@ export const OVERLAY_SHELL_CSS = `
   }
   .bingeup-new-word { min-width: 0; }
   .bingeup-new-word .bingeup-prompt { margin-bottom: var(--animal-spacing-xs); }
-  .bingeup-new-word-toolbar {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    gap: var(--animal-spacing-sm); min-width: 0; margin-bottom: var(--animal-spacing-sm);
+  .bingeup-new-word-badge {
+    display: flex; justify-content: flex-end; margin-bottom: var(--animal-spacing-xs);
   }
-  .bingeup-new-word-toolbar > .bingeup-speech-controls { flex: 1 1 auto; min-width: 0; }
-  .bingeup-new-word-badge { flex: 0 0 auto; }
   .bingeup-phonetic {
     margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-base); text-align: center;
   }
   .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: var(--animal-spacing-sm); }
+  .bingeup-question-pronunciation {
+    display: flex; justify-content: center; margin-bottom: var(--animal-spacing-md);
+  }
   .bingeup-new-word-meaning {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
     gap: var(--animal-spacing-xs) var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-md);
@@ -181,7 +182,14 @@ export class OverlayController implements OverlayPort {
     registerIslandFontFaces(bundle.fontFaces);
     this.mountShadow({
       hostId: OVERLAY_HOST_ID,
-      css: OVERLAY_RESET_CSS + '\n' + bundle.css + '\n' + OVERLAY_SHELL_CSS + SPEECH_CONTROLS_CSS,
+      css:
+        OVERLAY_RESET_CSS +
+        '\n' +
+        bundle.css +
+        '\n' +
+        OVERLAY_SHELL_CSS +
+        SPEECH_CONTROLS_CSS +
+        WORD_SUMMARY_CSS,
       target,
       mode,
       render: () => (

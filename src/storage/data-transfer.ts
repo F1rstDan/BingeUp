@@ -258,7 +258,8 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
       userCorrection: (candidate) =>
         isOptional(
           candidate,
-          (correction) => correction === 'guessed' || correction === 'too-easy',
+          (correction) =>
+            correction === 'guessed' || correction === 'too-easy' || correction === 'too-hard',
         ),
       answerChanges: (candidate) =>
         isOptional(candidate, (count) => Number.isInteger(count) && Number(count) >= 0),

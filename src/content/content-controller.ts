@@ -512,6 +512,9 @@ export class ContentController {
         onTooEasy: result.isCorrect
           ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
           : undefined,
+        onTooHard: result.isCorrect
+          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-hard')
+          : undefined,
       });
       return result;
     }
