@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-vary",
+    "enToZh": [
+      {
+        "wordId": "w-study",
+        "reason": "选项「学习」不是「vary」的主释义「变化」或其他义项。"
+      },
+      {
+        "wordId": "w-resolve",
+        "reason": "选项「解决」不是「vary」的主释义「变化」或其他义项。"
+      },
+      {
+        "wordId": "w-listen",
+        "reason": "选项「听」不是「vary」的主释义「变化」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-study",
+        "reason": "英文「study」的常见义项「学习」不符合主释义「变化」。"
+      },
+      {
+        "wordId": "w-resolve",
+        "reason": "英文「resolve」的常见义项「解决」不符合主释义「变化」。"
+      },
+      {
+        "wordId": "w-listen",
+        "reason": "英文「listen」的常见义项「听」不符合主释义「变化」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-study",
+        "surfaceForm": "study",
+        "reason": "将「study」代入可见句子后不表达主释义「变化」。"
+      },
+      {
+        "wordId": "w-resolve",
+        "surfaceForm": "resolve",
+        "reason": "将「resolve」代入可见句子后不表达主释义「变化」。"
+      },
+      {
+        "wordId": "w-listen",
+        "surfaceForm": "listen",
+        "reason": "将「listen」代入可见句子后不表达主释义「变化」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vase",
+    "enToZh": [
+      {
+        "wordId": "w-remnant",
+        "reason": "选项「残迹」不是「vase」的主释义「花瓶」或其他义项。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "选项「性情」不是「vase」的主释义「花瓶」或其他义项。"
+      },
+      {
+        "wordId": "w-sunrise",
+        "reason": "选项「日出」不是「vase」的主释义「花瓶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-remnant",
+        "reason": "英文「remnant」的常见义项「残迹」不符合主释义「花瓶」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "英文「disposition」的常见义项「性情」不符合主释义「花瓶」。"
+      },
+      {
+        "wordId": "w-sunrise",
+        "reason": "英文「sunrise」的常见义项「日出」不符合主释义「花瓶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-remnant",
+        "surfaceForm": "remnant",
+        "reason": "将「remnant」代入可见句子后不表达主释义「花瓶」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "surfaceForm": "disposition",
+        "reason": "将「disposition」代入可见句子后不表达主释义「花瓶」。"
+      },
+      {
+        "wordId": "w-sunrise",
+        "surfaceForm": "sunrise",
+        "reason": "将「sunrise」代入可见句子后不表达主释义「花瓶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vault",
+    "enToZh": [
+      {
+        "wordId": "w-wrath",
+        "reason": "选项「愤怒」不是「vault」的主释义「金库」或其他义项。"
+      },
+      {
+        "wordId": "w-radius",
+        "reason": "选项「半径」不是「vault」的主释义「金库」或其他义项。"
+      },
+      {
+        "wordId": "w-hymn",
+        "reason": "选项「赞美诗」不是「vault」的主释义「金库」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-wrath",
+        "reason": "英文「wrath」的常见义项「愤怒」不符合主释义「金库」。"
+      },
+      {
+        "wordId": "w-radius",
+        "reason": "英文「radius」的常见义项「半径」不符合主释义「金库」。"
+      },
+      {
+        "wordId": "w-hymn",
+        "reason": "英文「hymn」的常见义项「赞美诗」不符合主释义「金库」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-wrath",
+        "surfaceForm": "wrath",
+        "reason": "将「wrath」代入可见句子后不表达主释义「金库」。"
+      },
+      {
+        "wordId": "w-radius",
+        "surfaceForm": "radius",
+        "reason": "将「radius」代入可见句子后不表达主释义「金库」。"
+      },
+      {
+        "wordId": "w-hymn",
+        "surfaceForm": "hymn",
+        "reason": "将「hymn」代入可见句子后不表达主释义「金库」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vector",
+    "enToZh": [
+      {
+        "wordId": "w-pantry",
+        "reason": "选项「食品储藏室」不是「vector」的主释义「矢量」或其他义项。"
+      },
+      {
+        "wordId": "w-hinge",
+        "reason": "选项「铰链」不是「vector」的主释义「矢量」或其他义项。"
+      },
+      {
+        "wordId": "w-dialect",
+        "reason": "选项「方言」不是「vector」的主释义「矢量」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pantry",
+        "reason": "英文「pantry」的常见义项「食品储藏室」不符合主释义「矢量」。"
+      },
+      {
+        "wordId": "w-hinge",
+        "reason": "英文「hinge」的常见义项「铰链」不符合主释义「矢量」。"
+      },
+      {
+        "wordId": "w-dialect",
+        "reason": "英文「dialect」的常见义项「方言」不符合主释义「矢量」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pantry",
+        "surfaceForm": "pantry",
+        "reason": "将「pantry」代入可见句子后不表达主释义「矢量」。"
+      },
+      {
+        "wordId": "w-hinge",
+        "surfaceForm": "hinge",
+        "reason": "将「hinge」代入可见句子后不表达主释义「矢量」。"
+      },
+      {
+        "wordId": "w-dialect",
+        "surfaceForm": "dialect",
+        "reason": "将「dialect」代入可见句子后不表达主释义「矢量」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vegetable",
+    "enToZh": [
+      {
+        "wordId": "w-ceiling",
+        "reason": "选项「天花板」不是「vegetable」的主释义「蔬菜」或其他义项。"
+      },
+      {
+        "wordId": "w-reduction",
+        "reason": "选项「减少」不是「vegetable」的主释义「蔬菜」或其他义项。"
+      },
+      {
+        "wordId": "w-language",
+        "reason": "选项「语言」不是「vegetable」的主释义「蔬菜」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ceiling",
+        "reason": "英文「ceiling」的常见义项「天花板」不符合主释义「蔬菜」。"
+      },
+      {
+        "wordId": "w-reduction",
+        "reason": "英文「reduction」的常见义项「减少」不符合主释义「蔬菜」。"
+      },
+      {
+        "wordId": "w-language",
+        "reason": "英文「language」的常见义项「语言」不符合主释义「蔬菜」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ceiling",
+        "surfaceForm": "ceiling",
+        "reason": "将「ceiling」代入可见句子后不表达主释义「蔬菜」。"
+      },
+      {
+        "wordId": "w-reduction",
+        "surfaceForm": "reduction",
+        "reason": "将「reduction」代入可见句子后不表达主释义「蔬菜」。"
+      },
+      {
+        "wordId": "w-language",
+        "surfaceForm": "language",
+        "reason": "将「language」代入可见句子后不表达主释义「蔬菜」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vegetation",
+    "enToZh": [
+      {
+        "wordId": "w-headline",
+        "reason": "选项「标题」不是「vegetation」的主释义「植被」或其他义项。"
+      },
+      {
+        "wordId": "w-descent",
+        "reason": "选项「下降」不是「vegetation」的主释义「植被」或其他义项。"
+      },
+      {
+        "wordId": "w-quest",
+        "reason": "选项「探索」不是「vegetation」的主释义「植被」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-headline",
+        "reason": "英文「headline」的常见义项「标题」不符合主释义「植被」。"
+      },
+      {
+        "wordId": "w-descent",
+        "reason": "英文「descent」的常见义项「下降」不符合主释义「植被」。"
+      },
+      {
+        "wordId": "w-quest",
+        "reason": "英文「quest」的常见义项「探索」不符合主释义「植被」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-headline",
+        "surfaceForm": "headline",
+        "reason": "将「headline」代入可见句子后不表达主释义「植被」。"
+      },
+      {
+        "wordId": "w-descent",
+        "surfaceForm": "descent",
+        "reason": "将「descent」代入可见句子后不表达主释义「植被」。"
+      },
+      {
+        "wordId": "w-quest",
+        "surfaceForm": "quest",
+        "reason": "将「quest」代入可见句子后不表达主释义「植被」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vehicle",
+    "enToZh": [
+      {
+        "wordId": "w-interest",
+        "reason": "选项「兴趣」不是「vehicle」的主释义「车辆」或其他义项。"
+      },
+      {
+        "wordId": "w-logic",
+        "reason": "选项「逻辑」不是「vehicle」的主释义「车辆」或其他义项。"
+      },
+      {
+        "wordId": "w-wind",
+        "reason": "选项「风」不是「vehicle」的主释义「车辆」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-interest",
+        "reason": "英文「interest」的常见义项「兴趣」不符合主释义「车辆」。"
+      },
+      {
+        "wordId": "w-logic",
+        "reason": "英文「logic」的常见义项「逻辑」不符合主释义「车辆」。"
+      },
+      {
+        "wordId": "w-wind",
+        "reason": "英文「wind」的常见义项「风」不符合主释义「车辆」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-interest",
+        "surfaceForm": "interest",
+        "reason": "将「interest」代入可见句子后不表达主释义「车辆」。"
+      },
+      {
+        "wordId": "w-logic",
+        "surfaceForm": "logic",
+        "reason": "将「logic」代入可见句子后不表达主释义「车辆」。"
+      },
+      {
+        "wordId": "w-wind",
+        "surfaceForm": "wind",
+        "reason": "将「wind」代入可见句子后不表达主释义「车辆」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-veil",
+    "enToZh": [
+      {
+        "wordId": "w-herb",
+        "reason": "选项「香草」不是「veil」的主释义「面纱」或其他义项。"
+      },
+      {
+        "wordId": "w-compound",
+        "reason": "选项「化合物」不是「veil」的主释义「面纱」或其他义项。"
+      },
+      {
+        "wordId": "w-proposition",
+        "reason": "选项「主张」不是「veil」的主释义「面纱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-herb",
+        "reason": "英文「herb」的常见义项「香草」不符合主释义「面纱」。"
+      },
+      {
+        "wordId": "w-compound",
+        "reason": "英文「compound」的常见义项「化合物」不符合主释义「面纱」。"
+      },
+      {
+        "wordId": "w-proposition",
+        "reason": "英文「proposition」的常见义项「主张」不符合主释义「面纱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-herb",
+        "surfaceForm": "herb",
+        "reason": "将「herb」代入可见句子后不表达主释义「面纱」。"
+      },
+      {
+        "wordId": "w-compound",
+        "surfaceForm": "compound",
+        "reason": "将「compound」代入可见句子后不表达主释义「面纱」。"
+      },
+      {
+        "wordId": "w-proposition",
+        "surfaceForm": "proposition",
+        "reason": "将「proposition」代入可见句子后不表达主释义「面纱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vein",
+    "enToZh": [
+      {
+        "wordId": "w-attachment",
+        "reason": "选项「附件」不是「vein」的主释义「静脉」或其他义项。"
+      },
+      {
+        "wordId": "w-sensitivity",
+        "reason": "选项「敏感性」不是「vein」的主释义「静脉」或其他义项。"
+      },
+      {
+        "wordId": "w-superiority",
+        "reason": "选项「优势」不是「vein」的主释义「静脉」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-attachment",
+        "reason": "英文「attachment」的常见义项「附件」不符合主释义「静脉」。"
+      },
+      {
+        "wordId": "w-sensitivity",
+        "reason": "英文「sensitivity」的常见义项「敏感性」不符合主释义「静脉」。"
+      },
+      {
+        "wordId": "w-superiority",
+        "reason": "英文「superiority」的常见义项「优势」不符合主释义「静脉」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-attachment",
+        "surfaceForm": "attachment",
+        "reason": "将「attachment」代入可见句子后不表达主释义「静脉」。"
+      },
+      {
+        "wordId": "w-sensitivity",
+        "surfaceForm": "sensitivity",
+        "reason": "将「sensitivity」代入可见句子后不表达主释义「静脉」。"
+      },
+      {
+        "wordId": "w-superiority",
+        "surfaceForm": "superiority",
+        "reason": "将「superiority」代入可见句子后不表达主释义「静脉」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-velocity",
+    "enToZh": [
+      {
+        "wordId": "w-equation",
+        "reason": "选项「方程式」不是「velocity」的主释义「速度」或其他义项。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "选项「黄铜」不是「velocity」的主释义「速度」或其他义项。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "选项「蜡烛」不是「velocity」的主释义「速度」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-equation",
+        "reason": "英文「equation」的常见义项「方程式」不符合主释义「速度」。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "英文「brass」的常见义项「黄铜」不符合主释义「速度」。"
+      },
+      {
+        "wordId": "w-candle",
+        "reason": "英文「candle」的常见义项「蜡烛」不符合主释义「速度」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-equation",
+        "surfaceForm": "equation",
+        "reason": "将「equation」代入可见句子后不表达主释义「速度」。"
+      },
+      {
+        "wordId": "w-brass",
+        "surfaceForm": "brass",
+        "reason": "将「brass」代入可见句子后不表达主释义「速度」。"
+      },
+      {
+        "wordId": "w-candle",
+        "surfaceForm": "candle",
+        "reason": "将「candle」代入可见句子后不表达主释义「速度」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-velvet",
+    "enToZh": [
+      {
+        "wordId": "w-sunset",
+        "reason": "选项「日落」不是「velvet」的主释义「天鹅绒」或其他义项。"
+      },
+      {
+        "wordId": "w-scrutiny",
+        "reason": "选项「审查」不是「velvet」的主释义「天鹅绒」或其他义项。"
+      },
+      {
+        "wordId": "w-seller",
+        "reason": "选项「卖家」不是「velvet」的主释义「天鹅绒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sunset",
+        "reason": "英文「sunset」的常见义项「日落」不符合主释义「天鹅绒」。"
+      },
+      {
+        "wordId": "w-scrutiny",
+        "reason": "英文「scrutiny」的常见义项「审查」不符合主释义「天鹅绒」。"
+      },
+      {
+        "wordId": "w-seller",
+        "reason": "英文「seller」的常见义项「卖家」不符合主释义「天鹅绒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sunset",
+        "surfaceForm": "sunset",
+        "reason": "将「sunset」代入可见句子后不表达主释义「天鹅绒」。"
+      },
+      {
+        "wordId": "w-scrutiny",
+        "surfaceForm": "scrutiny",
+        "reason": "将「scrutiny」代入可见句子后不表达主释义「天鹅绒」。"
+      },
+      {
+        "wordId": "w-seller",
+        "surfaceForm": "seller",
+        "reason": "将「seller」代入可见句子后不表达主释义「天鹅绒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vengeance",
+    "enToZh": [
+      {
+        "wordId": "w-intuition",
+        "reason": "选项「直觉」不是「vengeance」的主释义「报复」或其他义项。"
+      },
+      {
+        "wordId": "w-tortoise",
+        "reason": "选项「陆龟」不是「vengeance」的主释义「报复」或其他义项。"
+      },
+      {
+        "wordId": "w-jupiter",
+        "reason": "选项「木星」不是「vengeance」的主释义「报复」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intuition",
+        "reason": "英文「intuition」的常见义项「直觉」不符合主释义「报复」。"
+      },
+      {
+        "wordId": "w-tortoise",
+        "reason": "英文「tortoise」的常见义项「陆龟」不符合主释义「报复」。"
+      },
+      {
+        "wordId": "w-jupiter",
+        "reason": "英文「Jupiter」的常见义项「木星」不符合主释义「报复」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intuition",
+        "surfaceForm": "intuition",
+        "reason": "将「intuition」代入可见句子后不表达主释义「报复」。"
+      },
+      {
+        "wordId": "w-tortoise",
+        "surfaceForm": "tortoise",
+        "reason": "将「tortoise」代入可见句子后不表达主释义「报复」。"
+      },
+      {
+        "wordId": "w-jupiter",
+        "surfaceForm": "Jupiter",
+        "reason": "将「Jupiter」代入可见句子后不表达主释义「报复」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vent",
+    "enToZh": [
+      {
+        "wordId": "w-avenue",
+        "reason": "选项「大街」不是「vent」的主释义「通风口」或其他义项。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "选项「性情」不是「vent」的主释义「通风口」或其他义项。"
+      },
+      {
+        "wordId": "w-erosion",
+        "reason": "选项「侵蚀」不是「vent」的主释义「通风口」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-avenue",
+        "reason": "英文「avenue」的常见义项「大街」不符合主释义「通风口」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "英文「disposition」的常见义项「性情」不符合主释义「通风口」。"
+      },
+      {
+        "wordId": "w-erosion",
+        "reason": "英文「erosion」的常见义项「侵蚀」不符合主释义「通风口」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-avenue",
+        "surfaceForm": "avenue",
+        "reason": "将「avenue」代入可见句子后不表达主释义「通风口」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "surfaceForm": "disposition",
+        "reason": "将「disposition」代入可见句子后不表达主释义「通风口」。"
+      },
+      {
+        "wordId": "w-erosion",
+        "surfaceForm": "erosion",
+        "reason": "将「erosion」代入可见句子后不表达主释义「通风口」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ventilate",
+    "enToZh": [
+      {
+        "wordId": "w-displease",
+        "reason": "选项「使不高兴」不是「ventilate」的主释义「使通风」或其他义项。"
+      },
+      {
+        "wordId": "w-overhang",
+        "reason": "选项「悬垂」不是「ventilate」的主释义「使通风」或其他义项。"
+      },
+      {
+        "wordId": "w-thresh",
+        "reason": "选项「打谷」不是「ventilate」的主释义「使通风」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-displease",
+        "reason": "英文「displease」的常见义项「使不高兴」不符合主释义「使通风」。"
+      },
+      {
+        "wordId": "w-overhang",
+        "reason": "英文「overhang」的常见义项「悬垂」不符合主释义「使通风」。"
+      },
+      {
+        "wordId": "w-thresh",
+        "reason": "英文「thresh」的常见义项「打谷」不符合主释义「使通风」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-displease",
+        "surfaceForm": "displease",
+        "reason": "将「displease」代入可见句子后不表达主释义「使通风」。"
+      },
+      {
+        "wordId": "w-overhang",
+        "surfaceForm": "overhang",
+        "reason": "将「overhang」代入可见句子后不表达主释义「使通风」。"
+      },
+      {
+        "wordId": "w-thresh",
+        "surfaceForm": "thresh",
+        "reason": "将「thresh」代入可见句子后不表达主释义「使通风」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-venture",
+    "enToZh": [
+      {
+        "wordId": "w-income",
+        "reason": "选项「收入」不是「venture」的主释义「风险项目」或其他义项。"
+      },
+      {
+        "wordId": "w-benefit",
+        "reason": "选项「好处」不是「venture」的主释义「风险项目」或其他义项。"
+      },
+      {
+        "wordId": "w-profile",
+        "reason": "选项「个人资料」不是「venture」的主释义「风险项目」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-income",
+        "reason": "英文「income」的常见义项「收入」不符合主释义「风险项目」。"
+      },
+      {
+        "wordId": "w-benefit",
+        "reason": "英文「benefit」的常见义项「好处」不符合主释义「风险项目」。"
+      },
+      {
+        "wordId": "w-profile",
+        "reason": "英文「profile」的常见义项「个人资料」不符合主释义「风险项目」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-income",
+        "surfaceForm": "income",
+        "reason": "将「income」代入可见句子后不表达主释义「风险项目」。"
+      },
+      {
+        "wordId": "w-benefit",
+        "surfaceForm": "benefit",
+        "reason": "将「benefit」代入可见句子后不表达主释义「风险项目」。"
+      },
+      {
+        "wordId": "w-profile",
+        "surfaceForm": "profile",
+        "reason": "将「profile」代入可见句子后不表达主释义「风险项目」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-venus",
+    "enToZh": [
+      {
+        "wordId": "w-fuse",
+        "reason": "选项「保险丝」不是「Venus」的主释义「金星」或其他义项。"
+      },
+      {
+        "wordId": "w-springtime",
+        "reason": "选项「春季」不是「Venus」的主释义「金星」或其他义项。"
+      },
+      {
+        "wordId": "w-intricacy",
+        "reason": "选项「复杂性」不是「Venus」的主释义「金星」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fuse",
+        "reason": "英文「fuse」的常见义项「保险丝」不符合主释义「金星」。"
+      },
+      {
+        "wordId": "w-springtime",
+        "reason": "英文「springtime」的常见义项「春季」不符合主释义「金星」。"
+      },
+      {
+        "wordId": "w-intricacy",
+        "reason": "英文「intricacy」的常见义项「复杂性」不符合主释义「金星」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fuse",
+        "surfaceForm": "fuse",
+        "reason": "将「fuse」代入可见句子后不表达主释义「金星」。"
+      },
+      {
+        "wordId": "w-springtime",
+        "surfaceForm": "springtime",
+        "reason": "将「springtime」代入可见句子后不表达主释义「金星」。"
+      },
+      {
+        "wordId": "w-intricacy",
+        "surfaceForm": "intricacy",
+        "reason": "将「intricacy」代入可见句子后不表达主释义「金星」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-verb",
+    "enToZh": [
+      {
+        "wordId": "w-sponge",
+        "reason": "选项「海绵」不是「verb」的主释义「动词」或其他义项。"
+      },
+      {
+        "wordId": "w-yolk",
+        "reason": "选项「蛋黄」不是「verb」的主释义「动词」或其他义项。"
+      },
+      {
+        "wordId": "w-synthesis",
+        "reason": "选项「综合」不是「verb」的主释义「动词」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sponge",
+        "reason": "英文「sponge」的常见义项「海绵」不符合主释义「动词」。"
+      },
+      {
+        "wordId": "w-yolk",
+        "reason": "英文「yolk」的常见义项「蛋黄」不符合主释义「动词」。"
+      },
+      {
+        "wordId": "w-synthesis",
+        "reason": "英文「synthesis」的常见义项「综合」不符合主释义「动词」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sponge",
+        "surfaceForm": "sponge",
+        "reason": "将「sponge」代入可见句子后不表达主释义「动词」。"
+      },
+      {
+        "wordId": "w-yolk",
+        "surfaceForm": "yolk",
+        "reason": "将「yolk」代入可见句子后不表达主释义「动词」。"
+      },
+      {
+        "wordId": "w-synthesis",
+        "surfaceForm": "synthesis",
+        "reason": "将「synthesis」代入可见句子后不表达主释义「动词」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-verdict",
+    "enToZh": [
+      {
+        "wordId": "w-proposition",
+        "reason": "选项「主张」不是「verdict」的主释义「裁决」或其他义项。"
+      },
+      {
+        "wordId": "w-workshop",
+        "reason": "选项「研讨会」不是「verdict」的主释义「裁决」或其他义项。"
+      },
+      {
+        "wordId": "w-scrap",
+        "reason": "选项「碎片」不是「verdict」的主释义「裁决」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-proposition",
+        "reason": "英文「proposition」的常见义项「主张」不符合主释义「裁决」。"
+      },
+      {
+        "wordId": "w-workshop",
+        "reason": "英文「workshop」的常见义项「研讨会」不符合主释义「裁决」。"
+      },
+      {
+        "wordId": "w-scrap",
+        "reason": "英文「scrap」的常见义项「碎片」不符合主释义「裁决」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-proposition",
+        "surfaceForm": "proposition",
+        "reason": "将「proposition」代入可见句子后不表达主释义「裁决」。"
+      },
+      {
+        "wordId": "w-workshop",
+        "surfaceForm": "workshop",
+        "reason": "将「workshop」代入可见句子后不表达主释义「裁决」。"
+      },
+      {
+        "wordId": "w-scrap",
+        "surfaceForm": "scrap",
+        "reason": "将「scrap」代入可见句子后不表达主释义「裁决」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-verge",
+    "enToZh": [
+      {
+        "wordId": "w-sunlight",
+        "reason": "选项「日光」不是「verge」的主释义「边缘」或其他义项。"
+      },
+      {
+        "wordId": "w-bronze",
+        "reason": "选项「青铜」不是「verge」的主释义「边缘」或其他义项。"
+      },
+      {
+        "wordId": "w-tobacco",
+        "reason": "选项「烟草」不是「verge」的主释义「边缘」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sunlight",
+        "reason": "英文「sunlight」的常见义项「日光」不符合主释义「边缘」。"
+      },
+      {
+        "wordId": "w-bronze",
+        "reason": "英文「bronze」的常见义项「青铜」不符合主释义「边缘」。"
+      },
+      {
+        "wordId": "w-tobacco",
+        "reason": "英文「tobacco」的常见义项「烟草」不符合主释义「边缘」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sunlight",
+        "surfaceForm": "sunlight",
+        "reason": "将「sunlight」代入可见句子后不表达主释义「边缘」。"
+      },
+      {
+        "wordId": "w-bronze",
+        "surfaceForm": "bronze",
+        "reason": "将「bronze」代入可见句子后不表达主释义「边缘」。"
+      },
+      {
+        "wordId": "w-tobacco",
+        "surfaceForm": "tobacco",
+        "reason": "将「tobacco」代入可见句子后不表达主释义「边缘」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-verify",
+    "enToZh": [
+      {
+        "wordId": "w-shorten",
+        "reason": "选项「缩短」不是「verify」的主释义「核实」或其他义项。"
+      },
+      {
+        "wordId": "w-overlook",
+        "reason": "选项「忽略」不是「verify」的主释义「核实」或其他义项。"
+      },
+      {
+        "wordId": "w-simulate",
+        "reason": "选项「模拟」不是「verify」的主释义「核实」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-shorten",
+        "reason": "英文「shorten」的常见义项「缩短」不符合主释义「核实」。"
+      },
+      {
+        "wordId": "w-overlook",
+        "reason": "英文「overlook」的常见义项「忽略」不符合主释义「核实」。"
+      },
+      {
+        "wordId": "w-simulate",
+        "reason": "英文「simulate」的常见义项「模拟」不符合主释义「核实」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-shorten",
+        "surfaceForm": "shorten",
+        "reason": "将「shorten」代入可见句子后不表达主释义「核实」。"
+      },
+      {
+        "wordId": "w-overlook",
+        "surfaceForm": "overlook",
+        "reason": "将「overlook」代入可见句子后不表达主释义「核实」。"
+      },
+      {
+        "wordId": "w-simulate",
+        "surfaceForm": "simulate",
+        "reason": "将「simulate」代入可见句子后不表达主释义「核实」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-verse",
+    "enToZh": [
+      {
+        "wordId": "w-shovel",
+        "reason": "选项「铲子」不是「verse」的主释义「诗句」或其他义项。"
+      },
+      {
+        "wordId": "w-tub",
+        "reason": "选项「浴缸」不是「verse」的主释义「诗句」或其他义项。"
+      },
+      {
+        "wordId": "w-quilt",
+        "reason": "选项「被子」不是「verse」的主释义「诗句」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-shovel",
+        "reason": "英文「shovel」的常见义项「铲子」不符合主释义「诗句」。"
+      },
+      {
+        "wordId": "w-tub",
+        "reason": "英文「tub」的常见义项「浴缸」不符合主释义「诗句」。"
+      },
+      {
+        "wordId": "w-quilt",
+        "reason": "英文「quilt」的常见义项「被子」不符合主释义「诗句」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-shovel",
+        "surfaceForm": "shovel",
+        "reason": "将「shovel」代入可见句子后不表达主释义「诗句」。"
+      },
+      {
+        "wordId": "w-tub",
+        "surfaceForm": "tub",
+        "reason": "将「tub」代入可见句子后不表达主释义「诗句」。"
+      },
+      {
+        "wordId": "w-quilt",
+        "surfaceForm": "quilt",
+        "reason": "将「quilt」代入可见句子后不表达主释义「诗句」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-version",
+    "enToZh": [
+      {
+        "wordId": "w-monitor",
+        "reason": "选项「显示器」不是「version」的主释义「版本」或其他义项。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "选项「箭头」不是「version」的主释义「版本」或其他义项。"
+      },
+      {
+        "wordId": "w-closet",
+        "reason": "选项「壁橱」不是「version」的主释义「版本」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-monitor",
+        "reason": "英文「monitor」的常见义项「显示器」不符合主释义「版本」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "英文「arrow」的常见义项「箭头」不符合主释义「版本」。"
+      },
+      {
+        "wordId": "w-closet",
+        "reason": "英文「closet」的常见义项「壁橱」不符合主释义「版本」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-monitor",
+        "surfaceForm": "monitor",
+        "reason": "将「monitor」代入可见句子后不表达主释义「版本」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "surfaceForm": "arrow",
+        "reason": "将「arrow」代入可见句子后不表达主释义「版本」。"
+      },
+      {
+        "wordId": "w-closet",
+        "surfaceForm": "closet",
+        "reason": "将「closet」代入可见句子后不表达主释义「版本」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-versus",
+    "enToZh": [
+      {
+        "wordId": "w-aboard",
+        "reason": "选项「在……上」不是「versus」的主释义「对」或其他义项。"
+      },
+      {
+        "wordId": "w-amid",
+        "reason": "选项「在……之中」不是「versus」的主释义「对」或其他义项。"
+      },
+      {
+        "wordId": "w-plus",
+        "reason": "选项「加」不是「versus」的主释义「对」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aboard",
+        "reason": "英文「aboard」的常见义项「在……上」不符合主释义「对」。"
+      },
+      {
+        "wordId": "w-amid",
+        "reason": "英文「amid」的常见义项「在……之中」不符合主释义「对」。"
+      },
+      {
+        "wordId": "w-plus",
+        "reason": "英文「plus」的常见义项「加」不符合主释义「对」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aboard",
+        "surfaceForm": "aboard",
+        "reason": "将「aboard」代入可见句子后不表达主释义「对」。"
+      },
+      {
+        "wordId": "w-amid",
+        "surfaceForm": "amid",
+        "reason": "将「amid」代入可见句子后不表达主释义「对」。"
+      },
+      {
+        "wordId": "w-plus",
+        "surfaceForm": "plus",
+        "reason": "将「plus」代入可见句子后不表达主释义「对」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vessel",
+    "enToZh": [
+      {
+        "wordId": "w-toe",
+        "reason": "选项「脚趾」不是「vessel」的主释义「船」或其他义项。"
+      },
+      {
+        "wordId": "w-capacity",
+        "reason": "选项「容量」不是「vessel」的主释义「船」或其他义项。"
+      },
+      {
+        "wordId": "w-gold",
+        "reason": "选项「黄金」不是「vessel」的主释义「船」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-toe",
+        "reason": "英文「toe」的常见义项「脚趾」不符合主释义「船」。"
+      },
+      {
+        "wordId": "w-capacity",
+        "reason": "英文「capacity」的常见义项「容量」不符合主释义「船」。"
+      },
+      {
+        "wordId": "w-gold",
+        "reason": "英文「gold」的常见义项「黄金」不符合主释义「船」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-toe",
+        "surfaceForm": "toe",
+        "reason": "将「toe」代入可见句子后不表达主释义「船」。"
+      },
+      {
+        "wordId": "w-capacity",
+        "surfaceForm": "capacity",
+        "reason": "将「capacity」代入可见句子后不表达主释义「船」。"
+      },
+      {
+        "wordId": "w-gold",
+        "surfaceForm": "gold",
+        "reason": "将「gold」代入可见句子后不表达主释义「船」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-vest",
+    "enToZh": [
+      {
+        "wordId": "w-fracture",
+        "reason": "选项「骨折」不是「vest」的主释义「背心」或其他义项。"
+      },
+      {
+        "wordId": "w-thesis",
+        "reason": "选项「论文」不是「vest」的主释义「背心」或其他义项。"
+      },
+      {
+        "wordId": "w-salvation",
+        "reason": "选项「救赎」不是「vest」的主释义「背心」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fracture",
+        "reason": "英文「fracture」的常见义项「骨折」不符合主释义「背心」。"
+      },
+      {
+        "wordId": "w-thesis",
+        "reason": "英文「thesis」的常见义项「论文」不符合主释义「背心」。"
+      },
+      {
+        "wordId": "w-salvation",
+        "reason": "英文「salvation」的常见义项「救赎」不符合主释义「背心」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fracture",
+        "surfaceForm": "fracture",
+        "reason": "将「fracture」代入可见句子后不表达主释义「背心」。"
+      },
+      {
+        "wordId": "w-thesis",
+        "surfaceForm": "thesis",
+        "reason": "将「thesis」代入可见句子后不表达主释义「背心」。"
+      },
+      {
+        "wordId": "w-salvation",
+        "surfaceForm": "salvation",
+        "reason": "将「salvation」代入可见句子后不表达主释义「背心」。"
+      }
+    ],
+    "spelling": null
+  }
+]

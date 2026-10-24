@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-slogan",
+    "enToZh": [
+      {
+        "wordId": "w-contamination",
+        "reason": "选项「污染」不是「slogan」的主释义「口号」或其他义项。"
+      },
+      {
+        "wordId": "w-admission",
+        "reason": "选项「承认」不是「slogan」的主释义「口号」或其他义项。"
+      },
+      {
+        "wordId": "w-despair",
+        "reason": "选项「绝望」不是「slogan」的主释义「口号」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-contamination",
+        "reason": "英文「contamination」的常见义项「污染」不符合主释义「口号」。"
+      },
+      {
+        "wordId": "w-admission",
+        "reason": "英文「admission」的常见义项「承认」不符合主释义「口号」。"
+      },
+      {
+        "wordId": "w-despair",
+        "reason": "英文「despair」的常见义项「绝望」不符合主释义「口号」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-contamination",
+        "surfaceForm": "contamination",
+        "reason": "将「contamination」代入可见句子后不表达主释义「口号」。"
+      },
+      {
+        "wordId": "w-admission",
+        "surfaceForm": "admission",
+        "reason": "将「admission」代入可见句子后不表达主释义「口号」。"
+      },
+      {
+        "wordId": "w-despair",
+        "surfaceForm": "despair",
+        "reason": "将「despair」代入可见句子后不表达主释义「口号」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-slope",
+    "enToZh": [
+      {
+        "wordId": "w-team",
+        "reason": "选项「团队」不是「slope」的主释义「斜坡」或其他义项。"
+      },
+      {
+        "wordId": "w-mirror",
+        "reason": "选项「镜子」不是「slope」的主释义「斜坡」或其他义项。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "选项「海滩」不是「slope」的主释义「斜坡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-team",
+        "reason": "英文「team」的常见义项「团队」不符合主释义「斜坡」。"
+      },
+      {
+        "wordId": "w-mirror",
+        "reason": "英文「mirror」的常见义项「镜子」不符合主释义「斜坡」。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "英文「beach」的常见义项「海滩」不符合主释义「斜坡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-team",
+        "surfaceForm": "team",
+        "reason": "将「team」代入可见句子后不表达主释义「斜坡」。"
+      },
+      {
+        "wordId": "w-mirror",
+        "surfaceForm": "mirror",
+        "reason": "将「mirror」代入可见句子后不表达主释义「斜坡」。"
+      },
+      {
+        "wordId": "w-beach",
+        "surfaceForm": "beach",
+        "reason": "将「beach」代入可见句子后不表达主释义「斜坡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-slot",
+    "enToZh": [
+      {
+        "wordId": "w-worm",
+        "reason": "选项「蠕虫」不是「slot」的主释义「狭槽」或其他义项。"
+      },
+      {
+        "wordId": "w-flaw",
+        "reason": "选项「瑕疵」不是「slot」的主释义「狭槽」或其他义项。"
+      },
+      {
+        "wordId": "w-cargo",
+        "reason": "选项「货物」不是「slot」的主释义「狭槽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-worm",
+        "reason": "英文「worm」的常见义项「蠕虫」不符合主释义「狭槽」。"
+      },
+      {
+        "wordId": "w-flaw",
+        "reason": "英文「flaw」的常见义项「瑕疵」不符合主释义「狭槽」。"
+      },
+      {
+        "wordId": "w-cargo",
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「狭槽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-worm",
+        "surfaceForm": "worm",
+        "reason": "将「worm」代入可见句子后不表达主释义「狭槽」。"
+      },
+      {
+        "wordId": "w-flaw",
+        "surfaceForm": "flaw",
+        "reason": "将「flaw」代入可见句子后不表达主释义「狭槽」。"
+      },
+      {
+        "wordId": "w-cargo",
+        "surfaceForm": "cargo",
+        "reason": "将「cargo」代入可见句子后不表达主释义「狭槽」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-slowly",
+    "enToZh": [
+      {
+        "wordId": "w-completely",
+        "reason": "选项「完全」不是「slowly」的主释义「缓慢地」或其他义项。"
+      },
+      {
+        "wordId": "w-mainly",
+        "reason": "选项「主要地」不是「slowly」的主释义「缓慢地」或其他义项。"
+      },
+      {
+        "wordId": "w-probably",
+        "reason": "选项「很可能」不是「slowly」的主释义「缓慢地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-completely",
+        "reason": "英文「completely」的常见义项「完全」不符合主释义「缓慢地」。"
+      },
+      {
+        "wordId": "w-mainly",
+        "reason": "英文「mainly」的常见义项「主要地」不符合主释义「缓慢地」。"
+      },
+      {
+        "wordId": "w-probably",
+        "reason": "英文「probably」的常见义项「很可能」不符合主释义「缓慢地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-completely",
+        "surfaceForm": "completely",
+        "reason": "将「completely」代入可见句子后不表达主释义「缓慢地」。"
+      },
+      {
+        "wordId": "w-mainly",
+        "surfaceForm": "mainly",
+        "reason": "将「mainly」代入可见句子后不表达主释义「缓慢地」。"
+      },
+      {
+        "wordId": "w-probably",
+        "surfaceForm": "probably",
+        "reason": "将「probably」代入可见句子后不表达主释义「缓慢地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-slum",
+    "enToZh": [
+      {
+        "wordId": "w-fortress",
+        "reason": "选项「要塞」不是「slum」的主释义「贫民窟」或其他义项。"
+      },
+      {
+        "wordId": "w-intellect",
+        "reason": "选项「智力」不是「slum」的主释义「贫民窟」或其他义项。"
+      },
+      {
+        "wordId": "w-indignation",
+        "reason": "选项「愤慨」不是「slum」的主释义「贫民窟」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fortress",
+        "reason": "英文「fortress」的常见义项「要塞」不符合主释义「贫民窟」。"
+      },
+      {
+        "wordId": "w-intellect",
+        "reason": "英文「intellect」的常见义项「智力」不符合主释义「贫民窟」。"
+      },
+      {
+        "wordId": "w-indignation",
+        "reason": "英文「indignation」的常见义项「愤慨」不符合主释义「贫民窟」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fortress",
+        "surfaceForm": "fortress",
+        "reason": "将「fortress」代入可见句子后不表达主释义「贫民窟」。"
+      },
+      {
+        "wordId": "w-intellect",
+        "surfaceForm": "intellect",
+        "reason": "将「intellect」代入可见句子后不表达主释义「贫民窟」。"
+      },
+      {
+        "wordId": "w-indignation",
+        "surfaceForm": "indignation",
+        "reason": "将「indignation」代入可见句子后不表达主释义「贫民窟」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-slumber",
+    "enToZh": [
+      {
+        "wordId": "w-deformation",
+        "reason": "选项「变形」不是「slumber」的主释义「睡眠」或其他义项。"
+      },
+      {
+        "wordId": "w-waggon",
+        "reason": "选项「马车」不是「slumber」的主释义「睡眠」或其他义项。"
+      },
+      {
+        "wordId": "w-mould",
+        "reason": "选项「霉菌」不是「slumber」的主释义「睡眠」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deformation",
+        "reason": "英文「deformation」的常见义项「变形」不符合主释义「睡眠」。"
+      },
+      {
+        "wordId": "w-waggon",
+        "reason": "英文「waggon」的常见义项「马车」不符合主释义「睡眠」。"
+      },
+      {
+        "wordId": "w-mould",
+        "reason": "英文「mould」的常见义项「霉菌」不符合主释义「睡眠」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deformation",
+        "surfaceForm": "deformation",
+        "reason": "将「deformation」代入可见句子后不表达主释义「睡眠」。"
+      },
+      {
+        "wordId": "w-waggon",
+        "surfaceForm": "waggon",
+        "reason": "将「waggon」代入可见句子后不表达主释义「睡眠」。"
+      },
+      {
+        "wordId": "w-mould",
+        "surfaceForm": "mould",
+        "reason": "将「mould」代入可见句子后不表达主释义「睡眠」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smash",
+    "enToZh": [
+      {
+        "wordId": "w-exaggerate",
+        "reason": "选项「夸大」不是「smash」的主释义「打碎」或其他义项。"
+      },
+      {
+        "wordId": "w-regret",
+        "reason": "选项「后悔」不是「smash」的主释义「打碎」或其他义项。"
+      },
+      {
+        "wordId": "w-predict",
+        "reason": "选项「预测」不是「smash」的主释义「打碎」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exaggerate",
+        "reason": "英文「exaggerate」的常见义项「夸大」不符合主释义「打碎」。"
+      },
+      {
+        "wordId": "w-regret",
+        "reason": "英文「regret」的常见义项「后悔」不符合主释义「打碎」。"
+      },
+      {
+        "wordId": "w-predict",
+        "reason": "英文「predict」的常见义项「预测」不符合主释义「打碎」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exaggerate",
+        "surfaceForm": "exaggerate",
+        "reason": "将「exaggerate」代入可见句子后不表达主释义「打碎」。"
+      },
+      {
+        "wordId": "w-regret",
+        "surfaceForm": "regret",
+        "reason": "将「regret」代入可见句子后不表达主释义「打碎」。"
+      },
+      {
+        "wordId": "w-predict",
+        "surfaceForm": "predict",
+        "reason": "将「predict」代入可见句子后不表达主释义「打碎」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smell",
+    "enToZh": [
+      {
+        "wordId": "w-framework",
+        "reason": "选项「框架」不是「smell」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-protein",
+        "reason": "选项「蛋白质」不是「smell」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "选项「腰带」不是「smell」的主释义「气味」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-framework",
+        "reason": "英文「framework」的常见义项「框架」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-protein",
+        "reason": "英文「protein」的常见义项「蛋白质」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "英文「belt」的常见义项「腰带」不符合主释义「气味」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-framework",
+        "surfaceForm": "framework",
+        "reason": "将「framework」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-protein",
+        "surfaceForm": "protein",
+        "reason": "将「protein」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-belt",
+        "surfaceForm": "belt",
+        "reason": "将「belt」代入可见句子后不表达主释义「气味」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smile",
+    "enToZh": [
+      {
+        "wordId": "w-kick",
+        "reason": "选项「踢」不是「smile」的主释义「微笑」或其他义项。"
+      },
+      {
+        "wordId": "w-drink",
+        "reason": "选项「喝」不是「smile」的主释义「微笑」或其他义项。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "选项「数」不是「smile」的主释义「微笑」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-kick",
+        "reason": "英文「kick」的常见义项「踢」不符合主释义「微笑」。"
+      },
+      {
+        "wordId": "w-drink",
+        "reason": "英文「drink」的常见义项「喝」不符合主释义「微笑」。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "英文「count」的常见义项「数」不符合主释义「微笑」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-kick",
+        "surfaceForm": "kick",
+        "reason": "将「kick」代入可见句子后不表达主释义「微笑」。"
+      },
+      {
+        "wordId": "w-drink",
+        "surfaceForm": "drink",
+        "reason": "将「drink」代入可见句子后不表达主释义「微笑」。"
+      },
+      {
+        "wordId": "w-count",
+        "surfaceForm": "count",
+        "reason": "将「count」代入可见句子后不表达主释义「微笑」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smog",
+    "enToZh": [
+      {
+        "wordId": "w-rooster",
+        "reason": "选项「公鸡」不是「smog」的主释义「雾霾」或其他义项。"
+      },
+      {
+        "wordId": "w-preface",
+        "reason": "选项「前言」不是「smog」的主释义「雾霾」或其他义项。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "选项「木匠」不是「smog」的主释义「雾霾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-rooster",
+        "reason": "英文「rooster」的常见义项「公鸡」不符合主释义「雾霾」。"
+      },
+      {
+        "wordId": "w-preface",
+        "reason": "英文「preface」的常见义项「前言」不符合主释义「雾霾」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "reason": "英文「carpenter」的常见义项「木匠」不符合主释义「雾霾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-rooster",
+        "surfaceForm": "rooster",
+        "reason": "将「rooster」代入可见句子后不表达主释义「雾霾」。"
+      },
+      {
+        "wordId": "w-preface",
+        "surfaceForm": "preface",
+        "reason": "将「preface」代入可见句子后不表达主释义「雾霾」。"
+      },
+      {
+        "wordId": "w-carpenter",
+        "surfaceForm": "carpenter",
+        "reason": "将「carpenter」代入可见句子后不表达主释义「雾霾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smoke",
+    "enToZh": [
+      {
+        "wordId": "w-theatre",
+        "reason": "选项「剧院」不是「smoke」的主释义「烟」或其他义项。"
+      },
+      {
+        "wordId": "w-shadow",
+        "reason": "选项「影子」不是「smoke」的主释义「烟」或其他义项。"
+      },
+      {
+        "wordId": "w-expression",
+        "reason": "选项「表达」不是「smoke」的主释义「烟」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-theatre",
+        "reason": "英文「theatre」的常见义项「剧院」不符合主释义「烟」。"
+      },
+      {
+        "wordId": "w-shadow",
+        "reason": "英文「shadow」的常见义项「影子」不符合主释义「烟」。"
+      },
+      {
+        "wordId": "w-expression",
+        "reason": "英文「expression」的常见义项「表达」不符合主释义「烟」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-theatre",
+        "surfaceForm": "theatre",
+        "reason": "将「theatre」代入可见句子后不表达主释义「烟」。"
+      },
+      {
+        "wordId": "w-shadow",
+        "surfaceForm": "shadow",
+        "reason": "将「shadow」代入可见句子后不表达主释义「烟」。"
+      },
+      {
+        "wordId": "w-expression",
+        "surfaceForm": "expression",
+        "reason": "将「expression」代入可见句子后不表达主释义「烟」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smoothly",
+    "enToZh": [
+      {
+        "wordId": "w-anymore",
+        "reason": "选项「不再」不是「smoothly」的主释义「顺利地」或其他义项。"
+      },
+      {
+        "wordId": "w-currently",
+        "reason": "选项「目前」不是「smoothly」的主释义「顺利地」或其他义项。"
+      },
+      {
+        "wordId": "w-significantly",
+        "reason": "选项「显著地」不是「smoothly」的主释义「顺利地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-anymore",
+        "reason": "英文「anymore」的常见义项「不再」不符合主释义「顺利地」。"
+      },
+      {
+        "wordId": "w-currently",
+        "reason": "英文「currently」的常见义项「目前」不符合主释义「顺利地」。"
+      },
+      {
+        "wordId": "w-significantly",
+        "reason": "英文「significantly」的常见义项「显著地」不符合主释义「顺利地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-anymore",
+        "surfaceForm": "anymore",
+        "reason": "将「anymore」代入可见句子后不表达主释义「顺利地」。"
+      },
+      {
+        "wordId": "w-currently",
+        "surfaceForm": "currently",
+        "reason": "将「currently」代入可见句子后不表达主释义「顺利地」。"
+      },
+      {
+        "wordId": "w-significantly",
+        "surfaceForm": "significantly",
+        "reason": "将「significantly」代入可见句子后不表达主释义「顺利地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-smuggle",
+    "enToZh": [
+      {
+        "wordId": "w-emigrate",
+        "reason": "选项「移居国外」不是「smuggle」的主释义「走私」或其他义项。"
+      },
+      {
+        "wordId": "w-denote",
+        "reason": "选项「表示」不是「smuggle」的主释义「走私」或其他义项。"
+      },
+      {
+        "wordId": "w-scorch",
+        "reason": "选项「烧焦」不是「smuggle」的主释义「走私」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-emigrate",
+        "reason": "英文「emigrate」的常见义项「移居国外」不符合主释义「走私」。"
+      },
+      {
+        "wordId": "w-denote",
+        "reason": "英文「denote」的常见义项「表示」不符合主释义「走私」。"
+      },
+      {
+        "wordId": "w-scorch",
+        "reason": "英文「scorch」的常见义项「烧焦」不符合主释义「走私」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-emigrate",
+        "surfaceForm": "emigrate",
+        "reason": "将「emigrate」代入可见句子后不表达主释义「走私」。"
+      },
+      {
+        "wordId": "w-denote",
+        "surfaceForm": "denote",
+        "reason": "将「denote」代入可见句子后不表达主释义「走私」。"
+      },
+      {
+        "wordId": "w-scorch",
+        "surfaceForm": "scorch",
+        "reason": "将「scorch」代入可见句子后不表达主释义「走私」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snack",
+    "enToZh": [
+      {
+        "wordId": "w-peril",
+        "reason": "选项「危险」不是「snack」的主释义「零食」或其他义项。"
+      },
+      {
+        "wordId": "w-textile",
+        "reason": "选项「纺织品」不是「snack」的主释义「零食」或其他义项。"
+      },
+      {
+        "wordId": "w-perfume",
+        "reason": "选项「香水」不是「snack」的主释义「零食」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-peril",
+        "reason": "英文「peril」的常见义项「危险」不符合主释义「零食」。"
+      },
+      {
+        "wordId": "w-textile",
+        "reason": "英文「textile」的常见义项「纺织品」不符合主释义「零食」。"
+      },
+      {
+        "wordId": "w-perfume",
+        "reason": "英文「perfume」的常见义项「香水」不符合主释义「零食」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-peril",
+        "surfaceForm": "peril",
+        "reason": "将「peril」代入可见句子后不表达主释义「零食」。"
+      },
+      {
+        "wordId": "w-textile",
+        "surfaceForm": "textile",
+        "reason": "将「textile」代入可见句子后不表达主释义「零食」。"
+      },
+      {
+        "wordId": "w-perfume",
+        "surfaceForm": "perfume",
+        "reason": "将「perfume」代入可见句子后不表达主释义「零食」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snail",
+    "enToZh": [
+      {
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「snail」的主释义「蜗牛」或其他义项。"
+      },
+      {
+        "wordId": "w-rooster",
+        "reason": "选项「公鸡」不是「snail」的主释义「蜗牛」或其他义项。"
+      },
+      {
+        "wordId": "w-bamboo",
+        "reason": "选项「竹子」不是「snail」的主释义「蜗牛」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「蜗牛」。"
+      },
+      {
+        "wordId": "w-rooster",
+        "reason": "英文「rooster」的常见义项「公鸡」不符合主释义「蜗牛」。"
+      },
+      {
+        "wordId": "w-bamboo",
+        "reason": "英文「bamboo」的常见义项「竹子」不符合主释义「蜗牛」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-nuisance",
+        "surfaceForm": "nuisance",
+        "reason": "将「nuisance」代入可见句子后不表达主释义「蜗牛」。"
+      },
+      {
+        "wordId": "w-rooster",
+        "surfaceForm": "rooster",
+        "reason": "将「rooster」代入可见句子后不表达主释义「蜗牛」。"
+      },
+      {
+        "wordId": "w-bamboo",
+        "surfaceForm": "bamboo",
+        "reason": "将「bamboo」代入可见句子后不表达主释义「蜗牛」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snake",
+    "enToZh": [
+      {
+        "wordId": "w-protein",
+        "reason": "选项「蛋白质」不是「snake」的主释义「蛇」或其他义项。"
+      },
+      {
+        "wordId": "w-opinion",
+        "reason": "选项「看法」不是「snake」的主释义「蛇」或其他义项。"
+      },
+      {
+        "wordId": "w-offence",
+        "reason": "选项「冒犯」不是「snake」的主释义「蛇」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-protein",
+        "reason": "英文「protein」的常见义项「蛋白质」不符合主释义「蛇」。"
+      },
+      {
+        "wordId": "w-opinion",
+        "reason": "英文「opinion」的常见义项「看法」不符合主释义「蛇」。"
+      },
+      {
+        "wordId": "w-offence",
+        "reason": "英文「offence」的常见义项「冒犯」不符合主释义「蛇」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-protein",
+        "surfaceForm": "protein",
+        "reason": "将「protein」代入可见句子后不表达主释义「蛇」。"
+      },
+      {
+        "wordId": "w-opinion",
+        "surfaceForm": "opinion",
+        "reason": "将「opinion」代入可见句子后不表达主释义「蛇」。"
+      },
+      {
+        "wordId": "w-offence",
+        "surfaceForm": "offence",
+        "reason": "将「offence」代入可见句子后不表达主释义「蛇」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snap",
+    "enToZh": [
+      {
+        "wordId": "w-act",
+        "reason": "选项「行动」不是「snap」的主释义「折断」或其他义项。"
+      },
+      {
+        "wordId": "w-happen",
+        "reason": "选项「发生」不是「snap」的主释义「折断」或其他义项。"
+      },
+      {
+        "wordId": "w-reflect",
+        "reason": "选项「反映」不是「snap」的主释义「折断」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-act",
+        "reason": "英文「act」的常见义项「行动」不符合主释义「折断」。"
+      },
+      {
+        "wordId": "w-happen",
+        "reason": "英文「happen」的常见义项「发生」不符合主释义「折断」。"
+      },
+      {
+        "wordId": "w-reflect",
+        "reason": "英文「reflect」的常见义项「反映」不符合主释义「折断」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-act",
+        "surfaceForm": "act",
+        "reason": "将「act」代入可见句子后不表达主释义「折断」。"
+      },
+      {
+        "wordId": "w-happen",
+        "surfaceForm": "happen",
+        "reason": "将「happen」代入可见句子后不表达主释义「折断」。"
+      },
+      {
+        "wordId": "w-reflect",
+        "surfaceForm": "reflect",
+        "reason": "将「reflect」代入可见句子后不表达主释义「折断」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snatch",
+    "enToZh": [
+      {
+        "wordId": "w-mar",
+        "reason": "选项「破坏」不是「snatch」的主释义「抢夺」或其他义项。"
+      },
+      {
+        "wordId": "w-compute",
+        "reason": "选项「计算」不是「snatch」的主释义「抢夺」或其他义项。"
+      },
+      {
+        "wordId": "w-roar",
+        "reason": "选项「吼叫」不是「snatch」的主释义「抢夺」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mar",
+        "reason": "英文「mar」的常见义项「破坏」不符合主释义「抢夺」。"
+      },
+      {
+        "wordId": "w-compute",
+        "reason": "英文「compute」的常见义项「计算」不符合主释义「抢夺」。"
+      },
+      {
+        "wordId": "w-roar",
+        "reason": "英文「roar」的常见义项「吼叫」不符合主释义「抢夺」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mar",
+        "surfaceForm": "mar",
+        "reason": "将「mar」代入可见句子后不表达主释义「抢夺」。"
+      },
+      {
+        "wordId": "w-compute",
+        "surfaceForm": "compute",
+        "reason": "将「compute」代入可见句子后不表达主释义「抢夺」。"
+      },
+      {
+        "wordId": "w-roar",
+        "surfaceForm": "roar",
+        "reason": "将「roar」代入可见句子后不表达主释义「抢夺」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sneak",
+    "enToZh": [
+      {
+        "wordId": "w-leak",
+        "reason": "选项「泄漏」不是「sneak」的主释义「偷偷地走」或其他义项。"
+      },
+      {
+        "wordId": "w-expel",
+        "reason": "选项「开除」不是「sneak」的主释义「偷偷地走」或其他义项。"
+      },
+      {
+        "wordId": "w-bump",
+        "reason": "选项「碰撞」不是「sneak」的主释义「偷偷地走」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-leak",
+        "reason": "英文「leak」的常见义项「泄漏」不符合主释义「偷偷地走」。"
+      },
+      {
+        "wordId": "w-expel",
+        "reason": "英文「expel」的常见义项「开除」不符合主释义「偷偷地走」。"
+      },
+      {
+        "wordId": "w-bump",
+        "reason": "英文「bump」的常见义项「碰撞」不符合主释义「偷偷地走」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-leak",
+        "surfaceForm": "leak",
+        "reason": "将「leak」代入可见句子后不表达主释义「偷偷地走」。"
+      },
+      {
+        "wordId": "w-expel",
+        "surfaceForm": "expel",
+        "reason": "将「expel」代入可见句子后不表达主释义「偷偷地走」。"
+      },
+      {
+        "wordId": "w-bump",
+        "surfaceForm": "bump",
+        "reason": "将「bump」代入可见句子后不表达主释义「偷偷地走」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sneer",
+    "enToZh": [
+      {
+        "wordId": "w-mislead",
+        "reason": "选项「误导」不是「sneer」的主释义「嘲笑」或其他义项。"
+      },
+      {
+        "wordId": "w-pollute",
+        "reason": "选项「污染」不是「sneer」的主释义「嘲笑」或其他义项。"
+      },
+      {
+        "wordId": "w-prick",
+        "reason": "选项「刺」不是「sneer」的主释义「嘲笑」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mislead",
+        "reason": "英文「mislead」的常见义项「误导」不符合主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-pollute",
+        "reason": "英文「pollute」的常见义项「污染」不符合主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-prick",
+        "reason": "英文「prick」的常见义项「刺」不符合主释义「嘲笑」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mislead",
+        "surfaceForm": "mislead",
+        "reason": "将「mislead」代入可见句子后不表达主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-pollute",
+        "surfaceForm": "pollute",
+        "reason": "将「pollute」代入可见句子后不表达主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-prick",
+        "surfaceForm": "prick",
+        "reason": "将「prick」代入可见句子后不表达主释义「嘲笑」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sneeze",
+    "enToZh": [
+      {
+        "wordId": "w-degrade",
+        "reason": "选项「降解」不是「sneeze」的主释义「打喷嚏」或其他义项。"
+      },
+      {
+        "wordId": "w-grunt",
+        "reason": "选项「咕哝」不是「sneeze」的主释义「打喷嚏」或其他义项。"
+      },
+      {
+        "wordId": "w-skim",
+        "reason": "选项「快速浏览」不是「sneeze」的主释义「打喷嚏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-degrade",
+        "reason": "英文「degrade」的常见义项「降解」不符合主释义「打喷嚏」。"
+      },
+      {
+        "wordId": "w-grunt",
+        "reason": "英文「grunt」的常见义项「咕哝」不符合主释义「打喷嚏」。"
+      },
+      {
+        "wordId": "w-skim",
+        "reason": "英文「skim」的常见义项「快速浏览」不符合主释义「打喷嚏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-degrade",
+        "surfaceForm": "degrade",
+        "reason": "将「degrade」代入可见句子后不表达主释义「打喷嚏」。"
+      },
+      {
+        "wordId": "w-grunt",
+        "surfaceForm": "grunt",
+        "reason": "将「grunt」代入可见句子后不表达主释义「打喷嚏」。"
+      },
+      {
+        "wordId": "w-skim",
+        "surfaceForm": "skim",
+        "reason": "将「skim」代入可见句子后不表达主释义「打喷嚏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sniff",
+    "enToZh": [
+      {
+        "wordId": "w-leak",
+        "reason": "选项「泄漏」不是「sniff」的主释义「闻」或其他义项。"
+      },
+      {
+        "wordId": "w-sway",
+        "reason": "选项「摇摆」不是「sniff」的主释义「闻」或其他义项。"
+      },
+      {
+        "wordId": "w-dispatch",
+        "reason": "选项「派遣」不是「sniff」的主释义「闻」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-leak",
+        "reason": "英文「leak」的常见义项「泄漏」不符合主释义「闻」。"
+      },
+      {
+        "wordId": "w-sway",
+        "reason": "英文「sway」的常见义项「摇摆」不符合主释义「闻」。"
+      },
+      {
+        "wordId": "w-dispatch",
+        "reason": "英文「dispatch」的常见义项「派遣」不符合主释义「闻」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-leak",
+        "surfaceForm": "leak",
+        "reason": "将「leak」代入可见句子后不表达主释义「闻」。"
+      },
+      {
+        "wordId": "w-sway",
+        "surfaceForm": "sway",
+        "reason": "将「sway」代入可见句子后不表达主释义「闻」。"
+      },
+      {
+        "wordId": "w-dispatch",
+        "surfaceForm": "dispatch",
+        "reason": "将「dispatch」代入可见句子后不表达主释义「闻」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snob",
+    "enToZh": [
+      {
+        "wordId": "w-grasshopper",
+        "reason": "选项「蚱蜢」不是「snob」的主释义「势利眼」或其他义项。"
+      },
+      {
+        "wordId": "w-moslem",
+        "reason": "选项「穆斯林」不是「snob」的主释义「势利眼」或其他义项。"
+      },
+      {
+        "wordId": "w-fibre",
+        "reason": "选项「纤维」不是「snob」的主释义「势利眼」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-grasshopper",
+        "reason": "英文「grasshopper」的常见义项「蚱蜢」不符合主释义「势利眼」。"
+      },
+      {
+        "wordId": "w-moslem",
+        "reason": "英文「Moslem」的常见义项「穆斯林」不符合主释义「势利眼」。"
+      },
+      {
+        "wordId": "w-fibre",
+        "reason": "英文「fibre」的常见义项「纤维」不符合主释义「势利眼」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-grasshopper",
+        "surfaceForm": "grasshopper",
+        "reason": "将「grasshopper」代入可见句子后不表达主释义「势利眼」。"
+      },
+      {
+        "wordId": "w-moslem",
+        "surfaceForm": "Moslem",
+        "reason": "将「Moslem」代入可见句子后不表达主释义「势利眼」。"
+      },
+      {
+        "wordId": "w-fibre",
+        "surfaceForm": "fibre",
+        "reason": "将「fibre」代入可见句子后不表达主释义「势利眼」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snore",
+    "enToZh": [
+      {
+        "wordId": "w-flutter",
+        "reason": "选项「飘动」不是「snore」的主释义「打鼾」或其他义项。"
+      },
+      {
+        "wordId": "w-augment",
+        "reason": "选项「增加」不是「snore」的主释义「打鼾」或其他义项。"
+      },
+      {
+        "wordId": "w-preclude",
+        "reason": "选项「阻止」不是「snore」的主释义「打鼾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-flutter",
+        "reason": "英文「flutter」的常见义项「飘动」不符合主释义「打鼾」。"
+      },
+      {
+        "wordId": "w-augment",
+        "reason": "英文「augment」的常见义项「增加」不符合主释义「打鼾」。"
+      },
+      {
+        "wordId": "w-preclude",
+        "reason": "英文「preclude」的常见义项「阻止」不符合主释义「打鼾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-flutter",
+        "surfaceForm": "flutter",
+        "reason": "将「flutter」代入可见句子后不表达主释义「打鼾」。"
+      },
+      {
+        "wordId": "w-augment",
+        "surfaceForm": "augment",
+        "reason": "将「augment」代入可见句子后不表达主释义「打鼾」。"
+      },
+      {
+        "wordId": "w-preclude",
+        "surfaceForm": "preclude",
+        "reason": "将「preclude」代入可见句子后不表达主释义「打鼾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-snow",
+    "enToZh": [
+      {
+        "wordId": "w-dimension",
+        "reason": "选项「尺寸」不是「snow」的主释义「雪」或其他义项。"
+      },
+      {
+        "wordId": "w-sand",
+        "reason": "选项「沙」不是「snow」的主释义「雪」或其他义项。"
+      },
+      {
+        "wordId": "w-soup",
+        "reason": "选项「汤」不是「snow」的主释义「雪」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dimension",
+        "reason": "英文「dimension」的常见义项「尺寸」不符合主释义「雪」。"
+      },
+      {
+        "wordId": "w-sand",
+        "reason": "英文「sand」的常见义项「沙」不符合主释义「雪」。"
+      },
+      {
+        "wordId": "w-soup",
+        "reason": "英文「soup」的常见义项「汤」不符合主释义「雪」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dimension",
+        "surfaceForm": "dimension",
+        "reason": "将「dimension」代入可见句子后不表达主释义「雪」。"
+      },
+      {
+        "wordId": "w-sand",
+        "surfaceForm": "sand",
+        "reason": "将「sand」代入可见句子后不表达主释义「雪」。"
+      },
+      {
+        "wordId": "w-soup",
+        "surfaceForm": "soup",
+        "reason": "将「soup」代入可见句子后不表达主释义「雪」。"
+      }
+    ],
+    "spelling": null
+  }
+]

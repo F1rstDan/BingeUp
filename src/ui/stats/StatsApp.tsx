@@ -10,6 +10,8 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { IslandPage, IslandSection } from '@/ui/island';
+import { messageClient } from '@/messaging/message-client';
+import { getContentCompatibility } from '@/storage/content-compat';
 
 /**
  * 学习统计页（Issue #12；工单 #42 M3c 原版视觉迁移）。
@@ -38,6 +40,10 @@ export function StatsApp(): JSX.Element {
     let cancelled = false;
     (async () => {
       try {
+        // 扩展页面必须在直接读库前等待后台完成身份转换；测试环境没有消息通道。
+        if (typeof chrome !== 'undefined') {
+          await messageClient.prepareContent();
+        }
         const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
         const store = new LocalSettingsStore(db);
         const [cards, logs, sessions, events, sites] = await Promise.all([
@@ -47,6 +53,7 @@ export function StatsApp(): JSX.Element {
           new BehaviorEventRepository(db).getAll(),
           store.listSites(),
         ]);
+        const compatibility = await getContentCompatibility(db);
         db.close();
         const service = new StatsService({ clock: { now: () => Date.now() } });
         const result = service.computeStats(
@@ -55,6 +62,7 @@ export function StatsApp(): JSX.Element {
           sessions,
           events,
           Object.fromEntries(sites.map(({ hostname, settings }) => [hostname, settings.enabled])),
+          compatibility,
         );
         if (!cancelled) setStats(result);
       } catch (e) {

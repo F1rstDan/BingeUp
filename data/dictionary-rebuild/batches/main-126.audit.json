@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-obtain",
+    "enToZh": [
+      {
+        "wordId": "w-bite",
+        "reason": "选项「咬」不是「obtain」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-advise",
+        "reason": "选项「建议」不是「obtain」的主释义「获得」或其他义项。"
+      },
+      {
+        "wordId": "w-advocate",
+        "reason": "选项「提倡」不是「obtain」的主释义「获得」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bite",
+        "reason": "英文「bite」的常见义项「咬」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-advise",
+        "reason": "英文「advise」的常见义项「建议」不符合主释义「获得」。"
+      },
+      {
+        "wordId": "w-advocate",
+        "reason": "英文「advocate」的常见义项「提倡」不符合主释义「获得」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bite",
+        "surfaceForm": "bite",
+        "reason": "将「bite」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-advise",
+        "surfaceForm": "advise",
+        "reason": "将「advise」代入可见句子后不表达主释义「获得」。"
+      },
+      {
+        "wordId": "w-advocate",
+        "surfaceForm": "advocate",
+        "reason": "将「advocate」代入可见句子后不表达主释义「获得」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-obviously",
+    "enToZh": [
+      {
+        "wordId": "w-freely",
+        "reason": "选项「自由地」不是「obviously」的主释义「显然」或其他义项。"
+      },
+      {
+        "wordId": "w-merely",
+        "reason": "选项「仅仅」不是「obviously」的主释义「显然」或其他义项。"
+      },
+      {
+        "wordId": "w-gradually",
+        "reason": "选项「逐渐地」不是「obviously」的主释义「显然」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-freely",
+        "reason": "英文「freely」的常见义项「自由地」不符合主释义「显然」。"
+      },
+      {
+        "wordId": "w-merely",
+        "reason": "英文「merely」的常见义项「仅仅」不符合主释义「显然」。"
+      },
+      {
+        "wordId": "w-gradually",
+        "reason": "英文「gradually」的常见义项「逐渐地」不符合主释义「显然」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-freely",
+        "surfaceForm": "freely",
+        "reason": "将「freely」代入可见句子后不表达主释义「显然」。"
+      },
+      {
+        "wordId": "w-merely",
+        "surfaceForm": "merely",
+        "reason": "将「merely」代入可见句子后不表达主释义「显然」。"
+      },
+      {
+        "wordId": "w-gradually",
+        "surfaceForm": "gradually",
+        "reason": "将「gradually」代入可见句子后不表达主释义「显然」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occasion",
+    "enToZh": [
+      {
+        "wordId": "w-maker",
+        "reason": "选项「制造商」不是「occasion」的主释义「场合」或其他义项。"
+      },
+      {
+        "wordId": "w-bicycle",
+        "reason": "选项「自行车」不是「occasion」的主释义「场合」或其他义项。"
+      },
+      {
+        "wordId": "w-ally",
+        "reason": "选项「盟友」不是「occasion」的主释义「场合」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-maker",
+        "reason": "英文「maker」的常见义项「制造商」不符合主释义「场合」。"
+      },
+      {
+        "wordId": "w-bicycle",
+        "reason": "英文「bicycle」的常见义项「自行车」不符合主释义「场合」。"
+      },
+      {
+        "wordId": "w-ally",
+        "reason": "英文「ally」的常见义项「盟友」不符合主释义「场合」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-maker",
+        "surfaceForm": "maker",
+        "reason": "将「maker」代入可见句子后不表达主释义「场合」。"
+      },
+      {
+        "wordId": "w-bicycle",
+        "surfaceForm": "bicycle",
+        "reason": "将「bicycle」代入可见句子后不表达主释义「场合」。"
+      },
+      {
+        "wordId": "w-ally",
+        "surfaceForm": "ally",
+        "reason": "将「ally」代入可见句子后不表达主释义「场合」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occasionally",
+    "enToZh": [
+      {
+        "wordId": "w-obviously",
+        "reason": "选项「显然」不是「occasionally」的主释义「偶尔」或其他义项。"
+      },
+      {
+        "wordId": "w-closely",
+        "reason": "选项「密切地」不是「occasionally」的主释义「偶尔」或其他义项。"
+      },
+      {
+        "wordId": "w-apparently",
+        "reason": "选项「看来」不是「occasionally」的主释义「偶尔」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-obviously",
+        "reason": "英文「obviously」的常见义项「显然」不符合主释义「偶尔」。"
+      },
+      {
+        "wordId": "w-closely",
+        "reason": "英文「closely」的常见义项「密切地」不符合主释义「偶尔」。"
+      },
+      {
+        "wordId": "w-apparently",
+        "reason": "英文「apparently」的常见义项「看来」不符合主释义「偶尔」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-obviously",
+        "surfaceForm": "obviously",
+        "reason": "将「obviously」代入可见句子后不表达主释义「偶尔」。"
+      },
+      {
+        "wordId": "w-closely",
+        "surfaceForm": "closely",
+        "reason": "将「closely」代入可见句子后不表达主释义「偶尔」。"
+      },
+      {
+        "wordId": "w-apparently",
+        "surfaceForm": "apparently",
+        "reason": "将「apparently」代入可见句子后不表达主释义「偶尔」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occupation",
+    "enToZh": [
+      {
+        "wordId": "w-globe",
+        "reason": "选项「地球」不是「occupation」的主释义「职业」或其他义项。"
+      },
+      {
+        "wordId": "w-inspiration",
+        "reason": "选项「灵感」不是「occupation」的主释义「职业」或其他义项。"
+      },
+      {
+        "wordId": "w-fabric",
+        "reason": "选项「布料」不是「occupation」的主释义「职业」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-globe",
+        "reason": "英文「globe」的常见义项「地球」不符合主释义「职业」。"
+      },
+      {
+        "wordId": "w-inspiration",
+        "reason": "英文「inspiration」的常见义项「灵感」不符合主释义「职业」。"
+      },
+      {
+        "wordId": "w-fabric",
+        "reason": "英文「fabric」的常见义项「布料」不符合主释义「职业」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-globe",
+        "surfaceForm": "globe",
+        "reason": "将「globe」代入可见句子后不表达主释义「职业」。"
+      },
+      {
+        "wordId": "w-inspiration",
+        "surfaceForm": "inspiration",
+        "reason": "将「inspiration」代入可见句子后不表达主释义「职业」。"
+      },
+      {
+        "wordId": "w-fabric",
+        "surfaceForm": "fabric",
+        "reason": "将「fabric」代入可见句子后不表达主释义「职业」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occupy",
+    "enToZh": [
+      {
+        "wordId": "w-notice",
+        "reason": "选项「注意到」不是「occupy」的主释义「占据」或其他义项。"
+      },
+      {
+        "wordId": "w-attend",
+        "reason": "选项「出席」不是「occupy」的主释义「占据」或其他义项。"
+      },
+      {
+        "wordId": "w-offend",
+        "reason": "选项「冒犯」不是「occupy」的主释义「占据」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-notice",
+        "reason": "英文「notice」的常见义项「注意到」不符合主释义「占据」。"
+      },
+      {
+        "wordId": "w-attend",
+        "reason": "英文「attend」的常见义项「出席」不符合主释义「占据」。"
+      },
+      {
+        "wordId": "w-offend",
+        "reason": "英文「offend」的常见义项「冒犯」不符合主释义「占据」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-notice",
+        "surfaceForm": "notice",
+        "reason": "将「notice」代入可见句子后不表达主释义「占据」。"
+      },
+      {
+        "wordId": "w-attend",
+        "surfaceForm": "attend",
+        "reason": "将「attend」代入可见句子后不表达主释义「占据」。"
+      },
+      {
+        "wordId": "w-offend",
+        "surfaceForm": "offend",
+        "reason": "将「offend」代入可见句子后不表达主释义「占据」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occur",
+    "enToZh": [
+      {
+        "wordId": "w-criticize",
+        "reason": "选项「批评」不是「occur」的主释义「发生」或其他义项。"
+      },
+      {
+        "wordId": "w-decide",
+        "reason": "选项「决定」不是「occur」的主释义「发生」或其他义项。"
+      },
+      {
+        "wordId": "w-confuse",
+        "reason": "选项「使困惑」不是「occur」的主释义「发生」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-criticize",
+        "reason": "英文「criticize」的常见义项「批评」不符合主释义「发生」。"
+      },
+      {
+        "wordId": "w-decide",
+        "reason": "英文「decide」的常见义项「决定」不符合主释义「发生」。"
+      },
+      {
+        "wordId": "w-confuse",
+        "reason": "英文「confuse」的常见义项「使困惑」不符合主释义「发生」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-criticize",
+        "surfaceForm": "criticize",
+        "reason": "将「criticize」代入可见句子后不表达主释义「发生」。"
+      },
+      {
+        "wordId": "w-decide",
+        "surfaceForm": "decide",
+        "reason": "将「decide」代入可见句子后不表达主释义「发生」。"
+      },
+      {
+        "wordId": "w-confuse",
+        "surfaceForm": "confuse",
+        "reason": "将「confuse」代入可见句子后不表达主释义「发生」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-occurrence",
+    "enToZh": [
+      {
+        "wordId": "w-generator",
+        "reason": "选项「发电机」不是「occurrence」的主释义「发生的事」或其他义项。"
+      },
+      {
+        "wordId": "w-monster",
+        "reason": "选项「怪物」不是「occurrence」的主释义「发生的事」或其他义项。"
+      },
+      {
+        "wordId": "w-colonel",
+        "reason": "选项「上校」不是「occurrence」的主释义「发生的事」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-generator",
+        "reason": "英文「generator」的常见义项「发电机」不符合主释义「发生的事」。"
+      },
+      {
+        "wordId": "w-monster",
+        "reason": "英文「monster」的常见义项「怪物」不符合主释义「发生的事」。"
+      },
+      {
+        "wordId": "w-colonel",
+        "reason": "英文「colonel」的常见义项「上校」不符合主释义「发生的事」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-generator",
+        "surfaceForm": "generator",
+        "reason": "将「generator」代入可见句子后不表达主释义「发生的事」。"
+      },
+      {
+        "wordId": "w-monster",
+        "surfaceForm": "monster",
+        "reason": "将「monster」代入可见句子后不表达主释义「发生的事」。"
+      },
+      {
+        "wordId": "w-colonel",
+        "surfaceForm": "colonel",
+        "reason": "将「colonel」代入可见句子后不表达主释义「发生的事」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ocean",
+    "enToZh": [
+      {
+        "wordId": "w-bible",
+        "reason": "选项「圣经」不是「ocean」的主释义「海洋」或其他义项。"
+      },
+      {
+        "wordId": "w-coast",
+        "reason": "选项「海岸」不是「ocean」的主释义「海洋」或其他义项。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "选项「海滩」不是「ocean」的主释义「海洋」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bible",
+        "reason": "英文「bible」的常见义项「圣经」不符合主释义「海洋」。"
+      },
+      {
+        "wordId": "w-coast",
+        "reason": "英文「coast」的常见义项「海岸」不符合主释义「海洋」。"
+      },
+      {
+        "wordId": "w-beach",
+        "reason": "英文「beach」的常见义项「海滩」不符合主释义「海洋」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bible",
+        "surfaceForm": "bible",
+        "reason": "将「bible」代入可见句子后不表达主释义「海洋」。"
+      },
+      {
+        "wordId": "w-coast",
+        "surfaceForm": "coast",
+        "reason": "将「coast」代入可见句子后不表达主释义「海洋」。"
+      },
+      {
+        "wordId": "w-beach",
+        "surfaceForm": "beach",
+        "reason": "将「beach」代入可见句子后不表达主释义「海洋」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-oceania",
+    "enToZh": [
+      {
+        "wordId": "w-maths",
+        "reason": "选项「数学」不是「Oceania」的主释义「大洋洲」或其他义项。"
+      },
+      {
+        "wordId": "w-consul",
+        "reason": "选项「领事」不是「Oceania」的主释义「大洋洲」或其他义项。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "reason": "选项「征服者」不是「Oceania」的主释义「大洋洲」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-maths",
+        "reason": "英文「maths」的常见义项「数学」不符合主释义「大洋洲」。"
+      },
+      {
+        "wordId": "w-consul",
+        "reason": "英文「consul」的常见义项「领事」不符合主释义「大洋洲」。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "reason": "英文「conqueror」的常见义项「征服者」不符合主释义「大洋洲」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-maths",
+        "surfaceForm": "maths",
+        "reason": "将「maths」代入可见句子后不表达主释义「大洋洲」。"
+      },
+      {
+        "wordId": "w-consul",
+        "surfaceForm": "consul",
+        "reason": "将「consul」代入可见句子后不表达主释义「大洋洲」。"
+      },
+      {
+        "wordId": "w-conqueror",
+        "surfaceForm": "conqueror",
+        "reason": "将「conqueror」代入可见句子后不表达主释义「大洋洲」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-odor",
+    "enToZh": [
+      {
+        "wordId": "w-legacy",
+        "reason": "选项「遗产」不是「odor」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-extinction",
+        "reason": "选项「灭绝」不是「odor」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-appliance",
+        "reason": "选项「家用电器」不是「odor」的主释义「气味」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-legacy",
+        "reason": "英文「legacy」的常见义项「遗产」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-extinction",
+        "reason": "英文「extinction」的常见义项「灭绝」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-appliance",
+        "reason": "英文「appliance」的常见义项「家用电器」不符合主释义「气味」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-legacy",
+        "surfaceForm": "legacy",
+        "reason": "将「legacy」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-extinction",
+        "surfaceForm": "extinction",
+        "reason": "将「extinction」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-appliance",
+        "surfaceForm": "appliance",
+        "reason": "将「appliance」代入可见句子后不表达主释义「气味」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-odour",
+    "enToZh": [
+      {
+        "wordId": "w-monument",
+        "reason": "选项「纪念碑」不是「odour」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-magnitude",
+        "reason": "选项「规模」不是「odour」的主释义「气味」或其他义项。"
+      },
+      {
+        "wordId": "w-heir",
+        "reason": "选项「继承人」不是「odour」的主释义「气味」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-monument",
+        "reason": "英文「monument」的常见义项「纪念碑」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-magnitude",
+        "reason": "英文「magnitude」的常见义项「规模」不符合主释义「气味」。"
+      },
+      {
+        "wordId": "w-heir",
+        "reason": "英文「heir」的常见义项「继承人」不符合主释义「气味」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-monument",
+        "surfaceForm": "monument",
+        "reason": "将「monument」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-magnitude",
+        "surfaceForm": "magnitude",
+        "reason": "将「magnitude」代入可见句子后不表达主释义「气味」。"
+      },
+      {
+        "wordId": "w-heir",
+        "surfaceForm": "heir",
+        "reason": "将「heir」代入可见句子后不表达主释义「气味」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offence",
+    "enToZh": [
+      {
+        "wordId": "w-bill",
+        "reason": "选项「账单」不是「offence」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-luggage",
+        "reason": "选项「行李」不是「offence」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-growth",
+        "reason": "选项「增长」不是「offence」的主释义「冒犯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bill",
+        "reason": "英文「bill」的常见义项「账单」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-luggage",
+        "reason": "英文「luggage」的常见义项「行李」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-growth",
+        "reason": "英文「growth」的常见义项「增长」不符合主释义「冒犯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bill",
+        "surfaceForm": "bill",
+        "reason": "将「bill」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-luggage",
+        "surfaceForm": "luggage",
+        "reason": "将「luggage」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-growth",
+        "surfaceForm": "growth",
+        "reason": "将「growth」代入可见句子后不表达主释义「冒犯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offend",
+    "enToZh": [
+      {
+        "wordId": "w-assess",
+        "reason": "选项「评估」不是「offend」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "选项「吸收」不是「offend」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "选项「数」不是「offend」的主释义「冒犯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-assess",
+        "reason": "英文「assess」的常见义项「评估」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "英文「absorb」的常见义项「吸收」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "英文「count」的常见义项「数」不符合主释义「冒犯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-assess",
+        "surfaceForm": "assess",
+        "reason": "将「assess」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "surfaceForm": "absorb",
+        "reason": "将「absorb」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-count",
+        "surfaceForm": "count",
+        "reason": "将「count」代入可见句子后不表达主释义「冒犯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offense",
+    "enToZh": [
+      {
+        "wordId": "w-host",
+        "reason": "选项「主人」不是「offense」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-grandson",
+        "reason": "选项「孙子」不是「offense」的主释义「冒犯」或其他义项。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "reason": "选项「孙女」不是「offense」的主释义「冒犯」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-host",
+        "reason": "英文「host」的常见义项「主人」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-grandson",
+        "reason": "英文「grandson」的常见义项「孙子」不符合主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "reason": "英文「granddaughter」的常见义项「孙女」不符合主释义「冒犯」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-host",
+        "surfaceForm": "host",
+        "reason": "将「host」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-grandson",
+        "surfaceForm": "grandson",
+        "reason": "将「grandson」代入可见句子后不表达主释义「冒犯」。"
+      },
+      {
+        "wordId": "w-granddaughter",
+        "surfaceForm": "granddaughter",
+        "reason": "将「granddaughter」代入可见句子后不表达主释义「冒犯」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offer",
+    "enToZh": [
+      {
+        "wordId": "w-inspire",
+        "reason": "选项「激励」不是「offer」的主释义「提供」或其他义项。"
+      },
+      {
+        "wordId": "w-build",
+        "reason": "选项「建造」不是「offer」的主释义「提供」或其他义项。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "reason": "选项「强调」不是「offer」的主释义「提供」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-inspire",
+        "reason": "英文「inspire」的常见义项「激励」不符合主释义「提供」。"
+      },
+      {
+        "wordId": "w-build",
+        "reason": "英文「build」的常见义项「建造」不符合主释义「提供」。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "reason": "英文「emphasize」的常见义项「强调」不符合主释义「提供」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-inspire",
+        "surfaceForm": "inspire",
+        "reason": "将「inspire」代入可见句子后不表达主释义「提供」。"
+      },
+      {
+        "wordId": "w-build",
+        "surfaceForm": "build",
+        "reason": "将「build」代入可见句子后不表达主释义「提供」。"
+      },
+      {
+        "wordId": "w-emphasize",
+        "surfaceForm": "emphasize",
+        "reason": "将「emphasize」代入可见句子后不表达主释义「提供」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-office",
+    "enToZh": [
+      {
+        "wordId": "w-commander",
+        "reason": "选项「指挥官」不是「office」的主释义「办公室」或其他义项。"
+      },
+      {
+        "wordId": "w-operation",
+        "reason": "选项「运行」不是「office」的主释义「办公室」或其他义项。"
+      },
+      {
+        "wordId": "w-navy",
+        "reason": "选项「海军」不是「office」的主释义「办公室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-commander",
+        "reason": "英文「commander」的常见义项「指挥官」不符合主释义「办公室」。"
+      },
+      {
+        "wordId": "w-operation",
+        "reason": "英文「operation」的常见义项「运行」不符合主释义「办公室」。"
+      },
+      {
+        "wordId": "w-navy",
+        "reason": "英文「navy」的常见义项「海军」不符合主释义「办公室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-commander",
+        "surfaceForm": "commander",
+        "reason": "将「commander」代入可见句子后不表达主释义「办公室」。"
+      },
+      {
+        "wordId": "w-operation",
+        "surfaceForm": "operation",
+        "reason": "将「operation」代入可见句子后不表达主释义「办公室」。"
+      },
+      {
+        "wordId": "w-navy",
+        "surfaceForm": "navy",
+        "reason": "将「navy」代入可见句子后不表达主释义「办公室」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-officer",
+    "enToZh": [
+      {
+        "wordId": "w-garden",
+        "reason": "选项「花园」不是「officer」的主释义「警官」或其他义项。"
+      },
+      {
+        "wordId": "w-nail",
+        "reason": "选项「指甲」不是「officer」的主释义「警官」或其他义项。"
+      },
+      {
+        "wordId": "w-cancer",
+        "reason": "选项「癌症」不是「officer」的主释义「警官」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-garden",
+        "reason": "英文「garden」的常见义项「花园」不符合主释义「警官」。"
+      },
+      {
+        "wordId": "w-nail",
+        "reason": "英文「nail」的常见义项「指甲」不符合主释义「警官」。"
+      },
+      {
+        "wordId": "w-cancer",
+        "reason": "英文「cancer」的常见义项「癌症」不符合主释义「警官」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-garden",
+        "surfaceForm": "garden",
+        "reason": "将「garden」代入可见句子后不表达主释义「警官」。"
+      },
+      {
+        "wordId": "w-nail",
+        "surfaceForm": "nail",
+        "reason": "将「nail」代入可见句子后不表达主释义「警官」。"
+      },
+      {
+        "wordId": "w-cancer",
+        "surfaceForm": "cancer",
+        "reason": "将「cancer」代入可见句子后不表达主释义「警官」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-official",
+    "enToZh": [
+      {
+        "wordId": "w-faint",
+        "reason": "选项「微弱的」不是「official」的主释义「官方的」或其他义项。"
+      },
+      {
+        "wordId": "w-catholic",
+        "reason": "选项「广泛的」不是「official」的主释义「官方的」或其他义项。"
+      },
+      {
+        "wordId": "w-liberal",
+        "reason": "选项「开明的」不是「official」的主释义「官方的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-faint",
+        "reason": "英文「faint」的常见义项「微弱的」不符合主释义「官方的」。"
+      },
+      {
+        "wordId": "w-catholic",
+        "reason": "英文「catholic」的常见义项「广泛的」不符合主释义「官方的」。"
+      },
+      {
+        "wordId": "w-liberal",
+        "reason": "英文「liberal」的常见义项「开明的」不符合主释义「官方的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-faint",
+        "surfaceForm": "faint",
+        "reason": "将「faint」代入可见句子后不表达主释义「官方的」。"
+      },
+      {
+        "wordId": "w-catholic",
+        "surfaceForm": "catholic",
+        "reason": "将「catholic」代入可见句子后不表达主释义「官方的」。"
+      },
+      {
+        "wordId": "w-liberal",
+        "surfaceForm": "liberal",
+        "reason": "将「liberal」代入可见句子后不表达主释义「官方的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offset",
+    "enToZh": [
+      {
+        "wordId": "w-confer",
+        "reason": "选项「授予」不是「offset」的主释义「抵消」或其他义项。"
+      },
+      {
+        "wordId": "w-greet",
+        "reason": "选项「问候」不是「offset」的主释义「抵消」或其他义项。"
+      },
+      {
+        "wordId": "w-correspond",
+        "reason": "选项「相符合」不是「offset」的主释义「抵消」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-confer",
+        "reason": "英文「confer」的常见义项「授予」不符合主释义「抵消」。"
+      },
+      {
+        "wordId": "w-greet",
+        "reason": "英文「greet」的常见义项「问候」不符合主释义「抵消」。"
+      },
+      {
+        "wordId": "w-correspond",
+        "reason": "英文「correspond」的常见义项「相符合」不符合主释义「抵消」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-confer",
+        "surfaceForm": "confer",
+        "reason": "将「confer」代入可见句子后不表达主释义「抵消」。"
+      },
+      {
+        "wordId": "w-greet",
+        "surfaceForm": "greet",
+        "reason": "将「greet」代入可见句子后不表达主释义「抵消」。"
+      },
+      {
+        "wordId": "w-correspond",
+        "surfaceForm": "correspond",
+        "reason": "将「correspond」代入可见句子后不表达主释义「抵消」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-offspring",
+    "enToZh": [
+      {
+        "wordId": "w-aviation",
+        "reason": "选项「航空」不是「offspring」的主释义「后代」或其他义项。"
+      },
+      {
+        "wordId": "w-bacterium",
+        "reason": "选项「细菌」不是「offspring」的主释义「后代」或其他义项。"
+      },
+      {
+        "wordId": "w-compensation",
+        "reason": "选项「补偿」不是「offspring」的主释义「后代」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aviation",
+        "reason": "英文「aviation」的常见义项「航空」不符合主释义「后代」。"
+      },
+      {
+        "wordId": "w-bacterium",
+        "reason": "英文「bacterium」的常见义项「细菌」不符合主释义「后代」。"
+      },
+      {
+        "wordId": "w-compensation",
+        "reason": "英文「compensation」的常见义项「补偿」不符合主释义「后代」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aviation",
+        "surfaceForm": "aviation",
+        "reason": "将「aviation」代入可见句子后不表达主释义「后代」。"
+      },
+      {
+        "wordId": "w-bacterium",
+        "surfaceForm": "bacterium",
+        "reason": "将「bacterium」代入可见句子后不表达主释义「后代」。"
+      },
+      {
+        "wordId": "w-compensation",
+        "surfaceForm": "compensation",
+        "reason": "将「compensation」代入可见句子后不表达主释义「后代」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-often",
+    "enToZh": [
+      {
+        "wordId": "w-merely",
+        "reason": "选项「仅仅」不是「often」的主释义「经常」或其他义项。"
+      },
+      {
+        "wordId": "w-gradually",
+        "reason": "选项「逐渐地」不是「often」的主释义「经常」或其他义项。"
+      },
+      {
+        "wordId": "w-annually",
+        "reason": "选项「每年」不是「often」的主释义「经常」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-merely",
+        "reason": "英文「merely」的常见义项「仅仅」不符合主释义「经常」。"
+      },
+      {
+        "wordId": "w-gradually",
+        "reason": "英文「gradually」的常见义项「逐渐地」不符合主释义「经常」。"
+      },
+      {
+        "wordId": "w-annually",
+        "reason": "英文「annually」的常见义项「每年」不符合主释义「经常」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-merely",
+        "surfaceForm": "merely",
+        "reason": "将「merely」代入可见句子后不表达主释义「经常」。"
+      },
+      {
+        "wordId": "w-gradually",
+        "surfaceForm": "gradually",
+        "reason": "将「gradually」代入可见句子后不表达主释义「经常」。"
+      },
+      {
+        "wordId": "w-annually",
+        "surfaceForm": "annually",
+        "reason": "将「annually」代入可见句子后不表达主释义「经常」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ohm",
+    "enToZh": [
+      {
+        "wordId": "w-graph",
+        "reason": "选项「图表」不是「ohm」的主释义「欧姆」或其他义项。"
+      },
+      {
+        "wordId": "w-derivation",
+        "reason": "选项「起源」不是「ohm」的主释义「欧姆」或其他义项。"
+      },
+      {
+        "wordId": "w-bough",
+        "reason": "选项「大树枝」不是「ohm」的主释义「欧姆」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-graph",
+        "reason": "英文「graph」的常见义项「图表」不符合主释义「欧姆」。"
+      },
+      {
+        "wordId": "w-derivation",
+        "reason": "英文「derivation」的常见义项「起源」不符合主释义「欧姆」。"
+      },
+      {
+        "wordId": "w-bough",
+        "reason": "英文「bough」的常见义项「大树枝」不符合主释义「欧姆」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-graph",
+        "surfaceForm": "graph",
+        "reason": "将「graph」代入可见句子后不表达主释义「欧姆」。"
+      },
+      {
+        "wordId": "w-derivation",
+        "surfaceForm": "derivation",
+        "reason": "将「derivation」代入可见句子后不表达主释义「欧姆」。"
+      },
+      {
+        "wordId": "w-bough",
+        "surfaceForm": "bough",
+        "reason": "将「bough」代入可见句子后不表达主释义「欧姆」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-oil",
+    "enToZh": [
+      {
+        "wordId": "w-coin",
+        "reason": "选项「硬币」不是「oil」的主释义「油」或其他义项。"
+      },
+      {
+        "wordId": "w-coffee",
+        "reason": "选项「咖啡」不是「oil」的主释义「油」或其他义项。"
+      },
+      {
+        "wordId": "w-administrator",
+        "reason": "选项「管理员」不是「oil」的主释义「油」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coin",
+        "reason": "英文「coin」的常见义项「硬币」不符合主释义「油」。"
+      },
+      {
+        "wordId": "w-coffee",
+        "reason": "英文「coffee」的常见义项「咖啡」不符合主释义「油」。"
+      },
+      {
+        "wordId": "w-administrator",
+        "reason": "英文「administrator」的常见义项「管理员」不符合主释义「油」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coin",
+        "surfaceForm": "coin",
+        "reason": "将「coin」代入可见句子后不表达主释义「油」。"
+      },
+      {
+        "wordId": "w-coffee",
+        "surfaceForm": "coffee",
+        "reason": "将「coffee」代入可见句子后不表达主释义「油」。"
+      },
+      {
+        "wordId": "w-administrator",
+        "surfaceForm": "administrator",
+        "reason": "将「administrator」代入可见句子后不表达主释义「油」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-old",
+    "enToZh": [
+      {
+        "wordId": "w-natural",
+        "reason": "选项「自然的」不是「old」的主释义「老的」或其他义项。"
+      },
+      {
+        "wordId": "w-mere",
+        "reason": "选项「仅仅的」不是「old」的主释义「老的」或其他义项。"
+      },
+      {
+        "wordId": "w-native",
+        "reason": "选项「本地的」不是「old」的主释义「老的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-natural",
+        "reason": "英文「natural」的常见义项「自然的」不符合主释义「老的」。"
+      },
+      {
+        "wordId": "w-mere",
+        "reason": "英文「mere」的常见义项「仅仅的」不符合主释义「老的」。"
+      },
+      {
+        "wordId": "w-native",
+        "reason": "英文「native」的常见义项「本地的」不符合主释义「老的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-natural",
+        "surfaceForm": "natural",
+        "reason": "将「natural」代入可见句子后不表达主释义「老的」。"
+      },
+      {
+        "wordId": "w-mere",
+        "surfaceForm": "mere",
+        "reason": "将「mere」代入可见句子后不表达主释义「老的」。"
+      },
+      {
+        "wordId": "w-native",
+        "surfaceForm": "native",
+        "reason": "将「native」代入可见句子后不表达主释义「老的」。"
+      }
+    ],
+    "spelling": null
+  }
+]

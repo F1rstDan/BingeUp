@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-band",
+    "enToZh": [
+      {
+        "wordId": "w-basketball",
+        "reason": "选项「篮球」不是「band」的主释义「乐队」或其他义项。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "选项「统计数据」不是「band」的主释义「乐队」或其他义项。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "选项「地址」不是「band」的主释义「乐队」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-basketball",
+        "reason": "英文「basketball」的常见义项「篮球」不符合主释义「乐队」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "reason": "英文「statistics」的常见义项「统计数据」不符合主释义「乐队」。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "英文「address」的常见义项「地址」不符合主释义「乐队」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-basketball",
+        "surfaceForm": "basketball",
+        "reason": "将「basketball」代入可见句子后不表达主释义「乐队」。"
+      },
+      {
+        "wordId": "w-statistics",
+        "surfaceForm": "statistics",
+        "reason": "将「statistics」代入可见句子后不表达主释义「乐队」。"
+      },
+      {
+        "wordId": "w-address",
+        "surfaceForm": "address",
+        "reason": "将「address」代入可见句子后不表达主释义「乐队」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bandage",
+    "enToZh": [
+      {
+        "wordId": "w-bomb",
+        "reason": "选项「炸弹」不是「bandage」的主释义「绷带」或其他义项。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "选项「申请」不是「bandage」的主释义「绷带」或其他义项。"
+      },
+      {
+        "wordId": "w-basis",
+        "reason": "选项「基础」不是「bandage」的主释义「绷带」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bomb",
+        "reason": "英文「bomb」的常见义项「炸弹」不符合主释义「绷带」。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "英文「application」的常见义项「申请」不符合主释义「绷带」。"
+      },
+      {
+        "wordId": "w-basis",
+        "reason": "英文「basis」的常见义项「基础」不符合主释义「绷带」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bomb",
+        "surfaceForm": "bomb",
+        "reason": "将「bomb」代入可见句子后不表达主释义「绷带」。"
+      },
+      {
+        "wordId": "w-application",
+        "surfaceForm": "application",
+        "reason": "将「application」代入可见句子后不表达主释义「绷带」。"
+      },
+      {
+        "wordId": "w-basis",
+        "surfaceForm": "basis",
+        "reason": "将「basis」代入可见句子后不表达主释义「绷带」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bandit",
+    "enToZh": [
+      {
+        "wordId": "w-alteration",
+        "reason": "选项「改动」不是「bandit」的主释义「强盗」或其他义项。"
+      },
+      {
+        "wordId": "w-axle",
+        "reason": "选项「车轴」不是「bandit」的主释义「强盗」或其他义项。"
+      },
+      {
+        "wordId": "w-arithmetic",
+        "reason": "选项「算术」不是「bandit」的主释义「强盗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alteration",
+        "reason": "英文「alteration」的常见义项「改动」不符合主释义「强盗」。"
+      },
+      {
+        "wordId": "w-axle",
+        "reason": "英文「axle」的常见义项「车轴」不符合主释义「强盗」。"
+      },
+      {
+        "wordId": "w-arithmetic",
+        "reason": "英文「arithmetic」的常见义项「算术」不符合主释义「强盗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alteration",
+        "surfaceForm": "alteration",
+        "reason": "将「alteration」代入可见句子后不表达主释义「强盗」。"
+      },
+      {
+        "wordId": "w-axle",
+        "surfaceForm": "axle",
+        "reason": "将「axle」代入可见句子后不表达主释义「强盗」。"
+      },
+      {
+        "wordId": "w-arithmetic",
+        "surfaceForm": "arithmetic",
+        "reason": "将「arithmetic」代入可见句子后不表达主释义「强盗」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bang",
+    "enToZh": [
+      {
+        "wordId": "w-accessory",
+        "reason": "选项「配件」不是「bang」的主释义「巨响」或其他义项。"
+      },
+      {
+        "wordId": "w-cargo",
+        "reason": "选项「货物」不是「bang」的主释义「巨响」或其他义项。"
+      },
+      {
+        "wordId": "w-analogy",
+        "reason": "选项「类比」不是「bang」的主释义「巨响」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accessory",
+        "reason": "英文「accessory」的常见义项「配件」不符合主释义「巨响」。"
+      },
+      {
+        "wordId": "w-cargo",
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「巨响」。"
+      },
+      {
+        "wordId": "w-analogy",
+        "reason": "英文「analogy」的常见义项「类比」不符合主释义「巨响」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accessory",
+        "surfaceForm": "accessory",
+        "reason": "将「accessory」代入可见句子后不表达主释义「巨响」。"
+      },
+      {
+        "wordId": "w-cargo",
+        "surfaceForm": "cargo",
+        "reason": "将「cargo」代入可见句子后不表达主释义「巨响」。"
+      },
+      {
+        "wordId": "w-analogy",
+        "surfaceForm": "analogy",
+        "reason": "将「analogy」代入可见句子后不表达主释义「巨响」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bank",
+    "enToZh": [
+      {
+        "wordId": "w-bone",
+        "reason": "选项「骨头」不是「bank」的主释义「银行」或其他义项。"
+      },
+      {
+        "wordId": "w-attention",
+        "reason": "选项「注意力」不是「bank」的主释义「银行」或其他义项。"
+      },
+      {
+        "wordId": "w-basis",
+        "reason": "选项「基础」不是「bank」的主释义「银行」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bone",
+        "reason": "英文「bone」的常见义项「骨头」不符合主释义「银行」。"
+      },
+      {
+        "wordId": "w-attention",
+        "reason": "英文「attention」的常见义项「注意力」不符合主释义「银行」。"
+      },
+      {
+        "wordId": "w-basis",
+        "reason": "英文「basis」的常见义项「基础」不符合主释义「银行」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bone",
+        "surfaceForm": "bone",
+        "reason": "将「bone」代入可见句子后不表达主释义「银行」。"
+      },
+      {
+        "wordId": "w-attention",
+        "surfaceForm": "attention",
+        "reason": "将「attention」代入可见句子后不表达主释义「银行」。"
+      },
+      {
+        "wordId": "w-basis",
+        "surfaceForm": "basis",
+        "reason": "将「basis」代入可见句子后不表达主释义「银行」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-banker",
+    "enToZh": [
+      {
+        "wordId": "w-brass",
+        "reason": "选项「黄铜」不是「banker」的主释义「银行家」或其他义项。"
+      },
+      {
+        "wordId": "w-carrier",
+        "reason": "选项「运输公司」不是「banker」的主释义「银行家」或其他义项。"
+      },
+      {
+        "wordId": "w-abundance",
+        "reason": "选项「大量」不是「banker」的主释义「银行家」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brass",
+        "reason": "英文「brass」的常见义项「黄铜」不符合主释义「银行家」。"
+      },
+      {
+        "wordId": "w-carrier",
+        "reason": "英文「carrier」的常见义项「运输公司」不符合主释义「银行家」。"
+      },
+      {
+        "wordId": "w-abundance",
+        "reason": "英文「abundance」的常见义项「大量」不符合主释义「银行家」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brass",
+        "surfaceForm": "brass",
+        "reason": "将「brass」代入可见句子后不表达主释义「银行家」。"
+      },
+      {
+        "wordId": "w-carrier",
+        "surfaceForm": "carrier",
+        "reason": "将「carrier」代入可见句子后不表达主释义「银行家」。"
+      },
+      {
+        "wordId": "w-abundance",
+        "surfaceForm": "abundance",
+        "reason": "将「abundance」代入可见句子后不表达主释义「银行家」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bankrupt",
+    "enToZh": [
+      {
+        "wordId": "w-captive",
+        "reason": "选项「被关押的」不是「bankrupt」的主释义「破产的」或其他义项。"
+      },
+      {
+        "wordId": "w-bourgeois",
+        "reason": "选项「中产阶级的」不是「bankrupt」的主释义「破产的」或其他义项。"
+      },
+      {
+        "wordId": "w-auxiliary",
+        "reason": "选项「辅助的」不是「bankrupt」的主释义「破产的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-captive",
+        "reason": "英文「captive」的常见义项「被关押的」不符合主释义「破产的」。"
+      },
+      {
+        "wordId": "w-bourgeois",
+        "reason": "英文「bourgeois」的常见义项「中产阶级的」不符合主释义「破产的」。"
+      },
+      {
+        "wordId": "w-auxiliary",
+        "reason": "英文「auxiliary」的常见义项「辅助的」不符合主释义「破产的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-captive",
+        "surfaceForm": "captive",
+        "reason": "将「captive」代入可见句子后不表达主释义「破产的」。"
+      },
+      {
+        "wordId": "w-bourgeois",
+        "surfaceForm": "bourgeois",
+        "reason": "将「bourgeois」代入可见句子后不表达主释义「破产的」。"
+      },
+      {
+        "wordId": "w-auxiliary",
+        "surfaceForm": "auxiliary",
+        "reason": "将「auxiliary」代入可见句子后不表达主释义「破产的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bankruptcy",
+    "enToZh": [
+      {
+        "wordId": "w-outset",
+        "reason": "选项「开端」不是「bankruptcy」的主释义「破产」或其他义项。"
+      },
+      {
+        "wordId": "w-appetite",
+        "reason": "选项「食欲」不是「bankruptcy」的主释义「破产」或其他义项。"
+      },
+      {
+        "wordId": "w-bonus",
+        "reason": "选项「奖金」不是「bankruptcy」的主释义「破产」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-outset",
+        "reason": "英文「outset」的常见义项「开端」不符合主释义「破产」。"
+      },
+      {
+        "wordId": "w-appetite",
+        "reason": "英文「appetite」的常见义项「食欲」不符合主释义「破产」。"
+      },
+      {
+        "wordId": "w-bonus",
+        "reason": "英文「bonus」的常见义项「奖金」不符合主释义「破产」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-outset",
+        "surfaceForm": "outset",
+        "reason": "将「outset」代入可见句子后不表达主释义「破产」。"
+      },
+      {
+        "wordId": "w-appetite",
+        "surfaceForm": "appetite",
+        "reason": "将「appetite」代入可见句子后不表达主释义「破产」。"
+      },
+      {
+        "wordId": "w-bonus",
+        "surfaceForm": "bonus",
+        "reason": "将「bonus」代入可见句子后不表达主释义「破产」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-banner",
+    "enToZh": [
+      {
+        "wordId": "w-anchor",
+        "reason": "选项「锚」不是「banner」的主释义「横幅」或其他义项。"
+      },
+      {
+        "wordId": "w-beam",
+        "reason": "选项「光束」不是「banner」的主释义「横幅」或其他义项。"
+      },
+      {
+        "wordId": "w-astronomy",
+        "reason": "选项「天文学」不是「banner」的主释义「横幅」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-anchor",
+        "reason": "英文「anchor」的常见义项「锚」不符合主释义「横幅」。"
+      },
+      {
+        "wordId": "w-beam",
+        "reason": "英文「beam」的常见义项「光束」不符合主释义「横幅」。"
+      },
+      {
+        "wordId": "w-astronomy",
+        "reason": "英文「astronomy」的常见义项「天文学」不符合主释义「横幅」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-anchor",
+        "surfaceForm": "anchor",
+        "reason": "将「anchor」代入可见句子后不表达主释义「横幅」。"
+      },
+      {
+        "wordId": "w-beam",
+        "surfaceForm": "beam",
+        "reason": "将「beam」代入可见句子后不表达主释义「横幅」。"
+      },
+      {
+        "wordId": "w-astronomy",
+        "surfaceForm": "astronomy",
+        "reason": "将「astronomy」代入可见句子后不表达主释义「横幅」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-banquet",
+    "enToZh": [
+      {
+        "wordId": "w-appendix",
+        "reason": "选项「附录」不是「banquet」的主释义「宴会」或其他义项。"
+      },
+      {
+        "wordId": "w-biotech",
+        "reason": "选项「生物技术」不是「banquet」的主释义「宴会」或其他义项。"
+      },
+      {
+        "wordId": "w-beginner",
+        "reason": "选项「初学者」不是「banquet」的主释义「宴会」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-appendix",
+        "reason": "英文「appendix」的常见义项「附录」不符合主释义「宴会」。"
+      },
+      {
+        "wordId": "w-biotech",
+        "reason": "英文「biotech」的常见义项「生物技术」不符合主释义「宴会」。"
+      },
+      {
+        "wordId": "w-beginner",
+        "reason": "英文「beginner」的常见义项「初学者」不符合主释义「宴会」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-appendix",
+        "surfaceForm": "appendix",
+        "reason": "将「appendix」代入可见句子后不表达主释义「宴会」。"
+      },
+      {
+        "wordId": "w-biotech",
+        "surfaceForm": "biotech",
+        "reason": "将「biotech」代入可见句子后不表达主释义「宴会」。"
+      },
+      {
+        "wordId": "w-beginner",
+        "surfaceForm": "beginner",
+        "reason": "将「beginner」代入可见句子后不表达主释义「宴会」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bar",
+    "enToZh": [
+      {
+        "wordId": "w-bargain",
+        "reason": "选项「便宜货」不是「bar」的主释义「酒吧」或其他义项。"
+      },
+      {
+        "wordId": "w-arm",
+        "reason": "选项「手臂」不是「bar」的主释义「酒吧」或其他义项。"
+      },
+      {
+        "wordId": "w-argument",
+        "reason": "选项「争论」不是「bar」的主释义「酒吧」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bargain",
+        "reason": "英文「bargain」的常见义项「便宜货」不符合主释义「酒吧」。"
+      },
+      {
+        "wordId": "w-arm",
+        "reason": "英文「arm」的常见义项「手臂」不符合主释义「酒吧」。"
+      },
+      {
+        "wordId": "w-argument",
+        "reason": "英文「argument」的常见义项「争论」不符合主释义「酒吧」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bargain",
+        "surfaceForm": "bargain",
+        "reason": "将「bargain」代入可见句子后不表达主释义「酒吧」。"
+      },
+      {
+        "wordId": "w-arm",
+        "surfaceForm": "arm",
+        "reason": "将「arm」代入可见句子后不表达主释义「酒吧」。"
+      },
+      {
+        "wordId": "w-argument",
+        "surfaceForm": "argument",
+        "reason": "将「argument」代入可见句子后不表达主释义「酒吧」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barber",
+    "enToZh": [
+      {
+        "wordId": "w-beggar",
+        "reason": "选项「乞丐」不是「barber」的主释义「理发师」或其他义项。"
+      },
+      {
+        "wordId": "w-absorption",
+        "reason": "选项「吸收」不是「barber」的主释义「理发师」或其他义项。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "选项「破裂」不是「barber」的主释义「理发师」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-beggar",
+        "reason": "英文「beggar」的常见义项「乞丐」不符合主释义「理发师」。"
+      },
+      {
+        "wordId": "w-absorption",
+        "reason": "英文「absorption」的常见义项「吸收」不符合主释义「理发师」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "英文「rupture」的常见义项「破裂」不符合主释义「理发师」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-beggar",
+        "surfaceForm": "beggar",
+        "reason": "将「beggar」代入可见句子后不表达主释义「理发师」。"
+      },
+      {
+        "wordId": "w-absorption",
+        "surfaceForm": "absorption",
+        "reason": "将「absorption」代入可见句子后不表达主释义「理发师」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "surfaceForm": "rupture",
+        "reason": "将「rupture」代入可见句子后不表达主释义「理发师」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barely",
+    "enToZh": [
+      {
+        "wordId": "w-already",
+        "reason": "选项「已经」不是「barely」的主释义「几乎不」或其他义项。"
+      },
+      {
+        "wordId": "w-altogether",
+        "reason": "选项「完全地」不是「barely」的主释义「几乎不」或其他义项。"
+      },
+      {
+        "wordId": "w-aloud",
+        "reason": "选项「出声地」不是「barely」的主释义「几乎不」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-already",
+        "reason": "英文「already」的常见义项「已经」不符合主释义「几乎不」。"
+      },
+      {
+        "wordId": "w-altogether",
+        "reason": "英文「altogether」的常见义项「完全地」不符合主释义「几乎不」。"
+      },
+      {
+        "wordId": "w-aloud",
+        "reason": "英文「aloud」的常见义项「出声地」不符合主释义「几乎不」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-already",
+        "surfaceForm": "already",
+        "reason": "将「already」代入可见句子后不表达主释义「几乎不」。"
+      },
+      {
+        "wordId": "w-altogether",
+        "surfaceForm": "altogether",
+        "reason": "将「altogether」代入可见句子后不表达主释义「几乎不」。"
+      },
+      {
+        "wordId": "w-aloud",
+        "surfaceForm": "aloud",
+        "reason": "将「aloud」代入可见句子后不表达主释义「几乎不」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bargain",
+    "enToZh": [
+      {
+        "wordId": "w-barrier",
+        "reason": "选项「障碍」不是「bargain」的主释义「便宜货」或其他义项。"
+      },
+      {
+        "wordId": "w-award",
+        "reason": "选项「奖项」不是「bargain」的主释义「便宜货」或其他义项。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「bargain」的主释义「便宜货」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-barrier",
+        "reason": "英文「barrier」的常见义项「障碍」不符合主释义「便宜货」。"
+      },
+      {
+        "wordId": "w-award",
+        "reason": "英文「award」的常见义项「奖项」不符合主释义「便宜货」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「便宜货」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-barrier",
+        "surfaceForm": "barrier",
+        "reason": "将「barrier」代入可见句子后不表达主释义「便宜货」。"
+      },
+      {
+        "wordId": "w-award",
+        "surfaceForm": "award",
+        "reason": "将「award」代入可见句子后不表达主释义「便宜货」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「便宜货」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barge",
+    "enToZh": [
+      {
+        "wordId": "w-ounce",
+        "reason": "选项「盎司」不是「barge」的主释义「驳船」或其他义项。"
+      },
+      {
+        "wordId": "w-boiler",
+        "reason": "选项「锅炉」不是「barge」的主释义「驳船」或其他义项。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "选项「破裂」不是「barge」的主释义「驳船」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ounce",
+        "reason": "英文「ounce」的常见义项「盎司」不符合主释义「驳船」。"
+      },
+      {
+        "wordId": "w-boiler",
+        "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「驳船」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "英文「rupture」的常见义项「破裂」不符合主释义「驳船」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ounce",
+        "surfaceForm": "ounce",
+        "reason": "将「ounce」代入可见句子后不表达主释义「驳船」。"
+      },
+      {
+        "wordId": "w-boiler",
+        "surfaceForm": "boiler",
+        "reason": "将「boiler」代入可见句子后不表达主释义「驳船」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "surfaceForm": "rupture",
+        "reason": "将「rupture」代入可见句子后不表达主释义「驳船」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-bark",
+    "enToZh": [
+      {
+        "wordId": "w-betray",
+        "reason": "选项「背叛」不是「bark」的主释义「狗叫」或其他义项。"
+      },
+      {
+        "wordId": "w-adore",
+        "reason": "选项「喜爱」不是「bark」的主释义「狗叫」或其他义项。"
+      },
+      {
+        "wordId": "w-blur",
+        "reason": "选项「使模糊」不是「bark」的主释义「狗叫」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-betray",
+        "reason": "英文「betray」的常见义项「背叛」不符合主释义「狗叫」。"
+      },
+      {
+        "wordId": "w-adore",
+        "reason": "英文「adore」的常见义项「喜爱」不符合主释义「狗叫」。"
+      },
+      {
+        "wordId": "w-blur",
+        "reason": "英文「blur」的常见义项「使模糊」不符合主释义「狗叫」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-betray",
+        "surfaceForm": "betray",
+        "reason": "将「betray」代入可见句子后不表达主释义「狗叫」。"
+      },
+      {
+        "wordId": "w-adore",
+        "surfaceForm": "adore",
+        "reason": "将「adore」代入可见句子后不表达主释义「狗叫」。"
+      },
+      {
+        "wordId": "w-blur",
+        "surfaceForm": "blur",
+        "reason": "将「blur」代入可见句子后不表达主释义「狗叫」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barley",
+    "enToZh": [
+      {
+        "wordId": "w-ounce",
+        "reason": "选项「盎司」不是「barley」的主释义「大麦」或其他义项。"
+      },
+      {
+        "wordId": "w-banquet",
+        "reason": "选项「宴会」不是「barley」的主释义「大麦」或其他义项。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "reason": "选项「加速」不是「barley」的主释义「大麦」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ounce",
+        "reason": "英文「ounce」的常见义项「盎司」不符合主释义「大麦」。"
+      },
+      {
+        "wordId": "w-banquet",
+        "reason": "英文「banquet」的常见义项「宴会」不符合主释义「大麦」。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "reason": "英文「acceleration」的常见义项「加速」不符合主释义「大麦」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ounce",
+        "surfaceForm": "ounce",
+        "reason": "将「ounce」代入可见句子后不表达主释义「大麦」。"
+      },
+      {
+        "wordId": "w-banquet",
+        "surfaceForm": "banquet",
+        "reason": "将「banquet」代入可见句子后不表达主释义「大麦」。"
+      },
+      {
+        "wordId": "w-acceleration",
+        "surfaceForm": "acceleration",
+        "reason": "将「acceleration」代入可见句子后不表达主释义「大麦」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barn",
+    "enToZh": [
+      {
+        "wordId": "w-beam",
+        "reason": "选项「光束」不是「barn」的主释义「谷仓」或其他义项。"
+      },
+      {
+        "wordId": "w-acquisition",
+        "reason": "选项「获得」不是「barn」的主释义「谷仓」或其他义项。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "选项「古董」不是「barn」的主释义「谷仓」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-beam",
+        "reason": "英文「beam」的常见义项「光束」不符合主释义「谷仓」。"
+      },
+      {
+        "wordId": "w-acquisition",
+        "reason": "英文「acquisition」的常见义项「获得」不符合主释义「谷仓」。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "英文「antique」的常见义项「古董」不符合主释义「谷仓」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-beam",
+        "surfaceForm": "beam",
+        "reason": "将「beam」代入可见句子后不表达主释义「谷仓」。"
+      },
+      {
+        "wordId": "w-acquisition",
+        "surfaceForm": "acquisition",
+        "reason": "将「acquisition」代入可见句子后不表达主释义「谷仓」。"
+      },
+      {
+        "wordId": "w-antique",
+        "surfaceForm": "antique",
+        "reason": "将「antique」代入可见句子后不表达主释义「谷仓」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barometer",
+    "enToZh": [
+      {
+        "wordId": "w-abbreviation",
+        "reason": "选项「缩写」不是「barometer」的主释义「气压计」或其他义项。"
+      },
+      {
+        "wordId": "w-analogue",
+        "reason": "选项「类似物」不是「barometer」的主释义「气压计」或其他义项。"
+      },
+      {
+        "wordId": "w-bridegroom",
+        "reason": "选项「新郎」不是「barometer」的主释义「气压计」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-abbreviation",
+        "reason": "英文「abbreviation」的常见义项「缩写」不符合主释义「气压计」。"
+      },
+      {
+        "wordId": "w-analogue",
+        "reason": "英文「analogue」的常见义项「类似物」不符合主释义「气压计」。"
+      },
+      {
+        "wordId": "w-bridegroom",
+        "reason": "英文「bridegroom」的常见义项「新郎」不符合主释义「气压计」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-abbreviation",
+        "surfaceForm": "abbreviation",
+        "reason": "将「abbreviation」代入可见句子后不表达主释义「气压计」。"
+      },
+      {
+        "wordId": "w-analogue",
+        "surfaceForm": "analogue",
+        "reason": "将「analogue」代入可见句子后不表达主释义「气压计」。"
+      },
+      {
+        "wordId": "w-bridegroom",
+        "surfaceForm": "bridegroom",
+        "reason": "将「bridegroom」代入可见句子后不表达主释义「气压计」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-baron",
+    "enToZh": [
+      {
+        "wordId": "w-bosom",
+        "reason": "选项「胸部」不是「baron」的主释义「男爵」或其他义项。"
+      },
+      {
+        "wordId": "w-breadth",
+        "reason": "选项「宽度」不是「baron」的主释义「男爵」或其他义项。"
+      },
+      {
+        "wordId": "w-cartridge",
+        "reason": "选项「墨盒」不是「baron」的主释义「男爵」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bosom",
+        "reason": "英文「bosom」的常见义项「胸部」不符合主释义「男爵」。"
+      },
+      {
+        "wordId": "w-breadth",
+        "reason": "英文「breadth」的常见义项「宽度」不符合主释义「男爵」。"
+      },
+      {
+        "wordId": "w-cartridge",
+        "reason": "英文「cartridge」的常见义项「墨盒」不符合主释义「男爵」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bosom",
+        "surfaceForm": "bosom",
+        "reason": "将「bosom」代入可见句子后不表达主释义「男爵」。"
+      },
+      {
+        "wordId": "w-breadth",
+        "surfaceForm": "breadth",
+        "reason": "将「breadth」代入可见句子后不表达主释义「男爵」。"
+      },
+      {
+        "wordId": "w-cartridge",
+        "surfaceForm": "cartridge",
+        "reason": "将「cartridge」代入可见句子后不表达主释义「男爵」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barrel",
+    "enToZh": [
+      {
+        "wordId": "w-submarine",
+        "reason": "选项「潜艇」不是「barrel」的主释义「桶」或其他义项。"
+      },
+      {
+        "wordId": "w-bachelor",
+        "reason": "选项「单身男子」不是「barrel」的主释义「桶」或其他义项。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "选项「接受」不是「barrel」的主释义「桶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-submarine",
+        "reason": "英文「submarine」的常见义项「潜艇」不符合主释义「桶」。"
+      },
+      {
+        "wordId": "w-bachelor",
+        "reason": "英文「bachelor」的常见义项「单身男子」不符合主释义「桶」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "英文「acceptance」的常见义项「接受」不符合主释义「桶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-submarine",
+        "surfaceForm": "submarine",
+        "reason": "将「submarine」代入可见句子后不表达主释义「桶」。"
+      },
+      {
+        "wordId": "w-bachelor",
+        "surfaceForm": "bachelor",
+        "reason": "将「bachelor」代入可见句子后不表达主释义「桶」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "surfaceForm": "acceptance",
+        "reason": "将「acceptance」代入可见句子后不表达主释义「桶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-barrier",
+    "enToZh": [
+      {
+        "wordId": "w-alphabet",
+        "reason": "选项「字母表」不是「barrier」的主释义「障碍」或其他义项。"
+      },
+      {
+        "wordId": "w-agent",
+        "reason": "选项「代理人」不是「barrier」的主释义「障碍」或其他义项。"
+      },
+      {
+        "wordId": "w-apartment",
+        "reason": "选项「公寓」不是「barrier」的主释义「障碍」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alphabet",
+        "reason": "英文「alphabet」的常见义项「字母表」不符合主释义「障碍」。"
+      },
+      {
+        "wordId": "w-agent",
+        "reason": "英文「agent」的常见义项「代理人」不符合主释义「障碍」。"
+      },
+      {
+        "wordId": "w-apartment",
+        "reason": "英文「apartment」的常见义项「公寓」不符合主释义「障碍」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alphabet",
+        "surfaceForm": "alphabet",
+        "reason": "将「alphabet」代入可见句子后不表达主释义「障碍」。"
+      },
+      {
+        "wordId": "w-agent",
+        "surfaceForm": "agent",
+        "reason": "将「agent」代入可见句子后不表达主释义「障碍」。"
+      },
+      {
+        "wordId": "w-apartment",
+        "surfaceForm": "apartment",
+        "reason": "将「apartment」代入可见句子后不表达主释义「障碍」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-base",
+    "enToZh": [
+      {
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「base」的主释义「基础」或其他义项。"
+      },
+      {
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「base」的主释义「基础」或其他义项。"
+      },
+      {
+        "wordId": "w-bean",
+        "reason": "选项「豆子」不是「base」的主释义「基础」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「基础」。"
+      },
+      {
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「基础」。"
+      },
+      {
+        "wordId": "w-bean",
+        "reason": "英文「bean」的常见义项「豆子」不符合主释义「基础」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「基础」。"
+      },
+      {
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「基础」。"
+      },
+      {
+        "wordId": "w-bean",
+        "surfaceForm": "bean",
+        "reason": "将「bean」代入可见句子后不表达主释义「基础」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-baseball",
+    "enToZh": [
+      {
+        "wordId": "w-analyst",
+        "reason": "选项「分析师」不是「baseball」的主释义「棒球」或其他义项。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "选项「箭头」不是「baseball」的主释义「棒球」或其他义项。"
+      },
+      {
+        "wordId": "w-attraction",
+        "reason": "选项「吸引力」不是「baseball」的主释义「棒球」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-analyst",
+        "reason": "英文「analyst」的常见义项「分析师」不符合主释义「棒球」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "英文「arrow」的常见义项「箭头」不符合主释义「棒球」。"
+      },
+      {
+        "wordId": "w-attraction",
+        "reason": "英文「attraction」的常见义项「吸引力」不符合主释义「棒球」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-analyst",
+        "surfaceForm": "analyst",
+        "reason": "将「analyst」代入可见句子后不表达主释义「棒球」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "surfaceForm": "arrow",
+        "reason": "将「arrow」代入可见句子后不表达主释义「棒球」。"
+      },
+      {
+        "wordId": "w-attraction",
+        "surfaceForm": "attraction",
+        "reason": "将「attraction」代入可见句子后不表达主释义「棒球」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-basement",
+    "enToZh": [
+      {
+        "wordId": "w-blast",
+        "reason": "选项「爆炸」不是「basement」的主释义「地下室」或其他义项。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "选项「黄铜」不是「basement」的主释义「地下室」或其他义项。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「basement」的主释义「地下室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-blast",
+        "reason": "英文「blast」的常见义项「爆炸」不符合主释义「地下室」。"
+      },
+      {
+        "wordId": "w-brass",
+        "reason": "英文「brass」的常见义项「黄铜」不符合主释义「地下室」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「地下室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-blast",
+        "surfaceForm": "blast",
+        "reason": "将「blast」代入可见句子后不表达主释义「地下室」。"
+      },
+      {
+        "wordId": "w-brass",
+        "surfaceForm": "brass",
+        "reason": "将「brass」代入可见句子后不表达主释义「地下室」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「地下室」。"
+      }
+    ],
+    "spelling": null
+  }
+]

@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-grab",
+    "enToZh": [
+      {
+        "wordId": "w-crush",
+        "reason": "选项「压碎」不是「grab」的主释义「抓住」或其他义项。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "选项「吸收」不是「grab」的主释义「抓住」或其他义项。"
+      },
+      {
+        "wordId": "w-fit",
+        "reason": "选项「适合」不是「grab」的主释义「抓住」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-crush",
+        "reason": "英文「crush」的常见义项「压碎」不符合主释义「抓住」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "英文「absorb」的常见义项「吸收」不符合主释义「抓住」。"
+      },
+      {
+        "wordId": "w-fit",
+        "reason": "英文「fit」的常见义项「适合」不符合主释义「抓住」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-crush",
+        "surfaceForm": "crush",
+        "reason": "将「crush」代入可见句子后不表达主释义「抓住」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "surfaceForm": "absorb",
+        "reason": "将「absorb」代入可见句子后不表达主释义「抓住」。"
+      },
+      {
+        "wordId": "w-fit",
+        "surfaceForm": "fit",
+        "reason": "将「fit」代入可见句子后不表达主释义「抓住」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grace",
+    "enToZh": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "选项「耻辱」不是「grace」的主释义「优雅」或其他义项。"
+      },
+      {
+        "wordId": "w-decree",
+        "reason": "选项「法令」不是「grace」的主释义「优雅」或其他义项。"
+      },
+      {
+        "wordId": "w-calculator",
+        "reason": "选项「计算器」不是「grace」的主释义「优雅」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "英文「disgrace」的常见义项「耻辱」不符合主释义「优雅」。"
+      },
+      {
+        "wordId": "w-decree",
+        "reason": "英文「decree」的常见义项「法令」不符合主释义「优雅」。"
+      },
+      {
+        "wordId": "w-calculator",
+        "reason": "英文「calculator」的常见义项「计算器」不符合主释义「优雅」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disgrace",
+        "surfaceForm": "disgrace",
+        "reason": "将「disgrace」代入可见句子后不表达主释义「优雅」。"
+      },
+      {
+        "wordId": "w-decree",
+        "surfaceForm": "decree",
+        "reason": "将「decree」代入可见句子后不表达主释义「优雅」。"
+      },
+      {
+        "wordId": "w-calculator",
+        "surfaceForm": "calculator",
+        "reason": "将「calculator」代入可见句子后不表达主释义「优雅」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grade",
+    "enToZh": [
+      {
+        "wordId": "w-decision",
+        "reason": "选项「决定」不是「grade」的主释义「年级」或其他义项。"
+      },
+      {
+        "wordId": "w-bunch",
+        "reason": "选项「一串」不是「grade」的主释义「年级」或其他义项。"
+      },
+      {
+        "wordId": "w-forecast",
+        "reason": "选项「预报」不是「grade」的主释义「年级」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-decision",
+        "reason": "英文「decision」的常见义项「决定」不符合主释义「年级」。"
+      },
+      {
+        "wordId": "w-bunch",
+        "reason": "英文「bunch」的常见义项「一串」不符合主释义「年级」。"
+      },
+      {
+        "wordId": "w-forecast",
+        "reason": "英文「forecast」的常见义项「预报」不符合主释义「年级」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-decision",
+        "surfaceForm": "decision",
+        "reason": "将「decision」代入可见句子后不表达主释义「年级」。"
+      },
+      {
+        "wordId": "w-bunch",
+        "surfaceForm": "bunch",
+        "reason": "将「bunch」代入可见句子后不表达主释义「年级」。"
+      },
+      {
+        "wordId": "w-forecast",
+        "surfaceForm": "forecast",
+        "reason": "将「forecast」代入可见句子后不表达主释义「年级」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gradient",
+    "enToZh": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "选项「耻辱」不是「gradient」的主释义「坡度」或其他义项。"
+      },
+      {
+        "wordId": "w-firework",
+        "reason": "选项「烟花」不是「gradient」的主释义「坡度」或其他义项。"
+      },
+      {
+        "wordId": "w-coward",
+        "reason": "选项「胆小鬼」不是「gradient」的主释义「坡度」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disgrace",
+        "reason": "英文「disgrace」的常见义项「耻辱」不符合主释义「坡度」。"
+      },
+      {
+        "wordId": "w-firework",
+        "reason": "英文「firework」的常见义项「烟花」不符合主释义「坡度」。"
+      },
+      {
+        "wordId": "w-coward",
+        "reason": "英文「coward」的常见义项「胆小鬼」不符合主释义「坡度」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disgrace",
+        "surfaceForm": "disgrace",
+        "reason": "将「disgrace」代入可见句子后不表达主释义「坡度」。"
+      },
+      {
+        "wordId": "w-firework",
+        "surfaceForm": "firework",
+        "reason": "将「firework」代入可见句子后不表达主释义「坡度」。"
+      },
+      {
+        "wordId": "w-coward",
+        "surfaceForm": "coward",
+        "reason": "将「coward」代入可见句子后不表达主释义「坡度」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gradually",
+    "enToZh": [
+      {
+        "wordId": "w-aloud",
+        "reason": "选项「出声地」不是「gradually」的主释义「逐渐地」或其他义项。"
+      },
+      {
+        "wordId": "w-anyway",
+        "reason": "选项「无论如何」不是「gradually」的主释义「逐渐地」或其他义项。"
+      },
+      {
+        "wordId": "w-directly",
+        "reason": "选项「直接地」不是「gradually」的主释义「逐渐地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aloud",
+        "reason": "英文「aloud」的常见义项「出声地」不符合主释义「逐渐地」。"
+      },
+      {
+        "wordId": "w-anyway",
+        "reason": "英文「anyway」的常见义项「无论如何」不符合主释义「逐渐地」。"
+      },
+      {
+        "wordId": "w-directly",
+        "reason": "英文「directly」的常见义项「直接地」不符合主释义「逐渐地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aloud",
+        "surfaceForm": "aloud",
+        "reason": "将「aloud」代入可见句子后不表达主释义「逐渐地」。"
+      },
+      {
+        "wordId": "w-anyway",
+        "surfaceForm": "anyway",
+        "reason": "将「anyway」代入可见句子后不表达主释义「逐渐地」。"
+      },
+      {
+        "wordId": "w-directly",
+        "surfaceForm": "directly",
+        "reason": "将「directly」代入可见句子后不表达主释义「逐渐地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-graduate",
+    "enToZh": [
+      {
+        "wordId": "w-display",
+        "reason": "选项「展示」不是「graduate」的主释义「毕业」或其他义项。"
+      },
+      {
+        "wordId": "w-continue",
+        "reason": "选项「继续」不是「graduate」的主释义「毕业」或其他义项。"
+      },
+      {
+        "wordId": "w-buy",
+        "reason": "选项「购买」不是「graduate」的主释义「毕业」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-display",
+        "reason": "英文「display」的常见义项「展示」不符合主释义「毕业」。"
+      },
+      {
+        "wordId": "w-continue",
+        "reason": "英文「continue」的常见义项「继续」不符合主释义「毕业」。"
+      },
+      {
+        "wordId": "w-buy",
+        "reason": "英文「buy」的常见义项「购买」不符合主释义「毕业」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-display",
+        "surfaceForm": "display",
+        "reason": "将「display」代入可见句子后不表达主释义「毕业」。"
+      },
+      {
+        "wordId": "w-continue",
+        "surfaceForm": "continue",
+        "reason": "将「continue」代入可见句子后不表达主释义「毕业」。"
+      },
+      {
+        "wordId": "w-buy",
+        "surfaceForm": "buy",
+        "reason": "将「buy」代入可见句子后不表达主释义「毕业」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grain",
+    "enToZh": [
+      {
+        "wordId": "w-critic",
+        "reason": "选项「评论家」不是「grain」的主释义「谷物」或其他义项。"
+      },
+      {
+        "wordId": "w-afternoon",
+        "reason": "选项「下午」不是「grain」的主释义「谷物」或其他义项。"
+      },
+      {
+        "wordId": "w-complaint",
+        "reason": "选项「抱怨」不是「grain」的主释义「谷物」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-critic",
+        "reason": "英文「critic」的常见义项「评论家」不符合主释义「谷物」。"
+      },
+      {
+        "wordId": "w-afternoon",
+        "reason": "英文「afternoon」的常见义项「下午」不符合主释义「谷物」。"
+      },
+      {
+        "wordId": "w-complaint",
+        "reason": "英文「complaint」的常见义项「抱怨」不符合主释义「谷物」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-critic",
+        "surfaceForm": "critic",
+        "reason": "将「critic」代入可见句子后不表达主释义「谷物」。"
+      },
+      {
+        "wordId": "w-afternoon",
+        "surfaceForm": "afternoon",
+        "reason": "将「afternoon」代入可见句子后不表达主释义「谷物」。"
+      },
+      {
+        "wordId": "w-complaint",
+        "surfaceForm": "complaint",
+        "reason": "将「complaint」代入可见句子后不表达主释义「谷物」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grammar",
+    "enToZh": [
+      {
+        "wordId": "w-concept",
+        "reason": "选项「概念」不是「grammar」的主释义「语法」或其他义项。"
+      },
+      {
+        "wordId": "w-father",
+        "reason": "选项「父亲」不是「grammar」的主释义「语法」或其他义项。"
+      },
+      {
+        "wordId": "w-evidence",
+        "reason": "选项「证据」不是「grammar」的主释义「语法」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-concept",
+        "reason": "英文「concept」的常见义项「概念」不符合主释义「语法」。"
+      },
+      {
+        "wordId": "w-father",
+        "reason": "英文「father」的常见义项「父亲」不符合主释义「语法」。"
+      },
+      {
+        "wordId": "w-evidence",
+        "reason": "英文「evidence」的常见义项「证据」不符合主释义「语法」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-concept",
+        "surfaceForm": "concept",
+        "reason": "将「concept」代入可见句子后不表达主释义「语法」。"
+      },
+      {
+        "wordId": "w-father",
+        "surfaceForm": "father",
+        "reason": "将「father」代入可见句子后不表达主释义「语法」。"
+      },
+      {
+        "wordId": "w-evidence",
+        "surfaceForm": "evidence",
+        "reason": "将「evidence」代入可见句子后不表达主释义「语法」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gramme",
+    "enToZh": [
+      {
+        "wordId": "w-capacitor",
+        "reason": "选项「电容器」不是「gramme」的主释义「克」或其他义项。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "选项「安培」不是「gramme」的主释义「克」或其他义项。"
+      },
+      {
+        "wordId": "w-bridle",
+        "reason": "选项「马笼头」不是「gramme」的主释义「克」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-capacitor",
+        "reason": "英文「capacitor」的常见义项「电容器」不符合主释义「克」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "英文「ampere」的常见义项「安培」不符合主释义「克」。"
+      },
+      {
+        "wordId": "w-bridle",
+        "reason": "英文「bridle」的常见义项「马笼头」不符合主释义「克」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-capacitor",
+        "surfaceForm": "capacitor",
+        "reason": "将「capacitor」代入可见句子后不表达主释义「克」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "surfaceForm": "ampere",
+        "reason": "将「ampere」代入可见句子后不表达主释义「克」。"
+      },
+      {
+        "wordId": "w-bridle",
+        "surfaceForm": "bridle",
+        "reason": "将「bridle」代入可见句子后不表达主释义「克」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gramophone",
+    "enToZh": [
+      {
+        "wordId": "w-frost",
+        "reason": "选项「霜」不是「gramophone」的主释义「留声机」或其他义项。"
+      },
+      {
+        "wordId": "w-dictation",
+        "reason": "选项「听写」不是「gramophone」的主释义「留声机」或其他义项。"
+      },
+      {
+        "wordId": "w-cuckoo",
+        "reason": "选项「布谷鸟」不是「gramophone」的主释义「留声机」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-frost",
+        "reason": "英文「frost」的常见义项「霜」不符合主释义「留声机」。"
+      },
+      {
+        "wordId": "w-dictation",
+        "reason": "英文「dictation」的常见义项「听写」不符合主释义「留声机」。"
+      },
+      {
+        "wordId": "w-cuckoo",
+        "reason": "英文「cuckoo」的常见义项「布谷鸟」不符合主释义「留声机」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-frost",
+        "surfaceForm": "frost",
+        "reason": "将「frost」代入可见句子后不表达主释义「留声机」。"
+      },
+      {
+        "wordId": "w-dictation",
+        "surfaceForm": "dictation",
+        "reason": "将「dictation」代入可见句子后不表达主释义「留声机」。"
+      },
+      {
+        "wordId": "w-cuckoo",
+        "surfaceForm": "cuckoo",
+        "reason": "将「cuckoo」代入可见句子后不表达主释义「留声机」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-granddaughter",
+    "enToZh": [
+      {
+        "wordId": "w-concert",
+        "reason": "选项「音乐会」不是「granddaughter」的主释义「孙女」或其他义项。"
+      },
+      {
+        "wordId": "w-contrast",
+        "reason": "选项「对比」不是「granddaughter」的主释义「孙女」或其他义项。"
+      },
+      {
+        "wordId": "w-folk",
+        "reason": "选项「人们」不是「granddaughter」的主释义「孙女」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-concert",
+        "reason": "英文「concert」的常见义项「音乐会」不符合主释义「孙女」。"
+      },
+      {
+        "wordId": "w-contrast",
+        "reason": "英文「contrast」的常见义项「对比」不符合主释义「孙女」。"
+      },
+      {
+        "wordId": "w-folk",
+        "reason": "英文「folk」的常见义项「人们」不符合主释义「孙女」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-concert",
+        "surfaceForm": "concert",
+        "reason": "将「concert」代入可见句子后不表达主释义「孙女」。"
+      },
+      {
+        "wordId": "w-contrast",
+        "surfaceForm": "contrast",
+        "reason": "将「contrast」代入可见句子后不表达主释义「孙女」。"
+      },
+      {
+        "wordId": "w-folk",
+        "surfaceForm": "folk",
+        "reason": "将「folk」代入可见句子后不表达主释义「孙女」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grandfather",
+    "enToZh": [
+      {
+        "wordId": "w-credit",
+        "reason": "选项「信用」不是「grandfather」的主释义「祖父」或其他义项。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "选项「对话」不是「grandfather」的主释义「祖父」或其他义项。"
+      },
+      {
+        "wordId": "w-chin",
+        "reason": "选项「下巴」不是「grandfather」的主释义「祖父」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-credit",
+        "reason": "英文「credit」的常见义项「信用」不符合主释义「祖父」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "英文「dialogue」的常见义项「对话」不符合主释义「祖父」。"
+      },
+      {
+        "wordId": "w-chin",
+        "reason": "英文「chin」的常见义项「下巴」不符合主释义「祖父」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-credit",
+        "surfaceForm": "credit",
+        "reason": "将「credit」代入可见句子后不表达主释义「祖父」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "surfaceForm": "dialogue",
+        "reason": "将「dialogue」代入可见句子后不表达主释义「祖父」。"
+      },
+      {
+        "wordId": "w-chin",
+        "surfaceForm": "chin",
+        "reason": "将「chin」代入可见句子后不表达主释义「祖父」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grandmother",
+    "enToZh": [
+      {
+        "wordId": "w-appearance",
+        "reason": "选项「外表」不是「grandmother」的主释义「祖母」或其他义项。"
+      },
+      {
+        "wordId": "w-coast",
+        "reason": "选项「海岸」不是「grandmother」的主释义「祖母」或其他义项。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "选项「木板」不是「grandmother」的主释义「祖母」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-appearance",
+        "reason": "英文「appearance」的常见义项「外表」不符合主释义「祖母」。"
+      },
+      {
+        "wordId": "w-coast",
+        "reason": "英文「coast」的常见义项「海岸」不符合主释义「祖母」。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "英文「board」的常见义项「木板」不符合主释义「祖母」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-appearance",
+        "surfaceForm": "appearance",
+        "reason": "将「appearance」代入可见句子后不表达主释义「祖母」。"
+      },
+      {
+        "wordId": "w-coast",
+        "surfaceForm": "coast",
+        "reason": "将「coast」代入可见句子后不表达主释义「祖母」。"
+      },
+      {
+        "wordId": "w-board",
+        "surfaceForm": "board",
+        "reason": "将「board」代入可见句子后不表达主释义「祖母」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grandson",
+    "enToZh": [
+      {
+        "wordId": "w-fire",
+        "reason": "选项「火」不是「grandson」的主释义「孙子」或其他义项。"
+      },
+      {
+        "wordId": "w-community",
+        "reason": "选项「社区」不是「grandson」的主释义「孙子」或其他义项。"
+      },
+      {
+        "wordId": "w-deficit",
+        "reason": "选项「赤字」不是「grandson」的主释义「孙子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fire",
+        "reason": "英文「fire」的常见义项「火」不符合主释义「孙子」。"
+      },
+      {
+        "wordId": "w-community",
+        "reason": "英文「community」的常见义项「社区」不符合主释义「孙子」。"
+      },
+      {
+        "wordId": "w-deficit",
+        "reason": "英文「deficit」的常见义项「赤字」不符合主释义「孙子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fire",
+        "surfaceForm": "fire",
+        "reason": "将「fire」代入可见句子后不表达主释义「孙子」。"
+      },
+      {
+        "wordId": "w-community",
+        "surfaceForm": "community",
+        "reason": "将「community」代入可见句子后不表达主释义「孙子」。"
+      },
+      {
+        "wordId": "w-deficit",
+        "surfaceForm": "deficit",
+        "reason": "将「deficit」代入可见句子后不表达主释义「孙子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-granite",
+    "enToZh": [
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「granite」的主释义「花岗岩」或其他义项。"
+      },
+      {
+        "wordId": "w-dam",
+        "reason": "选项「水坝」不是「granite」的主释义「花岗岩」或其他义项。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "选项「性情」不是「granite」的主释义「花岗岩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「花岗岩」。"
+      },
+      {
+        "wordId": "w-dam",
+        "reason": "英文「dam」的常见义项「水坝」不符合主释义「花岗岩」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "reason": "英文「disposition」的常见义项「性情」不符合主释义「花岗岩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「花岗岩」。"
+      },
+      {
+        "wordId": "w-dam",
+        "surfaceForm": "dam",
+        "reason": "将「dam」代入可见句子后不表达主释义「花岗岩」。"
+      },
+      {
+        "wordId": "w-disposition",
+        "surfaceForm": "disposition",
+        "reason": "将「disposition」代入可见句子后不表达主释义「花岗岩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grant",
+    "enToZh": [
+      {
+        "wordId": "w-complicate",
+        "reason": "选项「使复杂化」不是「grant」的主释义「授予」或其他义项。"
+      },
+      {
+        "wordId": "w-add",
+        "reason": "选项「添加」不是「grant」的主释义「授予」或其他义项。"
+      },
+      {
+        "wordId": "w-entitle",
+        "reason": "选项「使有权」不是「grant」的主释义「授予」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-complicate",
+        "reason": "英文「complicate」的常见义项「使复杂化」不符合主释义「授予」。"
+      },
+      {
+        "wordId": "w-add",
+        "reason": "英文「add」的常见义项「添加」不符合主释义「授予」。"
+      },
+      {
+        "wordId": "w-entitle",
+        "reason": "英文「entitle」的常见义项「使有权」不符合主释义「授予」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-complicate",
+        "surfaceForm": "complicate",
+        "reason": "将「complicate」代入可见句子后不表达主释义「授予」。"
+      },
+      {
+        "wordId": "w-add",
+        "surfaceForm": "add",
+        "reason": "将「add」代入可见句子后不表达主释义「授予」。"
+      },
+      {
+        "wordId": "w-entitle",
+        "surfaceForm": "entitle",
+        "reason": "将「entitle」代入可见句子后不表达主释义「授予」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grape",
+    "enToZh": [
+      {
+        "wordId": "w-darling",
+        "reason": "选项「亲爱的」不是「grape」的主释义「葡萄」或其他义项。"
+      },
+      {
+        "wordId": "w-helicopter",
+        "reason": "选项「直升机」不是「grape」的主释义「葡萄」或其他义项。"
+      },
+      {
+        "wordId": "w-dioxide",
+        "reason": "选项「二氧化物」不是「grape」的主释义「葡萄」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-darling",
+        "reason": "英文「darling」的常见义项「亲爱的」不符合主释义「葡萄」。"
+      },
+      {
+        "wordId": "w-helicopter",
+        "reason": "英文「helicopter」的常见义项「直升机」不符合主释义「葡萄」。"
+      },
+      {
+        "wordId": "w-dioxide",
+        "reason": "英文「dioxide」的常见义项「二氧化物」不符合主释义「葡萄」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-darling",
+        "surfaceForm": "darling",
+        "reason": "将「darling」代入可见句子后不表达主释义「葡萄」。"
+      },
+      {
+        "wordId": "w-helicopter",
+        "surfaceForm": "helicopter",
+        "reason": "将「helicopter」代入可见句子后不表达主释义「葡萄」。"
+      },
+      {
+        "wordId": "w-dioxide",
+        "surfaceForm": "dioxide",
+        "reason": "将「dioxide」代入可见句子后不表达主释义「葡萄」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-graph",
+    "enToZh": [
+      {
+        "wordId": "w-bugle",
+        "reason": "选项「军号」不是「graph」的主释义「图表」或其他义项。"
+      },
+      {
+        "wordId": "w-gunpowder",
+        "reason": "选项「火药」不是「graph」的主释义「图表」或其他义项。"
+      },
+      {
+        "wordId": "w-fission",
+        "reason": "选项「裂变」不是「graph」的主释义「图表」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bugle",
+        "reason": "英文「bugle」的常见义项「军号」不符合主释义「图表」。"
+      },
+      {
+        "wordId": "w-gunpowder",
+        "reason": "英文「gunpowder」的常见义项「火药」不符合主释义「图表」。"
+      },
+      {
+        "wordId": "w-fission",
+        "reason": "英文「fission」的常见义项「裂变」不符合主释义「图表」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bugle",
+        "surfaceForm": "bugle",
+        "reason": "将「bugle」代入可见句子后不表达主释义「图表」。"
+      },
+      {
+        "wordId": "w-gunpowder",
+        "surfaceForm": "gunpowder",
+        "reason": "将「gunpowder」代入可见句子后不表达主释义「图表」。"
+      },
+      {
+        "wordId": "w-fission",
+        "surfaceForm": "fission",
+        "reason": "将「fission」代入可见句子后不表达主释义「图表」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-graphite",
+    "enToZh": [
+      {
+        "wordId": "w-chronicle",
+        "reason": "选项「编年史」不是「graphite」的主释义「石墨」或其他义项。"
+      },
+      {
+        "wordId": "w-cosmos",
+        "reason": "选项「宇宙」不是「graphite」的主释义「石墨」或其他义项。"
+      },
+      {
+        "wordId": "w-absorption",
+        "reason": "选项「吸收」不是「graphite」的主释义「石墨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chronicle",
+        "reason": "英文「chronicle」的常见义项「编年史」不符合主释义「石墨」。"
+      },
+      {
+        "wordId": "w-cosmos",
+        "reason": "英文「cosmos」的常见义项「宇宙」不符合主释义「石墨」。"
+      },
+      {
+        "wordId": "w-absorption",
+        "reason": "英文「absorption」的常见义项「吸收」不符合主释义「石墨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chronicle",
+        "surfaceForm": "chronicle",
+        "reason": "将「chronicle」代入可见句子后不表达主释义「石墨」。"
+      },
+      {
+        "wordId": "w-cosmos",
+        "surfaceForm": "cosmos",
+        "reason": "将「cosmos」代入可见句子后不表达主释义「石墨」。"
+      },
+      {
+        "wordId": "w-absorption",
+        "surfaceForm": "absorption",
+        "reason": "将「absorption」代入可见句子后不表达主释义「石墨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grasp",
+    "enToZh": [
+      {
+        "wordId": "w-bloom",
+        "reason": "选项「开花」不是「grasp」的主释义「抓住」或其他义项。"
+      },
+      {
+        "wordId": "w-conceive",
+        "reason": "选项「构想」不是「grasp」的主释义「抓住」或其他义项。"
+      },
+      {
+        "wordId": "w-endure",
+        "reason": "选项「忍受」不是「grasp」的主释义「抓住」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bloom",
+        "reason": "英文「bloom」的常见义项「开花」不符合主释义「抓住」。"
+      },
+      {
+        "wordId": "w-conceive",
+        "reason": "英文「conceive」的常见义项「构想」不符合主释义「抓住」。"
+      },
+      {
+        "wordId": "w-endure",
+        "reason": "英文「endure」的常见义项「忍受」不符合主释义「抓住」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bloom",
+        "surfaceForm": "bloom",
+        "reason": "将「bloom」代入可见句子后不表达主释义「抓住」。"
+      },
+      {
+        "wordId": "w-conceive",
+        "surfaceForm": "conceive",
+        "reason": "将「conceive」代入可见句子后不表达主释义「抓住」。"
+      },
+      {
+        "wordId": "w-endure",
+        "surfaceForm": "endure",
+        "reason": "将「endure」代入可见句子后不表达主释义「抓住」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grass",
+    "enToZh": [
+      {
+        "wordId": "w-harm",
+        "reason": "选项「伤害」不是「grass」的主释义「草」或其他义项。"
+      },
+      {
+        "wordId": "w-acid",
+        "reason": "选项「酸」不是「grass」的主释义「草」或其他义项。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "选项「地址」不是「grass」的主释义「草」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-harm",
+        "reason": "英文「harm」的常见义项「伤害」不符合主释义「草」。"
+      },
+      {
+        "wordId": "w-acid",
+        "reason": "英文「acid」的常见义项「酸」不符合主释义「草」。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "英文「address」的常见义项「地址」不符合主释义「草」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-harm",
+        "surfaceForm": "harm",
+        "reason": "将「harm」代入可见句子后不表达主释义「草」。"
+      },
+      {
+        "wordId": "w-acid",
+        "surfaceForm": "acid",
+        "reason": "将「acid」代入可见句子后不表达主释义「草」。"
+      },
+      {
+        "wordId": "w-address",
+        "surfaceForm": "address",
+        "reason": "将「address」代入可见句子后不表达主释义「草」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grasshopper",
+    "enToZh": [
+      {
+        "wordId": "w-gramme",
+        "reason": "选项「克」不是「grasshopper」的主释义「蚱蜢」或其他义项。"
+      },
+      {
+        "wordId": "w-deflection",
+        "reason": "选项「偏转」不是「grasshopper」的主释义「蚱蜢」或其他义项。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "选项「安培」不是「grasshopper」的主释义「蚱蜢」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gramme",
+        "reason": "英文「gramme」的常见义项「克」不符合主释义「蚱蜢」。"
+      },
+      {
+        "wordId": "w-deflection",
+        "reason": "英文「deflection」的常见义项「偏转」不符合主释义「蚱蜢」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "英文「ampere」的常见义项「安培」不符合主释义「蚱蜢」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gramme",
+        "surfaceForm": "gramme",
+        "reason": "将「gramme」代入可见句子后不表达主释义「蚱蜢」。"
+      },
+      {
+        "wordId": "w-deflection",
+        "surfaceForm": "deflection",
+        "reason": "将「deflection」代入可见句子后不表达主释义「蚱蜢」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "surfaceForm": "ampere",
+        "reason": "将「ampere」代入可见句子后不表达主释义「蚱蜢」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gratitude",
+    "enToZh": [
+      {
+        "wordId": "w-fare",
+        "reason": "选项「车费」不是「gratitude」的主释义「感激」或其他义项。"
+      },
+      {
+        "wordId": "w-balcony",
+        "reason": "选项「阳台」不是「gratitude」的主释义「感激」或其他义项。"
+      },
+      {
+        "wordId": "w-bat",
+        "reason": "选项「蝙蝠」不是「gratitude」的主释义「感激」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fare",
+        "reason": "英文「fare」的常见义项「车费」不符合主释义「感激」。"
+      },
+      {
+        "wordId": "w-balcony",
+        "reason": "英文「balcony」的常见义项「阳台」不符合主释义「感激」。"
+      },
+      {
+        "wordId": "w-bat",
+        "reason": "英文「bat」的常见义项「蝙蝠」不符合主释义「感激」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fare",
+        "surfaceForm": "fare",
+        "reason": "将「fare」代入可见句子后不表达主释义「感激」。"
+      },
+      {
+        "wordId": "w-balcony",
+        "surfaceForm": "balcony",
+        "reason": "将「balcony」代入可见句子后不表达主释义「感激」。"
+      },
+      {
+        "wordId": "w-bat",
+        "surfaceForm": "bat",
+        "reason": "将「bat」代入可见句子后不表达主释义「感激」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-grave",
+    "enToZh": [
+      {
+        "wordId": "w-fever",
+        "reason": "选项「发烧」不是「grave」的主释义「坟墓」或其他义项。"
+      },
+      {
+        "wordId": "w-cheese",
+        "reason": "选项「奶酪」不是「grave」的主释义「坟墓」或其他义项。"
+      },
+      {
+        "wordId": "w-bible",
+        "reason": "选项「圣经」不是「grave」的主释义「坟墓」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fever",
+        "reason": "英文「fever」的常见义项「发烧」不符合主释义「坟墓」。"
+      },
+      {
+        "wordId": "w-cheese",
+        "reason": "英文「cheese」的常见义项「奶酪」不符合主释义「坟墓」。"
+      },
+      {
+        "wordId": "w-bible",
+        "reason": "英文「bible」的常见义项「圣经」不符合主释义「坟墓」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fever",
+        "surfaceForm": "fever",
+        "reason": "将「fever」代入可见句子后不表达主释义「坟墓」。"
+      },
+      {
+        "wordId": "w-cheese",
+        "surfaceForm": "cheese",
+        "reason": "将「cheese」代入可见句子后不表达主释义「坟墓」。"
+      },
+      {
+        "wordId": "w-bible",
+        "surfaceForm": "bible",
+        "reason": "将「bible」代入可见句子后不表达主释义「坟墓」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gravel",
+    "enToZh": [
+      {
+        "wordId": "w-exploitation",
+        "reason": "选项「剥削」不是「gravel」的主释义「砾石」或其他义项。"
+      },
+      {
+        "wordId": "w-dusk",
+        "reason": "选项「黄昏」不是「gravel」的主释义「砾石」或其他义项。"
+      },
+      {
+        "wordId": "w-heritage",
+        "reason": "选项「遗产」不是「gravel」的主释义「砾石」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exploitation",
+        "reason": "英文「exploitation」的常见义项「剥削」不符合主释义「砾石」。"
+      },
+      {
+        "wordId": "w-dusk",
+        "reason": "英文「dusk」的常见义项「黄昏」不符合主释义「砾石」。"
+      },
+      {
+        "wordId": "w-heritage",
+        "reason": "英文「heritage」的常见义项「遗产」不符合主释义「砾石」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exploitation",
+        "surfaceForm": "exploitation",
+        "reason": "将「exploitation」代入可见句子后不表达主释义「砾石」。"
+      },
+      {
+        "wordId": "w-dusk",
+        "surfaceForm": "dusk",
+        "reason": "将「dusk」代入可见句子后不表达主释义「砾石」。"
+      },
+      {
+        "wordId": "w-heritage",
+        "surfaceForm": "heritage",
+        "reason": "将「heritage」代入可见句子后不表达主释义「砾石」。"
+      }
+    ],
+    "spelling": null
+  }
+]

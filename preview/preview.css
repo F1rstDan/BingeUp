@@ -185,6 +185,27 @@ body {
   opacity: 0.65;
 }
 
+/* ─── 常驻答题反馈预览 ─────────────────────────────────────── */
+
+.preview-feedback-static {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.preview-feedback-static-item {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.preview-feedback-static-label {
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .preview-status {
   margin: 0;
   padding: 24px 16px;

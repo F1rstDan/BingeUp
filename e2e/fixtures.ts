@@ -11,7 +11,11 @@ import { fileURLToPath } from 'node:url';
  */
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const EXTENSION_PATH = resolve(currentDir, '../.output/chrome-mv3');
+const EXTENSION_PATH = resolve(
+  currentDir,
+  `../.output/${process.env.E2E_EXTENSION_DIR ?? 'chrome-mv3'}`,
+);
+const CHANNEL = (process.env.E2E_BROWSER_CHANNEL ?? 'chromium') as 'chromium' | 'chrome' | 'msedge';
 
 interface ExtensionFixtures {
   context: BrowserContext;
@@ -30,7 +34,8 @@ export const test = base.extend<ExtensionFixtures>({
     const context = await chromium.launchPersistentContext('', {
       // `channel: 'chromium'` 使用支持扩展的新版 headless 构建（Chrome for Testing）；
       // 旧版 headless 不加载扩展，service worker 不会注册。如需可视化调试可加 headless: false。
-      channel: 'chromium',
+      channel: CHANNEL,
+      headless: process.env.E2E_HEADED !== '1',
       args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`],
     });
     await use(context);

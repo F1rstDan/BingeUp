@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
+import { ExternalLinkIcon, VolumeHighIcon } from '@hugeicons/core-free-icons';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
+import {
+  DEFAULT_SPEECH_VOICE_NAME,
+  compareSpeechVoices,
+  isLocalEnglishVoice,
+} from '@/settings/speech-voice';
 import { FeedbackLink } from '@/ui/FeedbackLink';
 import { IslandPage } from '@/ui/island';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
@@ -66,6 +73,21 @@ interface NoticeMessage {
 
 const NOTICE_AUTO_DISMISS_MS = 6000;
 
+function useSpeechVoices(): SpeechSynthesisVoice[] {
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
+    const update = () => {
+      setVoices(synth.getVoices().filter(isLocalEnglishVoice));
+    };
+    update();
+    synth.addEventListener?.('voiceschanged', update);
+    return () => synth.removeEventListener?.('voiceschanged', update);
+  }, []);
+  return voices;
+}
+
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
@@ -75,6 +97,7 @@ export function OptionsApp(): JSX.Element {
   const [error, setError] = useState<LoadError | null>(null);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const speechVoices = useSpeechVoices();
 
   const showNotice = useCallback((message: string | null) => {
     if (message === null) {
@@ -259,6 +282,45 @@ export function OptionsApp(): JSX.Element {
   }
 
   const selectedDeck = BUILT_IN_DECKS.find((deck) => deck.id === settings.selectedDeckId);
+  const voiceOptions = [...speechVoices]
+    .sort((a, b) => compareSpeechVoices(a, b, settings.speechVoiceName))
+    .map((voice) => ({ key: voice.name, label: `${voice.name}（${voice.lang}）` }));
+  if (!voiceOptions.some((option) => option.key === settings.speechVoiceName)) {
+    voiceOptions.unshift({
+      key: settings.speechVoiceName,
+      label:
+        settings.speechVoiceName === DEFAULT_SPEECH_VOICE_NAME
+          ? `${DEFAULT_SPEECH_VOICE_NAME}（默认）`
+          : `${settings.speechVoiceName}（当前不可用）`,
+    });
+  }
+  const previewSpeechVoice = (): void => {
+    const synth = typeof window === 'undefined' ? undefined : window.speechSynthesis;
+    if (!synth || speechVoices.length === 0 || typeof SpeechSynthesisUtterance === 'undefined') {
+      showNotice('没有可用的本地英语语音');
+      return;
+    }
+    const voice = [...speechVoices].sort((a, b) =>
+      compareSpeechVoices(a, b, settings.speechVoiceName),
+    )[0];
+    if (!voice) {
+      showNotice('没有可用的本地英语语音');
+      return;
+    }
+    synth.cancel();
+    const utterance = new SpeechSynthesisUtterance('Hello. This is the selected reading voice.');
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    try {
+      synth.resume();
+    } catch {
+      // 某些环境没有 resume；继续尝试 speak。
+    }
+    synth.speak(utterance);
+    showNotice(`正在试听：${voice.name}`);
+  };
   const learningPanel = (
     <Card className="bingeup-card">
       {/* AC1：学习设置 */}
@@ -377,8 +439,39 @@ export function OptionsApp(): JSX.Element {
         />
       </Field>
 
+      <div className="bingeup-field bingeup-voice-field">
+        <div className="bingeup-voice-label">
+          <span className="bingeup-field-label">朗读音色</span>
+          <p className="bingeup-deck-description">
+            默认 Microsoft Zira；仅列出设备本地英语语音，保证离线可用。
+          </p>
+        </div>
+        <div className="bingeup-field-control bingeup-voice-control">
+          <div className="bingeup-select">
+            <Select
+              aria-label="朗读音色"
+              value={settings.speechVoiceName}
+              options={voiceOptions}
+              onChange={(speechVoiceName) => setSettings({ ...settings, speechVoiceName })}
+            />
+          </div>
+          <Button
+            className="bingeup-voice-preview"
+            type="default"
+            size="small"
+            icon={<HugeIcon icon={VolumeHighIcon} size={16} />}
+            aria-label="试听朗读音色"
+            title="试听朗读音色"
+            disabled={speechVoices.length === 0}
+            onClick={previewSpeechVoice}
+          />
+        </div>
+      </div>
+
       <div className="bingeup-actions bingeup-learning-actions">
         <Button
+          icon={<HugeIcon icon={ExternalLinkIcon} size={15} />}
+          title="在新页面打开学习统计"
           onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
         >
           查看学习统计

@@ -1,14 +1,46 @@
 {
-  "schemaVersion": 1,
-  "dictionaryVersion": "2026.07.17",
-  "generatedAt": "2026-07-17T04:58:02.119Z",
-  "sourceCommit": "bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b",
-  "sourceLicense": "MIT",
-  "totalWordCount": 5376,
-  "decks": {
-    "deck-daily-high-frequency": 2156,
-    "deck-cet4": 3220,
-    "deck-cet6": 4422
+  "schemaVersion": 2,
+  "contentContractVersion": "learning-content-v1",
+  "dictionaryVersion": "2026.10.1",
+  "generatedAt": "2026-10-23T20:36:25.145Z",
+  "datasetId": "bingeup-legacy-2026-10-23",
+  "registryVersion": "legacy-registry-1",
+  "registryHash": "8c4d4b09ae054780a546dbe04680126a38e0dfb57a42f928c9b9afd4ba4c9452",
+  "questionTemplateVersion": "fixed-question-v1",
+  "files": {
+    "words": {
+      "sha256": "eab481c1a2676f351a97b7c836cfb2d4e70fd058a0b45fb487c99412be3c90b4",
+      "bytes": 3235784
+    },
+    "decks": {
+      "sha256": "eb3ab867c67c1957728b259b872006328df0cbaaaa87e85bc9dfcdcfb46a5900",
+      "bytes": 397273
+    },
+    "questions": {
+      "sha256": "8c465d5d4cad12d8401cde9b61f6c7fb4eb44309d5571a9b7a3599086db69c8e",
+      "bytes": 2766646
+    },
+    "legacyRegistry": {
+      "sha256": "f95c9cbaa37f558f40b60b1ab4b7028ce955a589ea1079de9703afe932c3ee6f",
+      "bytes": 3908926
+    },
+    "sourceMetadata": {
+      "sha256": "092da0f0dff820a345a22973904491aa2fbe31b2ff0de2c097eccc00d50858cc",
+      "bytes": 1089
+    },
+    "license": {
+      "sha256": "817848e3634aaed7a5bbf02c6327287ff72b58d1453b341a0b353c513058f489",
+      "bytes": 536
+    }
   },
-  "difficultyRuleVersion": 1
+  "counts": {
+    "legacyWords": 5376,
+    "effectiveWords": 5374,
+    "decks": 3,
+    "questionPlans": 5374
+  },
+  "source": {
+    "content": "bingeup-dictionary",
+    "license": "LicenseRef-BingeUp-Dictionary-v1"
+  }
 }

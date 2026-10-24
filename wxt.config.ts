@@ -45,6 +45,11 @@ export default defineConfig({
         resources: ['files/*.woff2'],
         matches: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
       },
+      {
+        // 中文字体由内容脚本的 Shadow DOM 通过 chrome.runtime.getURL 加载。
+        resources: ['fonts/*.otf'],
+        matches: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
+      },
     ],
     // 图标由 scripts/generate-icons.mjs 预渲染并提交到 public/icon/；
     // 显式声明四档尺寸，避免 WXT 依赖自动探测（不引入 sharp 等图像依赖）。

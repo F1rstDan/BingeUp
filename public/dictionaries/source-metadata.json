@@ -1,8 +1,30 @@
 {
-  "sourceName": "ECDICT",
-  "repository": "https://github.com/skywind3000/ECDICT",
-  "commitHash": "bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b",
-  "importedAt": "2026-07-17T04:58:02.119Z",
-  "declaredLicense": "MIT",
-  "licenseFileHash": "f8552dd246f61a4e"
+  "schemaVersion": 2,
+  "datasetId": "bingeup-legacy-2026-10-23",
+  "contentVersion": "dictionary-bingeup-legacy-2026-10-23",
+  "contentSource": {
+    "name": "bingeup-dictionary",
+    "license": "LicenseRef-BingeUp-Dictionary-v1",
+    "promptVersion": "generate-v1",
+    "questionTemplateVersion": "fixed-question-v1"
+  },
+  "seed": {
+    "name": "ECDICT",
+    "repository": "https://github.com/skywind3000/ECDICT",
+    "commit": "bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b",
+    "license": "MIT",
+    "capturedAt": "2026-10-23",
+    "note": "只继承 ID、分类、词频和难度事实；不继承词条学习文本。"
+  },
+  "pronunciation": {
+    "name": "ipa-dict en_US",
+    "repository": "https://github.com/open-dict-data/ipa-dict",
+    "commit": "972cd67dd5f96bc5660e28070cde26e3928abcd7",
+    "sha256": "2af6f154a5c363275f052d1f85acedef38ed185ca9745aa4314be77f6b70de67",
+    "note": "保留 ipa-dict、cmudict-ipa 与 CMUdict 的来源链和各自许可。"
+  },
+  "review": {
+    "pilot": "100 词逐词独立复核",
+    "main": "冻结抽样及困难项额外复核"
+  }
 }

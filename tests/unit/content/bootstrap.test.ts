@@ -67,6 +67,13 @@ vi.mock('naive-icons', () => ({
   CheckIcon: () => null,
   XCircleIcon: () => null,
 }));
+vi.mock('@hugeicons/core-free-icons', () => ({
+  VolumeHighIcon: [],
+  CheckmarkBadge03Icon: [],
+  BadgeXIcon: [],
+  Cancel01Icon: [],
+}));
+vi.mock('@hugeicons/react', () => ({ HugeiconsIcon: () => null }));
 
 describe('bootstrapContent — 启动诊断', () => {
   beforeEach(() => {

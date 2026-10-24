@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-solitary",
+    "enToZh": [
+      {
+        "wordId": "w-gross",
+        "reason": "选项「总的」不是「solitary」的主释义「独自的」或其他义项。"
+      },
+      {
+        "wordId": "w-dependent",
+        "reason": "选项「依赖的」不是「solitary」的主释义「独自的」或其他义项。"
+      },
+      {
+        "wordId": "w-greek",
+        "reason": "选项「希腊的」不是「solitary」的主释义「独自的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gross",
+        "reason": "英文「gross」的常见义项「总的」不符合主释义「独自的」。"
+      },
+      {
+        "wordId": "w-dependent",
+        "reason": "英文「dependent」的常见义项「依赖的」不符合主释义「独自的」。"
+      },
+      {
+        "wordId": "w-greek",
+        "reason": "英文「Greek」的常见义项「希腊的」不符合主释义「独自的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gross",
+        "surfaceForm": "gross",
+        "reason": "将「gross」代入可见句子后不表达主释义「独自的」。"
+      },
+      {
+        "wordId": "w-dependent",
+        "surfaceForm": "dependent",
+        "reason": "将「dependent」代入可见句子后不表达主释义「独自的」。"
+      },
+      {
+        "wordId": "w-greek",
+        "surfaceForm": "Greek",
+        "reason": "将「Greek」代入可见句子后不表达主释义「独自的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-solo",
+    "enToZh": [
+      {
+        "wordId": "w-infinite",
+        "reason": "选项「无限的」不是「solo」的主释义「独自的」或其他义项。"
+      },
+      {
+        "wordId": "w-noble",
+        "reason": "选项「高尚的」不是「solo」的主释义「独自的」或其他义项。"
+      },
+      {
+        "wordId": "w-preliminary",
+        "reason": "选项「初步的」不是「solo」的主释义「独自的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-infinite",
+        "reason": "英文「infinite」的常见义项「无限的」不符合主释义「独自的」。"
+      },
+      {
+        "wordId": "w-noble",
+        "reason": "英文「noble」的常见义项「高尚的」不符合主释义「独自的」。"
+      },
+      {
+        "wordId": "w-preliminary",
+        "reason": "英文「preliminary」的常见义项「初步的」不符合主释义「独自的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-infinite",
+        "surfaceForm": "infinite",
+        "reason": "将「infinite」代入可见句子后不表达主释义「独自的」。"
+      },
+      {
+        "wordId": "w-noble",
+        "surfaceForm": "noble",
+        "reason": "将「noble」代入可见句子后不表达主释义「独自的」。"
+      },
+      {
+        "wordId": "w-preliminary",
+        "surfaceForm": "preliminary",
+        "reason": "将「preliminary」代入可见句子后不表达主释义「独自的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-solution",
+    "enToZh": [
+      {
+        "wordId": "w-accommodation",
+        "reason": "选项「住处」不是「solution」的主释义「解决办法」或其他义项。"
+      },
+      {
+        "wordId": "w-room",
+        "reason": "选项「房间」不是「solution」的主释义「解决办法」或其他义项。"
+      },
+      {
+        "wordId": "w-instruction",
+        "reason": "选项「说明」不是「solution」的主释义「解决办法」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accommodation",
+        "reason": "英文「accommodation」的常见义项「住处」不符合主释义「解决办法」。"
+      },
+      {
+        "wordId": "w-room",
+        "reason": "英文「room」的常见义项「房间」不符合主释义「解决办法」。"
+      },
+      {
+        "wordId": "w-instruction",
+        "reason": "英文「instruction」的常见义项「说明」不符合主释义「解决办法」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accommodation",
+        "surfaceForm": "accommodation",
+        "reason": "将「accommodation」代入可见句子后不表达主释义「解决办法」。"
+      },
+      {
+        "wordId": "w-room",
+        "surfaceForm": "room",
+        "reason": "将「room」代入可见句子后不表达主释义「解决办法」。"
+      },
+      {
+        "wordId": "w-instruction",
+        "surfaceForm": "instruction",
+        "reason": "将「instruction」代入可见句子后不表达主释义「解决办法」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-solve",
+    "enToZh": [
+      {
+        "wordId": "w-focus",
+        "reason": "选项「集中」不是「solve」的主释义「解决」或其他义项。"
+      },
+      {
+        "wordId": "w-become",
+        "reason": "选项「变成」不是「solve」的主释义「解决」或其他义项。"
+      },
+      {
+        "wordId": "w-constitute",
+        "reason": "选项「构成」不是「solve」的主释义「解决」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-focus",
+        "reason": "英文「focus」的常见义项「集中」不符合主释义「解决」。"
+      },
+      {
+        "wordId": "w-become",
+        "reason": "英文「become」的常见义项「变成」不符合主释义「解决」。"
+      },
+      {
+        "wordId": "w-constitute",
+        "reason": "英文「constitute」的常见义项「构成」不符合主释义「解决」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-focus",
+        "surfaceForm": "focus",
+        "reason": "将「focus」代入可见句子后不表达主释义「解决」。"
+      },
+      {
+        "wordId": "w-become",
+        "surfaceForm": "become",
+        "reason": "将「become」代入可见句子后不表达主释义「解决」。"
+      },
+      {
+        "wordId": "w-constitute",
+        "surfaceForm": "constitute",
+        "reason": "将「constitute」代入可见句子后不表达主释义「解决」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-somebody",
+    "enToZh": [
+      {
+        "wordId": "w-nobody",
+        "reason": "选项「没有人」不是「somebody」的主释义「某人」或其他义项。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "选项「我的」不是「somebody」的主释义「某人」或其他义项。"
+      },
+      {
+        "wordId": "w-none",
+        "reason": "选项「没有一个」不是「somebody」的主释义「某人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-nobody",
+        "reason": "英文「nobody」的常见义项「没有人」不符合主释义「某人」。"
+      },
+      {
+        "wordId": "w-mine",
+        "reason": "英文「mine」的常见义项「我的」不符合主释义「某人」。"
+      },
+      {
+        "wordId": "w-none",
+        "reason": "英文「none」的常见义项「没有一个」不符合主释义「某人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-nobody",
+        "surfaceForm": "nobody",
+        "reason": "将「nobody」代入可见句子后不表达主释义「某人」。"
+      },
+      {
+        "wordId": "w-mine",
+        "surfaceForm": "mine",
+        "reason": "将「mine」代入可见句子后不表达主释义「某人」。"
+      },
+      {
+        "wordId": "w-none",
+        "surfaceForm": "none",
+        "reason": "将「none」代入可见句子后不表达主释义「某人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-somehow",
+    "enToZh": [
+      {
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「somehow」的主释义「不知怎么地」或其他义项。"
+      },
+      {
+        "wordId": "w-specifically",
+        "reason": "选项「明确地」不是「somehow」的主释义「不知怎么地」或其他义项。"
+      },
+      {
+        "wordId": "w-always",
+        "reason": "选项「总是」不是「somehow」的主释义「不知怎么地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「不知怎么地」。"
+      },
+      {
+        "wordId": "w-specifically",
+        "reason": "英文「specifically」的常见义项「明确地」不符合主释义「不知怎么地」。"
+      },
+      {
+        "wordId": "w-always",
+        "reason": "英文「always」的常见义项「总是」不符合主释义「不知怎么地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「不知怎么地」。"
+      },
+      {
+        "wordId": "w-specifically",
+        "surfaceForm": "specifically",
+        "reason": "将「specifically」代入可见句子后不表达主释义「不知怎么地」。"
+      },
+      {
+        "wordId": "w-always",
+        "surfaceForm": "always",
+        "reason": "将「always」代入可见句子后不表达主释义「不知怎么地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-someone",
+    "enToZh": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "选项「我们自己」不是「someone」的主释义「某人」或其他义项。"
+      },
+      {
+        "wordId": "w-nothing",
+        "reason": "选项「没有什么」不是「someone」的主释义「某人」或其他义项。"
+      },
+      {
+        "wordId": "w-myself",
+        "reason": "选项「我自己」不是「someone」的主释义「某人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "英文「ourselves」的常见义项「我们自己」不符合主释义「某人」。"
+      },
+      {
+        "wordId": "w-nothing",
+        "reason": "英文「nothing」的常见义项「没有什么」不符合主释义「某人」。"
+      },
+      {
+        "wordId": "w-myself",
+        "reason": "英文「myself」的常见义项「我自己」不符合主释义「某人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ourselves",
+        "surfaceForm": "ourselves",
+        "reason": "将「ourselves」代入可见句子后不表达主释义「某人」。"
+      },
+      {
+        "wordId": "w-nothing",
+        "surfaceForm": "nothing",
+        "reason": "将「nothing」代入可见句子后不表达主释义「某人」。"
+      },
+      {
+        "wordId": "w-myself",
+        "surfaceForm": "myself",
+        "reason": "将「myself」代入可见句子后不表达主释义「某人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-something",
+    "enToZh": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "选项「我们自己」不是「something」的主释义「某事物」或其他义项。"
+      },
+      {
+        "wordId": "w-nothing",
+        "reason": "选项「没有什么」不是「something」的主释义「某事物」或其他义项。"
+      },
+      {
+        "wordId": "w-somebody",
+        "reason": "选项「某人」不是「something」的主释义「某事物」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ourselves",
+        "reason": "英文「ourselves」的常见义项「我们自己」不符合主释义「某事物」。"
+      },
+      {
+        "wordId": "w-nothing",
+        "reason": "英文「nothing」的常见义项「没有什么」不符合主释义「某事物」。"
+      },
+      {
+        "wordId": "w-somebody",
+        "reason": "英文「somebody」的常见义项「某人」不符合主释义「某事物」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ourselves",
+        "surfaceForm": "ourselves",
+        "reason": "将「ourselves」代入可见句子后不表达主释义「某事物」。"
+      },
+      {
+        "wordId": "w-nothing",
+        "surfaceForm": "nothing",
+        "reason": "将「nothing」代入可见句子后不表达主释义「某事物」。"
+      },
+      {
+        "wordId": "w-somebody",
+        "surfaceForm": "somebody",
+        "reason": "将「somebody」代入可见句子后不表达主释义「某事物」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sometimes",
+    "enToZh": [
+      {
+        "wordId": "w-quietly",
+        "reason": "选项「安静地」不是「sometimes」的主释义「有时」或其他义项。"
+      },
+      {
+        "wordId": "w-maybe",
+        "reason": "选项「也许」不是「sometimes」的主释义「有时」或其他义项。"
+      },
+      {
+        "wordId": "w-mostly",
+        "reason": "选项「大多」不是「sometimes」的主释义「有时」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-quietly",
+        "reason": "英文「quietly」的常见义项「安静地」不符合主释义「有时」。"
+      },
+      {
+        "wordId": "w-maybe",
+        "reason": "英文「maybe」的常见义项「也许」不符合主释义「有时」。"
+      },
+      {
+        "wordId": "w-mostly",
+        "reason": "英文「mostly」的常见义项「大多」不符合主释义「有时」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-quietly",
+        "surfaceForm": "quietly",
+        "reason": "将「quietly」代入可见句子后不表达主释义「有时」。"
+      },
+      {
+        "wordId": "w-maybe",
+        "surfaceForm": "maybe",
+        "reason": "将「maybe」代入可见句子后不表达主释义「有时」。"
+      },
+      {
+        "wordId": "w-mostly",
+        "surfaceForm": "mostly",
+        "reason": "将「mostly」代入可见句子后不表达主释义「有时」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-somewhat",
+    "enToZh": [
+      {
+        "wordId": "w-barely",
+        "reason": "选项「几乎不」不是「somewhat」的主释义「有点」或其他义项。"
+      },
+      {
+        "wordId": "w-originally",
+        "reason": "选项「最初」不是「somewhat」的主释义「有点」或其他义项。"
+      },
+      {
+        "wordId": "w-awfully",
+        "reason": "选项「非常」不是「somewhat」的主释义「有点」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-barely",
+        "reason": "英文「barely」的常见义项「几乎不」不符合主释义「有点」。"
+      },
+      {
+        "wordId": "w-originally",
+        "reason": "英文「originally」的常见义项「最初」不符合主释义「有点」。"
+      },
+      {
+        "wordId": "w-awfully",
+        "reason": "英文「awfully」的常见义项「非常」不符合主释义「有点」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-barely",
+        "surfaceForm": "barely",
+        "reason": "将「barely」代入可见句子后不表达主释义「有点」。"
+      },
+      {
+        "wordId": "w-originally",
+        "surfaceForm": "originally",
+        "reason": "将「originally」代入可见句子后不表达主释义「有点」。"
+      },
+      {
+        "wordId": "w-awfully",
+        "surfaceForm": "awfully",
+        "reason": "将「awfully」代入可见句子后不表达主释义「有点」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-son",
+    "enToZh": [
+      {
+        "wordId": "w-dentist",
+        "reason": "选项「牙医」不是「son」的主释义「儿子」或其他义项。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "选项「框架」不是「son」的主释义「儿子」或其他义项。"
+      },
+      {
+        "wordId": "w-disk",
+        "reason": "选项「磁盘」不是「son」的主释义「儿子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dentist",
+        "reason": "英文「dentist」的常见义项「牙医」不符合主释义「儿子」。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "英文「frame」的常见义项「框架」不符合主释义「儿子」。"
+      },
+      {
+        "wordId": "w-disk",
+        "reason": "英文「disk」的常见义项「磁盘」不符合主释义「儿子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dentist",
+        "surfaceForm": "dentist",
+        "reason": "将「dentist」代入可见句子后不表达主释义「儿子」。"
+      },
+      {
+        "wordId": "w-frame",
+        "surfaceForm": "frame",
+        "reason": "将「frame」代入可见句子后不表达主释义「儿子」。"
+      },
+      {
+        "wordId": "w-disk",
+        "surfaceForm": "disk",
+        "reason": "将「disk」代入可见句子后不表达主释义「儿子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-song",
+    "enToZh": [
+      {
+        "wordId": "w-pill",
+        "reason": "选项「药丸」不是「song」的主释义「歌曲」或其他义项。"
+      },
+      {
+        "wordId": "w-crash",
+        "reason": "选项「碰撞事故」不是「song」的主释义「歌曲」或其他义项。"
+      },
+      {
+        "wordId": "w-center",
+        "reason": "选项「中心」不是「song」的主释义「歌曲」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pill",
+        "reason": "英文「pill」的常见义项「药丸」不符合主释义「歌曲」。"
+      },
+      {
+        "wordId": "w-crash",
+        "reason": "英文「crash」的常见义项「碰撞事故」不符合主释义「歌曲」。"
+      },
+      {
+        "wordId": "w-center",
+        "reason": "英文「center」的常见义项「中心」不符合主释义「歌曲」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pill",
+        "surfaceForm": "pill",
+        "reason": "将「pill」代入可见句子后不表达主释义「歌曲」。"
+      },
+      {
+        "wordId": "w-crash",
+        "surfaceForm": "crash",
+        "reason": "将「crash」代入可见句子后不表达主释义「歌曲」。"
+      },
+      {
+        "wordId": "w-center",
+        "surfaceForm": "center",
+        "reason": "将「center」代入可见句子后不表达主释义「歌曲」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-soon",
+    "enToZh": [
+      {
+        "wordId": "w-ideally",
+        "reason": "选项「理想情况下」不是「soon」的主释义「很快」或其他义项。"
+      },
+      {
+        "wordId": "w-instead",
+        "reason": "选项「代替」不是「soon」的主释义「很快」或其他义项。"
+      },
+      {
+        "wordId": "w-indeed",
+        "reason": "选项「确实」不是「soon」的主释义「很快」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ideally",
+        "reason": "英文「ideally」的常见义项「理想情况下」不符合主释义「很快」。"
+      },
+      {
+        "wordId": "w-instead",
+        "reason": "英文「instead」的常见义项「代替」不符合主释义「很快」。"
+      },
+      {
+        "wordId": "w-indeed",
+        "reason": "英文「indeed」的常见义项「确实」不符合主释义「很快」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ideally",
+        "surfaceForm": "ideally",
+        "reason": "将「ideally」代入可见句子后不表达主释义「很快」。"
+      },
+      {
+        "wordId": "w-instead",
+        "surfaceForm": "instead",
+        "reason": "将「instead」代入可见句子后不表达主释义「很快」。"
+      },
+      {
+        "wordId": "w-indeed",
+        "surfaceForm": "indeed",
+        "reason": "将「indeed」代入可见句子后不表达主释义「很快」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sophisticate",
+    "enToZh": [
+      {
+        "wordId": "w-datum",
+        "reason": "选项「数据」不是「sophisticate」的主释义「见多识广的人」或其他义项。"
+      },
+      {
+        "wordId": "w-seaport",
+        "reason": "选项「海港城市」不是「sophisticate」的主释义「见多识广的人」或其他义项。"
+      },
+      {
+        "wordId": "w-moor",
+        "reason": "选项「荒原」不是「sophisticate」的主释义「见多识广的人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-datum",
+        "reason": "英文「datum」的常见义项「数据」不符合主释义「见多识广的人」。"
+      },
+      {
+        "wordId": "w-seaport",
+        "reason": "英文「seaport」的常见义项「海港城市」不符合主释义「见多识广的人」。"
+      },
+      {
+        "wordId": "w-moor",
+        "reason": "英文「moor」的常见义项「荒原」不符合主释义「见多识广的人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-datum",
+        "surfaceForm": "datum",
+        "reason": "将「datum」代入可见句子后不表达主释义「见多识广的人」。"
+      },
+      {
+        "wordId": "w-seaport",
+        "surfaceForm": "seaport",
+        "reason": "将「seaport」代入可见句子后不表达主释义「见多识广的人」。"
+      },
+      {
+        "wordId": "w-moor",
+        "surfaceForm": "moor",
+        "reason": "将「moor」代入可见句子后不表达主释义「见多识广的人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sorrow",
+    "enToZh": [
+      {
+        "wordId": "w-banker",
+        "reason": "选项「银行家」不是「sorrow」的主释义「悲伤」或其他义项。"
+      },
+      {
+        "wordId": "w-ritual",
+        "reason": "选项「仪式」不是「sorrow」的主释义「悲伤」或其他义项。"
+      },
+      {
+        "wordId": "w-expenditure",
+        "reason": "选项「支出」不是「sorrow」的主释义「悲伤」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-banker",
+        "reason": "英文「banker」的常见义项「银行家」不符合主释义「悲伤」。"
+      },
+      {
+        "wordId": "w-ritual",
+        "reason": "英文「ritual」的常见义项「仪式」不符合主释义「悲伤」。"
+      },
+      {
+        "wordId": "w-expenditure",
+        "reason": "英文「expenditure」的常见义项「支出」不符合主释义「悲伤」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-banker",
+        "surfaceForm": "banker",
+        "reason": "将「banker」代入可见句子后不表达主释义「悲伤」。"
+      },
+      {
+        "wordId": "w-ritual",
+        "surfaceForm": "ritual",
+        "reason": "将「ritual」代入可见句子后不表达主释义「悲伤」。"
+      },
+      {
+        "wordId": "w-expenditure",
+        "surfaceForm": "expenditure",
+        "reason": "将「expenditure」代入可见句子后不表达主释义「悲伤」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sort",
+    "enToZh": [
+      {
+        "wordId": "w-feather",
+        "reason": "选项「羽毛」不是「sort」的主释义「种类」或其他义项。"
+      },
+      {
+        "wordId": "w-birthday",
+        "reason": "选项「生日」不是「sort」的主释义「种类」或其他义项。"
+      },
+      {
+        "wordId": "w-force",
+        "reason": "选项「力量」不是「sort」的主释义「种类」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-feather",
+        "reason": "英文「feather」的常见义项「羽毛」不符合主释义「种类」。"
+      },
+      {
+        "wordId": "w-birthday",
+        "reason": "英文「birthday」的常见义项「生日」不符合主释义「种类」。"
+      },
+      {
+        "wordId": "w-force",
+        "reason": "英文「force」的常见义项「力量」不符合主释义「种类」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-feather",
+        "surfaceForm": "feather",
+        "reason": "将「feather」代入可见句子后不表达主释义「种类」。"
+      },
+      {
+        "wordId": "w-birthday",
+        "surfaceForm": "birthday",
+        "reason": "将「birthday」代入可见句子后不表达主释义「种类」。"
+      },
+      {
+        "wordId": "w-force",
+        "surfaceForm": "force",
+        "reason": "将「force」代入可见句子后不表达主释义「种类」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-soul",
+    "enToZh": [
+      {
+        "wordId": "w-sort",
+        "reason": "选项「种类」不是「soul」的主释义「灵魂」或其他义项。"
+      },
+      {
+        "wordId": "w-gift",
+        "reason": "选项「礼物」不是「soul」的主释义「灵魂」或其他义项。"
+      },
+      {
+        "wordId": "w-fur",
+        "reason": "选项「毛皮」不是「soul」的主释义「灵魂」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sort",
+        "reason": "英文「sort」的常见义项「种类」不符合主释义「灵魂」。"
+      },
+      {
+        "wordId": "w-gift",
+        "reason": "英文「gift」的常见义项「礼物」不符合主释义「灵魂」。"
+      },
+      {
+        "wordId": "w-fur",
+        "reason": "英文「fur」的常见义项「毛皮」不符合主释义「灵魂」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sort",
+        "surfaceForm": "sort",
+        "reason": "将「sort」代入可见句子后不表达主释义「灵魂」。"
+      },
+      {
+        "wordId": "w-gift",
+        "surfaceForm": "gift",
+        "reason": "将「gift」代入可见句子后不表达主释义「灵魂」。"
+      },
+      {
+        "wordId": "w-fur",
+        "surfaceForm": "fur",
+        "reason": "将「fur」代入可见句子后不表达主释义「灵魂」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-sound",
+    "enToZh": [
+      {
+        "wordId": "w-cupboard",
+        "reason": "选项「橱柜」不是「sound」的主释义「声音」或其他义项。"
+      },
+      {
+        "wordId": "w-princess",
+        "reason": "选项「公主」不是「sound」的主释义「声音」或其他义项。"
+      },
+      {
+        "wordId": "w-personnel",
+        "reason": "选项「员工」不是「sound」的主释义「声音」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cupboard",
+        "reason": "英文「cupboard」的常见义项「橱柜」不符合主释义「声音」。"
+      },
+      {
+        "wordId": "w-princess",
+        "reason": "英文「princess」的常见义项「公主」不符合主释义「声音」。"
+      },
+      {
+        "wordId": "w-personnel",
+        "reason": "英文「personnel」的常见义项「员工」不符合主释义「声音」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cupboard",
+        "surfaceForm": "cupboard",
+        "reason": "将「cupboard」代入可见句子后不表达主释义「声音」。"
+      },
+      {
+        "wordId": "w-princess",
+        "surfaceForm": "princess",
+        "reason": "将「princess」代入可见句子后不表达主释义「声音」。"
+      },
+      {
+        "wordId": "w-personnel",
+        "surfaceForm": "personnel",
+        "reason": "将「personnel」代入可见句子后不表达主释义「声音」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-soup",
+    "enToZh": [
+      {
+        "wordId": "w-interaction",
+        "reason": "选项「互动」不是「soup」的主释义「汤」或其他义项。"
+      },
+      {
+        "wordId": "w-accommodation",
+        "reason": "选项「住处」不是「soup」的主释义「汤」或其他义项。"
+      },
+      {
+        "wordId": "w-rest",
+        "reason": "选项「休息」不是「soup」的主释义「汤」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-interaction",
+        "reason": "英文「interaction」的常见义项「互动」不符合主释义「汤」。"
+      },
+      {
+        "wordId": "w-accommodation",
+        "reason": "英文「accommodation」的常见义项「住处」不符合主释义「汤」。"
+      },
+      {
+        "wordId": "w-rest",
+        "reason": "英文「rest」的常见义项「休息」不符合主释义「汤」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-interaction",
+        "surfaceForm": "interaction",
+        "reason": "将「interaction」代入可见句子后不表达主释义「汤」。"
+      },
+      {
+        "wordId": "w-accommodation",
+        "surfaceForm": "accommodation",
+        "reason": "将「accommodation」代入可见句子后不表达主释义「汤」。"
+      },
+      {
+        "wordId": "w-rest",
+        "surfaceForm": "rest",
+        "reason": "将「rest」代入可见句子后不表达主释义「汤」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-source",
+    "enToZh": [
+      {
+        "wordId": "w-mask",
+        "reason": "选项「面具」不是「source」的主释义「来源」或其他义项。"
+      },
+      {
+        "wordId": "w-resort",
+        "reason": "选项「度假胜地」不是「source」的主释义「来源」或其他义项。"
+      },
+      {
+        "wordId": "w-injury",
+        "reason": "选项「损伤」不是「source」的主释义「来源」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mask",
+        "reason": "英文「mask」的常见义项「面具」不符合主释义「来源」。"
+      },
+      {
+        "wordId": "w-resort",
+        "reason": "英文「resort」的常见义项「度假胜地」不符合主释义「来源」。"
+      },
+      {
+        "wordId": "w-injury",
+        "reason": "英文「injury」的常见义项「损伤」不符合主释义「来源」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mask",
+        "surfaceForm": "mask",
+        "reason": "将「mask」代入可见句子后不表达主释义「来源」。"
+      },
+      {
+        "wordId": "w-resort",
+        "surfaceForm": "resort",
+        "reason": "将「resort」代入可见句子后不表达主释义「来源」。"
+      },
+      {
+        "wordId": "w-injury",
+        "surfaceForm": "injury",
+        "reason": "将「injury」代入可见句子后不表达主释义「来源」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-south",
+    "enToZh": [
+      {
+        "wordId": "w-bench",
+        "reason": "选项「长椅」不是「south」的主释义「南方」或其他义项。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "选项「饼干」不是「south」的主释义「南方」或其他义项。"
+      },
+      {
+        "wordId": "w-championship",
+        "reason": "选项「锦标赛」不是「south」的主释义「南方」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bench",
+        "reason": "英文「bench」的常见义项「长椅」不符合主释义「南方」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "reason": "英文「biscuit」的常见义项「饼干」不符合主释义「南方」。"
+      },
+      {
+        "wordId": "w-championship",
+        "reason": "英文「championship」的常见义项「锦标赛」不符合主释义「南方」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bench",
+        "surfaceForm": "bench",
+        "reason": "将「bench」代入可见句子后不表达主释义「南方」。"
+      },
+      {
+        "wordId": "w-biscuit",
+        "surfaceForm": "biscuit",
+        "reason": "将「biscuit」代入可见句子后不表达主释义「南方」。"
+      },
+      {
+        "wordId": "w-championship",
+        "surfaceForm": "championship",
+        "reason": "将「championship」代入可见句子后不表达主释义「南方」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-southeast",
+    "enToZh": [
+      {
+        "wordId": "w-sensation",
+        "reason": "选项「感觉」不是「southeast」的主释义「东南」或其他义项。"
+      },
+      {
+        "wordId": "w-nap",
+        "reason": "选项「小睡」不是「southeast」的主释义「东南」或其他义项。"
+      },
+      {
+        "wordId": "w-saint",
+        "reason": "选项「圣徒」不是「southeast」的主释义「东南」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sensation",
+        "reason": "英文「sensation」的常见义项「感觉」不符合主释义「东南」。"
+      },
+      {
+        "wordId": "w-nap",
+        "reason": "英文「nap」的常见义项「小睡」不符合主释义「东南」。"
+      },
+      {
+        "wordId": "w-saint",
+        "reason": "英文「Saint」的常见义项「圣徒」不符合主释义「东南」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sensation",
+        "surfaceForm": "sensation",
+        "reason": "将「sensation」代入可见句子后不表达主释义「东南」。"
+      },
+      {
+        "wordId": "w-nap",
+        "surfaceForm": "nap",
+        "reason": "将「nap」代入可见句子后不表达主释义「东南」。"
+      },
+      {
+        "wordId": "w-saint",
+        "surfaceForm": "Saint",
+        "reason": "将「Saint」代入可见句子后不表达主释义「东南」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-southern",
+    "enToZh": [
+      {
+        "wordId": "w-major",
+        "reason": "选项「主要的」不是「southern」的主释义「南方的」或其他义项。"
+      },
+      {
+        "wordId": "w-concrete",
+        "reason": "选项「具体的」不是「southern」的主释义「南方的」或其他义项。"
+      },
+      {
+        "wordId": "w-male",
+        "reason": "选项「男性的」不是「southern」的主释义「南方的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-major",
+        "reason": "英文「major」的常见义项「主要的」不符合主释义「南方的」。"
+      },
+      {
+        "wordId": "w-concrete",
+        "reason": "英文「concrete」的常见义项「具体的」不符合主释义「南方的」。"
+      },
+      {
+        "wordId": "w-male",
+        "reason": "英文「male」的常见义项「男性的」不符合主释义「南方的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-major",
+        "surfaceForm": "major",
+        "reason": "将「major」代入可见句子后不表达主释义「南方的」。"
+      },
+      {
+        "wordId": "w-concrete",
+        "surfaceForm": "concrete",
+        "reason": "将「concrete」代入可见句子后不表达主释义「南方的」。"
+      },
+      {
+        "wordId": "w-male",
+        "surfaceForm": "male",
+        "reason": "将「male」代入可见句子后不表达主释义「南方的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-southwards",
+    "enToZh": [
+      {
+        "wordId": "w-intellectually",
+        "reason": "选项「智力上」不是「southwards」的主释义「向南」或其他义项。"
+      },
+      {
+        "wordId": "w-infinitely",
+        "reason": "选项「无限地」不是「southwards」的主释义「向南」或其他义项。"
+      },
+      {
+        "wordId": "w-northward",
+        "reason": "选项「向北」不是「southwards」的主释义「向南」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intellectually",
+        "reason": "英文「intellectually」的常见义项「智力上」不符合主释义「向南」。"
+      },
+      {
+        "wordId": "w-infinitely",
+        "reason": "英文「infinitely」的常见义项「无限地」不符合主释义「向南」。"
+      },
+      {
+        "wordId": "w-northward",
+        "reason": "英文「northward」的常见义项「向北」不符合主释义「向南」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intellectually",
+        "surfaceForm": "intellectually",
+        "reason": "将「intellectually」代入可见句子后不表达主释义「向南」。"
+      },
+      {
+        "wordId": "w-infinitely",
+        "surfaceForm": "infinitely",
+        "reason": "将「infinitely」代入可见句子后不表达主释义「向南」。"
+      },
+      {
+        "wordId": "w-northward",
+        "surfaceForm": "northward",
+        "reason": "将「northward」代入可见句子后不表达主释义「向南」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-southwest",
+    "enToZh": [
+      {
+        "wordId": "w-jazz",
+        "reason": "选项「爵士乐」不是「southwest」的主释义「西南」或其他义项。"
+      },
+      {
+        "wordId": "w-jungle",
+        "reason": "选项「丛林」不是「southwest」的主释义「西南」或其他义项。"
+      },
+      {
+        "wordId": "w-shrimp",
+        "reason": "选项「虾」不是「southwest」的主释义「西南」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-jazz",
+        "reason": "英文「jazz」的常见义项「爵士乐」不符合主释义「西南」。"
+      },
+      {
+        "wordId": "w-jungle",
+        "reason": "英文「jungle」的常见义项「丛林」不符合主释义「西南」。"
+      },
+      {
+        "wordId": "w-shrimp",
+        "reason": "英文「shrimp」的常见义项「虾」不符合主释义「西南」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-jazz",
+        "surfaceForm": "jazz",
+        "reason": "将「jazz」代入可见句子后不表达主释义「西南」。"
+      },
+      {
+        "wordId": "w-jungle",
+        "surfaceForm": "jungle",
+        "reason": "将「jungle」代入可见句子后不表达主释义「西南」。"
+      },
+      {
+        "wordId": "w-shrimp",
+        "surfaceForm": "shrimp",
+        "reason": "将「shrimp」代入可见句子后不表达主释义「西南」。"
+      }
+    ],
+    "spelling": null
+  }
+]

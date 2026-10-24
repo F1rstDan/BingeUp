@@ -277,6 +277,11 @@ export function PopupApp(): JSX.Element {
 
   useEffect(() => {
     void load();
+    const handleDevDataChanged = (): void => {
+      void load();
+    };
+    window.addEventListener('bingeup:dev-data-changed', handleDevDataChanged);
+    return () => window.removeEventListener('bingeup:dev-data-changed', handleDevDataChanged);
   }, [load]);
 
   if (error !== null) {

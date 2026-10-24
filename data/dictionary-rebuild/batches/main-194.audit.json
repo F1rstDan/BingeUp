@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-tone",
+    "enToZh": [
+      {
+        "wordId": "w-theory",
+        "reason": "选项「理论」不是「tone」的主释义「语气」或其他义项。"
+      },
+      {
+        "wordId": "w-plan",
+        "reason": "选项「计划」不是「tone」的主释义「语气」或其他义项。"
+      },
+      {
+        "wordId": "w-bath",
+        "reason": "选项「洗澡」不是「tone」的主释义「语气」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-theory",
+        "reason": "英文「theory」的常见义项「理论」不符合主释义「语气」。"
+      },
+      {
+        "wordId": "w-plan",
+        "reason": "英文「plan」的常见义项「计划」不符合主释义「语气」。"
+      },
+      {
+        "wordId": "w-bath",
+        "reason": "英文「bath」的常见义项「洗澡」不符合主释义「语气」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-theory",
+        "surfaceForm": "theory",
+        "reason": "将「theory」代入可见句子后不表达主释义「语气」。"
+      },
+      {
+        "wordId": "w-plan",
+        "surfaceForm": "plan",
+        "reason": "将「plan」代入可见句子后不表达主释义「语气」。"
+      },
+      {
+        "wordId": "w-bath",
+        "surfaceForm": "bath",
+        "reason": "将「bath」代入可见句子后不表达主释义「语气」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tongue",
+    "enToZh": [
+      {
+        "wordId": "w-barrier",
+        "reason": "选项「障碍」不是「tongue」的主释义「舌头」或其他义项。"
+      },
+      {
+        "wordId": "w-taste",
+        "reason": "选项「味道」不是「tongue」的主释义「舌头」或其他义项。"
+      },
+      {
+        "wordId": "w-passage",
+        "reason": "选项「通道」不是「tongue」的主释义「舌头」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-barrier",
+        "reason": "英文「barrier」的常见义项「障碍」不符合主释义「舌头」。"
+      },
+      {
+        "wordId": "w-taste",
+        "reason": "英文「taste」的常见义项「味道」不符合主释义「舌头」。"
+      },
+      {
+        "wordId": "w-passage",
+        "reason": "英文「passage」的常见义项「通道」不符合主释义「舌头」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-barrier",
+        "surfaceForm": "barrier",
+        "reason": "将「barrier」代入可见句子后不表达主释义「舌头」。"
+      },
+      {
+        "wordId": "w-taste",
+        "surfaceForm": "taste",
+        "reason": "将「taste」代入可见句子后不表达主释义「舌头」。"
+      },
+      {
+        "wordId": "w-passage",
+        "surfaceForm": "passage",
+        "reason": "将「passage」代入可见句子后不表达主释义「舌头」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tonight",
+    "enToZh": [
+      {
+        "wordId": "w-shortly",
+        "reason": "选项「不久」不是「tonight」的主释义「今晚」或其他义项。"
+      },
+      {
+        "wordId": "w-softly",
+        "reason": "选项「轻轻地」不是「tonight」的主释义「今晚」或其他义项。"
+      },
+      {
+        "wordId": "w-definitely",
+        "reason": "选项「肯定地」不是「tonight」的主释义「今晚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-shortly",
+        "reason": "英文「shortly」的常见义项「不久」不符合主释义「今晚」。"
+      },
+      {
+        "wordId": "w-softly",
+        "reason": "英文「softly」的常见义项「轻轻地」不符合主释义「今晚」。"
+      },
+      {
+        "wordId": "w-definitely",
+        "reason": "英文「definitely」的常见义项「肯定地」不符合主释义「今晚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-shortly",
+        "surfaceForm": "shortly",
+        "reason": "将「shortly」代入可见句子后不表达主释义「今晚」。"
+      },
+      {
+        "wordId": "w-softly",
+        "surfaceForm": "softly",
+        "reason": "将「softly」代入可见句子后不表达主释义「今晚」。"
+      },
+      {
+        "wordId": "w-definitely",
+        "surfaceForm": "definitely",
+        "reason": "将「definitely」代入可见句子后不表达主释义「今晚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-too",
+    "enToZh": [
+      {
+        "wordId": "w-somewhere",
+        "reason": "选项「在某处」不是「too」的主释义「太」或其他义项。"
+      },
+      {
+        "wordId": "w-fairly",
+        "reason": "选项「相当地」不是「too」的主释义「太」或其他义项。"
+      },
+      {
+        "wordId": "w-outdoors",
+        "reason": "选项「在户外」不是「too」的主释义「太」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-somewhere",
+        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「太」。"
+      },
+      {
+        "wordId": "w-fairly",
+        "reason": "英文「fairly」的常见义项「相当地」不符合主释义「太」。"
+      },
+      {
+        "wordId": "w-outdoors",
+        "reason": "英文「outdoors」的常见义项「在户外」不符合主释义「太」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-somewhere",
+        "surfaceForm": "somewhere",
+        "reason": "将「somewhere」代入可见句子后不表达主释义「太」。"
+      },
+      {
+        "wordId": "w-fairly",
+        "surfaceForm": "fairly",
+        "reason": "将「fairly」代入可见句子后不表达主释义「太」。"
+      },
+      {
+        "wordId": "w-outdoors",
+        "surfaceForm": "outdoors",
+        "reason": "将「outdoors」代入可见句子后不表达主释义「太」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tool",
+    "enToZh": [
+      {
+        "wordId": "w-psychology",
+        "reason": "选项「心理学」不是「tool」的主释义「工具」或其他义项。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「tool」的主释义「工具」或其他义项。"
+      },
+      {
+        "wordId": "w-club",
+        "reason": "选项「俱乐部」不是「tool」的主释义「工具」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-psychology",
+        "reason": "英文「psychology」的常见义项「心理学」不符合主释义「工具」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「工具」。"
+      },
+      {
+        "wordId": "w-club",
+        "reason": "英文「club」的常见义项「俱乐部」不符合主释义「工具」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-psychology",
+        "surfaceForm": "psychology",
+        "reason": "将「psychology」代入可见句子后不表达主释义「工具」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「工具」。"
+      },
+      {
+        "wordId": "w-club",
+        "surfaceForm": "club",
+        "reason": "将「club」代入可见句子后不表达主释义「工具」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tooth",
+    "enToZh": [
+      {
+        "wordId": "w-shell",
+        "reason": "选项「壳」不是「tooth」的主释义「牙齿」或其他义项。"
+      },
+      {
+        "wordId": "w-corporation",
+        "reason": "选项「公司」不是「tooth」的主释义「牙齿」或其他义项。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "选项「季节」不是「tooth」的主释义「牙齿」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-shell",
+        "reason": "英文「shell」的常见义项「壳」不符合主释义「牙齿」。"
+      },
+      {
+        "wordId": "w-corporation",
+        "reason": "英文「corporation」的常见义项「公司」不符合主释义「牙齿」。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "英文「season」的常见义项「季节」不符合主释义「牙齿」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-shell",
+        "surfaceForm": "shell",
+        "reason": "将「shell」代入可见句子后不表达主释义「牙齿」。"
+      },
+      {
+        "wordId": "w-corporation",
+        "surfaceForm": "corporation",
+        "reason": "将「corporation」代入可见句子后不表达主释义「牙齿」。"
+      },
+      {
+        "wordId": "w-season",
+        "surfaceForm": "season",
+        "reason": "将「season」代入可见句子后不表达主释义「牙齿」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-top",
+    "enToZh": [
+      {
+        "wordId": "w-peer",
+        "reason": "选项「同龄人」不是「top」的主释义「顶部」或其他义项。"
+      },
+      {
+        "wordId": "w-crime",
+        "reason": "选项「犯罪」不是「top」的主释义「顶部」或其他义项。"
+      },
+      {
+        "wordId": "w-definition",
+        "reason": "选项「定义」不是「top」的主释义「顶部」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-peer",
+        "reason": "英文「peer」的常见义项「同龄人」不符合主释义「顶部」。"
+      },
+      {
+        "wordId": "w-crime",
+        "reason": "英文「crime」的常见义项「犯罪」不符合主释义「顶部」。"
+      },
+      {
+        "wordId": "w-definition",
+        "reason": "英文「definition」的常见义项「定义」不符合主释义「顶部」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-peer",
+        "surfaceForm": "peer",
+        "reason": "将「peer」代入可见句子后不表达主释义「顶部」。"
+      },
+      {
+        "wordId": "w-crime",
+        "surfaceForm": "crime",
+        "reason": "将「crime」代入可见句子后不表达主释义「顶部」。"
+      },
+      {
+        "wordId": "w-definition",
+        "surfaceForm": "definition",
+        "reason": "将「definition」代入可见句子后不表达主释义「顶部」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-topic",
+    "enToZh": [
+      {
+        "wordId": "w-gate",
+        "reason": "选项「大门」不是「topic」的主释义「话题」或其他义项。"
+      },
+      {
+        "wordId": "w-airline",
+        "reason": "选项「航空公司」不是「topic」的主释义「话题」或其他义项。"
+      },
+      {
+        "wordId": "w-logic",
+        "reason": "选项「逻辑」不是「topic」的主释义「话题」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gate",
+        "reason": "英文「gate」的常见义项「大门」不符合主释义「话题」。"
+      },
+      {
+        "wordId": "w-airline",
+        "reason": "英文「airline」的常见义项「航空公司」不符合主释义「话题」。"
+      },
+      {
+        "wordId": "w-logic",
+        "reason": "英文「logic」的常见义项「逻辑」不符合主释义「话题」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gate",
+        "surfaceForm": "gate",
+        "reason": "将「gate」代入可见句子后不表达主释义「话题」。"
+      },
+      {
+        "wordId": "w-airline",
+        "surfaceForm": "airline",
+        "reason": "将「airline」代入可见句子后不表达主释义「话题」。"
+      },
+      {
+        "wordId": "w-logic",
+        "surfaceForm": "logic",
+        "reason": "将「logic」代入可见句子后不表达主释义「话题」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torch",
+    "enToZh": [
+      {
+        "wordId": "w-fighter",
+        "reason": "选项「斗士」不是「torch」的主释义「手电筒」或其他义项。"
+      },
+      {
+        "wordId": "w-sunlight",
+        "reason": "选项「日光」不是「torch」的主释义「手电筒」或其他义项。"
+      },
+      {
+        "wordId": "w-dictator",
+        "reason": "选项「独裁者」不是「torch」的主释义「手电筒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fighter",
+        "reason": "英文「fighter」的常见义项「斗士」不符合主释义「手电筒」。"
+      },
+      {
+        "wordId": "w-sunlight",
+        "reason": "英文「sunlight」的常见义项「日光」不符合主释义「手电筒」。"
+      },
+      {
+        "wordId": "w-dictator",
+        "reason": "英文「dictator」的常见义项「独裁者」不符合主释义「手电筒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fighter",
+        "surfaceForm": "fighter",
+        "reason": "将「fighter」代入可见句子后不表达主释义「手电筒」。"
+      },
+      {
+        "wordId": "w-sunlight",
+        "surfaceForm": "sunlight",
+        "reason": "将「sunlight」代入可见句子后不表达主释义「手电筒」。"
+      },
+      {
+        "wordId": "w-dictator",
+        "surfaceForm": "dictator",
+        "reason": "将「dictator」代入可见句子后不表达主释义「手电筒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torment",
+    "enToZh": [
+      {
+        "wordId": "w-brute",
+        "reason": "选项「残暴的人」不是「torment」的主释义「折磨」或其他义项。"
+      },
+      {
+        "wordId": "w-fright",
+        "reason": "选项「惊吓」不是「torment」的主释义「折磨」或其他义项。"
+      },
+      {
+        "wordId": "w-pudding",
+        "reason": "选项「布丁」不是「torment」的主释义「折磨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brute",
+        "reason": "英文「brute」的常见义项「残暴的人」不符合主释义「折磨」。"
+      },
+      {
+        "wordId": "w-fright",
+        "reason": "英文「fright」的常见义项「惊吓」不符合主释义「折磨」。"
+      },
+      {
+        "wordId": "w-pudding",
+        "reason": "英文「pudding」的常见义项「布丁」不符合主释义「折磨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brute",
+        "surfaceForm": "brute",
+        "reason": "将「brute」代入可见句子后不表达主释义「折磨」。"
+      },
+      {
+        "wordId": "w-fright",
+        "surfaceForm": "fright",
+        "reason": "将「fright」代入可见句子后不表达主释义「折磨」。"
+      },
+      {
+        "wordId": "w-pudding",
+        "surfaceForm": "pudding",
+        "reason": "将「pudding」代入可见句子后不表达主释义「折磨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torpedo",
+    "enToZh": [
+      {
+        "wordId": "w-scripture",
+        "reason": "选项「经文」不是「torpedo」的主释义「鱼雷」或其他义项。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "reason": "选项「店主」不是「torpedo」的主释义「鱼雷」或其他义项。"
+      },
+      {
+        "wordId": "w-generalization",
+        "reason": "选项「概括」不是「torpedo」的主释义「鱼雷」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-scripture",
+        "reason": "英文「scripture」的常见义项「经文」不符合主释义「鱼雷」。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "reason": "英文「shopkeeper」的常见义项「店主」不符合主释义「鱼雷」。"
+      },
+      {
+        "wordId": "w-generalization",
+        "reason": "英文「generalization」的常见义项「概括」不符合主释义「鱼雷」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-scripture",
+        "surfaceForm": "scripture",
+        "reason": "将「scripture」代入可见句子后不表达主释义「鱼雷」。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "surfaceForm": "shopkeeper",
+        "reason": "将「shopkeeper」代入可见句子后不表达主释义「鱼雷」。"
+      },
+      {
+        "wordId": "w-generalization",
+        "surfaceForm": "generalization",
+        "reason": "将「generalization」代入可见句子后不表达主释义「鱼雷」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torque",
+    "enToZh": [
+      {
+        "wordId": "w-pastime",
+        "reason": "选项「消遣」不是「torque」的主释义「扭矩」或其他义项。"
+      },
+      {
+        "wordId": "w-sweetness",
+        "reason": "选项「甜味」不是「torque」的主释义「扭矩」或其他义项。"
+      },
+      {
+        "wordId": "w-ax",
+        "reason": "选项「斧头」不是「torque」的主释义「扭矩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pastime",
+        "reason": "英文「pastime」的常见义项「消遣」不符合主释义「扭矩」。"
+      },
+      {
+        "wordId": "w-sweetness",
+        "reason": "英文「sweetness」的常见义项「甜味」不符合主释义「扭矩」。"
+      },
+      {
+        "wordId": "w-ax",
+        "reason": "英文「ax」的常见义项「斧头」不符合主释义「扭矩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pastime",
+        "surfaceForm": "pastime",
+        "reason": "将「pastime」代入可见句子后不表达主释义「扭矩」。"
+      },
+      {
+        "wordId": "w-sweetness",
+        "surfaceForm": "sweetness",
+        "reason": "将「sweetness」代入可见句子后不表达主释义「扭矩」。"
+      },
+      {
+        "wordId": "w-ax",
+        "surfaceForm": "ax",
+        "reason": "将「ax」代入可见句子后不表达主释义「扭矩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torrent",
+    "enToZh": [
+      {
+        "wordId": "w-alloy",
+        "reason": "选项「合金」不是「torrent」的主释义「激流」或其他义项。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "reason": "选项「店主」不是「torrent」的主释义「激流」或其他义项。"
+      },
+      {
+        "wordId": "w-proton",
+        "reason": "选项「质子」不是「torrent」的主释义「激流」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alloy",
+        "reason": "英文「alloy」的常见义项「合金」不符合主释义「激流」。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "reason": "英文「shopkeeper」的常见义项「店主」不符合主释义「激流」。"
+      },
+      {
+        "wordId": "w-proton",
+        "reason": "英文「proton」的常见义项「质子」不符合主释义「激流」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alloy",
+        "surfaceForm": "alloy",
+        "reason": "将「alloy」代入可见句子后不表达主释义「激流」。"
+      },
+      {
+        "wordId": "w-shopkeeper",
+        "surfaceForm": "shopkeeper",
+        "reason": "将「shopkeeper」代入可见句子后不表达主释义「激流」。"
+      },
+      {
+        "wordId": "w-proton",
+        "surfaceForm": "proton",
+        "reason": "将「proton」代入可见句子后不表达主释义「激流」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tortoise",
+    "enToZh": [
+      {
+        "wordId": "w-outlaw",
+        "reason": "选项「不法之徒」不是「tortoise」的主释义「陆龟」或其他义项。"
+      },
+      {
+        "wordId": "w-optics",
+        "reason": "选项「光学」不是「tortoise」的主释义「陆龟」或其他义项。"
+      },
+      {
+        "wordId": "w-extraction",
+        "reason": "选项「提取」不是「tortoise」的主释义「陆龟」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-outlaw",
+        "reason": "英文「outlaw」的常见义项「不法之徒」不符合主释义「陆龟」。"
+      },
+      {
+        "wordId": "w-optics",
+        "reason": "英文「optics」的常见义项「光学」不符合主释义「陆龟」。"
+      },
+      {
+        "wordId": "w-extraction",
+        "reason": "英文「extraction」的常见义项「提取」不符合主释义「陆龟」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-outlaw",
+        "surfaceForm": "outlaw",
+        "reason": "将「outlaw」代入可见句子后不表达主释义「陆龟」。"
+      },
+      {
+        "wordId": "w-optics",
+        "surfaceForm": "optics",
+        "reason": "将「optics」代入可见句子后不表达主释义「陆龟」。"
+      },
+      {
+        "wordId": "w-extraction",
+        "surfaceForm": "extraction",
+        "reason": "将「extraction」代入可见句子后不表达主释义「陆龟」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-torture",
+    "enToZh": [
+      {
+        "wordId": "w-earthquake",
+        "reason": "选项「地震」不是「torture」的主释义「折磨」或其他义项。"
+      },
+      {
+        "wordId": "w-cellar",
+        "reason": "选项「地窖」不是「torture」的主释义「折磨」或其他义项。"
+      },
+      {
+        "wordId": "w-corridor",
+        "reason": "选项「走廊」不是「torture」的主释义「折磨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-earthquake",
+        "reason": "英文「earthquake」的常见义项「地震」不符合主释义「折磨」。"
+      },
+      {
+        "wordId": "w-cellar",
+        "reason": "英文「cellar」的常见义项「地窖」不符合主释义「折磨」。"
+      },
+      {
+        "wordId": "w-corridor",
+        "reason": "英文「corridor」的常见义项「走廊」不符合主释义「折磨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-earthquake",
+        "surfaceForm": "earthquake",
+        "reason": "将「earthquake」代入可见句子后不表达主释义「折磨」。"
+      },
+      {
+        "wordId": "w-cellar",
+        "surfaceForm": "cellar",
+        "reason": "将「cellar」代入可见句子后不表达主释义「折磨」。"
+      },
+      {
+        "wordId": "w-corridor",
+        "surfaceForm": "corridor",
+        "reason": "将「corridor」代入可见句子后不表达主释义「折磨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-toss",
+    "enToZh": [
+      {
+        "wordId": "w-feel",
+        "reason": "选项「感觉」不是「toss」的主释义「扔」或其他义项。"
+      },
+      {
+        "wordId": "w-explode",
+        "reason": "选项「爆炸」不是「toss」的主释义「扔」或其他义项。"
+      },
+      {
+        "wordId": "w-introduce",
+        "reason": "选项「介绍」不是「toss」的主释义「扔」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-feel",
+        "reason": "英文「feel」的常见义项「感觉」不符合主释义「扔」。"
+      },
+      {
+        "wordId": "w-explode",
+        "reason": "英文「explode」的常见义项「爆炸」不符合主释义「扔」。"
+      },
+      {
+        "wordId": "w-introduce",
+        "reason": "英文「introduce」的常见义项「介绍」不符合主释义「扔」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-feel",
+        "surfaceForm": "feel",
+        "reason": "将「feel」代入可见句子后不表达主释义「扔」。"
+      },
+      {
+        "wordId": "w-explode",
+        "surfaceForm": "explode",
+        "reason": "将「explode」代入可见句子后不表达主释义「扔」。"
+      },
+      {
+        "wordId": "w-introduce",
+        "surfaceForm": "introduce",
+        "reason": "将「introduce」代入可见句子后不表达主释义「扔」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-totally",
+    "enToZh": [
+      {
+        "wordId": "w-similarly",
+        "reason": "选项「同样地」不是「totally」的主释义「完全地」或其他义项。"
+      },
+      {
+        "wordId": "w-previously",
+        "reason": "选项「以前」不是「totally」的主释义「完全地」或其他义项。"
+      },
+      {
+        "wordId": "w-literally",
+        "reason": "选项「字面上地」不是「totally」的主释义「完全地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-similarly",
+        "reason": "英文「similarly」的常见义项「同样地」不符合主释义「完全地」。"
+      },
+      {
+        "wordId": "w-previously",
+        "reason": "英文「previously」的常见义项「以前」不符合主释义「完全地」。"
+      },
+      {
+        "wordId": "w-literally",
+        "reason": "英文「literally」的常见义项「字面上地」不符合主释义「完全地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-similarly",
+        "surfaceForm": "similarly",
+        "reason": "将「similarly」代入可见句子后不表达主释义「完全地」。"
+      },
+      {
+        "wordId": "w-previously",
+        "surfaceForm": "previously",
+        "reason": "将「previously」代入可见句子后不表达主释义「完全地」。"
+      },
+      {
+        "wordId": "w-literally",
+        "surfaceForm": "literally",
+        "reason": "将「literally」代入可见句子后不表达主释义「完全地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-touch",
+    "enToZh": [
+      {
+        "wordId": "w-spell",
+        "reason": "选项「拼写」不是「touch」的主释义「触摸」或其他义项。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "选项「同意」不是「touch」的主释义「触摸」或其他义项。"
+      },
+      {
+        "wordId": "w-advocate",
+        "reason": "选项「提倡」不是「touch」的主释义「触摸」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-spell",
+        "reason": "英文「spell」的常见义项「拼写」不符合主释义「触摸」。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "英文「agree」的常见义项「同意」不符合主释义「触摸」。"
+      },
+      {
+        "wordId": "w-advocate",
+        "reason": "英文「advocate」的常见义项「提倡」不符合主释义「触摸」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-spell",
+        "surfaceForm": "spell",
+        "reason": "将「spell」代入可见句子后不表达主释义「触摸」。"
+      },
+      {
+        "wordId": "w-agree",
+        "surfaceForm": "agree",
+        "reason": "将「agree」代入可见句子后不表达主释义「触摸」。"
+      },
+      {
+        "wordId": "w-advocate",
+        "surfaceForm": "advocate",
+        "reason": "将「advocate」代入可见句子后不表达主释义「触摸」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tough",
+    "enToZh": [
+      {
+        "wordId": "w-concrete",
+        "reason": "选项「具体的」不是「tough」的主释义「困难的」或其他义项。"
+      },
+      {
+        "wordId": "w-irish",
+        "reason": "选项「爱尔兰的」不是「tough」的主释义「困难的」或其他义项。"
+      },
+      {
+        "wordId": "w-evil",
+        "reason": "选项「邪恶的」不是「tough」的主释义「困难的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-concrete",
+        "reason": "英文「concrete」的常见义项「具体的」不符合主释义「困难的」。"
+      },
+      {
+        "wordId": "w-irish",
+        "reason": "英文「Irish」的常见义项「爱尔兰的」不符合主释义「困难的」。"
+      },
+      {
+        "wordId": "w-evil",
+        "reason": "英文「evil」的常见义项「邪恶的」不符合主释义「困难的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-concrete",
+        "surfaceForm": "concrete",
+        "reason": "将「concrete」代入可见句子后不表达主释义「困难的」。"
+      },
+      {
+        "wordId": "w-irish",
+        "surfaceForm": "Irish",
+        "reason": "将「Irish」代入可见句子后不表达主释义「困难的」。"
+      },
+      {
+        "wordId": "w-evil",
+        "surfaceForm": "evil",
+        "reason": "将「evil」代入可见句子后不表达主释义「困难的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tour",
+    "enToZh": [
+      {
+        "wordId": "w-license",
+        "reason": "选项「执照」不是「tour」的主释义「旅行」或其他义项。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "选项「地址」不是「tour」的主释义「旅行」或其他义项。"
+      },
+      {
+        "wordId": "w-printer",
+        "reason": "选项「打印机」不是「tour」的主释义「旅行」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-license",
+        "reason": "英文「license」的常见义项「执照」不符合主释义「旅行」。"
+      },
+      {
+        "wordId": "w-address",
+        "reason": "英文「address」的常见义项「地址」不符合主释义「旅行」。"
+      },
+      {
+        "wordId": "w-printer",
+        "reason": "英文「printer」的常见义项「打印机」不符合主释义「旅行」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-license",
+        "surfaceForm": "license",
+        "reason": "将「license」代入可见句子后不表达主释义「旅行」。"
+      },
+      {
+        "wordId": "w-address",
+        "surfaceForm": "address",
+        "reason": "将「address」代入可见句子后不表达主释义「旅行」。"
+      },
+      {
+        "wordId": "w-printer",
+        "surfaceForm": "printer",
+        "reason": "将「printer」代入可见句子后不表达主释义「旅行」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tourist",
+    "enToZh": [
+      {
+        "wordId": "w-food",
+        "reason": "选项「食物」不是「tourist」的主释义「游客」或其他义项。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "选项「情绪」不是「tourist」的主释义「游客」或其他义项。"
+      },
+      {
+        "wordId": "w-senator",
+        "reason": "选项「参议员」不是「tourist」的主释义「游客」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-food",
+        "reason": "英文「food」的常见义项「食物」不符合主释义「游客」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "英文「emotion」的常见义项「情绪」不符合主释义「游客」。"
+      },
+      {
+        "wordId": "w-senator",
+        "reason": "英文「senator」的常见义项「参议员」不符合主释义「游客」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-food",
+        "surfaceForm": "food",
+        "reason": "将「food」代入可见句子后不表达主释义「游客」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "surfaceForm": "emotion",
+        "reason": "将「emotion」代入可见句子后不表达主释义「游客」。"
+      },
+      {
+        "wordId": "w-senator",
+        "surfaceForm": "senator",
+        "reason": "将「senator」代入可见句子后不表达主释义「游客」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tournament",
+    "enToZh": [
+      {
+        "wordId": "w-implication",
+        "reason": "选项「含义」不是「tournament」的主释义「锦标赛」或其他义项。"
+      },
+      {
+        "wordId": "w-storage",
+        "reason": "选项「储存」不是「tournament」的主释义「锦标赛」或其他义项。"
+      },
+      {
+        "wordId": "w-comment",
+        "reason": "选项「评论」不是「tournament」的主释义「锦标赛」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-implication",
+        "reason": "英文「implication」的常见义项「含义」不符合主释义「锦标赛」。"
+      },
+      {
+        "wordId": "w-storage",
+        "reason": "英文「storage」的常见义项「储存」不符合主释义「锦标赛」。"
+      },
+      {
+        "wordId": "w-comment",
+        "reason": "英文「comment」的常见义项「评论」不符合主释义「锦标赛」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-implication",
+        "surfaceForm": "implication",
+        "reason": "将「implication」代入可见句子后不表达主释义「锦标赛」。"
+      },
+      {
+        "wordId": "w-storage",
+        "surfaceForm": "storage",
+        "reason": "将「storage」代入可见句子后不表达主释义「锦标赛」。"
+      },
+      {
+        "wordId": "w-comment",
+        "surfaceForm": "comment",
+        "reason": "将「comment」代入可见句子后不表达主释义「锦标赛」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tow",
+    "enToZh": [
+      {
+        "wordId": "w-avail",
+        "reason": "选项「利用」不是「tow」的主释义「拖」或其他义项。"
+      },
+      {
+        "wordId": "w-refrain",
+        "reason": "选项「避免」不是「tow」的主释义「拖」或其他义项。"
+      },
+      {
+        "wordId": "w-clasp",
+        "reason": "选项「紧握」不是「tow」的主释义「拖」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-avail",
+        "reason": "英文「avail」的常见义项「利用」不符合主释义「拖」。"
+      },
+      {
+        "wordId": "w-refrain",
+        "reason": "英文「refrain」的常见义项「避免」不符合主释义「拖」。"
+      },
+      {
+        "wordId": "w-clasp",
+        "reason": "英文「clasp」的常见义项「紧握」不符合主释义「拖」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-avail",
+        "surfaceForm": "avail",
+        "reason": "将「avail」代入可见句子后不表达主释义「拖」。"
+      },
+      {
+        "wordId": "w-refrain",
+        "surfaceForm": "refrain",
+        "reason": "将「refrain」代入可见句子后不表达主释义「拖」。"
+      },
+      {
+        "wordId": "w-clasp",
+        "surfaceForm": "clasp",
+        "reason": "将「clasp」代入可见句子后不表达主释义「拖」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-toward",
+    "enToZh": [
+      {
+        "wordId": "w-onto",
+        "reason": "选项「到……上」不是「toward」的主释义「朝向」或其他义项。"
+      },
+      {
+        "wordId": "w-except",
+        "reason": "选项「除…之外」不是「toward」的主释义「朝向」或其他义项。"
+      },
+      {
+        "wordId": "w-around",
+        "reason": "选项「在……周围」不是「toward」的主释义「朝向」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-onto",
+        "reason": "英文「onto」的常见义项「到……上」不符合主释义「朝向」。"
+      },
+      {
+        "wordId": "w-except",
+        "reason": "英文「except」的常见义项「除…之外」不符合主释义「朝向」。"
+      },
+      {
+        "wordId": "w-around",
+        "reason": "英文「around」的常见义项「在……周围」不符合主释义「朝向」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-onto",
+        "surfaceForm": "onto",
+        "reason": "将「onto」代入可见句子后不表达主释义「朝向」。"
+      },
+      {
+        "wordId": "w-except",
+        "surfaceForm": "except",
+        "reason": "将「except」代入可见句子后不表达主释义「朝向」。"
+      },
+      {
+        "wordId": "w-around",
+        "surfaceForm": "around",
+        "reason": "将「around」代入可见句子后不表达主释义「朝向」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-towards",
+    "enToZh": [
+      {
+        "wordId": "w-outside",
+        "reason": "选项「在……外面」不是「towards」的主释义「朝向」或其他义项。"
+      },
+      {
+        "wordId": "w-below",
+        "reason": "选项「在…下面」不是「towards」的主释义「朝向」或其他义项。"
+      },
+      {
+        "wordId": "w-during",
+        "reason": "选项「在…期间」不是「towards」的主释义「朝向」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-outside",
+        "reason": "英文「outside」的常见义项「在……外面」不符合主释义「朝向」。"
+      },
+      {
+        "wordId": "w-below",
+        "reason": "英文「below」的常见义项「在…下面」不符合主释义「朝向」。"
+      },
+      {
+        "wordId": "w-during",
+        "reason": "英文「during」的常见义项「在…期间」不符合主释义「朝向」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-outside",
+        "surfaceForm": "outside",
+        "reason": "将「outside」代入可见句子后不表达主释义「朝向」。"
+      },
+      {
+        "wordId": "w-below",
+        "surfaceForm": "below",
+        "reason": "将「below」代入可见句子后不表达主释义「朝向」。"
+      },
+      {
+        "wordId": "w-during",
+        "surfaceForm": "during",
+        "reason": "将「during」代入可见句子后不表达主释义「朝向」。"
+      }
+    ],
+    "spelling": null
+  }
+]

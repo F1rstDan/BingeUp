@@ -89,8 +89,13 @@ export default defineBackground(() => {
         sendResponse(await router.handle(message, sender));
       } catch (error) {
         console.error('[BingeUp] background message error', error);
+        const code =
+          typeof (error as { code?: unknown })?.code === 'string'
+            ? (error as { code: string }).code
+            : undefined;
         sendResponse({
           __bingeupError: error instanceof Error ? error.message : String(error),
+          ...(code ? { __bingeupErrorCode: code } : {}),
         });
       }
     })();

@@ -1,0 +1,16 @@
+{
+  "reviewer": "independent-fix-review-main-141",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-potentially",
+    "w-practically",
+    "w-practice",
+    "w-praise",
+    "w-prayer",
+    "w-precaution",
+    "w-precisely",
+    "w-preclude"
+  ],
+  "result": "pass",
+  "findings": []
+}

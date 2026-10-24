@@ -46,6 +46,22 @@ const QUESTION: MultipleChoiceQuestion = {
   },
 };
 
+const CONTEXT_QUESTION: MultipleChoiceQuestion = {
+  ...QUESTION,
+  id: 'q-context-1',
+  type: 'context-choice',
+  prompt: 'Plants ____ sunlight.',
+  options: ['absorb', 'release', 'reflect', 'gather'],
+};
+
+const PREVIOUS_RESULT: SubmissionResult = {
+  isCorrect: true,
+  correctAnswer: '吸收',
+  cardId: QUESTION.cardId,
+  reviewLogId: 'review-1',
+  explanation: QUESTION.explanation,
+};
+
 const SPELLING_QUESTION: SpellingQuestion = {
   id: 'q-spell-1',
   type: 'spelling',
@@ -126,19 +142,43 @@ describe('OverlayApp — 新词展示', () => {
     expect(screen.queryByRole('group', { name: /选项/ })).not.toBeInTheDocument();
   });
 
-  it('渲染"知道了"、"我认识，换一个"、"跳过"三个按钮', () => {
+  it('例句整块是朗读入口，文字和译文可选中且没有嵌套按钮', () => {
+    const onAction = vi.fn();
+    const { container } = render(
+      <OverlayApp
+        item={{ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION }}
+        onAction={onAction}
+      />,
+    );
+    const example = container.querySelector('.bingeup-example-action');
+
+    expect(example).not.toBeNull();
+    expect(example).toHaveAttribute('role', 'button');
+    expect(example).toHaveAttribute('tabindex', '0');
+    expect(example).toHaveTextContent('He abandoned his car.');
+    expect(example).toHaveTextContent('他抛弃了他的车。');
+    expect(example?.querySelectorAll('button')).toHaveLength(0);
+    expect(example?.querySelector('svg')).toBeInTheDocument();
+
+    fireEvent.click(example!);
+    fireEvent.keyDown(example!, { key: 'Enter' });
+    fireEvent.keyDown(example!, { key: ' ' });
+    expect(onAction).not.toHaveBeenCalled();
+  });
+
+  it('渲染"学到了"、"我认识，换一个"、"跳过"三个按钮', () => {
     renderOverlay({ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION });
-    expect(screen.getByRole('button', { name: /知道了/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /学到了/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /我认识，换一个/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /跳过/ })).toBeInTheDocument();
   });
 
-  it('点击"知道了"发出 accept-new-word 动作', () => {
+  it('点击"学到了"发出 accept-new-word 动作', () => {
     const onAction = renderOverlay({
       kind: 'new-word-presentation',
       presentation: NEW_WORD_PRESENTATION,
     });
-    clickButton(/知道了/);
+    clickButton(/学到了/);
     expect(onAction).toHaveBeenCalledWith({ type: 'accept-new-word', wordId: 'w-1' });
   });
 
@@ -162,7 +202,7 @@ describe('OverlayApp — 新词展示', () => {
 
   it('操作后禁用所有按钮，防止重复触发', () => {
     renderOverlay({ kind: 'new-word-presentation', presentation: NEW_WORD_PRESENTATION });
-    const accept = screen.getByRole('button', { name: /知道了/ });
+    const accept = screen.getByRole('button', { name: /学到了/ });
     fireEvent.click(accept);
     expect(accept).toBeDisabled();
     expect(screen.getByRole('button', { name: /我认识，换一个/ })).toBeDisabled();
@@ -180,6 +220,36 @@ describe('OverlayApp — 题目交互', () => {
     expect(screen.getByText('释放')).toBeInTheDocument();
     expect(screen.getByText('反射')).toBeInTheDocument();
     expect(screen.getByText('聚集')).toBeInTheDocument();
+  });
+
+  it('选项序号使用 1-4，不再使用 A-D', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: QUESTION }} onAction={vi.fn()} />,
+    );
+    const keys = [...container.querySelectorAll('.bingeup-option-key')].map(
+      (element) => element.textContent,
+    );
+    expect(keys).toEqual(['1', '2', '3', '4']);
+  });
+
+  it('题目卡用可朗读音标替代词性标签', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: QUESTION }} onAction={vi.fn()} />,
+    );
+    expect(screen.getByRole('button', { name: '朗读单词' })).toBeInTheDocument();
+    expect(container.querySelector('.bingeup-question-pronunciation')).toHaveTextContent(
+      '/əbˈzɔːrb/',
+    );
+    expect(container.querySelector('.bingeup-part-of-speech')).toBeNull();
+  });
+
+  it('语境题不展示会泄露答案的音标和朗读入口', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: CONTEXT_QUESTION }} onAction={vi.fn()} />,
+    );
+
+    expect(container.querySelector('.bingeup-question-pronunciation')).toBeNull();
+    expect(screen.queryByRole('button', { name: '朗读单词' })).not.toBeInTheDocument();
   });
 
   it('未选择时提交按钮禁用', () => {
@@ -295,7 +365,10 @@ describe('OverlayApp — 提交锁定', () => {
     expect(screen.queryByRole('group', { name: '评分纠正' })).not.toBeInTheDocument();
     expect(screen.queryByText('Plants absorb sunlight.')).not.toBeInTheDocument();
     expect(onAction).toHaveBeenCalledTimes(1);
-    for (const button of screen.getAllByRole('button')) expect(button).toBeDisabled();
+    for (const button of screen.getAllByRole('button')) {
+      if (button.tagName === 'BUTTON') expect(button).toBeDisabled();
+      else expect(button).toHaveAttribute('aria-disabled', 'true');
+    }
   });
 
   it.each([
@@ -329,7 +402,8 @@ describe('OverlayApp — 提交锁定', () => {
       else clickSubmitButton();
 
       for (const button of screen.getAllByRole('button')) {
-        expect(button).toBeDisabled();
+        if (button.tagName === 'BUTTON') expect(button).toBeDisabled();
+        else expect(button).toHaveAttribute('aria-disabled', 'true');
         fireEvent.click(button);
       }
       pressKey('Escape');
@@ -430,19 +504,18 @@ describe('OverlayApp — 快捷键', () => {
   });
 
   describe('题目快捷键', () => {
-    it('按下数字键 1-4 选择对应选项', () => {
+    it.each([
+      ['1', 0],
+      ['2', 1],
+      ['3', 2],
+      ['4', 3],
+    ] as const)('按下 %s 选择第 %i 个选项', (key, index) => {
       renderOverlay({ kind: 'question', question: QUESTION });
-      pressKey('1');
-      const selectedOption = screen.getByText('吸收').closest('button');
+      pressKey(key);
+      const selectedOption = screen.getByText(QUESTION.options[index]!).closest('button');
       expect(selectedOption).toHaveAttribute('aria-pressed', 'true');
       // M5：选中状态用原版令牌样式 + naive-icons 图标表达，不仅依赖颜色。
       expect(selectedOption?.querySelector('svg')).not.toBeNull();
-    });
-
-    it('按下字母键 A-D 选择对应选项', () => {
-      renderOverlay({ kind: 'question', question: QUESTION });
-      pressKey('b');
-      expect(screen.getByText('释放').closest('button')).toHaveAttribute('aria-pressed', 'true');
     });
 
     it('选择后按 Enter 提交', () => {
@@ -542,10 +615,81 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
       expect(screen.getByText('连续学习')).toBeInTheDocument();
     });
 
+    it('新词卡顶部统一，音标不带“读音”，其他义项直接展示', () => {
+      const item: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            ...NEW_WORD_PRESENTATION.word,
+            secondaryMeanings: [
+              { partOfSpeech: 'n.', meaningZh: '放任' },
+              { partOfSpeech: 'v.', meaningZh: '抛弃' },
+            ],
+          },
+        },
+      };
+      const { container } = render(<OverlayApp item={item} onAction={vi.fn()} isContinuous />);
+
+      expect(container.querySelector('.bingeup-new-word-badge')).toHaveTextContent('连续学习');
+
+      const pronunciation = container.querySelector('.bingeup-pronunciation-wrap');
+      expect(pronunciation).toHaveTextContent('/əˈbændən/');
+      expect(pronunciation).not.toHaveTextContent('读音');
+      expect(container.querySelector('.bingeup-word-pronunciation-label')).toBeNull();
+
+      const meaning = container.querySelector('.bingeup-word-summary__meaning-row');
+      expect(meaning).toHaveTextContent('v./n.');
+      expect(meaning).toHaveTextContent('放弃；遗弃');
+      expect(container.querySelector('.bingeup-pos-tooltip')).toHaveAttribute(
+        'title',
+        expect.stringContaining('动词'),
+      );
+
+      const example = container.querySelector('.bingeup-example-panel');
+      expect(example).toHaveTextContent('He abandoned his car.');
+      expect(example).toHaveTextContent('他抛弃了他的车。');
+
+      const secondary = container.querySelector('.bingeup-secondary');
+      expect(secondary).toHaveTextContent('其他常见义');
+      expect(secondary).toHaveTextContent('n. 放任');
+      expect(screen.queryByRole('button', { name: /其他常见义/ })).not.toBeInTheDocument();
+    });
+
     it('连续答题界面不显示上一题反馈或评分操作', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
       expect(screen.queryByText('上一题反馈')).not.toBeInTheDocument();
       expect(screen.queryByRole('group', { name: '评分纠正' })).not.toBeInTheDocument();
+    });
+
+    it.each([
+      [true, '上一题答对了'],
+      [false, '上一题答错了'],
+    ])('下一题顶部显示上一题正误 %s', (isCorrect, label) => {
+      const { container } = render(
+        <OverlayApp
+          item={{ kind: 'question', question: QUESTION }}
+          onAction={vi.fn()}
+          isContinuous
+          previousResult={{
+            ...PREVIOUS_RESULT,
+            isCorrect,
+            submittedAnswer: isCorrect ? undefined : '释放',
+          }}
+        />,
+      );
+
+      const banner = within(container).getByRole('status');
+      expect(banner).toHaveTextContent(label);
+      if (isCorrect) {
+        expect(banner).not.toHaveTextContent('你的答案');
+        expect(banner).not.toHaveTextContent('正确答案');
+      } else {
+        expect(banner).toHaveTextContent('你的答案释放');
+        expect(banner).toHaveTextContent('正确答案吸收');
+      }
+      expect(banner).toHaveAttribute('data-correct', String(isCorrect));
+      expect(banner.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+      expect(container.querySelector('.bingeup-card')?.firstElementChild).toBe(banner);
     });
   });
 
@@ -597,21 +741,21 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
   });
 
   describe('连续模式新词展示按钮', () => {
-    it('显示"知道了，继续"和"结束学习"按钮', () => {
+    it('显示"学到了，继续"和"结束学习"按钮', () => {
       renderOverlayContinuous({
         kind: 'new-word-presentation',
         presentation: NEW_WORD_PRESENTATION,
       });
-      expect(screen.getByRole('button', { name: /知道了，继续/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /学到了，继续/ })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /结束学习/ })).toBeInTheDocument();
     });
 
-    it('点击"知道了，继续"发出 accept-new-word-and-continue', () => {
+    it('点击"学到了，继续"发出 accept-new-word-and-continue', () => {
       const onAction = renderOverlayContinuous({
         kind: 'new-word-presentation',
         presentation: NEW_WORD_PRESENTATION,
       });
-      clickButton(/知道了，继续/);
+      clickButton(/学到了，继续/);
       expect(onAction).toHaveBeenCalledWith({
         type: 'accept-new-word-and-continue',
         wordId: 'w-1',
@@ -631,7 +775,7 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
     });
 
     it.each([
-      ['知道了，继续', 'accept-new-word-and-continue'],
+      ['学到了，继续', 'accept-new-word-and-continue'],
       ['我认识，换一个', 'self-report-and-continue'],
       ['结束学习', 'exit-learning'],
     ] as const)('%s 在同步重复点击和快捷键下也只触发一次', (label, type) => {
@@ -657,13 +801,21 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
       expect(onAction).toHaveBeenCalledWith(
         type === 'exit-learning' ? { type } : { type, wordId: 'w-1' },
       );
-      for (const action of screen.getAllByRole('button')) expect(action).toBeDisabled();
+      for (const action of screen
+        .getAllByRole('button')
+        .filter((button) => button.tagName === 'BUTTON')) {
+        expect(action).toBeDisabled();
+      }
+      expect(screen.getByRole('button', { name: '朗读例句' })).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
     });
   });
 });
 
 describe('OverlayApp — 右下角非模态反馈存在时', () => {
-  it('反馈是右下角 Shadow DOM status，数字与字母键仍选择下一题答案', () => {
+  it('反馈是右下角 Shadow DOM status，数字键仍选择下一题答案', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
     const feedbackHost = showLearningFeedbackNotice();
     const feedbackStatus = feedbackHost.shadowRoot?.querySelector('[role="status"]');
@@ -677,8 +829,8 @@ describe('OverlayApp — 右下角非模态反馈存在时', () => {
     pressKey('2');
     expect(screen.getByRole('button', { name: '释放' })).toHaveAttribute('aria-pressed', 'true');
 
-    pressKey('d');
-    expect(screen.getByRole('button', { name: '聚集' })).toHaveAttribute('aria-pressed', 'true');
+    pressKey('3');
+    expect(screen.getByRole('button', { name: '反射' })).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('Enter 仍提交当前下一题', () => {

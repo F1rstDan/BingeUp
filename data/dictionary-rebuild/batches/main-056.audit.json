@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-disturbance",
+    "enToZh": [
+      {
+        "wordId": "w-cargo",
+        "reason": "选项「货物」不是「disturbance」的主释义「干扰」或其他义项。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "选项「古董」不是「disturbance」的主释义「干扰」或其他义项。"
+      },
+      {
+        "wordId": "w-despair",
+        "reason": "选项「绝望」不是「disturbance」的主释义「干扰」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cargo",
+        "reason": "英文「cargo」的常见义项「货物」不符合主释义「干扰」。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "英文「antique」的常见义项「古董」不符合主释义「干扰」。"
+      },
+      {
+        "wordId": "w-despair",
+        "reason": "英文「despair」的常见义项「绝望」不符合主释义「干扰」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cargo",
+        "surfaceForm": "cargo",
+        "reason": "将「cargo」代入可见句子后不表达主释义「干扰」。"
+      },
+      {
+        "wordId": "w-antique",
+        "surfaceForm": "antique",
+        "reason": "将「antique」代入可见句子后不表达主释义「干扰」。"
+      },
+      {
+        "wordId": "w-despair",
+        "surfaceForm": "despair",
+        "reason": "将「despair」代入可见句子后不表达主释义「干扰」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ditch",
+    "enToZh": [
+      {
+        "wordId": "w-breeze",
+        "reason": "选项「微风」不是「ditch」的主释义「沟渠」或其他义项。"
+      },
+      {
+        "wordId": "w-blossom",
+        "reason": "选项「花」不是「ditch」的主释义「沟渠」或其他义项。"
+      },
+      {
+        "wordId": "w-announcer",
+        "reason": "选项「播音员」不是「ditch」的主释义「沟渠」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-breeze",
+        "reason": "英文「breeze」的常见义项「微风」不符合主释义「沟渠」。"
+      },
+      {
+        "wordId": "w-blossom",
+        "reason": "英文「blossom」的常见义项「花」不符合主释义「沟渠」。"
+      },
+      {
+        "wordId": "w-announcer",
+        "reason": "英文「announcer」的常见义项「播音员」不符合主释义「沟渠」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-breeze",
+        "surfaceForm": "breeze",
+        "reason": "将「breeze」代入可见句子后不表达主释义「沟渠」。"
+      },
+      {
+        "wordId": "w-blossom",
+        "surfaceForm": "blossom",
+        "reason": "将「blossom」代入可见句子后不表达主释义「沟渠」。"
+      },
+      {
+        "wordId": "w-announcer",
+        "surfaceForm": "announcer",
+        "reason": "将「announcer」代入可见句子后不表达主释义「沟渠」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dive",
+    "enToZh": [
+      {
+        "wordId": "w-denounce",
+        "reason": "选项「谴责」不是「dive」的主释义「跳水」或其他义项。"
+      },
+      {
+        "wordId": "w-convey",
+        "reason": "选项「传达」不是「dive」的主释义「跳水」或其他义项。"
+      },
+      {
+        "wordId": "w-accumulate",
+        "reason": "选项「积累」不是「dive」的主释义「跳水」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-denounce",
+        "reason": "英文「denounce」的常见义项「谴责」不符合主释义「跳水」。"
+      },
+      {
+        "wordId": "w-convey",
+        "reason": "英文「convey」的常见义项「传达」不符合主释义「跳水」。"
+      },
+      {
+        "wordId": "w-accumulate",
+        "reason": "英文「accumulate」的常见义项「积累」不符合主释义「跳水」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-denounce",
+        "surfaceForm": "denounce",
+        "reason": "将「denounce」代入可见句子后不表达主释义「跳水」。"
+      },
+      {
+        "wordId": "w-convey",
+        "surfaceForm": "convey",
+        "reason": "将「convey」代入可见句子后不表达主释义「跳水」。"
+      },
+      {
+        "wordId": "w-accumulate",
+        "surfaceForm": "accumulate",
+        "reason": "将「accumulate」代入可见句子后不表达主释义「跳水」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-diverge",
+    "enToZh": [
+      {
+        "wordId": "w-augment",
+        "reason": "选项「增加」不是「diverge」的主释义「分岔」或其他义项。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "选项「归因于」不是「diverge」的主释义「分岔」或其他义项。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "选项「欺骗」不是「diverge」的主释义「分岔」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-augment",
+        "reason": "英文「augment」的常见义项「增加」不符合主释义「分岔」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "英文「ascribe」的常见义项「归因于」不符合主释义「分岔」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "英文「deceive」的常见义项「欺骗」不符合主释义「分岔」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-augment",
+        "surfaceForm": "augment",
+        "reason": "将「augment」代入可见句子后不表达主释义「分岔」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "surfaceForm": "ascribe",
+        "reason": "将「ascribe」代入可见句子后不表达主释义「分岔」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "surfaceForm": "deceive",
+        "reason": "将「deceive」代入可见句子后不表达主释义「分岔」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-diversify",
+    "enToZh": [
+      {
+        "wordId": "w-denote",
+        "reason": "选项「表示」不是「diversify」的主释义「使多样化」或其他义项。"
+      },
+      {
+        "wordId": "w-digest",
+        "reason": "选项「消化」不是「diversify」的主释义「使多样化」或其他义项。"
+      },
+      {
+        "wordId": "w-commend",
+        "reason": "选项「称赞」不是「diversify」的主释义「使多样化」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-denote",
+        "reason": "英文「denote」的常见义项「表示」不符合主释义「使多样化」。"
+      },
+      {
+        "wordId": "w-digest",
+        "reason": "英文「digest」的常见义项「消化」不符合主释义「使多样化」。"
+      },
+      {
+        "wordId": "w-commend",
+        "reason": "英文「commend」的常见义项「称赞」不符合主释义「使多样化」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-denote",
+        "surfaceForm": "denote",
+        "reason": "将「denote」代入可见句子后不表达主释义「使多样化」。"
+      },
+      {
+        "wordId": "w-digest",
+        "surfaceForm": "digest",
+        "reason": "将「digest」代入可见句子后不表达主释义「使多样化」。"
+      },
+      {
+        "wordId": "w-commend",
+        "surfaceForm": "commend",
+        "reason": "将「commend」代入可见句子后不表达主释义「使多样化」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-diversity",
+    "enToZh": [
+      {
+        "wordId": "w-aspect",
+        "reason": "选项「方面」不是「diversity」的主释义「多样性」或其他义项。"
+      },
+      {
+        "wordId": "w-bay",
+        "reason": "选项「海湾」不是「diversity」的主释义「多样性」或其他义项。"
+      },
+      {
+        "wordId": "w-action",
+        "reason": "选项「行动」不是「diversity」的主释义「多样性」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aspect",
+        "reason": "英文「aspect」的常见义项「方面」不符合主释义「多样性」。"
+      },
+      {
+        "wordId": "w-bay",
+        "reason": "英文「bay」的常见义项「海湾」不符合主释义「多样性」。"
+      },
+      {
+        "wordId": "w-action",
+        "reason": "英文「action」的常见义项「行动」不符合主释义「多样性」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aspect",
+        "surfaceForm": "aspect",
+        "reason": "将「aspect」代入可见句子后不表达主释义「多样性」。"
+      },
+      {
+        "wordId": "w-bay",
+        "surfaceForm": "bay",
+        "reason": "将「bay」代入可见句子后不表达主释义「多样性」。"
+      },
+      {
+        "wordId": "w-action",
+        "surfaceForm": "action",
+        "reason": "将「action」代入可见句子后不表达主释义「多样性」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-divert",
+    "enToZh": [
+      {
+        "wordId": "w-condemn",
+        "reason": "选项「谴责」不是「divert」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-deprive",
+        "reason": "选项「剥夺」不是「divert」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-broaden",
+        "reason": "选项「拓宽」不是「divert」的主释义「转移」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-condemn",
+        "reason": "英文「condemn」的常见义项「谴责」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-deprive",
+        "reason": "英文「deprive」的常见义项「剥夺」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-broaden",
+        "reason": "英文「broaden」的常见义项「拓宽」不符合主释义「转移」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-condemn",
+        "surfaceForm": "condemn",
+        "reason": "将「condemn」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-deprive",
+        "surfaceForm": "deprive",
+        "reason": "将「deprive」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-broaden",
+        "surfaceForm": "broaden",
+        "reason": "将「broaden」代入可见句子后不表达主释义「转移」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-divide",
+    "enToZh": [
+      {
+        "wordId": "w-dance",
+        "reason": "选项「跳舞」不是「divide」的主释义「分开」或其他义项。"
+      },
+      {
+        "wordId": "w-confirm",
+        "reason": "选项「确认」不是「divide」的主释义「分开」或其他义项。"
+      },
+      {
+        "wordId": "w-acquire",
+        "reason": "选项「获得」不是「divide」的主释义「分开」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dance",
+        "reason": "英文「dance」的常见义项「跳舞」不符合主释义「分开」。"
+      },
+      {
+        "wordId": "w-confirm",
+        "reason": "英文「confirm」的常见义项「确认」不符合主释义「分开」。"
+      },
+      {
+        "wordId": "w-acquire",
+        "reason": "英文「acquire」的常见义项「获得」不符合主释义「分开」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dance",
+        "surfaceForm": "dance",
+        "reason": "将「dance」代入可见句子后不表达主释义「分开」。"
+      },
+      {
+        "wordId": "w-confirm",
+        "surfaceForm": "confirm",
+        "reason": "将「confirm」代入可见句子后不表达主释义「分开」。"
+      },
+      {
+        "wordId": "w-acquire",
+        "surfaceForm": "acquire",
+        "reason": "将「acquire」代入可见句子后不表达主释义「分开」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-division",
+    "enToZh": [
+      {
+        "wordId": "w-diary",
+        "reason": "选项「日记本」不是「division」的主释义「分割」或其他义项。"
+      },
+      {
+        "wordId": "w-advertising",
+        "reason": "选项「广告宣传」不是「division」的主释义「分割」或其他义项。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "选项「防御」不是「division」的主释义「分割」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-diary",
+        "reason": "英文「diary」的常见义项「日记本」不符合主释义「分割」。"
+      },
+      {
+        "wordId": "w-advertising",
+        "reason": "英文「advertising」的常见义项「广告宣传」不符合主释义「分割」。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "英文「defence」的常见义项「防御」不符合主释义「分割」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-diary",
+        "surfaceForm": "diary",
+        "reason": "将「diary」代入可见句子后不表达主释义「分割」。"
+      },
+      {
+        "wordId": "w-advertising",
+        "surfaceForm": "advertising",
+        "reason": "将「advertising」代入可见句子后不表达主释义「分割」。"
+      },
+      {
+        "wordId": "w-defence",
+        "surfaceForm": "defence",
+        "reason": "将「defence」代入可见句子后不表达主释义「分割」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-divorce",
+    "enToZh": [
+      {
+        "wordId": "w-college",
+        "reason": "选项「大学」不是「divorce」的主释义「离婚」或其他义项。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "选项「防御」不是「divorce」的主释义「离婚」或其他义项。"
+      },
+      {
+        "wordId": "w-consultant",
+        "reason": "选项「顾问」不是「divorce」的主释义「离婚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-college",
+        "reason": "英文「college」的常见义项「大学」不符合主释义「离婚」。"
+      },
+      {
+        "wordId": "w-defence",
+        "reason": "英文「defence」的常见义项「防御」不符合主释义「离婚」。"
+      },
+      {
+        "wordId": "w-consultant",
+        "reason": "英文「consultant」的常见义项「顾问」不符合主释义「离婚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-college",
+        "surfaceForm": "college",
+        "reason": "将「college」代入可见句子后不表达主释义「离婚」。"
+      },
+      {
+        "wordId": "w-defence",
+        "surfaceForm": "defence",
+        "reason": "将「defence」代入可见句子后不表达主释义「离婚」。"
+      },
+      {
+        "wordId": "w-consultant",
+        "surfaceForm": "consultant",
+        "reason": "将「consultant」代入可见句子后不表达主释义「离婚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dock",
+    "enToZh": [
+      {
+        "wordId": "w-dioxide",
+        "reason": "选项「二氧化物」不是「dock」的主释义「码头」或其他义项。"
+      },
+      {
+        "wordId": "w-clip",
+        "reason": "选项「夹子」不是「dock」的主释义「码头」或其他义项。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "选项「伤亡人员」不是「dock」的主释义「码头」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dioxide",
+        "reason": "英文「dioxide」的常见义项「二氧化物」不符合主释义「码头」。"
+      },
+      {
+        "wordId": "w-clip",
+        "reason": "英文「clip」的常见义项「夹子」不符合主释义「码头」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "reason": "英文「casualty」的常见义项「伤亡人员」不符合主释义「码头」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dioxide",
+        "surfaceForm": "dioxide",
+        "reason": "将「dioxide」代入可见句子后不表达主释义「码头」。"
+      },
+      {
+        "wordId": "w-clip",
+        "surfaceForm": "clip",
+        "reason": "将「clip」代入可见句子后不表达主释义「码头」。"
+      },
+      {
+        "wordId": "w-casualty",
+        "surfaceForm": "casualty",
+        "reason": "将「casualty」代入可见句子后不表达主释义「码头」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-doctor",
+    "enToZh": [
+      {
+        "wordId": "w-code",
+        "reason": "选项「代码」不是「doctor」的主释义「医生」或其他义项。"
+      },
+      {
+        "wordId": "w-case",
+        "reason": "选项「案件」不是「doctor」的主释义「医生」或其他义项。"
+      },
+      {
+        "wordId": "w-column",
+        "reason": "选项「专栏」不是「doctor」的主释义「医生」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-code",
+        "reason": "英文「code」的常见义项「代码」不符合主释义「医生」。"
+      },
+      {
+        "wordId": "w-case",
+        "reason": "英文「case」的常见义项「案件」不符合主释义「医生」。"
+      },
+      {
+        "wordId": "w-column",
+        "reason": "英文「column」的常见义项「专栏」不符合主释义「医生」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-code",
+        "surfaceForm": "code",
+        "reason": "将「code」代入可见句子后不表达主释义「医生」。"
+      },
+      {
+        "wordId": "w-case",
+        "surfaceForm": "case",
+        "reason": "将「case」代入可见句子后不表达主释义「医生」。"
+      },
+      {
+        "wordId": "w-column",
+        "surfaceForm": "column",
+        "reason": "将「column」代入可见句子后不表达主释义「医生」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-doctrine",
+    "enToZh": [
+      {
+        "wordId": "w-despair",
+        "reason": "选项「绝望」不是「doctrine」的主释义「教义」或其他义项。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "选项「古董」不是「doctrine」的主释义「教义」或其他义项。"
+      },
+      {
+        "wordId": "w-domain",
+        "reason": "选项「领域」不是「doctrine」的主释义「教义」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-despair",
+        "reason": "英文「despair」的常见义项「绝望」不符合主释义「教义」。"
+      },
+      {
+        "wordId": "w-antique",
+        "reason": "英文「antique」的常见义项「古董」不符合主释义「教义」。"
+      },
+      {
+        "wordId": "w-domain",
+        "reason": "英文「domain」的常见义项「领域」不符合主释义「教义」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-despair",
+        "surfaceForm": "despair",
+        "reason": "将「despair」代入可见句子后不表达主释义「教义」。"
+      },
+      {
+        "wordId": "w-antique",
+        "surfaceForm": "antique",
+        "reason": "将「antique」代入可见句子后不表达主释义「教义」。"
+      },
+      {
+        "wordId": "w-domain",
+        "surfaceForm": "domain",
+        "reason": "将「domain」代入可见句子后不表达主释义「教义」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-document",
+    "enToZh": [
+      {
+        "wordId": "w-dirt",
+        "reason": "选项「污垢」不是「document」的主释义「文件」或其他义项。"
+      },
+      {
+        "wordId": "w-breath",
+        "reason": "选项「呼吸」不是「document」的主释义「文件」或其他义项。"
+      },
+      {
+        "wordId": "w-affair",
+        "reason": "选项「事情」不是「document」的主释义「文件」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dirt",
+        "reason": "英文「dirt」的常见义项「污垢」不符合主释义「文件」。"
+      },
+      {
+        "wordId": "w-breath",
+        "reason": "英文「breath」的常见义项「呼吸」不符合主释义「文件」。"
+      },
+      {
+        "wordId": "w-affair",
+        "reason": "英文「affair」的常见义项「事情」不符合主释义「文件」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dirt",
+        "surfaceForm": "dirt",
+        "reason": "将「dirt」代入可见句子后不表达主释义「文件」。"
+      },
+      {
+        "wordId": "w-breath",
+        "surfaceForm": "breath",
+        "reason": "将「breath」代入可见句子后不表达主释义「文件」。"
+      },
+      {
+        "wordId": "w-affair",
+        "surfaceForm": "affair",
+        "reason": "将「affair」代入可见句子后不表达主释义「文件」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-documentary",
+    "enToZh": [
+      {
+        "wordId": "w-discrepancy",
+        "reason": "选项「差异」不是「documentary」的主释义「纪录片」或其他义项。"
+      },
+      {
+        "wordId": "w-bacon",
+        "reason": "选项「培根」不是「documentary」的主释义「纪录片」或其他义项。"
+      },
+      {
+        "wordId": "w-delegation",
+        "reason": "选项「代表团」不是「documentary」的主释义「纪录片」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-discrepancy",
+        "reason": "英文「discrepancy」的常见义项「差异」不符合主释义「纪录片」。"
+      },
+      {
+        "wordId": "w-bacon",
+        "reason": "英文「bacon」的常见义项「培根」不符合主释义「纪录片」。"
+      },
+      {
+        "wordId": "w-delegation",
+        "reason": "英文「delegation」的常见义项「代表团」不符合主释义「纪录片」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-discrepancy",
+        "surfaceForm": "discrepancy",
+        "reason": "将「discrepancy」代入可见句子后不表达主释义「纪录片」。"
+      },
+      {
+        "wordId": "w-bacon",
+        "surfaceForm": "bacon",
+        "reason": "将「bacon」代入可见句子后不表达主释义「纪录片」。"
+      },
+      {
+        "wordId": "w-delegation",
+        "surfaceForm": "delegation",
+        "reason": "将「delegation」代入可见句子后不表达主释义「纪录片」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dog",
+    "enToZh": [
+      {
+        "wordId": "w-candy",
+        "reason": "选项「糖果」不是「dog」的主释义「狗」或其他义项。"
+      },
+      {
+        "wordId": "w-bath",
+        "reason": "选项「洗澡」不是「dog」的主释义「狗」或其他义项。"
+      },
+      {
+        "wordId": "w-clinic",
+        "reason": "选项「诊所」不是「dog」的主释义「狗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-candy",
+        "reason": "英文「candy」的常见义项「糖果」不符合主释义「狗」。"
+      },
+      {
+        "wordId": "w-bath",
+        "reason": "英文「bath」的常见义项「洗澡」不符合主释义「狗」。"
+      },
+      {
+        "wordId": "w-clinic",
+        "reason": "英文「clinic」的常见义项「诊所」不符合主释义「狗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-candy",
+        "surfaceForm": "candy",
+        "reason": "将「candy」代入可见句子后不表达主释义「狗」。"
+      },
+      {
+        "wordId": "w-bath",
+        "surfaceForm": "bath",
+        "reason": "将「bath」代入可见句子后不表达主释义「狗」。"
+      },
+      {
+        "wordId": "w-clinic",
+        "surfaceForm": "clinic",
+        "reason": "将「clinic」代入可见句子后不表达主释义「狗」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-domain",
+    "enToZh": [
+      {
+        "wordId": "w-chess",
+        "reason": "选项「国际象棋」不是「domain」的主释义「领域」或其他义项。"
+      },
+      {
+        "wordId": "w-contempt",
+        "reason": "选项「蔑视」不是「domain」的主释义「领域」或其他义项。"
+      },
+      {
+        "wordId": "w-ditch",
+        "reason": "选项「沟渠」不是「domain」的主释义「领域」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chess",
+        "reason": "英文「chess」的常见义项「国际象棋」不符合主释义「领域」。"
+      },
+      {
+        "wordId": "w-contempt",
+        "reason": "英文「contempt」的常见义项「蔑视」不符合主释义「领域」。"
+      },
+      {
+        "wordId": "w-ditch",
+        "reason": "英文「ditch」的常见义项「沟渠」不符合主释义「领域」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chess",
+        "surfaceForm": "chess",
+        "reason": "将「chess」代入可见句子后不表达主释义「领域」。"
+      },
+      {
+        "wordId": "w-contempt",
+        "surfaceForm": "contempt",
+        "reason": "将「contempt」代入可见句子后不表达主释义「领域」。"
+      },
+      {
+        "wordId": "w-ditch",
+        "surfaceForm": "ditch",
+        "reason": "将「ditch」代入可见句子后不表达主释义「领域」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dome",
+    "enToZh": [
+      {
+        "wordId": "w-clue",
+        "reason": "选项「线索」不是「dome」的主释义「圆顶」或其他义项。"
+      },
+      {
+        "wordId": "w-autobiography",
+        "reason": "选项「自传」不是「dome」的主释义「圆顶」或其他义项。"
+      },
+      {
+        "wordId": "w-announcer",
+        "reason": "选项「播音员」不是「dome」的主释义「圆顶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-clue",
+        "reason": "英文「clue」的常见义项「线索」不符合主释义「圆顶」。"
+      },
+      {
+        "wordId": "w-autobiography",
+        "reason": "英文「autobiography」的常见义项「自传」不符合主释义「圆顶」。"
+      },
+      {
+        "wordId": "w-announcer",
+        "reason": "英文「announcer」的常见义项「播音员」不符合主释义「圆顶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-clue",
+        "surfaceForm": "clue",
+        "reason": "将「clue」代入可见句子后不表达主释义「圆顶」。"
+      },
+      {
+        "wordId": "w-autobiography",
+        "surfaceForm": "autobiography",
+        "reason": "将「autobiography」代入可见句子后不表达主释义「圆顶」。"
+      },
+      {
+        "wordId": "w-announcer",
+        "surfaceForm": "announcer",
+        "reason": "将「announcer」代入可见句子后不表达主释义「圆顶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dominate",
+    "enToZh": [
+      {
+        "wordId": "w-advocate",
+        "reason": "选项「提倡」不是「dominate」的主释义「主导」或其他义项。"
+      },
+      {
+        "wordId": "w-cure",
+        "reason": "选项「治愈」不是「dominate」的主释义「主导」或其他义项。"
+      },
+      {
+        "wordId": "w-bury",
+        "reason": "选项「埋葬」不是「dominate」的主释义「主导」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-advocate",
+        "reason": "英文「advocate」的常见义项「提倡」不符合主释义「主导」。"
+      },
+      {
+        "wordId": "w-cure",
+        "reason": "英文「cure」的常见义项「治愈」不符合主释义「主导」。"
+      },
+      {
+        "wordId": "w-bury",
+        "reason": "英文「bury」的常见义项「埋葬」不符合主释义「主导」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-advocate",
+        "surfaceForm": "advocate",
+        "reason": "将「advocate」代入可见句子后不表达主释义「主导」。"
+      },
+      {
+        "wordId": "w-cure",
+        "surfaceForm": "cure",
+        "reason": "将「cure」代入可见句子后不表达主释义「主导」。"
+      },
+      {
+        "wordId": "w-bury",
+        "surfaceForm": "bury",
+        "reason": "将「bury」代入可见句子后不表达主释义「主导」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-donate",
+    "enToZh": [
+      {
+        "wordId": "w-dine",
+        "reason": "选项「进餐」不是「donate」的主释义「捐赠」或其他义项。"
+      },
+      {
+        "wordId": "w-discern",
+        "reason": "选项「辨认」不是「donate」的主释义「捐赠」或其他义项。"
+      },
+      {
+        "wordId": "w-convict",
+        "reason": "选项「定罪」不是「donate」的主释义「捐赠」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dine",
+        "reason": "英文「dine」的常见义项「进餐」不符合主释义「捐赠」。"
+      },
+      {
+        "wordId": "w-discern",
+        "reason": "英文「discern」的常见义项「辨认」不符合主释义「捐赠」。"
+      },
+      {
+        "wordId": "w-convict",
+        "reason": "英文「convict」的常见义项「定罪」不符合主释义「捐赠」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dine",
+        "surfaceForm": "dine",
+        "reason": "将「dine」代入可见句子后不表达主释义「捐赠」。"
+      },
+      {
+        "wordId": "w-discern",
+        "surfaceForm": "discern",
+        "reason": "将「discern」代入可见句子后不表达主释义「捐赠」。"
+      },
+      {
+        "wordId": "w-convict",
+        "surfaceForm": "convict",
+        "reason": "将「convict」代入可见句子后不表达主释义「捐赠」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-donkey",
+    "enToZh": [
+      {
+        "wordId": "w-appendix",
+        "reason": "选项「附录」不是「donkey」的主释义「驴」或其他义项。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "reason": "选项「美味」不是「donkey」的主释义「驴」或其他义项。"
+      },
+      {
+        "wordId": "w-bristle",
+        "reason": "选项「硬毛」不是「donkey」的主释义「驴」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-appendix",
+        "reason": "英文「appendix」的常见义项「附录」不符合主释义「驴」。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "reason": "英文「delicacy」的常见义项「美味」不符合主释义「驴」。"
+      },
+      {
+        "wordId": "w-bristle",
+        "reason": "英文「bristle」的常见义项「硬毛」不符合主释义「驴」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-appendix",
+        "surfaceForm": "appendix",
+        "reason": "将「appendix」代入可见句子后不表达主释义「驴」。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "surfaceForm": "delicacy",
+        "reason": "将「delicacy」代入可见句子后不表达主释义「驴」。"
+      },
+      {
+        "wordId": "w-bristle",
+        "surfaceForm": "bristle",
+        "reason": "将「bristle」代入可见句子后不表达主释义「驴」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-doom",
+    "enToZh": [
+      {
+        "wordId": "w-bishop",
+        "reason": "选项「主教」不是「doom」的主释义「厄运」或其他义项。"
+      },
+      {
+        "wordId": "w-carriage",
+        "reason": "选项「马车」不是「doom」的主释义「厄运」或其他义项。"
+      },
+      {
+        "wordId": "w-bang",
+        "reason": "选项「巨响」不是「doom」的主释义「厄运」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bishop",
+        "reason": "英文「bishop」的常见义项「主教」不符合主释义「厄运」。"
+      },
+      {
+        "wordId": "w-carriage",
+        "reason": "英文「carriage」的常见义项「马车」不符合主释义「厄运」。"
+      },
+      {
+        "wordId": "w-bang",
+        "reason": "英文「bang」的常见义项「巨响」不符合主释义「厄运」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bishop",
+        "surfaceForm": "bishop",
+        "reason": "将「bishop」代入可见句子后不表达主释义「厄运」。"
+      },
+      {
+        "wordId": "w-carriage",
+        "surfaceForm": "carriage",
+        "reason": "将「carriage」代入可见句子后不表达主释义「厄运」。"
+      },
+      {
+        "wordId": "w-bang",
+        "surfaceForm": "bang",
+        "reason": "将「bang」代入可见句子后不表达主释义「厄运」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-door",
+    "enToZh": [
+      {
+        "wordId": "w-book",
+        "reason": "选项「书」不是「door」的主释义「门」或其他义项。"
+      },
+      {
+        "wordId": "w-card",
+        "reason": "选项「卡片」不是「door」的主释义「门」或其他义项。"
+      },
+      {
+        "wordId": "w-captain",
+        "reason": "选项「队长」不是「door」的主释义「门」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-book",
+        "reason": "英文「book」的常见义项「书」不符合主释义「门」。"
+      },
+      {
+        "wordId": "w-card",
+        "reason": "英文「card」的常见义项「卡片」不符合主释义「门」。"
+      },
+      {
+        "wordId": "w-captain",
+        "reason": "英文「captain」的常见义项「队长」不符合主释义「门」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-book",
+        "surfaceForm": "book",
+        "reason": "将「book」代入可见句子后不表达主释义「门」。"
+      },
+      {
+        "wordId": "w-card",
+        "surfaceForm": "card",
+        "reason": "将「card」代入可见句子后不表达主释义「门」。"
+      },
+      {
+        "wordId": "w-captain",
+        "surfaceForm": "captain",
+        "reason": "将「captain」代入可见句子后不表达主释义「门」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dorm",
+    "enToZh": [
+      {
+        "wordId": "w-delicacy",
+        "reason": "选项「美味」不是「dorm」的主释义「宿舍」或其他义项。"
+      },
+      {
+        "wordId": "w-diploma",
+        "reason": "选项「文凭」不是「dorm」的主释义「宿舍」或其他义项。"
+      },
+      {
+        "wordId": "w-cradle",
+        "reason": "选项「摇篮」不是「dorm」的主释义「宿舍」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-delicacy",
+        "reason": "英文「delicacy」的常见义项「美味」不符合主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-diploma",
+        "reason": "英文「diploma」的常见义项「文凭」不符合主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-cradle",
+        "reason": "英文「cradle」的常见义项「摇篮」不符合主释义「宿舍」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-delicacy",
+        "surfaceForm": "delicacy",
+        "reason": "将「delicacy」代入可见句子后不表达主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-diploma",
+        "surfaceForm": "diploma",
+        "reason": "将「diploma」代入可见句子后不表达主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-cradle",
+        "surfaceForm": "cradle",
+        "reason": "将「cradle」代入可见句子后不表达主释义「宿舍」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-dormitory",
+    "enToZh": [
+      {
+        "wordId": "w-chalk",
+        "reason": "选项「粉笔」不是「dormitory」的主释义「宿舍」或其他义项。"
+      },
+      {
+        "wordId": "w-bushel",
+        "reason": "选项「蒲式耳」不是「dormitory」的主释义「宿舍」或其他义项。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「dormitory」的主释义「宿舍」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chalk",
+        "reason": "英文「chalk」的常见义项「粉笔」不符合主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-bushel",
+        "reason": "英文「bushel」的常见义项「蒲式耳」不符合主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「宿舍」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chalk",
+        "surfaceForm": "chalk",
+        "reason": "将「chalk」代入可见句子后不表达主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-bushel",
+        "surfaceForm": "bushel",
+        "reason": "将「bushel」代入可见句子后不表达主释义「宿舍」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "surfaceForm": "nuisance",
+        "reason": "将「nuisance」代入可见句子后不表达主释义「宿舍」。"
+      }
+    ],
+    "spelling": null
+  }
+]

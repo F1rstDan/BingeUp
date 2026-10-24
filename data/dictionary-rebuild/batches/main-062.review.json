@@ -1,0 +1,18 @@
+{
+  "reviewer": "independent-sample-review-main-062",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-employee",
+    "w-employer",
+    "w-employment",
+    "w-enable",
+    "w-enclosure",
+    "w-encounter",
+    "w-encourage",
+    "w-endure",
+    "w-enemy",
+    "w-engine"
+  ],
+  "result": "pass",
+  "findings": []
+}

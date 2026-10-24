@@ -30,6 +30,19 @@ export type PrepareDevCardResult =
 export type DevContentMessage =
   { type: 'DEV_PING' } | { type: 'DEV_SHOW_CARD'; cardType: DevCardType };
 
+export const DEV_SCENARIOS = [
+  { id: 'week', label: '1 周' },
+  { id: 'month', label: '1 个月' },
+  { id: 'year', label: '1 年' },
+  { id: 'complete', label: '全部学完' },
+] as const;
+
+export type DevScenario = (typeof DEV_SCENARIOS)[number]['id'];
+
+export function isDevScenario(value: unknown): value is DevScenario {
+  return DEV_SCENARIOS.some((scenario) => scenario.id === value);
+}
+
 export type DevPingResponse = { ok: true };
 
 export type DevShowCardResult =
@@ -42,7 +55,8 @@ export type DevShowCardResult =
 export type DevExtensionMessage =
   | { type: 'DEV_PREPARE_CARD'; cardType: DevCardType }
   | { type: 'DEV_GET_DECK_SUMMARY' }
-  | { type: 'DEV_GET_DATA_SNAPSHOT' };
+  | { type: 'DEV_GET_DATA_SNAPSHOT' }
+  | { type: 'DEV_SEED_SCENARIO'; scenario: DevScenario };
 
 export interface DevDeckSummary {
   deck: { id: string; name: string };

@@ -4,6 +4,8 @@ import { Button, Card } from 'animal-island-ui';
 import { AlertCircleIcon } from 'naive-icons';
 import { getIslandShadowStyleBundle, registerIslandFontFaces } from '@/ui/island/shadow-styles';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
+import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import type { LearningItem, OverlayAction, OverlayMode } from '@/types';
 import type { OverlayOpenOptions, OverlayPort } from '@/content/content-controller';
 
@@ -17,11 +19,11 @@ const OVERLAY_HOST_ID = 'bingeup-overlay-host';
  *
  * 令牌（--animal-*）由第 2 段注入，因此自定义元素在第 3 段中始终可用。
  */
-const OVERLAY_RESET_CSS = `
+export const OVERLAY_RESET_CSS = `
   :host { all: initial; }
 `;
 
-const OVERLAY_SHELL_CSS = `
+export const OVERLAY_SHELL_CSS = `
   .bingeup-overlay {
     position: absolute; inset: 0; display: grid; width: 100%; height: 100%;
     box-sizing: border-box; place-items: center; overflow: hidden; padding: 15px;
@@ -30,29 +32,100 @@ const OVERLAY_SHELL_CSS = `
     line-height: var(--animal-line-height-base);
   }
   .bingeup-overlay .bingeup-card {
-    width: min(470px, 100%); max-height: 100%; overflow-y: auto; overflow-x: auto;
+    width: min(470px, 100%); min-width: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden;
     overscroll-behavior: contain;
   }
   .bingeup-continuous-badge {
     display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
   }
+  .bingeup-previous-result {
+    display: grid; justify-items: center; gap: 5px;
+    width: 100%; margin: 0 0 var(--animal-spacing-sm); padding: 6px 10px;
+    border-radius: var(--animal-border-radius-sm); background: var(--animal-bg-color-secondary);
+    color: var(--animal-text-color-secondary);
+    font-size: var(--animal-font-size-sm); font-weight: 700; line-height: 1.4;
+  }
+  .bingeup-previous-result[data-correct="true"] {
+    color: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result[data-correct="false"] {
+    color: var(--animal-error-color-active);
+  }
+  .bingeup-previous-result__icon {
+    display: inline-flex; flex: none; width: 22px; height: 22px;
+    align-items: center; justify-content: center; border-radius: 50%; color: #fff;
+  }
+  .bingeup-previous-result__icon[data-correct="true"] {
+    background: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result__icon[data-correct="false"] {
+    background: var(--animal-error-color-active);
+  }
+  .bingeup-previous-result__heading {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .bingeup-previous-result__comparison {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 4px var(--animal-spacing-sm); max-width: 100%;
+  }
+  .bingeup-previous-result__answer {
+    display: inline-flex; align-items: baseline; gap: 4px; min-width: 0;
+    padding: 2px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--animal-error-color) 10%, transparent);
+    color: var(--animal-error-color-active); font-size: 12px; font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .bingeup-previous-result__answer[data-answer="correct"] {
+    background: color-mix(in srgb, var(--animal-success-color) 12%, transparent);
+    color: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result__answer-label {
+    color: var(--animal-text-color-secondary); font-weight: 600; white-space: nowrap;
+  }
+  .bingeup-previous-result__answer strong { font-weight: 800; }
   .bingeup-prompt {
     margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
     letter-spacing: 0.01em; text-align: center;
+  }
+  .bingeup-prompt--context {
+    font-size: 19px; font-weight: 700; line-height: 1.55;
+  }
+  .bingeup-new-word { min-width: 0; }
+  .bingeup-new-word .bingeup-prompt { margin-bottom: var(--animal-spacing-xs); }
+  .bingeup-new-word-badge {
+    display: flex; justify-content: flex-end; margin-bottom: var(--animal-spacing-xs);
   }
   .bingeup-phonetic {
     margin-bottom: var(--animal-spacing-sm); color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-base); text-align: center;
   }
-  .bingeup-meaning { margin-bottom: var(--animal-spacing-sm); font-size: 17px; font-weight: 700; text-align: center; }
-  .bingeup-example {
-    margin-bottom: var(--animal-spacing-xs); font-size: var(--animal-font-size-base);
-    font-style: italic; line-height: 1.5;
+  .bingeup-part-of-speech { display: flex; justify-content: center; margin-bottom: var(--animal-spacing-sm); }
+  .bingeup-question-pronunciation {
+    display: flex; justify-content: center; margin-bottom: var(--animal-spacing-md);
   }
-  .bingeup-example-translation {
-    margin-bottom: var(--animal-spacing-lg); color: var(--animal-text-color-secondary);
-    font-size: var(--animal-font-size-sm);
+  .bingeup-new-word-meaning {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: var(--animal-spacing-xs) var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-md);
+    font-size: 17px; font-weight: 700; line-height: 1.45; text-align: center; overflow-wrap: anywhere;
   }
+  .bingeup-new-word-meaning > span { min-width: 0; }
+  .bingeup-secondary {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--animal-spacing-xs);
+    margin: var(--animal-spacing-sm) 0 var(--animal-spacing-md);
+    justify-content: center; font-size: var(--animal-font-size-sm); line-height: 1.6;
+    text-align: center;
+  }
+  .bingeup-secondary-label {
+    margin-right: var(--animal-spacing-xs);
+    color: color-mix(in srgb, var(--animal-text-color-secondary) 70%, transparent);
+    font-weight: 600; white-space: nowrap;
+  }
+  .bingeup-secondary-item { min-width: 0; overflow-wrap: anywhere; }
+  .bingeup-secondary-pos { margin-right: 3px; font-weight: 700; }
+  .bingeup-secondary-separator { margin-left: var(--animal-spacing-xs); color: var(--animal-text-color-secondary); }
+  .bingeup-spelling-hint { margin: 0 0 var(--animal-spacing-md); padding: var(--animal-spacing-sm) var(--animal-spacing-md); border: 1px dashed var(--animal-border-color); border-radius: 12px; text-align: left; }
+  .bingeup-spelling-example { margin: 0 0 4px; font-size: 14px; font-style: italic; line-height: 1.5; }
+  .bingeup-spelling-meta { margin: 0; color: var(--animal-text-color-secondary); font-size: 13px; }
   .bingeup-options { display: grid; gap: var(--animal-spacing-sm); margin-bottom: var(--animal-spacing-lg); }
   .bingeup-option {
     display: flex; align-items: center; gap: var(--animal-spacing-md); width: 100%;
@@ -159,7 +232,14 @@ export class OverlayController implements OverlayPort {
     registerIslandFontFaces(bundle.fontFaces);
     this.mountShadow({
       hostId: OVERLAY_HOST_ID,
-      css: OVERLAY_RESET_CSS + '\n' + bundle.css + '\n' + OVERLAY_SHELL_CSS,
+      css:
+        OVERLAY_RESET_CSS +
+        '\n' +
+        bundle.css +
+        '\n' +
+        OVERLAY_SHELL_CSS +
+        SPEECH_CONTROLS_CSS +
+        WORD_SUMMARY_CSS,
       target,
       mode,
       render: () => (
@@ -168,6 +248,7 @@ export class OverlayController implements OverlayPort {
             item={item}
             onAction={(action) => this.actionHandler?.(action)}
             isContinuous={options?.isContinuous}
+            previousResult={options?.previousResult}
           />
         </OverlayErrorBoundary>
       ),

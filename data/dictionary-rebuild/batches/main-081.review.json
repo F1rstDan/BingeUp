@@ -1,0 +1,14 @@
+{
+  "reviewer": "independent-sample-review-main-081",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-globe",
+    "w-glove",
+    "w-god",
+    "w-golf",
+    "w-goodness",
+    "w-government"
+  ],
+  "result": "pass",
+  "findings": []
+}

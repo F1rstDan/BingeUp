@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-transfer",
+    "enToZh": [
+      {
+        "wordId": "w-express",
+        "reason": "选项「表达」不是「transfer」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-appoint",
+        "reason": "选项「任命」不是「transfer」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-dance",
+        "reason": "选项「跳舞」不是「transfer」的主释义「转移」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-express",
+        "reason": "英文「express」的常见义项「表达」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-appoint",
+        "reason": "英文「appoint」的常见义项「任命」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-dance",
+        "reason": "英文「dance」的常见义项「跳舞」不符合主释义「转移」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-express",
+        "surfaceForm": "express",
+        "reason": "将「express」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-appoint",
+        "surfaceForm": "appoint",
+        "reason": "将「appoint」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-dance",
+        "surfaceForm": "dance",
+        "reason": "将「dance」代入可见句子后不表达主释义「转移」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transform",
+    "enToZh": [
+      {
+        "wordId": "w-read",
+        "reason": "选项「阅读」不是「transform」的主释义「改变」或其他义项。"
+      },
+      {
+        "wordId": "w-marry",
+        "reason": "选项「结婚」不是「transform」的主释义「改变」或其他义项。"
+      },
+      {
+        "wordId": "w-disapprove",
+        "reason": "选项「不赞成」不是「transform」的主释义「改变」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-read",
+        "reason": "英文「read」的常见义项「阅读」不符合主释义「改变」。"
+      },
+      {
+        "wordId": "w-marry",
+        "reason": "英文「marry」的常见义项「结婚」不符合主释义「改变」。"
+      },
+      {
+        "wordId": "w-disapprove",
+        "reason": "英文「disapprove」的常见义项「不赞成」不符合主释义「改变」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-read",
+        "surfaceForm": "read",
+        "reason": "将「read」代入可见句子后不表达主释义「改变」。"
+      },
+      {
+        "wordId": "w-marry",
+        "surfaceForm": "marry",
+        "reason": "将「marry」代入可见句子后不表达主释义「改变」。"
+      },
+      {
+        "wordId": "w-disapprove",
+        "surfaceForm": "disapprove",
+        "reason": "将「disapprove」代入可见句子后不表达主释义「改变」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transformation",
+    "enToZh": [
+      {
+        "wordId": "w-terminal",
+        "reason": "选项「航站楼」不是「transformation」的主释义「转变」或其他义项。"
+      },
+      {
+        "wordId": "w-cave",
+        "reason": "选项「洞穴」不是「transformation」的主释义「转变」或其他义项。"
+      },
+      {
+        "wordId": "w-compass",
+        "reason": "选项「指南针」不是「transformation」的主释义「转变」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-terminal",
+        "reason": "英文「terminal」的常见义项「航站楼」不符合主释义「转变」。"
+      },
+      {
+        "wordId": "w-cave",
+        "reason": "英文「cave」的常见义项「洞穴」不符合主释义「转变」。"
+      },
+      {
+        "wordId": "w-compass",
+        "reason": "英文「compass」的常见义项「指南针」不符合主释义「转变」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-terminal",
+        "surfaceForm": "terminal",
+        "reason": "将「terminal」代入可见句子后不表达主释义「转变」。"
+      },
+      {
+        "wordId": "w-cave",
+        "surfaceForm": "cave",
+        "reason": "将「cave」代入可见句子后不表达主释义「转变」。"
+      },
+      {
+        "wordId": "w-compass",
+        "surfaceForm": "compass",
+        "reason": "将「compass」代入可见句子后不表达主释义「转变」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transformer",
+    "enToZh": [
+      {
+        "wordId": "w-conceit",
+        "reason": "选项「自负」不是「transformer」的主释义「变压器」或其他义项。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "选项「安培」不是「transformer」的主释义「变压器」或其他义项。"
+      },
+      {
+        "wordId": "w-theorem",
+        "reason": "选项「定理」不是「transformer」的主释义「变压器」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-conceit",
+        "reason": "英文「conceit」的常见义项「自负」不符合主释义「变压器」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "reason": "英文「ampere」的常见义项「安培」不符合主释义「变压器」。"
+      },
+      {
+        "wordId": "w-theorem",
+        "reason": "英文「theorem」的常见义项「定理」不符合主释义「变压器」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-conceit",
+        "surfaceForm": "conceit",
+        "reason": "将「conceit」代入可见句子后不表达主释义「变压器」。"
+      },
+      {
+        "wordId": "w-ampere",
+        "surfaceForm": "ampere",
+        "reason": "将「ampere」代入可见句子后不表达主释义「变压器」。"
+      },
+      {
+        "wordId": "w-theorem",
+        "surfaceForm": "theorem",
+        "reason": "将「theorem」代入可见句子后不表达主释义「变压器」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transient",
+    "enToZh": [
+      {
+        "wordId": "w-stern",
+        "reason": "选项「严厉的」不是「transient」的主释义「短暂的」或其他义项。"
+      },
+      {
+        "wordId": "w-captive",
+        "reason": "选项「被关押的」不是「transient」的主释义「短暂的」或其他义项。"
+      },
+      {
+        "wordId": "w-flat",
+        "reason": "选项「平坦的」不是「transient」的主释义「短暂的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-stern",
+        "reason": "英文「stern」的常见义项「严厉的」不符合主释义「短暂的」。"
+      },
+      {
+        "wordId": "w-captive",
+        "reason": "英文「captive」的常见义项「被关押的」不符合主释义「短暂的」。"
+      },
+      {
+        "wordId": "w-flat",
+        "reason": "英文「flat」的常见义项「平坦的」不符合主释义「短暂的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-stern",
+        "surfaceForm": "stern",
+        "reason": "将「stern」代入可见句子后不表达主释义「短暂的」。"
+      },
+      {
+        "wordId": "w-captive",
+        "surfaceForm": "captive",
+        "reason": "将「captive」代入可见句子后不表达主释义「短暂的」。"
+      },
+      {
+        "wordId": "w-flat",
+        "surfaceForm": "flat",
+        "reason": "将「flat」代入可见句子后不表达主释义「短暂的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transistor",
+    "enToZh": [
+      {
+        "wordId": "w-fluctuation",
+        "reason": "选项「波动」不是「transistor」的主释义「晶体管」或其他义项。"
+      },
+      {
+        "wordId": "w-intuition",
+        "reason": "选项「直觉」不是「transistor」的主释义「晶体管」或其他义项。"
+      },
+      {
+        "wordId": "w-bribe",
+        "reason": "选项「贿赂」不是「transistor」的主释义「晶体管」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fluctuation",
+        "reason": "英文「fluctuation」的常见义项「波动」不符合主释义「晶体管」。"
+      },
+      {
+        "wordId": "w-intuition",
+        "reason": "英文「intuition」的常见义项「直觉」不符合主释义「晶体管」。"
+      },
+      {
+        "wordId": "w-bribe",
+        "reason": "英文「bribe」的常见义项「贿赂」不符合主释义「晶体管」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fluctuation",
+        "surfaceForm": "fluctuation",
+        "reason": "将「fluctuation」代入可见句子后不表达主释义「晶体管」。"
+      },
+      {
+        "wordId": "w-intuition",
+        "surfaceForm": "intuition",
+        "reason": "将「intuition」代入可见句子后不表达主释义「晶体管」。"
+      },
+      {
+        "wordId": "w-bribe",
+        "surfaceForm": "bribe",
+        "reason": "将「bribe」代入可见句子后不表达主释义「晶体管」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transit",
+    "enToZh": [
+      {
+        "wordId": "w-coefficient",
+        "reason": "选项「系数」不是「transit」的主释义「运输」或其他义项。"
+      },
+      {
+        "wordId": "w-monument",
+        "reason": "选项「纪念碑」不是「transit」的主释义「运输」或其他义项。"
+      },
+      {
+        "wordId": "w-fighter",
+        "reason": "选项「斗士」不是「transit」的主释义「运输」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coefficient",
+        "reason": "英文「coefficient」的常见义项「系数」不符合主释义「运输」。"
+      },
+      {
+        "wordId": "w-monument",
+        "reason": "英文「monument」的常见义项「纪念碑」不符合主释义「运输」。"
+      },
+      {
+        "wordId": "w-fighter",
+        "reason": "英文「fighter」的常见义项「斗士」不符合主释义「运输」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coefficient",
+        "surfaceForm": "coefficient",
+        "reason": "将「coefficient」代入可见句子后不表达主释义「运输」。"
+      },
+      {
+        "wordId": "w-monument",
+        "surfaceForm": "monument",
+        "reason": "将「monument」代入可见句子后不表达主释义「运输」。"
+      },
+      {
+        "wordId": "w-fighter",
+        "surfaceForm": "fighter",
+        "reason": "将「fighter」代入可见句子后不表达主释义「运输」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transition",
+    "enToZh": [
+      {
+        "wordId": "w-resident",
+        "reason": "选项「居民」不是「transition」的主释义「过渡」或其他义项。"
+      },
+      {
+        "wordId": "w-sweater",
+        "reason": "选项「毛衣」不是「transition」的主释义「过渡」或其他义项。"
+      },
+      {
+        "wordId": "w-servant",
+        "reason": "选项「仆人」不是「transition」的主释义「过渡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-resident",
+        "reason": "英文「resident」的常见义项「居民」不符合主释义「过渡」。"
+      },
+      {
+        "wordId": "w-sweater",
+        "reason": "英文「sweater」的常见义项「毛衣」不符合主释义「过渡」。"
+      },
+      {
+        "wordId": "w-servant",
+        "reason": "英文「servant」的常见义项「仆人」不符合主释义「过渡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-resident",
+        "surfaceForm": "resident",
+        "reason": "将「resident」代入可见句子后不表达主释义「过渡」。"
+      },
+      {
+        "wordId": "w-sweater",
+        "surfaceForm": "sweater",
+        "reason": "将「sweater」代入可见句子后不表达主释义「过渡」。"
+      },
+      {
+        "wordId": "w-servant",
+        "surfaceForm": "servant",
+        "reason": "将「servant」代入可见句子后不表达主释义「过渡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-translate",
+    "enToZh": [
+      {
+        "wordId": "w-drink",
+        "reason": "选项「喝」不是「translate」的主释义「翻译」或其他义项。"
+      },
+      {
+        "wordId": "w-include",
+        "reason": "选项「包括」不是「translate」的主释义「翻译」或其他义项。"
+      },
+      {
+        "wordId": "w-read",
+        "reason": "选项「阅读」不是「translate」的主释义「翻译」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-drink",
+        "reason": "英文「drink」的常见义项「喝」不符合主释义「翻译」。"
+      },
+      {
+        "wordId": "w-include",
+        "reason": "英文「include」的常见义项「包括」不符合主释义「翻译」。"
+      },
+      {
+        "wordId": "w-read",
+        "reason": "英文「read」的常见义项「阅读」不符合主释义「翻译」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-drink",
+        "surfaceForm": "drink",
+        "reason": "将「drink」代入可见句子后不表达主释义「翻译」。"
+      },
+      {
+        "wordId": "w-include",
+        "surfaceForm": "include",
+        "reason": "将「include」代入可见句子后不表达主释义「翻译」。"
+      },
+      {
+        "wordId": "w-read",
+        "surfaceForm": "read",
+        "reason": "将「read」代入可见句子后不表达主释义「翻译」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-translation",
+    "enToZh": [
+      {
+        "wordId": "w-enforcement",
+        "reason": "选项「执行」不是「translation」的主释义「译文」或其他义项。"
+      },
+      {
+        "wordId": "w-childhood",
+        "reason": "选项「童年」不是「translation」的主释义「译文」或其他义项。"
+      },
+      {
+        "wordId": "w-draft",
+        "reason": "选项「草稿」不是「translation」的主释义「译文」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-enforcement",
+        "reason": "英文「enforcement」的常见义项「执行」不符合主释义「译文」。"
+      },
+      {
+        "wordId": "w-childhood",
+        "reason": "英文「childhood」的常见义项「童年」不符合主释义「译文」。"
+      },
+      {
+        "wordId": "w-draft",
+        "reason": "英文「draft」的常见义项「草稿」不符合主释义「译文」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-enforcement",
+        "surfaceForm": "enforcement",
+        "reason": "将「enforcement」代入可见句子后不表达主释义「译文」。"
+      },
+      {
+        "wordId": "w-childhood",
+        "surfaceForm": "childhood",
+        "reason": "将「childhood」代入可见句子后不表达主释义「译文」。"
+      },
+      {
+        "wordId": "w-draft",
+        "surfaceForm": "draft",
+        "reason": "将「draft」代入可见句子后不表达主释义「译文」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transmission",
+    "enToZh": [
+      {
+        "wordId": "w-cellar",
+        "reason": "选项「地窖」不是「transmission」的主释义「传输」或其他义项。"
+      },
+      {
+        "wordId": "w-constituent",
+        "reason": "选项「成分」不是「transmission」的主释义「传输」或其他义项。"
+      },
+      {
+        "wordId": "w-goddess",
+        "reason": "选项「女神」不是「transmission」的主释义「传输」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cellar",
+        "reason": "英文「cellar」的常见义项「地窖」不符合主释义「传输」。"
+      },
+      {
+        "wordId": "w-constituent",
+        "reason": "英文「constituent」的常见义项「成分」不符合主释义「传输」。"
+      },
+      {
+        "wordId": "w-goddess",
+        "reason": "英文「goddess」的常见义项「女神」不符合主释义「传输」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cellar",
+        "surfaceForm": "cellar",
+        "reason": "将「cellar」代入可见句子后不表达主释义「传输」。"
+      },
+      {
+        "wordId": "w-constituent",
+        "surfaceForm": "constituent",
+        "reason": "将「constituent」代入可见句子后不表达主释义「传输」。"
+      },
+      {
+        "wordId": "w-goddess",
+        "surfaceForm": "goddess",
+        "reason": "将「goddess」代入可见句子后不表达主释义「传输」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transmit",
+    "enToZh": [
+      {
+        "wordId": "w-blink",
+        "reason": "选项「眨眼」不是「transmit」的主释义「传送」或其他义项。"
+      },
+      {
+        "wordId": "w-repay",
+        "reason": "选项「偿还」不是「transmit」的主释义「传送」或其他义项。"
+      },
+      {
+        "wordId": "w-omit",
+        "reason": "选项「遗漏」不是「transmit」的主释义「传送」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-blink",
+        "reason": "英文「blink」的常见义项「眨眼」不符合主释义「传送」。"
+      },
+      {
+        "wordId": "w-repay",
+        "reason": "英文「repay」的常见义项「偿还」不符合主释义「传送」。"
+      },
+      {
+        "wordId": "w-omit",
+        "reason": "英文「omit」的常见义项「遗漏」不符合主释义「传送」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-blink",
+        "surfaceForm": "blink",
+        "reason": "将「blink」代入可见句子后不表达主释义「传送」。"
+      },
+      {
+        "wordId": "w-repay",
+        "surfaceForm": "repay",
+        "reason": "将「repay」代入可见句子后不表达主释义「传送」。"
+      },
+      {
+        "wordId": "w-omit",
+        "surfaceForm": "omit",
+        "reason": "将「omit」代入可见句子后不表达主释义「传送」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transport",
+    "enToZh": [
+      {
+        "wordId": "w-passage",
+        "reason": "选项「通道」不是「transport」的主释义「交通工具」或其他义项。"
+      },
+      {
+        "wordId": "w-math",
+        "reason": "选项「数学」不是「transport」的主释义「交通工具」或其他义项。"
+      },
+      {
+        "wordId": "w-century",
+        "reason": "选项「世纪」不是「transport」的主释义「交通工具」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-passage",
+        "reason": "英文「passage」的常见义项「通道」不符合主释义「交通工具」。"
+      },
+      {
+        "wordId": "w-math",
+        "reason": "英文「math」的常见义项「数学」不符合主释义「交通工具」。"
+      },
+      {
+        "wordId": "w-century",
+        "reason": "英文「century」的常见义项「世纪」不符合主释义「交通工具」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-passage",
+        "surfaceForm": "passage",
+        "reason": "将「passage」代入可见句子后不表达主释义「交通工具」。"
+      },
+      {
+        "wordId": "w-math",
+        "surfaceForm": "math",
+        "reason": "将「math」代入可见句子后不表达主释义「交通工具」。"
+      },
+      {
+        "wordId": "w-century",
+        "surfaceForm": "century",
+        "reason": "将「century」代入可见句子后不表达主释义「交通工具」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transportation",
+    "enToZh": [
+      {
+        "wordId": "w-context",
+        "reason": "选项「语境」不是「transportation」的主释义「交通运输」或其他义项。"
+      },
+      {
+        "wordId": "w-gender",
+        "reason": "选项「性别」不是「transportation」的主释义「交通运输」或其他义项。"
+      },
+      {
+        "wordId": "w-sky",
+        "reason": "选项「天空」不是「transportation」的主释义「交通运输」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-context",
+        "reason": "英文「context」的常见义项「语境」不符合主释义「交通运输」。"
+      },
+      {
+        "wordId": "w-gender",
+        "reason": "英文「gender」的常见义项「性别」不符合主释义「交通运输」。"
+      },
+      {
+        "wordId": "w-sky",
+        "reason": "英文「sky」的常见义项「天空」不符合主释义「交通运输」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-context",
+        "surfaceForm": "context",
+        "reason": "将「context」代入可见句子后不表达主释义「交通运输」。"
+      },
+      {
+        "wordId": "w-gender",
+        "surfaceForm": "gender",
+        "reason": "将「gender」代入可见句子后不表达主释义「交通运输」。"
+      },
+      {
+        "wordId": "w-sky",
+        "surfaceForm": "sky",
+        "reason": "将「sky」代入可见句子后不表达主释义「交通运输」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-transverse",
+    "enToZh": [
+      {
+        "wordId": "w-ultrasonic",
+        "reason": "选项「超声的」不是「transverse」的主释义「横向的」或其他义项。"
+      },
+      {
+        "wordId": "w-preset",
+        "reason": "选项「预设的」不是「transverse」的主释义「横向的」或其他义项。"
+      },
+      {
+        "wordId": "w-plural",
+        "reason": "选项「复数的」不是「transverse」的主释义「横向的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ultrasonic",
+        "reason": "英文「ultrasonic」的常见义项「超声的」不符合主释义「横向的」。"
+      },
+      {
+        "wordId": "w-preset",
+        "reason": "英文「preset」的常见义项「预设的」不符合主释义「横向的」。"
+      },
+      {
+        "wordId": "w-plural",
+        "reason": "英文「plural」的常见义项「复数的」不符合主释义「横向的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ultrasonic",
+        "surfaceForm": "ultrasonic",
+        "reason": "将「ultrasonic」代入可见句子后不表达主释义「横向的」。"
+      },
+      {
+        "wordId": "w-preset",
+        "surfaceForm": "preset",
+        "reason": "将「preset」代入可见句子后不表达主释义「横向的」。"
+      },
+      {
+        "wordId": "w-plural",
+        "surfaceForm": "plural",
+        "reason": "将「plural」代入可见句子后不表达主释义「横向的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-trap",
+    "enToZh": [
+      {
+        "wordId": "w-administrator",
+        "reason": "选项「管理员」不是「trap」的主释义「陷阱」或其他义项。"
+      },
+      {
+        "wordId": "w-association",
+        "reason": "选项「协会」不是「trap」的主释义「陷阱」或其他义项。"
+      },
+      {
+        "wordId": "w-person",
+        "reason": "选项「人」不是「trap」的主释义「陷阱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-administrator",
+        "reason": "英文「administrator」的常见义项「管理员」不符合主释义「陷阱」。"
+      },
+      {
+        "wordId": "w-association",
+        "reason": "英文「association」的常见义项「协会」不符合主释义「陷阱」。"
+      },
+      {
+        "wordId": "w-person",
+        "reason": "英文「person」的常见义项「人」不符合主释义「陷阱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-administrator",
+        "surfaceForm": "administrator",
+        "reason": "将「administrator」代入可见句子后不表达主释义「陷阱」。"
+      },
+      {
+        "wordId": "w-association",
+        "surfaceForm": "association",
+        "reason": "将「association」代入可见句子后不表达主释义「陷阱」。"
+      },
+      {
+        "wordId": "w-person",
+        "surfaceForm": "person",
+        "reason": "将「person」代入可见句子后不表达主释义「陷阱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-travel",
+    "enToZh": [
+      {
+        "wordId": "w-threaten",
+        "reason": "选项「威胁」不是「travel」的主释义「游历」或其他义项。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "选项「数」不是「travel」的主释义「游历」或其他义项。"
+      },
+      {
+        "wordId": "w-admit",
+        "reason": "选项「承认」不是「travel」的主释义「游历」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-threaten",
+        "reason": "英文「threaten」的常见义项「威胁」不符合主释义「游历」。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "英文「count」的常见义项「数」不符合主释义「游历」。"
+      },
+      {
+        "wordId": "w-admit",
+        "reason": "英文「admit」的常见义项「承认」不符合主释义「游历」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-threaten",
+        "surfaceForm": "threaten",
+        "reason": "将「threaten」代入可见句子后不表达主释义「游历」。"
+      },
+      {
+        "wordId": "w-count",
+        "surfaceForm": "count",
+        "reason": "将「count」代入可见句子后不表达主释义「游历」。"
+      },
+      {
+        "wordId": "w-admit",
+        "surfaceForm": "admit",
+        "reason": "将「admit」代入可见句子后不表达主释义「游历」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-traverse",
+    "enToZh": [
+      {
+        "wordId": "w-baffle",
+        "reason": "选项「使困惑」不是「traverse」的主释义「穿过」或其他义项。"
+      },
+      {
+        "wordId": "w-insulate",
+        "reason": "选项「使绝缘」不是「traverse」的主释义「穿过」或其他义项。"
+      },
+      {
+        "wordId": "w-compress",
+        "reason": "选项「压缩」不是「traverse」的主释义「穿过」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-baffle",
+        "reason": "英文「baffle」的常见义项「使困惑」不符合主释义「穿过」。"
+      },
+      {
+        "wordId": "w-insulate",
+        "reason": "英文「insulate」的常见义项「使绝缘」不符合主释义「穿过」。"
+      },
+      {
+        "wordId": "w-compress",
+        "reason": "英文「compress」的常见义项「压缩」不符合主释义「穿过」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-baffle",
+        "surfaceForm": "baffle",
+        "reason": "将「baffle」代入可见句子后不表达主释义「穿过」。"
+      },
+      {
+        "wordId": "w-insulate",
+        "surfaceForm": "insulate",
+        "reason": "将「insulate」代入可见句子后不表达主释义「穿过」。"
+      },
+      {
+        "wordId": "w-compress",
+        "surfaceForm": "compress",
+        "reason": "将「compress」代入可见句子后不表达主释义「穿过」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tray",
+    "enToZh": [
+      {
+        "wordId": "w-bulk",
+        "reason": "选项「大部分」不是「tray」的主释义「托盘」或其他义项。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "reason": "选项「志向」不是「tray」的主释义「托盘」或其他义项。"
+      },
+      {
+        "wordId": "w-hardship",
+        "reason": "选项「艰难」不是「tray」的主释义「托盘」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bulk",
+        "reason": "英文「bulk」的常见义项「大部分」不符合主释义「托盘」。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "reason": "英文「aspiration」的常见义项「志向」不符合主释义「托盘」。"
+      },
+      {
+        "wordId": "w-hardship",
+        "reason": "英文「hardship」的常见义项「艰难」不符合主释义「托盘」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bulk",
+        "surfaceForm": "bulk",
+        "reason": "将「bulk」代入可见句子后不表达主释义「托盘」。"
+      },
+      {
+        "wordId": "w-aspiration",
+        "surfaceForm": "aspiration",
+        "reason": "将「aspiration」代入可见句子后不表达主释义「托盘」。"
+      },
+      {
+        "wordId": "w-hardship",
+        "surfaceForm": "hardship",
+        "reason": "将「hardship」代入可见句子后不表达主释义「托盘」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-tread",
+    "enToZh": [
+      {
+        "wordId": "w-necessitate",
+        "reason": "选项「使成为必要」不是「tread」的主释义「踩」或其他义项。"
+      },
+      {
+        "wordId": "w-overhear",
+        "reason": "选项「无意中听到」不是「tread」的主释义「踩」或其他义项。"
+      },
+      {
+        "wordId": "w-thicken",
+        "reason": "选项「变稠」不是「tread」的主释义「踩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-necessitate",
+        "reason": "英文「necessitate」的常见义项「使成为必要」不符合主释义「踩」。"
+      },
+      {
+        "wordId": "w-overhear",
+        "reason": "英文「overhear」的常见义项「无意中听到」不符合主释义「踩」。"
+      },
+      {
+        "wordId": "w-thicken",
+        "reason": "英文「thicken」的常见义项「变稠」不符合主释义「踩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-necessitate",
+        "surfaceForm": "necessitate",
+        "reason": "将「necessitate」代入可见句子后不表达主释义「踩」。"
+      },
+      {
+        "wordId": "w-overhear",
+        "surfaceForm": "overhear",
+        "reason": "将「overhear」代入可见句子后不表达主释义「踩」。"
+      },
+      {
+        "wordId": "w-thicken",
+        "surfaceForm": "thicken",
+        "reason": "将「thicken」代入可见句子后不表达主释义「踩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-treason",
+    "enToZh": [
+      {
+        "wordId": "w-errand",
+        "reason": "选项「差事」不是「treason」的主释义「叛国」或其他义项。"
+      },
+      {
+        "wordId": "w-stillness",
+        "reason": "选项「寂静」不是「treason」的主释义「叛国」或其他义项。"
+      },
+      {
+        "wordId": "w-dormitory",
+        "reason": "选项「宿舍」不是「treason」的主释义「叛国」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-errand",
+        "reason": "英文「errand」的常见义项「差事」不符合主释义「叛国」。"
+      },
+      {
+        "wordId": "w-stillness",
+        "reason": "英文「stillness」的常见义项「寂静」不符合主释义「叛国」。"
+      },
+      {
+        "wordId": "w-dormitory",
+        "reason": "英文「dormitory」的常见义项「宿舍」不符合主释义「叛国」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-errand",
+        "surfaceForm": "errand",
+        "reason": "将「errand」代入可见句子后不表达主释义「叛国」。"
+      },
+      {
+        "wordId": "w-stillness",
+        "surfaceForm": "stillness",
+        "reason": "将「stillness」代入可见句子后不表达主释义「叛国」。"
+      },
+      {
+        "wordId": "w-dormitory",
+        "surfaceForm": "dormitory",
+        "reason": "将「dormitory」代入可见句子后不表达主释义「叛国」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-treasure",
+    "enToZh": [
+      {
+        "wordId": "w-orbit",
+        "reason": "选项「轨道」不是「treasure」的主释义「宝藏」或其他义项。"
+      },
+      {
+        "wordId": "w-defendant",
+        "reason": "选项「被告」不是「treasure」的主释义「宝藏」或其他义项。"
+      },
+      {
+        "wordId": "w-spy",
+        "reason": "选项「间谍」不是「treasure」的主释义「宝藏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-orbit",
+        "reason": "英文「orbit」的常见义项「轨道」不符合主释义「宝藏」。"
+      },
+      {
+        "wordId": "w-defendant",
+        "reason": "英文「defendant」的常见义项「被告」不符合主释义「宝藏」。"
+      },
+      {
+        "wordId": "w-spy",
+        "reason": "英文「spy」的常见义项「间谍」不符合主释义「宝藏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-orbit",
+        "surfaceForm": "orbit",
+        "reason": "将「orbit」代入可见句子后不表达主释义「宝藏」。"
+      },
+      {
+        "wordId": "w-defendant",
+        "surfaceForm": "defendant",
+        "reason": "将「defendant」代入可见句子后不表达主释义「宝藏」。"
+      },
+      {
+        "wordId": "w-spy",
+        "surfaceForm": "spy",
+        "reason": "将「spy」代入可见句子后不表达主释义「宝藏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-treasurer",
+    "enToZh": [
+      {
+        "wordId": "w-generalization",
+        "reason": "选项「概括」不是「treasurer」的主释义「财务主管」或其他义项。"
+      },
+      {
+        "wordId": "w-barber",
+        "reason": "选项「理发师」不是「treasurer」的主释义「财务主管」或其他义项。"
+      },
+      {
+        "wordId": "w-mouthful",
+        "reason": "选项「一口」不是「treasurer」的主释义「财务主管」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-generalization",
+        "reason": "英文「generalization」的常见义项「概括」不符合主释义「财务主管」。"
+      },
+      {
+        "wordId": "w-barber",
+        "reason": "英文「barber」的常见义项「理发师」不符合主释义「财务主管」。"
+      },
+      {
+        "wordId": "w-mouthful",
+        "reason": "英文「mouthful」的常见义项「一口」不符合主释义「财务主管」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-generalization",
+        "surfaceForm": "generalization",
+        "reason": "将「generalization」代入可见句子后不表达主释义「财务主管」。"
+      },
+      {
+        "wordId": "w-barber",
+        "surfaceForm": "barber",
+        "reason": "将「barber」代入可见句子后不表达主释义「财务主管」。"
+      },
+      {
+        "wordId": "w-mouthful",
+        "surfaceForm": "mouthful",
+        "reason": "将「mouthful」代入可见句子后不表达主释义「财务主管」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-treat",
+    "enToZh": [
+      {
+        "wordId": "w-embrace",
+        "reason": "选项「拥抱」不是「treat」的主释义「对待」或其他义项。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "选项「同意」不是「treat」的主释义「对待」或其他义项。"
+      },
+      {
+        "wordId": "w-interpret",
+        "reason": "选项「解释」不是「treat」的主释义「对待」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-embrace",
+        "reason": "英文「embrace」的常见义项「拥抱」不符合主释义「对待」。"
+      },
+      {
+        "wordId": "w-agree",
+        "reason": "英文「agree」的常见义项「同意」不符合主释义「对待」。"
+      },
+      {
+        "wordId": "w-interpret",
+        "reason": "英文「interpret」的常见义项「解释」不符合主释义「对待」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-embrace",
+        "surfaceForm": "embrace",
+        "reason": "将「embrace」代入可见句子后不表达主释义「对待」。"
+      },
+      {
+        "wordId": "w-agree",
+        "surfaceForm": "agree",
+        "reason": "将「agree」代入可见句子后不表达主释义「对待」。"
+      },
+      {
+        "wordId": "w-interpret",
+        "surfaceForm": "interpret",
+        "reason": "将「interpret」代入可见句子后不表达主释义「对待」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-treatment",
+    "enToZh": [
+      {
+        "wordId": "w-diversity",
+        "reason": "选项「多样性」不是「treatment」的主释义「治疗」或其他义项。"
+      },
+      {
+        "wordId": "w-leg",
+        "reason": "选项「腿」不是「treatment」的主释义「治疗」或其他义项。"
+      },
+      {
+        "wordId": "w-senator",
+        "reason": "选项「参议员」不是「treatment」的主释义「治疗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-diversity",
+        "reason": "英文「diversity」的常见义项「多样性」不符合主释义「治疗」。"
+      },
+      {
+        "wordId": "w-leg",
+        "reason": "英文「leg」的常见义项「腿」不符合主释义「治疗」。"
+      },
+      {
+        "wordId": "w-senator",
+        "reason": "英文「senator」的常见义项「参议员」不符合主释义「治疗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-diversity",
+        "surfaceForm": "diversity",
+        "reason": "将「diversity」代入可见句子后不表达主释义「治疗」。"
+      },
+      {
+        "wordId": "w-leg",
+        "surfaceForm": "leg",
+        "reason": "将「leg」代入可见句子后不表达主释义「治疗」。"
+      },
+      {
+        "wordId": "w-senator",
+        "surfaceForm": "senator",
+        "reason": "将「senator」代入可见句子后不表达主释义「治疗」。"
+      }
+    ],
+    "spelling": null
+  }
+]

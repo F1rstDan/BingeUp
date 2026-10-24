@@ -1,5 +1,4 @@
 import 'fake-indexeddb/auto';
-import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
@@ -10,9 +9,7 @@ import { CardRepository } from '@/storage/repositories/card-repository';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import type { AppSettings, BehaviorEventRecord, CardRecord, ReviewLogRecord } from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
-
-const DICTIONARY_WORDS_JSON = readFileSync('public/dictionaries/words.json', 'utf8');
-const DICTIONARY_DECKS_JSON = readFileSync('public/dictionaries/decks.json', 'utf8');
+import { dictionaryFetch } from '../../helpers/dictionary-fetch';
 
 /** 内存态 chrome.storage.local + permissions，模拟浏览器持久化。 */
 function installChromeStorageMock() {
@@ -331,6 +328,7 @@ describe('message-router — Issue #9 新增消息', () => {
   });
 
   it('GET_POPUP_DATA：返回站点/引导/暂停综合数据（AC3）', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation(dictionaryFetch);
     await store.markOnboardingCompleted();
     await store.enableSite('bilibili.com');
     await store.setGlobalPausedUntil(7_000_000);
@@ -502,12 +500,7 @@ describe('message-router — Issue #10 新增消息', () => {
 
   beforeEach(async () => {
     installChromeStorageMock();
-    vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
-      const url = String(input);
-      if (url.endsWith('/words.json')) return new Response(DICTIONARY_WORDS_JSON);
-      if (url.endsWith('/decks.json')) return new Response(DICTIONARY_DECKS_JSON);
-      throw new Error(`未预期的词库请求：${url}`);
-    });
+    vi.spyOn(globalThis, 'fetch').mockImplementation(dictionaryFetch);
     permissionsRemove = (
       globalThis as unknown as { chrome: { permissions: { remove: ReturnType<typeof vi.fn> } } }
     ).chrome.permissions.remove;
@@ -792,7 +785,7 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as ExportPayload;
 
-    expect(res.version).toBe(1);
+    expect(res.version).toBe(2);
     expect(res.authoritativeState.appSettings.dailyNewWordLimit).toBe(15);
     expect(res.data.cards).toHaveLength(1);
     expect(res.data.reviewLogs).toHaveLength(1);

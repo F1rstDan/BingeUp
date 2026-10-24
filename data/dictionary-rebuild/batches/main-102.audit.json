@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-joy",
+    "enToZh": [
+      {
+        "wordId": "w-bargain",
+        "reason": "选项「便宜货」不是「joy」的主释义「快乐」或其他义项。"
+      },
+      {
+        "wordId": "w-employment",
+        "reason": "选项「就业」不是「joy」的主释义「快乐」或其他义项。"
+      },
+      {
+        "wordId": "w-ceremony",
+        "reason": "选项「仪式」不是「joy」的主释义「快乐」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bargain",
+        "reason": "英文「bargain」的常见义项「便宜货」不符合主释义「快乐」。"
+      },
+      {
+        "wordId": "w-employment",
+        "reason": "英文「employment」的常见义项「就业」不符合主释义「快乐」。"
+      },
+      {
+        "wordId": "w-ceremony",
+        "reason": "英文「ceremony」的常见义项「仪式」不符合主释义「快乐」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bargain",
+        "surfaceForm": "bargain",
+        "reason": "将「bargain」代入可见句子后不表达主释义「快乐」。"
+      },
+      {
+        "wordId": "w-employment",
+        "surfaceForm": "employment",
+        "reason": "将「employment」代入可见句子后不表达主释义「快乐」。"
+      },
+      {
+        "wordId": "w-ceremony",
+        "surfaceForm": "ceremony",
+        "reason": "将「ceremony」代入可见句子后不表达主释义「快乐」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-judge",
+    "enToZh": [
+      {
+        "wordId": "w-conservation",
+        "reason": "选项「保护」不是「judge」的主释义「法官」或其他义项。"
+      },
+      {
+        "wordId": "w-damage",
+        "reason": "选项「损害」不是「judge」的主释义「法官」或其他义项。"
+      },
+      {
+        "wordId": "w-bottle",
+        "reason": "选项「瓶子」不是「judge」的主释义「法官」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-conservation",
+        "reason": "英文「conservation」的常见义项「保护」不符合主释义「法官」。"
+      },
+      {
+        "wordId": "w-damage",
+        "reason": "英文「damage」的常见义项「损害」不符合主释义「法官」。"
+      },
+      {
+        "wordId": "w-bottle",
+        "reason": "英文「bottle」的常见义项「瓶子」不符合主释义「法官」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-conservation",
+        "surfaceForm": "conservation",
+        "reason": "将「conservation」代入可见句子后不表达主释义「法官」。"
+      },
+      {
+        "wordId": "w-damage",
+        "surfaceForm": "damage",
+        "reason": "将「damage」代入可见句子后不表达主释义「法官」。"
+      },
+      {
+        "wordId": "w-bottle",
+        "surfaceForm": "bottle",
+        "reason": "将「bottle」代入可见句子后不表达主释义「法官」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-judgement",
+    "enToZh": [
+      {
+        "wordId": "w-dimension",
+        "reason": "选项「尺寸」不是「judgement」的主释义「判断」或其他义项。"
+      },
+      {
+        "wordId": "w-examination",
+        "reason": "选项「考试」不是「judgement」的主释义「判断」或其他义项。"
+      },
+      {
+        "wordId": "w-administration",
+        "reason": "选项「管理」不是「judgement」的主释义「判断」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dimension",
+        "reason": "英文「dimension」的常见义项「尺寸」不符合主释义「判断」。"
+      },
+      {
+        "wordId": "w-examination",
+        "reason": "英文「examination」的常见义项「考试」不符合主释义「判断」。"
+      },
+      {
+        "wordId": "w-administration",
+        "reason": "英文「administration」的常见义项「管理」不符合主释义「判断」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dimension",
+        "surfaceForm": "dimension",
+        "reason": "将「dimension」代入可见句子后不表达主释义「判断」。"
+      },
+      {
+        "wordId": "w-examination",
+        "surfaceForm": "examination",
+        "reason": "将「examination」代入可见句子后不表达主释义「判断」。"
+      },
+      {
+        "wordId": "w-administration",
+        "surfaceForm": "administration",
+        "reason": "将「administration」代入可见句子后不表达主释义「判断」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-judgment",
+    "enToZh": [
+      {
+        "wordId": "w-bond",
+        "reason": "选项「纽带」不是「judgment」的主释义「判断」或其他义项。"
+      },
+      {
+        "wordId": "w-button",
+        "reason": "选项「纽扣」不是「judgment」的主释义「判断」或其他义项。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "选项「对话」不是「judgment」的主释义「判断」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bond",
+        "reason": "英文「bond」的常见义项「纽带」不符合主释义「判断」。"
+      },
+      {
+        "wordId": "w-button",
+        "reason": "英文「button」的常见义项「纽扣」不符合主释义「判断」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "reason": "英文「dialogue」的常见义项「对话」不符合主释义「判断」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bond",
+        "surfaceForm": "bond",
+        "reason": "将「bond」代入可见句子后不表达主释义「判断」。"
+      },
+      {
+        "wordId": "w-button",
+        "surfaceForm": "button",
+        "reason": "将「button」代入可见句子后不表达主释义「判断」。"
+      },
+      {
+        "wordId": "w-dialogue",
+        "surfaceForm": "dialogue",
+        "reason": "将「dialogue」代入可见句子后不表达主释义「判断」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-jug",
+    "enToZh": [
+      {
+        "wordId": "w-hassle",
+        "reason": "选项「麻烦」不是「jug」的主释义「壶」或其他义项。"
+      },
+      {
+        "wordId": "w-hysteria",
+        "reason": "选项「歇斯底里」不是「jug」的主释义「壶」或其他义项。"
+      },
+      {
+        "wordId": "w-equator",
+        "reason": "选项「赤道」不是「jug」的主释义「壶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hassle",
+        "reason": "英文「hassle」的常见义项「麻烦」不符合主释义「壶」。"
+      },
+      {
+        "wordId": "w-hysteria",
+        "reason": "英文「hysteria」的常见义项「歇斯底里」不符合主释义「壶」。"
+      },
+      {
+        "wordId": "w-equator",
+        "reason": "英文「equator」的常见义项「赤道」不符合主释义「壶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hassle",
+        "surfaceForm": "hassle",
+        "reason": "将「hassle」代入可见句子后不表达主释义「壶」。"
+      },
+      {
+        "wordId": "w-hysteria",
+        "surfaceForm": "hysteria",
+        "reason": "将「hysteria」代入可见句子后不表达主释义「壶」。"
+      },
+      {
+        "wordId": "w-equator",
+        "surfaceForm": "equator",
+        "reason": "将「equator」代入可见句子后不表达主释义「壶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-juice",
+    "enToZh": [
+      {
+        "wordId": "w-honey",
+        "reason": "选项「蜂蜜」不是「juice」的主释义「果汁」或其他义项。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "选项「情绪」不是「juice」的主释义「果汁」或其他义项。"
+      },
+      {
+        "wordId": "w-faculty",
+        "reason": "选项「全体教员」不是「juice」的主释义「果汁」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-honey",
+        "reason": "英文「honey」的常见义项「蜂蜜」不符合主释义「果汁」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "reason": "英文「emotion」的常见义项「情绪」不符合主释义「果汁」。"
+      },
+      {
+        "wordId": "w-faculty",
+        "reason": "英文「faculty」的常见义项「全体教员」不符合主释义「果汁」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-honey",
+        "surfaceForm": "honey",
+        "reason": "将「honey」代入可见句子后不表达主释义「果汁」。"
+      },
+      {
+        "wordId": "w-emotion",
+        "surfaceForm": "emotion",
+        "reason": "将「emotion」代入可见句子后不表达主释义「果汁」。"
+      },
+      {
+        "wordId": "w-faculty",
+        "surfaceForm": "faculty",
+        "reason": "将「faculty」代入可见句子后不表达主释义「果汁」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-jump",
+    "enToZh": [
+      {
+        "wordId": "w-explain",
+        "reason": "选项「解释」不是「jump」的主释义「跳跃」或其他义项。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "选项「雇用」不是「jump」的主释义「跳跃」或其他义项。"
+      },
+      {
+        "wordId": "w-handle",
+        "reason": "选项「处理」不是「jump」的主释义「跳跃」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-explain",
+        "reason": "英文「explain」的常见义项「解释」不符合主释义「跳跃」。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "英文「hire」的常见义项「雇用」不符合主释义「跳跃」。"
+      },
+      {
+        "wordId": "w-handle",
+        "reason": "英文「handle」的常见义项「处理」不符合主释义「跳跃」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-explain",
+        "surfaceForm": "explain",
+        "reason": "将「explain」代入可见句子后不表达主释义「跳跃」。"
+      },
+      {
+        "wordId": "w-hire",
+        "surfaceForm": "hire",
+        "reason": "将「hire」代入可见句子后不表达主释义「跳跃」。"
+      },
+      {
+        "wordId": "w-handle",
+        "surfaceForm": "handle",
+        "reason": "将「handle」代入可见句子后不表达主释义「跳跃」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-junction",
+    "enToZh": [
+      {
+        "wordId": "w-intricacy",
+        "reason": "选项「复杂性」不是「junction」的主释义「交叉路口」或其他义项。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "选项「严重错误」不是「junction」的主释义「交叉路口」或其他义项。"
+      },
+      {
+        "wordId": "w-excursion",
+        "reason": "选项「短途旅行」不是「junction」的主释义「交叉路口」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intricacy",
+        "reason": "英文「intricacy」的常见义项「复杂性」不符合主释义「交叉路口」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "reason": "英文「blunder」的常见义项「严重错误」不符合主释义「交叉路口」。"
+      },
+      {
+        "wordId": "w-excursion",
+        "reason": "英文「excursion」的常见义项「短途旅行」不符合主释义「交叉路口」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intricacy",
+        "surfaceForm": "intricacy",
+        "reason": "将「intricacy」代入可见句子后不表达主释义「交叉路口」。"
+      },
+      {
+        "wordId": "w-blunder",
+        "surfaceForm": "blunder",
+        "reason": "将「blunder」代入可见句子后不表达主释义「交叉路口」。"
+      },
+      {
+        "wordId": "w-excursion",
+        "surfaceForm": "excursion",
+        "reason": "将「excursion」代入可见句子后不表达主释义「交叉路口」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-jungle",
+    "enToZh": [
+      {
+        "wordId": "w-cafeteria",
+        "reason": "选项「自助餐厅」不是「jungle」的主释义「丛林」或其他义项。"
+      },
+      {
+        "wordId": "w-ego",
+        "reason": "选项「自尊心」不是「jungle」的主释义「丛林」或其他义项。"
+      },
+      {
+        "wordId": "w-cabin",
+        "reason": "选项「小木屋」不是「jungle」的主释义「丛林」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cafeteria",
+        "reason": "英文「cafeteria」的常见义项「自助餐厅」不符合主释义「丛林」。"
+      },
+      {
+        "wordId": "w-ego",
+        "reason": "英文「ego」的常见义项「自尊心」不符合主释义「丛林」。"
+      },
+      {
+        "wordId": "w-cabin",
+        "reason": "英文「cabin」的常见义项「小木屋」不符合主释义「丛林」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cafeteria",
+        "surfaceForm": "cafeteria",
+        "reason": "将「cafeteria」代入可见句子后不表达主释义「丛林」。"
+      },
+      {
+        "wordId": "w-ego",
+        "surfaceForm": "ego",
+        "reason": "将「ego」代入可见句子后不表达主释义「丛林」。"
+      },
+      {
+        "wordId": "w-cabin",
+        "surfaceForm": "cabin",
+        "reason": "将「cabin」代入可见句子后不表达主释义「丛林」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-junior",
+    "enToZh": [
+      {
+        "wordId": "w-ideal",
+        "reason": "选项「理想的」不是「junior」的主释义「初级的」或其他义项。"
+      },
+      {
+        "wordId": "w-final",
+        "reason": "选项「最后的」不是「junior」的主释义「初级的」或其他义项。"
+      },
+      {
+        "wordId": "w-extreme",
+        "reason": "选项「极端的」不是「junior」的主释义「初级的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ideal",
+        "reason": "英文「ideal」的常见义项「理想的」不符合主释义「初级的」。"
+      },
+      {
+        "wordId": "w-final",
+        "reason": "英文「final」的常见义项「最后的」不符合主释义「初级的」。"
+      },
+      {
+        "wordId": "w-extreme",
+        "reason": "英文「extreme」的常见义项「极端的」不符合主释义「初级的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ideal",
+        "surfaceForm": "ideal",
+        "reason": "将「ideal」代入可见句子后不表达主释义「初级的」。"
+      },
+      {
+        "wordId": "w-final",
+        "surfaceForm": "final",
+        "reason": "将「final」代入可见句子后不表达主释义「初级的」。"
+      },
+      {
+        "wordId": "w-extreme",
+        "surfaceForm": "extreme",
+        "reason": "将「extreme」代入可见句子后不表达主释义「初级的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-junk",
+    "enToZh": [
+      {
+        "wordId": "w-goodness",
+        "reason": "选项「善良」不是「junk」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-bead",
+        "reason": "选项「珠子」不是「junk」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-brightness",
+        "reason": "选项「亮度」不是「junk」的主释义「垃圾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-goodness",
+        "reason": "英文「goodness」的常见义项「善良」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-bead",
+        "reason": "英文「bead」的常见义项「珠子」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-brightness",
+        "reason": "英文「brightness」的常见义项「亮度」不符合主释义「垃圾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-goodness",
+        "surfaceForm": "goodness",
+        "reason": "将「goodness」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-bead",
+        "surfaceForm": "bead",
+        "reason": "将「bead」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-brightness",
+        "surfaceForm": "brightness",
+        "reason": "将「brightness」代入可见句子后不表达主释义「垃圾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-jupiter",
+    "enToZh": [
+      {
+        "wordId": "w-exposition",
+        "reason": "选项「阐述」不是「Jupiter」的主释义「木星」或其他义项。"
+      },
+      {
+        "wordId": "w-experimentation",
+        "reason": "选项「实验研究」不是「Jupiter」的主释义「木星」或其他义项。"
+      },
+      {
+        "wordId": "w-indignation",
+        "reason": "选项「愤慨」不是「Jupiter」的主释义「木星」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exposition",
+        "reason": "英文「exposition」的常见义项「阐述」不符合主释义「木星」。"
+      },
+      {
+        "wordId": "w-experimentation",
+        "reason": "英文「experimentation」的常见义项「实验研究」不符合主释义「木星」。"
+      },
+      {
+        "wordId": "w-indignation",
+        "reason": "英文「indignation」的常见义项「愤慨」不符合主释义「木星」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exposition",
+        "surfaceForm": "exposition",
+        "reason": "将「exposition」代入可见句子后不表达主释义「木星」。"
+      },
+      {
+        "wordId": "w-experimentation",
+        "surfaceForm": "experimentation",
+        "reason": "将「experimentation」代入可见句子后不表达主释义「木星」。"
+      },
+      {
+        "wordId": "w-indignation",
+        "surfaceForm": "indignation",
+        "reason": "将「indignation」代入可见句子后不表达主释义「木星」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-jury",
+    "enToZh": [
+      {
+        "wordId": "w-attorney",
+        "reason": "选项「律师」不是「jury」的主释义「陪审团」或其他义项。"
+      },
+      {
+        "wordId": "w-cup",
+        "reason": "选项「杯子」不是「jury」的主释义「陪审团」或其他义项。"
+      },
+      {
+        "wordId": "w-facility",
+        "reason": "选项「设施」不是「jury」的主释义「陪审团」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-attorney",
+        "reason": "英文「attorney」的常见义项「律师」不符合主释义「陪审团」。"
+      },
+      {
+        "wordId": "w-cup",
+        "reason": "英文「cup」的常见义项「杯子」不符合主释义「陪审团」。"
+      },
+      {
+        "wordId": "w-facility",
+        "reason": "英文「facility」的常见义项「设施」不符合主释义「陪审团」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-attorney",
+        "surfaceForm": "attorney",
+        "reason": "将「attorney」代入可见句子后不表达主释义「陪审团」。"
+      },
+      {
+        "wordId": "w-cup",
+        "surfaceForm": "cup",
+        "reason": "将「cup」代入可见句子后不表达主释义「陪审团」。"
+      },
+      {
+        "wordId": "w-facility",
+        "surfaceForm": "facility",
+        "reason": "将「facility」代入可见句子后不表达主释义「陪审团」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-justice",
+    "enToZh": [
+      {
+        "wordId": "w-desire",
+        "reason": "选项「渴望」不是「justice」的主释义「正义」或其他义项。"
+      },
+      {
+        "wordId": "w-dream",
+        "reason": "选项「梦」不是「justice」的主释义「正义」或其他义项。"
+      },
+      {
+        "wordId": "w-difficulty",
+        "reason": "选项「困难」不是「justice」的主释义「正义」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-desire",
+        "reason": "英文「desire」的常见义项「渴望」不符合主释义「正义」。"
+      },
+      {
+        "wordId": "w-dream",
+        "reason": "英文「dream」的常见义项「梦」不符合主释义「正义」。"
+      },
+      {
+        "wordId": "w-difficulty",
+        "reason": "英文「difficulty」的常见义项「困难」不符合主释义「正义」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-desire",
+        "surfaceForm": "desire",
+        "reason": "将「desire」代入可见句子后不表达主释义「正义」。"
+      },
+      {
+        "wordId": "w-dream",
+        "surfaceForm": "dream",
+        "reason": "将「dream」代入可见句子后不表达主释义「正义」。"
+      },
+      {
+        "wordId": "w-difficulty",
+        "surfaceForm": "difficulty",
+        "reason": "将「difficulty」代入可见句子后不表达主释义「正义」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-justification",
+    "enToZh": [
+      {
+        "wordId": "w-default",
+        "reason": "选项「默认值」不是「justification」的主释义「理由」或其他义项。"
+      },
+      {
+        "wordId": "w-exile",
+        "reason": "选项「流亡」不是「justification」的主释义「理由」或其他义项。"
+      },
+      {
+        "wordId": "w-fraction",
+        "reason": "选项「小部分」不是「justification」的主释义「理由」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-default",
+        "reason": "英文「default」的常见义项「默认值」不符合主释义「理由」。"
+      },
+      {
+        "wordId": "w-exile",
+        "reason": "英文「exile」的常见义项「流亡」不符合主释义「理由」。"
+      },
+      {
+        "wordId": "w-fraction",
+        "reason": "英文「fraction」的常见义项「小部分」不符合主释义「理由」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-default",
+        "surfaceForm": "default",
+        "reason": "将「default」代入可见句子后不表达主释义「理由」。"
+      },
+      {
+        "wordId": "w-exile",
+        "surfaceForm": "exile",
+        "reason": "将「exile」代入可见句子后不表达主释义「理由」。"
+      },
+      {
+        "wordId": "w-fraction",
+        "surfaceForm": "fraction",
+        "reason": "将「fraction」代入可见句子后不表达主释义「理由」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-justify",
+    "enToZh": [
+      {
+        "wordId": "w-adjust",
+        "reason": "选项「调整」不是「justify」的主释义「证明合理」或其他义项。"
+      },
+      {
+        "wordId": "w-exclude",
+        "reason": "选项「排除」不是「justify」的主释义「证明合理」或其他义项。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "选项「吸收」不是「justify」的主释义「证明合理」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-adjust",
+        "reason": "英文「adjust」的常见义项「调整」不符合主释义「证明合理」。"
+      },
+      {
+        "wordId": "w-exclude",
+        "reason": "英文「exclude」的常见义项「排除」不符合主释义「证明合理」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "reason": "英文「absorb」的常见义项「吸收」不符合主释义「证明合理」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-adjust",
+        "surfaceForm": "adjust",
+        "reason": "将「adjust」代入可见句子后不表达主释义「证明合理」。"
+      },
+      {
+        "wordId": "w-exclude",
+        "surfaceForm": "exclude",
+        "reason": "将「exclude」代入可见句子后不表达主释义「证明合理」。"
+      },
+      {
+        "wordId": "w-absorb",
+        "surfaceForm": "absorb",
+        "reason": "将「absorb」代入可见句子后不表达主释义「证明合理」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-keep",
+    "enToZh": [
+      {
+        "wordId": "w-implement",
+        "reason": "选项「实施」不是「keep」的主释义「保持」或其他义项。"
+      },
+      {
+        "wordId": "w-enter",
+        "reason": "选项「进入」不是「keep」的主释义「保持」或其他义项。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "选项「数」不是「keep」的主释义「保持」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-implement",
+        "reason": "英文「implement」的常见义项「实施」不符合主释义「保持」。"
+      },
+      {
+        "wordId": "w-enter",
+        "reason": "英文「enter」的常见义项「进入」不符合主释义「保持」。"
+      },
+      {
+        "wordId": "w-count",
+        "reason": "英文「count」的常见义项「数」不符合主释义「保持」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-implement",
+        "surfaceForm": "implement",
+        "reason": "将「implement」代入可见句子后不表达主释义「保持」。"
+      },
+      {
+        "wordId": "w-enter",
+        "surfaceForm": "enter",
+        "reason": "将「enter」代入可见句子后不表达主释义「保持」。"
+      },
+      {
+        "wordId": "w-count",
+        "surfaceForm": "count",
+        "reason": "将「count」代入可见句子后不表达主释义「保持」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-keeper",
+    "enToZh": [
+      {
+        "wordId": "w-commodity",
+        "reason": "选项「商品」不是「keeper」的主释义「看守人」或其他义项。"
+      },
+      {
+        "wordId": "w-hail",
+        "reason": "选项「冰雹」不是「keeper」的主释义「看守人」或其他义项。"
+      },
+      {
+        "wordId": "w-bacon",
+        "reason": "选项「培根」不是「keeper」的主释义「看守人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-commodity",
+        "reason": "英文「commodity」的常见义项「商品」不符合主释义「看守人」。"
+      },
+      {
+        "wordId": "w-hail",
+        "reason": "英文「hail」的常见义项「冰雹」不符合主释义「看守人」。"
+      },
+      {
+        "wordId": "w-bacon",
+        "reason": "英文「bacon」的常见义项「培根」不符合主释义「看守人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-commodity",
+        "surfaceForm": "commodity",
+        "reason": "将「commodity」代入可见句子后不表达主释义「看守人」。"
+      },
+      {
+        "wordId": "w-hail",
+        "surfaceForm": "hail",
+        "reason": "将「hail」代入可见句子后不表达主释义「看守人」。"
+      },
+      {
+        "wordId": "w-bacon",
+        "surfaceForm": "bacon",
+        "reason": "将「bacon」代入可见句子后不表达主释义「看守人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-kernel",
+    "enToZh": [
+      {
+        "wordId": "w-throng",
+        "reason": "选项「人群」不是「kernel」的主释义「果仁」或其他义项。"
+      },
+      {
+        "wordId": "w-automation",
+        "reason": "选项「自动化」不是「kernel」的主释义「果仁」或其他义项。"
+      },
+      {
+        "wordId": "w-fluctuation",
+        "reason": "选项「波动」不是「kernel」的主释义「果仁」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-throng",
+        "reason": "英文「throng」的常见义项「人群」不符合主释义「果仁」。"
+      },
+      {
+        "wordId": "w-automation",
+        "reason": "英文「automation」的常见义项「自动化」不符合主释义「果仁」。"
+      },
+      {
+        "wordId": "w-fluctuation",
+        "reason": "英文「fluctuation」的常见义项「波动」不符合主释义「果仁」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-throng",
+        "surfaceForm": "throng",
+        "reason": "将「throng」代入可见句子后不表达主释义「果仁」。"
+      },
+      {
+        "wordId": "w-automation",
+        "surfaceForm": "automation",
+        "reason": "将「automation」代入可见句子后不表达主释义「果仁」。"
+      },
+      {
+        "wordId": "w-fluctuation",
+        "surfaceForm": "fluctuation",
+        "reason": "将「fluctuation」代入可见句子后不表达主释义「果仁」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-kettle",
+    "enToZh": [
+      {
+        "wordId": "w-broom",
+        "reason": "选项「扫帚」不是「kettle」的主释义「水壶」或其他义项。"
+      },
+      {
+        "wordId": "w-firework",
+        "reason": "选项「烟花」不是「kettle」的主释义「水壶」或其他义项。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "reason": "选项「美味」不是「kettle」的主释义「水壶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-broom",
+        "reason": "英文「broom」的常见义项「扫帚」不符合主释义「水壶」。"
+      },
+      {
+        "wordId": "w-firework",
+        "reason": "英文「firework」的常见义项「烟花」不符合主释义「水壶」。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "reason": "英文「delicacy」的常见义项「美味」不符合主释义「水壶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-broom",
+        "surfaceForm": "broom",
+        "reason": "将「broom」代入可见句子后不表达主释义「水壶」。"
+      },
+      {
+        "wordId": "w-firework",
+        "surfaceForm": "firework",
+        "reason": "将「firework」代入可见句子后不表达主释义「水壶」。"
+      },
+      {
+        "wordId": "w-delicacy",
+        "surfaceForm": "delicacy",
+        "reason": "将「delicacy」代入可见句子后不表达主释义「水壶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-key",
+    "enToZh": [
+      {
+        "wordId": "w-bridge",
+        "reason": "选项「桥」不是「key」的主释义「钥匙」或其他义项。"
+      },
+      {
+        "wordId": "w-heel",
+        "reason": "选项「脚后跟」不是「key」的主释义「钥匙」或其他义项。"
+      },
+      {
+        "wordId": "w-anxiety",
+        "reason": "选项「焦虑」不是「key」的主释义「钥匙」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bridge",
+        "reason": "英文「bridge」的常见义项「桥」不符合主释义「钥匙」。"
+      },
+      {
+        "wordId": "w-heel",
+        "reason": "英文「heel」的常见义项「脚后跟」不符合主释义「钥匙」。"
+      },
+      {
+        "wordId": "w-anxiety",
+        "reason": "英文「anxiety」的常见义项「焦虑」不符合主释义「钥匙」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bridge",
+        "surfaceForm": "bridge",
+        "reason": "将「bridge」代入可见句子后不表达主释义「钥匙」。"
+      },
+      {
+        "wordId": "w-heel",
+        "surfaceForm": "heel",
+        "reason": "将「heel」代入可见句子后不表达主释义「钥匙」。"
+      },
+      {
+        "wordId": "w-anxiety",
+        "surfaceForm": "anxiety",
+        "reason": "将「anxiety」代入可见句子后不表达主释义「钥匙」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-keyboard",
+    "enToZh": [
+      {
+        "wordId": "w-consideration",
+        "reason": "选项「考虑」不是「keyboard」的主释义「键盘」或其他义项。"
+      },
+      {
+        "wordId": "w-coin",
+        "reason": "选项「硬币」不是「keyboard」的主释义「键盘」或其他义项。"
+      },
+      {
+        "wordId": "w-investigation",
+        "reason": "选项「调查」不是「keyboard」的主释义「键盘」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-consideration",
+        "reason": "英文「consideration」的常见义项「考虑」不符合主释义「键盘」。"
+      },
+      {
+        "wordId": "w-coin",
+        "reason": "英文「coin」的常见义项「硬币」不符合主释义「键盘」。"
+      },
+      {
+        "wordId": "w-investigation",
+        "reason": "英文「investigation」的常见义项「调查」不符合主释义「键盘」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-consideration",
+        "surfaceForm": "consideration",
+        "reason": "将「consideration」代入可见句子后不表达主释义「键盘」。"
+      },
+      {
+        "wordId": "w-coin",
+        "surfaceForm": "coin",
+        "reason": "将「coin」代入可见句子后不表达主释义「键盘」。"
+      },
+      {
+        "wordId": "w-investigation",
+        "surfaceForm": "investigation",
+        "reason": "将「investigation」代入可见句子后不表达主释义「键盘」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-kick",
+    "enToZh": [
+      {
+        "wordId": "w-fail",
+        "reason": "选项「失败」不是「kick」的主释义「踢」或其他义项。"
+      },
+      {
+        "wordId": "w-insult",
+        "reason": "选项「侮辱」不是「kick」的主释义「踢」或其他义项。"
+      },
+      {
+        "wordId": "w-accomplish",
+        "reason": "选项「完成」不是「kick」的主释义「踢」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fail",
+        "reason": "英文「fail」的常见义项「失败」不符合主释义「踢」。"
+      },
+      {
+        "wordId": "w-insult",
+        "reason": "英文「insult」的常见义项「侮辱」不符合主释义「踢」。"
+      },
+      {
+        "wordId": "w-accomplish",
+        "reason": "英文「accomplish」的常见义项「完成」不符合主释义「踢」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fail",
+        "surfaceForm": "fail",
+        "reason": "将「fail」代入可见句子后不表达主释义「踢」。"
+      },
+      {
+        "wordId": "w-insult",
+        "surfaceForm": "insult",
+        "reason": "将「insult」代入可见句子后不表达主释义「踢」。"
+      },
+      {
+        "wordId": "w-accomplish",
+        "surfaceForm": "accomplish",
+        "reason": "将「accomplish」代入可见句子后不表达主释义「踢」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-kid",
+    "enToZh": [
+      {
+        "wordId": "w-apple",
+        "reason": "选项「苹果」不是「kid」的主释义「孩子」或其他义项。"
+      },
+      {
+        "wordId": "w-estate",
+        "reason": "选项「地产」不是「kid」的主释义「孩子」或其他义项。"
+      },
+      {
+        "wordId": "w-depression",
+        "reason": "选项「抑郁」不是「kid」的主释义「孩子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-apple",
+        "reason": "英文「apple」的常见义项「苹果」不符合主释义「孩子」。"
+      },
+      {
+        "wordId": "w-estate",
+        "reason": "英文「estate」的常见义项「地产」不符合主释义「孩子」。"
+      },
+      {
+        "wordId": "w-depression",
+        "reason": "英文「depression」的常见义项「抑郁」不符合主释义「孩子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-apple",
+        "surfaceForm": "apple",
+        "reason": "将「apple」代入可见句子后不表达主释义「孩子」。"
+      },
+      {
+        "wordId": "w-estate",
+        "surfaceForm": "estate",
+        "reason": "将「estate」代入可见句子后不表达主释义「孩子」。"
+      },
+      {
+        "wordId": "w-depression",
+        "surfaceForm": "depression",
+        "reason": "将「depression」代入可见句子后不表达主释义「孩子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-kidnap",
+    "enToZh": [
+      {
+        "wordId": "w-exclaim",
+        "reason": "选项「惊叫」不是「kidnap」的主释义「绑架」或其他义项。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "选项「紧抓」不是「kidnap」的主释义「绑架」或其他义项。"
+      },
+      {
+        "wordId": "w-emit",
+        "reason": "选项「发出」不是「kidnap」的主释义「绑架」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exclaim",
+        "reason": "英文「exclaim」的常见义项「惊叫」不符合主释义「绑架」。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "英文「cling」的常见义项「紧抓」不符合主释义「绑架」。"
+      },
+      {
+        "wordId": "w-emit",
+        "reason": "英文「emit」的常见义项「发出」不符合主释义「绑架」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exclaim",
+        "surfaceForm": "exclaim",
+        "reason": "将「exclaim」代入可见句子后不表达主释义「绑架」。"
+      },
+      {
+        "wordId": "w-cling",
+        "surfaceForm": "cling",
+        "reason": "将「cling」代入可见句子后不表达主释义「绑架」。"
+      },
+      {
+        "wordId": "w-emit",
+        "surfaceForm": "emit",
+        "reason": "将「emit」代入可见句子后不表达主释义「绑架」。"
+      }
+    ],
+    "spelling": null
+  }
+]

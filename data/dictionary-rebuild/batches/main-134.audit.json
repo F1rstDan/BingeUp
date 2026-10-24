@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-pebble",
+    "enToZh": [
+      {
+        "wordId": "w-majesty",
+        "reason": "选项「雄伟」不是「pebble」的主释义「鹅卵石」或其他义项。"
+      },
+      {
+        "wordId": "w-brute",
+        "reason": "选项「残暴的人」不是「pebble」的主释义「鹅卵石」或其他义项。"
+      },
+      {
+        "wordId": "w-chestnut",
+        "reason": "选项「栗子」不是「pebble」的主释义「鹅卵石」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-majesty",
+        "reason": "英文「majesty」的常见义项「雄伟」不符合主释义「鹅卵石」。"
+      },
+      {
+        "wordId": "w-brute",
+        "reason": "英文「brute」的常见义项「残暴的人」不符合主释义「鹅卵石」。"
+      },
+      {
+        "wordId": "w-chestnut",
+        "reason": "英文「chestnut」的常见义项「栗子」不符合主释义「鹅卵石」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-majesty",
+        "surfaceForm": "majesty",
+        "reason": "将「majesty」代入可见句子后不表达主释义「鹅卵石」。"
+      },
+      {
+        "wordId": "w-brute",
+        "surfaceForm": "brute",
+        "reason": "将「brute」代入可见句子后不表达主释义「鹅卵石」。"
+      },
+      {
+        "wordId": "w-chestnut",
+        "surfaceForm": "chestnut",
+        "reason": "将「chestnut」代入可见句子后不表达主释义「鹅卵石」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peck",
+    "enToZh": [
+      {
+        "wordId": "w-incur",
+        "reason": "选项「招致」不是「peck」的主释义「啄」或其他义项。"
+      },
+      {
+        "wordId": "w-assassinate",
+        "reason": "选项「暗杀」不是「peck」的主释义「啄」或其他义项。"
+      },
+      {
+        "wordId": "w-implore",
+        "reason": "选项「恳求」不是「peck」的主释义「啄」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-incur",
+        "reason": "英文「incur」的常见义项「招致」不符合主释义「啄」。"
+      },
+      {
+        "wordId": "w-assassinate",
+        "reason": "英文「assassinate」的常见义项「暗杀」不符合主释义「啄」。"
+      },
+      {
+        "wordId": "w-implore",
+        "reason": "英文「implore」的常见义项「恳求」不符合主释义「啄」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-incur",
+        "surfaceForm": "incur",
+        "reason": "将「incur」代入可见句子后不表达主释义「啄」。"
+      },
+      {
+        "wordId": "w-assassinate",
+        "surfaceForm": "assassinate",
+        "reason": "将「assassinate」代入可见句子后不表达主释义「啄」。"
+      },
+      {
+        "wordId": "w-implore",
+        "surfaceForm": "implore",
+        "reason": "将「implore」代入可见句子后不表达主释义「啄」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peculiarity",
+    "enToZh": [
+      {
+        "wordId": "w-lathe",
+        "reason": "选项「车床」不是「peculiarity」的主释义「怪癖」或其他义项。"
+      },
+      {
+        "wordId": "w-peacock",
+        "reason": "选项「孔雀」不是「peculiarity」的主释义「怪癖」或其他义项。"
+      },
+      {
+        "wordId": "w-ohm",
+        "reason": "选项「欧姆」不是「peculiarity」的主释义「怪癖」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-lathe",
+        "reason": "英文「lathe」的常见义项「车床」不符合主释义「怪癖」。"
+      },
+      {
+        "wordId": "w-peacock",
+        "reason": "英文「peacock」的常见义项「孔雀」不符合主释义「怪癖」。"
+      },
+      {
+        "wordId": "w-ohm",
+        "reason": "英文「ohm」的常见义项「欧姆」不符合主释义「怪癖」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-lathe",
+        "surfaceForm": "lathe",
+        "reason": "将「lathe」代入可见句子后不表达主释义「怪癖」。"
+      },
+      {
+        "wordId": "w-peacock",
+        "surfaceForm": "peacock",
+        "reason": "将「peacock」代入可见句子后不表达主释义「怪癖」。"
+      },
+      {
+        "wordId": "w-ohm",
+        "surfaceForm": "ohm",
+        "reason": "将「ohm」代入可见句子后不表达主释义「怪癖」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pedal",
+    "enToZh": [
+      {
+        "wordId": "w-microwave",
+        "reason": "选项「微波炉」不是「pedal」的主释义「踏板」或其他义项。"
+      },
+      {
+        "wordId": "w-barn",
+        "reason": "选项「谷仓」不是「pedal」的主释义「踏板」或其他义项。"
+      },
+      {
+        "wordId": "w-clash",
+        "reason": "选项「冲突」不是「pedal」的主释义「踏板」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-microwave",
+        "reason": "英文「microwave」的常见义项「微波炉」不符合主释义「踏板」。"
+      },
+      {
+        "wordId": "w-barn",
+        "reason": "英文「barn」的常见义项「谷仓」不符合主释义「踏板」。"
+      },
+      {
+        "wordId": "w-clash",
+        "reason": "英文「clash」的常见义项「冲突」不符合主释义「踏板」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-microwave",
+        "surfaceForm": "microwave",
+        "reason": "将「microwave」代入可见句子后不表达主释义「踏板」。"
+      },
+      {
+        "wordId": "w-barn",
+        "surfaceForm": "barn",
+        "reason": "将「barn」代入可见句子后不表达主释义「踏板」。"
+      },
+      {
+        "wordId": "w-clash",
+        "surfaceForm": "clash",
+        "reason": "将「clash」代入可见句子后不表达主释义「踏板」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pedestrian",
+    "enToZh": [
+      {
+        "wordId": "w-maintenance",
+        "reason": "选项「维护」不是「pedestrian」的主释义「行人」或其他义项。"
+      },
+      {
+        "wordId": "w-motel",
+        "reason": "选项「汽车旅馆」不是「pedestrian」的主释义「行人」或其他义项。"
+      },
+      {
+        "wordId": "w-coincidence",
+        "reason": "选项「巧合」不是「pedestrian」的主释义「行人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-maintenance",
+        "reason": "英文「maintenance」的常见义项「维护」不符合主释义「行人」。"
+      },
+      {
+        "wordId": "w-motel",
+        "reason": "英文「motel」的常见义项「汽车旅馆」不符合主释义「行人」。"
+      },
+      {
+        "wordId": "w-coincidence",
+        "reason": "英文「coincidence」的常见义项「巧合」不符合主释义「行人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-maintenance",
+        "surfaceForm": "maintenance",
+        "reason": "将「maintenance」代入可见句子后不表达主释义「行人」。"
+      },
+      {
+        "wordId": "w-motel",
+        "surfaceForm": "motel",
+        "reason": "将「motel」代入可见句子后不表达主释义「行人」。"
+      },
+      {
+        "wordId": "w-coincidence",
+        "surfaceForm": "coincidence",
+        "reason": "将「coincidence」代入可见句子后不表达主释义「行人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pedlar",
+    "enToZh": [
+      {
+        "wordId": "w-fortnight",
+        "reason": "选项「两周」不是「pedlar」的主释义「小贩」或其他义项。"
+      },
+      {
+        "wordId": "w-derivation",
+        "reason": "选项「起源」不是「pedlar」的主释义「小贩」或其他义项。"
+      },
+      {
+        "wordId": "w-kilowatt",
+        "reason": "选项「千瓦」不是「pedlar」的主释义「小贩」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fortnight",
+        "reason": "英文「fortnight」的常见义项「两周」不符合主释义「小贩」。"
+      },
+      {
+        "wordId": "w-derivation",
+        "reason": "英文「derivation」的常见义项「起源」不符合主释义「小贩」。"
+      },
+      {
+        "wordId": "w-kilowatt",
+        "reason": "英文「kilowatt」的常见义项「千瓦」不符合主释义「小贩」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fortnight",
+        "surfaceForm": "fortnight",
+        "reason": "将「fortnight」代入可见句子后不表达主释义「小贩」。"
+      },
+      {
+        "wordId": "w-derivation",
+        "surfaceForm": "derivation",
+        "reason": "将「derivation」代入可见句子后不表达主释义「小贩」。"
+      },
+      {
+        "wordId": "w-kilowatt",
+        "surfaceForm": "kilowatt",
+        "reason": "将「kilowatt」代入可见句子后不表达主释义「小贩」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peel",
+    "enToZh": [
+      {
+        "wordId": "w-intimidate",
+        "reason": "选项「恐吓」不是「peel」的主释义「削皮」或其他义项。"
+      },
+      {
+        "wordId": "w-charter",
+        "reason": "选项「包租」不是「peel」的主释义「削皮」或其他义项。"
+      },
+      {
+        "wordId": "w-kidnap",
+        "reason": "选项「绑架」不是「peel」的主释义「削皮」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-intimidate",
+        "reason": "英文「intimidate」的常见义项「恐吓」不符合主释义「削皮」。"
+      },
+      {
+        "wordId": "w-charter",
+        "reason": "英文「charter」的常见义项「包租」不符合主释义「削皮」。"
+      },
+      {
+        "wordId": "w-kidnap",
+        "reason": "英文「kidnap」的常见义项「绑架」不符合主释义「削皮」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-intimidate",
+        "surfaceForm": "intimidate",
+        "reason": "将「intimidate」代入可见句子后不表达主释义「削皮」。"
+      },
+      {
+        "wordId": "w-charter",
+        "surfaceForm": "charter",
+        "reason": "将「charter」代入可见句子后不表达主释义「削皮」。"
+      },
+      {
+        "wordId": "w-kidnap",
+        "surfaceForm": "kidnap",
+        "reason": "将「kidnap」代入可见句子后不表达主释义「削皮」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peep",
+    "enToZh": [
+      {
+        "wordId": "w-bewilder",
+        "reason": "选项「使困惑」不是「peep」的主释义「偷看」或其他义项。"
+      },
+      {
+        "wordId": "w-envisage",
+        "reason": "选项「设想」不是「peep」的主释义「偷看」或其他义项。"
+      },
+      {
+        "wordId": "w-amend",
+        "reason": "选项「修改」不是「peep」的主释义「偷看」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bewilder",
+        "reason": "英文「bewilder」的常见义项「使困惑」不符合主释义「偷看」。"
+      },
+      {
+        "wordId": "w-envisage",
+        "reason": "英文「envisage」的常见义项「设想」不符合主释义「偷看」。"
+      },
+      {
+        "wordId": "w-amend",
+        "reason": "英文「amend」的常见义项「修改」不符合主释义「偷看」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bewilder",
+        "surfaceForm": "bewilder",
+        "reason": "将「bewilder」代入可见句子后不表达主释义「偷看」。"
+      },
+      {
+        "wordId": "w-envisage",
+        "surfaceForm": "envisage",
+        "reason": "将「envisage」代入可见句子后不表达主释义「偷看」。"
+      },
+      {
+        "wordId": "w-amend",
+        "surfaceForm": "amend",
+        "reason": "将「amend」代入可见句子后不表达主释义「偷看」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peer",
+    "enToZh": [
+      {
+        "wordId": "w-deficit",
+        "reason": "选项「赤字」不是「peer」的主释义「同龄人」或其他义项。"
+      },
+      {
+        "wordId": "w-group",
+        "reason": "选项「小组」不是「peer」的主释义「同龄人」或其他义项。"
+      },
+      {
+        "wordId": "w-participant",
+        "reason": "选项「参与者」不是「peer」的主释义「同龄人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deficit",
+        "reason": "英文「deficit」的常见义项「赤字」不符合主释义「同龄人」。"
+      },
+      {
+        "wordId": "w-group",
+        "reason": "英文「group」的常见义项「小组」不符合主释义「同龄人」。"
+      },
+      {
+        "wordId": "w-participant",
+        "reason": "英文「participant」的常见义项「参与者」不符合主释义「同龄人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deficit",
+        "surfaceForm": "deficit",
+        "reason": "将「deficit」代入可见句子后不表达主释义「同龄人」。"
+      },
+      {
+        "wordId": "w-group",
+        "surfaceForm": "group",
+        "reason": "将「group」代入可见句子后不表达主释义「同龄人」。"
+      },
+      {
+        "wordId": "w-participant",
+        "surfaceForm": "participant",
+        "reason": "将「participant」代入可见句子后不表达主释义「同龄人」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-penalty",
+    "enToZh": [
+      {
+        "wordId": "w-air",
+        "reason": "选项「空气」不是「penalty」的主释义「处罚」或其他义项。"
+      },
+      {
+        "wordId": "w-consideration",
+        "reason": "选项「考虑」不是「penalty」的主释义「处罚」或其他义项。"
+      },
+      {
+        "wordId": "w-fur",
+        "reason": "选项「毛皮」不是「penalty」的主释义「处罚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-air",
+        "reason": "英文「air」的常见义项「空气」不符合主释义「处罚」。"
+      },
+      {
+        "wordId": "w-consideration",
+        "reason": "英文「consideration」的常见义项「考虑」不符合主释义「处罚」。"
+      },
+      {
+        "wordId": "w-fur",
+        "reason": "英文「fur」的常见义项「毛皮」不符合主释义「处罚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-air",
+        "surfaceForm": "air",
+        "reason": "将「air」代入可见句子后不表达主释义「处罚」。"
+      },
+      {
+        "wordId": "w-consideration",
+        "surfaceForm": "consideration",
+        "reason": "将「consideration」代入可见句子后不表达主释义「处罚」。"
+      },
+      {
+        "wordId": "w-fur",
+        "surfaceForm": "fur",
+        "reason": "将「fur」代入可见句子后不表达主释义「处罚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pendulum",
+    "enToZh": [
+      {
+        "wordId": "w-alteration",
+        "reason": "选项「改动」不是「pendulum」的主释义「钟摆」或其他义项。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "选项「驳船」不是「pendulum」的主释义「钟摆」或其他义项。"
+      },
+      {
+        "wordId": "w-nylon",
+        "reason": "选项「尼龙」不是「pendulum」的主释义「钟摆」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-alteration",
+        "reason": "英文「alteration」的常见义项「改动」不符合主释义「钟摆」。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "英文「barge」的常见义项「驳船」不符合主释义「钟摆」。"
+      },
+      {
+        "wordId": "w-nylon",
+        "reason": "英文「nylon」的常见义项「尼龙」不符合主释义「钟摆」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-alteration",
+        "surfaceForm": "alteration",
+        "reason": "将「alteration」代入可见句子后不表达主释义「钟摆」。"
+      },
+      {
+        "wordId": "w-barge",
+        "surfaceForm": "barge",
+        "reason": "将「barge」代入可见句子后不表达主释义「钟摆」。"
+      },
+      {
+        "wordId": "w-nylon",
+        "surfaceForm": "nylon",
+        "reason": "将「nylon」代入可见句子后不表达主释义「钟摆」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-penetrate",
+    "enToZh": [
+      {
+        "wordId": "w-applaud",
+        "reason": "选项「鼓掌」不是「penetrate」的主释义「穿透」或其他义项。"
+      },
+      {
+        "wordId": "w-bump",
+        "reason": "选项「碰撞」不是「penetrate」的主释义「穿透」或其他义项。"
+      },
+      {
+        "wordId": "w-notify",
+        "reason": "选项「通知」不是「penetrate」的主释义「穿透」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-applaud",
+        "reason": "英文「applaud」的常见义项「鼓掌」不符合主释义「穿透」。"
+      },
+      {
+        "wordId": "w-bump",
+        "reason": "英文「bump」的常见义项「碰撞」不符合主释义「穿透」。"
+      },
+      {
+        "wordId": "w-notify",
+        "reason": "英文「notify」的常见义项「通知」不符合主释义「穿透」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-applaud",
+        "surfaceForm": "applaud",
+        "reason": "将「applaud」代入可见句子后不表达主释义「穿透」。"
+      },
+      {
+        "wordId": "w-bump",
+        "surfaceForm": "bump",
+        "reason": "将「bump」代入可见句子后不表达主释义「穿透」。"
+      },
+      {
+        "wordId": "w-notify",
+        "surfaceForm": "notify",
+        "reason": "将「notify」代入可见句子后不表达主释义「穿透」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-penetration",
+    "enToZh": [
+      {
+        "wordId": "w-famine",
+        "reason": "选项「饥荒」不是「penetration」的主释义「渗透」或其他义项。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "选项「破裂」不是「penetration」的主释义「渗透」或其他义项。"
+      },
+      {
+        "wordId": "w-parachute",
+        "reason": "选项「降落伞」不是「penetration」的主释义「渗透」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-famine",
+        "reason": "英文「famine」的常见义项「饥荒」不符合主释义「渗透」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "英文「rupture」的常见义项「破裂」不符合主释义「渗透」。"
+      },
+      {
+        "wordId": "w-parachute",
+        "reason": "英文「parachute」的常见义项「降落伞」不符合主释义「渗透」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-famine",
+        "surfaceForm": "famine",
+        "reason": "将「famine」代入可见句子后不表达主释义「渗透」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "surfaceForm": "rupture",
+        "reason": "将「rupture」代入可见句子后不表达主释义「渗透」。"
+      },
+      {
+        "wordId": "w-parachute",
+        "surfaceForm": "parachute",
+        "reason": "将「parachute」代入可见句子后不表达主释义「渗透」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-peninsula",
+    "enToZh": [
+      {
+        "wordId": "w-deportation",
+        "reason": "选项「驱逐出境」不是「peninsula」的主释义「半岛」或其他义项。"
+      },
+      {
+        "wordId": "w-disobedience",
+        "reason": "选项「不服从」不是「peninsula」的主释义「半岛」或其他义项。"
+      },
+      {
+        "wordId": "w-oar",
+        "reason": "选项「桨」不是「peninsula」的主释义「半岛」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deportation",
+        "reason": "英文「deportation」的常见义项「驱逐出境」不符合主释义「半岛」。"
+      },
+      {
+        "wordId": "w-disobedience",
+        "reason": "英文「disobedience」的常见义项「不服从」不符合主释义「半岛」。"
+      },
+      {
+        "wordId": "w-oar",
+        "reason": "英文「oar」的常见义项「桨」不符合主释义「半岛」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deportation",
+        "surfaceForm": "deportation",
+        "reason": "将「deportation」代入可见句子后不表达主释义「半岛」。"
+      },
+      {
+        "wordId": "w-disobedience",
+        "surfaceForm": "disobedience",
+        "reason": "将「disobedience」代入可见句子后不表达主释义「半岛」。"
+      },
+      {
+        "wordId": "w-oar",
+        "surfaceForm": "oar",
+        "reason": "将「oar」代入可见句子后不表达主释义「半岛」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-penny",
+    "enToZh": [
+      {
+        "wordId": "w-battle",
+        "reason": "选项「战斗」不是「penny」的主释义「便士」或其他义项。"
+      },
+      {
+        "wordId": "w-faith",
+        "reason": "选项「信任」不是「penny」的主释义「便士」或其他义项。"
+      },
+      {
+        "wordId": "w-key",
+        "reason": "选项「钥匙」不是「penny」的主释义「便士」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-battle",
+        "reason": "英文「battle」的常见义项「战斗」不符合主释义「便士」。"
+      },
+      {
+        "wordId": "w-faith",
+        "reason": "英文「faith」的常见义项「信任」不符合主释义「便士」。"
+      },
+      {
+        "wordId": "w-key",
+        "reason": "英文「key」的常见义项「钥匙」不符合主释义「便士」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-battle",
+        "surfaceForm": "battle",
+        "reason": "将「battle」代入可见句子后不表达主释义「便士」。"
+      },
+      {
+        "wordId": "w-faith",
+        "surfaceForm": "faith",
+        "reason": "将「faith」代入可见句子后不表达主释义「便士」。"
+      },
+      {
+        "wordId": "w-key",
+        "surfaceForm": "key",
+        "reason": "将「key」代入可见句子后不表达主释义「便士」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pension",
+    "enToZh": [
+      {
+        "wordId": "w-account",
+        "reason": "选项「账户」不是「pension」的主释义「养老金」或其他义项。"
+      },
+      {
+        "wordId": "w-decision",
+        "reason": "选项「决定」不是「pension」的主释义「养老金」或其他义项。"
+      },
+      {
+        "wordId": "w-admiration",
+        "reason": "选项「钦佩」不是「pension」的主释义「养老金」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-account",
+        "reason": "英文「account」的常见义项「账户」不符合主释义「养老金」。"
+      },
+      {
+        "wordId": "w-decision",
+        "reason": "英文「decision」的常见义项「决定」不符合主释义「养老金」。"
+      },
+      {
+        "wordId": "w-admiration",
+        "reason": "英文「admiration」的常见义项「钦佩」不符合主释义「养老金」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-account",
+        "surfaceForm": "account",
+        "reason": "将「account」代入可见句子后不表达主释义「养老金」。"
+      },
+      {
+        "wordId": "w-decision",
+        "surfaceForm": "decision",
+        "reason": "将「decision」代入可见句子后不表达主释义「养老金」。"
+      },
+      {
+        "wordId": "w-admiration",
+        "surfaceForm": "admiration",
+        "reason": "将「admiration」代入可见句子后不表达主释义「养老金」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-pepper",
+    "enToZh": [
+      {
+        "wordId": "w-penalty",
+        "reason": "选项「处罚」不是「pepper」的主释义「胡椒」或其他义项。"
+      },
+      {
+        "wordId": "w-corner",
+        "reason": "选项「角落」不是「pepper」的主释义「胡椒」或其他义项。"
+      },
+      {
+        "wordId": "w-football",
+        "reason": "选项「足球」不是「pepper」的主释义「胡椒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-penalty",
+        "reason": "英文「penalty」的常见义项「处罚」不符合主释义「胡椒」。"
+      },
+      {
+        "wordId": "w-corner",
+        "reason": "英文「corner」的常见义项「角落」不符合主释义「胡椒」。"
+      },
+      {
+        "wordId": "w-football",
+        "reason": "英文「football」的常见义项「足球」不符合主释义「胡椒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-penalty",
+        "surfaceForm": "penalty",
+        "reason": "将「penalty」代入可见句子后不表达主释义「胡椒」。"
+      },
+      {
+        "wordId": "w-corner",
+        "surfaceForm": "corner",
+        "reason": "将「corner」代入可见句子后不表达主释义「胡椒」。"
+      },
+      {
+        "wordId": "w-football",
+        "surfaceForm": "football",
+        "reason": "将「football」代入可见句子后不表达主释义「胡椒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-per",
+    "enToZh": [
+      {
+        "wordId": "w-inside",
+        "reason": "选项「在……里面」不是「per」的主释义「每」或其他义项。"
+      },
+      {
+        "wordId": "w-beneath",
+        "reason": "选项「在…下面」不是「per」的主释义「每」或其他义项。"
+      },
+      {
+        "wordId": "w-beside",
+        "reason": "选项「在…旁边」不是「per」的主释义「每」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-inside",
+        "reason": "英文「inside」的常见义项「在……里面」不符合主释义「每」。"
+      },
+      {
+        "wordId": "w-beneath",
+        "reason": "英文「beneath」的常见义项「在…下面」不符合主释义「每」。"
+      },
+      {
+        "wordId": "w-beside",
+        "reason": "英文「beside」的常见义项「在…旁边」不符合主释义「每」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-inside",
+        "surfaceForm": "inside",
+        "reason": "将「inside」代入可见句子后不表达主释义「每」。"
+      },
+      {
+        "wordId": "w-beneath",
+        "surfaceForm": "beneath",
+        "reason": "将「beneath」代入可见句子后不表达主释义「每」。"
+      },
+      {
+        "wordId": "w-beside",
+        "surfaceForm": "beside",
+        "reason": "将「beside」代入可见句子后不表达主释义「每」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-perceive",
+    "enToZh": [
+      {
+        "wordId": "w-become",
+        "reason": "选项「变成」不是「perceive」的主释义「察觉」或其他义项。"
+      },
+      {
+        "wordId": "w-accuse",
+        "reason": "选项「指控」不是「perceive」的主释义「察觉」或其他义项。"
+      },
+      {
+        "wordId": "w-embarrass",
+        "reason": "选项「使尴尬」不是「perceive」的主释义「察觉」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-become",
+        "reason": "英文「become」的常见义项「变成」不符合主释义「察觉」。"
+      },
+      {
+        "wordId": "w-accuse",
+        "reason": "英文「accuse」的常见义项「指控」不符合主释义「察觉」。"
+      },
+      {
+        "wordId": "w-embarrass",
+        "reason": "英文「embarrass」的常见义项「使尴尬」不符合主释义「察觉」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-become",
+        "surfaceForm": "become",
+        "reason": "将「become」代入可见句子后不表达主释义「察觉」。"
+      },
+      {
+        "wordId": "w-accuse",
+        "surfaceForm": "accuse",
+        "reason": "将「accuse」代入可见句子后不表达主释义「察觉」。"
+      },
+      {
+        "wordId": "w-embarrass",
+        "surfaceForm": "embarrass",
+        "reason": "将「embarrass」代入可见句子后不表达主释义「察觉」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-percent",
+    "enToZh": [
+      {
+        "wordId": "w-mode",
+        "reason": "选项「模式」不是「percent」的主释义「百分比」或其他义项。"
+      },
+      {
+        "wordId": "w-gold",
+        "reason": "选项「黄金」不是「percent」的主释义「百分比」或其他义项。"
+      },
+      {
+        "wordId": "w-output",
+        "reason": "选项「产量」不是「percent」的主释义「百分比」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mode",
+        "reason": "英文「mode」的常见义项「模式」不符合主释义「百分比」。"
+      },
+      {
+        "wordId": "w-gold",
+        "reason": "英文「gold」的常见义项「黄金」不符合主释义「百分比」。"
+      },
+      {
+        "wordId": "w-output",
+        "reason": "英文「output」的常见义项「产量」不符合主释义「百分比」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mode",
+        "surfaceForm": "mode",
+        "reason": "将「mode」代入可见句子后不表达主释义「百分比」。"
+      },
+      {
+        "wordId": "w-gold",
+        "surfaceForm": "gold",
+        "reason": "将「gold」代入可见句子后不表达主释义「百分比」。"
+      },
+      {
+        "wordId": "w-output",
+        "surfaceForm": "output",
+        "reason": "将「output」代入可见句子后不表达主释义「百分比」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-percentage",
+    "enToZh": [
+      {
+        "wordId": "w-awareness",
+        "reason": "选项「意识」不是「percentage」的主释义「百分比」或其他义项。"
+      },
+      {
+        "wordId": "w-climate",
+        "reason": "选项「气候」不是「percentage」的主释义「百分比」或其他义项。"
+      },
+      {
+        "wordId": "w-cow",
+        "reason": "选项「母牛」不是「percentage」的主释义「百分比」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-awareness",
+        "reason": "英文「awareness」的常见义项「意识」不符合主释义「百分比」。"
+      },
+      {
+        "wordId": "w-climate",
+        "reason": "英文「climate」的常见义项「气候」不符合主释义「百分比」。"
+      },
+      {
+        "wordId": "w-cow",
+        "reason": "英文「cow」的常见义项「母牛」不符合主释义「百分比」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-awareness",
+        "surfaceForm": "awareness",
+        "reason": "将「awareness」代入可见句子后不表达主释义「百分比」。"
+      },
+      {
+        "wordId": "w-climate",
+        "surfaceForm": "climate",
+        "reason": "将「climate」代入可见句子后不表达主释义「百分比」。"
+      },
+      {
+        "wordId": "w-cow",
+        "surfaceForm": "cow",
+        "reason": "将「cow」代入可见句子后不表达主释义「百分比」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-perception",
+    "enToZh": [
+      {
+        "wordId": "w-production",
+        "reason": "选项「生产」不是「perception」的主释义「感知」或其他义项。"
+      },
+      {
+        "wordId": "w-earnings",
+        "reason": "选项「收入」不是「perception」的主释义「感知」或其他义项。"
+      },
+      {
+        "wordId": "w-assumption",
+        "reason": "选项「假设」不是「perception」的主释义「感知」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-production",
+        "reason": "英文「production」的常见义项「生产」不符合主释义「感知」。"
+      },
+      {
+        "wordId": "w-earnings",
+        "reason": "英文「earnings」的常见义项「收入」不符合主释义「感知」。"
+      },
+      {
+        "wordId": "w-assumption",
+        "reason": "英文「assumption」的常见义项「假设」不符合主释义「感知」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-production",
+        "surfaceForm": "production",
+        "reason": "将「production」代入可见句子后不表达主释义「感知」。"
+      },
+      {
+        "wordId": "w-earnings",
+        "surfaceForm": "earnings",
+        "reason": "将「earnings」代入可见句子后不表达主释义「感知」。"
+      },
+      {
+        "wordId": "w-assumption",
+        "surfaceForm": "assumption",
+        "reason": "将「assumption」代入可见句子后不表达主释义「感知」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-perch",
+    "enToZh": [
+      {
+        "wordId": "w-deteriorate",
+        "reason": "选项「恶化」不是「perch」的主释义「栖息」或其他义项。"
+      },
+      {
+        "wordId": "w-haul",
+        "reason": "选项「拖运」不是「perch」的主释义「栖息」或其他义项。"
+      },
+      {
+        "wordId": "w-minimize",
+        "reason": "选项「使降到最低」不是「perch」的主释义「栖息」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-deteriorate",
+        "reason": "英文「deteriorate」的常见义项「恶化」不符合主释义「栖息」。"
+      },
+      {
+        "wordId": "w-haul",
+        "reason": "英文「haul」的常见义项「拖运」不符合主释义「栖息」。"
+      },
+      {
+        "wordId": "w-minimize",
+        "reason": "英文「minimize」的常见义项「使降到最低」不符合主释义「栖息」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-deteriorate",
+        "surfaceForm": "deteriorate",
+        "reason": "将「deteriorate」代入可见句子后不表达主释义「栖息」。"
+      },
+      {
+        "wordId": "w-haul",
+        "surfaceForm": "haul",
+        "reason": "将「haul」代入可见句子后不表达主释义「栖息」。"
+      },
+      {
+        "wordId": "w-minimize",
+        "surfaceForm": "minimize",
+        "reason": "将「minimize」代入可见句子后不表达主释义「栖息」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-perfect",
+    "enToZh": [
+      {
+        "wordId": "w-right",
+        "reason": "选项「正确的」不是「perfect」的主释义「完美的」或其他义项。"
+      },
+      {
+        "wordId": "w-equivalent",
+        "reason": "选项「等同的」不是「perfect」的主释义「完美的」或其他义项。"
+      },
+      {
+        "wordId": "w-independent",
+        "reason": "选项「独立的」不是「perfect」的主释义「完美的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-right",
+        "reason": "英文「right」的常见义项「正确的」不符合主释义「完美的」。"
+      },
+      {
+        "wordId": "w-equivalent",
+        "reason": "英文「equivalent」的常见义项「等同的」不符合主释义「完美的」。"
+      },
+      {
+        "wordId": "w-independent",
+        "reason": "英文「independent」的常见义项「独立的」不符合主释义「完美的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-right",
+        "surfaceForm": "right",
+        "reason": "将「right」代入可见句子后不表达主释义「完美的」。"
+      },
+      {
+        "wordId": "w-equivalent",
+        "surfaceForm": "equivalent",
+        "reason": "将「equivalent」代入可见句子后不表达主释义「完美的」。"
+      },
+      {
+        "wordId": "w-independent",
+        "surfaceForm": "independent",
+        "reason": "将「independent」代入可见句子后不表达主释义「完美的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-perfection",
+    "enToZh": [
+      {
+        "wordId": "w-catalog",
+        "reason": "选项「目录」不是「perfection」的主释义「完美」或其他义项。"
+      },
+      {
+        "wordId": "w-northwest",
+        "reason": "选项「西北部」不是「perfection」的主释义「完美」或其他义项。"
+      },
+      {
+        "wordId": "w-imitation",
+        "reason": "选项「仿制品」不是「perfection」的主释义「完美」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-catalog",
+        "reason": "英文「catalog」的常见义项「目录」不符合主释义「完美」。"
+      },
+      {
+        "wordId": "w-northwest",
+        "reason": "英文「northwest」的常见义项「西北部」不符合主释义「完美」。"
+      },
+      {
+        "wordId": "w-imitation",
+        "reason": "英文「imitation」的常见义项「仿制品」不符合主释义「完美」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-catalog",
+        "surfaceForm": "catalog",
+        "reason": "将「catalog」代入可见句子后不表达主释义「完美」。"
+      },
+      {
+        "wordId": "w-northwest",
+        "surfaceForm": "northwest",
+        "reason": "将「northwest」代入可见句子后不表达主释义「完美」。"
+      },
+      {
+        "wordId": "w-imitation",
+        "surfaceForm": "imitation",
+        "reason": "将「imitation」代入可见句子后不表达主释义「完美」。"
+      }
+    ],
+    "spelling": null
+  }
+]

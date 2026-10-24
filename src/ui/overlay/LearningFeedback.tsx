@@ -1,8 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { Button } from 'animal-island-ui';
-import { CheckCircleIcon, XCircleIcon } from 'naive-icons';
+import {
+  BadgeXIcon,
+  Cancel01Icon,
+  CheckmarkBadge03Icon,
+  MountainIcon,
+  ZzzIcon,
+} from '@hugeicons/core-free-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
+import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
+import { WordSummary } from '@/ui/overlay/WordSummary';
 
 export const LEARNING_FEEDBACK_DURATION_MS = 5_000;
 export const LEARNING_FEEDBACK_EXIT_DURATION_MS = 0;
@@ -16,6 +25,7 @@ const FAILURE_MESSAGES: Record<StartLearningFailureReason, string> = {
 };
 
 const TOO_EASY_FAILURE_MESSAGE = '暂时无法标记，请重试。';
+const TOO_HARD_FAILURE_MESSAGE = '暂时无法标记，请重试。';
 
 // 沿用 animal-island-ui 2.3.0 的 Modal 纸片轮廓；反馈不挂载 Modal 的遮罩、焦点锁与滚动锁。
 const FEEDBACK_PAPER_PATH =
@@ -25,50 +35,112 @@ export interface LearningFeedbackProps {
   result: SubmissionResult;
   onContinue?: () => Promise<StartLearningResponse>;
   onTooEasy?: () => Promise<CorrectionResult>;
+  onTooHard?: () => Promise<CorrectionResult>;
   onClose: () => void;
+  /** 预览页常驻展示：不自动收起，按钮只用于观察布局。 */
+  staticPreview?: boolean;
 }
 
-/** 右下角非模态答题反馈；不转移焦点、不拦截页面快捷键。 */
+/** 右下角非模态答题反馈；点击反馈后取消自动关闭，不转移焦点或拦截页面快捷键。 */
 export function LearningFeedback({
   result,
   onContinue,
   onTooEasy,
+  onTooHard,
   onClose,
+  staticPreview = false,
 }: LearningFeedbackProps) {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [continuing, setContinuing] = useState(false);
   const [markingTooEasy, setMarkingTooEasy] = useState(false);
   const [tooEasySaved, setTooEasySaved] = useState(false);
+  const [markingTooHard, setMarkingTooHard] = useState(false);
+  const [tooHardSaved, setTooHardSaved] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
+  const [countdownProgress, setCountdownProgress] = useState(staticPreview ? 0.45 : 0);
+  const [countdownCancelled, setCountdownCancelled] = useState(false);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
   const mounted = useRef(false);
   const continuationPending = useRef(false);
   const tooEasyPending = useRef(false);
+  const tooHardPending = useRef(false);
   const canMarkTooEasy = result.isCorrect && onTooEasy !== undefined;
+  const canMarkTooHard = result.isCorrect && onTooHard !== undefined;
+  const ownerId = useId();
+  const speech = useLocalSpeech(ownerId);
+  const speechBusy =
+    speech.state.ownerId === ownerId &&
+    (speech.state.status === 'preparing' || speech.state.status === 'speaking');
+  const actionsLocked = continuing || markingTooEasy || markingTooHard;
+  const { explanation } = result;
+  const hasSubmittedAnswer = !result.isCorrect && Boolean(result.submittedAnswer);
+  const hasRatingActions = canMarkTooEasy || canMarkTooHard || tooEasySaved || tooHardSaved;
+  const hasFlowActions = onContinue !== undefined;
+  const hasActions = hasRatingActions || hasFlowActions;
 
   const dismiss = (): void => {
-    if (!continuationPending.current && !tooEasyPending.current) setExiting(true);
+    if (staticPreview) return;
+    if (!continuationPending.current && !tooEasyPending.current && !tooHardPending.current) {
+      localSpeech.stopOwnedBy(ownerId);
+      setExiting(true);
+    }
+  };
+
+  const cancelAutoClose = (): void => {
+    if (staticPreview || countdownCancelled) return;
+    setCountdownCancelled(true);
+    setCountdownProgress(0);
   };
 
   useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
+      localSpeech.stopOwnedBy(ownerId);
     };
-  }, []);
+  }, [ownerId]);
 
   useEffect(() => {
-    if (hovered || focused || continuing || markingTooEasy || exiting || failure !== null) return;
+    if (staticPreview || countdownCancelled) return;
+    if (
+      hovered ||
+      focused ||
+      continuing ||
+      markingTooEasy ||
+      markingTooHard ||
+      speechBusy ||
+      exiting ||
+      failure !== null
+    )
+      return;
 
     const startedAt = Date.now();
+    const startingRemaining = remainingMs.current;
+    setCountdownProgress(1 - startingRemaining / LEARNING_FEEDBACK_DURATION_MS);
+    const interval = window.setInterval(() => {
+      const remaining = Math.max(0, startingRemaining - (Date.now() - startedAt));
+      setCountdownProgress(1 - remaining / LEARNING_FEEDBACK_DURATION_MS);
+    }, 50);
     const timer = window.setTimeout(() => setExiting(true), remainingMs.current);
     return () => {
+      window.clearInterval(interval);
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
-  }, [hovered, focused, continuing, markingTooEasy, exiting, failure]);
+  }, [
+    hovered,
+    focused,
+    continuing,
+    markingTooEasy,
+    markingTooHard,
+    speechBusy,
+    exiting,
+    failure,
+    staticPreview,
+    countdownCancelled,
+  ]);
 
   useEffect(() => {
     if (!exiting) return;
@@ -78,8 +150,17 @@ export function LearningFeedback({
   }, [exiting, onClose]);
 
   const continueLearning = async (): Promise<void> => {
-    if (!onContinue || continuationPending.current || tooEasyPending.current || exiting) return;
+    if (staticPreview) return;
+    if (
+      !onContinue ||
+      continuationPending.current ||
+      tooEasyPending.current ||
+      tooHardPending.current ||
+      exiting
+    )
+      return;
     continuationPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
     setContinuing(true);
     setFailure(null);
 
@@ -99,11 +180,14 @@ export function LearningFeedback({
   };
 
   const markTooEasy = async (): Promise<void> => {
+    if (staticPreview) return;
     if (
       !onTooEasy ||
       !result.isCorrect ||
       tooEasySaved ||
+      tooHardSaved ||
       tooEasyPending.current ||
+      tooHardPending.current ||
       continuationPending.current ||
       exiting
     ) {
@@ -111,6 +195,7 @@ export function LearningFeedback({
     }
 
     tooEasyPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
     setMarkingTooEasy(true);
     setFailure(null);
 
@@ -132,6 +217,43 @@ export function LearningFeedback({
     }
   };
 
+  const markTooHard = async (): Promise<void> => {
+    if (staticPreview) return;
+    if (
+      !onTooHard ||
+      !result.isCorrect ||
+      tooHardSaved ||
+      tooEasySaved ||
+      tooHardPending.current ||
+      tooEasyPending.current ||
+      continuationPending.current ||
+      exiting
+    ) {
+      return;
+    }
+
+    tooHardPending.current = true;
+    localSpeech.stopOwnedBy(ownerId);
+    setMarkingTooHard(true);
+    setFailure(null);
+
+    try {
+      await onTooHard();
+      if (mounted.current) {
+        setTooHardSaved(true);
+        setFocused(false);
+        setHovered(false);
+      }
+    } catch {
+      if (mounted.current) setFailure(TOO_HARD_FAILURE_MESSAGE);
+    } finally {
+      if (mounted.current) {
+        tooHardPending.current = false;
+        setMarkingTooHard(false);
+      }
+    }
+  };
+
   return (
     <>
       <svg className="bingeup-learning-feedback__clip" aria-hidden="true">
@@ -144,11 +266,11 @@ export function LearningFeedback({
       {!exiting && (
         <section
           className="bingeup-learning-feedback"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
+          role="region"
+          aria-label="答题反馈"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
+          onClickCapture={cancelAutoClose}
           onFocusCapture={() => setFocused(true)}
           onBlurCapture={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null))
@@ -157,26 +279,57 @@ export function LearningFeedback({
           // 用户主动操作反馈按钮时，按键只作用于该按钮，不触发下一题快捷键。
           onKeyDown={(event) => event.stopPropagation()}
         >
-          <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
-            {result.isCorrect ? (
-              <CheckCircleIcon size={20} aria-hidden="true" />
-            ) : (
-              <XCircleIcon size={20} aria-hidden="true" />
-            )}
-            <span>{result.isCorrect ? '答对了' : '答错了'}</span>
+          <span
+            className="bingeup-learning-feedback__close-control"
+            data-countdown-cancelled={countdownCancelled}
+          >
+            <span
+              className="bingeup-learning-feedback__close-timer"
+              style={{ '--feedback-countdown': countdownProgress } as CSSProperties}
+              aria-hidden="true"
+            />
+            <Button
+              className="bingeup-learning-feedback__close"
+              type="text"
+              size="small"
+              icon={<HugeIcon icon={Cancel01Icon} size={18} />}
+              aria-label="关闭"
+              title="关闭"
+              disabled={actionsLocked || exiting}
+              onClick={dismiss}
+            />
           </span>
+          <div role="status" aria-live="polite" aria-atomic="true">
+            <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
+              <span
+                className="bingeup-learning-feedback__status-icon"
+                data-correct={result.isCorrect}
+              >
+                <HugeIcon icon={result.isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={22} />
+              </span>
+              <span>{result.isCorrect ? '答对了' : '答错了'}</span>
+            </span>
+          </div>
           <div className="bingeup-learning-feedback__content">
-            <h2 className="bingeup-learning-feedback__word" lang="en">
-              {result.explanation.word}
-            </h2>
-            <p className="bingeup-learning-feedback__meaning">
-              {result.explanation.meanings.join('；')}
-            </p>
-            {!result.isCorrect && result.submittedAnswer && (
+            <WordSummary
+              ownerId={ownerId}
+              data={{
+                word: explanation.word,
+                phonetic: explanation.phonetic,
+                partOfSpeech: explanation.partOfSpeech,
+                meanings: explanation.meanings,
+                exampleSentence: explanation.exampleSentence,
+                exampleTranslation: explanation.exampleTranslation,
+                secondaryMeanings: explanation.secondaryMeanings,
+              }}
+              wordClassName="bingeup-learning-feedback__word"
+              disabled={actionsLocked || exiting}
+              showExample={false}
+            />
+            {hasSubmittedAnswer && (
               <div className="bingeup-learning-feedback__submitted-answer">
                 <span className="bingeup-learning-feedback__answer-label">你的答案</span>
                 <span className="bingeup-learning-feedback__wrong-value">
-                  <XCircleIcon size={20} aria-hidden="true" />
                   <span>{result.submittedAnswer}</span>
                 </span>
               </div>
@@ -187,34 +340,58 @@ export function LearningFeedback({
               </p>
             )}
           </div>
-          <div className="bingeup-learning-feedback__actions">
-            {canMarkTooEasy && !tooEasySaved && (
-              <Button
-                size="small"
-                loading={markingTooEasy}
-                disabled={continuing || markingTooEasy || exiting}
-                onClick={() => void markTooEasy()}
-              >
-                太简单了
-              </Button>
+          <div
+            className="bingeup-learning-feedback__actions"
+            data-has-actions={hasActions}
+            data-after-answer={hasSubmittedAnswer}
+          >
+            {hasRatingActions && (
+              <div className="bingeup-learning-feedback__rating-actions">
+                {canMarkTooEasy && !tooEasySaved && !tooHardSaved && (
+                  <Button
+                    size="small"
+                    icon={<HugeIcon icon={ZzzIcon} size={15} />}
+                    loading={markingTooEasy}
+                    disabled={actionsLocked || exiting}
+                    onClick={() => void markTooEasy()}
+                  >
+                    太简单
+                  </Button>
+                )}
+                {tooEasySaved && (
+                  <span className="bingeup-learning-feedback__too-easy-success">
+                    已标记为太简单
+                  </span>
+                )}
+                {canMarkTooHard && !tooHardSaved && !tooEasySaved && (
+                  <Button
+                    size="small"
+                    icon={<HugeIcon icon={MountainIcon} size={15} />}
+                    loading={markingTooHard}
+                    disabled={actionsLocked || exiting}
+                    onClick={() => void markTooHard()}
+                  >
+                    太难了
+                  </Button>
+                )}
+                {tooHardSaved && (
+                  <span className="bingeup-learning-feedback__too-easy-success">
+                    已标记为太难了
+                  </span>
+                )}
+              </div>
             )}
-            {tooEasySaved && (
-              <span className="bingeup-learning-feedback__too-easy-success">已标记为太简单</span>
-            )}
-            {(!result.isCorrect || !onContinue) && (
-              <Button size="small" disabled={continuing || markingTooEasy} onClick={dismiss}>
-                关闭
-              </Button>
-            )}
-            {onContinue && (
-              <Button
-                size="small"
-                loading={continuing}
-                disabled={continuing || markingTooEasy || exiting}
-                onClick={() => void continueLearning()}
-              >
-                继续答题
-              </Button>
+            {hasFlowActions && (
+              <div className="bingeup-learning-feedback__flow-actions">
+                <Button
+                  size="small"
+                  loading={continuing}
+                  disabled={actionsLocked || exiting}
+                  onClick={() => void continueLearning()}
+                >
+                  继续答题
+                </Button>
+              </div>
             )}
           </div>
         </section>

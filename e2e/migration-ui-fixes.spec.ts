@@ -260,10 +260,10 @@ async function advanceToQuestion(page: Page, control: Page, tabId: number): Prom
         (candidate) => !candidate.disabled,
       );
       const next =
-        buttons.find((candidate) => normalize(candidate.textContent).startsWith('知道了，继续')) ??
+        buttons.find((candidate) => normalize(candidate.textContent).startsWith('学到了，继续')) ??
         buttons.find((candidate) => normalize(candidate.textContent).startsWith('提交并继续')) ??
         buttons.find((candidate) => normalize(candidate.textContent).startsWith('继续')) ??
-        buttons.find((candidate) => normalize(candidate.textContent).startsWith('知道了')) ??
+        buttons.find((candidate) => normalize(candidate.textContent).startsWith('学到了')) ??
         null;
       if (next === null) return false;
       (next as HTMLButtonElement).click();

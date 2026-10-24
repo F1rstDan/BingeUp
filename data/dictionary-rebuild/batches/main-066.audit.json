@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-everything",
+    "enToZh": [
+      {
+        "wordId": "w-somebody",
+        "reason": "选项「某人」不是「everything」的主释义「一切」或其他义项。"
+      },
+      {
+        "wordId": "w-ourselves",
+        "reason": "选项「我们自己」不是「everything」的主释义「一切」或其他义项。"
+      },
+      {
+        "wordId": "w-whom",
+        "reason": "选项「谁」不是「everything」的主释义「一切」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-somebody",
+        "reason": "英文「somebody」的常见义项「某人」不符合主释义「一切」。"
+      },
+      {
+        "wordId": "w-ourselves",
+        "reason": "英文「ourselves」的常见义项「我们自己」不符合主释义「一切」。"
+      },
+      {
+        "wordId": "w-whom",
+        "reason": "英文「whom」的常见义项「谁」不符合主释义「一切」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-somebody",
+        "surfaceForm": "somebody",
+        "reason": "将「somebody」代入可见句子后不表达主释义「一切」。"
+      },
+      {
+        "wordId": "w-ourselves",
+        "surfaceForm": "ourselves",
+        "reason": "将「ourselves」代入可见句子后不表达主释义「一切」。"
+      },
+      {
+        "wordId": "w-whom",
+        "surfaceForm": "whom",
+        "reason": "将「whom」代入可见句子后不表达主释义「一切」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-everywhere",
+    "enToZh": [
+      {
+        "wordId": "w-perhaps",
+        "reason": "选项「也许」不是「everywhere」的主释义「到处」或其他义项。"
+      },
+      {
+        "wordId": "w-permanently",
+        "reason": "选项「永久地」不是「everywhere」的主释义「到处」或其他义项。"
+      },
+      {
+        "wordId": "w-personally",
+        "reason": "选项「亲自」不是「everywhere」的主释义「到处」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-perhaps",
+        "reason": "英文「perhaps」的常见义项「也许」不符合主释义「到处」。"
+      },
+      {
+        "wordId": "w-permanently",
+        "reason": "英文「permanently」的常见义项「永久地」不符合主释义「到处」。"
+      },
+      {
+        "wordId": "w-personally",
+        "reason": "英文「personally」的常见义项「亲自」不符合主释义「到处」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-perhaps",
+        "surfaceForm": "perhaps",
+        "reason": "将「perhaps」代入可见句子后不表达主释义「到处」。"
+      },
+      {
+        "wordId": "w-permanently",
+        "surfaceForm": "permanently",
+        "reason": "将「permanently」代入可见句子后不表达主释义「到处」。"
+      },
+      {
+        "wordId": "w-personally",
+        "surfaceForm": "personally",
+        "reason": "将「personally」代入可见句子后不表达主释义「到处」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-evidence",
+    "enToZh": [
+      {
+        "wordId": "w-bible",
+        "reason": "选项「圣经」不是「evidence」的主释义「证据」或其他义项。"
+      },
+      {
+        "wordId": "w-piece",
+        "reason": "选项「一块」不是「evidence」的主释义「证据」或其他义项。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "选项「框架」不是「evidence」的主释义「证据」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bible",
+        "reason": "英文「bible」的常见义项「圣经」不符合主释义「证据」。"
+      },
+      {
+        "wordId": "w-piece",
+        "reason": "英文「piece」的常见义项「一块」不符合主释义「证据」。"
+      },
+      {
+        "wordId": "w-frame",
+        "reason": "英文「frame」的常见义项「框架」不符合主释义「证据」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bible",
+        "surfaceForm": "bible",
+        "reason": "将「bible」代入可见句子后不表达主释义「证据」。"
+      },
+      {
+        "wordId": "w-piece",
+        "surfaceForm": "piece",
+        "reason": "将「piece」代入可见句子后不表达主释义「证据」。"
+      },
+      {
+        "wordId": "w-frame",
+        "surfaceForm": "frame",
+        "reason": "将「frame」代入可见句子后不表达主释义「证据」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-evil",
+    "enToZh": [
+      {
+        "wordId": "w-pale",
+        "reason": "选项「苍白的」不是「evil」的主释义「邪恶的」或其他义项。"
+      },
+      {
+        "wordId": "w-female",
+        "reason": "选项「女性的」不是「evil」的主释义「邪恶的」或其他义项。"
+      },
+      {
+        "wordId": "w-superior",
+        "reason": "选项「更好的」不是「evil」的主释义「邪恶的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pale",
+        "reason": "英文「pale」的常见义项「苍白的」不符合主释义「邪恶的」。"
+      },
+      {
+        "wordId": "w-female",
+        "reason": "英文「female」的常见义项「女性的」不符合主释义「邪恶的」。"
+      },
+      {
+        "wordId": "w-superior",
+        "reason": "英文「superior」的常见义项「更好的」不符合主释义「邪恶的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pale",
+        "surfaceForm": "pale",
+        "reason": "将「pale」代入可见句子后不表达主释义「邪恶的」。"
+      },
+      {
+        "wordId": "w-female",
+        "surfaceForm": "female",
+        "reason": "将「female」代入可见句子后不表达主释义「邪恶的」。"
+      },
+      {
+        "wordId": "w-superior",
+        "surfaceForm": "superior",
+        "reason": "将「superior」代入可见句子后不表达主释义「邪恶的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-evoke",
+    "enToZh": [
+      {
+        "wordId": "w-conquer",
+        "reason": "选项「征服」不是「evoke」的主释义「唤起」或其他义项。"
+      },
+      {
+        "wordId": "w-lessen",
+        "reason": "选项「减轻」不是「evoke」的主释义「唤起」或其他义项。"
+      },
+      {
+        "wordId": "w-relieve",
+        "reason": "选项「缓解」不是「evoke」的主释义「唤起」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-conquer",
+        "reason": "英文「conquer」的常见义项「征服」不符合主释义「唤起」。"
+      },
+      {
+        "wordId": "w-lessen",
+        "reason": "英文「lessen」的常见义项「减轻」不符合主释义「唤起」。"
+      },
+      {
+        "wordId": "w-relieve",
+        "reason": "英文「relieve」的常见义项「缓解」不符合主释义「唤起」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-conquer",
+        "surfaceForm": "conquer",
+        "reason": "将「conquer」代入可见句子后不表达主释义「唤起」。"
+      },
+      {
+        "wordId": "w-lessen",
+        "surfaceForm": "lessen",
+        "reason": "将「lessen」代入可见句子后不表达主释义「唤起」。"
+      },
+      {
+        "wordId": "w-relieve",
+        "surfaceForm": "relieve",
+        "reason": "将「relieve」代入可见句子后不表达主释义「唤起」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-evolution",
+    "enToZh": [
+      {
+        "wordId": "w-heart",
+        "reason": "选项「心脏」不是「evolution」的主释义「进化」或其他义项。"
+      },
+      {
+        "wordId": "w-celebrity",
+        "reason": "选项「名人」不是「evolution」的主释义「进化」或其他义项。"
+      },
+      {
+        "wordId": "w-pattern",
+        "reason": "选项「模式」不是「evolution」的主释义「进化」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-heart",
+        "reason": "英文「heart」的常见义项「心脏」不符合主释义「进化」。"
+      },
+      {
+        "wordId": "w-celebrity",
+        "reason": "英文「celebrity」的常见义项「名人」不符合主释义「进化」。"
+      },
+      {
+        "wordId": "w-pattern",
+        "reason": "英文「pattern」的常见义项「模式」不符合主释义「进化」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-heart",
+        "surfaceForm": "heart",
+        "reason": "将「heart」代入可见句子后不表达主释义「进化」。"
+      },
+      {
+        "wordId": "w-celebrity",
+        "surfaceForm": "celebrity",
+        "reason": "将「celebrity」代入可见句子后不表达主释义「进化」。"
+      },
+      {
+        "wordId": "w-pattern",
+        "surfaceForm": "pattern",
+        "reason": "将「pattern」代入可见句子后不表达主释义「进化」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-evolve",
+    "enToZh": [
+      {
+        "wordId": "w-offend",
+        "reason": "选项「冒犯」不是「evolve」的主释义「进化」或其他义项。"
+      },
+      {
+        "wordId": "w-call",
+        "reason": "选项「打电话」不是「evolve」的主释义「进化」或其他义项。"
+      },
+      {
+        "wordId": "w-link",
+        "reason": "选项「连接」不是「evolve」的主释义「进化」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-offend",
+        "reason": "英文「offend」的常见义项「冒犯」不符合主释义「进化」。"
+      },
+      {
+        "wordId": "w-call",
+        "reason": "英文「call」的常见义项「打电话」不符合主释义「进化」。"
+      },
+      {
+        "wordId": "w-link",
+        "reason": "英文「link」的常见义项「连接」不符合主释义「进化」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-offend",
+        "surfaceForm": "offend",
+        "reason": "将「offend」代入可见句子后不表达主释义「进化」。"
+      },
+      {
+        "wordId": "w-call",
+        "surfaceForm": "call",
+        "reason": "将「call」代入可见句子后不表达主释义「进化」。"
+      },
+      {
+        "wordId": "w-link",
+        "surfaceForm": "link",
+        "reason": "将「link」代入可见句子后不表达主释义「进化」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exactly",
+    "enToZh": [
+      {
+        "wordId": "w-almost",
+        "reason": "选项「几乎」不是「exactly」的主释义「确切地」或其他义项。"
+      },
+      {
+        "wordId": "w-carefully",
+        "reason": "选项「小心地」不是「exactly」的主释义「确切地」或其他义项。"
+      },
+      {
+        "wordId": "w-even",
+        "reason": "选项「甚至」不是「exactly」的主释义「确切地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-almost",
+        "reason": "英文「almost」的常见义项「几乎」不符合主释义「确切地」。"
+      },
+      {
+        "wordId": "w-carefully",
+        "reason": "英文「carefully」的常见义项「小心地」不符合主释义「确切地」。"
+      },
+      {
+        "wordId": "w-even",
+        "reason": "英文「even」的常见义项「甚至」不符合主释义「确切地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-almost",
+        "surfaceForm": "almost",
+        "reason": "将「almost」代入可见句子后不表达主释义「确切地」。"
+      },
+      {
+        "wordId": "w-carefully",
+        "surfaceForm": "carefully",
+        "reason": "将「carefully」代入可见句子后不表达主释义「确切地」。"
+      },
+      {
+        "wordId": "w-even",
+        "surfaceForm": "even",
+        "reason": "将「even」代入可见句子后不表达主释义「确切地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exaggerate",
+    "enToZh": [
+      {
+        "wordId": "w-display",
+        "reason": "选项「展示」不是「exaggerate」的主释义「夸大」或其他义项。"
+      },
+      {
+        "wordId": "w-prefer",
+        "reason": "选项「更喜欢」不是「exaggerate」的主释义「夸大」或其他义项。"
+      },
+      {
+        "wordId": "w-stir",
+        "reason": "选项「搅拌」不是「exaggerate」的主释义「夸大」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-display",
+        "reason": "英文「display」的常见义项「展示」不符合主释义「夸大」。"
+      },
+      {
+        "wordId": "w-prefer",
+        "reason": "英文「prefer」的常见义项「更喜欢」不符合主释义「夸大」。"
+      },
+      {
+        "wordId": "w-stir",
+        "reason": "英文「stir」的常见义项「搅拌」不符合主释义「夸大」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-display",
+        "surfaceForm": "display",
+        "reason": "将「display」代入可见句子后不表达主释义「夸大」。"
+      },
+      {
+        "wordId": "w-prefer",
+        "surfaceForm": "prefer",
+        "reason": "将「prefer」代入可见句子后不表达主释义「夸大」。"
+      },
+      {
+        "wordId": "w-stir",
+        "surfaceForm": "stir",
+        "reason": "将「stir」代入可见句子后不表达主释义「夸大」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-examination",
+    "enToZh": [
+      {
+        "wordId": "w-tool",
+        "reason": "选项「工具」不是「examination」的主释义「考试」或其他义项。"
+      },
+      {
+        "wordId": "w-tower",
+        "reason": "选项「塔」不是「examination」的主释义「考试」或其他义项。"
+      },
+      {
+        "wordId": "w-facility",
+        "reason": "选项「设施」不是「examination」的主释义「考试」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-tool",
+        "reason": "英文「tool」的常见义项「工具」不符合主释义「考试」。"
+      },
+      {
+        "wordId": "w-tower",
+        "reason": "英文「tower」的常见义项「塔」不符合主释义「考试」。"
+      },
+      {
+        "wordId": "w-facility",
+        "reason": "英文「facility」的常见义项「设施」不符合主释义「考试」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-tool",
+        "surfaceForm": "tool",
+        "reason": "将「tool」代入可见句子后不表达主释义「考试」。"
+      },
+      {
+        "wordId": "w-tower",
+        "surfaceForm": "tower",
+        "reason": "将「tower」代入可见句子后不表达主释义「考试」。"
+      },
+      {
+        "wordId": "w-facility",
+        "surfaceForm": "facility",
+        "reason": "将「facility」代入可见句子后不表达主释义「考试」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-examine",
+    "enToZh": [
+      {
+        "wordId": "w-pause",
+        "reason": "选项「停顿」不是「examine」的主释义「检查」或其他义项。"
+      },
+      {
+        "wordId": "w-call",
+        "reason": "选项「打电话」不是「examine」的主释义「检查」或其他义项。"
+      },
+      {
+        "wordId": "w-post",
+        "reason": "选项「邮寄」不是「examine」的主释义「检查」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pause",
+        "reason": "英文「pause」的常见义项「停顿」不符合主释义「检查」。"
+      },
+      {
+        "wordId": "w-call",
+        "reason": "英文「call」的常见义项「打电话」不符合主释义「检查」。"
+      },
+      {
+        "wordId": "w-post",
+        "reason": "英文「post」的常见义项「邮寄」不符合主释义「检查」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pause",
+        "surfaceForm": "pause",
+        "reason": "将「pause」代入可见句子后不表达主释义「检查」。"
+      },
+      {
+        "wordId": "w-call",
+        "surfaceForm": "call",
+        "reason": "将「call」代入可见句子后不表达主释义「检查」。"
+      },
+      {
+        "wordId": "w-post",
+        "surfaceForm": "post",
+        "reason": "将「post」代入可见句子后不表达主释义「检查」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-example",
+    "enToZh": [
+      {
+        "wordId": "w-president",
+        "reason": "选项「总统」不是「example」的主释义「例子」或其他义项。"
+      },
+      {
+        "wordId": "w-band",
+        "reason": "选项「乐队」不是「example」的主释义「例子」或其他义项。"
+      },
+      {
+        "wordId": "w-file",
+        "reason": "选项「文件」不是「example」的主释义「例子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-president",
+        "reason": "英文「president」的常见义项「总统」不符合主释义「例子」。"
+      },
+      {
+        "wordId": "w-band",
+        "reason": "英文「band」的常见义项「乐队」不符合主释义「例子」。"
+      },
+      {
+        "wordId": "w-file",
+        "reason": "英文「file」的常见义项「文件」不符合主释义「例子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-president",
+        "surfaceForm": "president",
+        "reason": "将「president」代入可见句子后不表达主释义「例子」。"
+      },
+      {
+        "wordId": "w-band",
+        "surfaceForm": "band",
+        "reason": "将「band」代入可见句子后不表达主释义「例子」。"
+      },
+      {
+        "wordId": "w-file",
+        "surfaceForm": "file",
+        "reason": "将「file」代入可见句子后不表达主释义「例子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exceed",
+    "enToZh": [
+      {
+        "wordId": "w-insure",
+        "reason": "选项「投保」不是「exceed」的主释义「超过」或其他义项。"
+      },
+      {
+        "wordId": "w-trigger",
+        "reason": "选项「引发」不是「exceed」的主释义「超过」或其他义项。"
+      },
+      {
+        "wordId": "w-reassure",
+        "reason": "选项「使安心」不是「exceed」的主释义「超过」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-insure",
+        "reason": "英文「insure」的常见义项「投保」不符合主释义「超过」。"
+      },
+      {
+        "wordId": "w-trigger",
+        "reason": "英文「trigger」的常见义项「引发」不符合主释义「超过」。"
+      },
+      {
+        "wordId": "w-reassure",
+        "reason": "英文「reassure」的常见义项「使安心」不符合主释义「超过」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-insure",
+        "surfaceForm": "insure",
+        "reason": "将「insure」代入可见句子后不表达主释义「超过」。"
+      },
+      {
+        "wordId": "w-trigger",
+        "surfaceForm": "trigger",
+        "reason": "将「trigger」代入可见句子后不表达主释义「超过」。"
+      },
+      {
+        "wordId": "w-reassure",
+        "surfaceForm": "reassure",
+        "reason": "将「reassure」代入可见句子后不表达主释义「超过」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exceedingly",
+    "enToZh": [
+      {
+        "wordId": "w-tremendously",
+        "reason": "选项「非常」不是「exceedingly」的主释义「极其」或其他义项。"
+      },
+      {
+        "wordId": "w-eastward",
+        "reason": "选项「向东」不是「exceedingly」的主释义「极其」或其他义项。"
+      },
+      {
+        "wordId": "w-universally",
+        "reason": "选项「普遍地」不是「exceedingly」的主释义「极其」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-tremendously",
+        "reason": "英文「tremendously」的常见义项「非常」不符合主释义「极其」。"
+      },
+      {
+        "wordId": "w-eastward",
+        "reason": "英文「eastward」的常见义项「向东」不符合主释义「极其」。"
+      },
+      {
+        "wordId": "w-universally",
+        "reason": "英文「universally」的常见义项「普遍地」不符合主释义「极其」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-tremendously",
+        "surfaceForm": "tremendously",
+        "reason": "将「tremendously」代入可见句子后不表达主释义「极其」。"
+      },
+      {
+        "wordId": "w-eastward",
+        "surfaceForm": "eastward",
+        "reason": "将「eastward」代入可见句子后不表达主释义「极其」。"
+      },
+      {
+        "wordId": "w-universally",
+        "surfaceForm": "universally",
+        "reason": "将「universally」代入可见句子后不表达主释义「极其」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-excel",
+    "enToZh": [
+      {
+        "wordId": "w-coincide",
+        "reason": "选项「同时发生」不是「excel」的主释义「擅长」或其他义项。"
+      },
+      {
+        "wordId": "w-roast",
+        "reason": "选项「烘烤」不是「excel」的主释义「擅长」或其他义项。"
+      },
+      {
+        "wordId": "w-recycle",
+        "reason": "选项「回收利用」不是「excel」的主释义「擅长」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coincide",
+        "reason": "英文「coincide」的常见义项「同时发生」不符合主释义「擅长」。"
+      },
+      {
+        "wordId": "w-roast",
+        "reason": "英文「roast」的常见义项「烘烤」不符合主释义「擅长」。"
+      },
+      {
+        "wordId": "w-recycle",
+        "reason": "英文「recycle」的常见义项「回收利用」不符合主释义「擅长」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coincide",
+        "surfaceForm": "coincide",
+        "reason": "将「coincide」代入可见句子后不表达主释义「擅长」。"
+      },
+      {
+        "wordId": "w-roast",
+        "surfaceForm": "roast",
+        "reason": "将「roast」代入可见句子后不表达主释义「擅长」。"
+      },
+      {
+        "wordId": "w-recycle",
+        "surfaceForm": "recycle",
+        "reason": "将「recycle」代入可见句子后不表达主释义「擅长」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-except",
+    "enToZh": [
+      {
+        "wordId": "w-via",
+        "reason": "选项「经由」不是「except」的主释义「除…之外」或其他义项。"
+      },
+      {
+        "wordId": "w-within",
+        "reason": "选项「在……之内」不是「except」的主释义「除…之外」或其他义项。"
+      },
+      {
+        "wordId": "w-towards",
+        "reason": "选项「朝向」不是「except」的主释义「除…之外」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-via",
+        "reason": "英文「via」的常见义项「经由」不符合主释义「除…之外」。"
+      },
+      {
+        "wordId": "w-within",
+        "reason": "英文「within」的常见义项「在……之内」不符合主释义「除…之外」。"
+      },
+      {
+        "wordId": "w-towards",
+        "reason": "英文「towards」的常见义项「朝向」不符合主释义「除…之外」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-via",
+        "surfaceForm": "via",
+        "reason": "将「via」代入可见句子后不表达主释义「除…之外」。"
+      },
+      {
+        "wordId": "w-within",
+        "surfaceForm": "within",
+        "reason": "将「within」代入可见句子后不表达主释义「除…之外」。"
+      },
+      {
+        "wordId": "w-towards",
+        "surfaceForm": "towards",
+        "reason": "将「towards」代入可见句子后不表达主释义「除…之外」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exception",
+    "enToZh": [
+      {
+        "wordId": "w-landscape",
+        "reason": "选项「风景」不是「exception」的主释义「例外」或其他义项。"
+      },
+      {
+        "wordId": "w-ear",
+        "reason": "选项「耳朵」不是「exception」的主释义「例外」或其他义项。"
+      },
+      {
+        "wordId": "w-bone",
+        "reason": "选项「骨头」不是「exception」的主释义「例外」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-landscape",
+        "reason": "英文「landscape」的常见义项「风景」不符合主释义「例外」。"
+      },
+      {
+        "wordId": "w-ear",
+        "reason": "英文「ear」的常见义项「耳朵」不符合主释义「例外」。"
+      },
+      {
+        "wordId": "w-bone",
+        "reason": "英文「bone」的常见义项「骨头」不符合主释义「例外」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-landscape",
+        "surfaceForm": "landscape",
+        "reason": "将「landscape」代入可见句子后不表达主释义「例外」。"
+      },
+      {
+        "wordId": "w-ear",
+        "surfaceForm": "ear",
+        "reason": "将「ear」代入可见句子后不表达主释义「例外」。"
+      },
+      {
+        "wordId": "w-bone",
+        "surfaceForm": "bone",
+        "reason": "将「bone」代入可见句子后不表达主释义「例外」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-excess",
+    "enToZh": [
+      {
+        "wordId": "w-sanction",
+        "reason": "选项「制裁」不是「excess」的主释义「过量」或其他义项。"
+      },
+      {
+        "wordId": "w-socialism",
+        "reason": "选项「社会主义」不是「excess」的主释义「过量」或其他义项。"
+      },
+      {
+        "wordId": "w-concession",
+        "reason": "选项「让步」不是「excess」的主释义「过量」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sanction",
+        "reason": "英文「sanction」的常见义项「制裁」不符合主释义「过量」。"
+      },
+      {
+        "wordId": "w-socialism",
+        "reason": "英文「socialism」的常见义项「社会主义」不符合主释义「过量」。"
+      },
+      {
+        "wordId": "w-concession",
+        "reason": "英文「concession」的常见义项「让步」不符合主释义「过量」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sanction",
+        "surfaceForm": "sanction",
+        "reason": "将「sanction」代入可见句子后不表达主释义「过量」。"
+      },
+      {
+        "wordId": "w-socialism",
+        "surfaceForm": "socialism",
+        "reason": "将「socialism」代入可见句子后不表达主释义「过量」。"
+      },
+      {
+        "wordId": "w-concession",
+        "surfaceForm": "concession",
+        "reason": "将「concession」代入可见句子后不表达主释义「过量」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-excessively",
+    "enToZh": [
+      {
+        "wordId": "w-beforehand",
+        "reason": "选项「预先」不是「excessively」的主释义「过度地」或其他义项。"
+      },
+      {
+        "wordId": "w-incidentally",
+        "reason": "选项「顺便提一句」不是「excessively」的主释义「过度地」或其他义项。"
+      },
+      {
+        "wordId": "w-tremendously",
+        "reason": "选项「非常」不是「excessively」的主释义「过度地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-beforehand",
+        "reason": "英文「beforehand」的常见义项「预先」不符合主释义「过度地」。"
+      },
+      {
+        "wordId": "w-incidentally",
+        "reason": "英文「incidentally」的常见义项「顺便提一句」不符合主释义「过度地」。"
+      },
+      {
+        "wordId": "w-tremendously",
+        "reason": "英文「tremendously」的常见义项「非常」不符合主释义「过度地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-beforehand",
+        "surfaceForm": "beforehand",
+        "reason": "将「beforehand」代入可见句子后不表达主释义「过度地」。"
+      },
+      {
+        "wordId": "w-incidentally",
+        "surfaceForm": "incidentally",
+        "reason": "将「incidentally」代入可见句子后不表达主释义「过度地」。"
+      },
+      {
+        "wordId": "w-tremendously",
+        "surfaceForm": "tremendously",
+        "reason": "将「tremendously」代入可见句子后不表达主释义「过度地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exchange",
+    "enToZh": [
+      {
+        "wordId": "w-disappoint",
+        "reason": "选项「使失望」不是「exchange」的主释义「交换」或其他义项。"
+      },
+      {
+        "wordId": "w-chop",
+        "reason": "选项「切碎」不是「exchange」的主释义「交换」或其他义项。"
+      },
+      {
+        "wordId": "w-publish",
+        "reason": "选项「出版」不是「exchange」的主释义「交换」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disappoint",
+        "reason": "英文「disappoint」的常见义项「使失望」不符合主释义「交换」。"
+      },
+      {
+        "wordId": "w-chop",
+        "reason": "英文「chop」的常见义项「切碎」不符合主释义「交换」。"
+      },
+      {
+        "wordId": "w-publish",
+        "reason": "英文「publish」的常见义项「出版」不符合主释义「交换」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disappoint",
+        "surfaceForm": "disappoint",
+        "reason": "将「disappoint」代入可见句子后不表达主释义「交换」。"
+      },
+      {
+        "wordId": "w-chop",
+        "surfaceForm": "chop",
+        "reason": "将「chop」代入可见句子后不表达主释义「交换」。"
+      },
+      {
+        "wordId": "w-publish",
+        "surfaceForm": "publish",
+        "reason": "将「publish」代入可见句子后不表达主释义「交换」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-excite",
+    "enToZh": [
+      {
+        "wordId": "w-check",
+        "reason": "选项「检查」不是「excite」的主释义「使兴奋」或其他义项。"
+      },
+      {
+        "wordId": "w-complicate",
+        "reason": "选项「使复杂化」不是「excite」的主释义「使兴奋」或其他义项。"
+      },
+      {
+        "wordId": "w-eat",
+        "reason": "选项「吃」不是「excite」的主释义「使兴奋」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-check",
+        "reason": "英文「check」的常见义项「检查」不符合主释义「使兴奋」。"
+      },
+      {
+        "wordId": "w-complicate",
+        "reason": "英文「complicate」的常见义项「使复杂化」不符合主释义「使兴奋」。"
+      },
+      {
+        "wordId": "w-eat",
+        "reason": "英文「eat」的常见义项「吃」不符合主释义「使兴奋」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-check",
+        "surfaceForm": "check",
+        "reason": "将「check」代入可见句子后不表达主释义「使兴奋」。"
+      },
+      {
+        "wordId": "w-complicate",
+        "surfaceForm": "complicate",
+        "reason": "将「complicate」代入可见句子后不表达主释义「使兴奋」。"
+      },
+      {
+        "wordId": "w-eat",
+        "surfaceForm": "eat",
+        "reason": "将「eat」代入可见句子后不表达主释义「使兴奋」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-excitement",
+    "enToZh": [
+      {
+        "wordId": "w-reception",
+        "reason": "选项「接待处」不是「excitement」的主释义「兴奋」或其他义项。"
+      },
+      {
+        "wordId": "w-journey",
+        "reason": "选项「旅程」不是「excitement」的主释义「兴奋」或其他义项。"
+      },
+      {
+        "wordId": "w-factor",
+        "reason": "选项「因素」不是「excitement」的主释义「兴奋」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reception",
+        "reason": "英文「reception」的常见义项「接待处」不符合主释义「兴奋」。"
+      },
+      {
+        "wordId": "w-journey",
+        "reason": "英文「journey」的常见义项「旅程」不符合主释义「兴奋」。"
+      },
+      {
+        "wordId": "w-factor",
+        "reason": "英文「factor」的常见义项「因素」不符合主释义「兴奋」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reception",
+        "surfaceForm": "reception",
+        "reason": "将「reception」代入可见句子后不表达主释义「兴奋」。"
+      },
+      {
+        "wordId": "w-journey",
+        "surfaceForm": "journey",
+        "reason": "将「journey」代入可见句子后不表达主释义「兴奋」。"
+      },
+      {
+        "wordId": "w-factor",
+        "surfaceForm": "factor",
+        "reason": "将「factor」代入可见句子后不表达主释义「兴奋」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exclaim",
+    "enToZh": [
+      {
+        "wordId": "w-assemble",
+        "reason": "选项「组装」不是「exclaim」的主释义「惊叫」或其他义项。"
+      },
+      {
+        "wordId": "w-greet",
+        "reason": "选项「问候」不是「exclaim」的主释义「惊叫」或其他义项。"
+      },
+      {
+        "wordId": "w-accustom",
+        "reason": "选项「使习惯」不是「exclaim」的主释义「惊叫」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-assemble",
+        "reason": "英文「assemble」的常见义项「组装」不符合主释义「惊叫」。"
+      },
+      {
+        "wordId": "w-greet",
+        "reason": "英文「greet」的常见义项「问候」不符合主释义「惊叫」。"
+      },
+      {
+        "wordId": "w-accustom",
+        "reason": "英文「accustom」的常见义项「使习惯」不符合主释义「惊叫」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-assemble",
+        "surfaceForm": "assemble",
+        "reason": "将「assemble」代入可见句子后不表达主释义「惊叫」。"
+      },
+      {
+        "wordId": "w-greet",
+        "surfaceForm": "greet",
+        "reason": "将「greet」代入可见句子后不表达主释义「惊叫」。"
+      },
+      {
+        "wordId": "w-accustom",
+        "surfaceForm": "accustom",
+        "reason": "将「accustom」代入可见句子后不表达主释义「惊叫」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exclamation",
+    "enToZh": [
+      {
+        "wordId": "w-paw",
+        "reason": "选项「爪子」不是「exclamation」的主释义「惊叹」或其他义项。"
+      },
+      {
+        "wordId": "w-infusion",
+        "reason": "选项「注入」不是「exclamation」的主释义「惊叹」或其他义项。"
+      },
+      {
+        "wordId": "w-magician",
+        "reason": "选项「魔术师」不是「exclamation」的主释义「惊叹」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-paw",
+        "reason": "英文「paw」的常见义项「爪子」不符合主释义「惊叹」。"
+      },
+      {
+        "wordId": "w-infusion",
+        "reason": "英文「infusion」的常见义项「注入」不符合主释义「惊叹」。"
+      },
+      {
+        "wordId": "w-magician",
+        "reason": "英文「magician」的常见义项「魔术师」不符合主释义「惊叹」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-paw",
+        "surfaceForm": "paw",
+        "reason": "将「paw」代入可见句子后不表达主释义「惊叹」。"
+      },
+      {
+        "wordId": "w-infusion",
+        "surfaceForm": "infusion",
+        "reason": "将「infusion」代入可见句子后不表达主释义「惊叹」。"
+      },
+      {
+        "wordId": "w-magician",
+        "surfaceForm": "magician",
+        "reason": "将「magician」代入可见句子后不表达主释义「惊叹」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-exclude",
+    "enToZh": [
+      {
+        "wordId": "w-wash",
+        "reason": "选项「洗」不是「exclude」的主释义「排除」或其他义项。"
+      },
+      {
+        "wordId": "w-pretend",
+        "reason": "选项「假装」不是「exclude」的主释义「排除」或其他义项。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "选项「允许」不是「exclude」的主释义「排除」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-wash",
+        "reason": "英文「wash」的常见义项「洗」不符合主释义「排除」。"
+      },
+      {
+        "wordId": "w-pretend",
+        "reason": "英文「pretend」的常见义项「假装」不符合主释义「排除」。"
+      },
+      {
+        "wordId": "w-permit",
+        "reason": "英文「permit」的常见义项「允许」不符合主释义「排除」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-wash",
+        "surfaceForm": "wash",
+        "reason": "将「wash」代入可见句子后不表达主释义「排除」。"
+      },
+      {
+        "wordId": "w-pretend",
+        "surfaceForm": "pretend",
+        "reason": "将「pretend」代入可见句子后不表达主释义「排除」。"
+      },
+      {
+        "wordId": "w-permit",
+        "surfaceForm": "permit",
+        "reason": "将「permit」代入可见句子后不表达主释义「排除」。"
+      }
+    ],
+    "spelling": null
+  }
+]

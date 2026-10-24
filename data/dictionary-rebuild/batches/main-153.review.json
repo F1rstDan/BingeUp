@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent-rereview-main-153",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-recur",
+    "w-recurrence",
+    "w-reduction",
+    "w-refer",
+    "w-referee",
+    "w-reference",
+    "w-refine",
+    "w-reform",
+    "w-refrigerator",
+    "w-refugee",
+    "w-refusal",
+    "w-refuse"
+  ],
+  "result": "pass",
+  "findings": []
+}

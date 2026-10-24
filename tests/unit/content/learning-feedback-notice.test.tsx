@@ -29,7 +29,9 @@ const RESULT: SubmissionResult = {
     phonetic: '/əbˈzɔːrb/',
     partOfSpeech: ['v.'],
     meanings: ['吸收', '理解'],
+    secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '使专心' }],
     exampleSentence: 'Plants absorb sunlight.',
+    exampleTranslation: '植物吸收阳光。',
   },
   rating: 'good',
   nextReviewAt: 123_456,
@@ -87,9 +89,11 @@ function finishExit(): void {
   advanceTime(LEARNING_FEEDBACK_EXIT_DURATION_MS);
 }
 
-function buttonNames(feedback: HTMLElement): string[] {
-  return within(feedback)
-    .getAllByRole('button')
+function actionNames(feedback: HTMLElement): string[] {
+  const actions = feedback.querySelector<HTMLElement>('.bingeup-learning-feedback__actions');
+  if (!actions) throw new Error('Expected feedback actions');
+  return within(actions)
+    .queryAllByRole('button')
     .map((button) => button.textContent?.trim() ?? '');
 }
 
@@ -132,14 +136,17 @@ describe('LearningFeedbackNotice', () => {
     expect(host.shadowRoot).toBe(shadowRoot);
     expect(feedback.tagName).toBe('SECTION');
     expect(feedback).toHaveClass('bingeup-learning-feedback');
-    expect(feedback).toHaveAttribute('role', 'status');
-    expect(feedback).toHaveAttribute('aria-live', 'polite');
-    expect(feedback).toHaveAttribute('aria-atomic', 'true');
+    expect(feedback).toHaveAttribute('role', 'region');
+    const liveSummary = feedback.querySelector('[role="status"]');
+    expect(liveSummary).toHaveAttribute('aria-live', 'polite');
+    expect(liveSummary).toHaveAttribute('aria-atomic', 'true');
     expect(feedback).toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
-    expect(feedback).not.toHaveTextContent('/əbˈzɔːrb/');
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
     expect(feedback).not.toHaveTextContent('Plants absorb sunlight.');
+    expect(feedback).toHaveTextContent('使专心');
+    expect(feedback).not.toHaveTextContent('详情');
     expect(feedback).not.toHaveTextContent('学习信息');
     expect(feedback).not.toHaveTextContent('good');
     expect(feedback).not.toHaveTextContent('undefined');
@@ -150,9 +157,10 @@ describe('LearningFeedbackNotice', () => {
     expect(status?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     expect(content).toHaveTextContent('absorb');
     expect(content).toHaveTextContent('吸收；理解');
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
     expect(content).not.toHaveTextContent(isCorrect ? '答对了' : '答错了');
     expect(shadowRoot.querySelectorAll('[role="status"]')).toHaveLength(1);
-    expect(feedback.querySelectorAll('[role="status"]')).toHaveLength(0);
+    expect(feedback.querySelectorAll('[role="status"]')).toHaveLength(1);
   });
 
   it('使用非模态纸片通知和纯文字 h2，并在同 ShadowRoot 保留原 SVG blob', () => {
@@ -168,8 +176,11 @@ describe('LearningFeedbackNotice', () => {
     expect(feedback.querySelector('#' + CLIP_PATH_ID)).toBeNull();
     expect(shadowRoot.querySelector('[class*="animal-modalGame"]')).toBeNull();
     expect(shadowRoot.querySelector('[class*="animal-ribbon"]')).toBeNull();
-    expect(LEARNING_FEEDBACK_CSS).toContain('font-size: 36px');
+    expect(LEARNING_FEEDBACK_CSS).toContain('font-size: 34px');
+    expect(LEARNING_FEEDBACK_CSS).not.toContain('bingeup-feedback-details-toggle');
     expect(LEARNING_FEEDBACK_CSS).toContain('overflow-wrap: anywhere');
+    expect(LEARNING_FEEDBACK_CSS).toContain('conic-gradient(');
+    expect(LEARNING_FEEDBACK_CSS).toContain('1px dashed var(--animal-border-color-light)');
   });
 
   it('答错时显示可见标签、实际拼写和错误图标，同时保留正确答案', () => {
@@ -186,7 +197,6 @@ describe('LearningFeedbackNotice', () => {
     expect(label).not.toHaveClass('bingeup-learning-feedback__sr-only');
     expect(submitted).toHaveTextContent('你的答案felt');
     expect(wrongValue).toHaveTextContent('felt');
-    expect(wrongValue?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
   });
@@ -203,19 +213,60 @@ describe('LearningFeedbackNotice', () => {
   it('按正误和回调提供正确的动作，并始终允许关闭', () => {
     const onContinue = vi.fn().mockResolvedValue({ ok: true });
     const onTooEasy = vi.fn().mockResolvedValue(CORRECTION_RESULT);
+    const onTooHard = vi.fn().mockResolvedValue(CORRECTION_RESULT);
 
-    let shown = showNotice(RESULT, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['太简单了', '继续答题']);
+    let shown = showNotice(RESULT, { onContinue, onTooEasy, onTooHard });
+    expect(actionNames(shown.feedback)).toEqual(['太简单', '太难了', '继续答题']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
+    expect(
+      shown.queries.getByRole('button', { name: '太简单' }).querySelector('svg'),
+    ).not.toBeNull();
+    expect(
+      shown.queries.getByRole('button', { name: '太难了' }).querySelector('svg'),
+    ).not.toBeNull();
 
-    shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['关闭', '继续答题']);
-    expect(shown.queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy, onTooHard });
+    expect(actionNames(shown.feedback)).toEqual(['继续答题']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
+    expect(shown.queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
 
     shown = showNotice(RESULT, { onTooEasy });
-    expect(buttonNames(shown.feedback)).toEqual(['太简单了', '关闭']);
+    expect(actionNames(shown.feedback)).toEqual(['太简单']);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
 
     shown = showNotice({ ...RESULT, isCorrect: false });
-    expect(buttonNames(shown.feedback)).toEqual(['关闭']);
+    expect(actionNames(shown.feedback)).toEqual([]);
+    expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
+  });
+
+  it('音标、词性和其他常见义默认常显，反馈不展示例句', () => {
+    const { feedback, queries } = showNotice();
+    expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
+    expect(feedback).toHaveTextContent('v.');
+    expect(feedback).toHaveTextContent('其他常见义');
+    expect(feedback).toHaveTextContent('v. 使专心');
+    expect(queries.queryByRole('button', { name: /详情/ })).not.toBeInTheDocument();
+    expect(feedback.querySelector('.bingeup-feedback-details')).toBeNull();
+
+    expect(feedback.querySelector('.bingeup-example-panel')).toBeNull();
+
+    advanceTime(LEARNING_FEEDBACK_DURATION_MS - 1);
+    expect(queryFeedback()).not.toBeNull();
+    advanceTime(1);
+    finishExit();
+    expect(queryFeedback()).toBeNull();
+  });
+
+  it('太难了纠正调用 onTooHard，成功后两个评分按钮一起隐藏', async () => {
+    const onTooHard = vi.fn().mockResolvedValue({ ...CORRECTION_RESULT, rating: 'hard' });
+    const { feedback, queries } = showNotice(RESULT, { onTooHard });
+
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太难了' })));
+
+    expect(onTooHard).toHaveBeenCalledTimes(1);
+    expect(queries.queryByRole('button', { name: '太难了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
+    expect(feedback).toHaveTextContent('已标记为太难了');
   });
 
   it('挂载到 documentElement 的开放 ShadowRoot，样式限定为非模态右下角通知且不改宿主页', () => {
@@ -288,6 +339,25 @@ describe('LearningFeedbackNotice', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it('点击反馈任意位置后取消自动关闭并隐藏外圈倒计时', () => {
+    const { feedback } = showNotice(RESULT, { onContinue: vi.fn() });
+    const closeControl = feedback.querySelector<HTMLElement>(
+      '.bingeup-learning-feedback__close-control',
+    );
+    const timer = feedback.querySelector<HTMLElement>('.bingeup-learning-feedback__close-timer');
+
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
+    advanceTime(1_000);
+    expect(Number(timer?.style.getPropertyValue('--feedback-countdown'))).toBeCloseTo(0.2, 1);
+
+    fireEvent.click(feedback.querySelector('.bingeup-learning-feedback__content')!);
+
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'true');
+    expect(timer?.style.getPropertyValue('--feedback-countdown')).toBe('0');
+    advanceTime(60_000);
+    expect(queryFeedback()).toBe(feedback);
+  });
+
   it.each([
     ['.bingeup-learning-feedback__status', '标题'],
     ['.bingeup-learning-feedback__content', '内容'],
@@ -330,11 +400,11 @@ describe('LearningFeedbackNotice', () => {
     expect(document.getElementById(NOTICE_ID)).toBeNull();
   });
 
-  it('TooEasy 成功后防重复，并清除悬停或聚焦造成的计时暂停', async () => {
+  it('TooEasy 成功后防重复，并取消本次自动关闭', async () => {
     let resolve!: (value: CorrectionResult) => void;
     const onTooEasy = vi.fn(() => new Promise<CorrectionResult>((done) => (resolve = done)));
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
-    const button = queries.getByRole('button', { name: '太简单了' });
+    const button = queries.getByRole('button', { name: '太简单' });
 
     fireEvent.mouseEnter(feedback);
     act(() => button.focus());
@@ -347,15 +417,15 @@ describe('LearningFeedbackNotice', () => {
     expect(button).toBeDisabled();
 
     await act(async () => resolve(CORRECTION_RESULT));
-    expect(queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
     expect(feedback).toHaveTextContent('已标记为太简单');
+    expect(feedback.querySelector('.bingeup-learning-feedback__close-control')).toHaveAttribute(
+      'data-countdown-cancelled',
+      'true',
+    );
 
-    advanceTime(4_999);
-    expect(queryFeedback()).not.toBeNull();
-    advanceTime(1);
-    expect(queryFeedback()).toBeNull();
-    finishExit();
-    expect(document.getElementById(NOTICE_ID)).toBeNull();
+    advanceTime(60_000);
+    expect(queryFeedback()).toBe(feedback);
   });
 
   it('TooEasy 失败保留错误并允许重试，重试成功后才显示已标记', async () => {
@@ -365,16 +435,16 @@ describe('LearningFeedbackNotice', () => {
       .mockResolvedValueOnce(CORRECTION_RESULT);
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
 
-    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单了' })));
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单' })));
     expect(queries.getByRole('alert')).toHaveTextContent('暂时无法标记，请重试。');
-    expect(queries.getByRole('button', { name: '太简单了' })).toBeEnabled();
+    expect(queries.getByRole('button', { name: '太简单' })).toBeEnabled();
     advanceTime(60_000);
     expect(feedback).toBeInTheDocument();
 
-    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单了' })));
+    await act(async () => fireEvent.click(queries.getByRole('button', { name: '太简单' })));
     expect(onTooEasy).toHaveBeenCalledTimes(2);
     expect(feedback).toHaveTextContent('已标记为太简单');
-    expect(queries.queryByRole('button', { name: '太简单了' })).not.toBeInTheDocument();
+    expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
   });
 
   it('TooEasy 处理中与 continue 互斥，成功后才可继续', async () => {
@@ -383,7 +453,7 @@ describe('LearningFeedbackNotice', () => {
     const onContinue = vi.fn().mockResolvedValue({ ok: true });
     const { queries } = showNotice(RESULT, { onTooEasy, onContinue });
 
-    fireEvent.click(queries.getByRole('button', { name: '太简单了' }));
+    fireEvent.click(queries.getByRole('button', { name: '太简单' }));
     const continueButton = queries.getByRole('button', { name: '继续答题' });
     expect(continueButton).toBeDisabled();
     fireEvent.click(continueButton);
@@ -404,7 +474,7 @@ describe('LearningFeedbackNotice', () => {
     const { queries } = showNotice(RESULT, { onContinue, onTooEasy });
 
     fireEvent.click(queries.getByRole('button', { name: '继续答题' }));
-    const tooEasyButton = queries.getByRole('button', { name: '太简单了' });
+    const tooEasyButton = queries.getByRole('button', { name: '太简单' });
     expect(tooEasyButton).toBeDisabled();
     fireEvent.click(tooEasyButton);
     expect(onTooEasy).not.toHaveBeenCalled();

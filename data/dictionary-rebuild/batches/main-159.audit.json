@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-reunion",
+    "enToZh": [
+      {
+        "wordId": "w-lap",
+        "reason": "选项「大腿部」不是「reunion」的主释义「团聚」或其他义项。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "reason": "选项「流行病」不是「reunion」的主释义「团聚」或其他义项。"
+      },
+      {
+        "wordId": "w-inspector",
+        "reason": "选项「检查员」不是「reunion」的主释义「团聚」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-lap",
+        "reason": "英文「lap」的常见义项「大腿部」不符合主释义「团聚」。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "reason": "英文「epidemic」的常见义项「流行病」不符合主释义「团聚」。"
+      },
+      {
+        "wordId": "w-inspector",
+        "reason": "英文「inspector」的常见义项「检查员」不符合主释义「团聚」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-lap",
+        "surfaceForm": "lap",
+        "reason": "将「lap」代入可见句子后不表达主释义「团聚」。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "surfaceForm": "epidemic",
+        "reason": "将「epidemic」代入可见句子后不表达主释义「团聚」。"
+      },
+      {
+        "wordId": "w-inspector",
+        "surfaceForm": "inspector",
+        "reason": "将「inspector」代入可见句子后不表达主释义「团聚」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-reveal",
+    "enToZh": [
+      {
+        "wordId": "w-entertain",
+        "reason": "选项「使快乐」不是「reveal」的主释义「揭示」或其他义项。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "选项「大声喊叫」不是「reveal」的主释义「揭示」或其他义项。"
+      },
+      {
+        "wordId": "w-attract",
+        "reason": "选项「吸引」不是「reveal」的主释义「揭示」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-entertain",
+        "reason": "英文「entertain」的常见义项「使快乐」不符合主释义「揭示」。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "英文「yell」的常见义项「大声喊叫」不符合主释义「揭示」。"
+      },
+      {
+        "wordId": "w-attract",
+        "reason": "英文「attract」的常见义项「吸引」不符合主释义「揭示」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-entertain",
+        "surfaceForm": "entertain",
+        "reason": "将「entertain」代入可见句子后不表达主释义「揭示」。"
+      },
+      {
+        "wordId": "w-yell",
+        "surfaceForm": "yell",
+        "reason": "将「yell」代入可见句子后不表达主释义「揭示」。"
+      },
+      {
+        "wordId": "w-attract",
+        "surfaceForm": "attract",
+        "reason": "将「attract」代入可见句子后不表达主释义「揭示」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revelation",
+    "enToZh": [
+      {
+        "wordId": "w-diversion",
+        "reason": "选项「转移」不是「revelation」的主释义「揭露」或其他义项。"
+      },
+      {
+        "wordId": "w-clown",
+        "reason": "选项「小丑」不是「revelation」的主释义「揭露」或其他义项。"
+      },
+      {
+        "wordId": "w-appraisal",
+        "reason": "选项「评估」不是「revelation」的主释义「揭露」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-diversion",
+        "reason": "英文「diversion」的常见义项「转移」不符合主释义「揭露」。"
+      },
+      {
+        "wordId": "w-clown",
+        "reason": "英文「clown」的常见义项「小丑」不符合主释义「揭露」。"
+      },
+      {
+        "wordId": "w-appraisal",
+        "reason": "英文「appraisal」的常见义项「评估」不符合主释义「揭露」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-diversion",
+        "surfaceForm": "diversion",
+        "reason": "将「diversion」代入可见句子后不表达主释义「揭露」。"
+      },
+      {
+        "wordId": "w-clown",
+        "surfaceForm": "clown",
+        "reason": "将「clown」代入可见句子后不表达主释义「揭露」。"
+      },
+      {
+        "wordId": "w-appraisal",
+        "surfaceForm": "appraisal",
+        "reason": "将「appraisal」代入可见句子后不表达主释义「揭露」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revenge",
+    "enToZh": [
+      {
+        "wordId": "w-reef",
+        "reason": "选项「珊瑚礁」不是「revenge」的主释义「报复」或其他义项。"
+      },
+      {
+        "wordId": "w-instant",
+        "reason": "选项「瞬间」不是「revenge」的主释义「报复」或其他义项。"
+      },
+      {
+        "wordId": "w-feast",
+        "reason": "选项「盛宴」不是「revenge」的主释义「报复」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reef",
+        "reason": "英文「reef」的常见义项「珊瑚礁」不符合主释义「报复」。"
+      },
+      {
+        "wordId": "w-instant",
+        "reason": "英文「instant」的常见义项「瞬间」不符合主释义「报复」。"
+      },
+      {
+        "wordId": "w-feast",
+        "reason": "英文「feast」的常见义项「盛宴」不符合主释义「报复」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reef",
+        "surfaceForm": "reef",
+        "reason": "将「reef」代入可见句子后不表达主释义「报复」。"
+      },
+      {
+        "wordId": "w-instant",
+        "surfaceForm": "instant",
+        "reason": "将「instant」代入可见句子后不表达主释义「报复」。"
+      },
+      {
+        "wordId": "w-feast",
+        "surfaceForm": "feast",
+        "reason": "将「feast」代入可见句子后不表达主释义「报复」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revenue",
+    "enToZh": [
+      {
+        "wordId": "w-continent",
+        "reason": "选项「大陆」不是「revenue」的主释义「收入」或其他义项。"
+      },
+      {
+        "wordId": "w-capital",
+        "reason": "选项「首都」不是「revenue」的主释义「收入」或其他义项。"
+      },
+      {
+        "wordId": "w-school",
+        "reason": "选项「学校」不是「revenue」的主释义「收入」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-continent",
+        "reason": "英文「continent」的常见义项「大陆」不符合主释义「收入」。"
+      },
+      {
+        "wordId": "w-capital",
+        "reason": "英文「capital」的常见义项「首都」不符合主释义「收入」。"
+      },
+      {
+        "wordId": "w-school",
+        "reason": "英文「school」的常见义项「学校」不符合主释义「收入」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-continent",
+        "surfaceForm": "continent",
+        "reason": "将「continent」代入可见句子后不表达主释义「收入」。"
+      },
+      {
+        "wordId": "w-capital",
+        "surfaceForm": "capital",
+        "reason": "将「capital」代入可见句子后不表达主释义「收入」。"
+      },
+      {
+        "wordId": "w-school",
+        "surfaceForm": "school",
+        "reason": "将「school」代入可见句子后不表达主释义「收入」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-reverse",
+    "enToZh": [
+      {
+        "wordId": "w-prove",
+        "reason": "选项「证明」不是「reverse」的主释义「扭转」或其他义项。"
+      },
+      {
+        "wordId": "w-devote",
+        "reason": "选项「奉献」不是「reverse」的主释义「扭转」或其他义项。"
+      },
+      {
+        "wordId": "w-perform",
+        "reason": "选项「执行」不是「reverse」的主释义「扭转」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-prove",
+        "reason": "英文「prove」的常见义项「证明」不符合主释义「扭转」。"
+      },
+      {
+        "wordId": "w-devote",
+        "reason": "英文「devote」的常见义项「奉献」不符合主释义「扭转」。"
+      },
+      {
+        "wordId": "w-perform",
+        "reason": "英文「perform」的常见义项「执行」不符合主释义「扭转」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-prove",
+        "surfaceForm": "prove",
+        "reason": "将「prove」代入可见句子后不表达主释义「扭转」。"
+      },
+      {
+        "wordId": "w-devote",
+        "surfaceForm": "devote",
+        "reason": "将「devote」代入可见句子后不表达主释义「扭转」。"
+      },
+      {
+        "wordId": "w-perform",
+        "surfaceForm": "perform",
+        "reason": "将「perform」代入可见句子后不表达主释义「扭转」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-review",
+    "enToZh": [
+      {
+        "wordId": "w-absorb",
+        "reason": "选项「吸收」不是「review」的主释义「审查」或其他义项。"
+      },
+      {
+        "wordId": "w-decrease",
+        "reason": "选项「减少」不是「review」的主释义「审查」或其他义项。"
+      },
+      {
+        "wordId": "w-decay",
+        "reason": "选项「腐烂」不是「review」的主释义「审查」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-absorb",
+        "reason": "英文「absorb」的常见义项「吸收」不符合主释义「审查」。"
+      },
+      {
+        "wordId": "w-decrease",
+        "reason": "英文「decrease」的常见义项「减少」不符合主释义「审查」。"
+      },
+      {
+        "wordId": "w-decay",
+        "reason": "英文「decay」的常见义项「腐烂」不符合主释义「审查」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-absorb",
+        "surfaceForm": "absorb",
+        "reason": "将「absorb」代入可见句子后不表达主释义「审查」。"
+      },
+      {
+        "wordId": "w-decrease",
+        "surfaceForm": "decrease",
+        "reason": "将「decrease」代入可见句子后不表达主释义「审查」。"
+      },
+      {
+        "wordId": "w-decay",
+        "surfaceForm": "decay",
+        "reason": "将「decay」代入可见句子后不表达主释义「审查」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revise",
+    "enToZh": [
+      {
+        "wordId": "w-explode",
+        "reason": "选项「爆炸」不是「revise」的主释义「修改」或其他义项。"
+      },
+      {
+        "wordId": "w-blame",
+        "reason": "选项「责怪」不是「revise」的主释义「修改」或其他义项。"
+      },
+      {
+        "wordId": "w-accuse",
+        "reason": "选项「指控」不是「revise」的主释义「修改」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-explode",
+        "reason": "英文「explode」的常见义项「爆炸」不符合主释义「修改」。"
+      },
+      {
+        "wordId": "w-blame",
+        "reason": "英文「blame」的常见义项「责怪」不符合主释义「修改」。"
+      },
+      {
+        "wordId": "w-accuse",
+        "reason": "英文「accuse」的常见义项「指控」不符合主释义「修改」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-explode",
+        "surfaceForm": "explode",
+        "reason": "将「explode」代入可见句子后不表达主释义「修改」。"
+      },
+      {
+        "wordId": "w-blame",
+        "surfaceForm": "blame",
+        "reason": "将「blame」代入可见句子后不表达主释义「修改」。"
+      },
+      {
+        "wordId": "w-accuse",
+        "surfaceForm": "accuse",
+        "reason": "将「accuse」代入可见句子后不表达主释义「修改」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revision",
+    "enToZh": [
+      {
+        "wordId": "w-journalist",
+        "reason": "选项「记者」不是「revision」的主释义「修改」或其他义项。"
+      },
+      {
+        "wordId": "w-peak",
+        "reason": "选项「山顶」不是「revision」的主释义「修改」或其他义项。"
+      },
+      {
+        "wordId": "w-demand",
+        "reason": "选项「需求」不是「revision」的主释义「修改」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-journalist",
+        "reason": "英文「journalist」的常见义项「记者」不符合主释义「修改」。"
+      },
+      {
+        "wordId": "w-peak",
+        "reason": "英文「peak」的常见义项「山顶」不符合主释义「修改」。"
+      },
+      {
+        "wordId": "w-demand",
+        "reason": "英文「demand」的常见义项「需求」不符合主释义「修改」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-journalist",
+        "surfaceForm": "journalist",
+        "reason": "将「journalist」代入可见句子后不表达主释义「修改」。"
+      },
+      {
+        "wordId": "w-peak",
+        "surfaceForm": "peak",
+        "reason": "将「peak」代入可见句子后不表达主释义「修改」。"
+      },
+      {
+        "wordId": "w-demand",
+        "surfaceForm": "demand",
+        "reason": "将「demand」代入可见句子后不表达主释义「修改」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revive",
+    "enToZh": [
+      {
+        "wordId": "w-choke",
+        "reason": "选项「窒息」不是「revive」的主释义「使复苏」或其他义项。"
+      },
+      {
+        "wordId": "w-expel",
+        "reason": "选项「开除」不是「revive」的主释义「使复苏」或其他义项。"
+      },
+      {
+        "wordId": "w-intensify",
+        "reason": "选项「加强」不是「revive」的主释义「使复苏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-choke",
+        "reason": "英文「choke」的常见义项「窒息」不符合主释义「使复苏」。"
+      },
+      {
+        "wordId": "w-expel",
+        "reason": "英文「expel」的常见义项「开除」不符合主释义「使复苏」。"
+      },
+      {
+        "wordId": "w-intensify",
+        "reason": "英文「intensify」的常见义项「加强」不符合主释义「使复苏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-choke",
+        "surfaceForm": "choke",
+        "reason": "将「choke」代入可见句子后不表达主释义「使复苏」。"
+      },
+      {
+        "wordId": "w-expel",
+        "surfaceForm": "expel",
+        "reason": "将「expel」代入可见句子后不表达主释义「使复苏」。"
+      },
+      {
+        "wordId": "w-intensify",
+        "surfaceForm": "intensify",
+        "reason": "将「intensify」代入可见句子后不表达主释义「使复苏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revolution",
+    "enToZh": [
+      {
+        "wordId": "w-headache",
+        "reason": "选项「头痛」不是「revolution」的主释义「革命」或其他义项。"
+      },
+      {
+        "wordId": "w-bomb",
+        "reason": "选项「炸弹」不是「revolution」的主释义「革命」或其他义项。"
+      },
+      {
+        "wordId": "w-group",
+        "reason": "选项「小组」不是「revolution」的主释义「革命」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-headache",
+        "reason": "英文「headache」的常见义项「头痛」不符合主释义「革命」。"
+      },
+      {
+        "wordId": "w-bomb",
+        "reason": "英文「bomb」的常见义项「炸弹」不符合主释义「革命」。"
+      },
+      {
+        "wordId": "w-group",
+        "reason": "英文「group」的常见义项「小组」不符合主释义「革命」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-headache",
+        "surfaceForm": "headache",
+        "reason": "将「headache」代入可见句子后不表达主释义「革命」。"
+      },
+      {
+        "wordId": "w-bomb",
+        "surfaceForm": "bomb",
+        "reason": "将「bomb」代入可见句子后不表达主释义「革命」。"
+      },
+      {
+        "wordId": "w-group",
+        "surfaceForm": "group",
+        "reason": "将「group」代入可见句子后不表达主释义「革命」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revolutionary",
+    "enToZh": [
+      {
+        "wordId": "w-neutral",
+        "reason": "选项「中立的」不是「revolutionary」的主释义「革命性的」或其他义项。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "reason": "选项「大西洋的」不是「revolutionary」的主释义「革命性的」或其他义项。"
+      },
+      {
+        "wordId": "w-slack",
+        "reason": "选项「松弛的」不是「revolutionary」的主释义「革命性的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-neutral",
+        "reason": "英文「neutral」的常见义项「中立的」不符合主释义「革命性的」。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "reason": "英文「Atlantic」的常见义项「大西洋的」不符合主释义「革命性的」。"
+      },
+      {
+        "wordId": "w-slack",
+        "reason": "英文「slack」的常见义项「松弛的」不符合主释义「革命性的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-neutral",
+        "surfaceForm": "neutral",
+        "reason": "将「neutral」代入可见句子后不表达主释义「革命性的」。"
+      },
+      {
+        "wordId": "w-atlantic",
+        "surfaceForm": "Atlantic",
+        "reason": "将「Atlantic」代入可见句子后不表达主释义「革命性的」。"
+      },
+      {
+        "wordId": "w-slack",
+        "surfaceForm": "slack",
+        "reason": "将「slack」代入可见句子后不表达主释义「革命性的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-revolve",
+    "enToZh": [
+      {
+        "wordId": "w-graze",
+        "reason": "选项「吃草」不是「revolve」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "选项「紧抓」不是「revolve」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-discern",
+        "reason": "选项「辨认」不是「revolve」的主释义「旋转」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-graze",
+        "reason": "英文「graze」的常见义项「吃草」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-cling",
+        "reason": "英文「cling」的常见义项「紧抓」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-discern",
+        "reason": "英文「discern」的常见义项「辨认」不符合主释义「旋转」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-graze",
+        "surfaceForm": "graze",
+        "reason": "将「graze」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-cling",
+        "surfaceForm": "cling",
+        "reason": "将「cling」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-discern",
+        "surfaceForm": "discern",
+        "reason": "将「discern」代入可见句子后不表达主释义「旋转」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-reward",
+    "enToZh": [
+      {
+        "wordId": "w-fever",
+        "reason": "选项「发烧」不是「reward」的主释义「奖励」或其他义项。"
+      },
+      {
+        "wordId": "w-identity",
+        "reason": "选项「身份」不是「reward」的主释义「奖励」或其他义项。"
+      },
+      {
+        "wordId": "w-penny",
+        "reason": "选项「便士」不是「reward」的主释义「奖励」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fever",
+        "reason": "英文「fever」的常见义项「发烧」不符合主释义「奖励」。"
+      },
+      {
+        "wordId": "w-identity",
+        "reason": "英文「identity」的常见义项「身份」不符合主释义「奖励」。"
+      },
+      {
+        "wordId": "w-penny",
+        "reason": "英文「penny」的常见义项「便士」不符合主释义「奖励」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fever",
+        "surfaceForm": "fever",
+        "reason": "将「fever」代入可见句子后不表达主释义「奖励」。"
+      },
+      {
+        "wordId": "w-identity",
+        "surfaceForm": "identity",
+        "reason": "将「identity」代入可见句子后不表达主释义「奖励」。"
+      },
+      {
+        "wordId": "w-penny",
+        "surfaceForm": "penny",
+        "reason": "将「penny」代入可见句子后不表达主释义「奖励」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rhythm",
+    "enToZh": [
+      {
+        "wordId": "w-cottage",
+        "reason": "选项「小屋」不是「rhythm」的主释义「节奏」或其他义项。"
+      },
+      {
+        "wordId": "w-growth",
+        "reason": "选项「增长」不是「rhythm」的主释义「节奏」或其他义项。"
+      },
+      {
+        "wordId": "w-bond",
+        "reason": "选项「纽带」不是「rhythm」的主释义「节奏」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cottage",
+        "reason": "英文「cottage」的常见义项「小屋」不符合主释义「节奏」。"
+      },
+      {
+        "wordId": "w-growth",
+        "reason": "英文「growth」的常见义项「增长」不符合主释义「节奏」。"
+      },
+      {
+        "wordId": "w-bond",
+        "reason": "英文「bond」的常见义项「纽带」不符合主释义「节奏」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cottage",
+        "surfaceForm": "cottage",
+        "reason": "将「cottage」代入可见句子后不表达主释义「节奏」。"
+      },
+      {
+        "wordId": "w-growth",
+        "surfaceForm": "growth",
+        "reason": "将「growth」代入可见句子后不表达主释义「节奏」。"
+      },
+      {
+        "wordId": "w-bond",
+        "surfaceForm": "bond",
+        "reason": "将「bond」代入可见句子后不表达主释义「节奏」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rib",
+    "enToZh": [
+      {
+        "wordId": "w-antique",
+        "reason": "选项「古董」不是「rib」的主释义「肋骨」或其他义项。"
+      },
+      {
+        "wordId": "w-questionnaire",
+        "reason": "选项「问卷」不是「rib」的主释义「肋骨」或其他义项。"
+      },
+      {
+        "wordId": "w-saddle",
+        "reason": "选项「马鞍」不是「rib」的主释义「肋骨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-antique",
+        "reason": "英文「antique」的常见义项「古董」不符合主释义「肋骨」。"
+      },
+      {
+        "wordId": "w-questionnaire",
+        "reason": "英文「questionnaire」的常见义项「问卷」不符合主释义「肋骨」。"
+      },
+      {
+        "wordId": "w-saddle",
+        "reason": "英文「saddle」的常见义项「马鞍」不符合主释义「肋骨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-antique",
+        "surfaceForm": "antique",
+        "reason": "将「antique」代入可见句子后不表达主释义「肋骨」。"
+      },
+      {
+        "wordId": "w-questionnaire",
+        "surfaceForm": "questionnaire",
+        "reason": "将「questionnaire」代入可见句子后不表达主释义「肋骨」。"
+      },
+      {
+        "wordId": "w-saddle",
+        "surfaceForm": "saddle",
+        "reason": "将「saddle」代入可见句子后不表达主释义「肋骨」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ribbon",
+    "enToZh": [
+      {
+        "wordId": "w-optimism",
+        "reason": "选项「乐观」不是「ribbon」的主释义「丝带」或其他义项。"
+      },
+      {
+        "wordId": "w-cushion",
+        "reason": "选项「靠垫」不是「ribbon」的主释义「丝带」或其他义项。"
+      },
+      {
+        "wordId": "w-impulse",
+        "reason": "选项「冲动」不是「ribbon」的主释义「丝带」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-optimism",
+        "reason": "英文「optimism」的常见义项「乐观」不符合主释义「丝带」。"
+      },
+      {
+        "wordId": "w-cushion",
+        "reason": "英文「cushion」的常见义项「靠垫」不符合主释义「丝带」。"
+      },
+      {
+        "wordId": "w-impulse",
+        "reason": "英文「impulse」的常见义项「冲动」不符合主释义「丝带」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-optimism",
+        "surfaceForm": "optimism",
+        "reason": "将「optimism」代入可见句子后不表达主释义「丝带」。"
+      },
+      {
+        "wordId": "w-cushion",
+        "surfaceForm": "cushion",
+        "reason": "将「cushion」代入可见句子后不表达主释义「丝带」。"
+      },
+      {
+        "wordId": "w-impulse",
+        "surfaceForm": "impulse",
+        "reason": "将「impulse」代入可见句子后不表达主释义「丝带」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rice",
+    "enToZh": [
+      {
+        "wordId": "w-comfort",
+        "reason": "选项「舒适」不是「rice」的主释义「大米」或其他义项。"
+      },
+      {
+        "wordId": "w-kid",
+        "reason": "选项「孩子」不是「rice」的主释义「大米」或其他义项。"
+      },
+      {
+        "wordId": "w-health",
+        "reason": "选项「健康」不是「rice」的主释义「大米」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-comfort",
+        "reason": "英文「comfort」的常见义项「舒适」不符合主释义「大米」。"
+      },
+      {
+        "wordId": "w-kid",
+        "reason": "英文「kid」的常见义项「孩子」不符合主释义「大米」。"
+      },
+      {
+        "wordId": "w-health",
+        "reason": "英文「health」的常见义项「健康」不符合主释义「大米」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-comfort",
+        "surfaceForm": "comfort",
+        "reason": "将「comfort」代入可见句子后不表达主释义「大米」。"
+      },
+      {
+        "wordId": "w-kid",
+        "surfaceForm": "kid",
+        "reason": "将「kid」代入可见句子后不表达主释义「大米」。"
+      },
+      {
+        "wordId": "w-health",
+        "surfaceForm": "health",
+        "reason": "将「health」代入可见句子后不表达主释义「大米」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rid",
+    "enToZh": [
+      {
+        "wordId": "w-advance",
+        "reason": "选项「前进」不是「rid」的主释义「使摆脱」或其他义项。"
+      },
+      {
+        "wordId": "w-distinguish",
+        "reason": "选项「区分」不是「rid」的主释义「使摆脱」或其他义项。"
+      },
+      {
+        "wordId": "w-roll",
+        "reason": "选项「滚动」不是「rid」的主释义「使摆脱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-advance",
+        "reason": "英文「advance」的常见义项「前进」不符合主释义「使摆脱」。"
+      },
+      {
+        "wordId": "w-distinguish",
+        "reason": "英文「distinguish」的常见义项「区分」不符合主释义「使摆脱」。"
+      },
+      {
+        "wordId": "w-roll",
+        "reason": "英文「roll」的常见义项「滚动」不符合主释义「使摆脱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-advance",
+        "surfaceForm": "advance",
+        "reason": "将「advance」代入可见句子后不表达主释义「使摆脱」。"
+      },
+      {
+        "wordId": "w-distinguish",
+        "surfaceForm": "distinguish",
+        "reason": "将「distinguish」代入可见句子后不表达主释义「使摆脱」。"
+      },
+      {
+        "wordId": "w-roll",
+        "surfaceForm": "roll",
+        "reason": "将「roll」代入可见句子后不表达主释义「使摆脱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-riddle",
+    "enToZh": [
+      {
+        "wordId": "w-radiator",
+        "reason": "选项「暖气片」不是「riddle」的主释义「谜语」或其他义项。"
+      },
+      {
+        "wordId": "w-parachute",
+        "reason": "选项「降落伞」不是「riddle」的主释义「谜语」或其他义项。"
+      },
+      {
+        "wordId": "w-gust",
+        "reason": "选项「一阵强风」不是「riddle」的主释义「谜语」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radiator",
+        "reason": "英文「radiator」的常见义项「暖气片」不符合主释义「谜语」。"
+      },
+      {
+        "wordId": "w-parachute",
+        "reason": "英文「parachute」的常见义项「降落伞」不符合主释义「谜语」。"
+      },
+      {
+        "wordId": "w-gust",
+        "reason": "英文「gust」的常见义项「一阵强风」不符合主释义「谜语」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radiator",
+        "surfaceForm": "radiator",
+        "reason": "将「radiator」代入可见句子后不表达主释义「谜语」。"
+      },
+      {
+        "wordId": "w-parachute",
+        "surfaceForm": "parachute",
+        "reason": "将「parachute」代入可见句子后不表达主释义「谜语」。"
+      },
+      {
+        "wordId": "w-gust",
+        "surfaceForm": "gust",
+        "reason": "将「gust」代入可见句子后不表达主释义「谜语」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ride",
+    "enToZh": [
+      {
+        "wordId": "w-introduce",
+        "reason": "选项「介绍」不是「ride」的主释义「骑」或其他义项。"
+      },
+      {
+        "wordId": "w-protect",
+        "reason": "选项「保护」不是「ride」的主释义「骑」或其他义项。"
+      },
+      {
+        "wordId": "w-crush",
+        "reason": "选项「压碎」不是「ride」的主释义「骑」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-introduce",
+        "reason": "英文「introduce」的常见义项「介绍」不符合主释义「骑」。"
+      },
+      {
+        "wordId": "w-protect",
+        "reason": "英文「protect」的常见义项「保护」不符合主释义「骑」。"
+      },
+      {
+        "wordId": "w-crush",
+        "reason": "英文「crush」的常见义项「压碎」不符合主释义「骑」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-introduce",
+        "surfaceForm": "introduce",
+        "reason": "将「introduce」代入可见句子后不表达主释义「骑」。"
+      },
+      {
+        "wordId": "w-protect",
+        "surfaceForm": "protect",
+        "reason": "将「protect」代入可见句子后不表达主释义「骑」。"
+      },
+      {
+        "wordId": "w-crush",
+        "surfaceForm": "crush",
+        "reason": "将「crush」代入可见句子后不表达主释义「骑」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rider",
+    "enToZh": [
+      {
+        "wordId": "w-beauty",
+        "reason": "选项「美丽」不是「rider」的主释义「骑手」或其他义项。"
+      },
+      {
+        "wordId": "w-failure",
+        "reason": "选项「失败」不是「rider」的主释义「骑手」或其他义项。"
+      },
+      {
+        "wordId": "w-governor",
+        "reason": "选项「州长」不是「rider」的主释义「骑手」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-beauty",
+        "reason": "英文「beauty」的常见义项「美丽」不符合主释义「骑手」。"
+      },
+      {
+        "wordId": "w-failure",
+        "reason": "英文「failure」的常见义项「失败」不符合主释义「骑手」。"
+      },
+      {
+        "wordId": "w-governor",
+        "reason": "英文「governor」的常见义项「州长」不符合主释义「骑手」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-beauty",
+        "surfaceForm": "beauty",
+        "reason": "将「beauty」代入可见句子后不表达主释义「骑手」。"
+      },
+      {
+        "wordId": "w-failure",
+        "surfaceForm": "failure",
+        "reason": "将「failure」代入可见句子后不表达主释义「骑手」。"
+      },
+      {
+        "wordId": "w-governor",
+        "surfaceForm": "governor",
+        "reason": "将「governor」代入可见句子后不表达主释义「骑手」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ridge",
+    "enToZh": [
+      {
+        "wordId": "w-reactor",
+        "reason": "选项「反应堆」不是「ridge」的主释义「山脊」或其他义项。"
+      },
+      {
+        "wordId": "w-monument",
+        "reason": "选项「纪念碑」不是「ridge」的主释义「山脊」或其他义项。"
+      },
+      {
+        "wordId": "w-cliff",
+        "reason": "选项「悬崖」不是「ridge」的主释义「山脊」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reactor",
+        "reason": "英文「reactor」的常见义项「反应堆」不符合主释义「山脊」。"
+      },
+      {
+        "wordId": "w-monument",
+        "reason": "英文「monument」的常见义项「纪念碑」不符合主释义「山脊」。"
+      },
+      {
+        "wordId": "w-cliff",
+        "reason": "英文「cliff」的常见义项「悬崖」不符合主释义「山脊」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reactor",
+        "surfaceForm": "reactor",
+        "reason": "将「reactor」代入可见句子后不表达主释义「山脊」。"
+      },
+      {
+        "wordId": "w-monument",
+        "surfaceForm": "monument",
+        "reason": "将「monument」代入可见句子后不表达主释义「山脊」。"
+      },
+      {
+        "wordId": "w-cliff",
+        "surfaceForm": "cliff",
+        "reason": "将「cliff」代入可见句子后不表达主释义「山脊」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ridicule",
+    "enToZh": [
+      {
+        "wordId": "w-delete",
+        "reason": "选项「删除」不是「ridicule」的主释义「嘲笑」或其他义项。"
+      },
+      {
+        "wordId": "w-necessitate",
+        "reason": "选项「使成为必要」不是「ridicule」的主释义「嘲笑」或其他义项。"
+      },
+      {
+        "wordId": "w-dilute",
+        "reason": "选项「稀释」不是「ridicule」的主释义「嘲笑」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-delete",
+        "reason": "英文「delete」的常见义项「删除」不符合主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-necessitate",
+        "reason": "英文「necessitate」的常见义项「使成为必要」不符合主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-dilute",
+        "reason": "英文「dilute」的常见义项「稀释」不符合主释义「嘲笑」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-delete",
+        "surfaceForm": "delete",
+        "reason": "将「delete」代入可见句子后不表达主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-necessitate",
+        "surfaceForm": "necessitate",
+        "reason": "将「necessitate」代入可见句子后不表达主释义「嘲笑」。"
+      },
+      {
+        "wordId": "w-dilute",
+        "surfaceForm": "dilute",
+        "reason": "将「dilute」代入可见句子后不表达主释义「嘲笑」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rifle",
+    "enToZh": [
+      {
+        "wordId": "w-architecture",
+        "reason": "选项「建筑风格」不是「rifle」的主释义「步枪」或其他义项。"
+      },
+      {
+        "wordId": "w-ecology",
+        "reason": "选项「生态学」不是「rifle」的主释义「步枪」或其他义项。"
+      },
+      {
+        "wordId": "w-anchor",
+        "reason": "选项「锚」不是「rifle」的主释义「步枪」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-architecture",
+        "reason": "英文「architecture」的常见义项「建筑风格」不符合主释义「步枪」。"
+      },
+      {
+        "wordId": "w-ecology",
+        "reason": "英文「ecology」的常见义项「生态学」不符合主释义「步枪」。"
+      },
+      {
+        "wordId": "w-anchor",
+        "reason": "英文「anchor」的常见义项「锚」不符合主释义「步枪」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-architecture",
+        "surfaceForm": "architecture",
+        "reason": "将「architecture」代入可见句子后不表达主释义「步枪」。"
+      },
+      {
+        "wordId": "w-ecology",
+        "surfaceForm": "ecology",
+        "reason": "将「ecology」代入可见句子后不表达主释义「步枪」。"
+      },
+      {
+        "wordId": "w-anchor",
+        "surfaceForm": "anchor",
+        "reason": "将「anchor」代入可见句子后不表达主释义「步枪」。"
+      }
+    ],
+    "spelling": null
+  }
+]

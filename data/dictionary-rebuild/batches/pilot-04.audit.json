@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-scarf",
+    "enToZh": [
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「scarf」的主释义「围巾」或其他义项。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "选项「本质」不是「scarf」的主释义「围巾」或其他义项。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "选项「接受」不是「scarf」的主释义「围巾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「围巾」。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "英文「essence」的常见义项「本质」不符合主释义「围巾」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "reason": "英文「acceptance」的常见义项「接受」不符合主释义「围巾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「围巾」。"
+      },
+      {
+        "wordId": "w-essence",
+        "surfaceForm": "essence",
+        "reason": "将「essence」代入可见句子后不表达主释义「围巾」。"
+      },
+      {
+        "wordId": "w-acceptance",
+        "surfaceForm": "acceptance",
+        "reason": "将「acceptance」代入可见句子后不表达主释义「围巾」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-yell",
+    "enToZh": [
+      {
+        "wordId": "w-hire",
+        "reason": "选项「雇用」不是「yell」的主释义「大声喊叫」或其他义项。"
+      },
+      {
+        "wordId": "w-cover",
+        "reason": "选项「覆盖」不是「yell」的主释义「大声喊叫」或其他义项。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「yell」的主释义「大声喊叫」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hire",
+        "reason": "英文「hire」的常见义项「雇用」不符合主释义「大声喊叫」。"
+      },
+      {
+        "wordId": "w-cover",
+        "reason": "英文「cover」的常见义项「覆盖」不符合主释义「大声喊叫」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「大声喊叫」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hire",
+        "surfaceForm": "hire",
+        "reason": "将「hire」代入可见句子后不表达主释义「大声喊叫」。"
+      },
+      {
+        "wordId": "w-cover",
+        "surfaceForm": "cover",
+        "reason": "将「cover」代入可见句子后不表达主释义「大声喊叫」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「大声喊叫」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-portrait",
+    "enToZh": [
+      {
+        "wordId": "w-bench",
+        "reason": "选项「长椅」不是「portrait」的主释义「肖像」或其他义项。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "选项「季节」不是「portrait」的主释义「肖像」或其他义项。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "选项「出版物」不是「portrait」的主释义「肖像」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bench",
+        "reason": "英文「bench」的常见义项「长椅」不符合主释义「肖像」。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "英文「season」的常见义项「季节」不符合主释义「肖像」。"
+      },
+      {
+        "wordId": "w-publication",
+        "reason": "英文「publication」的常见义项「出版物」不符合主释义「肖像」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bench",
+        "surfaceForm": "bench",
+        "reason": "将「bench」代入可见句子后不表达主释义「肖像」。"
+      },
+      {
+        "wordId": "w-season",
+        "surfaceForm": "season",
+        "reason": "将「season」代入可见句子后不表达主释义「肖像」。"
+      },
+      {
+        "wordId": "w-publication",
+        "surfaceForm": "publication",
+        "reason": "将「publication」代入可见句子后不表达主释义「肖像」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-nickel",
+    "enToZh": [
+      {
+        "wordId": "w-reservoir",
+        "reason": "选项「水库」不是「nickel」的主释义「镍」或其他义项。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「nickel」的主释义「镍」或其他义项。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "选项「操场」不是「nickel」的主释义「镍」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-reservoir",
+        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「镍」。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「镍」。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "英文「playground」的常见义项「操场」不符合主释义「镍」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-reservoir",
+        "surfaceForm": "reservoir",
+        "reason": "将「reservoir」代入可见句子后不表达主释义「镍」。"
+      },
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「镍」。"
+      },
+      {
+        "wordId": "w-playground",
+        "surfaceForm": "playground",
+        "reason": "将「playground」代入可见句子后不表达主释义「镍」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-comb",
+    "enToZh": [
+      {
+        "wordId": "w-bow",
+        "reason": "选项「弓」不是「comb」的主释义「梳子」或其他义项。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "选项「目录」不是「comb」的主释义「梳子」或其他义项。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "选项「水库」不是「comb」的主释义「梳子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bow",
+        "reason": "英文「bow」的常见义项「弓」不符合主释义「梳子」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "英文「catalog」的常见义项「目录」不符合主释义「梳子」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「梳子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bow",
+        "surfaceForm": "bow",
+        "reason": "将「bow」代入可见句子后不表达主释义「梳子」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "surfaceForm": "catalog",
+        "reason": "将「catalog」代入可见句子后不表达主释义「梳子」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "surfaceForm": "reservoir",
+        "reason": "将「reservoir」代入可见句子后不表达主释义「梳子」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-meteorite",
+    "enToZh": [
+      {
+        "wordId": "w-workman",
+        "reason": "选项「工人」不是「meteorite」的主释义「陨石」或其他义项。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「meteorite」的主释义「陨石」或其他义项。"
+      },
+      {
+        "wordId": "w-ounce",
+        "reason": "选项「盎司」不是「meteorite」的主释义「陨石」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-workman",
+        "reason": "英文「workman」的常见义项「工人」不符合主释义「陨石」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「陨石」。"
+      },
+      {
+        "wordId": "w-ounce",
+        "reason": "英文「ounce」的常见义项「盎司」不符合主释义「陨石」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-workman",
+        "surfaceForm": "workman",
+        "reason": "将「workman」代入可见句子后不表达主释义「陨石」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "surfaceForm": "nuisance",
+        "reason": "将「nuisance」代入可见句子后不表达主释义「陨石」。"
+      },
+      {
+        "wordId": "w-ounce",
+        "surfaceForm": "ounce",
+        "reason": "将「ounce」代入可见句子后不表达主释义「陨石」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-submarine",
+    "enToZh": [
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「submarine」的主释义「潜艇」或其他义项。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「submarine」的主释义「潜艇」或其他义项。"
+      },
+      {
+        "wordId": "w-outset",
+        "reason": "选项「开端」不是「submarine」的主释义「潜艇」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「潜艇」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「潜艇」。"
+      },
+      {
+        "wordId": "w-outset",
+        "reason": "英文「outset」的常见义项「开端」不符合主释义「潜艇」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「潜艇」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「潜艇」。"
+      },
+      {
+        "wordId": "w-outset",
+        "surfaceForm": "outset",
+        "reason": "将「outset」代入可见句子后不表达主释义「潜艇」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-bow",
+    "enToZh": [
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「bow」的主释义「弓」或其他义项。"
+      },
+      {
+        "wordId": "w-scarf",
+        "reason": "选项「围巾」不是「bow」的主释义「弓」或其他义项。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "选项「操场」不是「bow」的主释义「弓」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「弓」。"
+      },
+      {
+        "wordId": "w-scarf",
+        "reason": "英文「scarf」的常见义项「围巾」不符合主释义「弓」。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "英文「playground」的常见义项「操场」不符合主释义「弓」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「弓」。"
+      },
+      {
+        "wordId": "w-scarf",
+        "surfaceForm": "scarf",
+        "reason": "将「scarf」代入可见句子后不表达主释义「弓」。"
+      },
+      {
+        "wordId": "w-playground",
+        "surfaceForm": "playground",
+        "reason": "将「playground」代入可见句子后不表达主释义「弓」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-worship",
+    "enToZh": [
+      {
+        "wordId": "w-need",
+        "reason": "选项「需要」不是「worship」的主释义「崇拜」或其他义项。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "选项「倾倒」不是「worship」的主释义「崇拜」或其他义项。"
+      },
+      {
+        "wordId": "w-escape",
+        "reason": "选项「逃脱」不是「worship」的主释义「崇拜」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-need",
+        "reason": "英文「need」的常见义项「需要」不符合主释义「崇拜」。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "英文「pour」的常见义项「倾倒」不符合主释义「崇拜」。"
+      },
+      {
+        "wordId": "w-escape",
+        "reason": "英文「escape」的常见义项「逃脱」不符合主释义「崇拜」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-need",
+        "surfaceForm": "need",
+        "reason": "将「need」代入可见句子后不表达主释义「崇拜」。"
+      },
+      {
+        "wordId": "w-pour",
+        "surfaceForm": "pour",
+        "reason": "将「pour」代入可见句子后不表达主释义「崇拜」。"
+      },
+      {
+        "wordId": "w-escape",
+        "surfaceForm": "escape",
+        "reason": "将「escape」代入可见句子后不表达主释义「崇拜」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-nylon",
+    "enToZh": [
+      {
+        "wordId": "w-meteorite",
+        "reason": "选项「陨石」不是「nylon」的主释义「尼龙」或其他义项。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "选项「斑马」不是「nylon」的主释义「尼龙」或其他义项。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "选项「破裂」不是「nylon」的主释义「尼龙」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-meteorite",
+        "reason": "英文「meteorite」的常见义项「陨石」不符合主释义「尼龙」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "英文「zebra」的常见义项「斑马」不符合主释义「尼龙」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "reason": "英文「rupture」的常见义项「破裂」不符合主释义「尼龙」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-meteorite",
+        "surfaceForm": "meteorite",
+        "reason": "将「meteorite」代入可见句子后不表达主释义「尼龙」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "surfaceForm": "zebra",
+        "reason": "将「zebra」代入可见句子后不表达主释义「尼龙」。"
+      },
+      {
+        "wordId": "w-rupture",
+        "surfaceForm": "rupture",
+        "reason": "将「rupture」代入可见句子后不表达主释义「尼龙」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-probe",
+    "enToZh": [
+      {
+        "wordId": "w-exhaust",
+        "reason": "选项「使筋疲力尽」不是「probe」的主释义「调查」或其他义项。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "选项「移植」不是「probe」的主释义「调查」或其他义项。"
+      },
+      {
+        "wordId": "w-contradict",
+        "reason": "选项「与…相矛盾」不是「probe」的主释义「调查」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exhaust",
+        "reason": "英文「exhaust」的常见义项「使筋疲力尽」不符合主释义「调查」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "英文「transplant」的常见义项「移植」不符合主释义「调查」。"
+      },
+      {
+        "wordId": "w-contradict",
+        "reason": "英文「contradict」的常见义项「与…相矛盾」不符合主释义「调查」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exhaust",
+        "surfaceForm": "exhaust",
+        "reason": "将「exhaust」代入可见句子后不表达主释义「调查」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "surfaceForm": "transplant",
+        "reason": "将「transplant」代入可见句子后不表达主释义「调查」。"
+      },
+      {
+        "wordId": "w-contradict",
+        "surfaceForm": "contradict",
+        "reason": "将「contradict」代入可见句子后不表达主释义「调查」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-escape",
+    "enToZh": [
+      {
+        "wordId": "w-drop",
+        "reason": "选项「落下」不是「escape」的主释义「逃脱」或其他义项。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "选项「察觉」不是「escape」的主释义「逃脱」或其他义项。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "选项「雇用」不是「escape」的主释义「逃脱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-drop",
+        "reason": "英文「drop」的常见义项「落下」不符合主释义「逃脱」。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "英文「detect」的常见义项「察觉」不符合主释义「逃脱」。"
+      },
+      {
+        "wordId": "w-hire",
+        "reason": "英文「hire」的常见义项「雇用」不符合主释义「逃脱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-drop",
+        "surfaceForm": "drop",
+        "reason": "将「drop」代入可见句子后不表达主释义「逃脱」。"
+      },
+      {
+        "wordId": "w-detect",
+        "surfaceForm": "detect",
+        "reason": "将「detect」代入可见句子后不表达主释义「逃脱」。"
+      },
+      {
+        "wordId": "w-hire",
+        "surfaceForm": "hire",
+        "reason": "将「hire」代入可见句子后不表达主释义「逃脱」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-seaman",
+    "enToZh": [
+      {
+        "wordId": "w-lavatory",
+        "reason": "选项「厕所」不是「seaman」的主释义「海员」或其他义项。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "选项「斑马」不是「seaman」的主释义「海员」或其他义项。"
+      },
+      {
+        "wordId": "w-workman",
+        "reason": "选项「工人」不是「seaman」的主释义「海员」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-lavatory",
+        "reason": "英文「lavatory」的常见义项「厕所」不符合主释义「海员」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "英文「zebra」的常见义项「斑马」不符合主释义「海员」。"
+      },
+      {
+        "wordId": "w-workman",
+        "reason": "英文「workman」的常见义项「工人」不符合主释义「海员」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-lavatory",
+        "surfaceForm": "lavatory",
+        "reason": "将「lavatory」代入可见句子后不表达主释义「海员」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "surfaceForm": "zebra",
+        "reason": "将「zebra」代入可见句子后不表达主释义「海员」。"
+      },
+      {
+        "wordId": "w-workman",
+        "surfaceForm": "workman",
+        "reason": "将「workman」代入可见句子后不表达主释义「海员」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-reservoir",
+    "enToZh": [
+      {
+        "wordId": "w-liver",
+        "reason": "选项「肝脏」不是「reservoir」的主释义「水库」或其他义项。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「reservoir」的主释义「水库」或其他义项。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "选项「专业知识」不是「reservoir」的主释义「水库」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-liver",
+        "reason": "英文「liver」的常见义项「肝脏」不符合主释义「水库」。"
+      },
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「水库」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "英文「expertise」的常见义项「专业知识」不符合主释义「水库」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-liver",
+        "surfaceForm": "liver",
+        "reason": "将「liver」代入可见句子后不表达主释义「水库」。"
+      },
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「水库」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "surfaceForm": "expertise",
+        "reason": "将「expertise」代入可见句子后不表达主释义「水库」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-adhere",
+    "enToZh": [
+      {
+        "wordId": "w-contaminate",
+        "reason": "选项「污染」不是「adhere」的主释义「遵守」或其他义项。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「adhere」的主释义「遵守」或其他义项。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "选项「移植」不是「adhere」的主释义「遵守」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-contaminate",
+        "reason": "英文「contaminate」的常见义项「污染」不符合主释义「遵守」。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「遵守」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "reason": "英文「transplant」的常见义项「移植」不符合主释义「遵守」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-contaminate",
+        "surfaceForm": "contaminate",
+        "reason": "将「contaminate」代入可见句子后不表达主释义「遵守」。"
+      },
+      {
+        "wordId": "w-preside",
+        "surfaceForm": "preside",
+        "reason": "将「preside」代入可见句子后不表达主释义「遵守」。"
+      },
+      {
+        "wordId": "w-transplant",
+        "surfaceForm": "transplant",
+        "reason": "将「transplant」代入可见句子后不表达主释义「遵守」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-revolt",
+    "enToZh": [
+      {
+        "wordId": "w-untie",
+        "reason": "选项「解开」不是「revolt」的主释义「反抗」或其他义项。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "选项「欺骗」不是「revolt」的主释义「反抗」或其他义项。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "选项「误解」不是「revolt」的主释义「反抗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-untie",
+        "reason": "英文「untie」的常见义项「解开」不符合主释义「反抗」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "英文「deceive」的常见义项「欺骗」不符合主释义「反抗」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「反抗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-untie",
+        "surfaceForm": "untie",
+        "reason": "将「untie」代入可见句子后不表达主释义「反抗」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "surfaceForm": "deceive",
+        "reason": "将「deceive」代入可见句子后不表达主释义「反抗」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "surfaceForm": "misunderstand",
+        "reason": "将「misunderstand」代入可见句子后不表达主释义「反抗」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-shortcoming",
+    "enToZh": [
+      {
+        "wordId": "w-throng",
+        "reason": "选项「人群」不是「shortcoming」的主释义「缺点」或其他义项。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「shortcoming」的主释义「缺点」或其他义项。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "选项「斑马」不是「shortcoming」的主释义「缺点」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-throng",
+        "reason": "英文「throng」的常见义项「人群」不符合主释义「缺点」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「缺点」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "英文「zebra」的常见义项「斑马」不符合主释义「缺点」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-throng",
+        "surfaceForm": "throng",
+        "reason": "将「throng」代入可见句子后不表达主释义「缺点」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "surfaceForm": "nuisance",
+        "reason": "将「nuisance」代入可见句子后不表达主释义「缺点」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "surfaceForm": "zebra",
+        "reason": "将「zebra」代入可见句子后不表达主释义「缺点」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-centralize",
+    "enToZh": [
+      {
+        "wordId": "w-quench",
+        "reason": "选项「解渴」不是「centralize」的主释义「集中管理」或其他义项。"
+      },
+      {
+        "wordId": "w-untie",
+        "reason": "选项「解开」不是「centralize」的主释义「集中管理」或其他义项。"
+      },
+      {
+        "wordId": "w-revolt",
+        "reason": "选项「反抗」不是「centralize」的主释义「集中管理」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-quench",
+        "reason": "英文「quench」的常见义项「解渴」不符合主释义「集中管理」。"
+      },
+      {
+        "wordId": "w-untie",
+        "reason": "英文「untie」的常见义项「解开」不符合主释义「集中管理」。"
+      },
+      {
+        "wordId": "w-revolt",
+        "reason": "英文「revolt」的常见义项「反抗」不符合主释义「集中管理」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-quench",
+        "surfaceForm": "quench",
+        "reason": "将「quench」代入可见句子后不表达主释义「集中管理」。"
+      },
+      {
+        "wordId": "w-untie",
+        "surfaceForm": "untie",
+        "reason": "将「untie」代入可见句子后不表达主释义「集中管理」。"
+      },
+      {
+        "wordId": "w-revolt",
+        "surfaceForm": "revolt",
+        "reason": "将「revolt」代入可见句子后不表达主释义「集中管理」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-mayor",
+    "enToZh": [
+      {
+        "wordId": "w-publication",
+        "reason": "选项「出版物」不是「mayor」的主释义「市长」或其他义项。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "选项「申请」不是「mayor」的主释义「市长」或其他义项。"
+      },
+      {
+        "wordId": "w-mate",
+        "reason": "选项「伙伴」不是「mayor」的主释义「市长」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-publication",
+        "reason": "英文「publication」的常见义项「出版物」不符合主释义「市长」。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "英文「application」的常见义项「申请」不符合主释义「市长」。"
+      },
+      {
+        "wordId": "w-mate",
+        "reason": "英文「mate」的常见义项「伙伴」不符合主释义「市长」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-publication",
+        "surfaceForm": "publication",
+        "reason": "将「publication」代入可见句子后不表达主释义「市长」。"
+      },
+      {
+        "wordId": "w-application",
+        "surfaceForm": "application",
+        "reason": "将「application」代入可见句子后不表达主释义「市长」。"
+      },
+      {
+        "wordId": "w-mate",
+        "surfaceForm": "mate",
+        "reason": "将「mate」代入可见句子后不表达主释义「市长」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-emotion",
+    "enToZh": [
+      {
+        "wordId": "w-pipe",
+        "reason": "选项「管道」不是「emotion」的主释义「情绪」或其他义项。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "选项「长椅」不是「emotion」的主释义「情绪」或其他义项。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "选项「电池」不是「emotion」的主释义「情绪」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pipe",
+        "reason": "英文「pipe」的常见义项「管道」不符合主释义「情绪」。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "英文「bench」的常见义项「长椅」不符合主释义「情绪」。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "英文「battery」的常见义项「电池」不符合主释义「情绪」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pipe",
+        "surfaceForm": "pipe",
+        "reason": "将「pipe」代入可见句子后不表达主释义「情绪」。"
+      },
+      {
+        "wordId": "w-bench",
+        "surfaceForm": "bench",
+        "reason": "将「bench」代入可见句子后不表达主释义「情绪」。"
+      },
+      {
+        "wordId": "w-battery",
+        "surfaceForm": "battery",
+        "reason": "将「battery」代入可见句子后不表达主释义「情绪」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-outset",
+    "enToZh": [
+      {
+        "wordId": "w-submarine",
+        "reason": "选项「潜艇」不是「outset」的主释义「开端」或其他义项。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "选项「操场」不是「outset」的主释义「开端」或其他义项。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「outset」的主释义「开端」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-submarine",
+        "reason": "英文「submarine」的常见义项「潜艇」不符合主释义「开端」。"
+      },
+      {
+        "wordId": "w-playground",
+        "reason": "英文「playground」的常见义项「操场」不符合主释义「开端」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「开端」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-submarine",
+        "surfaceForm": "submarine",
+        "reason": "将「submarine」代入可见句子后不表达主释义「开端」。"
+      },
+      {
+        "wordId": "w-playground",
+        "surfaceForm": "playground",
+        "reason": "将「playground」代入可见句子后不表达主释义「开端」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「开端」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-production",
+    "enToZh": [
+      {
+        "wordId": "w-complaint",
+        "reason": "选项「抱怨」不是「production」的主释义「生产」或其他义项。"
+      },
+      {
+        "wordId": "w-status",
+        "reason": "选项「地位」不是「production」的主释义「生产」或其他义项。"
+      },
+      {
+        "wordId": "w-partner",
+        "reason": "选项「伙伴」不是「production」的主释义「生产」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-complaint",
+        "reason": "英文「complaint」的常见义项「抱怨」不符合主释义「生产」。"
+      },
+      {
+        "wordId": "w-status",
+        "reason": "英文「status」的常见义项「地位」不符合主释义「生产」。"
+      },
+      {
+        "wordId": "w-partner",
+        "reason": "英文「partner」的常见义项「伙伴」不符合主释义「生产」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-complaint",
+        "surfaceForm": "complaint",
+        "reason": "将「complaint」代入可见句子后不表达主释义「生产」。"
+      },
+      {
+        "wordId": "w-status",
+        "surfaceForm": "status",
+        "reason": "将「status」代入可见句子后不表达主释义「生产」。"
+      },
+      {
+        "wordId": "w-partner",
+        "surfaceForm": "partner",
+        "reason": "将「partner」代入可见句子后不表达主释义「生产」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-conservation",
+    "enToZh": [
+      {
+        "wordId": "w-art",
+        "reason": "选项「艺术」不是「conservation」的主释义「保护」或其他义项。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "选项「季节」不是「conservation」的主释义「保护」或其他义项。"
+      },
+      {
+        "wordId": "w-shame",
+        "reason": "选项「羞耻」不是「conservation」的主释义「保护」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-art",
+        "reason": "英文「art」的常见义项「艺术」不符合主释义「保护」。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "英文「season」的常见义项「季节」不符合主释义「保护」。"
+      },
+      {
+        "wordId": "w-shame",
+        "reason": "英文「shame」的常见义项「羞耻」不符合主释义「保护」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-art",
+        "surfaceForm": "art",
+        "reason": "将「art」代入可见句子后不表达主释义「保护」。"
+      },
+      {
+        "wordId": "w-season",
+        "surfaceForm": "season",
+        "reason": "将「season」代入可见句子后不表达主释义「保护」。"
+      },
+      {
+        "wordId": "w-shame",
+        "surfaceForm": "shame",
+        "reason": "将「shame」代入可见句子后不表达主释义「保护」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-workman",
+    "enToZh": [
+      {
+        "wordId": "w-shortcoming",
+        "reason": "选项「缺点」不是「workman」的主释义「工人」或其他义项。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "reason": "选项「陨石」不是「workman」的主释义「工人」或其他义项。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "选项「斑马」不是「workman」的主释义「工人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-shortcoming",
+        "reason": "英文「shortcoming」的常见义项「缺点」不符合主释义「工人」。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "reason": "英文「meteorite」的常见义项「陨石」不符合主释义「工人」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "reason": "英文「zebra」的常见义项「斑马」不符合主释义「工人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-shortcoming",
+        "surfaceForm": "shortcoming",
+        "reason": "将「shortcoming」代入可见句子后不表达主释义「工人」。"
+      },
+      {
+        "wordId": "w-meteorite",
+        "surfaceForm": "meteorite",
+        "reason": "将「meteorite」代入可见句子后不表达主释义「工人」。"
+      },
+      {
+        "wordId": "w-zebra",
+        "surfaceForm": "zebra",
+        "reason": "将「zebra」代入可见句子后不表达主释义「工人」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-need",
+    "enToZh": [
+      {
+        "wordId": "w-hire",
+        "reason": "选项「雇用」不是「need」的主释义「需要」或其他义项。"
+      },
+      {
+        "wordId": "w-drop",
+        "reason": "选项「落下」不是「need」的主释义「需要」或其他义项。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「need」的主释义「需要」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hire",
+        "reason": "英文「hire」的常见义项「雇用」不符合主释义「需要」。"
+      },
+      {
+        "wordId": "w-drop",
+        "reason": "英文「drop」的常见义项「落下」不符合主释义「需要」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「需要」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hire",
+        "surfaceForm": "hire",
+        "reason": "将「hire」代入可见句子后不表达主释义「需要」。"
+      },
+      {
+        "wordId": "w-drop",
+        "surfaceForm": "drop",
+        "reason": "将「drop」代入可见句子后不表达主释义「需要」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「需要」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  }
+]

@@ -1,0 +1,2729 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "legacy-registry-1-pilot",
+  "datasetId": "bingeup-legacy-2026-10-23",
+  "seedHash": "59579587e72852fde68cd737c9ac56ceccb3c2daa79ba2ab03c8a35f89a6f478",
+  "source": {
+    "name": "ECDICT",
+    "repository": "https://github.com/skywind3000/ECDICT",
+    "commit": "bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b",
+    "license": "MIT",
+    "capturedAt": "2026-10-23",
+    "note": "只继承 ID、分类、词频和难度事实；不继承词条学习文本。"
+  },
+  "review": {
+    "reviewedAt": "2026-10-23",
+    "method": "逐 ID 核对词形、重复项、词库成员关系和音标覆盖；仅对已确认错拼和规范大小写写入例外决策。",
+    "evidenceSources": [
+      "ipa-dict en_US 972cd67dd5f96bc5660e28070cde26e3928abcd7",
+      "https://github.com/dwyl/english-words",
+      "https://dictionary.cambridge.org/"
+    ]
+  },
+  "entries": [
+    {
+      "legacyId": "w-acceptance",
+      "disposition": "keep",
+      "canonicalId": "w-acceptance",
+      "canonicalWord": "acceptance",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c9c6c101bbc98d8e1531be184eb8fcaac4838a9c8e740018c2f438b6a2bf7cf7",
+      "original": {
+        "word": "acceptance",
+        "difficulty": 2,
+        "frequencyRank": 3443,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-adhere",
+      "disposition": "keep",
+      "canonicalId": "w-adhere",
+      "canonicalWord": "adhere",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "415ee560abe68ebcda0c5dff63d362310db648546730dc4ac1a297246989a198",
+      "original": {
+        "word": "adhere",
+        "difficulty": 2,
+        "frequencyRank": 6516,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-again",
+      "disposition": "keep",
+      "canonicalId": "w-again",
+      "canonicalWord": "again",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "5b145bf8b1023a48ab37cf5e200a1dee1624ec929de4f46d5ec57d875daa82f9",
+      "original": {
+        "word": "again",
+        "difficulty": 1,
+        "frequencyRank": 184,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-application",
+      "disposition": "keep",
+      "canonicalId": "w-application",
+      "canonicalWord": "application",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "aa23aac538bba2fb8f8f13b7c1520908e1012c7f09ca340461b668a522a34f41",
+      "original": {
+        "word": "application",
+        "difficulty": 1,
+        "frequencyRank": 1519,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-arab",
+      "disposition": "keep",
+      "canonicalId": "w-arab",
+      "canonicalWord": "Arab",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "f025cc511a400770e0fe392016d8c9a98f67ba0d2f4f1204b158bc47fb10fc98",
+      "original": {
+        "word": "Arab",
+        "difficulty": 1,
+        "frequencyRank": 2201,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-art",
+      "disposition": "keep",
+      "canonicalId": "w-art",
+      "canonicalWord": "art",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c26776c430cbea074c04a33ac38b3903a0ed76fe06b08daaa0fbbb2007509954",
+      "original": {
+        "word": "art",
+        "difficulty": 1,
+        "frequencyRank": 346,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-battery",
+      "disposition": "keep",
+      "canonicalId": "w-battery",
+      "canonicalWord": "battery",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "8c30a51ec5b9dc4a5e2435ce804c6420d77a4129a031f7bf946596af940c6acf",
+      "original": {
+        "word": "battery",
+        "difficulty": 1,
+        "frequencyRank": 3193,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-bench",
+      "disposition": "keep",
+      "canonicalId": "w-bench",
+      "canonicalWord": "bench",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "5df16c64684c1be00b5512fd8a606381269623763a0bd7d50adf683a5877f981",
+      "original": {
+        "word": "bench",
+        "difficulty": 1,
+        "frequencyRank": 2782,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-bow",
+      "disposition": "keep",
+      "canonicalId": "w-bow",
+      "canonicalWord": "bow",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "bce5b2e577133021077823ded7440611c75c6e457a0f98f68c18c1f691137112",
+      "original": {
+        "word": "bow",
+        "difficulty": 2,
+        "frequencyRank": 4098,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-candle",
+      "disposition": "keep",
+      "canonicalId": "w-candle",
+      "canonicalWord": "candle",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "13de261df699540fe8cadbec3459ab2916df16ddbfbc30739ba4a27bd1aa2e6b",
+      "original": {
+        "word": "candle",
+        "difficulty": 2,
+        "frequencyRank": 3928,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-catalog",
+      "disposition": "keep",
+      "canonicalId": "w-catalog",
+      "canonicalWord": "catalog",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ad4ae776a152f1c613900b5f6570d71c6f16429c9f1324c6f06f0249bd1b7580",
+      "original": {
+        "word": "catalog",
+        "difficulty": 2,
+        "frequencyRank": 4443,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-centralize",
+      "disposition": "keep",
+      "canonicalId": "w-centralize",
+      "canonicalWord": "centralize",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "b8f87adeda8ae46a59d7e27a6c4b757e7e36a48434a78456d23bb02553980677",
+      "original": {
+        "word": "centralize",
+        "difficulty": 4,
+        "frequencyRank": 16971,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-chimney",
+      "disposition": "keep",
+      "canonicalId": "w-chimney",
+      "canonicalWord": "chimney",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "500d22ca96e8bd4fbd38493af6e01756704d53c6bd4ffece352308a7744b01c3",
+      "original": {
+        "word": "chimney",
+        "difficulty": 3,
+        "frequencyRank": 8321,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-comb",
+      "disposition": "keep",
+      "canonicalId": "w-comb",
+      "canonicalWord": "comb",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "8eb5ff419256cad56b62225636b191327adb80e611a18fd7e183c39a4ddf0155",
+      "original": {
+        "word": "comb",
+        "difficulty": 2,
+        "frequencyRank": 7329,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-complaint",
+      "disposition": "keep",
+      "canonicalId": "w-complaint",
+      "canonicalWord": "complaint",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "7817b04f18eb28608c0f464841fa75d471293684a2f88df93267be80061d0003",
+      "original": {
+        "word": "complaint",
+        "difficulty": 1,
+        "frequencyRank": 2325,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-conservation",
+      "disposition": "keep",
+      "canonicalId": "w-conservation",
+      "canonicalWord": "conservation",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "efb56045ee125abf868040f92ad10d8d60f34a476d9400917b737832664175dd",
+      "original": {
+        "word": "conservation",
+        "difficulty": 1,
+        "frequencyRank": 2820,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-contaminate",
+      "disposition": "keep",
+      "canonicalId": "w-contaminate",
+      "canonicalWord": "contaminate",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "48565802a4c90316fc4fb4f0edf05dc37aa9ad131f29f1d4da0e4c67cb455ad8",
+      "original": {
+        "word": "contaminate",
+        "difficulty": 2,
+        "frequencyRank": 7402,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-contradict",
+      "disposition": "keep",
+      "canonicalId": "w-contradict",
+      "canonicalWord": "contradict",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "adc171860ac7ba603b1895789f11b7f97b98515629b3468fe5d3f07cf170b2f0",
+      "original": {
+        "word": "contradict",
+        "difficulty": 2,
+        "frequencyRank": 6863,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-costume",
+      "disposition": "keep",
+      "canonicalId": "w-costume",
+      "canonicalWord": "costume",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "08e5f0ad61817fdd7286a6bc5e3dcd47cb61d4de4355abea5d272e2ad921e130",
+      "original": {
+        "word": "costume",
+        "difficulty": 2,
+        "frequencyRank": 4152,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-cover",
+      "disposition": "keep",
+      "canonicalId": "w-cover",
+      "canonicalWord": "cover",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "f2167fa5e9168692cea4bd506bfc32c159f0777b682390afa96712ea0ec66f2d",
+      "original": {
+        "word": "cover",
+        "difficulty": 1,
+        "frequencyRank": 560,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-decade",
+      "disposition": "keep",
+      "canonicalId": "w-decade",
+      "canonicalWord": "decade",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "836a53849d6461b8ba0a49211e52557b610a08b0e8092657c2e46a10eb8b7cde",
+      "original": {
+        "word": "decade",
+        "difficulty": 1,
+        "frequencyRank": 730,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-deceive",
+      "disposition": "keep",
+      "canonicalId": "w-deceive",
+      "canonicalWord": "deceive",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6df6e178437ff5b226d115d125b8e6b2d86e0ef44294517b1911c4097a2778ba",
+      "original": {
+        "word": "deceive",
+        "difficulty": 3,
+        "frequencyRank": 8388,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-detect",
+      "disposition": "keep",
+      "canonicalId": "w-detect",
+      "canonicalWord": "detect",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "2e2a41be249dc1de1fec14b4cad8ab8b864feb68cfbc39d17ec6904f48ef1d04",
+      "original": {
+        "word": "detect",
+        "difficulty": 1,
+        "frequencyRank": 2763,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-disturb",
+      "disposition": "keep",
+      "canonicalId": "w-disturb",
+      "canonicalWord": "disturb",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "70c179e5ddb2045547c2842ea66e9f7de17e493699db23a12873ecaf042618fe",
+      "original": {
+        "word": "disturb",
+        "difficulty": 1,
+        "frequencyRank": 4565,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-diversion",
+      "disposition": "keep",
+      "canonicalId": "w-diversion",
+      "canonicalWord": "diversion",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "bfb37070e706d2894eb8ad41683f51f165a76640dccf18f55f0aeceef6d6f7af",
+      "original": {
+        "word": "diversion",
+        "difficulty": 2,
+        "frequencyRank": 7508,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-drop",
+      "disposition": "keep",
+      "canonicalId": "w-drop",
+      "canonicalWord": "drop",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "983a47e580920ceb790796674fc7f57dd7fb682361216bd25bb1192dac34abf7",
+      "original": {
+        "word": "drop",
+        "difficulty": 1,
+        "frequencyRank": 690,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-emergency",
+      "disposition": "keep",
+      "canonicalId": "w-emergency",
+      "canonicalWord": "emergency",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "365a379e6bf7a993ce0af1960fef6f585938f61ce3ae82bcc4a51aaddcc227ff",
+      "original": {
+        "word": "emergency",
+        "difficulty": 1,
+        "frequencyRank": 1725,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-emotion",
+      "disposition": "keep",
+      "canonicalId": "w-emotion",
+      "canonicalWord": "emotion",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "cd88e3709fcac2636b20e4caac56be0e394d4e05dab7bd95f3f53f869aed75b4",
+      "original": {
+        "word": "emotion",
+        "difficulty": 1,
+        "frequencyRank": 2117,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-escape",
+      "disposition": "keep",
+      "canonicalId": "w-escape",
+      "canonicalWord": "escape",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6732be52239a0701049be4dc42917eee82c789d480fb9273cb3208635b505c6d",
+      "original": {
+        "word": "escape",
+        "difficulty": 1,
+        "frequencyRank": 2034,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-essence",
+      "disposition": "keep",
+      "canonicalId": "w-essence",
+      "canonicalWord": "essence",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "d099813eadbd76e2beedabf239e1aa1ae0b77e279241dcb860ebc955ac78278b",
+      "original": {
+        "word": "essence",
+        "difficulty": 2,
+        "frequencyRank": 3468,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-exhaust",
+      "disposition": "keep",
+      "canonicalId": "w-exhaust",
+      "canonicalWord": "exhaust",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "dc142dec0443d70f380cf9a148c8cb0f320d06c46a46c29745a2a4dacc19c116",
+      "original": {
+        "word": "exhaust",
+        "difficulty": 2,
+        "frequencyRank": 4734,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-expertise",
+      "disposition": "keep",
+      "canonicalId": "w-expertise",
+      "canonicalWord": "expertise",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "e33c55dbd63d4682497196717b43870febd2fe8e96e5c4a0b6c0f4c6e2fefcd4",
+      "original": {
+        "word": "expertise",
+        "difficulty": 2,
+        "frequencyRank": 3898,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-faint",
+      "disposition": "keep",
+      "canonicalId": "w-faint",
+      "canonicalWord": "faint",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ae6aef4859f16cac553830860c3d06ea7c32ad756a2edc0f63ee8c6120899ba5",
+      "original": {
+        "word": "faint",
+        "difficulty": 1,
+        "frequencyRank": 4117,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-forehead",
+      "disposition": "keep",
+      "canonicalId": "w-forehead",
+      "canonicalWord": "forehead",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "04f83a76abce95b823a05ff83538b2fc6d94ee19dc6e91b7342e938efe782c80",
+      "original": {
+        "word": "forehead",
+        "difficulty": 2,
+        "frequencyRank": 3788,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-grey",
+      "disposition": "keep",
+      "canonicalId": "w-grey",
+      "canonicalWord": "grey",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "15204263c94a4bc168b67d3c1e8191fde9a9eab8fa687e2722245406c123315f",
+      "original": {
+        "word": "grey",
+        "difficulty": 1,
+        "frequencyRank": 37508,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-gross",
+      "disposition": "keep",
+      "canonicalId": "w-gross",
+      "canonicalWord": "gross",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6815440702f616e4e0f30a563c555c35edff814d9472645ee458d51dd070f608",
+      "original": {
+        "word": "gross",
+        "difficulty": 2,
+        "frequencyRank": 4409,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-guitar",
+      "disposition": "keep",
+      "canonicalId": "w-guitar",
+      "canonicalWord": "guitar",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "bbdbd987813cdc7c8d216a19f3e54e204171c0f601a1652100b9b41eb4f720ff",
+      "original": {
+        "word": "guitar",
+        "difficulty": 2,
+        "frequencyRank": 3658,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-hire",
+      "disposition": "keep",
+      "canonicalId": "w-hire",
+      "canonicalWord": "hire",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "328a3dbd638aa9f58aa4edec76ef1110213a833f05060c9e4f05b1f86e256d46",
+      "original": {
+        "word": "hire",
+        "difficulty": 1,
+        "frequencyRank": 1491,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-incline",
+      "disposition": "keep",
+      "canonicalId": "w-incline",
+      "canonicalWord": "incline",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "485aeafd082a48d8f6bb8c7d54687d2b1ba4db8ba7226a3d79aa654d7b6af47a",
+      "original": {
+        "word": "incline",
+        "difficulty": 3,
+        "frequencyRank": 12701,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-instinctively",
+      "disposition": "keep",
+      "canonicalId": "w-instinctively",
+      "canonicalWord": "instinctively",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ac0d724464effd73266623cc49f0f2bc3b11dd1fa77ab9c6584421835d00167f",
+      "original": {
+        "word": "instinctively",
+        "difficulty": 3,
+        "frequencyRank": 9224,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-lavatory",
+      "disposition": "keep",
+      "canonicalId": "w-lavatory",
+      "canonicalWord": "lavatory",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "d531d941ab407992aca7e7b3cf87c4ca2b8312c652022f3d608ac234e0faeacd",
+      "original": {
+        "word": "lavatory",
+        "difficulty": 4,
+        "frequencyRank": 19680,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-leisure",
+      "disposition": "keep",
+      "canonicalId": "w-leisure",
+      "canonicalWord": "leisure",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c632aa79d55c0a9800e0f7bc82a38bb9c19747cfa7acbb3a74567edf2ff1354b",
+      "original": {
+        "word": "leisure",
+        "difficulty": 2,
+        "frequencyRank": 6269,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-liquid",
+      "disposition": "keep",
+      "canonicalId": "w-liquid",
+      "canonicalWord": "liquid",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "39261f56da63d6672b8967c5b5811cabc3eea1ad1ac68d818fb99818bc860535",
+      "original": {
+        "word": "liquid",
+        "difficulty": 1,
+        "frequencyRank": 4360,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-liver",
+      "disposition": "keep",
+      "canonicalId": "w-liver",
+      "canonicalWord": "liver",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ab1386b3a849d5328803e4fc30f5f70f57b51a393b96d539a7c8641718f44430",
+      "original": {
+        "word": "liver",
+        "difficulty": 2,
+        "frequencyRank": 4667,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-mate",
+      "disposition": "keep",
+      "canonicalId": "w-mate",
+      "canonicalWord": "mate",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "138bb4d2662be794b43059ffeb614221953c455bb35dc0b56e7c5b31f9fafb92",
+      "original": {
+        "word": "mate",
+        "difficulty": 1,
+        "frequencyRank": 4061,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-mayor",
+      "disposition": "keep",
+      "canonicalId": "w-mayor",
+      "canonicalWord": "mayor",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "b3570b8b4f2e156b0f01b763250e218814c9329187ecc1a8792e999c29f7be25",
+      "original": {
+        "word": "mayor",
+        "difficulty": 1,
+        "frequencyRank": 2486,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-meteorite",
+      "disposition": "keep",
+      "canonicalId": "w-meteorite",
+      "canonicalWord": "meteorite",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "5c654d9acfbe14686731e3f85007b4554af6c5e070d6b901114d498283b9ea5d",
+      "original": {
+        "word": "meteorite",
+        "difficulty": 3,
+        "frequencyRank": 12025,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-misunderstand",
+      "disposition": "keep",
+      "canonicalId": "w-misunderstand",
+      "canonicalWord": "misunderstand",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "a048703e4001b4e2c0c948fbc863424f0671500f31601f0ffaefd96423cef3d6",
+      "original": {
+        "word": "misunderstand",
+        "difficulty": 3,
+        "frequencyRank": 8287,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-need",
+      "disposition": "keep",
+      "canonicalId": "w-need",
+      "canonicalWord": "need",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "3bbe2077fc3914636ac54aebbb262ef9a5373134bfa3f388a0408ee6c0b426e0",
+      "original": {
+        "word": "need",
+        "difficulty": 1,
+        "frequencyRank": 132,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-nickel",
+      "disposition": "keep",
+      "canonicalId": "w-nickel",
+      "canonicalWord": "nickel",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "4dff2661419f1b7174f91d195790c9f2cfa9f8699dc238bcffbffa650e922507",
+      "original": {
+        "word": "nickel",
+        "difficulty": 2,
+        "frequencyRank": 7847,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-nuisance",
+      "disposition": "keep",
+      "canonicalId": "w-nuisance",
+      "canonicalWord": "nuisance",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "3bdf3e90224ccc8206ebd5ac329b4ee5ce2713d08428b1fb45a4e6b68a4153e2",
+      "original": {
+        "word": "nuisance",
+        "difficulty": 3,
+        "frequencyRank": 8738,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-nylon",
+      "disposition": "keep",
+      "canonicalId": "w-nylon",
+      "canonicalWord": "nylon",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "7f1fee7b7337a6c8d7d5fee21d7005d9df6dcd82a58838c0418301ab586e9f1e",
+      "original": {
+        "word": "nylon",
+        "difficulty": 3,
+        "frequencyRank": 8449,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-ounce",
+      "disposition": "keep",
+      "canonicalId": "w-ounce",
+      "canonicalWord": "ounce",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "798871e6b1c01003597695f67919ec6b987ce0efecfe8856b3894a5b3afbb087",
+      "original": {
+        "word": "ounce",
+        "difficulty": 3,
+        "frequencyRank": 8670,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-outset",
+      "disposition": "keep",
+      "canonicalId": "w-outset",
+      "canonicalWord": "outset",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "e76a1515f44e3e1a1459b72fa8b4fb95e450c29921818218fbf5d189a627f9d1",
+      "original": {
+        "word": "outset",
+        "difficulty": 2,
+        "frequencyRank": 7964,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-partner",
+      "disposition": "keep",
+      "canonicalId": "w-partner",
+      "canonicalWord": "partner",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "635d4dd2406f04b2219766357211f0ce8e3dc1ef6cd519cdca9eb2c8131b7144",
+      "original": {
+        "word": "partner",
+        "difficulty": 1,
+        "frequencyRank": 1048,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-permit",
+      "disposition": "keep",
+      "canonicalId": "w-permit",
+      "canonicalWord": "permit",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "a3486b7589f064b0da03916af5050b07beca0dc376ac97e9f216b3d553cbf3cc",
+      "original": {
+        "word": "permit",
+        "difficulty": 1,
+        "frequencyRank": 2109,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-pipe",
+      "disposition": "keep",
+      "canonicalId": "w-pipe",
+      "canonicalWord": "pipe",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "f40e2b0aaa999a3164401b69fe28b7bf0c8f21cf29408a318d1453f3404b4cc5",
+      "original": {
+        "word": "pipe",
+        "difficulty": 1,
+        "frequencyRank": 2980,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-plain",
+      "disposition": "keep",
+      "canonicalId": "w-plain",
+      "canonicalWord": "plain",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "60e094cb5b59641918fe8ef6e1990b9228710abfbbe08e5dafb6b7f8be11b019",
+      "original": {
+        "word": "plain",
+        "difficulty": 1,
+        "frequencyRank": 3549,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-playground",
+      "disposition": "keep",
+      "canonicalId": "w-playground",
+      "canonicalWord": "playground",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "8adcae27635c255d586247c405362d426a5094898d72271c45daa0799f09d1b6",
+      "original": {
+        "word": "playground",
+        "difficulty": 2,
+        "frequencyRank": 5793,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-portrait",
+      "disposition": "keep",
+      "canonicalId": "w-portrait",
+      "canonicalWord": "portrait",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "e65c280d1364e86bc62e40f602e71bd316510f01ad284ba4e60b73f25fed199a",
+      "original": {
+        "word": "portrait",
+        "difficulty": 1,
+        "frequencyRank": 2655,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-pour",
+      "disposition": "keep",
+      "canonicalId": "w-pour",
+      "canonicalWord": "pour",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6fdc75e3308122b7483459d46384b9da7cb93f22d5475ea62af80d736e86ac3f",
+      "original": {
+        "word": "pour",
+        "difficulty": 1,
+        "frequencyRank": 1898,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-preside",
+      "disposition": "keep",
+      "canonicalId": "w-preside",
+      "canonicalWord": "preside",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "a1857bcb99def3dd7dfed208b3e03e9f8d79c0bd271aff039d0a403d72c0e895",
+      "original": {
+        "word": "preside",
+        "difficulty": 2,
+        "frequencyRank": 6781,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-probe",
+      "disposition": "keep",
+      "canonicalId": "w-probe",
+      "canonicalWord": "probe",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "71158fa6017fb52100f66aebb5bbc43170a1ddf706d73bc06af8bafbcddc8962",
+      "original": {
+        "word": "probe",
+        "difficulty": 2,
+        "frequencyRank": 5178,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-production",
+      "disposition": "keep",
+      "canonicalId": "w-production",
+      "canonicalWord": "production",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "013bcad921b1d2b807470369fa0793f4a1f0d21bbd3193e7dfcc8bb5e82c3979",
+      "original": {
+        "word": "production",
+        "difficulty": 1,
+        "frequencyRank": 959,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-publication",
+      "disposition": "keep",
+      "canonicalId": "w-publication",
+      "canonicalWord": "publication",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "bfc7d375f09ba01e373778607908b4e7271333a078247fb02319b9771bae8f68",
+      "original": {
+        "word": "publication",
+        "difficulty": 1,
+        "frequencyRank": 2459,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-quench",
+      "disposition": "keep",
+      "canonicalId": "w-quench",
+      "canonicalWord": "quench",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c412cf830751d1170516b3804c45b6acda9f750ad5bebcf9f5a6c2b62ee16262",
+      "original": {
+        "word": "quench",
+        "difficulty": 4,
+        "frequencyRank": 19110,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-radar",
+      "disposition": "keep",
+      "canonicalId": "w-radar",
+      "canonicalWord": "radar",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "994dad4eb9cc27398fb6561c205a623b98baa42ea32d8925127173e22c722113",
+      "original": {
+        "word": "radar",
+        "difficulty": 2,
+        "frequencyRank": 4780,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-radish",
+      "disposition": "keep",
+      "canonicalId": "w-radish",
+      "canonicalWord": "radish",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ca54b7a0c429cde6ec2a907f96fe53333427e883baf99f528b39bc7c16657fa3",
+      "original": {
+        "word": "radish",
+        "difficulty": 3,
+        "frequencyRank": 14920,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-receive",
+      "disposition": "keep",
+      "canonicalId": "w-receive",
+      "canonicalWord": "receive",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "b1e5664c535d8162eaf7728d226ac6dcc3706befd7301f766dcbc5e6dddb5967",
+      "original": {
+        "word": "receive",
+        "difficulty": 1,
+        "frequencyRank": 497,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-reduce",
+      "disposition": "keep",
+      "canonicalId": "w-reduce",
+      "canonicalWord": "reduce",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "7af64314a700cd245d7758c4f63d900b8066795be25500c1d14ea131b78e07fa",
+      "original": {
+        "word": "reduce",
+        "difficulty": 1,
+        "frequencyRank": 701,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-refuge",
+      "disposition": "keep",
+      "canonicalId": "w-refuge",
+      "canonicalWord": "refuge",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "fd41e8271e63f5e2364f645f688abff72ad8cc4c88ae5f35c95097de6689cd28",
+      "original": {
+        "word": "refuge",
+        "difficulty": 2,
+        "frequencyRank": 4616,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-reservior",
+      "disposition": "merge",
+      "canonicalId": "w-reservoir",
+      "canonicalWord": "reservoir",
+      "reason": "确认错拼；规范词形为 reservoir。",
+      "evidence": [
+        "https://dictionary.cambridge.org/us/dictionary/english/reservoir",
+        "ipa-dict en_US 只收录 reservoir；标准英语词表只收录 reservoir。"
+      ],
+      "seedEntryHash": "76de4f6ecaebee86816800e7b9a1c91baa5ac12ab6764438a5caf2e23f9d6e18",
+      "original": {
+        "word": "reservior",
+        "difficulty": 4,
+        "frequencyRank": 9007199254740991,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-reservoir",
+      "disposition": "keep",
+      "canonicalId": "w-reservoir",
+      "canonicalWord": "reservoir",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "62d5eb4c4fc1f9e884a749c6de9f1cabf4f834cb32e54dcc1b45193bfc55b187",
+      "original": {
+        "word": "reservoir",
+        "difficulty": 2,
+        "frequencyRank": 5907,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-revolt",
+      "disposition": "keep",
+      "canonicalId": "w-revolt",
+      "canonicalWord": "revolt",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "2a359f6fcbcb744f7a3d939db5b70cbd2923420d6d0fdea6c4cc0453d46d0dcd",
+      "original": {
+        "word": "revolt",
+        "difficulty": 3,
+        "frequencyRank": 8955,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-right",
+      "disposition": "keep",
+      "canonicalId": "w-right",
+      "canonicalWord": "right",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "5a31bbcda3058a2e0712ef613c2489563108f537c01cb010ce35fa1014f98839",
+      "original": {
+        "word": "right",
+        "difficulty": 1,
+        "frequencyRank": 193,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-rupture",
+      "disposition": "keep",
+      "canonicalId": "w-rupture",
+      "canonicalWord": "rupture",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "1122feba776d19bed589cfc842ad442fdad6d0c14736170b2adf44d90f34dd50",
+      "original": {
+        "word": "rupture",
+        "difficulty": 3,
+        "frequencyRank": 13956,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-scarf",
+      "disposition": "keep",
+      "canonicalId": "w-scarf",
+      "canonicalWord": "scarf",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "4ab8e6f5f39d5152d2f367f56df6634c9dace4f19be471f6c69d363bf000ec41",
+      "original": {
+        "word": "scarf",
+        "difficulty": 2,
+        "frequencyRank": 6140,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-seaman",
+      "disposition": "keep",
+      "canonicalId": "w-seaman",
+      "canonicalWord": "seaman",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "47d8b462306e614abc1f48f65a50f64680890fc0205ae60781de63899b02fb9b",
+      "original": {
+        "word": "seaman",
+        "difficulty": 4,
+        "frequencyRank": 17406,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-season",
+      "disposition": "keep",
+      "canonicalId": "w-season",
+      "canonicalWord": "season",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ac63ad169c5b2b8f553a5be3e699db202d0cb0ab5cae76d48f1d973a4e7b1e46",
+      "original": {
+        "word": "season",
+        "difficulty": 1,
+        "frequencyRank": 506,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-shame",
+      "disposition": "keep",
+      "canonicalId": "w-shame",
+      "canonicalWord": "shame",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c814b20555369c29c08b5f2fb43dfe0859c2a0b45e4ea9a40417d0356198337f",
+      "original": {
+        "word": "shame",
+        "difficulty": 1,
+        "frequencyRank": 3767,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-shortcoming",
+      "disposition": "keep",
+      "canonicalId": "w-shortcoming",
+      "canonicalWord": "shortcoming",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "26a10ed2d39013eb2cdff1aed2be86c318368919c085cb83c7ae7bbe94a4b3ad",
+      "original": {
+        "word": "shortcoming",
+        "difficulty": 3,
+        "frequencyRank": 8140,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-slack",
+      "disposition": "keep",
+      "canonicalId": "w-slack",
+      "canonicalWord": "slack",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6f1590aead27673928fcc548e6dc9b2e15e31f2530c49c20db4aced2360ac753",
+      "original": {
+        "word": "slack",
+        "difficulty": 2,
+        "frequencyRank": 6983,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-somewhere",
+      "disposition": "keep",
+      "canonicalId": "w-somewhere",
+      "canonicalWord": "somewhere",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "9c72cb54f1a2497d527ef437e349898f907de791554202a97b488d1f87a2b87e",
+      "original": {
+        "word": "somewhere",
+        "difficulty": 1,
+        "frequencyRank": 1588,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-soy",
+      "disposition": "keep",
+      "canonicalId": "w-soy",
+      "canonicalWord": "soy",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "012a243fb1f0705d2b341677089265f41f727e70ad739edbbfa76f10f4823975",
+      "original": {
+        "word": "soy",
+        "difficulty": 2,
+        "frequencyRank": 6060,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-statistics",
+      "disposition": "keep",
+      "canonicalId": "w-statistics",
+      "canonicalWord": "statistics",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "a26c07bfb2b52122e54c2f4b00ebba2d2980fec227f62b3e8b50f75fc8417261",
+      "original": {
+        "word": "statistics",
+        "difficulty": 1,
+        "frequencyRank": 2709,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-status",
+      "disposition": "keep",
+      "canonicalId": "w-status",
+      "canonicalWord": "status",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "28aff14a0ae83f487fb204c8a375294f04546b415b9a9b1b0a91c5b4c5230f99",
+      "original": {
+        "word": "status",
+        "difficulty": 1,
+        "frequencyRank": 1215,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-steer",
+      "disposition": "keep",
+      "canonicalId": "w-steer",
+      "canonicalWord": "steer",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "0a163409d1a0e683d9fd05fc8eca0cd5f4ad2a4a2e82abfc670bb7dfbb96cbe3",
+      "original": {
+        "word": "steer",
+        "difficulty": 1,
+        "frequencyRank": 4623,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-submarine",
+      "disposition": "keep",
+      "canonicalId": "w-submarine",
+      "canonicalWord": "submarine",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "f8b8da031de26e520d34c7a3461329054e1506762eea67adc9c0c0b0c2672027",
+      "original": {
+        "word": "submarine",
+        "difficulty": 2,
+        "frequencyRank": 6881,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-swallow",
+      "disposition": "keep",
+      "canonicalId": "w-swallow",
+      "canonicalWord": "swallow",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "00e077e73b2c839ce0d24b4a9524cfdda5be14a6ff31dea306f0896336389af5",
+      "original": {
+        "word": "swallow",
+        "difficulty": 1,
+        "frequencyRank": 3535,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-sympathize",
+      "disposition": "keep",
+      "canonicalId": "w-sympathize",
+      "canonicalWord": "sympathize",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "36eb0ed5ca989f89e1adb8bc88805a4518b7b63f99c5cf8d7b405ad3903a3dc5",
+      "original": {
+        "word": "sympathize",
+        "difficulty": 3,
+        "frequencyRank": 11121,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-throng",
+      "disposition": "keep",
+      "canonicalId": "w-throng",
+      "canonicalWord": "throng",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6543923197142db25f871667bb1c79d8034448de5cdcc0be8a41f8dc3c12978e",
+      "original": {
+        "word": "throng",
+        "difficulty": 3,
+        "frequencyRank": 11014,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-transplant",
+      "disposition": "keep",
+      "canonicalId": "w-transplant",
+      "canonicalWord": "transplant",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "9d3775a8a4bee2cc5bc70ea7a7dbb028c11568b032f06d575da0bda890a589db",
+      "original": {
+        "word": "transplant",
+        "difficulty": 2,
+        "frequencyRank": 5386,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-undoubtedly",
+      "disposition": "keep",
+      "canonicalId": "w-undoubtedly",
+      "canonicalWord": "undoubtedly",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "1c42672bd8e28f57ea09b107e9e00ffa243e230f6bc6973075e33c0aa61ea3cd",
+      "original": {
+        "word": "undoubtedly",
+        "difficulty": 2,
+        "frequencyRank": 5545,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-untie",
+      "disposition": "keep",
+      "canonicalId": "w-untie",
+      "canonicalWord": "untie",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "12008038a0f4ccd8b021828911dcaba99999010a75bc0f92d75d18467d3595f8",
+      "original": {
+        "word": "untie",
+        "difficulty": 3,
+        "frequencyRank": 14160,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-vigour",
+      "disposition": "keep",
+      "canonicalId": "w-vigour",
+      "canonicalWord": "vigour",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "ddc612dad867eb0e47bed45fd94b14ab25c1b3ebeb2ec1101026bb0fedc9a7cb",
+      "original": {
+        "word": "vigour",
+        "difficulty": 2,
+        "frequencyRank": 7600,
+        "decks": [
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-west",
+      "disposition": "keep",
+      "canonicalId": "w-west",
+      "canonicalWord": "west",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "0c09d4e2e90d118332fa82ce90813a747a7627085ab812a0bd2d374143363793",
+      "original": {
+        "word": "west",
+        "difficulty": 1,
+        "frequencyRank": 665,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-win",
+      "disposition": "keep",
+      "canonicalId": "w-win",
+      "canonicalWord": "win",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "6fd18edf74ac3b849fdd69abcdadc788b387ff18ce4505e5ec72927393117607",
+      "original": {
+        "word": "win",
+        "difficulty": 1,
+        "frequencyRank": 361,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-workman",
+      "disposition": "keep",
+      "canonicalId": "w-workman",
+      "canonicalWord": "workman",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "e4b192d4bfed1d1ab679040b242f5520e817d2de4fdc54dcf255dfba35a3dc9d",
+      "original": {
+        "word": "workman",
+        "difficulty": 3,
+        "frequencyRank": 12739,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-worship",
+      "disposition": "keep",
+      "canonicalId": "w-worship",
+      "canonicalWord": "worship",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "c95f10742d3966b527988de30d5ab0be8efcd975239eb6c5b042218eccb68228",
+      "original": {
+        "word": "worship",
+        "difficulty": 1,
+        "frequencyRank": 5808,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 1
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-yell",
+      "disposition": "keep",
+      "canonicalId": "w-yell",
+      "canonicalWord": "yell",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "8c155dd976cbd3910c9c5ac803ab1fad6c6b0a4b7e615ccebea9a2b3e85c8461",
+      "original": {
+        "word": "yell",
+        "difficulty": 1,
+        "frequencyRank": 2628,
+        "decks": [
+          {
+            "deckId": "deck-daily-high-frequency",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 1
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    },
+    {
+      "legacyId": "w-zebra",
+      "disposition": "keep",
+      "canonicalId": "w-zebra",
+      "canonicalWord": "zebra",
+      "reason": "保留：词形与身份元数据通过机器核对，未发现已确认错拼或重复。",
+      "evidence": [
+        "seed-entry",
+        "wordform-review-v1"
+      ],
+      "seedEntryHash": "82e6bcfb8cd017e61fcdde6f7e5c2336b97a4eb7bc1da7a0dc3d123e8fc4ef51",
+      "original": {
+        "word": "zebra",
+        "difficulty": 3,
+        "frequencyRank": 13912,
+        "decks": [
+          {
+            "deckId": "deck-cet4",
+            "difficulty": 2
+          },
+          {
+            "deckId": "deck-cet6",
+            "difficulty": 3
+          }
+        ]
+      }
+    }
+  ],
+  "registryHash": "c1b941e996909c7f0fa15aec17f69a48dd1c91431fb14cf46be7f8f1c327d297"
+}

@@ -1,0 +1,26 @@
+{
+  "valid": true,
+  "datasetId": "bingeup-legacy-2026-10-23-pilot",
+  "legacyWords": 101,
+  "effectiveWords": 100,
+  "corrected": 0,
+  "merged": 1,
+  "deactivated": 0,
+  "decks": [
+    {
+      "id": "deck-daily-high-frequency",
+      "words": 34
+    },
+    {
+      "id": "deck-cet4",
+      "words": 72
+    },
+    {
+      "id": "deck-cet6",
+      "words": 90
+    }
+  ],
+  "questions": 100,
+  "verifiedBatches": 4,
+  "generatedAt": "2026-10-23T19:28:06.351Z"
+}

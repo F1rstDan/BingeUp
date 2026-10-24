@@ -1,5 +1,8 @@
-import { DEMO_DEV_DECK_SUMMARY, DEMO_DEV_SNAPSHOT, makeDemoNewWordItem } from './demo-data';
+import { isDevScenario } from '@/dev-tools/messages';
+
+import { DEMO_DEV_SNAPSHOT, makeDemoDevDeckSummary, makeDemoNewWordItem } from './demo-data';
 import { previewAssetUrl } from './font-assets';
+import { getPreviewDevScenario, setPreviewDevScenario } from './mock-message-client';
 
 /**
  * 预览站的 window.chrome 垫片。
@@ -55,11 +58,19 @@ function isDevToolsMessage(message: unknown): { readonly handled: true; value: u
   const type = (message as { type?: unknown }).type;
   switch (type) {
     case 'DEV_GET_DECK_SUMMARY':
-      return { handled: true, value: DEMO_DEV_DECK_SUMMARY };
+      return { handled: true, value: makeDemoDevDeckSummary(getPreviewDevScenario()) };
     case 'DEV_GET_DATA_SNAPSHOT':
       return { handled: true, value: DEMO_DEV_SNAPSHOT };
     case 'DEV_PREPARE_CARD':
       return { handled: true, value: { ok: true, item: makeDemoNewWordItem() } };
+    case 'DEV_SEED_SCENARIO': {
+      const scenario = (message as { scenario?: unknown }).scenario;
+      if (!isDevScenario(scenario)) {
+        return { handled: true, value: { __bingeupError: '未知的模拟学习历史场景' } };
+      }
+      setPreviewDevScenario(scenario);
+      return { handled: true, value: { ok: true } };
+    }
     default:
       return null;
   }

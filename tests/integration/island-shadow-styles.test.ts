@@ -110,11 +110,11 @@ describe('createIslandShadowStyles — 注入缓存', () => {
 });
 
 describe('createIslandShadowStyles — 字体清单（FontFace API 注册用）', () => {
-  it('从库 CSS 提取 9 个字体描述，src 重写为 chrome-extension 绝对 URL', () => {
+  it('从库 CSS 与寒蝉半圆体提取 10 个字体描述，src 重写为 chrome-extension 绝对 URL', () => {
     const styles = createIslandShadowStyles({ css: LIBRARY_CSS, toExtensionUrl });
     const faces = styles.getFontFaces();
 
-    expect(faces).toHaveLength(9);
+    expect(faces).toHaveLength(10);
     const nunito = faces.find((face) => face.family === 'Nunito' && face.weight === '500');
     expect(nunito).toEqual({
       family: 'Nunito',
@@ -125,6 +125,9 @@ describe('createIslandShadowStyles — 字体清单（FontFace API 注册用）'
         'url("chrome-extension://test-id/files/nunito-latin-500-normal.78b3b3a4.woff2") format("woff2")',
     });
     expect(faces.every((face) => face.source.includes('chrome-extension://test-id/'))).toBe(true);
+    expect(faces.find((face) => face.family === 'ChillRoundM')?.source).toContain(
+      'chrome-extension://test-id/fonts/ChillRoundM.otf',
+    );
   });
 
   it('缓存：getBundle 之后 getCss 与 getFontFaces 复用同一份结果', () => {

@@ -1,0 +1,16 @@
+{
+  "reviewer": "independent-fix-review-main-099",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-intimidate",
+    "w-intrigue",
+    "w-introduce",
+    "w-introduction",
+    "w-invalid",
+    "w-invasion",
+    "w-investigate",
+    "w-investment"
+  ],
+  "result": "pass",
+  "findings": []
+}

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
+import { ContentUnavailableError } from '@/learning/planned-questions';
 import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import { TimedLearningAdapter, type VisibilityPort } from '@/adapters/timed-learning';
@@ -293,6 +294,8 @@ function makeController(
     withSessionLogger?: boolean;
     globallyPaused?: boolean;
     playbackRecoveryNotice?: { show(): Promise<void> };
+    stopSpeech?: () => void;
+    contentUnavailableNotice?: { show(): void };
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -326,6 +329,8 @@ function makeController(
     pauseState,
     playbackRecoveryNotice: opts.playbackRecoveryNotice,
     learningFeedbackNotice,
+    stopSpeech: opts.stopSpeech,
+    contentUnavailableNotice: opts.contentUnavailableNotice,
   };
   const controller = new ContentController(controllerDeps);
   controller.start();
@@ -569,46 +574,37 @@ describe('ContentController — 核心闭环编排', () => {
   });
 
   describe('提交后恢复与冷却', () => {
-    it.each(['single', 'continuous'] as const)(
-      '答对后的太简单操作纠正已保存日志，不新增答题或结束 %s 模式的下一题',
-      async (mode) => {
-        const harness =
-          mode === 'single'
-            ? makeController({ withSessionLogger: true })
-            : makeContinuousController({
-                items: [LEARNING_ITEM, SPELLING_ITEM],
-                withSessionLogger: true,
-              });
-        const {
-          adapter,
-          overlay,
-          learningService,
-          learningFeedbackNotice,
-          sessionLogger,
-          playback,
-          cooldownStore,
-        } = harness;
-        const correction = vi.spyOn(learningService, 'correctRating');
-        adapter.emit('bv-1', {});
-        await flush();
-        overlay.fireAction({
-          type: mode === 'single' ? 'submit-answer' : 'submit-and-continue',
-          question: LEARNING_ITEM.question,
-          selectedIndex: 0,
-          responseTimeMs: 3000,
-        });
-        await flush();
-        const onTooEasy = learningFeedbackNotice.show.mock.lastCall?.[1]?.onTooEasy;
-        expect(onTooEasy).toBeDefined();
-        expect(await onTooEasy!()).toMatchObject({ reviewLogId: 'log-1', rating: 'easy' });
-        expect(correction).toHaveBeenCalledExactlyOnceWith('log-1', 'too-easy');
-        expect(learningService.submitCalls).toBe(1);
-        expect(sessionLogger?.logs).toHaveLength(mode === 'single' ? 1 : 0);
-        expect(playback.playCalls).toBe(mode === 'single' ? 1 : 0);
-        expect(cooldownStore.recordCalls).toBe(mode === 'single' ? 1 : 0);
-        expect(overlay.openCalls).toBe(mode === 'single' ? 1 : 2);
-      },
-    );
+    it('单题答对后的太简单操作纠正已保存日志，不新增答题或结束下一题', async () => {
+      const harness = makeController({ withSessionLogger: true });
+      const {
+        adapter,
+        overlay,
+        learningService,
+        learningFeedbackNotice,
+        sessionLogger,
+        playback,
+        cooldownStore,
+      } = harness;
+      const correction = vi.spyOn(learningService, 'correctRating');
+      adapter.emit('bv-1', {});
+      await flush();
+      overlay.fireAction({
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 3000,
+      });
+      await flush();
+      const onTooEasy = learningFeedbackNotice.show.mock.lastCall?.[1]?.onTooEasy;
+      expect(onTooEasy).toBeDefined();
+      expect(await onTooEasy!()).toMatchObject({ reviewLogId: 'log-1', rating: 'easy' });
+      expect(correction).toHaveBeenCalledExactlyOnceWith('log-1', 'too-easy');
+      expect(learningService.submitCalls).toBe(1);
+      expect(sessionLogger?.logs).toHaveLength(1);
+      expect(playback.playCalls).toBe(1);
+      expect(cooldownStore.recordCalls).toBe(1);
+      expect(overlay.openCalls).toBe(1);
+    });
 
     it('保存未完成时不显示反馈，重复提交和跳过不会打断保存', async () => {
       const { adapter, overlay, learningService, playback, learningFeedbackNotice, sessionLogger } =
@@ -729,7 +725,11 @@ describe('ContentController — 核心闭环编排', () => {
       expect(playback.playCalls).toBe(1);
       expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
         expect.objectContaining({ isCorrect: true, reviewLogId: 'log-1' }),
-        { onContinue: expect.any(Function), onTooEasy: expect.any(Function) },
+        {
+          onContinue: expect.any(Function),
+          onTooEasy: expect.any(Function),
+          onTooHard: expect.any(Function),
+        },
       );
     });
 
@@ -1007,7 +1007,7 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       expect(learningService.nextItemOptions[1]!.excludedWordIds!.has('w-1')).toBe(true);
     });
 
-    it('提交并继续：题目只接收连续模式，结果由独立提示显示', async () => {
+    it('提交并继续：不显示右下角提示，并把上一题正误传给下一题', async () => {
       const { adapter, overlay, playback, learningFeedbackNotice } = makeContinuousController();
 
       adapter.emit('bv-1', {});
@@ -1021,11 +1021,15 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
       });
       await flush();
 
-      expect(overlay.lastOptions).toEqual({ isContinuous: true });
-      expect(learningFeedbackNotice.show).toHaveBeenCalledWith(
-        expect.objectContaining({ reviewLogId: 'log-1' }),
-        { onContinue: undefined, onTooEasy: expect.any(Function) },
-      );
+      expect(overlay.lastOptions).toEqual({
+        isContinuous: true,
+        previousResult: expect.objectContaining({
+          isCorrect: true,
+          correctAnswer: '放弃',
+          reviewLogId: 'log-1',
+        }),
+      });
+      expect(learningFeedbackNotice.show).not.toHaveBeenCalled();
       expect(playback.playCalls).toBe(0);
     });
 
@@ -1725,6 +1729,45 @@ describe('ContentController — 会话标识并发唯一（Issue #19 AC5）', ()
 });
 
 describe('ContentController — 故障恢复（Issue #13）', () => {
+  it('到期卡内容不可用时显示明确错误并恢复播放', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const notice = { show: vi.fn() };
+    const { adapter, playback, learningService } = makeController({
+      contentUnavailableNotice: notice,
+    });
+    learningService.getNextItem = async () => {
+      throw new ContentUnavailableError('w-1');
+    };
+
+    adapter.emit('bv-1', {});
+    await flush();
+
+    expect(notice.show).toHaveBeenCalledTimes(1);
+    expect(playback.playCalls).toBe(1);
+    errorSpy.mockRestore();
+  });
+
+  it('恢复视频前先停止本插件持有的朗读', async () => {
+    const calls: string[] = [];
+    const playback = fakePlayback({ playing: true });
+    playback.play = vi.fn(async () => {
+      calls.push('play');
+      playback.playCalls += 1;
+      playback.setPlaying(true);
+    });
+    const { adapter, overlay } = makeController({
+      playback,
+      stopSpeech: () => calls.push('stop'),
+    });
+
+    adapter.emit('bv-1', {});
+    await flush();
+    overlay.fireAction({ type: 'skip' });
+    await flush();
+
+    expect(calls).toEqual(['stop', 'play']);
+  });
+
   it('内部恢复不记录为用户跳过，也不更新冷却', async () => {
     const { adapter, overlay, cooldownStore } = makeController();
 

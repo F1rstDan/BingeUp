@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-outcry",
+    "enToZh": [
+      {
+        "wordId": "w-diligence",
+        "reason": "选项「勤奋」不是「outcry」的主释义「强烈抗议」或其他义项。"
+      },
+      {
+        "wordId": "w-barber",
+        "reason": "选项「理发师」不是「outcry」的主释义「强烈抗议」或其他义项。"
+      },
+      {
+        "wordId": "w-likeness",
+        "reason": "选项「相像」不是「outcry」的主释义「强烈抗议」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-diligence",
+        "reason": "英文「diligence」的常见义项「勤奋」不符合主释义「强烈抗议」。"
+      },
+      {
+        "wordId": "w-barber",
+        "reason": "英文「barber」的常见义项「理发师」不符合主释义「强烈抗议」。"
+      },
+      {
+        "wordId": "w-likeness",
+        "reason": "英文「likeness」的常见义项「相像」不符合主释义「强烈抗议」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-diligence",
+        "surfaceForm": "diligence",
+        "reason": "将「diligence」代入可见句子后不表达主释义「强烈抗议」。"
+      },
+      {
+        "wordId": "w-barber",
+        "surfaceForm": "barber",
+        "reason": "将「barber」代入可见句子后不表达主释义「强烈抗议」。"
+      },
+      {
+        "wordId": "w-likeness",
+        "surfaceForm": "likeness",
+        "reason": "将「likeness」代入可见句子后不表达主释义「强烈抗议」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outdoors",
+    "enToZh": [
+      {
+        "wordId": "w-annually",
+        "reason": "选项「每年」不是「outdoors」的主释义「在户外」或其他义项。"
+      },
+      {
+        "wordId": "w-inevitably",
+        "reason": "选项「不可避免地」不是「outdoors」的主释义「在户外」或其他义项。"
+      },
+      {
+        "wordId": "w-largely",
+        "reason": "选项「主要地」不是「outdoors」的主释义「在户外」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-annually",
+        "reason": "英文「annually」的常见义项「每年」不符合主释义「在户外」。"
+      },
+      {
+        "wordId": "w-inevitably",
+        "reason": "英文「inevitably」的常见义项「不可避免地」不符合主释义「在户外」。"
+      },
+      {
+        "wordId": "w-largely",
+        "reason": "英文「largely」的常见义项「主要地」不符合主释义「在户外」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-annually",
+        "surfaceForm": "annually",
+        "reason": "将「annually」代入可见句子后不表达主释义「在户外」。"
+      },
+      {
+        "wordId": "w-inevitably",
+        "surfaceForm": "inevitably",
+        "reason": "将「inevitably」代入可见句子后不表达主释义「在户外」。"
+      },
+      {
+        "wordId": "w-largely",
+        "surfaceForm": "largely",
+        "reason": "将「largely」代入可见句子后不表达主释义「在户外」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outlaw",
+    "enToZh": [
+      {
+        "wordId": "w-hound",
+        "reason": "选项「猎犬」不是「outlaw」的主释义「不法之徒」或其他义项。"
+      },
+      {
+        "wordId": "w-notation",
+        "reason": "选项「符号」不是「outlaw」的主释义「不法之徒」或其他义项。"
+      },
+      {
+        "wordId": "w-mister",
+        "reason": "选项「先生」不是「outlaw」的主释义「不法之徒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hound",
+        "reason": "英文「hound」的常见义项「猎犬」不符合主释义「不法之徒」。"
+      },
+      {
+        "wordId": "w-notation",
+        "reason": "英文「notation」的常见义项「符号」不符合主释义「不法之徒」。"
+      },
+      {
+        "wordId": "w-mister",
+        "reason": "英文「Mister」的常见义项「先生」不符合主释义「不法之徒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hound",
+        "surfaceForm": "hound",
+        "reason": "将「hound」代入可见句子后不表达主释义「不法之徒」。"
+      },
+      {
+        "wordId": "w-notation",
+        "surfaceForm": "notation",
+        "reason": "将「notation」代入可见句子后不表达主释义「不法之徒」。"
+      },
+      {
+        "wordId": "w-mister",
+        "surfaceForm": "Mister",
+        "reason": "将「Mister」代入可见句子后不表达主释义「不法之徒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outlet",
+    "enToZh": [
+      {
+        "wordId": "w-limb",
+        "reason": "选项「肢体」不是「outlet」的主释义「出口」或其他义项。"
+      },
+      {
+        "wordId": "w-allegation",
+        "reason": "选项「指控」不是「outlet」的主释义「出口」或其他义项。"
+      },
+      {
+        "wordId": "w-mainland",
+        "reason": "选项「大陆」不是「outlet」的主释义「出口」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-limb",
+        "reason": "英文「limb」的常见义项「肢体」不符合主释义「出口」。"
+      },
+      {
+        "wordId": "w-allegation",
+        "reason": "英文「allegation」的常见义项「指控」不符合主释义「出口」。"
+      },
+      {
+        "wordId": "w-mainland",
+        "reason": "英文「mainland」的常见义项「大陆」不符合主释义「出口」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-limb",
+        "surfaceForm": "limb",
+        "reason": "将「limb」代入可见句子后不表达主释义「出口」。"
+      },
+      {
+        "wordId": "w-allegation",
+        "surfaceForm": "allegation",
+        "reason": "将「allegation」代入可见句子后不表达主释义「出口」。"
+      },
+      {
+        "wordId": "w-mainland",
+        "surfaceForm": "mainland",
+        "reason": "将「mainland」代入可见句子后不表达主释义「出口」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outline",
+    "enToZh": [
+      {
+        "wordId": "w-gene",
+        "reason": "选项「基因」不是「outline」的主释义「提纲」或其他义项。"
+      },
+      {
+        "wordId": "w-counselor",
+        "reason": "选项「辅导员」不是「outline」的主释义「提纲」或其他义项。"
+      },
+      {
+        "wordId": "w-minority",
+        "reason": "选项「少数」不是「outline」的主释义「提纲」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gene",
+        "reason": "英文「gene」的常见义项「基因」不符合主释义「提纲」。"
+      },
+      {
+        "wordId": "w-counselor",
+        "reason": "英文「counselor」的常见义项「辅导员」不符合主释义「提纲」。"
+      },
+      {
+        "wordId": "w-minority",
+        "reason": "英文「minority」的常见义项「少数」不符合主释义「提纲」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gene",
+        "surfaceForm": "gene",
+        "reason": "将「gene」代入可见句子后不表达主释义「提纲」。"
+      },
+      {
+        "wordId": "w-counselor",
+        "surfaceForm": "counselor",
+        "reason": "将「counselor」代入可见句子后不表达主释义「提纲」。"
+      },
+      {
+        "wordId": "w-minority",
+        "surfaceForm": "minority",
+        "reason": "将「minority」代入可见句子后不表达主释义「提纲」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outlook",
+    "enToZh": [
+      {
+        "wordId": "w-installation",
+        "reason": "选项「安装」不是「outlook」的主释义「前景」或其他义项。"
+      },
+      {
+        "wordId": "w-constraint",
+        "reason": "选项「限制」不是「outlook」的主释义「前景」或其他义项。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「outlook」的主释义「前景」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-installation",
+        "reason": "英文「installation」的常见义项「安装」不符合主释义「前景」。"
+      },
+      {
+        "wordId": "w-constraint",
+        "reason": "英文「constraint」的常见义项「限制」不符合主释义「前景」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「前景」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-installation",
+        "surfaceForm": "installation",
+        "reason": "将「installation」代入可见句子后不表达主释义「前景」。"
+      },
+      {
+        "wordId": "w-constraint",
+        "surfaceForm": "constraint",
+        "reason": "将「constraint」代入可见句子后不表达主释义「前景」。"
+      },
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「前景」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-output",
+    "enToZh": [
+      {
+        "wordId": "w-coal",
+        "reason": "选项「煤」不是「output」的主释义「产量」或其他义项。"
+      },
+      {
+        "wordId": "w-father",
+        "reason": "选项「父亲」不是「output」的主释义「产量」或其他义项。"
+      },
+      {
+        "wordId": "w-destruction",
+        "reason": "选项「破坏」不是「output」的主释义「产量」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coal",
+        "reason": "英文「coal」的常见义项「煤」不符合主释义「产量」。"
+      },
+      {
+        "wordId": "w-father",
+        "reason": "英文「father」的常见义项「父亲」不符合主释义「产量」。"
+      },
+      {
+        "wordId": "w-destruction",
+        "reason": "英文「destruction」的常见义项「破坏」不符合主释义「产量」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coal",
+        "surfaceForm": "coal",
+        "reason": "将「coal」代入可见句子后不表达主释义「产量」。"
+      },
+      {
+        "wordId": "w-father",
+        "surfaceForm": "father",
+        "reason": "将「father」代入可见句子后不表达主释义「产量」。"
+      },
+      {
+        "wordId": "w-destruction",
+        "surfaceForm": "destruction",
+        "reason": "将「destruction」代入可见句子后不表达主释义「产量」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outrage",
+    "enToZh": [
+      {
+        "wordId": "w-brake",
+        "reason": "选项「刹车」不是「outrage」的主释义「愤怒」或其他义项。"
+      },
+      {
+        "wordId": "w-clue",
+        "reason": "选项「线索」不是「outrage」的主释义「愤怒」或其他义项。"
+      },
+      {
+        "wordId": "w-bee",
+        "reason": "选项「蜜蜂」不是「outrage」的主释义「愤怒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-brake",
+        "reason": "英文「brake」的常见义项「刹车」不符合主释义「愤怒」。"
+      },
+      {
+        "wordId": "w-clue",
+        "reason": "英文「clue」的常见义项「线索」不符合主释义「愤怒」。"
+      },
+      {
+        "wordId": "w-bee",
+        "reason": "英文「bee」的常见义项「蜜蜂」不符合主释义「愤怒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-brake",
+        "surfaceForm": "brake",
+        "reason": "将「brake」代入可见句子后不表达主释义「愤怒」。"
+      },
+      {
+        "wordId": "w-clue",
+        "surfaceForm": "clue",
+        "reason": "将「clue」代入可见句子后不表达主释义「愤怒」。"
+      },
+      {
+        "wordId": "w-bee",
+        "surfaceForm": "bee",
+        "reason": "将「bee」代入可见句子后不表达主释义「愤怒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outside",
+    "enToZh": [
+      {
+        "wordId": "w-behind",
+        "reason": "选项「在…后面」不是「outside」的主释义「在……外面」或其他义项。"
+      },
+      {
+        "wordId": "w-onto",
+        "reason": "选项「到……上」不是「outside」的主释义「在……外面」或其他义项。"
+      },
+      {
+        "wordId": "w-along",
+        "reason": "选项「沿着」不是「outside」的主释义「在……外面」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-behind",
+        "reason": "英文「behind」的常见义项「在…后面」不符合主释义「在……外面」。"
+      },
+      {
+        "wordId": "w-onto",
+        "reason": "英文「onto」的常见义项「到……上」不符合主释义「在……外面」。"
+      },
+      {
+        "wordId": "w-along",
+        "reason": "英文「along」的常见义项「沿着」不符合主释义「在……外面」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-behind",
+        "surfaceForm": "behind",
+        "reason": "将「behind」代入可见句子后不表达主释义「在……外面」。"
+      },
+      {
+        "wordId": "w-onto",
+        "surfaceForm": "onto",
+        "reason": "将「onto」代入可见句子后不表达主释义「在……外面」。"
+      },
+      {
+        "wordId": "w-along",
+        "surfaceForm": "along",
+        "reason": "将「along」代入可见句子后不表达主释义「在……外面」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outskirt",
+    "enToZh": [
+      {
+        "wordId": "w-derivation",
+        "reason": "选项「起源」不是「outskirt」的主释义「郊区」或其他义项。"
+      },
+      {
+        "wordId": "w-maturation",
+        "reason": "选项「成熟」不是「outskirt」的主释义「郊区」或其他义项。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "reason": "选项「祝贺」不是「outskirt」的主释义「郊区」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-derivation",
+        "reason": "英文「derivation」的常见义项「起源」不符合主释义「郊区」。"
+      },
+      {
+        "wordId": "w-maturation",
+        "reason": "英文「maturation」的常见义项「成熟」不符合主释义「郊区」。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "reason": "英文「congratulation」的常见义项「祝贺」不符合主释义「郊区」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-derivation",
+        "surfaceForm": "derivation",
+        "reason": "将「derivation」代入可见句子后不表达主释义「郊区」。"
+      },
+      {
+        "wordId": "w-maturation",
+        "surfaceForm": "maturation",
+        "reason": "将「maturation」代入可见句子后不表达主释义「郊区」。"
+      },
+      {
+        "wordId": "w-congratulation",
+        "surfaceForm": "congratulation",
+        "reason": "将「congratulation」代入可见句子后不表达主释义「郊区」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-outwards",
+    "enToZh": [
+      {
+        "wordId": "w-indiscriminately",
+        "reason": "选项「不加区分地」不是「outwards」的主释义「向外」或其他义项。"
+      },
+      {
+        "wordId": "w-inversely",
+        "reason": "选项「成反比地」不是「outwards」的主释义「向外」或其他义项。"
+      },
+      {
+        "wordId": "w-fro",
+        "reason": "选项「往返」不是「outwards」的主释义「向外」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-indiscriminately",
+        "reason": "英文「indiscriminately」的常见义项「不加区分地」不符合主释义「向外」。"
+      },
+      {
+        "wordId": "w-inversely",
+        "reason": "英文「inversely」的常见义项「成反比地」不符合主释义「向外」。"
+      },
+      {
+        "wordId": "w-fro",
+        "reason": "英文「fro」的常见义项「往返」不符合主释义「向外」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-indiscriminately",
+        "surfaceForm": "indiscriminately",
+        "reason": "将「indiscriminately」代入可见句子后不表达主释义「向外」。"
+      },
+      {
+        "wordId": "w-inversely",
+        "surfaceForm": "inversely",
+        "reason": "将「inversely」代入可见句子后不表达主释义「向外」。"
+      },
+      {
+        "wordId": "w-fro",
+        "surfaceForm": "fro",
+        "reason": "将「fro」代入可见句子后不表达主释义「向外」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-oval",
+    "enToZh": [
+      {
+        "wordId": "w-elder",
+        "reason": "选项「年长的」不是「oval」的主释义「椭圆形的」或其他义项。"
+      },
+      {
+        "wordId": "w-greek",
+        "reason": "选项「希腊的」不是「oval」的主释义「椭圆形的」或其他义项。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "reason": "选项「人道主义的」不是「oval」的主释义「椭圆形的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-elder",
+        "reason": "英文「elder」的常见义项「年长的」不符合主释义「椭圆形的」。"
+      },
+      {
+        "wordId": "w-greek",
+        "reason": "英文「Greek」的常见义项「希腊的」不符合主释义「椭圆形的」。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "reason": "英文「humanitarian」的常见义项「人道主义的」不符合主释义「椭圆形的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-elder",
+        "surfaceForm": "elder",
+        "reason": "将「elder」代入可见句子后不表达主释义「椭圆形的」。"
+      },
+      {
+        "wordId": "w-greek",
+        "surfaceForm": "Greek",
+        "reason": "将「Greek」代入可见句子后不表达主释义「椭圆形的」。"
+      },
+      {
+        "wordId": "w-humanitarian",
+        "surfaceForm": "humanitarian",
+        "reason": "将「humanitarian」代入可见句子后不表达主释义「椭圆形的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-oven",
+    "enToZh": [
+      {
+        "wordId": "w-engineer",
+        "reason": "选项「工程师」不是「oven」的主释义「烤箱」或其他义项。"
+      },
+      {
+        "wordId": "w-iron",
+        "reason": "选项「铁」不是「oven」的主释义「烤箱」或其他义项。"
+      },
+      {
+        "wordId": "w-nation",
+        "reason": "选项「国家」不是「oven」的主释义「烤箱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-engineer",
+        "reason": "英文「engineer」的常见义项「工程师」不符合主释义「烤箱」。"
+      },
+      {
+        "wordId": "w-iron",
+        "reason": "英文「iron」的常见义项「铁」不符合主释义「烤箱」。"
+      },
+      {
+        "wordId": "w-nation",
+        "reason": "英文「nation」的常见义项「国家」不符合主释义「烤箱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-engineer",
+        "surfaceForm": "engineer",
+        "reason": "将「engineer」代入可见句子后不表达主释义「烤箱」。"
+      },
+      {
+        "wordId": "w-iron",
+        "surfaceForm": "iron",
+        "reason": "将「iron」代入可见句子后不表达主释义「烤箱」。"
+      },
+      {
+        "wordId": "w-nation",
+        "surfaceForm": "nation",
+        "reason": "将「nation」代入可见句子后不表达主释义「烤箱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overcoat",
+    "enToZh": [
+      {
+        "wordId": "w-fright",
+        "reason": "选项「惊吓」不是「overcoat」的主释义「大衣」或其他义项。"
+      },
+      {
+        "wordId": "w-freight",
+        "reason": "选项「货物」不是「overcoat」的主释义「大衣」或其他义项。"
+      },
+      {
+        "wordId": "w-gorilla",
+        "reason": "选项「大猩猩」不是「overcoat」的主释义「大衣」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fright",
+        "reason": "英文「fright」的常见义项「惊吓」不符合主释义「大衣」。"
+      },
+      {
+        "wordId": "w-freight",
+        "reason": "英文「freight」的常见义项「货物」不符合主释义「大衣」。"
+      },
+      {
+        "wordId": "w-gorilla",
+        "reason": "英文「gorilla」的常见义项「大猩猩」不符合主释义「大衣」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fright",
+        "surfaceForm": "fright",
+        "reason": "将「fright」代入可见句子后不表达主释义「大衣」。"
+      },
+      {
+        "wordId": "w-freight",
+        "surfaceForm": "freight",
+        "reason": "将「freight」代入可见句子后不表达主释义「大衣」。"
+      },
+      {
+        "wordId": "w-gorilla",
+        "surfaceForm": "gorilla",
+        "reason": "将「gorilla」代入可见句子后不表达主释义「大衣」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overcome",
+    "enToZh": [
+      {
+        "wordId": "w-let",
+        "reason": "选项「让」不是「overcome」的主释义「克服」或其他义项。"
+      },
+      {
+        "wordId": "w-arrest",
+        "reason": "选项「逮捕」不是「overcome」的主释义「克服」或其他义项。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "选项「倾倒」不是「overcome」的主释义「克服」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-let",
+        "reason": "英文「let」的常见义项「让」不符合主释义「克服」。"
+      },
+      {
+        "wordId": "w-arrest",
+        "reason": "英文「arrest」的常见义项「逮捕」不符合主释义「克服」。"
+      },
+      {
+        "wordId": "w-pour",
+        "reason": "英文「pour」的常见义项「倾倒」不符合主释义「克服」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-let",
+        "surfaceForm": "let",
+        "reason": "将「let」代入可见句子后不表达主释义「克服」。"
+      },
+      {
+        "wordId": "w-arrest",
+        "surfaceForm": "arrest",
+        "reason": "将「arrest」代入可见句子后不表达主释义「克服」。"
+      },
+      {
+        "wordId": "w-pour",
+        "surfaceForm": "pour",
+        "reason": "将「pour」代入可见句子后不表达主释义「克服」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overestimate",
+    "enToZh": [
+      {
+        "wordId": "w-afflict",
+        "reason": "选项「折磨」不是「overestimate」的主释义「高估」或其他义项。"
+      },
+      {
+        "wordId": "w-flap",
+        "reason": "选项「拍打」不是「overestimate」的主释义「高估」或其他义项。"
+      },
+      {
+        "wordId": "w-ascend",
+        "reason": "选项「上升」不是「overestimate」的主释义「高估」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-afflict",
+        "reason": "英文「afflict」的常见义项「折磨」不符合主释义「高估」。"
+      },
+      {
+        "wordId": "w-flap",
+        "reason": "英文「flap」的常见义项「拍打」不符合主释义「高估」。"
+      },
+      {
+        "wordId": "w-ascend",
+        "reason": "英文「ascend」的常见义项「上升」不符合主释义「高估」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-afflict",
+        "surfaceForm": "afflict",
+        "reason": "将「afflict」代入可见句子后不表达主释义「高估」。"
+      },
+      {
+        "wordId": "w-flap",
+        "surfaceForm": "flap",
+        "reason": "将「flap」代入可见句子后不表达主释义「高估」。"
+      },
+      {
+        "wordId": "w-ascend",
+        "surfaceForm": "ascend",
+        "reason": "将「ascend」代入可见句子后不表达主释义「高估」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overflow",
+    "enToZh": [
+      {
+        "wordId": "w-disable",
+        "reason": "选项「禁用」不是「overflow」的主释义「溢出」或其他义项。"
+      },
+      {
+        "wordId": "w-ascend",
+        "reason": "选项「上升」不是「overflow」的主释义「溢出」或其他义项。"
+      },
+      {
+        "wordId": "w-augment",
+        "reason": "选项「增加」不是「overflow」的主释义「溢出」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-disable",
+        "reason": "英文「disable」的常见义项「禁用」不符合主释义「溢出」。"
+      },
+      {
+        "wordId": "w-ascend",
+        "reason": "英文「ascend」的常见义项「上升」不符合主释义「溢出」。"
+      },
+      {
+        "wordId": "w-augment",
+        "reason": "英文「augment」的常见义项「增加」不符合主释义「溢出」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-disable",
+        "surfaceForm": "disable",
+        "reason": "将「disable」代入可见句子后不表达主释义「溢出」。"
+      },
+      {
+        "wordId": "w-ascend",
+        "surfaceForm": "ascend",
+        "reason": "将「ascend」代入可见句子后不表达主释义「溢出」。"
+      },
+      {
+        "wordId": "w-augment",
+        "surfaceForm": "augment",
+        "reason": "将「augment」代入可见句子后不表达主释义「溢出」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overhang",
+    "enToZh": [
+      {
+        "wordId": "w-despatch",
+        "reason": "选项「发送」不是「overhang」的主释义「悬垂」或其他义项。"
+      },
+      {
+        "wordId": "w-envisage",
+        "reason": "选项「设想」不是「overhang」的主释义「悬垂」或其他义项。"
+      },
+      {
+        "wordId": "w-lubricate",
+        "reason": "选项「润滑」不是「overhang」的主释义「悬垂」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-despatch",
+        "reason": "英文「despatch」的常见义项「发送」不符合主释义「悬垂」。"
+      },
+      {
+        "wordId": "w-envisage",
+        "reason": "英文「envisage」的常见义项「设想」不符合主释义「悬垂」。"
+      },
+      {
+        "wordId": "w-lubricate",
+        "reason": "英文「lubricate」的常见义项「润滑」不符合主释义「悬垂」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-despatch",
+        "surfaceForm": "despatch",
+        "reason": "将「despatch」代入可见句子后不表达主释义「悬垂」。"
+      },
+      {
+        "wordId": "w-envisage",
+        "surfaceForm": "envisage",
+        "reason": "将「envisage」代入可见句子后不表达主释义「悬垂」。"
+      },
+      {
+        "wordId": "w-lubricate",
+        "surfaceForm": "lubricate",
+        "reason": "将「lubricate」代入可见句子后不表达主释义「悬垂」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overhead",
+    "enToZh": [
+      {
+        "wordId": "w-accordingly",
+        "reason": "选项「因此」不是「overhead」的主释义「在头顶上」或其他义项。"
+      },
+      {
+        "wordId": "w-likewise",
+        "reason": "选项「同样地」不是「overhead」的主释义「在头顶上」或其他义项。"
+      },
+      {
+        "wordId": "w-economically",
+        "reason": "选项「在经济上」不是「overhead」的主释义「在头顶上」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accordingly",
+        "reason": "英文「accordingly」的常见义项「因此」不符合主释义「在头顶上」。"
+      },
+      {
+        "wordId": "w-likewise",
+        "reason": "英文「likewise」的常见义项「同样地」不符合主释义「在头顶上」。"
+      },
+      {
+        "wordId": "w-economically",
+        "reason": "英文「economically」的常见义项「在经济上」不符合主释义「在头顶上」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accordingly",
+        "surfaceForm": "accordingly",
+        "reason": "将「accordingly」代入可见句子后不表达主释义「在头顶上」。"
+      },
+      {
+        "wordId": "w-likewise",
+        "surfaceForm": "likewise",
+        "reason": "将「likewise」代入可见句子后不表达主释义「在头顶上」。"
+      },
+      {
+        "wordId": "w-economically",
+        "surfaceForm": "economically",
+        "reason": "将「economically」代入可见句子后不表达主释义「在头顶上」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overhear",
+    "enToZh": [
+      {
+        "wordId": "w-enclose",
+        "reason": "选项「围住」不是「overhear」的主释义「无意中听到」或其他义项。"
+      },
+      {
+        "wordId": "w-astonish",
+        "reason": "选项「使惊讶」不是「overhear」的主释义「无意中听到」或其他义项。"
+      },
+      {
+        "wordId": "w-beware",
+        "reason": "选项「当心」不是「overhear」的主释义「无意中听到」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-enclose",
+        "reason": "英文「enclose」的常见义项「围住」不符合主释义「无意中听到」。"
+      },
+      {
+        "wordId": "w-astonish",
+        "reason": "英文「astonish」的常见义项「使惊讶」不符合主释义「无意中听到」。"
+      },
+      {
+        "wordId": "w-beware",
+        "reason": "英文「beware」的常见义项「当心」不符合主释义「无意中听到」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-enclose",
+        "surfaceForm": "enclose",
+        "reason": "将「enclose」代入可见句子后不表达主释义「无意中听到」。"
+      },
+      {
+        "wordId": "w-astonish",
+        "surfaceForm": "astonish",
+        "reason": "将「astonish」代入可见句子后不表达主释义「无意中听到」。"
+      },
+      {
+        "wordId": "w-beware",
+        "surfaceForm": "beware",
+        "reason": "将「beware」代入可见句子后不表达主释义「无意中听到」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overlap",
+    "enToZh": [
+      {
+        "wordId": "w-bestow",
+        "reason": "选项「授予」不是「overlap」的主释义「重叠」或其他义项。"
+      },
+      {
+        "wordId": "w-deduce",
+        "reason": "选项「推断」不是「overlap」的主释义「重叠」或其他义项。"
+      },
+      {
+        "wordId": "w-enclose",
+        "reason": "选项「围住」不是「overlap」的主释义「重叠」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bestow",
+        "reason": "英文「bestow」的常见义项「授予」不符合主释义「重叠」。"
+      },
+      {
+        "wordId": "w-deduce",
+        "reason": "英文「deduce」的常见义项「推断」不符合主释义「重叠」。"
+      },
+      {
+        "wordId": "w-enclose",
+        "reason": "英文「enclose」的常见义项「围住」不符合主释义「重叠」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bestow",
+        "surfaceForm": "bestow",
+        "reason": "将「bestow」代入可见句子后不表达主释义「重叠」。"
+      },
+      {
+        "wordId": "w-deduce",
+        "surfaceForm": "deduce",
+        "reason": "将「deduce」代入可见句子后不表达主释义「重叠」。"
+      },
+      {
+        "wordId": "w-enclose",
+        "surfaceForm": "enclose",
+        "reason": "将「enclose」代入可见句子后不表达主释义「重叠」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overload",
+    "enToZh": [
+      {
+        "wordId": "w-aggravate",
+        "reason": "选项「加重」不是「overload」的主释义「使超载」或其他义项。"
+      },
+      {
+        "wordId": "w-despise",
+        "reason": "选项「鄙视」不是「overload」的主释义「使超载」或其他义项。"
+      },
+      {
+        "wordId": "w-mingle",
+        "reason": "选项「混合」不是「overload」的主释义「使超载」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-aggravate",
+        "reason": "英文「aggravate」的常见义项「加重」不符合主释义「使超载」。"
+      },
+      {
+        "wordId": "w-despise",
+        "reason": "英文「despise」的常见义项「鄙视」不符合主释义「使超载」。"
+      },
+      {
+        "wordId": "w-mingle",
+        "reason": "英文「mingle」的常见义项「混合」不符合主释义「使超载」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-aggravate",
+        "surfaceForm": "aggravate",
+        "reason": "将「aggravate」代入可见句子后不表达主释义「使超载」。"
+      },
+      {
+        "wordId": "w-despise",
+        "surfaceForm": "despise",
+        "reason": "将「despise」代入可见句子后不表达主释义「使超载」。"
+      },
+      {
+        "wordId": "w-mingle",
+        "surfaceForm": "mingle",
+        "reason": "将「mingle」代入可见句子后不表达主释义「使超载」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overlook",
+    "enToZh": [
+      {
+        "wordId": "w-offset",
+        "reason": "选项「抵消」不是「overlook」的主释义「忽略」或其他义项。"
+      },
+      {
+        "wordId": "w-excel",
+        "reason": "选项「擅长」不是「overlook」的主释义「忽略」或其他义项。"
+      },
+      {
+        "wordId": "w-drain",
+        "reason": "选项「排干」不是「overlook」的主释义「忽略」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-offset",
+        "reason": "英文「offset」的常见义项「抵消」不符合主释义「忽略」。"
+      },
+      {
+        "wordId": "w-excel",
+        "reason": "英文「excel」的常见义项「擅长」不符合主释义「忽略」。"
+      },
+      {
+        "wordId": "w-drain",
+        "reason": "英文「drain」的常见义项「排干」不符合主释义「忽略」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-offset",
+        "surfaceForm": "offset",
+        "reason": "将「offset」代入可见句子后不表达主释义「忽略」。"
+      },
+      {
+        "wordId": "w-excel",
+        "surfaceForm": "excel",
+        "reason": "将「excel」代入可见句子后不表达主释义「忽略」。"
+      },
+      {
+        "wordId": "w-drain",
+        "surfaceForm": "drain",
+        "reason": "将「drain」代入可见句子后不表达主释义「忽略」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overnight",
+    "enToZh": [
+      {
+        "wordId": "w-likewise",
+        "reason": "选项「同样地」不是「overnight」的主释义「一夜之间」或其他义项。"
+      },
+      {
+        "wordId": "w-consequently",
+        "reason": "选项「因此」不是「overnight」的主释义「一夜之间」或其他义项。"
+      },
+      {
+        "wordId": "w-fortunately",
+        "reason": "选项「幸运地」不是「overnight」的主释义「一夜之间」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-likewise",
+        "reason": "英文「likewise」的常见义项「同样地」不符合主释义「一夜之间」。"
+      },
+      {
+        "wordId": "w-consequently",
+        "reason": "英文「consequently」的常见义项「因此」不符合主释义「一夜之间」。"
+      },
+      {
+        "wordId": "w-fortunately",
+        "reason": "英文「fortunately」的常见义项「幸运地」不符合主释义「一夜之间」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-likewise",
+        "surfaceForm": "likewise",
+        "reason": "将「likewise」代入可见句子后不表达主释义「一夜之间」。"
+      },
+      {
+        "wordId": "w-consequently",
+        "surfaceForm": "consequently",
+        "reason": "将「consequently」代入可见句子后不表达主释义「一夜之间」。"
+      },
+      {
+        "wordId": "w-fortunately",
+        "surfaceForm": "fortunately",
+        "reason": "将「fortunately」代入可见句子后不表达主释义「一夜之间」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-overtake",
+    "enToZh": [
+      {
+        "wordId": "w-ascribe",
+        "reason": "选项「归因于」不是「overtake」的主释义「超过」或其他义项。"
+      },
+      {
+        "wordId": "w-mislead",
+        "reason": "选项「误导」不是「overtake」的主释义「超过」或其他义项。"
+      },
+      {
+        "wordId": "w-lighten",
+        "reason": "选项「减轻」不是「overtake」的主释义「超过」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ascribe",
+        "reason": "英文「ascribe」的常见义项「归因于」不符合主释义「超过」。"
+      },
+      {
+        "wordId": "w-mislead",
+        "reason": "英文「mislead」的常见义项「误导」不符合主释义「超过」。"
+      },
+      {
+        "wordId": "w-lighten",
+        "reason": "英文「lighten」的常见义项「减轻」不符合主释义「超过」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ascribe",
+        "surfaceForm": "ascribe",
+        "reason": "将「ascribe」代入可见句子后不表达主释义「超过」。"
+      },
+      {
+        "wordId": "w-mislead",
+        "surfaceForm": "mislead",
+        "reason": "将「mislead」代入可见句子后不表达主释义「超过」。"
+      },
+      {
+        "wordId": "w-lighten",
+        "surfaceForm": "lighten",
+        "reason": "将「lighten」代入可见句子后不表达主释义「超过」。"
+      }
+    ],
+    "spelling": null
+  }
+]

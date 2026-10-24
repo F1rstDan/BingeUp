@@ -13,6 +13,7 @@ import type {
   SpellingSubmission,
   SubmissionResult,
   UserCorrection,
+  WordQuestionPlan,
   WordRecord,
 } from '@/types';
 import {
@@ -22,6 +23,7 @@ import {
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import { FsrsReviewScheduler } from '@/learning/review-scheduler';
+import { acceptanceEvents, type ContentCompatibilityRecord } from '@/storage/content-compat';
 import {
   chooseQuestionType,
   generateContextChoiceQuestion,
@@ -29,6 +31,13 @@ import {
   generateSpellingQuestion,
   generateZhToEnQuestion,
 } from '@/learning/question-generator';
+import {
+  ContentUnavailableError,
+  generatePlannedContextChoice,
+  generatePlannedEnToZh,
+  generatePlannedSpelling,
+  generatePlannedZhToEn,
+} from '@/learning/planned-questions';
 
 /**
  * 本地词库端口：学习服务通过此端口读取单词与词库。
@@ -62,6 +71,10 @@ export interface WordBankPort {
   }): Promise<WordRecord[]>;
   /** 列出所有单词（用于干扰项池）。 */
   listWords(): Promise<WordRecord[]>;
+  /** 新内容包读取固定题组；旧内容或自定义词库可不提供。 */
+  getQuestionPlan?(wordId: string): Promise<WordQuestionPlan | null>;
+  /** 当前内容包类型，用于区分旧动态出题与新固定题组。 */
+  getContentKind?(): 'legacy-v1' | 'content-v2';
 }
 
 /** 时钟端口，便于测试注入。 */
@@ -71,6 +84,9 @@ interface Clock {
 
 /** 短期学习词接受后最早可测试的延迟（CONTEXT.md：最早十分钟后才可测试）。 */
 const SHORT_TERM_DELAY_MS = 10 * 60_000;
+
+/** 同一题已完成提交的幂等窗口，覆盖重复按钮和迟到的重复消息。 */
+const SUBMISSION_IDEMPOTENCY_MS = 30_000;
 
 /** 自报认识词验证题延迟区间：一至两天后（CONTEXT.md）。 */
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -105,6 +121,8 @@ export interface LearningServiceDeps {
   };
   /** 随机函数，用于自报认识词验证题延迟（[1,2) 天），缺省 Math.random。 */
   random?: () => number;
+  /** 合卡前接受事实；缺省表示没有兼容记录。 */
+  compatibility?: { get(): Promise<ContentCompatibilityRecord | null> };
 }
 
 /**
@@ -196,7 +214,9 @@ export class LearningService {
     ]);
     const allowSpelling = (options?.allowSpelling ?? false) && settings.spellingEnabled;
     const excludedWordIds = options?.excludedWordIds;
-    const availableCards = allCards.filter((card) => !excludedWordIds?.has(card.wordId));
+    const availableCards = allCards.filter(
+      (card) => !card.disabled && !excludedWordIds?.has(card.wordId),
+    );
 
     // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
     const dueWrongLongTerm = this.findDueLongTermWithRecentError(availableCards, now);
@@ -228,10 +248,10 @@ export class LearningService {
 
     // 5. 无到期复习：候选新词（受每日上限约束）
     const dailyLimit = settings.dailyNewWordLimit;
-    if (this.countTodayNewWords(allCards, now) >= dailyLimit) {
+    if ((await this.countTodayNewWords(allCards, now)) >= dailyLimit) {
       if (options?.allowEarlyShortTermReview) {
         const earlyShortTerm = this.findEarliestShortTermForActiveReview(
-          allCards,
+          availableCards,
           now,
           excludedWordIds,
         );
@@ -415,9 +435,12 @@ export class LearningService {
     const { cards, logs, clock } = this.deps;
     const now = clock.now();
 
-    // 自动评分（Issue #7 验收标准 5）
+    // 自动评分（Issue #7 验收标准 5）。旧题在身份合卡后不得写入新卡或孤立日志。
     const card = await cards.getById(question.cardId);
-    const recentLogs = card ? await logs.getByCardId(card.id) : [];
+    if (!card) {
+      throw new ContentUnavailableError(question.wordId, `学习卡已失效：${question.cardId}`);
+    }
+    const recentLogs = await logs.getByCardId(card.id);
     const rating = this.autoRate({
       isCorrect,
       responseTimeMs: input.responseTimeMs,
@@ -489,9 +512,6 @@ export class LearningService {
       card.updatedAt = now;
       // Issue #19 AC3：学习卡更新与复习日志写入在同一事务内提交，保证原子一致。
       await cards.saveCardAndLog(card, reviewLog);
-    } else {
-      // 学习卡不存在：仅写复习日志（保留原行为；题目生成时学习卡应存在，此处为兜底）。
-      await logs.save(reviewLog);
     }
 
     return {
@@ -512,6 +532,7 @@ export class LearningService {
    *
    * - `guessed`（其实是蒙的）：将评分降低至 again（如果是答对的话）；
    * - `too-easy`（这个太简单）：将评分提升至 easy。
+   * - `too-hard`（太难了）：将评分降低至 hard。
    *
    * 纠正会回滚到评分前的调度器状态，再用纠正后的评分重新调度，
    * 避免重复推进调度器状态。并更新复习日志的评分与纠正标记。
@@ -542,9 +563,12 @@ export class LearningService {
       log.userCorrection = correction;
 
       const card = await cards.getById(log.cardId);
+      if (!card) {
+        throw new ContentUnavailableError(log.wordId, `学习卡已失效：${log.cardId}`);
+      }
       let nextReviewAt: number | undefined;
 
-      if (card && card.stage === 'long-term') {
+      if (card.stage === 'long-term') {
         // 回滚-重放：用评分前的调度器状态 + 纠正后评分重新调度（Issue #7 验收标准 5）
         const previousState = log.previousSchedulerState;
         if (previousState) {
@@ -585,6 +609,11 @@ export class LearningService {
 
   /** 同一题目在途提交的 Promise 缓存；完成或失败后移除。 */
   private readonly inFlightSubmissions = new Map<string, Promise<SubmissionResult>>();
+  /** 已完成提交的短幂等窗口：重复消息在第一条完成后到达时仍返回同一结果。 */
+  private readonly recentSubmissions = new Map<
+    string,
+    { result: SubmissionResult; expiresAt: number }
+  >();
   /** 同一复习日志在途纠正的 Promise 缓存；完成或失败后移除。 */
   private readonly inFlightCorrections = new Map<string, Promise<CorrectionResult>>();
 
@@ -597,13 +626,35 @@ export class LearningService {
     questionId: string,
     run: () => Promise<SubmissionResult>,
   ): Promise<SubmissionResult> {
+    const now = this.deps.clock.now();
+    const cached = this.recentSubmissions.get(questionId);
+    if (cached) {
+      if (cached.expiresAt > now) return Promise.resolve(cached.result);
+      this.recentSubmissions.delete(questionId);
+    }
     const existing = this.inFlightSubmissions.get(questionId);
     if (existing) return existing;
-    const promise = run().finally(() => {
-      this.inFlightSubmissions.delete(questionId);
-    });
+    const promise = run()
+      .then((result) => {
+        this.recentSubmissions.set(questionId, {
+          result,
+          expiresAt: this.deps.clock.now() + SUBMISSION_IDEMPOTENCY_MS,
+        });
+        this.pruneRecentSubmissions();
+        return result;
+      })
+      .finally(() => {
+        this.inFlightSubmissions.delete(questionId);
+      });
     this.inFlightSubmissions.set(questionId, promise);
     return promise;
+  }
+
+  private pruneRecentSubmissions(): void {
+    const now = this.deps.clock.now();
+    for (const [questionId, entry] of this.recentSubmissions) {
+      if (entry.expiresAt <= now) this.recentSubmissions.delete(questionId);
+    }
   }
 
   /** 同一复习日志的并发纠正共享同一次结果（Issue #19 AC4）。 */
@@ -661,6 +712,9 @@ export class LearningService {
       // 蒙对的：降低到 again（重新学习）
       return 'again';
     }
+    if (correction === 'too-hard') {
+      return 'hard';
+    }
     // too-easy：提升到 easy
     return 'easy';
   }
@@ -689,6 +743,7 @@ export class LearningService {
       .filter(
         (card) =>
           card.stage === 'short-term' &&
+          !card.disabled &&
           card.nextReviewAt !== undefined &&
           card.nextReviewAt > now &&
           !excludedWordIds?.has(card.wordId),
@@ -739,7 +794,15 @@ export class LearningService {
     allowSpelling: boolean = false,
   ): Promise<Question | null> {
     const targetWord = await this.deps.words.getWord(card.wordId);
-    if (!targetWord) return null;
+    if (!targetWord) {
+      throw new ContentUnavailableError(card.wordId, `学习卡引用的词条不存在：${card.wordId}`);
+    }
+
+    const plan = (await this.deps.words.getQuestionPlan?.(card.wordId)) ?? null;
+    if (plan) return this.makePlannedQuestion(card, targetWord, plan, allowSpelling);
+    if (this.deps.words.getContentKind?.() === 'content-v2') {
+      throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
+    }
 
     let questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
 
@@ -755,7 +818,9 @@ export class LearningService {
 
     const allWords = await this.deps.words.listWords();
     const distractors = allWords.filter((w) => w.id !== card.wordId);
-    if (distractors.length < 3) return null;
+    if (distractors.length < 3) {
+      throw new ContentUnavailableError(card.wordId, '可用干扰项不足，无法生成题目');
+    }
 
     const baseInput = {
       targetWord,
@@ -774,6 +839,44 @@ export class LearningService {
       case 'spelling':
         return generateSpellingQuestion(baseInput);
     }
+  }
+
+  /** 新内容包：只读取已检查的固定题组，并按同卡顺序回退。 */
+  private async makePlannedQuestion(
+    card: CardRecord,
+    targetWord: WordRecord,
+    plan: WordQuestionPlan,
+    allowSpelling: boolean,
+  ): Promise<Question> {
+    const desired = chooseQuestionType(card.stage, card.schedulerState?.reps);
+    if (allowSpelling && desired === 'context-choice' && plan.spelling && this.random() < 0.5) {
+      return generatePlannedSpelling(targetWord, plan, card.id);
+    }
+
+    const referencedIds = new Set<string>();
+    for (const id of plan.enToZh.distractors) referencedIds.add(id);
+    for (const id of plan.zhToEn?.distractors ?? []) referencedIds.add(id);
+    for (const item of plan.contextChoice?.distractors ?? []) referencedIds.add(item.wordId);
+    const referenced = await this.deps.words.getWordsByIds([...referencedIds]);
+    const wordsById = new Map(referenced.map((word) => [word.id, word]));
+    wordsById.set(targetWord.id, targetWord);
+
+    const tryContext = () =>
+      plan.contextChoice
+        ? generatePlannedContextChoice(targetWord, plan, wordsById, card.id, this.random)
+        : null;
+    const tryZhToEn = () =>
+      plan.zhToEn ? generatePlannedZhToEn(targetWord, plan, wordsById, card.id, this.random) : null;
+    const tryEnToZh = () =>
+      generatePlannedEnToZh(targetWord, plan, wordsById, card.id, this.random);
+
+    if (desired === 'context-choice') {
+      return tryContext() ?? tryZhToEn() ?? tryEnToZh();
+    }
+    if (desired === 'zh-to-en') {
+      return tryZhToEn() ?? tryEnToZh();
+    }
+    return tryEnToZh();
   }
 
   /**
@@ -838,9 +941,10 @@ export class LearningService {
   }
 
   /** 统计本地自然日内通过“知道了”接受的新词数量。 */
-  private countTodayNewWords(cards: CardRecord[], now: number): number {
-    return cards.filter(
-      (c) => (c.origin ?? 'accepted-new') === 'accepted-new' && isSameLocalDay(c.createdAt, now),
+  private async countTodayNewWords(cards: CardRecord[], now: number): Promise<number> {
+    const compatibility = (await this.deps.compatibility?.get()) ?? null;
+    return acceptanceEvents(cards, compatibility).filter((event) =>
+      isSameLocalDay(event.createdAt, now),
     ).length;
   }
 }

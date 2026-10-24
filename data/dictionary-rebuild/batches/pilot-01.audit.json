@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-statistics",
+    "enToZh": [
+      {
+        "wordId": "w-season",
+        "reason": "选项「季节」不是「statistics」的主释义「统计数据」或其他义项。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「statistics」的主释义「统计数据」或其他义项。"
+      },
+      {
+        "wordId": "w-decade",
+        "reason": "选项「十年」不是「statistics」的主释义「统计数据」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-season",
+        "reason": "英文「season」的常见义项「季节」不符合主释义「统计数据」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「统计数据」。"
+      },
+      {
+        "wordId": "w-decade",
+        "reason": "英文「decade」的常见义项「十年」不符合主释义「统计数据」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-season",
+        "surfaceForm": "season",
+        "reason": "将「season」代入可见句子后不表达主释义「统计数据」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「统计数据」。"
+      },
+      {
+        "wordId": "w-decade",
+        "surfaceForm": "decade",
+        "reason": "将「decade」代入可见句子后不表达主释义「统计数据」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-soy",
+    "enToZh": [
+      {
+        "wordId": "w-vigour",
+        "reason": "选项「活力」不是「soy」的主释义「大豆」或其他义项。"
+      },
+      {
+        "wordId": "w-costume",
+        "reason": "选项「特定场合的服装」不是「soy」的主释义「大豆」或其他义项。"
+      },
+      {
+        "wordId": "w-comb",
+        "reason": "选项「梳子」不是「soy」的主释义「大豆」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-vigour",
+        "reason": "英文「vigour」的常见义项「活力」不符合主释义「大豆」。"
+      },
+      {
+        "wordId": "w-costume",
+        "reason": "英文「costume」的常见义项「特定场合的服装」不符合主释义「大豆」。"
+      },
+      {
+        "wordId": "w-comb",
+        "reason": "英文「comb」的常见义项「梳子」不符合主释义「大豆」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-vigour",
+        "surfaceForm": "vigour",
+        "reason": "将「vigour」代入可见句子后不表达主释义「大豆」。"
+      },
+      {
+        "wordId": "w-costume",
+        "surfaceForm": "costume",
+        "reason": "将「costume」代入可见句子后不表达主释义「大豆」。"
+      },
+      {
+        "wordId": "w-comb",
+        "surfaceForm": "comb",
+        "reason": "将「comb」代入可见句子后不表达主释义「大豆」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-playground",
+    "enToZh": [
+      {
+        "wordId": "w-guitar",
+        "reason": "选项「吉他」不是「playground」的主释义「操场」或其他义项。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "选项「专业知识」不是「playground」的主释义「操场」或其他义项。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "选项「目录」不是「playground」的主释义「操场」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-guitar",
+        "reason": "英文「guitar」的常见义项「吉他」不符合主释义「操场」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "reason": "英文「expertise」的常见义项「专业知识」不符合主释义「操场」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "英文「catalog」的常见义项「目录」不符合主释义「操场」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-guitar",
+        "surfaceForm": "guitar",
+        "reason": "将「guitar」代入可见句子后不表达主释义「操场」。"
+      },
+      {
+        "wordId": "w-expertise",
+        "surfaceForm": "expertise",
+        "reason": "将「expertise」代入可见句子后不表达主释义「操场」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "surfaceForm": "catalog",
+        "reason": "将「catalog」代入可见句子后不表达主释义「操场」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-deceive",
+    "enToZh": [
+      {
+        "wordId": "w-misunderstand",
+        "reason": "选项「误解」不是「deceive」的主释义「欺骗」或其他义项。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "reason": "选项「同情」不是「deceive」的主释义「欺骗」或其他义项。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "选项「倾斜」不是「deceive」的主释义「欺骗」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-misunderstand",
+        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「欺骗」。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "reason": "英文「sympathize」的常见义项「同情」不符合主释义「欺骗」。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "英文「incline」的常见义项「倾斜」不符合主释义「欺骗」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-misunderstand",
+        "surfaceForm": "misunderstand",
+        "reason": "将「misunderstand」代入可见句子后不表达主释义「欺骗」。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "surfaceForm": "sympathize",
+        "reason": "将「sympathize」代入可见句子后不表达主释义「欺骗」。"
+      },
+      {
+        "wordId": "w-incline",
+        "surfaceForm": "incline",
+        "reason": "将「incline」代入可见句子后不表达主释义「欺骗」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-win",
+    "enToZh": [
+      {
+        "wordId": "w-steer",
+        "reason": "选项「驾驶」不是「win」的主释义「赢得」或其他义项。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「win」的主释义「赢得」或其他义项。"
+      },
+      {
+        "wordId": "w-cover",
+        "reason": "选项「覆盖」不是「win」的主释义「赢得」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-steer",
+        "reason": "英文「steer」的常见义项「驾驶」不符合主释义「赢得」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「赢得」。"
+      },
+      {
+        "wordId": "w-cover",
+        "reason": "英文「cover」的常见义项「覆盖」不符合主释义「赢得」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-steer",
+        "surfaceForm": "steer",
+        "reason": "将「steer」代入可见句子后不表达主释义「赢得」。"
+      },
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「赢得」。"
+      },
+      {
+        "wordId": "w-cover",
+        "surfaceForm": "cover",
+        "reason": "将「cover」代入可见句子后不表达主释义「赢得」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-somewhere",
+    "enToZh": [
+      {
+        "wordId": "w-again",
+        "reason": "选项「再次」不是「somewhere」的主释义「在某处」或其他义项。"
+      },
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "选项「毫无疑问」不是「somewhere」的主释义「在某处」或其他义项。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "选项「本能地」不是「somewhere」的主释义「在某处」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-again",
+        "reason": "英文「again」的常见义项「再次」不符合主释义「在某处」。"
+      },
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "英文「undoubtedly」的常见义项「毫无疑问」不符合主释义「在某处」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "reason": "英文「instinctively」的常见义项「本能地」不符合主释义「在某处」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-again",
+        "surfaceForm": "again",
+        "reason": "将「again」代入可见句子后不表达主释义「在某处」。"
+      },
+      {
+        "wordId": "w-undoubtedly",
+        "surfaceForm": "undoubtedly",
+        "reason": "将「undoubtedly」代入可见句子后不表达主释义「在某处」。"
+      },
+      {
+        "wordId": "w-instinctively",
+        "surfaceForm": "instinctively",
+        "reason": "将「instinctively」代入可见句子后不表达主释义「在某处」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-plain",
+    "enToZh": [
+      {
+        "wordId": "w-grey",
+        "reason": "选项「灰色的」不是「plain」的主释义「简单的」或其他义项。"
+      },
+      {
+        "wordId": "w-faint",
+        "reason": "选项「微弱的」不是「plain」的主释义「简单的」或其他义项。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "选项「正确的」不是「plain」的主释义「简单的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-grey",
+        "reason": "英文「grey」的常见义项「灰色的」不符合主释义「简单的」。"
+      },
+      {
+        "wordId": "w-faint",
+        "reason": "英文「faint」的常见义项「微弱的」不符合主释义「简单的」。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "英文「right」的常见义项「正确的」不符合主释义「简单的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-grey",
+        "surfaceForm": "grey",
+        "reason": "将「grey」代入可见句子后不表达主释义「简单的」。"
+      },
+      {
+        "wordId": "w-faint",
+        "surfaceForm": "faint",
+        "reason": "将「faint」代入可见句子后不表达主释义「简单的」。"
+      },
+      {
+        "wordId": "w-right",
+        "surfaceForm": "right",
+        "reason": "将「right」代入可见句子后不表达主释义「简单的」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-essence",
+    "enToZh": [
+      {
+        "wordId": "w-radar",
+        "reason": "选项「雷达」不是「essence」的主释义「本质」或其他义项。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "选项「水库」不是「essence」的主释义「本质」或其他义项。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "选项「目录」不是「essence」的主释义「本质」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radar",
+        "reason": "英文「radar」的常见义项「雷达」不符合主释义「本质」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "reason": "英文「reservoir」的常见义项「水库」不符合主释义「本质」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "英文「catalog」的常见义项「目录」不符合主释义「本质」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radar",
+        "surfaceForm": "radar",
+        "reason": "将「radar」代入可见句子后不表达主释义「本质」。"
+      },
+      {
+        "wordId": "w-reservoir",
+        "surfaceForm": "reservoir",
+        "reason": "将「reservoir」代入可见句子后不表达主释义「本质」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "surfaceForm": "catalog",
+        "reason": "将「catalog」代入可见句子后不表达主释义「本质」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-slack",
+    "enToZh": [
+      {
+        "wordId": "w-gross",
+        "reason": "选项「总的」不是「slack」的主释义「松弛的」或其他义项。"
+      },
+      {
+        "wordId": "w-grey",
+        "reason": "选项「灰色的」不是「slack」的主释义「松弛的」或其他义项。"
+      },
+      {
+        "wordId": "w-plain",
+        "reason": "选项「简单的」不是「slack」的主释义「松弛的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gross",
+        "reason": "英文「gross」的常见义项「总的」不符合主释义「松弛的」。"
+      },
+      {
+        "wordId": "w-grey",
+        "reason": "英文「grey」的常见义项「灰色的」不符合主释义「松弛的」。"
+      },
+      {
+        "wordId": "w-plain",
+        "reason": "英文「plain」的常见义项「简单的」不符合主释义「松弛的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gross",
+        "surfaceForm": "gross",
+        "reason": "将「gross」代入可见句子后不表达主释义「松弛的」。"
+      },
+      {
+        "wordId": "w-grey",
+        "surfaceForm": "grey",
+        "reason": "将「grey」代入可见句子后不表达主释义「松弛的」。"
+      },
+      {
+        "wordId": "w-plain",
+        "surfaceForm": "plain",
+        "reason": "将「plain」代入可见句子后不表达主释义「松弛的」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-transplant",
+    "enToZh": [
+      {
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「transplant」的主释义「移植」或其他义项。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "选项「调查」不是「transplant」的主释义「移植」或其他义项。"
+      },
+      {
+        "wordId": "w-exhaust",
+        "reason": "选项「使筋疲力尽」不是「transplant」的主释义「移植」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「移植」。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "英文「probe」的常见义项「调查」不符合主释义「移植」。"
+      },
+      {
+        "wordId": "w-exhaust",
+        "reason": "英文「exhaust」的常见义项「使筋疲力尽」不符合主释义「移植」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-preside",
+        "surfaceForm": "preside",
+        "reason": "将「preside」代入可见句子后不表达主释义「移植」。"
+      },
+      {
+        "wordId": "w-probe",
+        "surfaceForm": "probe",
+        "reason": "将「probe」代入可见句子后不表达主释义「移植」。"
+      },
+      {
+        "wordId": "w-exhaust",
+        "surfaceForm": "exhaust",
+        "reason": "将「exhaust」代入可见句子后不表达主释义「移植」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-complaint",
+    "enToZh": [
+      {
+        "wordId": "w-pipe",
+        "reason": "选项「管道」不是「complaint」的主释义「抱怨」或其他义项。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "选项「电池」不是「complaint」的主释义「抱怨」或其他义项。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "选项「市长」不是「complaint」的主释义「抱怨」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pipe",
+        "reason": "英文「pipe」的常见义项「管道」不符合主释义「抱怨」。"
+      },
+      {
+        "wordId": "w-battery",
+        "reason": "英文「battery」的常见义项「电池」不符合主释义「抱怨」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "reason": "英文「mayor」的常见义项「市长」不符合主释义「抱怨」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pipe",
+        "surfaceForm": "pipe",
+        "reason": "将「pipe」代入可见句子后不表达主释义「抱怨」。"
+      },
+      {
+        "wordId": "w-battery",
+        "surfaceForm": "battery",
+        "reason": "将「battery」代入可见句子后不表达主释义「抱怨」。"
+      },
+      {
+        "wordId": "w-mayor",
+        "surfaceForm": "mayor",
+        "reason": "将「mayor」代入可见句子后不表达主释义「抱怨」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-contradict",
+    "enToZh": [
+      {
+        "wordId": "w-adhere",
+        "reason": "选项「遵守」不是「contradict」的主释义「与…相矛盾」或其他义项。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「contradict」的主释义「与…相矛盾」或其他义项。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "选项「调查」不是「contradict」的主释义「与…相矛盾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-adhere",
+        "reason": "英文「adhere」的常见义项「遵守」不符合主释义「与…相矛盾」。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「与…相矛盾」。"
+      },
+      {
+        "wordId": "w-probe",
+        "reason": "英文「probe」的常见义项「调查」不符合主释义「与…相矛盾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-adhere",
+        "surfaceForm": "adhere",
+        "reason": "将「adhere」代入可见句子后不表达主释义「与…相矛盾」。"
+      },
+      {
+        "wordId": "w-preside",
+        "surfaceForm": "preside",
+        "reason": "将「preside」代入可见句子后不表达主释义「与…相矛盾」。"
+      },
+      {
+        "wordId": "w-probe",
+        "surfaceForm": "probe",
+        "reason": "将「probe」代入可见句子后不表达主释义「与…相矛盾」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-incline",
+    "enToZh": [
+      {
+        "wordId": "w-revolt",
+        "reason": "选项「反抗」不是「incline」的主释义「倾斜」或其他义项。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "reason": "选项「同情」不是「incline」的主释义「倾斜」或其他义项。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "选项「误解」不是「incline」的主释义「倾斜」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-revolt",
+        "reason": "英文「revolt」的常见义项「反抗」不符合主释义「倾斜」。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "reason": "英文「sympathize」的常见义项「同情」不符合主释义「倾斜」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "reason": "英文「misunderstand」的常见义项「误解」不符合主释义「倾斜」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-revolt",
+        "surfaceForm": "revolt",
+        "reason": "将「revolt」代入可见句子后不表达主释义「倾斜」。"
+      },
+      {
+        "wordId": "w-sympathize",
+        "surfaceForm": "sympathize",
+        "reason": "将「sympathize」代入可见句子后不表达主释义「倾斜」。"
+      },
+      {
+        "wordId": "w-misunderstand",
+        "surfaceForm": "misunderstand",
+        "reason": "将「misunderstand」代入可见句子后不表达主释义「倾斜」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-battery",
+    "enToZh": [
+      {
+        "wordId": "w-statistics",
+        "reason": "选项「统计数据」不是「battery」的主释义「电池」或其他义项。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "选项「长椅」不是「battery」的主释义「电池」或其他义项。"
+      },
+      {
+        "wordId": "w-decade",
+        "reason": "选项「十年」不是「battery」的主释义「电池」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-statistics",
+        "reason": "英文「statistics」的常见义项「统计数据」不符合主释义「电池」。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "英文「bench」的常见义项「长椅」不符合主释义「电池」。"
+      },
+      {
+        "wordId": "w-decade",
+        "reason": "英文「decade」的常见义项「十年」不符合主释义「电池」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-statistics",
+        "surfaceForm": "statistics",
+        "reason": "将「statistics」代入可见句子后不表达主释义「电池」。"
+      },
+      {
+        "wordId": "w-bench",
+        "surfaceForm": "bench",
+        "reason": "将「bench」代入可见句子后不表达主释义「电池」。"
+      },
+      {
+        "wordId": "w-decade",
+        "surfaceForm": "decade",
+        "reason": "将「decade」代入可见句子后不表达主释义「电池」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-acceptance",
+    "enToZh": [
+      {
+        "wordId": "w-refuge",
+        "reason": "选项「避难所」不是「acceptance」的主释义「接受」或其他义项。"
+      },
+      {
+        "wordId": "w-leisure",
+        "reason": "选项「闲暇」不是「acceptance」的主释义「接受」或其他义项。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "选项「目录」不是「acceptance」的主释义「接受」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-refuge",
+        "reason": "英文「refuge」的常见义项「避难所」不符合主释义「接受」。"
+      },
+      {
+        "wordId": "w-leisure",
+        "reason": "英文「leisure」的常见义项「闲暇」不符合主释义「接受」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "reason": "英文「catalog」的常见义项「目录」不符合主释义「接受」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-refuge",
+        "surfaceForm": "refuge",
+        "reason": "将「refuge」代入可见句子后不表达主释义「接受」。"
+      },
+      {
+        "wordId": "w-leisure",
+        "surfaceForm": "leisure",
+        "reason": "将「leisure」代入可见句子后不表达主释义「接受」。"
+      },
+      {
+        "wordId": "w-catalog",
+        "surfaceForm": "catalog",
+        "reason": "将「catalog」代入可见句子后不表达主释义「接受」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-cover",
+    "enToZh": [
+      {
+        "wordId": "w-steer",
+        "reason": "选项「驾驶」不是「cover」的主释义「覆盖」或其他义项。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "选项「察觉」不是「cover」的主释义「覆盖」或其他义项。"
+      },
+      {
+        "wordId": "w-win",
+        "reason": "选项「赢得」不是「cover」的主释义「覆盖」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-steer",
+        "reason": "英文「steer」的常见义项「驾驶」不符合主释义「覆盖」。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "英文「detect」的常见义项「察觉」不符合主释义「覆盖」。"
+      },
+      {
+        "wordId": "w-win",
+        "reason": "英文「win」的常见义项「赢得」不符合主释义「覆盖」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-steer",
+        "surfaceForm": "steer",
+        "reason": "将「steer」代入可见句子后不表达主释义「覆盖」。"
+      },
+      {
+        "wordId": "w-detect",
+        "surfaceForm": "detect",
+        "reason": "将「detect」代入可见句子后不表达主释义「覆盖」。"
+      },
+      {
+        "wordId": "w-win",
+        "surfaceForm": "win",
+        "reason": "将「win」代入可见句子后不表达主释义「覆盖」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-instinctively",
+    "enToZh": [
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "选项「毫无疑问」不是「instinctively」的主释义「本能地」或其他义项。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "选项「再次」不是「instinctively」的主释义「本能地」或其他义项。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "reason": "选项「在某处」不是「instinctively」的主释义「本能地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-undoubtedly",
+        "reason": "英文「undoubtedly」的常见义项「毫无疑问」不符合主释义「本能地」。"
+      },
+      {
+        "wordId": "w-again",
+        "reason": "英文「again」的常见义项「再次」不符合主释义「本能地」。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "reason": "英文「somewhere」的常见义项「在某处」不符合主释义「本能地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-undoubtedly",
+        "surfaceForm": "undoubtedly",
+        "reason": "将「undoubtedly」代入可见句子后不表达主释义「本能地」。"
+      },
+      {
+        "wordId": "w-again",
+        "surfaceForm": "again",
+        "reason": "将「again」代入可见句子后不表达主释义「本能地」。"
+      },
+      {
+        "wordId": "w-somewhere",
+        "surfaceForm": "somewhere",
+        "reason": "将「somewhere」代入可见句子后不表达主释义「本能地」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-guitar",
+    "enToZh": [
+      {
+        "wordId": "w-forehead",
+        "reason": "选项「额头」不是「guitar」的主释义「吉他」或其他义项。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "选项「镍」不是「guitar」的主释义「吉他」或其他义项。"
+      },
+      {
+        "wordId": "w-soy",
+        "reason": "选项「大豆」不是「guitar」的主释义「吉他」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-forehead",
+        "reason": "英文「forehead」的常见义项「额头」不符合主释义「吉他」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "reason": "英文「nickel」的常见义项「镍」不符合主释义「吉他」。"
+      },
+      {
+        "wordId": "w-soy",
+        "reason": "英文「soy」的常见义项「大豆」不符合主释义「吉他」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-forehead",
+        "surfaceForm": "forehead",
+        "reason": "将「forehead」代入可见句子后不表达主释义「吉他」。"
+      },
+      {
+        "wordId": "w-nickel",
+        "surfaceForm": "nickel",
+        "reason": "将「nickel」代入可见句子后不表达主释义「吉他」。"
+      },
+      {
+        "wordId": "w-soy",
+        "surfaceForm": "soy",
+        "reason": "将「soy」代入可见句子后不表达主释义「吉他」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-hire",
+    "enToZh": [
+      {
+        "wordId": "w-swallow",
+        "reason": "选项「咽下」不是「hire」的主释义「雇用」或其他义项。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "选项「察觉」不是「hire」的主释义「雇用」或其他义项。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "选项「大声喊叫」不是「hire」的主释义「雇用」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-swallow",
+        "reason": "英文「swallow」的常见义项「咽下」不符合主释义「雇用」。"
+      },
+      {
+        "wordId": "w-detect",
+        "reason": "英文「detect」的常见义项「察觉」不符合主释义「雇用」。"
+      },
+      {
+        "wordId": "w-yell",
+        "reason": "英文「yell」的常见义项「大声喊叫」不符合主释义「雇用」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-swallow",
+        "surfaceForm": "swallow",
+        "reason": "将「swallow」代入可见句子后不表达主释义「雇用」。"
+      },
+      {
+        "wordId": "w-detect",
+        "surfaceForm": "detect",
+        "reason": "将「detect」代入可见句子后不表达主释义「雇用」。"
+      },
+      {
+        "wordId": "w-yell",
+        "surfaceForm": "yell",
+        "reason": "将「yell」代入可见句子后不表达主释义「雇用」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-misunderstand",
+    "enToZh": [
+      {
+        "wordId": "w-sympathize",
+        "reason": "选项「同情」不是「misunderstand」的主释义「误解」或其他义项。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "选项「倾斜」不是「misunderstand」的主释义「误解」或其他义项。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "选项「欺骗」不是「misunderstand」的主释义「误解」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-sympathize",
+        "reason": "英文「sympathize」的常见义项「同情」不符合主释义「误解」。"
+      },
+      {
+        "wordId": "w-incline",
+        "reason": "英文「incline」的常见义项「倾斜」不符合主释义「误解」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "reason": "英文「deceive」的常见义项「欺骗」不符合主释义「误解」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-sympathize",
+        "surfaceForm": "sympathize",
+        "reason": "将「sympathize」代入可见句子后不表达主释义「误解」。"
+      },
+      {
+        "wordId": "w-incline",
+        "surfaceForm": "incline",
+        "reason": "将「incline」代入可见句子后不表达主释义「误解」。"
+      },
+      {
+        "wordId": "w-deceive",
+        "surfaceForm": "deceive",
+        "reason": "将「deceive」代入可见句子后不表达主释义「误解」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-diversion",
+    "enToZh": [
+      {
+        "wordId": "w-submarine",
+        "reason": "选项「潜艇」不是「diversion」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "选项「本质」不是「diversion」的主释义「转移」或其他义项。"
+      },
+      {
+        "wordId": "w-guitar",
+        "reason": "选项「吉他」不是「diversion」的主释义「转移」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-submarine",
+        "reason": "英文「submarine」的常见义项「潜艇」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-essence",
+        "reason": "英文「essence」的常见义项「本质」不符合主释义「转移」。"
+      },
+      {
+        "wordId": "w-guitar",
+        "reason": "英文「guitar」的常见义项「吉他」不符合主释义「转移」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-submarine",
+        "surfaceForm": "submarine",
+        "reason": "将「submarine」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-essence",
+        "surfaceForm": "essence",
+        "reason": "将「essence」代入可见句子后不表达主释义「转移」。"
+      },
+      {
+        "wordId": "w-guitar",
+        "surfaceForm": "guitar",
+        "reason": "将「guitar」代入可见句子后不表达主释义「转移」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-mate",
+    "enToZh": [
+      {
+        "wordId": "w-emotion",
+        "reason": "选项「情绪」不是「mate」的主释义「伙伴」或其他义项。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "选项「申请」不是「mate」的主释义「伙伴」或其他义项。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "选项「季节」不是「mate」的主释义「伙伴」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-emotion",
+        "reason": "英文「emotion」的常见义项「情绪」不符合主释义「伙伴」。"
+      },
+      {
+        "wordId": "w-application",
+        "reason": "英文「application」的常见义项「申请」不符合主释义「伙伴」。"
+      },
+      {
+        "wordId": "w-season",
+        "reason": "英文「season」的常见义项「季节」不符合主释义「伙伴」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-emotion",
+        "surfaceForm": "emotion",
+        "reason": "将「emotion」代入可见句子后不表达主释义「伙伴」。"
+      },
+      {
+        "wordId": "w-application",
+        "surfaceForm": "application",
+        "reason": "将「application」代入可见句子后不表达主释义「伙伴」。"
+      },
+      {
+        "wordId": "w-season",
+        "surfaceForm": "season",
+        "reason": "将「season」代入可见句子后不表达主释义「伙伴」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-decade",
+    "enToZh": [
+      {
+        "wordId": "w-pipe",
+        "reason": "选项「管道」不是「decade」的主释义「十年」或其他义项。"
+      },
+      {
+        "wordId": "w-complaint",
+        "reason": "选项「抱怨」不是「decade」的主释义「十年」或其他义项。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "选项「长椅」不是「decade」的主释义「十年」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pipe",
+        "reason": "英文「pipe」的常见义项「管道」不符合主释义「十年」。"
+      },
+      {
+        "wordId": "w-complaint",
+        "reason": "英文「complaint」的常见义项「抱怨」不符合主释义「十年」。"
+      },
+      {
+        "wordId": "w-bench",
+        "reason": "英文「bench」的常见义项「长椅」不符合主释义「十年」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pipe",
+        "surfaceForm": "pipe",
+        "reason": "将「pipe」代入可见句子后不表达主释义「十年」。"
+      },
+      {
+        "wordId": "w-complaint",
+        "surfaceForm": "complaint",
+        "reason": "将「complaint」代入可见句子后不表达主释义「十年」。"
+      },
+      {
+        "wordId": "w-bench",
+        "surfaceForm": "bench",
+        "reason": "将「bench」代入可见句子后不表达主释义「十年」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-exhaust",
+    "enToZh": [
+      {
+        "wordId": "w-probe",
+        "reason": "选项「调查」不是「exhaust」的主释义「使筋疲力尽」或其他义项。"
+      },
+      {
+        "wordId": "w-contaminate",
+        "reason": "选项「污染」不是「exhaust」的主释义「使筋疲力尽」或其他义项。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "选项「主持」不是「exhaust」的主释义「使筋疲力尽」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-probe",
+        "reason": "英文「probe」的常见义项「调查」不符合主释义「使筋疲力尽」。"
+      },
+      {
+        "wordId": "w-contaminate",
+        "reason": "英文「contaminate」的常见义项「污染」不符合主释义「使筋疲力尽」。"
+      },
+      {
+        "wordId": "w-preside",
+        "reason": "英文「preside」的常见义项「主持」不符合主释义「使筋疲力尽」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-probe",
+        "surfaceForm": "probe",
+        "reason": "将「probe」代入可见句子后不表达主释义「使筋疲力尽」。"
+      },
+      {
+        "wordId": "w-contaminate",
+        "surfaceForm": "contaminate",
+        "reason": "将「contaminate」代入可见句子后不表达主释义「使筋疲力尽」。"
+      },
+      {
+        "wordId": "w-preside",
+        "surfaceForm": "preside",
+        "reason": "将「preside」代入可见句子后不表达主释义「使筋疲力尽」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  },
+  {
+    "wordId": "w-gross",
+    "enToZh": [
+      {
+        "wordId": "w-slack",
+        "reason": "选项「松弛的」不是「gross」的主释义「总的」或其他义项。"
+      },
+      {
+        "wordId": "w-plain",
+        "reason": "选项「简单的」不是「gross」的主释义「总的」或其他义项。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "选项「正确的」不是「gross」的主释义「总的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-slack",
+        "reason": "英文「slack」的常见义项「松弛的」不符合主释义「总的」。"
+      },
+      {
+        "wordId": "w-plain",
+        "reason": "英文「plain」的常见义项「简单的」不符合主释义「总的」。"
+      },
+      {
+        "wordId": "w-right",
+        "reason": "英文「right」的常见义项「正确的」不符合主释义「总的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-slack",
+        "surfaceForm": "slack",
+        "reason": "将「slack」代入可见句子后不表达主释义「总的」。"
+      },
+      {
+        "wordId": "w-plain",
+        "surfaceForm": "plain",
+        "reason": "将「plain」代入可见句子后不表达主释义「总的」。"
+      },
+      {
+        "wordId": "w-right",
+        "surfaceForm": "right",
+        "reason": "将「right」代入可见句子后不表达主释义「总的」。"
+      }
+    ],
+    "spelling": "提示包含主释义、词性、挖空例句、首字母和字母数，未显示完整词元。"
+  }
+]

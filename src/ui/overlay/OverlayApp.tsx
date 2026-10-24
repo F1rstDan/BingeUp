@@ -1,7 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Button, Card, Input, Tag } from 'animal-island-ui';
 import { CheckIcon } from 'naive-icons';
-import type { LearningItem, OverlayAction } from '@/types';
+import { BadgeXIcon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
+import type { LearningItem, OverlayAction, SubmissionResult } from '@/types';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
+import { localSpeech } from '@/ui/speech/local-speech';
+import { PronunciationTag, WordSummary } from '@/ui/overlay/WordSummary';
 
 export type { OverlayAction };
 
@@ -15,6 +19,8 @@ interface OverlayAppProps {
   onAction: (action: OverlayAction) => unknown | Promise<unknown>;
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
+  /** 连续学习提交后，在下一题顶部显示上一题正误与答案对比。 */
+  previousResult?: SubmissionResult;
 }
 
 /**
@@ -25,19 +31,20 @@ interface OverlayAppProps {
  * 不覆盖库组件的颜色、圆角或阴影。
  *
  * 单题模式：根据 LearningItem 渲染新词展示或题目。
- * - 新词展示：词形、释义、例句 + "知道了"/"我认识，换一个"/"跳过"；
+ * - 新词展示：词形、释义、例句 + "学到了"/"我认识，换一个"/"跳过"；
  * - 题目：选择或输入答案，再提交；结果由控制器关闭当前题卡后以独立非模态提示展示。
  * - 快捷键仅在组件挂载期间生效（document 级监听，卸载即移除）。
  *
  * 连续学习模式（Issue #8）：
  * - 选择题/拼写题动作固定为"跳过" + "提交并继续" + "提交并结束"；
- * - 新词展示动作变为"知道了，继续" / "我认识，换一个" + "结束学习"；
+ * - 新词展示动作变为"学到了，继续" / "我认识，换一个" + "结束学习"；
+ * - "提交并继续"由控制器直接打开下一题，并在新题顶部显示上一题正误；
  * - "跳过"不提交当前题；"提交并结束"提交当前题并按完成处理。
  *
  * 所有动作均锁定当前界面，防止保存期间改答、跳过或重复提交。
  * Enter 单题提交或连续提交并结束；Shift + Enter 始终提交并继续。
  */
-export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
+export function OverlayApp({ item, onAction, isContinuous, previousResult }: OverlayAppProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [spelledAnswer, setSpelledAnswer] = useState('');
   const [answerChanges, setAnswerChanges] = useState(0);
@@ -45,16 +52,18 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
   const actionLockedRef = useRef(false);
   const startTimeRef = useRef<number>(Date.now());
   const spellingInputRef = useRef<HTMLDivElement | null>(null);
+  const ownerId = useId();
 
   /** 终态动作：禁用所有交互并发出回调。 */
   const fireFinal = useCallback(
     (action: OverlayAction) => {
       if (actionLockedRef.current) return;
       actionLockedRef.current = true;
+      localSpeech.stopOwnedBy(ownerId);
       setDone(true);
       onAction(action);
     },
-    [onAction],
+    [onAction, ownerId],
   );
 
   /** 提交选择或拼写答案，控制器负责关闭当前界面与后续学习。 */
@@ -154,14 +163,9 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
       }
       if (item.kind === 'spelling-question') return;
 
-      // 选择题：数字或字母选择答案，不干预拼写输入。
+      // 选择题：数字键选择答案，不干预拼写输入。
       if (key >= '1' && key <= '4') {
         const idx = parseInt(key, 10) - 1;
-        if (idx < item.question.options.length) {
-          selectAnswer(idx);
-        }
-      } else if (key.match(/^[a-dA-D]$/)) {
-        const idx = key.toLowerCase().charCodeAt(0) - 97;
         if (idx < item.question.options.length) {
           selectAnswer(idx);
         }
@@ -178,17 +182,27 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
         <Card className="bingeup-card">
-          {isContinuous && (
-            <div className="bingeup-continuous-badge">
-              <Tag size="small">连续学习</Tag>
-            </div>
-          )}
+          {isContinuous && previousResult && <PreviousResultBanner result={previousResult} />}
           <div className="bingeup-new-word">
-            <div className="bingeup-prompt">{word.word}</div>
-            {word.phonetic && <div className="bingeup-phonetic">{word.phonetic}</div>}
-            <div className="bingeup-meaning">{word.coreMeaningZh.join('；')}</div>
-            <div className="bingeup-example">{word.exampleSentence}</div>
-            <div className="bingeup-example-translation">{word.exampleTranslation}</div>
+            {isContinuous && (
+              <div className="bingeup-new-word-badge">
+                <Tag size="small">连续学习</Tag>
+              </div>
+            )}
+            <WordSummary
+              ownerId={ownerId}
+              data={{
+                word: word.word,
+                phonetic: word.phonetic,
+                partOfSpeech: word.partOfSpeech,
+                meanings: word.coreMeaningZh,
+                exampleSentence: word.exampleSentence,
+                exampleTranslation: word.exampleTranslation,
+                secondaryMeanings: word.secondaryMeanings,
+              }}
+              wordClassName="bingeup-prompt"
+              disabled={done}
+            />
           </div>
           <div className="bingeup-actions bingeup-actions-new-word">
             {isContinuous ? (
@@ -200,7 +214,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   }
                   disabled={done}
                 >
-                  知道了，继续 <KeyHint>1</KeyHint>
+                  学到了，继续 <KeyHint>1</KeyHint>
                 </Button>
                 <Button
                   onClick={() => fireFinal({ type: 'self-report-and-continue', wordId: word.id })}
@@ -219,7 +233,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   onClick={() => fireFinal({ type: 'accept-new-word', wordId: word.id })}
                   disabled={done}
                 >
-                  知道了 <KeyHint>1</KeyHint>
+                  学到了 <KeyHint>1</KeyHint>
                 </Button>
                 <Button
                   onClick={() => fireFinal({ type: 'self-report', wordId: word.id })}
@@ -240,6 +254,12 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
 
   // ─── 选择与拼写题 ──────────────────────────────────────────
   const { question } = item;
+  const spellingHint = item.kind === 'spelling-question' ? item.question.hint : undefined;
+  const promptLang =
+    question.type === 'en-to-zh' || question.type === 'context-choice' ? 'en' : 'zh-CN';
+  // 只有题干已经显示目标词时才展示读音；其余题型展示音标会泄露答案。
+  const showQuestionPronunciation =
+    question.type === 'en-to-zh' && Boolean(question.explanation.phonetic);
   const canSubmit =
     item.kind === 'spelling-question' ? spelledAnswer.trim() !== '' : selected !== null;
 
@@ -250,15 +270,42 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
       aria-label={item.kind === 'spelling-question' ? '单词拼写' : '单词学习'}
     >
       <Card className="bingeup-card">
+        {isContinuous && previousResult && <PreviousResultBanner result={previousResult} />}
         {isContinuous && (
           <div className="bingeup-continuous-badge">
             <Tag size="small">连续学习</Tag>
           </div>
         )}
-        <div className="bingeup-prompt">{question.prompt}</div>
+        <div
+          className={`bingeup-prompt${question.type === 'context-choice' ? ' bingeup-prompt--context' : ''}`}
+          lang={promptLang}
+        >
+          {question.prompt}
+        </div>
+        {showQuestionPronunciation && (
+          <div className="bingeup-question-pronunciation">
+            <PronunciationTag
+              ownerId={ownerId}
+              wordText={question.explanation.word}
+              phonetic={question.explanation.phonetic}
+              disabled={done}
+            />
+          </div>
+        )}
         {item.kind === 'spelling-question' ? (
           <>
-            <div className="bingeup-phonetic">请输入英文单词</div>
+            {spellingHint && (
+              <div className="bingeup-spelling-hint" onKeyDown={(event) => event.stopPropagation()}>
+                {spellingHint.exampleSentence && (
+                  <p className="bingeup-spelling-example" lang="en">
+                    {spellingHint.exampleSentence}
+                  </p>
+                )}
+                <p className="bingeup-spelling-meta">
+                  首字母 {spellingHint.prefix} · {spellingHint.letterCount} 个字母 · 请写出词典形式
+                </p>
+              </div>
+            )}
             <div className="bingeup-spelling-field" ref={spellingInputRef}>
               <Input
                 size="large"
@@ -294,7 +341,7 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                   disabled={done}
                 >
                   <span className="bingeup-option-key" aria-hidden="true">
-                    {String.fromCharCode(65 + idx)}
+                    {idx + 1}
                   </span>
                   <span className="bingeup-option-text">{option}</span>
                   {selectedOption && <CheckIcon className="bingeup-option-icon" size={18} />}
@@ -320,6 +367,34 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
           </Button>
         </div>
       </Card>
+    </div>
+  );
+}
+
+function PreviousResultBanner({ result }: { result: SubmissionResult }): JSX.Element {
+  const showComparison = !result.isCorrect;
+  return (
+    <div className="bingeup-previous-result" data-correct={result.isCorrect} role="status">
+      <span className="bingeup-previous-result__heading">
+        <span className="bingeup-previous-result__icon" data-correct={result.isCorrect}>
+          <HugeIcon icon={result.isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={16} />
+        </span>
+        <span>{result.isCorrect ? '上一题答对了' : '上一题答错了'}</span>
+      </span>
+      {showComparison && (
+        <span className="bingeup-previous-result__comparison">
+          {result.submittedAnswer && (
+            <span className="bingeup-previous-result__answer">
+              <span className="bingeup-previous-result__answer-label">你的答案</span>
+              <strong>{result.submittedAnswer}</strong>
+            </span>
+          )}
+          <span className="bingeup-previous-result__answer" data-answer="correct">
+            <span className="bingeup-previous-result__answer-label">正确答案</span>
+            <strong>{result.correctAnswer}</strong>
+          </span>
+        </span>
+      )}
     </div>
   );
 }

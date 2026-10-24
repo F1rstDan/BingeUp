@@ -4,7 +4,11 @@ dist/
 node_modules/
 .npm-cache/
 public/dictionaries/
-scripts/build-dictionary/.cache/
+data/dictionary-rebuild/batches/
+data/dictionary-rebuild/staging/
+data/dictionary-rebuild/staging-pilot/
+data/dictionary-rebuild/archive/
+data/dictionary-rebuild/state.json
 package-lock.json
 .agents/
 .codex/

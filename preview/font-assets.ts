@@ -21,6 +21,7 @@ for (const [path, url] of Object.entries(fontModules)) {
 
 /** 资产路径（如 files/nunito-latin-500-normal.<hash>.woff2）→ 浏览器可访问的 URL。 */
 export function previewAssetUrl(assetPath: string): string {
+  if (assetPath.endsWith('fonts/ChillRoundM.otf')) return '/fonts/ChillRoundM.otf';
   const name = assetPath.split('/').pop() ?? assetPath;
   return FONT_URL_BY_NAME.get(name) ?? assetPath;
 }

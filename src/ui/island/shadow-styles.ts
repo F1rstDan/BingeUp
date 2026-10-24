@@ -358,14 +358,30 @@ const ISLAND_BRAND_OVERRIDE_CSS = `
 }
 `;
 
+/** 中文字体：与页面侧的 base.css 保持一致；Shadow 字体由 FontFace 注册。 */
+const ISLAND_CUSTOM_FONT_CSS = `
+@font-face {
+  font-family: 'ChillRoundM';
+  src: url('fonts/ChillRoundM.otf') format('opentype');
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+}
+:host {
+  --animal-font-family: Nunito, 'ChillRoundM', 'Noto Sans SC', -apple-system,
+    'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+`;
+
 /** 解析库构建 CSS，产出注入样式串与字体清单（单次解析）。 */
 export function buildIslandShadowStyleBundle(
   css: string,
   toExtensionUrl: (assetPath: string) => string,
 ): IslandShadowStyleBundle {
+  const combined = css + '\n' + ISLAND_CUSTOM_FONT_CSS;
   return {
-    css: transformIslandShadowCss(css, toExtensionUrl) + '\n' + ISLAND_BRAND_OVERRIDE_CSS,
-    fontFaces: collectIslandFontFaces(css, toExtensionUrl),
+    css: transformIslandShadowCss(combined, toExtensionUrl) + '\n' + ISLAND_BRAND_OVERRIDE_CSS,
+    fontFaces: collectIslandFontFaces(combined, toExtensionUrl),
   };
 }
 

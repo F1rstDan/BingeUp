@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-strawberry",
+    "enToZh": [
+      {
+        "wordId": "w-privacy",
+        "reason": "选项「隐私」不是「strawberry」的主释义「草莓」或其他义项。"
+      },
+      {
+        "wordId": "w-sphere",
+        "reason": "选项「球体」不是「strawberry」的主释义「草莓」或其他义项。"
+      },
+      {
+        "wordId": "w-retail",
+        "reason": "选项「零售」不是「strawberry」的主释义「草莓」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-privacy",
+        "reason": "英文「privacy」的常见义项「隐私」不符合主释义「草莓」。"
+      },
+      {
+        "wordId": "w-sphere",
+        "reason": "英文「sphere」的常见义项「球体」不符合主释义「草莓」。"
+      },
+      {
+        "wordId": "w-retail",
+        "reason": "英文「retail」的常见义项「零售」不符合主释义「草莓」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-privacy",
+        "surfaceForm": "privacy",
+        "reason": "将「privacy」代入可见句子后不表达主释义「草莓」。"
+      },
+      {
+        "wordId": "w-sphere",
+        "surfaceForm": "sphere",
+        "reason": "将「sphere」代入可见句子后不表达主释义「草莓」。"
+      },
+      {
+        "wordId": "w-retail",
+        "surfaceForm": "retail",
+        "reason": "将「retail」代入可见句子后不表达主释义「草莓」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stray",
+    "enToZh": [
+      {
+        "wordId": "w-exempt",
+        "reason": "选项「被免除的」不是「stray」的主释义「流浪的」或其他义项。"
+      },
+      {
+        "wordId": "w-cordial",
+        "reason": "选项「热情友好的」不是「stray」的主释义「流浪的」或其他义项。"
+      },
+      {
+        "wordId": "w-flat",
+        "reason": "选项「平坦的」不是「stray」的主释义「流浪的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exempt",
+        "reason": "英文「exempt」的常见义项「被免除的」不符合主释义「流浪的」。"
+      },
+      {
+        "wordId": "w-cordial",
+        "reason": "英文「cordial」的常见义项「热情友好的」不符合主释义「流浪的」。"
+      },
+      {
+        "wordId": "w-flat",
+        "reason": "英文「flat」的常见义项「平坦的」不符合主释义「流浪的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exempt",
+        "surfaceForm": "exempt",
+        "reason": "将「exempt」代入可见句子后不表达主释义「流浪的」。"
+      },
+      {
+        "wordId": "w-cordial",
+        "surfaceForm": "cordial",
+        "reason": "将「cordial」代入可见句子后不表达主释义「流浪的」。"
+      },
+      {
+        "wordId": "w-flat",
+        "surfaceForm": "flat",
+        "reason": "将「flat」代入可见句子后不表达主释义「流浪的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stream",
+    "enToZh": [
+      {
+        "wordId": "w-rider",
+        "reason": "选项「骑手」不是「stream」的主释义「小溪」或其他义项。"
+      },
+      {
+        "wordId": "w-newspaper",
+        "reason": "选项「报纸」不是「stream」的主释义「小溪」或其他义项。"
+      },
+      {
+        "wordId": "w-specialist",
+        "reason": "选项「专家」不是「stream」的主释义「小溪」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-rider",
+        "reason": "英文「rider」的常见义项「骑手」不符合主释义「小溪」。"
+      },
+      {
+        "wordId": "w-newspaper",
+        "reason": "英文「newspaper」的常见义项「报纸」不符合主释义「小溪」。"
+      },
+      {
+        "wordId": "w-specialist",
+        "reason": "英文「specialist」的常见义项「专家」不符合主释义「小溪」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-rider",
+        "surfaceForm": "rider",
+        "reason": "将「rider」代入可见句子后不表达主释义「小溪」。"
+      },
+      {
+        "wordId": "w-newspaper",
+        "surfaceForm": "newspaper",
+        "reason": "将「newspaper」代入可见句子后不表达主释义「小溪」。"
+      },
+      {
+        "wordId": "w-specialist",
+        "surfaceForm": "specialist",
+        "reason": "将「specialist」代入可见句子后不表达主释义「小溪」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-streamline",
+    "enToZh": [
+      {
+        "wordId": "w-augment",
+        "reason": "选项「增加」不是「streamline」的主释义「精简」或其他义项。"
+      },
+      {
+        "wordId": "w-commence",
+        "reason": "选项「开始」不是「streamline」的主释义「精简」或其他义项。"
+      },
+      {
+        "wordId": "w-paralyse",
+        "reason": "选项「使瘫痪」不是「streamline」的主释义「精简」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-augment",
+        "reason": "英文「augment」的常见义项「增加」不符合主释义「精简」。"
+      },
+      {
+        "wordId": "w-commence",
+        "reason": "英文「commence」的常见义项「开始」不符合主释义「精简」。"
+      },
+      {
+        "wordId": "w-paralyse",
+        "reason": "英文「paralyse」的常见义项「使瘫痪」不符合主释义「精简」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-augment",
+        "surfaceForm": "augment",
+        "reason": "将「augment」代入可见句子后不表达主释义「精简」。"
+      },
+      {
+        "wordId": "w-commence",
+        "surfaceForm": "commence",
+        "reason": "将「commence」代入可见句子后不表达主释义「精简」。"
+      },
+      {
+        "wordId": "w-paralyse",
+        "surfaceForm": "paralyse",
+        "reason": "将「paralyse」代入可见句子后不表达主释义「精简」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-street",
+    "enToZh": [
+      {
+        "wordId": "w-air",
+        "reason": "选项「空气」不是「street」的主释义「街道」或其他义项。"
+      },
+      {
+        "wordId": "w-flavour",
+        "reason": "选项「味道」不是「street」的主释义「街道」或其他义项。"
+      },
+      {
+        "wordId": "w-speed",
+        "reason": "选项「速度」不是「street」的主释义「街道」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-air",
+        "reason": "英文「air」的常见义项「空气」不符合主释义「街道」。"
+      },
+      {
+        "wordId": "w-flavour",
+        "reason": "英文「flavour」的常见义项「味道」不符合主释义「街道」。"
+      },
+      {
+        "wordId": "w-speed",
+        "reason": "英文「speed」的常见义项「速度」不符合主释义「街道」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-air",
+        "surfaceForm": "air",
+        "reason": "将「air」代入可见句子后不表达主释义「街道」。"
+      },
+      {
+        "wordId": "w-flavour",
+        "surfaceForm": "flavour",
+        "reason": "将「flavour」代入可见句子后不表达主释义「街道」。"
+      },
+      {
+        "wordId": "w-speed",
+        "surfaceForm": "speed",
+        "reason": "将「speed」代入可见句子后不表达主释义「街道」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strength",
+    "enToZh": [
+      {
+        "wordId": "w-information",
+        "reason": "选项「信息」不是「strength」的主释义「力量」或其他义项。"
+      },
+      {
+        "wordId": "w-cake",
+        "reason": "选项「蛋糕」不是「strength」的主释义「力量」或其他义项。"
+      },
+      {
+        "wordId": "w-entrance",
+        "reason": "选项「入口」不是「strength」的主释义「力量」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-information",
+        "reason": "英文「information」的常见义项「信息」不符合主释义「力量」。"
+      },
+      {
+        "wordId": "w-cake",
+        "reason": "英文「cake」的常见义项「蛋糕」不符合主释义「力量」。"
+      },
+      {
+        "wordId": "w-entrance",
+        "reason": "英文「entrance」的常见义项「入口」不符合主释义「力量」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-information",
+        "surfaceForm": "information",
+        "reason": "将「information」代入可见句子后不表达主释义「力量」。"
+      },
+      {
+        "wordId": "w-cake",
+        "surfaceForm": "cake",
+        "reason": "将「cake」代入可见句子后不表达主释义「力量」。"
+      },
+      {
+        "wordId": "w-entrance",
+        "surfaceForm": "entrance",
+        "reason": "将「entrance」代入可见句子后不表达主释义「力量」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strengthen",
+    "enToZh": [
+      {
+        "wordId": "w-hiss",
+        "reason": "选项「发出嘶嘶声」不是「strengthen」的主释义「加强」或其他义项。"
+      },
+      {
+        "wordId": "w-reside",
+        "reason": "选项「居住」不是「strengthen」的主释义「加强」或其他义项。"
+      },
+      {
+        "wordId": "w-snatch",
+        "reason": "选项「抢夺」不是「strengthen」的主释义「加强」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hiss",
+        "reason": "英文「hiss」的常见义项「发出嘶嘶声」不符合主释义「加强」。"
+      },
+      {
+        "wordId": "w-reside",
+        "reason": "英文「reside」的常见义项「居住」不符合主释义「加强」。"
+      },
+      {
+        "wordId": "w-snatch",
+        "reason": "英文「snatch」的常见义项「抢夺」不符合主释义「加强」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hiss",
+        "surfaceForm": "hiss",
+        "reason": "将「hiss」代入可见句子后不表达主释义「加强」。"
+      },
+      {
+        "wordId": "w-reside",
+        "surfaceForm": "reside",
+        "reason": "将「reside」代入可见句子后不表达主释义「加强」。"
+      },
+      {
+        "wordId": "w-snatch",
+        "surfaceForm": "snatch",
+        "reason": "将「snatch」代入可见句子后不表达主释义「加强」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stress",
+    "enToZh": [
+      {
+        "wordId": "w-floor",
+        "reason": "选项「地板」不是「stress」的主释义「压力」或其他义项。"
+      },
+      {
+        "wordId": "w-manner",
+        "reason": "选项「方式」不是「stress」的主释义「压力」或其他义项。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "选项「事故」不是「stress」的主释义「压力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-floor",
+        "reason": "英文「floor」的常见义项「地板」不符合主释义「压力」。"
+      },
+      {
+        "wordId": "w-manner",
+        "reason": "英文「manner」的常见义项「方式」不符合主释义「压力」。"
+      },
+      {
+        "wordId": "w-accident",
+        "reason": "英文「accident」的常见义项「事故」不符合主释义「压力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-floor",
+        "surfaceForm": "floor",
+        "reason": "将「floor」代入可见句子后不表达主释义「压力」。"
+      },
+      {
+        "wordId": "w-manner",
+        "surfaceForm": "manner",
+        "reason": "将「manner」代入可见句子后不表达主释义「压力」。"
+      },
+      {
+        "wordId": "w-accident",
+        "surfaceForm": "accident",
+        "reason": "将「accident」代入可见句子后不表达主释义「压力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stretch",
+    "enToZh": [
+      {
+        "wordId": "w-arrive",
+        "reason": "选项「到达」不是「stretch」的主释义「伸展」或其他义项。"
+      },
+      {
+        "wordId": "w-limit",
+        "reason": "选项「限制」不是「stretch」的主释义「伸展」或其他义项。"
+      },
+      {
+        "wordId": "w-include",
+        "reason": "选项「包括」不是「stretch」的主释义「伸展」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-arrive",
+        "reason": "英文「arrive」的常见义项「到达」不符合主释义「伸展」。"
+      },
+      {
+        "wordId": "w-limit",
+        "reason": "英文「limit」的常见义项「限制」不符合主释义「伸展」。"
+      },
+      {
+        "wordId": "w-include",
+        "reason": "英文「include」的常见义项「包括」不符合主释义「伸展」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-arrive",
+        "surfaceForm": "arrive",
+        "reason": "将「arrive」代入可见句子后不表达主释义「伸展」。"
+      },
+      {
+        "wordId": "w-limit",
+        "surfaceForm": "limit",
+        "reason": "将「limit」代入可见句子后不表达主释义「伸展」。"
+      },
+      {
+        "wordId": "w-include",
+        "surfaceForm": "include",
+        "reason": "将「include」代入可见句子后不表达主释义「伸展」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strictly",
+    "enToZh": [
+      {
+        "wordId": "w-equally",
+        "reason": "选项「同样地」不是「strictly」的主释义「严格地」或其他义项。"
+      },
+      {
+        "wordId": "w-practically",
+        "reason": "选项「几乎」不是「strictly」的主释义「严格地」或其他义项。"
+      },
+      {
+        "wordId": "w-possibly",
+        "reason": "选项「可能」不是「strictly」的主释义「严格地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-equally",
+        "reason": "英文「equally」的常见义项「同样地」不符合主释义「严格地」。"
+      },
+      {
+        "wordId": "w-practically",
+        "reason": "英文「practically」的常见义项「几乎」不符合主释义「严格地」。"
+      },
+      {
+        "wordId": "w-possibly",
+        "reason": "英文「possibly」的常见义项「可能」不符合主释义「严格地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-equally",
+        "surfaceForm": "equally",
+        "reason": "将「equally」代入可见句子后不表达主释义「严格地」。"
+      },
+      {
+        "wordId": "w-practically",
+        "surfaceForm": "practically",
+        "reason": "将「practically」代入可见句子后不表达主释义「严格地」。"
+      },
+      {
+        "wordId": "w-possibly",
+        "surfaceForm": "possibly",
+        "reason": "将「possibly」代入可见句子后不表达主释义「严格地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stride",
+    "enToZh": [
+      {
+        "wordId": "w-retail",
+        "reason": "选项「零售」不是「stride」的主释义「大步」或其他义项。"
+      },
+      {
+        "wordId": "w-prohibition",
+        "reason": "选项「禁令」不是「stride」的主释义「大步」或其他义项。"
+      },
+      {
+        "wordId": "w-dessert",
+        "reason": "选项「甜点」不是「stride」的主释义「大步」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-retail",
+        "reason": "英文「retail」的常见义项「零售」不符合主释义「大步」。"
+      },
+      {
+        "wordId": "w-prohibition",
+        "reason": "英文「prohibition」的常见义项「禁令」不符合主释义「大步」。"
+      },
+      {
+        "wordId": "w-dessert",
+        "reason": "英文「dessert」的常见义项「甜点」不符合主释义「大步」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-retail",
+        "surfaceForm": "retail",
+        "reason": "将「retail」代入可见句子后不表达主释义「大步」。"
+      },
+      {
+        "wordId": "w-prohibition",
+        "surfaceForm": "prohibition",
+        "reason": "将「prohibition」代入可见句子后不表达主释义「大步」。"
+      },
+      {
+        "wordId": "w-dessert",
+        "surfaceForm": "dessert",
+        "reason": "将「dessert」代入可见句子后不表达主释义「大步」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strife",
+    "enToZh": [
+      {
+        "wordId": "w-boiler",
+        "reason": "选项「锅炉」不是「strife」的主释义「冲突」或其他义项。"
+      },
+      {
+        "wordId": "w-overcoat",
+        "reason": "选项「大衣」不是「strife」的主释义「冲突」或其他义项。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "选项「驳船」不是「strife」的主释义「冲突」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-boiler",
+        "reason": "英文「boiler」的常见义项「锅炉」不符合主释义「冲突」。"
+      },
+      {
+        "wordId": "w-overcoat",
+        "reason": "英文「overcoat」的常见义项「大衣」不符合主释义「冲突」。"
+      },
+      {
+        "wordId": "w-barge",
+        "reason": "英文「barge」的常见义项「驳船」不符合主释义「冲突」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-boiler",
+        "surfaceForm": "boiler",
+        "reason": "将「boiler」代入可见句子后不表达主释义「冲突」。"
+      },
+      {
+        "wordId": "w-overcoat",
+        "surfaceForm": "overcoat",
+        "reason": "将「overcoat」代入可见句子后不表达主释义「冲突」。"
+      },
+      {
+        "wordId": "w-barge",
+        "surfaceForm": "barge",
+        "reason": "将「barge」代入可见句子后不表达主释义「冲突」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strike",
+    "enToZh": [
+      {
+        "wordId": "w-retire",
+        "reason": "选项「退休」不是「strike」的主释义「击打」或其他义项。"
+      },
+      {
+        "wordId": "w-invest",
+        "reason": "选项「投资」不是「strike」的主释义「击打」或其他义项。"
+      },
+      {
+        "wordId": "w-alter",
+        "reason": "选项「改变」不是「strike」的主释义「击打」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-retire",
+        "reason": "英文「retire」的常见义项「退休」不符合主释义「击打」。"
+      },
+      {
+        "wordId": "w-invest",
+        "reason": "英文「invest」的常见义项「投资」不符合主释义「击打」。"
+      },
+      {
+        "wordId": "w-alter",
+        "reason": "英文「alter」的常见义项「改变」不符合主释义「击打」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-retire",
+        "surfaceForm": "retire",
+        "reason": "将「retire」代入可见句子后不表达主释义「击打」。"
+      },
+      {
+        "wordId": "w-invest",
+        "surfaceForm": "invest",
+        "reason": "将「invest」代入可见句子后不表达主释义「击打」。"
+      },
+      {
+        "wordId": "w-alter",
+        "surfaceForm": "alter",
+        "reason": "将「alter」代入可见句子后不表达主释义「击打」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-string",
+    "enToZh": [
+      {
+        "wordId": "w-fashion",
+        "reason": "选项「时尚」不是「string」的主释义「细绳」或其他义项。"
+      },
+      {
+        "wordId": "w-bay",
+        "reason": "选项「海湾」不是「string」的主释义「细绳」或其他义项。"
+      },
+      {
+        "wordId": "w-ease",
+        "reason": "选项「不费力」不是「string」的主释义「细绳」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fashion",
+        "reason": "英文「fashion」的常见义项「时尚」不符合主释义「细绳」。"
+      },
+      {
+        "wordId": "w-bay",
+        "reason": "英文「bay」的常见义项「海湾」不符合主释义「细绳」。"
+      },
+      {
+        "wordId": "w-ease",
+        "reason": "英文「ease」的常见义项「不费力」不符合主释义「细绳」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fashion",
+        "surfaceForm": "fashion",
+        "reason": "将「fashion」代入可见句子后不表达主释义「细绳」。"
+      },
+      {
+        "wordId": "w-bay",
+        "surfaceForm": "bay",
+        "reason": "将「bay」代入可见句子后不表达主释义「细绳」。"
+      },
+      {
+        "wordId": "w-ease",
+        "surfaceForm": "ease",
+        "reason": "将「ease」代入可见句子后不表达主释义「细绳」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strip",
+    "enToZh": [
+      {
+        "wordId": "w-emphasis",
+        "reason": "选项「强调」不是「strip」的主释义「细长条」或其他义项。"
+      },
+      {
+        "wordId": "w-bread",
+        "reason": "选项「面包」不是「strip」的主释义「细长条」或其他义项。"
+      },
+      {
+        "wordId": "w-smell",
+        "reason": "选项「气味」不是「strip」的主释义「细长条」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-emphasis",
+        "reason": "英文「emphasis」的常见义项「强调」不符合主释义「细长条」。"
+      },
+      {
+        "wordId": "w-bread",
+        "reason": "英文「bread」的常见义项「面包」不符合主释义「细长条」。"
+      },
+      {
+        "wordId": "w-smell",
+        "reason": "英文「smell」的常见义项「气味」不符合主释义「细长条」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-emphasis",
+        "surfaceForm": "emphasis",
+        "reason": "将「emphasis」代入可见句子后不表达主释义「细长条」。"
+      },
+      {
+        "wordId": "w-bread",
+        "surfaceForm": "bread",
+        "reason": "将「bread」代入可见句子后不表达主释义「细长条」。"
+      },
+      {
+        "wordId": "w-smell",
+        "surfaceForm": "smell",
+        "reason": "将「smell」代入可见句子后不表达主释义「细长条」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stripe",
+    "enToZh": [
+      {
+        "wordId": "w-ingredient",
+        "reason": "选项「原料」不是「stripe」的主释义「条纹」或其他义项。"
+      },
+      {
+        "wordId": "w-award",
+        "reason": "选项「奖项」不是「stripe」的主释义「条纹」或其他义项。"
+      },
+      {
+        "wordId": "w-cell",
+        "reason": "选项「细胞」不是「stripe」的主释义「条纹」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ingredient",
+        "reason": "英文「ingredient」的常见义项「原料」不符合主释义「条纹」。"
+      },
+      {
+        "wordId": "w-award",
+        "reason": "英文「award」的常见义项「奖项」不符合主释义「条纹」。"
+      },
+      {
+        "wordId": "w-cell",
+        "reason": "英文「cell」的常见义项「细胞」不符合主释义「条纹」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ingredient",
+        "surfaceForm": "ingredient",
+        "reason": "将「ingredient」代入可见句子后不表达主释义「条纹」。"
+      },
+      {
+        "wordId": "w-award",
+        "surfaceForm": "award",
+        "reason": "将「award」代入可见句子后不表达主释义「条纹」。"
+      },
+      {
+        "wordId": "w-cell",
+        "surfaceForm": "cell",
+        "reason": "将「cell」代入可见句子后不表达主释义「条纹」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strive",
+    "enToZh": [
+      {
+        "wordId": "w-grasp",
+        "reason": "选项「抓住」不是「strive」的主释义「努力」或其他义项。"
+      },
+      {
+        "wordId": "w-hop",
+        "reason": "选项「蹦跳」不是「strive」的主释义「努力」或其他义项。"
+      },
+      {
+        "wordId": "w-rinse",
+        "reason": "选项「冲洗」不是「strive」的主释义「努力」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-grasp",
+        "reason": "英文「grasp」的常见义项「抓住」不符合主释义「努力」。"
+      },
+      {
+        "wordId": "w-hop",
+        "reason": "英文「hop」的常见义项「蹦跳」不符合主释义「努力」。"
+      },
+      {
+        "wordId": "w-rinse",
+        "reason": "英文「rinse」的常见义项「冲洗」不符合主释义「努力」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-grasp",
+        "surfaceForm": "grasp",
+        "reason": "将「grasp」代入可见句子后不表达主释义「努力」。"
+      },
+      {
+        "wordId": "w-hop",
+        "surfaceForm": "hop",
+        "reason": "将「hop」代入可见句子后不表达主释义「努力」。"
+      },
+      {
+        "wordId": "w-rinse",
+        "surfaceForm": "rinse",
+        "reason": "将「rinse」代入可见句子后不表达主释义「努力」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stroke",
+    "enToZh": [
+      {
+        "wordId": "w-offense",
+        "reason": "选项「冒犯」不是「stroke」的主释义「中风」或其他义项。"
+      },
+      {
+        "wordId": "w-student",
+        "reason": "选项「学生」不是「stroke」的主释义「中风」或其他义项。"
+      },
+      {
+        "wordId": "w-cousin",
+        "reason": "选项「堂表兄弟姐妹」不是「stroke」的主释义「中风」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-offense",
+        "reason": "英文「offense」的常见义项「冒犯」不符合主释义「中风」。"
+      },
+      {
+        "wordId": "w-student",
+        "reason": "英文「student」的常见义项「学生」不符合主释义「中风」。"
+      },
+      {
+        "wordId": "w-cousin",
+        "reason": "英文「cousin」的常见义项「堂表兄弟姐妹」不符合主释义「中风」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-offense",
+        "surfaceForm": "offense",
+        "reason": "将「offense」代入可见句子后不表达主释义「中风」。"
+      },
+      {
+        "wordId": "w-student",
+        "surfaceForm": "student",
+        "reason": "将「student」代入可见句子后不表达主释义「中风」。"
+      },
+      {
+        "wordId": "w-cousin",
+        "surfaceForm": "cousin",
+        "reason": "将「cousin」代入可见句子后不表达主释义「中风」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-stroll",
+    "enToZh": [
+      {
+        "wordId": "w-exert",
+        "reason": "选项「施加」不是「stroll」的主释义「散步」或其他义项。"
+      },
+      {
+        "wordId": "w-carve",
+        "reason": "选项「雕刻」不是「stroll」的主释义「散步」或其他义项。"
+      },
+      {
+        "wordId": "w-slap",
+        "reason": "选项「拍打」不是「stroll」的主释义「散步」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-exert",
+        "reason": "英文「exert」的常见义项「施加」不符合主释义「散步」。"
+      },
+      {
+        "wordId": "w-carve",
+        "reason": "英文「carve」的常见义项「雕刻」不符合主释义「散步」。"
+      },
+      {
+        "wordId": "w-slap",
+        "reason": "英文「slap」的常见义项「拍打」不符合主释义「散步」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-exert",
+        "surfaceForm": "exert",
+        "reason": "将「exert」代入可见句子后不表达主释义「散步」。"
+      },
+      {
+        "wordId": "w-carve",
+        "surfaceForm": "carve",
+        "reason": "将「carve」代入可见句子后不表达主释义「散步」。"
+      },
+      {
+        "wordId": "w-slap",
+        "surfaceForm": "slap",
+        "reason": "将「slap」代入可见句子后不表达主释义「散步」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-strongly",
+    "enToZh": [
+      {
+        "wordId": "w-physically",
+        "reason": "选项「身体上」不是「strongly」的主释义「强烈地」或其他义项。"
+      },
+      {
+        "wordId": "w-badly",
+        "reason": "选项「糟糕地」不是「strongly」的主释义「强烈地」或其他义项。"
+      },
+      {
+        "wordId": "w-awfully",
+        "reason": "选项「非常」不是「strongly」的主释义「强烈地」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-physically",
+        "reason": "英文「physically」的常见义项「身体上」不符合主释义「强烈地」。"
+      },
+      {
+        "wordId": "w-badly",
+        "reason": "英文「badly」的常见义项「糟糕地」不符合主释义「强烈地」。"
+      },
+      {
+        "wordId": "w-awfully",
+        "reason": "英文「awfully」的常见义项「非常」不符合主释义「强烈地」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-physically",
+        "surfaceForm": "physically",
+        "reason": "将「physically」代入可见句子后不表达主释义「强烈地」。"
+      },
+      {
+        "wordId": "w-badly",
+        "surfaceForm": "badly",
+        "reason": "将「badly」代入可见句子后不表达主释义「强烈地」。"
+      },
+      {
+        "wordId": "w-awfully",
+        "surfaceForm": "awfully",
+        "reason": "将「awfully」代入可见句子后不表达主释义「强烈地」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-structure",
+    "enToZh": [
+      {
+        "wordId": "w-fridge",
+        "reason": "选项「冰箱」不是「structure」的主释义「结构」或其他义项。"
+      },
+      {
+        "wordId": "w-disorder",
+        "reason": "选项「混乱」不是「structure」的主释义「结构」或其他义项。"
+      },
+      {
+        "wordId": "w-evolution",
+        "reason": "选项「进化」不是「structure」的主释义「结构」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-fridge",
+        "reason": "英文「fridge」的常见义项「冰箱」不符合主释义「结构」。"
+      },
+      {
+        "wordId": "w-disorder",
+        "reason": "英文「disorder」的常见义项「混乱」不符合主释义「结构」。"
+      },
+      {
+        "wordId": "w-evolution",
+        "reason": "英文「evolution」的常见义项「进化」不符合主释义「结构」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-fridge",
+        "surfaceForm": "fridge",
+        "reason": "将「fridge」代入可见句子后不表达主释义「结构」。"
+      },
+      {
+        "wordId": "w-disorder",
+        "surfaceForm": "disorder",
+        "reason": "将「disorder」代入可见句子后不表达主释义「结构」。"
+      },
+      {
+        "wordId": "w-evolution",
+        "surfaceForm": "evolution",
+        "reason": "将「evolution」代入可见句子后不表达主释义「结构」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-struggle",
+    "enToZh": [
+      {
+        "wordId": "w-hope",
+        "reason": "选项「希望」不是「struggle」的主释义「挣扎」或其他义项。"
+      },
+      {
+        "wordId": "w-retire",
+        "reason": "选项「退休」不是「struggle」的主释义「挣扎」或其他义项。"
+      },
+      {
+        "wordId": "w-contribute",
+        "reason": "选项「贡献」不是「struggle」的主释义「挣扎」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-hope",
+        "reason": "英文「hope」的常见义项「希望」不符合主释义「挣扎」。"
+      },
+      {
+        "wordId": "w-retire",
+        "reason": "英文「retire」的常见义项「退休」不符合主释义「挣扎」。"
+      },
+      {
+        "wordId": "w-contribute",
+        "reason": "英文「contribute」的常见义项「贡献」不符合主释义「挣扎」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-hope",
+        "surfaceForm": "hope",
+        "reason": "将「hope」代入可见句子后不表达主释义「挣扎」。"
+      },
+      {
+        "wordId": "w-retire",
+        "surfaceForm": "retire",
+        "reason": "将「retire」代入可见句子后不表达主释义「挣扎」。"
+      },
+      {
+        "wordId": "w-contribute",
+        "surfaceForm": "contribute",
+        "reason": "将「contribute」代入可见句子后不表达主释义「挣扎」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-student",
+    "enToZh": [
+      {
+        "wordId": "w-screen",
+        "reason": "选项「屏幕」不是「student」的主释义「学生」或其他义项。"
+      },
+      {
+        "wordId": "w-bunch",
+        "reason": "选项「一串」不是「student」的主释义「学生」或其他义项。"
+      },
+      {
+        "wordId": "w-flesh",
+        "reason": "选项「肉」不是「student」的主释义「学生」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-screen",
+        "reason": "英文「screen」的常见义项「屏幕」不符合主释义「学生」。"
+      },
+      {
+        "wordId": "w-bunch",
+        "reason": "英文「bunch」的常见义项「一串」不符合主释义「学生」。"
+      },
+      {
+        "wordId": "w-flesh",
+        "reason": "英文「flesh」的常见义项「肉」不符合主释义「学生」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-screen",
+        "surfaceForm": "screen",
+        "reason": "将「screen」代入可见句子后不表达主释义「学生」。"
+      },
+      {
+        "wordId": "w-bunch",
+        "surfaceForm": "bunch",
+        "reason": "将「bunch」代入可见句子后不表达主释义「学生」。"
+      },
+      {
+        "wordId": "w-flesh",
+        "surfaceForm": "flesh",
+        "reason": "将「flesh」代入可见句子后不表达主释义「学生」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-studio",
+    "enToZh": [
+      {
+        "wordId": "w-coal",
+        "reason": "选项「煤」不是「studio」的主释义「工作室」或其他义项。"
+      },
+      {
+        "wordId": "w-rail",
+        "reason": "选项「栏杆」不是「studio」的主释义「工作室」或其他义项。"
+      },
+      {
+        "wordId": "w-punishment",
+        "reason": "选项「惩罚」不是「studio」的主释义「工作室」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coal",
+        "reason": "英文「coal」的常见义项「煤」不符合主释义「工作室」。"
+      },
+      {
+        "wordId": "w-rail",
+        "reason": "英文「rail」的常见义项「栏杆」不符合主释义「工作室」。"
+      },
+      {
+        "wordId": "w-punishment",
+        "reason": "英文「punishment」的常见义项「惩罚」不符合主释义「工作室」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coal",
+        "surfaceForm": "coal",
+        "reason": "将「coal」代入可见句子后不表达主释义「工作室」。"
+      },
+      {
+        "wordId": "w-rail",
+        "surfaceForm": "rail",
+        "reason": "将「rail」代入可见句子后不表达主释义「工作室」。"
+      },
+      {
+        "wordId": "w-punishment",
+        "surfaceForm": "punishment",
+        "reason": "将「punishment」代入可见句子后不表达主释义「工作室」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-study",
+    "enToZh": [
+      {
+        "wordId": "w-derive",
+        "reason": "选项「源自」不是「study」的主释义「学习」或其他义项。"
+      },
+      {
+        "wordId": "w-possess",
+        "reason": "选项「拥有」不是「study」的主释义「学习」或其他义项。"
+      },
+      {
+        "wordId": "w-communicate",
+        "reason": "选项「交流」不是「study」的主释义「学习」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-derive",
+        "reason": "英文「derive」的常见义项「源自」不符合主释义「学习」。"
+      },
+      {
+        "wordId": "w-possess",
+        "reason": "英文「possess」的常见义项「拥有」不符合主释义「学习」。"
+      },
+      {
+        "wordId": "w-communicate",
+        "reason": "英文「communicate」的常见义项「交流」不符合主释义「学习」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-derive",
+        "surfaceForm": "derive",
+        "reason": "将「derive」代入可见句子后不表达主释义「学习」。"
+      },
+      {
+        "wordId": "w-possess",
+        "surfaceForm": "possess",
+        "reason": "将「possess」代入可见句子后不表达主释义「学习」。"
+      },
+      {
+        "wordId": "w-communicate",
+        "surfaceForm": "communicate",
+        "reason": "将「communicate」代入可见句子后不表达主释义「学习」。"
+      }
+    ],
+    "spelling": null
+  }
+]

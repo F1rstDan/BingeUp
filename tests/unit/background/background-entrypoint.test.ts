@@ -150,6 +150,9 @@ describe('background 入口 — 共享持久化上下文', () => {
     ]);
 
     expect(second.reviewLogId).toBe(first.reviewLogId);
+    // 第一条完成后才到达的重复消息也必须命中同一个幂等结果。
+    const duplicate = await send<SubmissionResult>(message);
+    expect(duplicate.reviewLogId).toBe(first.reviewLogId);
     const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
     try {
       expect(await idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs)).toHaveLength(1);

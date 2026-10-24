@@ -6,21 +6,26 @@ import popupCss from '@/entrypoints/popup/popup.css?raw';
 import statsCss from '@/entrypoints/stats/stats.css?raw';
 import { showEnablePrompt } from '@/content/enable-prompt';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
-import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { LEARNING_FEEDBACK_CSS, LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { PopupApp } from '@/ui/popup/PopupApp';
 import { StatsApp } from '@/ui/stats/StatsApp';
-import type { CorrectionResult, LearningItem, OverlayAction } from '@/types';
+import type { CorrectionResult, LearningItem, OverlayAction, SubmissionResult } from '@/types';
 
 import { grantPreviewOrigin, revokePreviewOrigin, setActiveTabScenario } from './chrome-shim';
 import {
   makeDemoChoiceQuestion,
+  makeDemoContextChoiceQuestion,
   makeDemoNewWordItem,
   makeDemoSpellingQuestion,
   makeDemoSubmissionResult,
+  type PreviewLearningScenario,
 } from './demo-data';
-import { setPreviewGlobalPause } from './mock-message-client';
+import { getPreviewDevScenario, setPreviewGlobalPause } from './mock-message-client';
 import { mountOverlayShadow } from './overlay-shadow';
 import { ShadowFrame } from './shadow-frame';
 import { clearStatsDemoData, seedStatsDemoData } from './stats-fixtures';
@@ -203,8 +208,19 @@ type StatsMode = 'populated' | 'empty';
 function StatsStage(): JSX.Element {
   const [mode, setMode] = useState<StatsMode>('populated');
   const [attempt, setAttempt] = useState(0);
+  const [scenario, setScenario] = useState<PreviewLearningScenario>(() => getPreviewDevScenario());
   const [status, setStatus] = useState<'seeding' | 'ready' | 'error'>('seeding');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleDevDataChanged = (): void => {
+      setMode('populated');
+      setScenario(getPreviewDevScenario());
+      setAttempt((value) => value + 1);
+    };
+    window.addEventListener('bingeup:dev-data-changed', handleDevDataChanged);
+    return () => window.removeEventListener('bingeup:dev-data-changed', handleDevDataChanged);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -212,7 +228,7 @@ function StatsStage(): JSX.Element {
     setError(null);
     void (async () => {
       try {
-        if (mode === 'populated') await seedStatsDemoData();
+        if (mode === 'populated') await seedStatsDemoData(scenario);
         else await clearStatsDemoData();
         if (!cancelled) setStatus('ready');
       } catch (cause) {
@@ -225,12 +241,12 @@ function StatsStage(): JSX.Element {
     return () => {
       cancelled = true;
     };
-  }, [mode, attempt]);
+  }, [mode, scenario, attempt]);
 
   return (
     <PreviewCard
       title="统计页"
-      hint="真实 IndexedDB 数据链路：演示数据先写入 bingeup-v1，再由 StatsApp 派生指标"
+      hint="真实 IndexedDB 数据链路：Popup 开发工具的“模拟学习历史”会同步切换这里的数据"
       actions={
         <div className="preview-switch">
           <Button
@@ -406,12 +422,14 @@ function OverlayStage({
   hint,
   item,
   isContinuous,
+  nextItem,
   driver,
 }: {
   title: string;
   hint: string;
   item: LearningItem;
   isContinuous?: boolean;
+  nextItem?: (result: SubmissionResult) => LearningItem | null;
   driver?: (shadow: ShadowRoot) => () => void;
 }): JSX.Element {
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -424,6 +442,7 @@ function OverlayStage({
     const mount = mountOverlayShadow(stage, {
       item,
       isContinuous,
+      nextItem,
       onAction: (action) => {
         setLog((entries) => [formatOverlayAction(action), ...entries].slice(0, 5));
         return demoOverlayActionHandler(action);
@@ -464,8 +483,10 @@ function OverlayStage({
 
 const newWordItem: LearningItem = makeDemoNewWordItem();
 const choiceQuestion = makeDemoChoiceQuestion();
+const contextQuestion = makeDemoContextChoiceQuestion();
 const spellingQuestion = makeDemoSpellingQuestion();
 const choiceItem: LearningItem = { kind: 'question', question: choiceQuestion };
+const contextItem: LearningItem = { kind: 'question', question: contextQuestion };
 const spellingItem: LearningItem = { kind: 'spelling-question', question: spellingQuestion };
 
 function OverlayStages(): JSX.Element {
@@ -473,19 +494,25 @@ function OverlayStages(): JSX.Element {
     <div className="preview-grid">
       <OverlayStage
         title="遮罩 · 认识新词"
-        hint="单题模式新词展示：知道了 / 我认识，换一个 / 跳过"
+        hint="单题模式新词展示：学到了 / 我认识，换一个 / 跳过"
         item={newWordItem}
       />
       <OverlayStage
         title="遮罩 · 选择题"
-        hint="可交互：点击选项后提交；快捷键 1-4 / A-D、Enter、Esc 生效"
+        hint="可交互：点击选项后提交；快捷键 1-4、Enter、Esc 生效"
         item={choiceItem}
       />
       <OverlayStage
+        title="遮罩 · 语境填空"
+        hint="例句挖空后选择英文词形；四项顺序来自固定题组，提交后显示标准反馈"
+        item={contextItem}
+      />
+      <OverlayStage
         title="遮罩 · 拼写题（连续学习）"
-        hint="输入英文词后 Enter 或点击按钮；跳过 / 提交并继续 / 提交并结束"
+        hint="提交并继续会直接显示下一题，并在下一题顶部展示上一题答对或答错；不弹右下角提示"
         item={spellingItem}
         isContinuous
+        nextItem={(result) => (result.isCorrect ? choiceItem : contextItem)}
       />
     </div>
   );
@@ -494,6 +521,39 @@ function OverlayStages(): JSX.Element {
 // ─── 启用提示与播放恢复提示（真实入口函数） ──────────────────
 
 const previewFeedbackNotice = new LearningFeedbackNotice();
+
+function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Element {
+  return (
+    <div className="preview-feedback-static-item">
+      <div className="preview-feedback-static-label">
+        {isCorrect ? '答对提示（常驻）' : '答错提示（常驻）'}
+      </div>
+      <ShadowFrame
+        pageCss={`${WORD_SUMMARY_CSS}\n${SPEECH_CONTROLS_CSS}\n${LEARNING_FEEDBACK_CSS}\n.preview-feedback-canvas { min-height: 0; padding: 0; background: transparent; }`}
+        canvasClassName="preview-feedback-canvas"
+      >
+        <LearningFeedback
+          result={makeDemoSubmissionResult(choiceQuestion, isCorrect)}
+          onContinue={async () => ({ ok: true })}
+          onTooEasy={async () => ({
+            cardId: 'preview-card',
+            reviewLogId: 'preview-log',
+            rating: 'easy',
+            nextReviewAt: Date.now() + 86_400_000,
+          })}
+          onTooHard={async () => ({
+            cardId: 'preview-card',
+            reviewLogId: 'preview-log',
+            rating: 'hard',
+            nextReviewAt: Date.now() + 86_400_000,
+          })}
+          onClose={() => {}}
+          staticPreview
+        />
+      </ShadowFrame>
+    </div>
+  );
+}
 
 function NoticesStage(): JSX.Element {
   return (
@@ -531,6 +591,10 @@ function NoticesStage(): JSX.Element {
               {isCorrect ? '查看答对提示' : '查看答错提示'}
             </Button>
           ))}
+        </div>
+        <div className="preview-feedback-static">
+          <StaticFeedbackPreview isCorrect />
+          <StaticFeedbackPreview isCorrect={false} />
         </div>
       </PreviewCard>
       <PreviewCard

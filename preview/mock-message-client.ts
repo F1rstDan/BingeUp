@@ -22,6 +22,7 @@ import type {
   SiteStateResponse,
 } from '@/messaging/messages';
 import type { DataOperationResult } from '@/storage/data-transfer';
+import type { DevScenario } from '@/dev-tools/messages';
 
 import {
   DEMO_APP_SETTINGS,
@@ -29,6 +30,7 @@ import {
   makeDemoNewWordItem,
   makeDemoPopupStats,
   makeDemoSubmissionResult,
+  type PreviewLearningScenario,
 } from './demo-data';
 
 /**
@@ -53,6 +55,7 @@ interface PreviewDemoState {
   sites: Record<string, SiteSettings>;
   onboardingCompleted: boolean;
   globalPausedUntil: number;
+  devScenario: PreviewLearningScenario;
 }
 
 function cloneSite(settings: SiteSettings): SiteSettings {
@@ -82,6 +85,7 @@ export const previewDemoState: PreviewDemoState = {
   ),
   onboardingCompleted: true,
   globalPausedUntil: 0,
+  devScenario: 'base',
 };
 
 /** 重置演示状态（预览页切换场景时可调用）。 */
@@ -95,11 +99,20 @@ export function resetPreviewDemoState(): void {
   );
   previewDemoState.onboardingCompleted = true;
   previewDemoState.globalPausedUntil = 0;
+  previewDemoState.devScenario = 'base';
 }
 
 /** 设置全局暂停截止时间（Popup「已暂停」预览使用）。 */
 export function setPreviewGlobalPause(until: number): void {
   previewDemoState.globalPausedUntil = until;
+}
+
+export function setPreviewDevScenario(scenario: DevScenario): void {
+  previewDemoState.devScenario = scenario;
+}
+
+export function getPreviewDevScenario(): PreviewLearningScenario {
+  return previewDemoState.devScenario;
 }
 
 function siteState(hostname: string): SiteStateResponse {
@@ -120,6 +133,9 @@ function setSiteEnabledState(hostname: string, enabled: boolean): SiteStateRespo
 }
 
 export const messageClient = {
+  async prepareContent(): Promise<void> {
+    return undefined;
+  },
   async getCooldownStatus(): Promise<CooldownStatusResponse> {
     return { nextAllowedAt: Date.now() + 2 * 60 * 1000, consecutiveSkipCount: 0 };
   },
@@ -245,7 +261,7 @@ export const messageClient = {
       site: siteState(hostname),
       onboardingCompleted: previewDemoState.onboardingCompleted,
       globalPausedUntil: previewDemoState.globalPausedUntil,
-      stats: makeDemoPopupStats(),
+      stats: makeDemoPopupStats(previewDemoState.devScenario),
     };
   },
 

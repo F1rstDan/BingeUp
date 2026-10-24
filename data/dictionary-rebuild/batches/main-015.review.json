@@ -1,0 +1,16 @@
+{
+  "reviewer": "independent-sample-review-main-015",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-bandit",
+    "w-bankruptcy",
+    "w-bar",
+    "w-bargain",
+    "w-baron",
+    "w-barrel",
+    "w-barrier",
+    "w-basement"
+  ],
+  "result": "pass",
+  "findings": []
+}

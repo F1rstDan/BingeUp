@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-role",
+    "enToZh": [
+      {
+        "wordId": "w-ingredient",
+        "reason": "选项「原料」不是「role」的主释义「角色」或其他义项。"
+      },
+      {
+        "wordId": "w-star",
+        "reason": "选项「星星」不是「role」的主释义「角色」或其他义项。"
+      },
+      {
+        "wordId": "w-nonsense",
+        "reason": "选项「胡说」不是「role」的主释义「角色」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ingredient",
+        "reason": "英文「ingredient」的常见义项「原料」不符合主释义「角色」。"
+      },
+      {
+        "wordId": "w-star",
+        "reason": "英文「star」的常见义项「星星」不符合主释义「角色」。"
+      },
+      {
+        "wordId": "w-nonsense",
+        "reason": "英文「nonsense」的常见义项「胡说」不符合主释义「角色」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ingredient",
+        "surfaceForm": "ingredient",
+        "reason": "将「ingredient」代入可见句子后不表达主释义「角色」。"
+      },
+      {
+        "wordId": "w-star",
+        "surfaceForm": "star",
+        "reason": "将「star」代入可见句子后不表达主释义「角色」。"
+      },
+      {
+        "wordId": "w-nonsense",
+        "surfaceForm": "nonsense",
+        "reason": "将「nonsense」代入可见句子后不表达主释义「角色」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-roll",
+    "enToZh": [
+      {
+        "wordId": "w-analyse",
+        "reason": "选项「分析」不是「roll」的主释义「滚动」或其他义项。"
+      },
+      {
+        "wordId": "w-worry",
+        "reason": "选项「担心」不是「roll」的主释义「滚动」或其他义项。"
+      },
+      {
+        "wordId": "w-grow",
+        "reason": "选项「生长」不是「roll」的主释义「滚动」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-analyse",
+        "reason": "英文「analyse」的常见义项「分析」不符合主释义「滚动」。"
+      },
+      {
+        "wordId": "w-worry",
+        "reason": "英文「worry」的常见义项「担心」不符合主释义「滚动」。"
+      },
+      {
+        "wordId": "w-grow",
+        "reason": "英文「grow」的常见义项「生长」不符合主释义「滚动」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-analyse",
+        "surfaceForm": "analyse",
+        "reason": "将「analyse」代入可见句子后不表达主释义「滚动」。"
+      },
+      {
+        "wordId": "w-worry",
+        "surfaceForm": "worry",
+        "reason": "将「worry」代入可见句子后不表达主释义「滚动」。"
+      },
+      {
+        "wordId": "w-grow",
+        "surfaceForm": "grow",
+        "reason": "将「grow」代入可见句子后不表达主释义「滚动」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-roller",
+    "enToZh": [
+      {
+        "wordId": "w-lease",
+        "reason": "选项「租约」不是「roller」的主释义「滚筒」或其他义项。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "reason": "选项「流行病」不是「roller」的主释义「滚筒」或其他义项。"
+      },
+      {
+        "wordId": "w-nutrition",
+        "reason": "选项「营养」不是「roller」的主释义「滚筒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-lease",
+        "reason": "英文「lease」的常见义项「租约」不符合主释义「滚筒」。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "reason": "英文「epidemic」的常见义项「流行病」不符合主释义「滚筒」。"
+      },
+      {
+        "wordId": "w-nutrition",
+        "reason": "英文「nutrition」的常见义项「营养」不符合主释义「滚筒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-lease",
+        "surfaceForm": "lease",
+        "reason": "将「lease」代入可见句子后不表达主释义「滚筒」。"
+      },
+      {
+        "wordId": "w-epidemic",
+        "surfaceForm": "epidemic",
+        "reason": "将「epidemic」代入可见句子后不表达主释义「滚筒」。"
+      },
+      {
+        "wordId": "w-nutrition",
+        "surfaceForm": "nutrition",
+        "reason": "将「nutrition」代入可见句子后不表达主释义「滚筒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-roman",
+    "enToZh": [
+      {
+        "wordId": "w-primitive",
+        "reason": "选项「原始的」不是「Roman」的主释义「罗马的」或其他义项。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "reason": "选项「满怀希望的」不是「Roman」的主释义「罗马的」或其他义项。"
+      },
+      {
+        "wordId": "w-solo",
+        "reason": "选项「独自的」不是「Roman」的主释义「罗马的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-primitive",
+        "reason": "英文「primitive」的常见义项「原始的」不符合主释义「罗马的」。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "reason": "英文「hopeful」的常见义项「满怀希望的」不符合主释义「罗马的」。"
+      },
+      {
+        "wordId": "w-solo",
+        "reason": "英文「solo」的常见义项「独自的」不符合主释义「罗马的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-primitive",
+        "surfaceForm": "primitive",
+        "reason": "将「primitive」代入可见句子后不表达主释义「罗马的」。"
+      },
+      {
+        "wordId": "w-hopeful",
+        "surfaceForm": "hopeful",
+        "reason": "将「hopeful」代入可见句子后不表达主释义「罗马的」。"
+      },
+      {
+        "wordId": "w-solo",
+        "surfaceForm": "solo",
+        "reason": "将「solo」代入可见句子后不表达主释义「罗马的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-romance",
+    "enToZh": [
+      {
+        "wordId": "w-odour",
+        "reason": "选项「气味」不是「romance」的主释义「爱情」或其他义项。"
+      },
+      {
+        "wordId": "w-rug",
+        "reason": "选项「小地毯」不是「romance」的主释义「爱情」或其他义项。"
+      },
+      {
+        "wordId": "w-accessory",
+        "reason": "选项「配件」不是「romance」的主释义「爱情」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-odour",
+        "reason": "英文「odour」的常见义项「气味」不符合主释义「爱情」。"
+      },
+      {
+        "wordId": "w-rug",
+        "reason": "英文「rug」的常见义项「小地毯」不符合主释义「爱情」。"
+      },
+      {
+        "wordId": "w-accessory",
+        "reason": "英文「accessory」的常见义项「配件」不符合主释义「爱情」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-odour",
+        "surfaceForm": "odour",
+        "reason": "将「odour」代入可见句子后不表达主释义「爱情」。"
+      },
+      {
+        "wordId": "w-rug",
+        "surfaceForm": "rug",
+        "reason": "将「rug」代入可见句子后不表达主释义「爱情」。"
+      },
+      {
+        "wordId": "w-accessory",
+        "surfaceForm": "accessory",
+        "reason": "将「accessory」代入可见句子后不表达主释义「爱情」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-roof",
+    "enToZh": [
+      {
+        "wordId": "w-site",
+        "reason": "选项「地点」不是「roof」的主释义「屋顶」或其他义项。"
+      },
+      {
+        "wordId": "w-furniture",
+        "reason": "选项「家具」不是「roof」的主释义「屋顶」或其他义项。"
+      },
+      {
+        "wordId": "w-management",
+        "reason": "选项「管理」不是「roof」的主释义「屋顶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-site",
+        "reason": "英文「site」的常见义项「地点」不符合主释义「屋顶」。"
+      },
+      {
+        "wordId": "w-furniture",
+        "reason": "英文「furniture」的常见义项「家具」不符合主释义「屋顶」。"
+      },
+      {
+        "wordId": "w-management",
+        "reason": "英文「management」的常见义项「管理」不符合主释义「屋顶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-site",
+        "surfaceForm": "site",
+        "reason": "将「site」代入可见句子后不表达主释义「屋顶」。"
+      },
+      {
+        "wordId": "w-furniture",
+        "surfaceForm": "furniture",
+        "reason": "将「furniture」代入可见句子后不表达主释义「屋顶」。"
+      },
+      {
+        "wordId": "w-management",
+        "surfaceForm": "management",
+        "reason": "将「management」代入可见句子后不表达主释义「屋顶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-room",
+    "enToZh": [
+      {
+        "wordId": "w-ministry",
+        "reason": "选项「政府部门」不是「room」的主释义「房间」或其他义项。"
+      },
+      {
+        "wordId": "w-key",
+        "reason": "选项「钥匙」不是「room」的主释义「房间」或其他义项。"
+      },
+      {
+        "wordId": "w-video",
+        "reason": "选项「视频」不是「room」的主释义「房间」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ministry",
+        "reason": "英文「ministry」的常见义项「政府部门」不符合主释义「房间」。"
+      },
+      {
+        "wordId": "w-key",
+        "reason": "英文「key」的常见义项「钥匙」不符合主释义「房间」。"
+      },
+      {
+        "wordId": "w-video",
+        "reason": "英文「video」的常见义项「视频」不符合主释义「房间」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ministry",
+        "surfaceForm": "ministry",
+        "reason": "将「ministry」代入可见句子后不表达主释义「房间」。"
+      },
+      {
+        "wordId": "w-key",
+        "surfaceForm": "key",
+        "reason": "将「key」代入可见句子后不表达主释义「房间」。"
+      },
+      {
+        "wordId": "w-video",
+        "surfaceForm": "video",
+        "reason": "将「video」代入可见句子后不表达主释义「房间」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rooster",
+    "enToZh": [
+      {
+        "wordId": "w-propeller",
+        "reason": "选项「螺旋桨」不是「rooster」的主释义「公鸡」或其他义项。"
+      },
+      {
+        "wordId": "w-watt",
+        "reason": "选项「瓦特」不是「rooster」的主释义「公鸡」或其他义项。"
+      },
+      {
+        "wordId": "w-blacksmith",
+        "reason": "选项「铁匠」不是「rooster」的主释义「公鸡」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-propeller",
+        "reason": "英文「propeller」的常见义项「螺旋桨」不符合主释义「公鸡」。"
+      },
+      {
+        "wordId": "w-watt",
+        "reason": "英文「watt」的常见义项「瓦特」不符合主释义「公鸡」。"
+      },
+      {
+        "wordId": "w-blacksmith",
+        "reason": "英文「blacksmith」的常见义项「铁匠」不符合主释义「公鸡」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-propeller",
+        "surfaceForm": "propeller",
+        "reason": "将「propeller」代入可见句子后不表达主释义「公鸡」。"
+      },
+      {
+        "wordId": "w-watt",
+        "surfaceForm": "watt",
+        "reason": "将「watt」代入可见句子后不表达主释义「公鸡」。"
+      },
+      {
+        "wordId": "w-blacksmith",
+        "surfaceForm": "blacksmith",
+        "reason": "将「blacksmith」代入可见句子后不表达主释义「公鸡」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-root",
+    "enToZh": [
+      {
+        "wordId": "w-chief",
+        "reason": "选项「首领」不是「root」的主释义「根」或其他义项。"
+      },
+      {
+        "wordId": "w-approach",
+        "reason": "选项「方法」不是「root」的主释义「根」或其他义项。"
+      },
+      {
+        "wordId": "w-exercise",
+        "reason": "选项「锻炼」不是「root」的主释义「根」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-chief",
+        "reason": "英文「chief」的常见义项「首领」不符合主释义「根」。"
+      },
+      {
+        "wordId": "w-approach",
+        "reason": "英文「approach」的常见义项「方法」不符合主释义「根」。"
+      },
+      {
+        "wordId": "w-exercise",
+        "reason": "英文「exercise」的常见义项「锻炼」不符合主释义「根」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-chief",
+        "surfaceForm": "chief",
+        "reason": "将「chief」代入可见句子后不表达主释义「根」。"
+      },
+      {
+        "wordId": "w-approach",
+        "surfaceForm": "approach",
+        "reason": "将「approach」代入可见句子后不表达主释义「根」。"
+      },
+      {
+        "wordId": "w-exercise",
+        "surfaceForm": "exercise",
+        "reason": "将「exercise」代入可见句子后不表达主释义「根」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rope",
+    "enToZh": [
+      {
+        "wordId": "w-leather",
+        "reason": "选项「皮革」不是「rope」的主释义「绳子」或其他义项。"
+      },
+      {
+        "wordId": "w-legislation",
+        "reason": "选项「法规」不是「rope」的主释义「绳子」或其他义项。"
+      },
+      {
+        "wordId": "w-lump",
+        "reason": "选项「块」不是「rope」的主释义「绳子」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-leather",
+        "reason": "英文「leather」的常见义项「皮革」不符合主释义「绳子」。"
+      },
+      {
+        "wordId": "w-legislation",
+        "reason": "英文「legislation」的常见义项「法规」不符合主释义「绳子」。"
+      },
+      {
+        "wordId": "w-lump",
+        "reason": "英文「lump」的常见义项「块」不符合主释义「绳子」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-leather",
+        "surfaceForm": "leather",
+        "reason": "将「leather」代入可见句子后不表达主释义「绳子」。"
+      },
+      {
+        "wordId": "w-legislation",
+        "surfaceForm": "legislation",
+        "reason": "将「legislation」代入可见句子后不表达主释义「绳子」。"
+      },
+      {
+        "wordId": "w-lump",
+        "surfaceForm": "lump",
+        "reason": "将「lump」代入可见句子后不表达主释义「绳子」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rot",
+    "enToZh": [
+      {
+        "wordId": "w-radiate",
+        "reason": "选项「散发」不是「rot」的主释义「腐烂」或其他义项。"
+      },
+      {
+        "wordId": "w-expend",
+        "reason": "选项「花费」不是「rot」的主释义「腐烂」或其他义项。"
+      },
+      {
+        "wordId": "w-eject",
+        "reason": "选项「弹出」不是「rot」的主释义「腐烂」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-radiate",
+        "reason": "英文「radiate」的常见义项「散发」不符合主释义「腐烂」。"
+      },
+      {
+        "wordId": "w-expend",
+        "reason": "英文「expend」的常见义项「花费」不符合主释义「腐烂」。"
+      },
+      {
+        "wordId": "w-eject",
+        "reason": "英文「eject」的常见义项「弹出」不符合主释义「腐烂」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-radiate",
+        "surfaceForm": "radiate",
+        "reason": "将「radiate」代入可见句子后不表达主释义「腐烂」。"
+      },
+      {
+        "wordId": "w-expend",
+        "surfaceForm": "expend",
+        "reason": "将「expend」代入可见句子后不表达主释义「腐烂」。"
+      },
+      {
+        "wordId": "w-eject",
+        "surfaceForm": "eject",
+        "reason": "将「eject」代入可见句子后不表达主释义「腐烂」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rotation",
+    "enToZh": [
+      {
+        "wordId": "w-descent",
+        "reason": "选项「下降」不是「rotation」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-bow",
+        "reason": "选项「弓」不是「rotation」的主释义「旋转」或其他义项。"
+      },
+      {
+        "wordId": "w-standpoint",
+        "reason": "选项「观点」不是「rotation」的主释义「旋转」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-descent",
+        "reason": "英文「descent」的常见义项「下降」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-bow",
+        "reason": "英文「bow」的常见义项「弓」不符合主释义「旋转」。"
+      },
+      {
+        "wordId": "w-standpoint",
+        "reason": "英文「standpoint」的常见义项「观点」不符合主释义「旋转」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-descent",
+        "surfaceForm": "descent",
+        "reason": "将「descent」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-bow",
+        "surfaceForm": "bow",
+        "reason": "将「bow」代入可见句子后不表达主释义「旋转」。"
+      },
+      {
+        "wordId": "w-standpoint",
+        "surfaceForm": "standpoint",
+        "reason": "将「standpoint」代入可见句子后不表达主释义「旋转」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rough",
+    "enToZh": [
+      {
+        "wordId": "w-ready",
+        "reason": "选项「准备好的」不是「rough」的主释义「粗糙的」或其他义项。"
+      },
+      {
+        "wordId": "w-next",
+        "reason": "选项「下一个」不是「rough」的主释义「粗糙的」或其他义项。"
+      },
+      {
+        "wordId": "w-european",
+        "reason": "选项「欧洲的」不是「rough」的主释义「粗糙的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ready",
+        "reason": "英文「ready」的常见义项「准备好的」不符合主释义「粗糙的」。"
+      },
+      {
+        "wordId": "w-next",
+        "reason": "英文「next」的常见义项「下一个」不符合主释义「粗糙的」。"
+      },
+      {
+        "wordId": "w-european",
+        "reason": "英文「European」的常见义项「欧洲的」不符合主释义「粗糙的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ready",
+        "surfaceForm": "ready",
+        "reason": "将「ready」代入可见句子后不表达主释义「粗糙的」。"
+      },
+      {
+        "wordId": "w-next",
+        "surfaceForm": "next",
+        "reason": "将「next」代入可见句子后不表达主释义「粗糙的」。"
+      },
+      {
+        "wordId": "w-european",
+        "surfaceForm": "European",
+        "reason": "将「European」代入可见句子后不表达主释义「粗糙的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-roughly",
+    "enToZh": [
+      {
+        "wordId": "w-entirely",
+        "reason": "选项「完全地」不是「roughly」的主释义「大约」或其他义项。"
+      },
+      {
+        "wordId": "w-anymore",
+        "reason": "选项「不再」不是「roughly」的主释义「大约」或其他义项。"
+      },
+      {
+        "wordId": "w-perfectly",
+        "reason": "选项「完美地」不是「roughly」的主释义「大约」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-entirely",
+        "reason": "英文「entirely」的常见义项「完全地」不符合主释义「大约」。"
+      },
+      {
+        "wordId": "w-anymore",
+        "reason": "英文「anymore」的常见义项「不再」不符合主释义「大约」。"
+      },
+      {
+        "wordId": "w-perfectly",
+        "reason": "英文「perfectly」的常见义项「完美地」不符合主释义「大约」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-entirely",
+        "surfaceForm": "entirely",
+        "reason": "将「entirely」代入可见句子后不表达主释义「大约」。"
+      },
+      {
+        "wordId": "w-anymore",
+        "surfaceForm": "anymore",
+        "reason": "将「anymore」代入可见句子后不表达主释义「大约」。"
+      },
+      {
+        "wordId": "w-perfectly",
+        "surfaceForm": "perfectly",
+        "reason": "将「perfectly」代入可见句子后不表达主释义「大约」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-round",
+    "enToZh": [
+      {
+        "wordId": "w-full",
+        "reason": "选项「满的」不是「round」的主释义「圆形的」或其他义项。"
+      },
+      {
+        "wordId": "w-mexican",
+        "reason": "选项「墨西哥的」不是「round」的主释义「圆形的」或其他义项。"
+      },
+      {
+        "wordId": "w-calm",
+        "reason": "选项「平静的」不是「round」的主释义「圆形的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-full",
+        "reason": "英文「full」的常见义项「满的」不符合主释义「圆形的」。"
+      },
+      {
+        "wordId": "w-mexican",
+        "reason": "英文「Mexican」的常见义项「墨西哥的」不符合主释义「圆形的」。"
+      },
+      {
+        "wordId": "w-calm",
+        "reason": "英文「calm」的常见义项「平静的」不符合主释义「圆形的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-full",
+        "surfaceForm": "full",
+        "reason": "将「full」代入可见句子后不表达主释义「圆形的」。"
+      },
+      {
+        "wordId": "w-mexican",
+        "surfaceForm": "Mexican",
+        "reason": "将「Mexican」代入可见句子后不表达主释义「圆形的」。"
+      },
+      {
+        "wordId": "w-calm",
+        "surfaceForm": "calm",
+        "reason": "将「calm」代入可见句子后不表达主释义「圆形的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rouse",
+    "enToZh": [
+      {
+        "wordId": "w-dread",
+        "reason": "选项「害怕」不是「rouse」的主释义「唤醒」或其他义项。"
+      },
+      {
+        "wordId": "w-sneeze",
+        "reason": "选项「打喷嚏」不是「rouse」的主释义「唤醒」或其他义项。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "选项「归因于」不是「rouse」的主释义「唤醒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-dread",
+        "reason": "英文「dread」的常见义项「害怕」不符合主释义「唤醒」。"
+      },
+      {
+        "wordId": "w-sneeze",
+        "reason": "英文「sneeze」的常见义项「打喷嚏」不符合主释义「唤醒」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "英文「ascribe」的常见义项「归因于」不符合主释义「唤醒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-dread",
+        "surfaceForm": "dread",
+        "reason": "将「dread」代入可见句子后不表达主释义「唤醒」。"
+      },
+      {
+        "wordId": "w-sneeze",
+        "surfaceForm": "sneeze",
+        "reason": "将「sneeze」代入可见句子后不表达主释义「唤醒」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "surfaceForm": "ascribe",
+        "reason": "将「ascribe」代入可见句子后不表达主释义「唤醒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-route",
+    "enToZh": [
+      {
+        "wordId": "w-ship",
+        "reason": "选项「船」不是「route」的主释义「路线」或其他义项。"
+      },
+      {
+        "wordId": "w-reality",
+        "reason": "选项「现实」不是「route」的主释义「路线」或其他义项。"
+      },
+      {
+        "wordId": "w-string",
+        "reason": "选项「细绳」不是「route」的主释义「路线」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ship",
+        "reason": "英文「ship」的常见义项「船」不符合主释义「路线」。"
+      },
+      {
+        "wordId": "w-reality",
+        "reason": "英文「reality」的常见义项「现实」不符合主释义「路线」。"
+      },
+      {
+        "wordId": "w-string",
+        "reason": "英文「string」的常见义项「细绳」不符合主释义「路线」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ship",
+        "surfaceForm": "ship",
+        "reason": "将「ship」代入可见句子后不表达主释义「路线」。"
+      },
+      {
+        "wordId": "w-reality",
+        "surfaceForm": "reality",
+        "reason": "将「reality」代入可见句子后不表达主释义「路线」。"
+      },
+      {
+        "wordId": "w-string",
+        "surfaceForm": "string",
+        "reason": "将「string」代入可见句子后不表达主释义「路线」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-routine",
+    "enToZh": [
+      {
+        "wordId": "w-translation",
+        "reason": "选项「译文」不是「routine」的主释义「日常安排」或其他义项。"
+      },
+      {
+        "wordId": "w-childhood",
+        "reason": "选项「童年」不是「routine」的主释义「日常安排」或其他义项。"
+      },
+      {
+        "wordId": "w-toy",
+        "reason": "选项「玩具」不是「routine」的主释义「日常安排」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-translation",
+        "reason": "英文「translation」的常见义项「译文」不符合主释义「日常安排」。"
+      },
+      {
+        "wordId": "w-childhood",
+        "reason": "英文「childhood」的常见义项「童年」不符合主释义「日常安排」。"
+      },
+      {
+        "wordId": "w-toy",
+        "reason": "英文「toy」的常见义项「玩具」不符合主释义「日常安排」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-translation",
+        "surfaceForm": "translation",
+        "reason": "将「translation」代入可见句子后不表达主释义「日常安排」。"
+      },
+      {
+        "wordId": "w-childhood",
+        "surfaceForm": "childhood",
+        "reason": "将「childhood」代入可见句子后不表达主释义「日常安排」。"
+      },
+      {
+        "wordId": "w-toy",
+        "surfaceForm": "toy",
+        "reason": "将「toy」代入可见句子后不表达主释义「日常安排」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-row",
+    "enToZh": [
+      {
+        "wordId": "w-printer",
+        "reason": "选项「打印机」不是「row」的主释义「一排」或其他义项。"
+      },
+      {
+        "wordId": "w-ministry",
+        "reason": "选项「政府部门」不是「row」的主释义「一排」或其他义项。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "reason": "选项「不赞成」不是「row」的主释义「一排」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-printer",
+        "reason": "英文「printer」的常见义项「打印机」不符合主释义「一排」。"
+      },
+      {
+        "wordId": "w-ministry",
+        "reason": "英文「ministry」的常见义项「政府部门」不符合主释义「一排」。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "reason": "英文「disapproval」的常见义项「不赞成」不符合主释义「一排」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-printer",
+        "surfaceForm": "printer",
+        "reason": "将「printer」代入可见句子后不表达主释义「一排」。"
+      },
+      {
+        "wordId": "w-ministry",
+        "surfaceForm": "ministry",
+        "reason": "将「ministry」代入可见句子后不表达主释义「一排」。"
+      },
+      {
+        "wordId": "w-disapproval",
+        "surfaceForm": "disapproval",
+        "reason": "将「disapproval」代入可见句子后不表达主释义「一排」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-royal",
+    "enToZh": [
+      {
+        "wordId": "w-double",
+        "reason": "选项「双倍的」不是「royal」的主释义「王室的」或其他义项。"
+      },
+      {
+        "wordId": "w-strange",
+        "reason": "选项「奇怪的」不是「royal」的主释义「王室的」或其他义项。"
+      },
+      {
+        "wordId": "w-round",
+        "reason": "选项「圆形的」不是「royal」的主释义「王室的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-double",
+        "reason": "英文「double」的常见义项「双倍的」不符合主释义「王室的」。"
+      },
+      {
+        "wordId": "w-strange",
+        "reason": "英文「strange」的常见义项「奇怪的」不符合主释义「王室的」。"
+      },
+      {
+        "wordId": "w-round",
+        "reason": "英文「round」的常见义项「圆形的」不符合主释义「王室的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-double",
+        "surfaceForm": "double",
+        "reason": "将「double」代入可见句子后不表达主释义「王室的」。"
+      },
+      {
+        "wordId": "w-strange",
+        "surfaceForm": "strange",
+        "reason": "将「strange」代入可见句子后不表达主释义「王室的」。"
+      },
+      {
+        "wordId": "w-round",
+        "surfaceForm": "round",
+        "reason": "将「round」代入可见句子后不表达主释义「王室的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-royalty",
+    "enToZh": [
+      {
+        "wordId": "w-mercury",
+        "reason": "选项「水银」不是「royalty」的主释义「王室成员」或其他义项。"
+      },
+      {
+        "wordId": "w-momentum",
+        "reason": "选项「势头」不是「royalty」的主释义「王室成员」或其他义项。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "选项「山羊」不是「royalty」的主释义「王室成员」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-mercury",
+        "reason": "英文「mercury」的常见义项「水银」不符合主释义「王室成员」。"
+      },
+      {
+        "wordId": "w-momentum",
+        "reason": "英文「momentum」的常见义项「势头」不符合主释义「王室成员」。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "英文「goat」的常见义项「山羊」不符合主释义「王室成员」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-mercury",
+        "surfaceForm": "mercury",
+        "reason": "将「mercury」代入可见句子后不表达主释义「王室成员」。"
+      },
+      {
+        "wordId": "w-momentum",
+        "surfaceForm": "momentum",
+        "reason": "将「momentum」代入可见句子后不表达主释义「王室成员」。"
+      },
+      {
+        "wordId": "w-goat",
+        "surfaceForm": "goat",
+        "reason": "将「goat」代入可见句子后不表达主释义「王室成员」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rub",
+    "enToZh": [
+      {
+        "wordId": "w-begin",
+        "reason": "选项「开始」不是「rub」的主释义「擦拭」或其他义项。"
+      },
+      {
+        "wordId": "w-encourage",
+        "reason": "选项「鼓励」不是「rub」的主释义「擦拭」或其他义项。"
+      },
+      {
+        "wordId": "w-check",
+        "reason": "选项「检查」不是「rub」的主释义「擦拭」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-begin",
+        "reason": "英文「begin」的常见义项「开始」不符合主释义「擦拭」。"
+      },
+      {
+        "wordId": "w-encourage",
+        "reason": "英文「encourage」的常见义项「鼓励」不符合主释义「擦拭」。"
+      },
+      {
+        "wordId": "w-check",
+        "reason": "英文「check」的常见义项「检查」不符合主释义「擦拭」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-begin",
+        "surfaceForm": "begin",
+        "reason": "将「begin」代入可见句子后不表达主释义「擦拭」。"
+      },
+      {
+        "wordId": "w-encourage",
+        "surfaceForm": "encourage",
+        "reason": "将「encourage」代入可见句子后不表达主释义「擦拭」。"
+      },
+      {
+        "wordId": "w-check",
+        "surfaceForm": "check",
+        "reason": "将「check」代入可见句子后不表达主释义「擦拭」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rubber",
+    "enToZh": [
+      {
+        "wordId": "w-church",
+        "reason": "选项「教堂」不是「rubber」的主释义「橡胶」或其他义项。"
+      },
+      {
+        "wordId": "w-platform",
+        "reason": "选项「平台」不是「rubber」的主释义「橡胶」或其他义项。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "选项「箭头」不是「rubber」的主释义「橡胶」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-church",
+        "reason": "英文「church」的常见义项「教堂」不符合主释义「橡胶」。"
+      },
+      {
+        "wordId": "w-platform",
+        "reason": "英文「platform」的常见义项「平台」不符合主释义「橡胶」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "reason": "英文「arrow」的常见义项「箭头」不符合主释义「橡胶」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-church",
+        "surfaceForm": "church",
+        "reason": "将「church」代入可见句子后不表达主释义「橡胶」。"
+      },
+      {
+        "wordId": "w-platform",
+        "surfaceForm": "platform",
+        "reason": "将「platform」代入可见句子后不表达主释义「橡胶」。"
+      },
+      {
+        "wordId": "w-arrow",
+        "surfaceForm": "arrow",
+        "reason": "将「arrow」代入可见句子后不表达主释义「橡胶」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-rubbish",
+    "enToZh": [
+      {
+        "wordId": "w-finger",
+        "reason": "选项「手指」不是「rubbish」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-note",
+        "reason": "选项「笔记」不是「rubbish」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-draft",
+        "reason": "选项「草稿」不是「rubbish」的主释义「垃圾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-finger",
+        "reason": "英文「finger」的常见义项「手指」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-note",
+        "reason": "英文「note」的常见义项「笔记」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-draft",
+        "reason": "英文「draft」的常见义项「草稿」不符合主释义「垃圾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-finger",
+        "surfaceForm": "finger",
+        "reason": "将「finger」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-note",
+        "surfaceForm": "note",
+        "reason": "将「note」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-draft",
+        "surfaceForm": "draft",
+        "reason": "将「draft」代入可见句子后不表达主释义「垃圾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-ruby",
+    "enToZh": [
+      {
+        "wordId": "w-woodpecker",
+        "reason": "选项「啄木鸟」不是「ruby」的主释义「红宝石」或其他义项。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "reason": "选项「陶器」不是「ruby」的主释义「红宝石」或其他义项。"
+      },
+      {
+        "wordId": "w-maturation",
+        "reason": "选项「成熟」不是「ruby」的主释义「红宝石」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-woodpecker",
+        "reason": "英文「woodpecker」的常见义项「啄木鸟」不符合主释义「红宝石」。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "reason": "英文「earthenware」的常见义项「陶器」不符合主释义「红宝石」。"
+      },
+      {
+        "wordId": "w-maturation",
+        "reason": "英文「maturation」的常见义项「成熟」不符合主释义「红宝石」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-woodpecker",
+        "surfaceForm": "woodpecker",
+        "reason": "将「woodpecker」代入可见句子后不表达主释义「红宝石」。"
+      },
+      {
+        "wordId": "w-earthenware",
+        "surfaceForm": "earthenware",
+        "reason": "将「earthenware」代入可见句子后不表达主释义「红宝石」。"
+      },
+      {
+        "wordId": "w-maturation",
+        "surfaceForm": "maturation",
+        "reason": "将「maturation」代入可见句子后不表达主释义「红宝石」。"
+      }
+    ],
+    "spelling": null
+  }
+]

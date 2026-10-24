@@ -1,0 +1,16 @@
+{
+  "reviewer": "independent-fix-review-main-132",
+  "mode": "sample",
+  "inspectedWordIds": [
+    "w-parcel",
+    "w-partially",
+    "w-particle",
+    "w-particular",
+    "w-particularly",
+    "w-passage",
+    "w-passion",
+    "w-pastime"
+  ],
+  "result": "pass",
+  "findings": []
+}

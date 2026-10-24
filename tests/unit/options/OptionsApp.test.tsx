@@ -168,7 +168,10 @@ describe('OptionsApp — Issue #10', () => {
   it('点击查看学习统计在新标签页打开扩展统计页面', async () => {
     renderOptions();
 
-    fireEvent.click(await screen.findByRole('button', { name: '查看学习统计' }));
+    const button = await screen.findByRole('button', { name: '查看学习统计' });
+    expect(button.querySelector('svg')).not.toBeNull();
+    expect(button).toHaveAttribute('title', '在新页面打开学习统计');
+    fireEvent.click(button);
 
     expect(chrome.tabs.create).toHaveBeenCalledWith({
       url: 'chrome-extension://test-id/stats.html',
@@ -187,6 +190,7 @@ describe('OptionsApp — Issue #10', () => {
     // 词库与学习水平：原版受控 Select（combobox）直接显示当前值文本
     expect(screen.getByRole('combobox', { name: '当前词库' })).toHaveTextContent('日常高频');
     expect(screen.getByRole('combobox', { name: '学习水平' })).toHaveTextContent('一般');
+    expect(screen.getByRole('combobox', { name: '朗读音色' })).toHaveTextContent('Microsoft Zira');
     // 每日新词上限
     expect(screen.getByDisplayValue('5')).toBeInTheDocument();
     // 默认冷却
@@ -233,6 +237,58 @@ describe('OptionsApp — Issue #10', () => {
 
     expect(screen.getByText('大学英语四级考试（CET-4）核心词汇')).toBeInTheDocument();
     expect(screen.queryByText('基于现代英语语料库词频排序的高频常用词汇')).not.toBeInTheDocument();
+  });
+
+  it('可选择本地英语朗读音色并保存，在线语音不出现在列表', async () => {
+    const speak = vi.fn();
+    class FakeUtterance {
+      voice: SpeechSynthesisVoice | null = null;
+      lang = '';
+      rate = 1;
+      volume = 1;
+      constructor(readonly text: string) {}
+    }
+    vi.stubGlobal('SpeechSynthesisUtterance', FakeUtterance);
+    vi.stubGlobal('speechSynthesis', {
+      getVoices: () => [
+        {
+          name: 'Microsoft Zira - English (United States)',
+          lang: 'en-US',
+          localService: true,
+        },
+        {
+          name: 'Microsoft David - English (United States)',
+          lang: 'en-US',
+          localService: true,
+        },
+        {
+          name: 'Microsoft Aria Online (Natural) - English (United States)',
+          lang: 'en-US',
+          localService: false,
+        },
+      ],
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      cancel: vi.fn(),
+      resume: vi.fn(),
+      speak,
+    });
+    renderOptions();
+
+    const voiceSelect = await screen.findByRole('combobox', { name: '朗读音色' });
+    expect(voiceSelect).toHaveTextContent('Microsoft Zira');
+    fireEvent.click(voiceSelect);
+    expect(screen.queryByRole('option', { name: /Aria Online/ })).not.toBeInTheDocument();
+    fireEvent.click(await screen.findByRole('option', { name: /Microsoft David/ }));
+
+    fireEvent.click(screen.getByRole('button', { name: '试听朗读音色' }));
+    expect(speak).toHaveBeenCalledTimes(1);
+    expect((speak.mock.calls[0]![0] as FakeUtterance).voice?.name).toContain('David');
+
+    fireEvent.click(screen.getByRole('button', { name: '保存设置' }));
+    await waitFor(() => expect(mocks.setAppSettings).toHaveBeenCalledTimes(1));
+    const saved = mocks.setAppSettings.mock.calls[0]![0] as AppSettings;
+    expect(saved.speechVoiceName).toBe('Microsoft David - English (United States)');
   });
 
   it('下拉选择支持键盘：方向键移动、Enter 选中、Escape 关闭并返回触发区', async () => {

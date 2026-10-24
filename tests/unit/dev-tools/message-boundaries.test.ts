@@ -11,6 +11,8 @@ describe('开发工具消息边界', () => {
       true,
     );
     expect(isDevExtensionMessage({ type: 'DEV_PREPARE_CARD', cardType: 'unknown' })).toBe(false);
+    expect(isDevExtensionMessage({ type: 'DEV_SEED_SCENARIO', scenario: 'year' })).toBe(true);
+    expect(isDevExtensionMessage({ type: 'DEV_SEED_SCENARIO', scenario: 'forever' })).toBe(false);
   });
 
   it('ping 同步响应，题卡请求异步转发给控制器', async () => {

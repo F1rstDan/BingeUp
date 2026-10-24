@@ -1,0 +1,1227 @@
+[
+  {
+    "wordId": "w-gangster",
+    "enToZh": [
+      {
+        "wordId": "w-ion",
+        "reason": "选项「离子」不是「gangster」的主释义「匪徒」或其他义项。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "选项「令人讨厌的事物」不是「gangster」的主释义「匪徒」或其他义项。"
+      },
+      {
+        "wordId": "w-gust",
+        "reason": "选项「一阵强风」不是「gangster」的主释义「匪徒」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-ion",
+        "reason": "英文「ion」的常见义项「离子」不符合主释义「匪徒」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "reason": "英文「nuisance」的常见义项「令人讨厌的事物」不符合主释义「匪徒」。"
+      },
+      {
+        "wordId": "w-gust",
+        "reason": "英文「gust」的常见义项「一阵强风」不符合主释义「匪徒」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-ion",
+        "surfaceForm": "ion",
+        "reason": "将「ion」代入可见句子后不表达主释义「匪徒」。"
+      },
+      {
+        "wordId": "w-nuisance",
+        "surfaceForm": "nuisance",
+        "reason": "将「nuisance」代入可见句子后不表达主释义「匪徒」。"
+      },
+      {
+        "wordId": "w-gust",
+        "surfaceForm": "gust",
+        "reason": "将「gust」代入可见句子后不表达主释义「匪徒」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gaol",
+    "enToZh": [
+      {
+        "wordId": "w-equipe",
+        "reason": "选项「团队」不是「gaol」的主释义「监狱」或其他义项。"
+      },
+      {
+        "wordId": "w-idleness",
+        "reason": "选项「懒惰」不是「gaol」的主释义「监狱」或其他义项。"
+      },
+      {
+        "wordId": "w-deflection",
+        "reason": "选项「偏转」不是「gaol」的主释义「监狱」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-equipe",
+        "reason": "英文「equipe」的常见义项「团队」不符合主释义「监狱」。"
+      },
+      {
+        "wordId": "w-idleness",
+        "reason": "英文「idleness」的常见义项「懒惰」不符合主释义「监狱」。"
+      },
+      {
+        "wordId": "w-deflection",
+        "reason": "英文「deflection」的常见义项「偏转」不符合主释义「监狱」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-equipe",
+        "surfaceForm": "equipe",
+        "reason": "将「equipe」代入可见句子后不表达主释义「监狱」。"
+      },
+      {
+        "wordId": "w-idleness",
+        "surfaceForm": "idleness",
+        "reason": "将「idleness」代入可见句子后不表达主释义「监狱」。"
+      },
+      {
+        "wordId": "w-deflection",
+        "surfaceForm": "deflection",
+        "reason": "将「deflection」代入可见句子后不表达主释义「监狱」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gap",
+    "enToZh": [
+      {
+        "wordId": "w-coast",
+        "reason": "选项「海岸」不是「gap」的主释义「缺口」或其他义项。"
+      },
+      {
+        "wordId": "w-glove",
+        "reason": "选项「手套」不是「gap」的主释义「缺口」或其他义项。"
+      },
+      {
+        "wordId": "w-content",
+        "reason": "选项「内容」不是「gap」的主释义「缺口」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-coast",
+        "reason": "英文「coast」的常见义项「海岸」不符合主释义「缺口」。"
+      },
+      {
+        "wordId": "w-glove",
+        "reason": "英文「glove」的常见义项「手套」不符合主释义「缺口」。"
+      },
+      {
+        "wordId": "w-content",
+        "reason": "英文「content」的常见义项「内容」不符合主释义「缺口」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-coast",
+        "surfaceForm": "coast",
+        "reason": "将「coast」代入可见句子后不表达主释义「缺口」。"
+      },
+      {
+        "wordId": "w-glove",
+        "surfaceForm": "glove",
+        "reason": "将「glove」代入可见句子后不表达主释义「缺口」。"
+      },
+      {
+        "wordId": "w-content",
+        "surfaceForm": "content",
+        "reason": "将「content」代入可见句子后不表达主释义「缺口」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-garage",
+    "enToZh": [
+      {
+        "wordId": "w-gasoline",
+        "reason": "选项「汽油」不是「garage」的主释义「车库」或其他义项。"
+      },
+      {
+        "wordId": "w-nerve",
+        "reason": "选项「神经」不是「garage」的主释义「车库」或其他义项。"
+      },
+      {
+        "wordId": "w-law",
+        "reason": "选项「法律」不是「garage」的主释义「车库」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-gasoline",
+        "reason": "英文「gasoline」的常见义项「汽油」不符合主释义「车库」。"
+      },
+      {
+        "wordId": "w-nerve",
+        "reason": "英文「nerve」的常见义项「神经」不符合主释义「车库」。"
+      },
+      {
+        "wordId": "w-law",
+        "reason": "英文「law」的常见义项「法律」不符合主释义「车库」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-gasoline",
+        "surfaceForm": "gasoline",
+        "reason": "将「gasoline」代入可见句子后不表达主释义「车库」。"
+      },
+      {
+        "wordId": "w-nerve",
+        "surfaceForm": "nerve",
+        "reason": "将「nerve」代入可见句子后不表达主释义「车库」。"
+      },
+      {
+        "wordId": "w-law",
+        "surfaceForm": "law",
+        "reason": "将「law」代入可见句子后不表达主释义「车库」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-garbage",
+    "enToZh": [
+      {
+        "wordId": "w-introduction",
+        "reason": "选项「介绍」不是「garbage」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-mood",
+        "reason": "选项「心情」不是「garbage」的主释义「垃圾」或其他义项。"
+      },
+      {
+        "wordId": "w-movement",
+        "reason": "选项「移动」不是「garbage」的主释义「垃圾」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-introduction",
+        "reason": "英文「introduction」的常见义项「介绍」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-mood",
+        "reason": "英文「mood」的常见义项「心情」不符合主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-movement",
+        "reason": "英文「movement」的常见义项「移动」不符合主释义「垃圾」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-introduction",
+        "surfaceForm": "introduction",
+        "reason": "将「introduction」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-mood",
+        "surfaceForm": "mood",
+        "reason": "将「mood」代入可见句子后不表达主释义「垃圾」。"
+      },
+      {
+        "wordId": "w-movement",
+        "surfaceForm": "movement",
+        "reason": "将「movement」代入可见句子后不表达主释义「垃圾」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-garden",
+    "enToZh": [
+      {
+        "wordId": "w-activity",
+        "reason": "选项「活动」不是「garden」的主释义「花园」或其他义项。"
+      },
+      {
+        "wordId": "w-critic",
+        "reason": "选项「评论家」不是「garden」的主释义「花园」或其他义项。"
+      },
+      {
+        "wordId": "w-attraction",
+        "reason": "选项「吸引力」不是「garden」的主释义「花园」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-activity",
+        "reason": "英文「activity」的常见义项「活动」不符合主释义「花园」。"
+      },
+      {
+        "wordId": "w-critic",
+        "reason": "英文「critic」的常见义项「评论家」不符合主释义「花园」。"
+      },
+      {
+        "wordId": "w-attraction",
+        "reason": "英文「attraction」的常见义项「吸引力」不符合主释义「花园」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-activity",
+        "surfaceForm": "activity",
+        "reason": "将「activity」代入可见句子后不表达主释义「花园」。"
+      },
+      {
+        "wordId": "w-critic",
+        "surfaceForm": "critic",
+        "reason": "将「critic」代入可见句子后不表达主释义「花园」。"
+      },
+      {
+        "wordId": "w-attraction",
+        "surfaceForm": "attraction",
+        "reason": "将「attraction」代入可见句子后不表达主释义「花园」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gardener",
+    "enToZh": [
+      {
+        "wordId": "w-detector",
+        "reason": "选项「探测器」不是「gardener」的主释义「园丁」或其他义项。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "选项「山羊」不是「gardener」的主释义「园丁」或其他义项。"
+      },
+      {
+        "wordId": "w-dwarf",
+        "reason": "选项「矮人」不是「gardener」的主释义「园丁」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-detector",
+        "reason": "英文「detector」的常见义项「探测器」不符合主释义「园丁」。"
+      },
+      {
+        "wordId": "w-goat",
+        "reason": "英文「goat」的常见义项「山羊」不符合主释义「园丁」。"
+      },
+      {
+        "wordId": "w-dwarf",
+        "reason": "英文「dwarf」的常见义项「矮人」不符合主释义「园丁」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-detector",
+        "surfaceForm": "detector",
+        "reason": "将「detector」代入可见句子后不表达主释义「园丁」。"
+      },
+      {
+        "wordId": "w-goat",
+        "surfaceForm": "goat",
+        "reason": "将「goat」代入可见句子后不表达主释义「园丁」。"
+      },
+      {
+        "wordId": "w-dwarf",
+        "surfaceForm": "dwarf",
+        "reason": "将「dwarf」代入可见句子后不表达主释义「园丁」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-garlic",
+    "enToZh": [
+      {
+        "wordId": "w-organization",
+        "reason": "选项「组织」不是「garlic」的主释义「大蒜」或其他义项。"
+      },
+      {
+        "wordId": "w-market",
+        "reason": "选项「市场」不是「garlic」的主释义「大蒜」或其他义项。"
+      },
+      {
+        "wordId": "w-lot",
+        "reason": "选项「大量」不是「garlic」的主释义「大蒜」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-organization",
+        "reason": "英文「organization」的常见义项「组织」不符合主释义「大蒜」。"
+      },
+      {
+        "wordId": "w-market",
+        "reason": "英文「market」的常见义项「市场」不符合主释义「大蒜」。"
+      },
+      {
+        "wordId": "w-lot",
+        "reason": "英文「lot」的常见义项「大量」不符合主释义「大蒜」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-organization",
+        "surfaceForm": "organization",
+        "reason": "将「organization」代入可见句子后不表达主释义「大蒜」。"
+      },
+      {
+        "wordId": "w-market",
+        "surfaceForm": "market",
+        "reason": "将「market」代入可见句子后不表达主释义「大蒜」。"
+      },
+      {
+        "wordId": "w-lot",
+        "surfaceForm": "lot",
+        "reason": "将「lot」代入可见句子后不表达主释义「大蒜」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-garment",
+    "enToZh": [
+      {
+        "wordId": "w-arch",
+        "reason": "选项「拱门」不是「garment」的主释义「衣服」或其他义项。"
+      },
+      {
+        "wordId": "w-oak",
+        "reason": "选项「橡树」不是「garment」的主释义「衣服」或其他义项。"
+      },
+      {
+        "wordId": "w-parade",
+        "reason": "选项「游行」不是「garment」的主释义「衣服」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-arch",
+        "reason": "英文「arch」的常见义项「拱门」不符合主释义「衣服」。"
+      },
+      {
+        "wordId": "w-oak",
+        "reason": "英文「oak」的常见义项「橡树」不符合主释义「衣服」。"
+      },
+      {
+        "wordId": "w-parade",
+        "reason": "英文「parade」的常见义项「游行」不符合主释义「衣服」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-arch",
+        "surfaceForm": "arch",
+        "reason": "将「arch」代入可见句子后不表达主释义「衣服」。"
+      },
+      {
+        "wordId": "w-oak",
+        "surfaceForm": "oak",
+        "reason": "将「oak」代入可见句子后不表达主释义「衣服」。"
+      },
+      {
+        "wordId": "w-parade",
+        "surfaceForm": "parade",
+        "reason": "将「parade」代入可见句子后不表达主释义「衣服」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gas",
+    "enToZh": [
+      {
+        "wordId": "w-cigarette",
+        "reason": "选项「香烟」不是「gas」的主释义「气体」或其他义项。"
+      },
+      {
+        "wordId": "w-explosion",
+        "reason": "选项「爆炸」不是「gas」的主释义「气体」或其他义项。"
+      },
+      {
+        "wordId": "w-approach",
+        "reason": "选项「方法」不是「gas」的主释义「气体」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cigarette",
+        "reason": "英文「cigarette」的常见义项「香烟」不符合主释义「气体」。"
+      },
+      {
+        "wordId": "w-explosion",
+        "reason": "英文「explosion」的常见义项「爆炸」不符合主释义「气体」。"
+      },
+      {
+        "wordId": "w-approach",
+        "reason": "英文「approach」的常见义项「方法」不符合主释义「气体」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cigarette",
+        "surfaceForm": "cigarette",
+        "reason": "将「cigarette」代入可见句子后不表达主释义「气体」。"
+      },
+      {
+        "wordId": "w-explosion",
+        "surfaceForm": "explosion",
+        "reason": "将「explosion」代入可见句子后不表达主释义「气体」。"
+      },
+      {
+        "wordId": "w-approach",
+        "surfaceForm": "approach",
+        "reason": "将「approach」代入可见句子后不表达主释义「气体」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gasoline",
+    "enToZh": [
+      {
+        "wordId": "w-part",
+        "reason": "选项「部分」不是「gasoline」的主释义「汽油」或其他义项。"
+      },
+      {
+        "wordId": "w-kindness",
+        "reason": "选项「善意」不是「gasoline」的主释义「汽油」或其他义项。"
+      },
+      {
+        "wordId": "w-lot",
+        "reason": "选项「大量」不是「gasoline」的主释义「汽油」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-part",
+        "reason": "英文「part」的常见义项「部分」不符合主释义「汽油」。"
+      },
+      {
+        "wordId": "w-kindness",
+        "reason": "英文「kindness」的常见义项「善意」不符合主释义「汽油」。"
+      },
+      {
+        "wordId": "w-lot",
+        "reason": "英文「lot」的常见义项「大量」不符合主释义「汽油」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-part",
+        "surfaceForm": "part",
+        "reason": "将「part」代入可见句子后不表达主释义「汽油」。"
+      },
+      {
+        "wordId": "w-kindness",
+        "surfaceForm": "kindness",
+        "reason": "将「kindness」代入可见句子后不表达主释义「汽油」。"
+      },
+      {
+        "wordId": "w-lot",
+        "surfaceForm": "lot",
+        "reason": "将「lot」代入可见句子后不表达主释义「汽油」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gasp",
+    "enToZh": [
+      {
+        "wordId": "w-accelerate",
+        "reason": "选项「加速」不是「gasp」的主释义「喘气」或其他义项。"
+      },
+      {
+        "wordId": "w-inquire",
+        "reason": "选项「询问」不是「gasp」的主释义「喘气」或其他义项。"
+      },
+      {
+        "wordId": "w-loosen",
+        "reason": "选项「松开」不是「gasp」的主释义「喘气」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-accelerate",
+        "reason": "英文「accelerate」的常见义项「加速」不符合主释义「喘气」。"
+      },
+      {
+        "wordId": "w-inquire",
+        "reason": "英文「inquire」的常见义项「询问」不符合主释义「喘气」。"
+      },
+      {
+        "wordId": "w-loosen",
+        "reason": "英文「loosen」的常见义项「松开」不符合主释义「喘气」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-accelerate",
+        "surfaceForm": "accelerate",
+        "reason": "将「accelerate」代入可见句子后不表达主释义「喘气」。"
+      },
+      {
+        "wordId": "w-inquire",
+        "surfaceForm": "inquire",
+        "reason": "将「inquire」代入可见句子后不表达主释义「喘气」。"
+      },
+      {
+        "wordId": "w-loosen",
+        "surfaceForm": "loosen",
+        "reason": "将「loosen」代入可见句子后不表达主释义「喘气」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gate",
+    "enToZh": [
+      {
+        "wordId": "w-belief",
+        "reason": "选项「信念」不是「gate」的主释义「大门」或其他义项。"
+      },
+      {
+        "wordId": "w-outcome",
+        "reason": "选项「结果」不是「gate」的主释义「大门」或其他义项。"
+      },
+      {
+        "wordId": "w-moment",
+        "reason": "选项「片刻」不是「gate」的主释义「大门」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-belief",
+        "reason": "英文「belief」的常见义项「信念」不符合主释义「大门」。"
+      },
+      {
+        "wordId": "w-outcome",
+        "reason": "英文「outcome」的常见义项「结果」不符合主释义「大门」。"
+      },
+      {
+        "wordId": "w-moment",
+        "reason": "英文「moment」的常见义项「片刻」不符合主释义「大门」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-belief",
+        "surfaceForm": "belief",
+        "reason": "将「belief」代入可见句子后不表达主释义「大门」。"
+      },
+      {
+        "wordId": "w-outcome",
+        "surfaceForm": "outcome",
+        "reason": "将「outcome」代入可见句子后不表达主释义「大门」。"
+      },
+      {
+        "wordId": "w-moment",
+        "surfaceForm": "moment",
+        "reason": "将「moment」代入可见句子后不表达主释义「大门」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gather",
+    "enToZh": [
+      {
+        "wordId": "w-pass",
+        "reason": "选项「通过」不是「gather」的主释义「聚集」或其他义项。"
+      },
+      {
+        "wordId": "w-amaze",
+        "reason": "选项「使惊奇」不是「gather」的主释义「聚集」或其他义项。"
+      },
+      {
+        "wordId": "w-decrease",
+        "reason": "选项「减少」不是「gather」的主释义「聚集」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-pass",
+        "reason": "英文「pass」的常见义项「通过」不符合主释义「聚集」。"
+      },
+      {
+        "wordId": "w-amaze",
+        "reason": "英文「amaze」的常见义项「使惊奇」不符合主释义「聚集」。"
+      },
+      {
+        "wordId": "w-decrease",
+        "reason": "英文「decrease」的常见义项「减少」不符合主释义「聚集」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-pass",
+        "surfaceForm": "pass",
+        "reason": "将「pass」代入可见句子后不表达主释义「聚集」。"
+      },
+      {
+        "wordId": "w-amaze",
+        "surfaceForm": "amaze",
+        "reason": "将「amaze」代入可见句子后不表达主释义「聚集」。"
+      },
+      {
+        "wordId": "w-decrease",
+        "surfaceForm": "decrease",
+        "reason": "将「decrease」代入可见句子后不表达主释义「聚集」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gauge",
+    "enToZh": [
+      {
+        "wordId": "w-descend",
+        "reason": "选项「下降」不是「gauge」的主释义「估计」或其他义项。"
+      },
+      {
+        "wordId": "w-linger",
+        "reason": "选项「逗留」不是「gauge」的主释义「估计」或其他义项。"
+      },
+      {
+        "wordId": "w-hurl",
+        "reason": "选项「猛扔」不是「gauge」的主释义「估计」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-descend",
+        "reason": "英文「descend」的常见义项「下降」不符合主释义「估计」。"
+      },
+      {
+        "wordId": "w-linger",
+        "reason": "英文「linger」的常见义项「逗留」不符合主释义「估计」。"
+      },
+      {
+        "wordId": "w-hurl",
+        "reason": "英文「hurl」的常见义项「猛扔」不符合主释义「估计」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-descend",
+        "surfaceForm": "descend",
+        "reason": "将「descend」代入可见句子后不表达主释义「估计」。"
+      },
+      {
+        "wordId": "w-linger",
+        "surfaceForm": "linger",
+        "reason": "将「linger」代入可见句子后不表达主释义「估计」。"
+      },
+      {
+        "wordId": "w-hurl",
+        "surfaceForm": "hurl",
+        "reason": "将「hurl」代入可见句子后不表达主释义「估计」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gaze",
+    "enToZh": [
+      {
+        "wordId": "w-boost",
+        "reason": "选项「提高」不是「gaze」的主释义「凝视」或其他义项。"
+      },
+      {
+        "wordId": "w-betray",
+        "reason": "选项「背叛」不是「gaze」的主释义「凝视」或其他义项。"
+      },
+      {
+        "wordId": "w-cheer",
+        "reason": "选项「欢呼」不是「gaze」的主释义「凝视」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-boost",
+        "reason": "英文「boost」的常见义项「提高」不符合主释义「凝视」。"
+      },
+      {
+        "wordId": "w-betray",
+        "reason": "英文「betray」的常见义项「背叛」不符合主释义「凝视」。"
+      },
+      {
+        "wordId": "w-cheer",
+        "reason": "英文「cheer」的常见义项「欢呼」不符合主释义「凝视」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-boost",
+        "surfaceForm": "boost",
+        "reason": "将「boost」代入可见句子后不表达主释义「凝视」。"
+      },
+      {
+        "wordId": "w-betray",
+        "surfaceForm": "betray",
+        "reason": "将「betray」代入可见句子后不表达主释义「凝视」。"
+      },
+      {
+        "wordId": "w-cheer",
+        "surfaceForm": "cheer",
+        "reason": "将「cheer」代入可见句子后不表达主释义「凝视」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gear",
+    "enToZh": [
+      {
+        "wordId": "w-indication",
+        "reason": "选项「迹象」不是「gear」的主释义「装备」或其他义项。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "选项「腰带」不是「gear」的主释义「装备」或其他义项。"
+      },
+      {
+        "wordId": "w-college",
+        "reason": "选项「大学」不是「gear」的主释义「装备」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-indication",
+        "reason": "英文「indication」的常见义项「迹象」不符合主释义「装备」。"
+      },
+      {
+        "wordId": "w-belt",
+        "reason": "英文「belt」的常见义项「腰带」不符合主释义「装备」。"
+      },
+      {
+        "wordId": "w-college",
+        "reason": "英文「college」的常见义项「大学」不符合主释义「装备」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-indication",
+        "surfaceForm": "indication",
+        "reason": "将「indication」代入可见句子后不表达主释义「装备」。"
+      },
+      {
+        "wordId": "w-belt",
+        "surfaceForm": "belt",
+        "reason": "将「belt」代入可见句子后不表达主释义「装备」。"
+      },
+      {
+        "wordId": "w-college",
+        "surfaceForm": "college",
+        "reason": "将「college」代入可见句子后不表达主释义「装备」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gender",
+    "enToZh": [
+      {
+        "wordId": "w-opponent",
+        "reason": "选项「对手」不是「gender」的主释义「性别」或其他义项。"
+      },
+      {
+        "wordId": "w-movement",
+        "reason": "选项「移动」不是「gender」的主释义「性别」或其他义项。"
+      },
+      {
+        "wordId": "w-lawyer",
+        "reason": "选项「律师」不是「gender」的主释义「性别」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-opponent",
+        "reason": "英文「opponent」的常见义项「对手」不符合主释义「性别」。"
+      },
+      {
+        "wordId": "w-movement",
+        "reason": "英文「movement」的常见义项「移动」不符合主释义「性别」。"
+      },
+      {
+        "wordId": "w-lawyer",
+        "reason": "英文「lawyer」的常见义项「律师」不符合主释义「性别」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-opponent",
+        "surfaceForm": "opponent",
+        "reason": "将「opponent」代入可见句子后不表达主释义「性别」。"
+      },
+      {
+        "wordId": "w-movement",
+        "surfaceForm": "movement",
+        "reason": "将「movement」代入可见句子后不表达主释义「性别」。"
+      },
+      {
+        "wordId": "w-lawyer",
+        "surfaceForm": "lawyer",
+        "reason": "将「lawyer」代入可见句子后不表达主释义「性别」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-gene",
+    "enToZh": [
+      {
+        "wordId": "w-line",
+        "reason": "选项「线」不是「gene」的主释义「基因」或其他义项。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "选项「木板」不是「gene」的主释义「基因」或其他义项。"
+      },
+      {
+        "wordId": "w-dirt",
+        "reason": "选项「污垢」不是「gene」的主释义「基因」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-line",
+        "reason": "英文「line」的常见义项「线」不符合主释义「基因」。"
+      },
+      {
+        "wordId": "w-board",
+        "reason": "英文「board」的常见义项「木板」不符合主释义「基因」。"
+      },
+      {
+        "wordId": "w-dirt",
+        "reason": "英文「dirt」的常见义项「污垢」不符合主释义「基因」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-line",
+        "surfaceForm": "line",
+        "reason": "将「line」代入可见句子后不表达主释义「基因」。"
+      },
+      {
+        "wordId": "w-board",
+        "surfaceForm": "board",
+        "reason": "将「board」代入可见句子后不表达主释义「基因」。"
+      },
+      {
+        "wordId": "w-dirt",
+        "surfaceForm": "dirt",
+        "reason": "将「dirt」代入可见句子后不表达主释义「基因」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-general",
+    "enToZh": [
+      {
+        "wordId": "w-cool",
+        "reason": "选项「凉爽的」不是「general」的主释义「总体的」或其他义项。"
+      },
+      {
+        "wordId": "w-major",
+        "reason": "选项「主要的」不是「general」的主释义「总体的」或其他义项。"
+      },
+      {
+        "wordId": "w-late",
+        "reason": "选项「晚的」不是「general」的主释义「总体的」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-cool",
+        "reason": "英文「cool」的常见义项「凉爽的」不符合主释义「总体的」。"
+      },
+      {
+        "wordId": "w-major",
+        "reason": "英文「major」的常见义项「主要的」不符合主释义「总体的」。"
+      },
+      {
+        "wordId": "w-late",
+        "reason": "英文「late」的常见义项「晚的」不符合主释义「总体的」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-cool",
+        "surfaceForm": "cool",
+        "reason": "将「cool」代入可见句子后不表达主释义「总体的」。"
+      },
+      {
+        "wordId": "w-major",
+        "surfaceForm": "major",
+        "reason": "将「major」代入可见句子后不表达主释义「总体的」。"
+      },
+      {
+        "wordId": "w-late",
+        "surfaceForm": "late",
+        "reason": "将「late」代入可见句子后不表达主释义「总体的」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-generalization",
+    "enToZh": [
+      {
+        "wordId": "w-bitterness",
+        "reason": "选项「苦味」不是「generalization」的主释义「概括」或其他义项。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "选项「附录」不是「generalization」的主释义「概括」或其他义项。"
+      },
+      {
+        "wordId": "w-drawback",
+        "reason": "选项「缺点」不是「generalization」的主释义「概括」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-bitterness",
+        "reason": "英文「bitterness」的常见义项「苦味」不符合主释义「概括」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "reason": "英文「appendix」的常见义项「附录」不符合主释义「概括」。"
+      },
+      {
+        "wordId": "w-drawback",
+        "reason": "英文「drawback」的常见义项「缺点」不符合主释义「概括」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-bitterness",
+        "surfaceForm": "bitterness",
+        "reason": "将「bitterness」代入可见句子后不表达主释义「概括」。"
+      },
+      {
+        "wordId": "w-appendix",
+        "surfaceForm": "appendix",
+        "reason": "将「appendix」代入可见句子后不表达主释义「概括」。"
+      },
+      {
+        "wordId": "w-drawback",
+        "surfaceForm": "drawback",
+        "reason": "将「drawback」代入可见句子后不表达主释义「概括」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-generalize",
+    "enToZh": [
+      {
+        "wordId": "w-overload",
+        "reason": "选项「使超载」不是「generalize」的主释义「概括」或其他义项。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "选项「归因于」不是「generalize」的主释义「概括」或其他义项。"
+      },
+      {
+        "wordId": "w-howl",
+        "reason": "选项「嚎叫」不是「generalize」的主释义「概括」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-overload",
+        "reason": "英文「overload」的常见义项「使超载」不符合主释义「概括」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "reason": "英文「ascribe」的常见义项「归因于」不符合主释义「概括」。"
+      },
+      {
+        "wordId": "w-howl",
+        "reason": "英文「howl」的常见义项「嚎叫」不符合主释义「概括」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-overload",
+        "surfaceForm": "overload",
+        "reason": "将「overload」代入可见句子后不表达主释义「概括」。"
+      },
+      {
+        "wordId": "w-ascribe",
+        "surfaceForm": "ascribe",
+        "reason": "将「ascribe」代入可见句子后不表达主释义「概括」。"
+      },
+      {
+        "wordId": "w-howl",
+        "surfaceForm": "howl",
+        "reason": "将「howl」代入可见句子后不表达主释义「概括」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-generally",
+    "enToZh": [
+      {
+        "wordId": "w-entirely",
+        "reason": "选项「完全地」不是「generally」的主释义「通常」或其他义项。"
+      },
+      {
+        "wordId": "w-permanently",
+        "reason": "选项「永久地」不是「generally」的主释义「通常」或其他义项。"
+      },
+      {
+        "wordId": "w-often",
+        "reason": "选项「经常」不是「generally」的主释义「通常」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-entirely",
+        "reason": "英文「entirely」的常见义项「完全地」不符合主释义「通常」。"
+      },
+      {
+        "wordId": "w-permanently",
+        "reason": "英文「permanently」的常见义项「永久地」不符合主释义「通常」。"
+      },
+      {
+        "wordId": "w-often",
+        "reason": "英文「often」的常见义项「经常」不符合主释义「通常」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-entirely",
+        "surfaceForm": "entirely",
+        "reason": "将「entirely」代入可见句子后不表达主释义「通常」。"
+      },
+      {
+        "wordId": "w-permanently",
+        "surfaceForm": "permanently",
+        "reason": "将「permanently」代入可见句子后不表达主释义「通常」。"
+      },
+      {
+        "wordId": "w-often",
+        "surfaceForm": "often",
+        "reason": "将「often」代入可见句子后不表达主释义「通常」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-generate",
+    "enToZh": [
+      {
+        "wordId": "w-earn",
+        "reason": "选项「挣钱」不是「generate」的主释义「产生」或其他义项。"
+      },
+      {
+        "wordId": "w-feel",
+        "reason": "选项「感觉」不是「generate」的主释义「产生」或其他义项。"
+      },
+      {
+        "wordId": "w-flee",
+        "reason": "选项「逃离」不是「generate」的主释义「产生」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-earn",
+        "reason": "英文「earn」的常见义项「挣钱」不符合主释义「产生」。"
+      },
+      {
+        "wordId": "w-feel",
+        "reason": "英文「feel」的常见义项「感觉」不符合主释义「产生」。"
+      },
+      {
+        "wordId": "w-flee",
+        "reason": "英文「flee」的常见义项「逃离」不符合主释义「产生」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-earn",
+        "surfaceForm": "earn",
+        "reason": "将「earn」代入可见句子后不表达主释义「产生」。"
+      },
+      {
+        "wordId": "w-feel",
+        "surfaceForm": "feel",
+        "reason": "将「feel」代入可见句子后不表达主释义「产生」。"
+      },
+      {
+        "wordId": "w-flee",
+        "surfaceForm": "flee",
+        "reason": "将「flee」代入可见句子后不表达主释义「产生」。"
+      }
+    ],
+    "spelling": null
+  },
+  {
+    "wordId": "w-generation",
+    "enToZh": [
+      {
+        "wordId": "w-granddaughter",
+        "reason": "选项「孙女」不是「generation」的主释义「一代人」或其他义项。"
+      },
+      {
+        "wordId": "w-fact",
+        "reason": "选项「事实」不是「generation」的主释义「一代人」或其他义项。"
+      },
+      {
+        "wordId": "w-government",
+        "reason": "选项「政府」不是「generation」的主释义「一代人」或其他义项。"
+      }
+    ],
+    "zhToEn": [
+      {
+        "wordId": "w-granddaughter",
+        "reason": "英文「granddaughter」的常见义项「孙女」不符合主释义「一代人」。"
+      },
+      {
+        "wordId": "w-fact",
+        "reason": "英文「fact」的常见义项「事实」不符合主释义「一代人」。"
+      },
+      {
+        "wordId": "w-government",
+        "reason": "英文「government」的常见义项「政府」不符合主释义「一代人」。"
+      }
+    ],
+    "contextChoice": [
+      {
+        "wordId": "w-granddaughter",
+        "surfaceForm": "granddaughter",
+        "reason": "将「granddaughter」代入可见句子后不表达主释义「一代人」。"
+      },
+      {
+        "wordId": "w-fact",
+        "surfaceForm": "fact",
+        "reason": "将「fact」代入可见句子后不表达主释义「一代人」。"
+      },
+      {
+        "wordId": "w-government",
+        "surfaceForm": "government",
+        "reason": "将「government」代入可见句子后不表达主释义「一代人」。"
+      }
+    ],
+    "spelling": null
+  }
+]
