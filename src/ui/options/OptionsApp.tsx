@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
-import { VolumeHighIcon } from '@hugeicons/core-free-icons';
+import { ExternalLinkIcon, VolumeHighIcon } from '@hugeicons/core-free-icons';
 import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
@@ -470,6 +470,8 @@ export function OptionsApp(): JSX.Element {
 
       <div className="bingeup-actions bingeup-learning-actions">
         <Button
+          icon={<HugeIcon icon={ExternalLinkIcon} size={15} />}
+          title="在新页面打开学习统计"
           onClick={() => void chrome.tabs.create({ url: chrome.runtime.getURL('/stats.html') })}
         >
           查看学习统计

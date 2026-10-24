@@ -218,6 +218,12 @@ describe('LearningFeedbackNotice', () => {
     let shown = showNotice(RESULT, { onContinue, onTooEasy, onTooHard });
     expect(actionNames(shown.feedback)).toEqual(['太简单', '太难了', '继续答题']);
     expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
+    expect(
+      shown.queries.getByRole('button', { name: '太简单' }).querySelector('svg'),
+    ).not.toBeNull();
+    expect(
+      shown.queries.getByRole('button', { name: '太难了' }).querySelector('svg'),
+    ).not.toBeNull();
 
     shown = showNotice({ ...RESULT, isCorrect: false }, { onContinue, onTooEasy, onTooHard });
     expect(actionNames(shown.feedback)).toEqual(['继续答题']);

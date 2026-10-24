@@ -43,9 +43,9 @@ const OVERLAY_SHELL_CSS = `
     display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
   }
   .bingeup-previous-result {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    width: 100%; margin: 0 0 var(--animal-spacing-sm); padding: 5px 10px;
-    border-radius: 999px; background: var(--animal-bg-color-secondary);
+    display: grid; justify-items: center; gap: 5px;
+    width: 100%; margin: 0 0 var(--animal-spacing-sm); padding: 6px 10px;
+    border-radius: var(--animal-border-radius-sm); background: var(--animal-bg-color-secondary);
     color: var(--animal-text-color-secondary);
     font-size: var(--animal-font-size-sm); font-weight: 700; line-height: 1.4;
   }
@@ -61,6 +61,28 @@ const OVERLAY_SHELL_CSS = `
   .bingeup-previous-result__icon[data-correct="false"] {
     background: var(--animal-error-color-active);
   }
+  .bingeup-previous-result__heading {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .bingeup-previous-result__comparison {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 4px var(--animal-spacing-sm); max-width: 100%;
+  }
+  .bingeup-previous-result__answer {
+    display: inline-flex; align-items: baseline; gap: 4px; min-width: 0;
+    padding: 2px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--animal-error-color) 10%, transparent);
+    color: var(--animal-error-color-active); font-size: 12px; font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .bingeup-previous-result__answer[data-answer="correct"] {
+    background: color-mix(in srgb, var(--animal-success-color) 12%, transparent);
+    color: var(--animal-success-color-active);
+  }
+  .bingeup-previous-result__answer-label {
+    color: var(--animal-text-color-secondary); font-weight: 600; white-space: nowrap;
+  }
+  .bingeup-previous-result__answer strong { font-weight: 800; }
   .bingeup-prompt {
     margin-bottom: var(--animal-spacing-md); font-size: 27px; font-weight: 800;
     letter-spacing: 0.01em; text-align: center;
@@ -182,7 +204,7 @@ export function mountOverlayShadow(
   const root = createRoot(mountPoint);
   const feedbackNotice = new LearningFeedbackNotice();
   let currentItem = options.item;
-  let previousResult: Pick<SubmissionResult, 'isCorrect'> | undefined;
+  let previousResult: SubmissionResult | undefined;
   let renderVersion = 0;
   const renderQuestion = () => {
     feedbackNotice.close();
@@ -207,7 +229,7 @@ export function mountOverlayShadow(
               options.isContinuous && continues ? options.nextItem?.(feedback) : null;
             if (nextItem) {
               currentItem = nextItem;
-              previousResult = { isCorrect: feedback.isCorrect };
+              previousResult = feedback;
               renderVersion += 1;
               renderQuestion();
               return;

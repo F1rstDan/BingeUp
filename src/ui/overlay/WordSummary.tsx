@@ -220,8 +220,9 @@ export const WORD_SUMMARY_CSS = `
     text-align: center;
   }
   .bingeup-secondary-label {
-    margin-right: var(--animal-spacing-xs); color: var(--animal-text-color-secondary);
-    font-weight: 700; white-space: nowrap;
+    margin-right: var(--animal-spacing-xs);
+    color: color-mix(in srgb, var(--animal-text-color-secondary) 70%, transparent);
+    font-weight: 600; white-space: nowrap;
   }
   .bingeup-secondary-item { min-width: 0; overflow-wrap: anywhere; }
   .bingeup-secondary-pos { margin-right: 3px; font-weight: 700; }

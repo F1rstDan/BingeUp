@@ -127,7 +127,8 @@ export const LEARNING_FEEDBACK_CSS = `
   }
   .bingeup-learning-feedback__secondary .bingeup-secondary-label {
     flex: none; margin-right: var(--animal-spacing-xs);
-    color: var(--animal-text-color-secondary); font-weight: 700; white-space: nowrap;
+    color: color-mix(in srgb, var(--animal-text-color-secondary) 70%, transparent);
+    font-weight: 600; white-space: nowrap;
   }
   .bingeup-learning-feedback__secondary .bingeup-secondary-item {
     flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
@@ -151,7 +152,7 @@ export const LEARNING_FEEDBACK_CSS = `
   .bingeup-learning-feedback__wrong-value svg { flex: none; }
   .bingeup-learning-feedback__wrong-value > span { min-width: 0; overflow-wrap: anywhere; }
   .bingeup-learning-feedback__actions {
-    display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: center;
     gap: var(--animal-spacing-md); width: 100%; margin-top: var(--animal-spacing-md);
   }
   .bingeup-learning-feedback__actions[data-has-actions="true"] {
@@ -166,7 +167,7 @@ export const LEARNING_FEEDBACK_CSS = `
     display: flex; flex-wrap: wrap; align-items: center; gap: var(--animal-spacing-sm);
   }
   .bingeup-learning-feedback__rating-actions { justify-content: flex-start; }
-  .bingeup-learning-feedback__flow-actions { justify-content: flex-end; margin-left: auto; }
+  .bingeup-learning-feedback__flow-actions { justify-content: center; margin-left: 0; }
   .bingeup-learning-feedback__too-easy-success {
     color: var(--animal-text-color); font-size: 13px; font-weight: 600;
   }

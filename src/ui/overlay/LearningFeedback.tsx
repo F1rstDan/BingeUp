@@ -1,6 +1,12 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { Button } from 'animal-island-ui';
-import { BadgeXIcon, Cancel01Icon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
+import {
+  BadgeXIcon,
+  Cancel01Icon,
+  CheckmarkBadge03Icon,
+  MountainIcon,
+  ZzzIcon,
+} from '@hugeicons/core-free-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
 import { HugeIcon } from '@/ui/icons/HugeIcon';
@@ -70,8 +76,9 @@ export function LearningFeedback({
   const actionsLocked = continuing || markingTooEasy || markingTooHard;
   const { explanation } = result;
   const hasSubmittedAnswer = !result.isCorrect && Boolean(result.submittedAnswer);
-  const hasActions =
-    canMarkTooEasy || canMarkTooHard || tooEasySaved || tooHardSaved || onContinue !== undefined;
+  const hasRatingActions = canMarkTooEasy || canMarkTooHard || tooEasySaved || tooHardSaved;
+  const hasFlowActions = onContinue !== undefined;
+  const hasActions = hasRatingActions || hasFlowActions;
 
   const dismiss = (): void => {
     if (staticPreview) return;
@@ -338,36 +345,44 @@ export function LearningFeedback({
             data-has-actions={hasActions}
             data-after-answer={hasSubmittedAnswer}
           >
-            <div className="bingeup-learning-feedback__rating-actions">
-              {canMarkTooEasy && !tooEasySaved && !tooHardSaved && (
-                <Button
-                  size="small"
-                  loading={markingTooEasy}
-                  disabled={actionsLocked || exiting}
-                  onClick={() => void markTooEasy()}
-                >
-                  太简单
-                </Button>
-              )}
-              {tooEasySaved && (
-                <span className="bingeup-learning-feedback__too-easy-success">已标记为太简单</span>
-              )}
-              {canMarkTooHard && !tooHardSaved && !tooEasySaved && (
-                <Button
-                  size="small"
-                  loading={markingTooHard}
-                  disabled={actionsLocked || exiting}
-                  onClick={() => void markTooHard()}
-                >
-                  太难了
-                </Button>
-              )}
-              {tooHardSaved && (
-                <span className="bingeup-learning-feedback__too-easy-success">已标记为太难了</span>
-              )}
-            </div>
-            <div className="bingeup-learning-feedback__flow-actions">
-              {onContinue && (
+            {hasRatingActions && (
+              <div className="bingeup-learning-feedback__rating-actions">
+                {canMarkTooEasy && !tooEasySaved && !tooHardSaved && (
+                  <Button
+                    size="small"
+                    icon={<HugeIcon icon={ZzzIcon} size={15} />}
+                    loading={markingTooEasy}
+                    disabled={actionsLocked || exiting}
+                    onClick={() => void markTooEasy()}
+                  >
+                    太简单
+                  </Button>
+                )}
+                {tooEasySaved && (
+                  <span className="bingeup-learning-feedback__too-easy-success">
+                    已标记为太简单
+                  </span>
+                )}
+                {canMarkTooHard && !tooHardSaved && !tooEasySaved && (
+                  <Button
+                    size="small"
+                    icon={<HugeIcon icon={MountainIcon} size={15} />}
+                    loading={markingTooHard}
+                    disabled={actionsLocked || exiting}
+                    onClick={() => void markTooHard()}
+                  >
+                    太难了
+                  </Button>
+                )}
+                {tooHardSaved && (
+                  <span className="bingeup-learning-feedback__too-easy-success">
+                    已标记为太难了
+                  </span>
+                )}
+              </div>
+            )}
+            {hasFlowActions && (
+              <div className="bingeup-learning-feedback__flow-actions">
                 <Button
                   size="small"
                   loading={continuing}
@@ -376,8 +391,8 @@ export function LearningFeedback({
                 >
                   继续答题
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       )}

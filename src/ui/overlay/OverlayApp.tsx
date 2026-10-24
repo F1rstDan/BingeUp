@@ -19,8 +19,8 @@ interface OverlayAppProps {
   onAction: (action: OverlayAction) => unknown | Promise<unknown>;
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
-  /** 连续学习提交后，在下一题顶部显示上一题正误。 */
-  previousResult?: Pick<SubmissionResult, 'isCorrect'>;
+  /** 连续学习提交后，在下一题顶部显示上一题正误与答案对比。 */
+  previousResult?: SubmissionResult;
 }
 
 /**
@@ -182,9 +182,7 @@ export function OverlayApp({ item, onAction, isContinuous, previousResult }: Ove
     return (
       <div className="bingeup-overlay" role="dialog" aria-label="单词学习">
         <Card className="bingeup-card">
-          {isContinuous && previousResult && (
-            <PreviousResultBanner isCorrect={previousResult.isCorrect} />
-          )}
+          {isContinuous && previousResult && <PreviousResultBanner result={previousResult} />}
           <div className="bingeup-new-word">
             {isContinuous && (
               <div className="bingeup-new-word-badge">
@@ -272,9 +270,7 @@ export function OverlayApp({ item, onAction, isContinuous, previousResult }: Ove
       aria-label={item.kind === 'spelling-question' ? '单词拼写' : '单词学习'}
     >
       <Card className="bingeup-card">
-        {isContinuous && previousResult && (
-          <PreviousResultBanner isCorrect={previousResult.isCorrect} />
-        )}
+        {isContinuous && previousResult && <PreviousResultBanner result={previousResult} />}
         {isContinuous && (
           <div className="bingeup-continuous-badge">
             <Tag size="small">连续学习</Tag>
@@ -375,13 +371,30 @@ export function OverlayApp({ item, onAction, isContinuous, previousResult }: Ove
   );
 }
 
-function PreviousResultBanner({ isCorrect }: { isCorrect: boolean }): JSX.Element {
+function PreviousResultBanner({ result }: { result: SubmissionResult }): JSX.Element {
+  const showComparison = !result.isCorrect;
   return (
-    <div className="bingeup-previous-result" data-correct={isCorrect} role="status">
-      <span className="bingeup-previous-result__icon" data-correct={isCorrect}>
-        <HugeIcon icon={isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={16} />
+    <div className="bingeup-previous-result" data-correct={result.isCorrect} role="status">
+      <span className="bingeup-previous-result__heading">
+        <span className="bingeup-previous-result__icon" data-correct={result.isCorrect}>
+          <HugeIcon icon={result.isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={16} />
+        </span>
+        <span>{result.isCorrect ? '上一题答对了' : '上一题答错了'}</span>
       </span>
-      <span>{isCorrect ? '上一题答对了' : '上一题答错了'}</span>
+      {showComparison && (
+        <span className="bingeup-previous-result__comparison">
+          {result.submittedAnswer && (
+            <span className="bingeup-previous-result__answer">
+              <span className="bingeup-previous-result__answer-label">你的答案</span>
+              <strong>{result.submittedAnswer}</strong>
+            </span>
+          )}
+          <span className="bingeup-previous-result__answer" data-answer="correct">
+            <span className="bingeup-previous-result__answer-label">正确答案</span>
+            <strong>{result.correctAnswer}</strong>
+          </span>
+        </span>
+      )}
     </div>
   );
 }

@@ -168,7 +168,10 @@ describe('OptionsApp — Issue #10', () => {
   it('点击查看学习统计在新标签页打开扩展统计页面', async () => {
     renderOptions();
 
-    fireEvent.click(await screen.findByRole('button', { name: '查看学习统计' }));
+    const button = await screen.findByRole('button', { name: '查看学习统计' });
+    expect(button.querySelector('svg')).not.toBeNull();
+    expect(button).toHaveAttribute('title', '在新页面打开学习统计');
+    fireEvent.click(button);
 
     expect(chrome.tabs.create).toHaveBeenCalledWith({
       url: 'chrome-extension://test-id/stats.html',

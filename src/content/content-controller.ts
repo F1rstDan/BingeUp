@@ -37,8 +37,8 @@ export interface SiteAdapterPort {
 export interface OverlayOpenOptions {
   /** 是否处于连续学习模式。 */
   isContinuous?: boolean;
-  /** 连续学习提交后，在下一题顶部显示上一题正误。 */
-  previousResult?: Pick<SubmissionResult, 'isCorrect'>;
+  /** 连续学习提交后，在下一题顶部显示上一题正误与答案对比。 */
+  previousResult?: SubmissionResult;
 }
 
 export interface OverlayPort {
@@ -502,9 +502,7 @@ export class ContentController {
         action.type === 'submit-and-continue' || action.type === 'submit-spelling-and-continue';
       let nextQuestionLoaded = false;
       if (continueLearning && active.effects === 'standard') {
-        nextQuestionLoaded = await this.loadNextContinuous(active, {
-          isCorrect: result.isCorrect,
-        });
+        nextQuestionLoaded = await this.loadNextContinuous(active, result);
       } else {
         await this.endInteraction(active, 'submitted');
       }
@@ -605,7 +603,7 @@ export class ContentController {
    */
   private async loadNextContinuous(
     active: ActiveInteraction,
-    previousResult?: Pick<SubmissionResult, 'isCorrect'>,
+    previousResult?: SubmissionResult,
   ): Promise<boolean> {
     pauseIfPlaying(active.playback);
     const nextItem = await this.deps.learningService.getNextItem({

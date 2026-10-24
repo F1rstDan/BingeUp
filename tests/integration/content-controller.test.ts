@@ -1023,7 +1023,11 @@ describe('ContentController — 连续学习模式（Issue #8）', () => {
 
       expect(overlay.lastOptions).toEqual({
         isContinuous: true,
-        previousResult: { isCorrect: true },
+        previousResult: expect.objectContaining({
+          isCorrect: true,
+          correctAnswer: '放弃',
+          reviewLogId: 'log-1',
+        }),
       });
       expect(learningFeedbackNotice.show).not.toHaveBeenCalled();
       expect(playback.playCalls).toBe(0);

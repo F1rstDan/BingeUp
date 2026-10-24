@@ -54,6 +54,14 @@ const CONTEXT_QUESTION: MultipleChoiceQuestion = {
   options: ['absorb', 'release', 'reflect', 'gather'],
 };
 
+const PREVIOUS_RESULT: SubmissionResult = {
+  isCorrect: true,
+  correctAnswer: '吸收',
+  cardId: QUESTION.cardId,
+  reviewLogId: 'review-1',
+  explanation: QUESTION.explanation,
+};
+
 const SPELLING_QUESTION: SpellingQuestion = {
   id: 'q-spell-1',
   type: 'spelling',
@@ -662,12 +670,23 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
           item={{ kind: 'question', question: QUESTION }}
           onAction={vi.fn()}
           isContinuous
-          previousResult={{ isCorrect }}
+          previousResult={{
+            ...PREVIOUS_RESULT,
+            isCorrect,
+            submittedAnswer: isCorrect ? undefined : '释放',
+          }}
         />,
       );
 
       const banner = within(container).getByRole('status');
       expect(banner).toHaveTextContent(label);
+      if (isCorrect) {
+        expect(banner).not.toHaveTextContent('你的答案');
+        expect(banner).not.toHaveTextContent('正确答案');
+      } else {
+        expect(banner).toHaveTextContent('你的答案释放');
+        expect(banner).toHaveTextContent('正确答案吸收');
+      }
       expect(banner).toHaveAttribute('data-correct', String(isCorrect));
       expect(banner.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
       expect(container.querySelector('.bingeup-card')?.firstElementChild).toBe(banner);
