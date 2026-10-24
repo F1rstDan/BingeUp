@@ -11,7 +11,10 @@ import { fileURLToPath } from 'node:url';
  */
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const EXTENSION_PATH = resolve(currentDir, '../.output/chrome-mv3');
+const EXTENSION_PATH = resolve(
+  currentDir,
+  `../.output/${process.env.E2E_EXTENSION_DIR ?? 'chrome-mv3'}`,
+);
 
 interface ExtensionFixtures {
   context: BrowserContext;

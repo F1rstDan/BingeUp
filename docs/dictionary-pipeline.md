@@ -7,7 +7,6 @@
 新内置词库的冻结依据、批次状态和候选包位于 `data/dictionary-rebuild/`。2026-10-24 已切换：运行中的 `public/dictionaries/` 是 schema 2 新词库；切换前的旧 v1 包归档在 `data/dictionary-rebuild/archive/legacy-v1-*`。
 
 ```bash
-npm run dictionary:seed       # 从旧词库身份元数据生成 seed.json 和身份注册表
 npm run dictionary:check      # 逐旧 ID 核对注册表、成员关系、哈希和稳定元数据
 npm run dictionary:prepare    # 冻结 100 词试批和其余稳定 ID 批次
 npm run dictionary:status     # 查看批次状态和失败项
@@ -31,39 +30,17 @@ npm run dictionary:rollback -- --dry-run  # 检查可回滚的旧包
 
 需要兼容回滚时，先运行 `npm run dictionary:rollback -- --dry-run` 确认源包，再运行 `npm run dictionary:rollback`，然后重新构建。回滚前先导出当前 v2 数据；回滚后导入该 v2 备份以恢复新进度。命令会把切换前的包归档到 `archive/pre-rollback-*`。不要把旧包留在 `public/`，否则 WXT 会把它一起打进扩展包。
 
-### 旧 ECDICT 构建器（历史，待清理）
+### 来源与清理
 
-以下内容描述旧词库，只用于切换前的兼容和来源追溯。
+ECDICT 固定 commit `bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b` 只作为一次性身份种子来源，提供 ID、词频、难度和词库成员关系，不提供学习文本。ECDICT 使用 MIT License；许可保留在 `data/dictionary-rebuild/sources/ECDICT-LICENSE.txt` 和正式包的 `licenses/`。IPA 使用 `ipa-dict en_US` 固定快照，并保留 ipa-dict、cmudict-ipa 和 CMUdict 的来源与许可。
 
-### 旧来源（历史）
+2026-10-24 正式切换后，旧 ECDICT 构建器、下载逻辑和原始缓存已删除。身份种子、`legacy-registry.json`、来源通知和历史 ADR 继续保留。
 
-内置词库来自 ECDICT 的固定快照 `bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b`。ECDICT 使用 MIT License。许可证保存在 `public/dictionaries/LICENSE.txt`。
-
-词库包含日常高频、四级和六级。三个词库可以包含同一单词。同一单词只有一条 `WordRecord`，用户也只有一张学习卡。
-
-### 旧构建（历史）
-
-在仓库根目录运行：
-
-```bash
-npx tsx scripts/build-dictionary/build.ts
-```
-
-构建器写出 `words.json`、`decks.json`、`manifest.json`、`source-metadata.json` 和 `LICENSE.txt`。首次运行下载 CSV 和许可证。后续运行使用缓存。
-
-当前仓库未固定 `tsx`。`npx` 可能临时下载该工具。需要可复现构建时，应固定 `tsx` 版本。
-
-构建内容可重复。`generatedAt` 和 `importedAt` 使用当前时间，所以文件不保证逐字节一致。如果校验失败，构建器仍会写出产物，并以非零状态退出。此时不应发布产物。
-
-**警告：** 不要在正式工作区运行 `scripts/build-dictionary/build-sample.ts`。该脚本会覆盖 `public/dictionaries/`。
-
-### 旧数据约定（历史）
+## 数据约定
 
 `surfaceFormInExample` 是例句中实际出现的目标词形。语境题使用该值作为正确答案。该词形应在例句中按整词、忽略大小写恰好出现一次。
 
 `frequencyRank` 越小，单词越常用。`DeckRecord.wordDifficulties` 保存单词在该词库中的难度。通用难度按词频计算：不高于 3000 为 1，3001–8000 为 2，8001–15000 为 3，其他为 4。Oxford 3000 词为 1。修改规则后，应提高 `difficultyRuleVersion`。
-
-构建器校验字段、词性、例句和重复 lemma。构建器不检查语义级同义冲突，也不检查干扰项是否唯一。
 
 ## 运行
 

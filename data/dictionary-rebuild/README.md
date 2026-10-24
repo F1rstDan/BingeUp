@@ -10,17 +10,11 @@
 - `staging-pilot/`：100 词试批候选包，用于离线演示和早期验收。
 - `sources/`：固定 IPA 快照及第三方许可文本。
 
-重新生成身份文件：
-
-```bash
-node scripts/dictionary-rebuild/build-seed.ts
-```
-
-该命令只在旧词库仍位于 `public/dictionaries/` 时可用。切换正式词库后，`seed.json` 与 `legacy-registry.json` 作为冻结依据保留。
+身份文件已冻结，不再从旧词库重新生成。旧 ECDICT 构建器和原始缓存已删除；`seed.json`、`legacy-registry.json`、IPA 来源和许可继续保留。
 
 ## 当前进度
 
-2026-10-24：身份注册表已冻结并通过核对；原始 ID 5,376 个，有效词 5,374 个，`w-negro` 因过时且具冒犯性停用。100 词试批已完成生成、全量独立复核和修复复核，`staging-pilot/` 已通过全量检查。主词库 211 个批次全部 verified；全量 `staging/` 已生成并通过整包校验，包含 5,374 个有效词、5,374 个固定题组、3 个词库和完整来源许可。正式词库已切换到 schema 2；旧 v1 包归档在 `archive/legacy-v1-*`。
+2026-10-24：身份注册表已冻结并通过核对；原始 ID 5,376 个，有效词 5,374 个，`w-negro` 因过时且具冒犯性停用。100 词试批已完成生成、全量独立复核和修复复核；`staging-pilot/` 仅保留为历史证据。主词库 211 个批次全部 verified；全量 `staging/` 已生成并通过整包校验，包含 5,374 个有效词、5,374 个固定题组、3 个词库和完整来源许可。正式词库已切换到 schema 2；旧 v1 包归档在 `archive/legacy-v1-*`。
 
 ## 续跑命令
 

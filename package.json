@@ -20,7 +20,6 @@
     "test:e2e:headed": "playwright test --headed",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dictionary:seed": "tsx scripts/dictionary-rebuild/build-seed.ts",
     "dictionary:prepare": "tsx scripts/dictionary-rebuild/pipeline.ts prepare",
     "dictionary:check": "tsx scripts/dictionary-rebuild/pipeline.ts check-registry",
     "dictionary:status": "tsx scripts/dictionary-rebuild/pipeline.ts status",
