@@ -57,6 +57,9 @@ export function SpeechControls({
   return (
     <div
       className="bingeup-speech-controls bingeup-speech-controls--word"
+      data-voice-name={speech.state.voiceName ?? undefined}
+      data-preferred-voice={speech.state.preferredVoiceName}
+      title={speech.state.voiceName ? `朗读音色：${speech.state.voiceName}` : undefined}
       onKeyDown={(event) => event.stopPropagation()}
     >
       <div className="bingeup-word-speech-row bingeup-word-pronunciation">
@@ -103,7 +106,11 @@ export function ExampleSpeechPanel({
   };
 
   return (
-    <div className={`bingeup-example-panel${active ? ' bingeup-example-panel--speaking' : ''}`}>
+    <div
+      className={`bingeup-example-panel${active ? ' bingeup-example-panel--speaking' : ''}`}
+      data-voice-name={speech.state.voiceName ?? undefined}
+      data-preferred-voice={speech.state.preferredVoiceName}
+    >
       <div
         ref={actionRef}
         className="bingeup-example-action"

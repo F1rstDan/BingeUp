@@ -103,6 +103,27 @@ describe('LocalSpeechController', () => {
     expect(synth.spoken[0]?.voice?.name).toContain('Zira');
   });
 
+  it('设置页选择的音色优先于默认 Zira，缺失时回退默认排序', () => {
+    const synth = new FakeSpeechSynthesis();
+    synth.voices = [
+      voice('en-US', true, 'Microsoft Zira - English (United States)'),
+      voice('en-US', true, 'Microsoft David - English (United States)'),
+    ];
+    install(synth);
+    const controller = new LocalSpeechController();
+    controller.setPreferredVoice('Microsoft David - English (United States)');
+    controller.speak('hello', 'word', 'owner');
+    expect(synth.spoken[0]?.voice?.name).toContain('David');
+
+    const fallback = new FakeSpeechSynthesis();
+    fallback.voices = synth.voices;
+    install(fallback);
+    const second = new LocalSpeechController();
+    second.setPreferredVoice('Missing Voice');
+    second.speak('hello', 'word', 'owner');
+    expect(fallback.spoken[0]?.voice?.name).toContain('Zira');
+  });
+
   it('仅远程 voice 时 3 秒后显示不可用且不朗读', () => {
     const synth = new FakeSpeechSynthesis();
     synth.voices = [voice('en-US', false, 'remote')];

@@ -1049,6 +1049,19 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     test.skip(process.env.E2E_SPEECH !== '1', '真实语音只在带系统语音的浏览器中运行');
     const control = await context.newPage();
     await warmUp(control, extensionId);
+    const settings = await control.evaluate(
+      async () =>
+        (await chrome.runtime.sendMessage({ type: 'GET_APP_SETTINGS' })) as Record<string, unknown>,
+    );
+    await control.evaluate(async (current) => {
+      await chrome.runtime.sendMessage({
+        type: 'SET_APP_SETTINGS',
+        settings: {
+          ...current,
+          speechVoiceName: 'Microsoft David - English (United States)',
+        },
+      });
+    }, settings);
     const page = await context.newPage();
     await page.setViewportSize({ width: 1280, height: 900 });
     await fulfillSyntheticPage(page, { playerWidth: 960, playerHeight: 540, pageHeight: 1400 });
@@ -1058,6 +1071,12 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     expect(tabId).not.toBeNull();
     await ensureOverlay(page, control, tabId!);
     await expect(page.locator('.bingeup-new-word')).toBeVisible();
+    await expect
+      .poll(
+        () => page.locator('.bingeup-speech-controls--word').getAttribute('data-preferred-voice'),
+        { timeout: 5_000, message: '朗读音色设置未进入内容脚本' },
+      )
+      .toContain('David');
 
     const voices = await page.evaluate(async () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -1069,6 +1088,12 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     expect(voices.length).toBeGreaterThan(0);
 
     await page.locator('button[aria-label="系统朗读单词"]').click();
+    await expect
+      .poll(() => page.locator('.bingeup-speech-controls--word').getAttribute('data-voice-name'), {
+        timeout: 3_000,
+        message: '朗读没有使用设置页选择的 David',
+      })
+      .toContain('David');
     const started = await page.evaluate(
       () =>
         new Promise<boolean>((resolve) => {

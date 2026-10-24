@@ -4,6 +4,11 @@ import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
 import { hasExactHttpsPermission } from '@/sites/site-permission';
+import {
+  DEFAULT_SPEECH_VOICE_NAME,
+  compareSpeechVoices,
+  isLocalEnglishVoice,
+} from '@/settings/speech-voice';
 import { FeedbackLink } from '@/ui/FeedbackLink';
 import { IslandPage } from '@/ui/island';
 import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
@@ -66,6 +71,21 @@ interface NoticeMessage {
 
 const NOTICE_AUTO_DISMISS_MS = 6000;
 
+function useSpeechVoices(): SpeechSynthesisVoice[] {
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
+    const update = () => {
+      setVoices(synth.getVoices().filter(isLocalEnglishVoice));
+    };
+    update();
+    synth.addEventListener?.('voiceschanged', update);
+    return () => synth.removeEventListener?.('voiceschanged', update);
+  }, []);
+  return voices;
+}
+
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
@@ -75,6 +95,7 @@ export function OptionsApp(): JSX.Element {
   const [error, setError] = useState<LoadError | null>(null);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const speechVoices = useSpeechVoices();
 
   const showNotice = useCallback((message: string | null) => {
     if (message === null) {
@@ -259,6 +280,18 @@ export function OptionsApp(): JSX.Element {
   }
 
   const selectedDeck = BUILT_IN_DECKS.find((deck) => deck.id === settings.selectedDeckId);
+  const voiceOptions = [...speechVoices]
+    .sort((a, b) => compareSpeechVoices(a, b, settings.speechVoiceName))
+    .map((voice) => ({ key: voice.name, label: `${voice.name}（${voice.lang}）` }));
+  if (!voiceOptions.some((option) => option.key === settings.speechVoiceName)) {
+    voiceOptions.unshift({
+      key: settings.speechVoiceName,
+      label:
+        settings.speechVoiceName === DEFAULT_SPEECH_VOICE_NAME
+          ? `${DEFAULT_SPEECH_VOICE_NAME}（默认）`
+          : `${settings.speechVoiceName}（当前不可用）`,
+    });
+  }
   const learningPanel = (
     <Card className="bingeup-card">
       {/* AC1：学习设置 */}
@@ -310,6 +343,22 @@ export function OptionsApp(): JSX.Element {
           checked={settings.spellingEnabled}
           onChange={(checked) => setSettings({ ...settings, spellingEnabled: checked })}
         />
+      </Field>
+
+      <Field label="朗读音色">
+        <div className="bingeup-deck-control">
+          <div className="bingeup-select">
+            <Select
+              aria-label="朗读音色"
+              value={settings.speechVoiceName}
+              options={voiceOptions}
+              onChange={(speechVoiceName) => setSettings({ ...settings, speechVoiceName })}
+            />
+          </div>
+          <p className="bingeup-deck-description">
+            默认 Microsoft Zira；仅列出设备本地英语语音，保证离线可用。
+          </p>
+        </div>
       </Field>
 
       <Field label="默认冷却（分钟）">

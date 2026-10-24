@@ -65,6 +65,9 @@ export function validateAppSettings(input: Partial<AppSettings>): ValidationResu
   if (typeof input.spellingEnabled !== 'boolean') {
     errors.push('拼写题开关必须为布尔值');
   }
+  if (typeof input.speechVoiceName !== 'string' || input.speechVoiceName.trim() === '') {
+    errors.push('朗读语音不能为空');
+  }
   if (typeof input.longVideoTimedLearningEnabled !== 'boolean') {
     errors.push('长视频定时学习开关必须为布尔值');
   }
@@ -113,6 +116,11 @@ export function normalizeAppSettings(input: Partial<AppSettings>): AppSettings {
   }
   if (typeof merged.spellingEnabled !== 'boolean') {
     merged.spellingEnabled = DEFAULT_SETTINGS.spellingEnabled;
+  }
+  if (typeof merged.speechVoiceName !== 'string' || merged.speechVoiceName.trim() === '') {
+    merged.speechVoiceName = DEFAULT_SETTINGS.speechVoiceName;
+  } else {
+    merged.speechVoiceName = merged.speechVoiceName.trim();
   }
   if (typeof merged.longVideoTimedLearningEnabled !== 'boolean') {
     merged.longVideoTimedLearningEnabled = DEFAULT_SETTINGS.longVideoTimedLearningEnabled;

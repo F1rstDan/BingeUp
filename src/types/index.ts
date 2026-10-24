@@ -64,6 +64,8 @@ export interface AppSettings {
   selfRatedLevel: SelfRatedLevel;
   /** 拼写题开关：仅连续学习模式出现拼写题（执行计划书：学习设置）。 */
   spellingEnabled: boolean;
+  /** 朗读音色名称；默认 Microsoft Zira，匹配不到时回退到其他本地英语语音。 */
+  speechVoiceName: string;
   /** 长视频定时学习开关（CONTEXT.md：长视频定时学习）。 */
   longVideoTimedLearningEnabled: boolean;
   /** 长视频定时学习间隔（分钟）。 */

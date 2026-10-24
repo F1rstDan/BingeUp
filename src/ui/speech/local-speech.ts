@@ -1,4 +1,9 @@
 import { useEffect, useSyncExternalStore } from 'react';
+import {
+  DEFAULT_SPEECH_VOICE_NAME,
+  compareSpeechVoices,
+  isLocalEnglishVoice,
+} from '@/settings/speech-voice';
 
 export type SpeechLabel = 'word' | 'example';
 export type LocalSpeechStatus =
@@ -11,6 +16,10 @@ export interface LocalSpeechState {
   label: SpeechLabel | null;
   /** 实际选中的本地英语语音语言。 */
   voiceLang: string | null;
+  /** 实际选中的语音名称，便于设置生效和本机诊断。 */
+  voiceName: string | null;
+  /** 设置页保存的偏好音色。 */
+  preferredVoiceName: string;
   message: string | null;
 }
 
@@ -19,6 +28,8 @@ const INITIAL_STATE: LocalSpeechState = {
   ownerId: null,
   label: null,
   voiceLang: null,
+  voiceName: null,
+  preferredVoiceName: DEFAULT_SPEECH_VOICE_NAME,
   message: null,
 };
 
@@ -37,6 +48,7 @@ export class LocalSpeechController {
   private token = 0;
   private owned = false;
   private pagehideBound = false;
+  private preferredVoiceName = DEFAULT_SPEECH_VOICE_NAME;
 
   getState = (): LocalSpeechState => this.state;
 
@@ -74,6 +86,15 @@ export class LocalSpeechController {
     this.refreshVoices();
   }
 
+  /** 设置页保存的音色；名称匹配不到时仍回退到 Zira/Mark 排序。 */
+  setPreferredVoice(name: string): void {
+    const next = name.trim() || DEFAULT_SPEECH_VOICE_NAME;
+    if (next === this.preferredVoiceName) return;
+    this.preferredVoiceName = next;
+    this.setState({ preferredVoiceName: next });
+    this.refreshVoices();
+  }
+
   private handleVoicesChanged = (): void => {
     const previous = this.state.status;
     this.refreshVoices();
@@ -87,26 +108,8 @@ export class LocalSpeechController {
     if (!this.synth) return;
     const all = this.synth.getVoices?.() ?? [];
     this.voices = all
-      .filter((voice) => voice.localService === true && /^en(?:-|$)/i.test(voice.lang || ''))
-      .sort((a, b) => {
-        const rank = (voice: SpeechSynthesisVoice) =>
-          /^en-US$/i.test(voice.lang) ? 0 : /^en[-_]?GB$/i.test(voice.lang) ? 1 : 2;
-        // Windows 上优先使用常见的 Zira/Mark；部分机器的 David 会播放但无实际声音。
-        const nameRank = (voice: SpeechSynthesisVoice) => {
-          const name = voice.name.toLowerCase();
-          if (name.includes('zira')) return 0;
-          if (name.includes('mark')) return 1;
-          if (name.includes('aria') || name.includes('jenny') || name.includes('guy')) return 2;
-          if (name.includes('david')) return 4;
-          return 3;
-        };
-        return (
-          rank(a) - rank(b) ||
-          a.lang.localeCompare(b.lang) ||
-          nameRank(a) - nameRank(b) ||
-          a.name.localeCompare(b.name)
-        );
-      });
+      .filter(isLocalEnglishVoice)
+      .sort((a, b) => compareSpeechVoices(a, b, this.preferredVoiceName));
     if (this.voices.length > 0) {
       if (this.voiceTimer !== null) window.clearTimeout(this.voiceTimer);
       this.voiceTimer = null;
@@ -146,7 +149,13 @@ export class LocalSpeechController {
     } catch {
       // 浏览器拒绝取消时仍清理本地状态。
     }
-    this.setState({ status: 'idle', ownerId: null, label: null, message: null });
+    this.setState({
+      status: 'idle',
+      ownerId: null,
+      label: null,
+      voiceName: null,
+      message: null,
+    });
   }
 
   stopOwnedBy(ownerId: string): void {
@@ -186,14 +195,26 @@ export class LocalSpeechController {
       if (token !== this.token) return;
       this.owned = false;
       this.clearTimers();
-      this.setState({ status: 'idle', ownerId: null, label: null, message: null });
+      this.setState({
+        status: 'idle',
+        ownerId: null,
+        label: null,
+        voiceName: null,
+        message: null,
+      });
     };
     utterance.onerror = (event) => {
       if (token !== this.token) return;
       this.owned = false;
       this.clearTimers();
       if (event.error === 'canceled' || event.error === 'interrupted') {
-        this.setState({ status: 'idle', ownerId: null, label: null, message: null });
+        this.setState({
+          status: 'idle',
+          ownerId: null,
+          label: null,
+          voiceName: null,
+          message: null,
+        });
       } else {
         this.setState({ status: 'error', message: '朗读失败，请重试。' });
       }
@@ -203,6 +224,7 @@ export class LocalSpeechController {
       ownerId,
       label,
       voiceLang: voice.lang,
+      voiceName: voice.name,
       message: '正在准备系统朗读…',
     });
     // Chrome/Edge 可能在后台标签或页面切换后暂停合成队列；恢复后再入队。
@@ -263,7 +285,23 @@ export function useLocalSpeech(ownerId: string): {
   );
   useEffect(() => {
     localSpeech.initialize();
-    return () => localSpeech.stopOwnedBy(ownerId);
+    let cancelled = false;
+    if (typeof chrome !== 'undefined' && typeof chrome.runtime?.sendMessage === 'function') {
+      void chrome.runtime
+        .sendMessage({ type: 'GET_APP_SETTINGS' })
+        .then((settings: { speechVoiceName?: unknown } | undefined) => {
+          if (!cancelled && typeof settings?.speechVoiceName === 'string') {
+            localSpeech.setPreferredVoice(settings.speechVoiceName);
+          }
+        })
+        .catch(() => {
+          // 设置读取失败时继续使用默认 Zira。
+        });
+    }
+    return () => {
+      cancelled = true;
+      localSpeech.stopOwnedBy(ownerId);
+    };
   }, [ownerId]);
   return {
     state,

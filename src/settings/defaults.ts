@@ -1,5 +1,6 @@
 import type { AppSettings } from '@/types';
 import { getDefaultDeck } from '@/dictionary/built-in/decks';
+import { DEFAULT_SPEECH_VOICE_NAME } from '@/settings/speech-voice';
 
 /**
  * 默认设置只有一个来源（M1-03 / Issue #10 完整设置模型）。
@@ -20,6 +21,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   selfRatedLevel: 'intermediate',
   /** 拼写题默认开启（仅连续学习模式出现）。 */
   spellingEnabled: true,
+  /** 默认使用 Microsoft Zira 女声；不可用时回退到其他本地英语语音。 */
+  speechVoiceName: DEFAULT_SPEECH_VOICE_NAME,
   /** 长视频定时学习默认关闭（CONTEXT.md：用户主动开启后才在长视频中插题）。 */
   longVideoTimedLearningEnabled: false,
   /** 长视频定时学习间隔默认 10 分钟。 */
