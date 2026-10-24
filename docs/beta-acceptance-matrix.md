@@ -40,7 +40,7 @@ npm run test:e2e     # 自动先构建 chrome-mv3，再运行 Playwright
 以下由 `npm run test:e2e` 自动验证，人工无需重复；作为「已验证」证据引用。
 
 UI 原版视觉迁移（Issue #36）的阶段证据、体积与未验证项见
-[ui-migration-evidence.md](./ui-migration-evidence.md)；其中截图采集脚本默认跳过，
+[归档的 UI 迁移证据](./.archive/ui-migration-evidence.md)；其中截图采集脚本默认跳过，
 用 `CAPTURE_*=1` 运行，仅作证据、不参与像素比对。
 
 | 用例文件 | 覆盖点 |

@@ -145,7 +145,7 @@ npm run dev:preview   # 启动后打开 http://localhost:5174
 
 预览站只复用一个明确的仿真缝——`preview/mock-message-client.ts` 替换 `@/messaging/message-client`，其余组件、样式与类型全部来自 `src/`；浏览器 API 由 `preview/chrome-shim.ts` 提供。页面只存在于开发环境，不会进入扩展产物（`npm run build` 仍以 `src/` 为唯一来源）。
 
-预览站适合配合 Codex 的内置浏览器使用：打开页面后按区块圈选批注或截图说明问题，回到对话里反馈即可。更多背景见 [docs/ui-migration-evidence.md](./docs/ui-migration-evidence.md) 的「本地 UI 预览站」一节。
+预览站适合配合 Codex 的内置浏览器使用：打开页面后按区块圈选批注或截图说明问题，回到对话里反馈即可。更多背景见 [归档的 UI 迁移证据](./docs/.archive/ui-migration-evidence.md) 的「本地 UI 预览站」一节。
 
 项目基于 [WXT](https://wxt.dev/)、React 18、TypeScript、IndexedDB、[ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs) 与 Manifest V3。领域术语见 [CONTEXT.md](./CONTEXT.md)，架构决策见 [docs/adr](./docs/adr)。
 
