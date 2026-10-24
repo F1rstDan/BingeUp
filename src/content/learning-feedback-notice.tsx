@@ -35,6 +35,7 @@ export const LEARNING_FEEDBACK_CSS = `
   .bingeup-learning-feedback__close {
     position: absolute; top: 30px; right: 34px; z-index: 1;
     width: 32px; height: 32px; min-width: 32px; padding: 0; border-radius: 50%;
+    border: 1px solid var(--animal-border-color); background: var(--animal-bg-color);
   }
   .bingeup-learning-feedback__status {
     display: flex; flex: none; align-items: center; justify-content: center;
@@ -47,6 +48,16 @@ export const LEARNING_FEEDBACK_CSS = `
   }
   .bingeup-learning-feedback__status[data-correct="false"] { color: var(--animal-error-color-active); }
   .bingeup-learning-feedback__status svg { flex: none; }
+  .bingeup-learning-feedback__status-icon {
+    display: inline-flex; flex: none; width: 38px; height: 38px;
+    align-items: center; justify-content: center; border-radius: 50%; color: #fff;
+  }
+  .bingeup-learning-feedback__status-icon[data-correct="true"] {
+    background: var(--animal-success-color-active);
+  }
+  .bingeup-learning-feedback__status-icon[data-correct="false"] {
+    background: var(--animal-error-color-active);
+  }
   .bingeup-learning-feedback__content {
     width: 100%; min-width: 0; min-height: 0; color: var(--animal-text-color);
     text-align: center; overflow-wrap: anywhere; overflow-y: auto;

@@ -87,7 +87,16 @@ export function demoWord(key: keyof typeof DEMO_WORDS): WordRecord {
 
 /** 新词展示（单题模式与连续模式共用同一数据形态）。 */
 export function makeDemoNewWordItem(): LearningItem {
-  return { kind: 'new-word-presentation', presentation: { word: demoWord('deliberate') } };
+  const word = demoWord('deliberate');
+  return {
+    kind: 'new-word-presentation',
+    presentation: {
+      word: {
+        ...word,
+        secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '仔细考虑' }],
+      },
+    },
+  };
 }
 
 /** 选择题：英文选中文，示例形态与 question-generator 的输出字段一致。 */

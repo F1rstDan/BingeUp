@@ -15,6 +15,7 @@ import { defineConfig } from 'vite';
  */
 export default defineConfig({
   root: fileURLToPath(new URL('./preview/', import.meta.url)),
+  publicDir: fileURLToPath(new URL('./public/', import.meta.url)),
   cacheDir: fileURLToPath(new URL('./node_modules/.vite-preview', import.meta.url)),
   plugins: [react()],
   resolve: {

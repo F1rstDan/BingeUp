@@ -1,8 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Button } from 'animal-island-ui';
-import { CheckCircleIcon, CloseIcon, XCircleIcon } from 'naive-icons';
+import { BadgeXIcon, Cancel01Icon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
 import type { CorrectionResult, SubmissionResult } from '@/types';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
 import { WordSummary } from '@/ui/overlay/WordSummary';
 
@@ -255,7 +256,7 @@ export function LearningFeedback({
             className="bingeup-learning-feedback__close"
             type="text"
             size="small"
-            icon={<CloseIcon size={18} aria-hidden="true" />}
+            icon={<HugeIcon icon={Cancel01Icon} size={18} />}
             aria-label="关闭"
             title="关闭"
             disabled={actionsLocked || exiting}
@@ -263,11 +264,12 @@ export function LearningFeedback({
           />
           <div role="status" aria-live="polite" aria-atomic="true">
             <span className="bingeup-learning-feedback__status" data-correct={result.isCorrect}>
-              {result.isCorrect ? (
-                <CheckCircleIcon size={28} aria-hidden="true" />
-              ) : (
-                <XCircleIcon size={28} aria-hidden="true" />
-              )}
+              <span
+                className="bingeup-learning-feedback__status-icon"
+                data-correct={result.isCorrect}
+              >
+                <HugeIcon icon={result.isCorrect ? CheckmarkBadge03Icon : BadgeXIcon} size={22} />
+              </span>
               <span>{result.isCorrect ? '答对了' : '答错了'}</span>
             </span>
           </div>
@@ -285,12 +287,12 @@ export function LearningFeedback({
               }}
               wordClassName="bingeup-learning-feedback__word"
               disabled={actionsLocked || exiting}
+              showExample={false}
             />
             {!result.isCorrect && result.submittedAnswer && (
               <div className="bingeup-learning-feedback__submitted-answer">
                 <span className="bingeup-learning-feedback__answer-label">你的答案</span>
                 <span className="bingeup-learning-feedback__wrong-value">
-                  <XCircleIcon size={20} aria-hidden="true" />
                   <span>{result.submittedAnswer}</span>
                 </span>
               </div>

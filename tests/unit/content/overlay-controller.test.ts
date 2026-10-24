@@ -211,14 +211,19 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
     const controller = new OverlayController();
 
     controller.open(ITEM, target, 'video-region');
-    expect(added).toHaveLength(1);
-    const face = added[0] as { family: string; source: string };
-    expect(face.family).toBe('Nunito');
-    expect(face.source).toContain('chrome-extension://test-id/assets/');
+    expect(added).toHaveLength(2);
+    const face = (added as Array<{ family: string; source: string }>).find(
+      (candidate) => candidate.family === 'Nunito',
+    );
+    expect(face?.source).toContain('chrome-extension://test-id/assets/');
+    const chineseFace = (added as Array<{ family: string; source: string }>).find(
+      (candidate) => candidate.family === 'ChillRoundM',
+    );
+    expect(chineseFace?.source).toContain('chrome-extension://test-id/fonts/ChillRoundM.otf');
 
     controller.close();
     controller.open(ITEM, target, 'video-region');
-    expect(added).toHaveLength(1);
+    expect(added).toHaveLength(2);
     controller.close();
   });
 

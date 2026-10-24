@@ -293,7 +293,6 @@ export function OverlayApp({ item, onAction, isContinuous }: OverlayAppProps) {
                 </p>
               </div>
             )}
-            <div className="bingeup-phonetic">请输入英文单词</div>
             <div className="bingeup-spelling-field" ref={spellingInputRef}>
               <Input
                 size="large"

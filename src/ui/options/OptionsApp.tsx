@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
-import { VolumeIcon } from 'naive-icons';
+import { VolumeHighIcon } from '@hugeicons/core-free-icons';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
@@ -458,7 +459,7 @@ export function OptionsApp(): JSX.Element {
             className="bingeup-voice-preview"
             type="default"
             size="small"
-            icon={<VolumeIcon size={16} />}
+            icon={<HugeIcon icon={VolumeHighIcon} size={16} />}
             aria-label="试听朗读音色"
             title="试听朗读音色"
             disabled={speechVoices.length === 0}

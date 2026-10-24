@@ -144,8 +144,7 @@ describe('LearningFeedbackNotice', () => {
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
     expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
-    expect(feedback).toHaveTextContent('Plants absorb sunlight.');
-    expect(feedback).toHaveTextContent('植物吸收阳光。');
+    expect(feedback).not.toHaveTextContent('Plants absorb sunlight.');
     expect(feedback).toHaveTextContent('使专心');
     expect(feedback).not.toHaveTextContent('详情');
     expect(feedback).not.toHaveTextContent('学习信息');
@@ -196,7 +195,6 @@ describe('LearningFeedbackNotice', () => {
     expect(label).not.toHaveClass('bingeup-learning-feedback__sr-only');
     expect(submitted).toHaveTextContent('你的答案felt');
     expect(wrongValue).toHaveTextContent('felt');
-    expect(wrongValue?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     expect(queries.getByRole('heading', { level: 2, name: 'absorb' })).toBeInTheDocument();
     expect(feedback).toHaveTextContent('吸收；理解');
   });
@@ -233,22 +231,16 @@ describe('LearningFeedbackNotice', () => {
     expect(shown.queries.getByRole('button', { name: '关闭' })).toBeEnabled();
   });
 
-  it('音标、词性、例句、译文和其他常见义默认常显，不再折叠详情', () => {
+  it('音标、词性和其他常见义默认常显，反馈不展示例句', () => {
     const { feedback, queries } = showNotice();
     expect(feedback).toHaveTextContent('/əbˈzɔːrb/');
     expect(feedback).toHaveTextContent('v.');
-    expect(feedback).toHaveTextContent('Plants absorb sunlight.');
-    expect(feedback).toHaveTextContent('植物吸收阳光。');
     expect(feedback).toHaveTextContent('其他常见义');
     expect(feedback).toHaveTextContent('v. 使专心');
     expect(queries.queryByRole('button', { name: /详情/ })).not.toBeInTheDocument();
     expect(feedback.querySelector('.bingeup-feedback-details')).toBeNull();
 
-    const example = queries.getByRole('button', { name: '朗读例句' });
-    expect(example).toHaveClass('bingeup-example-action');
-    expect(example).toContainElement(queries.getByText('Plants absorb sunlight.'));
-    expect(within(example).queryAllByRole('button')).toHaveLength(0);
-    expect(example.querySelector('svg')).toBeInTheDocument();
+    expect(feedback.querySelector('.bingeup-example-panel')).toBeNull();
 
     advanceTime(LEARNING_FEEDBACK_DURATION_MS - 1);
     expect(queryFeedback()).not.toBeNull();

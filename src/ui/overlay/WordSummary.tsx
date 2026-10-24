@@ -1,5 +1,6 @@
 import { Tag } from 'animal-island-ui';
-import { VolumeIcon } from 'naive-icons';
+import { VolumeHighIcon } from '@hugeicons/core-free-icons';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { useLocalSpeech } from '@/ui/speech/local-speech';
 import { ExampleSpeechPanel } from '@/ui/speech/SpeechControls';
 
@@ -79,11 +80,11 @@ export function PronunciationTag({
     >
       <Tag
         size="small"
-        variant="dashed"
+        variant="soft"
         color="default"
         className={`bingeup-pronunciation-tag${active ? ' bingeup-pronunciation-tag--active' : ''}`}
       >
-        <VolumeIcon size={14} aria-hidden="true" />
+        <HugeIcon icon={VolumeHighIcon} size={15} />
         <span className="bingeup-new-word-phonetic">{phonetic}</span>
       </Tag>
     </button>
@@ -192,16 +193,24 @@ export const WORD_SUMMARY_CSS = `
   .bingeup-pos-tag { line-height: 1; }
   .bingeup-pronunciation-wrap {
     display: inline-flex; flex: none; align-items: center; padding: 0; border: 0;
-    background: transparent; color: inherit; font: inherit; border-radius: 999px; cursor: pointer;
+    appearance: none; background: transparent; color: inherit; font: inherit;
+    border-radius: 999px; box-shadow: none; line-height: 1; vertical-align: middle; cursor: pointer;
   }
   .bingeup-pronunciation-wrap:disabled { cursor: default; opacity: 0.6; }
+  .bingeup-pronunciation-wrap svg { display: block; }
   .bingeup-pronunciation-wrap:focus-visible {
     outline: 2px solid var(--animal-primary-color); outline-offset: 2px;
   }
   .bingeup-pronunciation-tag {
-    display: inline-flex; align-items: center; gap: 4px;
-    color: var(--animal-text-color-secondary); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
+    border: 0; box-shadow: none; background: var(--animal-bg-color-secondary);
+    color: var(--animal-text-color-secondary); line-height: 1; cursor: pointer;
   }
+  .bingeup-pronunciation-tag > span {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: transparent; line-height: 1;
+  }
+  .bingeup-pronunciation-tag svg { color: var(--animal-text-color); }
   .bingeup-pronunciation-tag:hover,
   .bingeup-pronunciation-tag--active { color: var(--animal-primary-color); }
   .bingeup-secondary {

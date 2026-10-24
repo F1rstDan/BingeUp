@@ -985,12 +985,9 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
       expect(feedback.detailsButton).toBe(false);
       expect(feedback.phonetic).toMatch(/\//);
       expect(feedback.wordSpeechLabel).toMatch(/朗读单词/);
-      expect(feedback.wordSpeechBorderStyle).toBe('dashed');
-      expect(Number.parseFloat(feedback.wordSpeechBorderWidth)).toBeGreaterThan(0);
-      expect(feedback.example).not.toBeNull();
-      expect(feedback.example!.nestedButtons).toBe(0);
-      expect(feedback.example!.iconFill).toBe(feedback.example!.iconColor);
-      expect(feedback.example!.iconStroke).toBe(feedback.example!.iconColor);
+      expect(feedback.wordSpeechBorderStyle).not.toBe('dashed');
+      expect(Number.parseFloat(feedback.wordSpeechBorderWidth)).toBe(0);
+      expect(feedback.example).toBeNull();
 
       const feedbackRect = await page.evaluate(() => {
         const element = document

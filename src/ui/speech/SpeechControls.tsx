@@ -1,6 +1,7 @@
 import { useId, useRef, type ReactNode } from 'react';
 import { Button } from 'animal-island-ui';
-import { VolumeIcon } from 'naive-icons';
+import { VolumeHighIcon } from '@hugeicons/core-free-icons';
+import { HugeIcon } from '@/ui/icons/HugeIcon';
 import { useLocalSpeech, type LocalSpeechStatus } from '@/ui/speech/local-speech';
 
 function shortSpeechStatus(status: LocalSpeechStatus): string | null {
@@ -67,7 +68,7 @@ export function SpeechControls({
           className="bingeup-speech-icon-button"
           type="default"
           size="small"
-          icon={<VolumeIcon size={16} />}
+          icon={<HugeIcon icon={VolumeHighIcon} size={16} />}
           aria-pressed={active}
           aria-label={active ? '停止朗读单词' : '系统朗读单词'}
           disabled={disabled}
@@ -142,7 +143,7 @@ export function ExampleSpeechPanel({
           activate();
         }}
       >
-        <VolumeIcon className="bingeup-example-speaker" size={18} aria-hidden="true" />
+        <HugeIcon className="bingeup-example-speaker" icon={VolumeHighIcon} size={18} />
         <div className="bingeup-example-content" id={contentId}>
           {children}
         </div>
@@ -199,7 +200,7 @@ export const SPEECH_CONTROLS_CSS = `
   .bingeup-example-action[aria-disabled="true"] { cursor: default; }
   .bingeup-example-speaker {
     flex: none; width: 18px; height: 18px; margin-top: 2px;
-    color: var(--animal-text-color-secondary);
+    display: block; color: var(--animal-text-color); opacity: 0.82;
   }
   .bingeup-example-speaker path { fill: currentColor; stroke: currentColor; }
   .bingeup-example-content { flex: 1 1 auto; min-width: 0; user-select: text; }

@@ -7,6 +7,21 @@
  * 不定义新令牌、不写死组件样式。
  */
 
+/* 中文优先使用寒蝉半圆体（SIL OFL 1.1）；拉丁字符仍由 Nunito 渲染。 */
+@font-face {
+  font-family: 'ChillRoundM';
+  src: url('/fonts/ChillRoundM.otf') format('opentype');
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+}
+
+:root {
+  --animal-font-family:
+    Nunito, 'ChillRoundM', 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei',
+    sans-serif !important;
+}
+
 html,
 body {
   margin: 0;
