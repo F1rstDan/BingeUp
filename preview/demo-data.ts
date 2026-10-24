@@ -11,7 +11,7 @@ import type {
   WordRecord,
 } from '@/types';
 import type { PopupLearningStats } from '@/messaging/messages';
-import type { DevDataSnapshot, DevDeckSummary } from '@/dev-tools/messages';
+import type { DevDataSnapshot, DevDeckSummary, DevScenario } from '@/dev-tools/messages';
 
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 
@@ -208,29 +208,95 @@ export const DEMO_SITE_SETTINGS: Record<string, SiteSettings> = {
   },
 };
 
+export type PreviewLearningScenario = 'base' | DevScenario;
+
 /** Popup 今日学习指标（非空数据）。 */
-export function makeDemoPopupStats(): PopupLearningStats {
-  return {
-    today: {
-      completedQuestions: 7,
-      reviewedWords: 4,
-      newWords: 1,
-      continuousSessions: 2,
-      continuousQuestions: 5,
-      longTermCompleted: 3,
-      longTermAccuracy: 0.67,
+export function makeDemoPopupStats(scenario: PreviewLearningScenario = 'base'): PopupLearningStats {
+  const metrics: Record<PreviewLearningScenario, PopupLearningStats> = {
+    base: {
+      today: {
+        completedQuestions: 7,
+        reviewedWords: 4,
+        newWords: 1,
+        continuousSessions: 2,
+        continuousQuestions: 5,
+        longTermCompleted: 3,
+        longTermAccuracy: 0.67,
+      },
+      dueReviewCount: 4,
     },
-    dueReviewCount: 4,
+    week: {
+      today: {
+        completedQuestions: 5,
+        reviewedWords: 6,
+        newWords: 2,
+        continuousSessions: 2,
+        continuousQuestions: 2,
+        longTermCompleted: 2,
+        longTermAccuracy: 1,
+      },
+      dueReviewCount: 1,
+    },
+    month: {
+      today: {
+        completedQuestions: 8,
+        reviewedWords: 11,
+        newWords: 1,
+        continuousSessions: 4,
+        continuousQuestions: 9,
+        longTermCompleted: 7,
+        longTermAccuracy: 0.86,
+      },
+      dueReviewCount: 2,
+    },
+    year: {
+      today: {
+        completedQuestions: 13,
+        reviewedWords: 12,
+        newWords: 0,
+        continuousSessions: 6,
+        continuousQuestions: 12,
+        longTermCompleted: 20,
+        longTermAccuracy: 0.85,
+      },
+      dueReviewCount: 3,
+    },
+    complete: {
+      today: {
+        completedQuestions: 0,
+        reviewedWords: 0,
+        newWords: 0,
+        continuousSessions: 0,
+        continuousQuestions: 0,
+        longTermCompleted: 0,
+        longTermAccuracy: 0,
+      },
+      dueReviewCount: 0,
+    },
   };
+  const value = metrics[scenario];
+  return { today: { ...value.today }, dueReviewCount: value.dueReviewCount };
 }
 
 /** 开发工具（Popup 开发数据面板）摘要，in-dev 行为与真实后台一致。 */
-export const DEMO_DEV_DECK_SUMMARY: DevDeckSummary = {
-  deck: { id: 'deck-daily-high-frequency', name: '日常高频' },
-  wordCount: 12,
-  learningCardCount: 5,
-  stageCounts: { new: 1, 'short-term': 2, 'long-term': 1, 'self-reported-known': 1 },
-};
+export function makeDemoDevDeckSummary(scenario: PreviewLearningScenario = 'base'): DevDeckSummary {
+  const stageCounts: Record<PreviewLearningScenario, DevDeckSummary['stageCounts']> = {
+    base: { new: 1, 'short-term': 2, 'long-term': 1, 'self-reported-known': 1 },
+    week: { new: 2, 'short-term': 3, 'long-term': 2, 'self-reported-known': 1 },
+    month: { new: 1, 'short-term': 4, 'long-term': 6, 'self-reported-known': 1 },
+    year: { new: 0, 'short-term': 1, 'long-term': 10, 'self-reported-known': 1 },
+    complete: { new: 0, 'short-term': 0, 'long-term': 12, 'self-reported-known': 0 },
+  };
+  const counts = stageCounts[scenario];
+  return {
+    deck: { id: 'deck-daily-high-frequency', name: '日常高频' },
+    wordCount: 12,
+    learningCardCount: Object.values(counts).reduce((sum, count) => sum + count, 0),
+    stageCounts: counts,
+  };
+}
+
+export const DEMO_DEV_DECK_SUMMARY: DevDeckSummary = makeDemoDevDeckSummary();
 
 /** 开发工具数据快照（结构与 DevDataSnapshot 一致）。 */
 export const DEMO_DEV_SNAPSHOT: DevDataSnapshot = {

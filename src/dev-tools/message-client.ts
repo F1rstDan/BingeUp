@@ -3,6 +3,7 @@ import type {
   DevDeckSummary,
   DevDataSnapshot,
   DevExtensionMessage,
+  DevScenario,
   PrepareDevCardResult,
 } from '@/dev-tools/messages';
 
@@ -16,6 +17,10 @@ export async function getDevDeckSummary(): Promise<DevDeckSummary> {
 
 export async function getDevDataSnapshot(): Promise<DevDataSnapshot> {
   return send({ type: 'DEV_GET_DATA_SNAPSHOT' });
+}
+
+export async function seedDevScenario(scenario: DevScenario): Promise<void> {
+  await send({ type: 'DEV_SEED_SCENARIO', scenario });
 }
 
 async function send<T>(message: DevExtensionMessage): Promise<T> {

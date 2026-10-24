@@ -3,9 +3,10 @@ import { ReviewLogRepository } from '@/storage/repositories/review-log-repositor
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { isDevCardType, type DevExtensionMessage } from '@/dev-tools/messages';
+import { isDevCardType, isDevScenario, type DevExtensionMessage } from '@/dev-tools/messages';
 import { DevDataService } from '@/dev-tools/dev-data';
 import { DevLearningItemService } from '@/dev-tools/dev-learning-item';
+import { DevScenarioSeeder } from '@/dev-tools/scenario-seeder';
 
 export interface DevBackgroundDeps {
   db: IDBDatabase;
@@ -17,6 +18,9 @@ export function isDevExtensionMessage(value: unknown): value is DevExtensionMess
   const type = (value as { type?: unknown }).type;
   if (type === 'DEV_PREPARE_CARD') {
     return isDevCardType((value as { cardType?: unknown }).cardType);
+  }
+  if (type === 'DEV_SEED_SCENARIO') {
+    return isDevScenario((value as { scenario?: unknown }).scenario);
   }
   return type === 'DEV_GET_DECK_SUMMARY' || type === 'DEV_GET_DATA_SNAPSHOT';
 }
@@ -36,6 +40,16 @@ export async function handleDevExtensionMessage(
       clock: { now: () => Date.now() },
       settings,
     }).prepare(message.cardType);
+  }
+
+  if (message.type === 'DEV_SEED_SCENARIO') {
+    await new DevScenarioSeeder({
+      db: deps.db,
+      words,
+      store: deps.store,
+      clock: { now: () => Date.now() },
+    }).seed(message.scenario);
+    return { ok: true };
   }
 
   const data = new DevDataService({

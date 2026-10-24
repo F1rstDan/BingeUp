@@ -3,7 +3,13 @@ import { openDatabase, idbReplaceAll, STORES } from '@/storage/database';
 import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_AUTHORITATIVE_STATE } from '@/storage/local-settings';
 
-import { DAY, HOUR, localDayStart } from './demo-data';
+import {
+  DAY,
+  HOUR,
+  localDayStart,
+  makeDemoDevDeckSummary,
+  type PreviewLearningScenario,
+} from './demo-data';
 
 /**
  * 统计页演示数据。
@@ -356,10 +362,213 @@ function buildEvents(now: number): BehaviorEventRecord[] {
   ];
 }
 
+interface ScenarioStatsProfile {
+  historyDays: number;
+  todayLogs: number;
+  totalLogs: number;
+  sessions: number;
+  todayContinuousSessions: number;
+}
+
+const SCENARIO_STATS_PROFILES: Record<
+  Exclude<PreviewLearningScenario, 'base'>,
+  ScenarioStatsProfile
+> = {
+  week: { historyDays: 7, todayLogs: 9, totalLogs: 28, sessions: 7, todayContinuousSessions: 2 },
+  month: {
+    historyDays: 30,
+    todayLogs: 16,
+    totalLogs: 80,
+    sessions: 24,
+    todayContinuousSessions: 4,
+  },
+  year: {
+    historyDays: 365,
+    todayLogs: 24,
+    totalLogs: 180,
+    sessions: 60,
+    todayContinuousSessions: 6,
+  },
+  complete: {
+    historyDays: 365,
+    todayLogs: 0,
+    totalLogs: 180,
+    sessions: 60,
+    todayContinuousSessions: 0,
+  },
+};
+
+function buildScenarioCards(
+  now: number,
+  scenario: Exclude<PreviewLearningScenario, 'base'>,
+): CardRecord[] {
+  const today = localDayStart(now);
+  const summary = makeDemoDevDeckSummary(scenario);
+  const stages: CardRecord['stage'][] = [];
+  for (const [stage, count] of Object.entries(summary.stageCounts)) {
+    for (let index = 0; index < count; index += 1) {
+      stages.push(stage as CardRecord['stage']);
+    }
+  }
+  const profile = SCENARIO_STATS_PROFILES[scenario];
+  return stages.map((stage, index) => {
+    const daysAgo = stage === 'new' ? 0 : 1 + (index % Math.max(1, profile.historyDays - 1));
+    const createdAt = Math.min(
+      today - daysAgo * DAY + (9 + (index % 8)) * HOUR,
+      now - ((index % 25) + 1) * 60 * 1000,
+    );
+    const updatedAt = Math.min(
+      now,
+      createdAt + Math.floor((now - createdAt) * (0.45 + (index % 5) * 0.1)),
+    );
+    const due = scenario !== 'complete' && index % 5 === 0;
+    return {
+      id: `demo-scenario-${scenario}-card-${index + 1}`,
+      wordId: `demo-history-word-${index + 1}`,
+      deckId: 'deck-daily-high-frequency',
+      stage,
+      origin: stage === 'self-reported-known' ? 'self-reported' : 'accepted-new',
+      createdAt,
+      updatedAt,
+      ...(stage === 'new'
+        ? {}
+        : {
+            nextReviewAt:
+              stage === 'long-term'
+                ? due
+                  ? now - ((index % 30) + 1) * HOUR
+                  : now + ((index % 24) + 1) * DAY
+                : stage === 'short-term'
+                  ? due
+                    ? now - ((index % 8) + 1) * HOUR
+                    : now + ((index % 12) + 1) * HOUR
+                  : now + DAY,
+          }),
+      ...(stage === 'long-term'
+        ? {
+            schedulerState: {
+              stability: 2 + (index % 28),
+              difficulty: 2 + (index % 8),
+              reps: 1 + (index % 10),
+              lapses: index % 3,
+              state: 2,
+              scheduledDays: 1 + (index % 24),
+              learningSteps: 0,
+              lastReviewAt: updatedAt,
+            },
+          }
+        : {}),
+    } satisfies CardRecord;
+  });
+}
+
+function buildScenarioLogs(
+  now: number,
+  scenario: Exclude<PreviewLearningScenario, 'base'>,
+  cards: CardRecord[],
+): ReviewLogRecord[] {
+  const today = localDayStart(now);
+  const profile = SCENARIO_STATS_PROFILES[scenario];
+  const logCards = cards.filter((card) => card.stage !== 'new');
+  const usable = logCards.length > 0 ? logCards : cards;
+  return Array.from({ length: profile.totalLogs }, (_, index) => {
+    const card = usable[index % usable.length]!;
+    const isCorrect = index % 7 !== 0;
+    const reviewedAt =
+      index < profile.todayLogs
+        ? today + Math.floor(((index + 1) / (profile.todayLogs + 1)) * (now - today))
+        : Math.min(
+            now - 60 * 1000,
+            today -
+              (1 + ((index - profile.todayLogs) % Math.max(1, profile.historyDays - 1))) * DAY +
+              (8 + (index % 11)) * HOUR,
+          );
+    return {
+      id: `demo-scenario-${scenario}-log-${index + 1}`,
+      cardId: card.id,
+      wordId: card.wordId,
+      questionType: (['en-to-zh', 'zh-to-en', 'context-choice', 'spelling'] as const)[index % 4]!,
+      selectedAnswer: isCorrect ? `释义 ${(index % 12) + 1}` : `干扰 ${(index % 12) + 1}`,
+      correctAnswer: `释义 ${(index % 12) + 1}`,
+      isCorrect,
+      responseTimeMs: 1800 + (index % 20) * 150,
+      reviewedAt,
+      stageAtSubmission: card.stage === 'long-term' ? 'long-term' : 'short-term',
+      source: index % 3 === 0 ? 'continuous' : index % 5 === 0 ? 'manual' : 'natural',
+      rating: isCorrect ? 'good' : 'again',
+      answerChanges: index % 3,
+    } satisfies ReviewLogRecord;
+  });
+}
+
+function buildScenarioSessions(
+  now: number,
+  scenario: Exclude<PreviewLearningScenario, 'base'>,
+): SessionLogRecord[] {
+  const today = localDayStart(now);
+  const profile = SCENARIO_STATS_PROFILES[scenario];
+  return Array.from({ length: profile.sessions }, (_, index) => {
+    const isToday = index < Math.max(profile.todayContinuousSessions, 2);
+    const daysAgo = isToday ? 0 : 1 + (index % Math.max(1, profile.historyDays - 1));
+    const startedAt = Math.min(
+      today - daysAgo * DAY + (9 + (index % 10)) * HOUR,
+      now - ((index % 30) + 1) * 60 * 1000,
+    );
+    const mode = isToday && index < profile.todayContinuousSessions ? 'continuous' : 'single';
+    const outcome = index % 9 === 0 ? 'skipped' : index % 13 === 0 ? 'exit' : 'submitted';
+    const questionsAnswered = outcome === 'skipped' ? 0 : 1 + (index % 4);
+    return {
+      id: `demo-scenario-${scenario}-session-${index + 1}`,
+      startedAt,
+      endedAt: Math.min(now, startedAt + (5 + (index % 15)) * 60 * 1000),
+      mode,
+      outcome,
+      questionsAnswered,
+      source: index % 3 === 0 ? 'manual' : 'natural',
+      initialItemKind: index % 4 === 0 ? 'new-word-presentation' : 'question',
+      initialOutcome:
+        outcome === 'skipped' ? 'skipped' : index % 4 === 0 ? 'accepted-new' : 'submitted',
+      ...(mode === 'continuous' ? { continuousQuestionsAnswered: questionsAnswered } : {}),
+    } satisfies SessionLogRecord;
+  });
+}
+
+function buildScenarioEvents(
+  now: number,
+  scenario: Exclude<PreviewLearningScenario, 'base'>,
+): BehaviorEventRecord[] {
+  const today = localDayStart(now);
+  const profile = SCENARIO_STATS_PROFILES[scenario];
+  return [
+    {
+      id: `demo-scenario-${scenario}-event-site-bilibili`,
+      kind: 'site-enabled',
+      occurredAt: today - profile.historyDays * DAY,
+      hostname: 'bilibili.com',
+      enabled: true,
+      baseline: true,
+    },
+    {
+      id: `demo-scenario-${scenario}-event-site-youtube`,
+      kind: 'site-enabled',
+      occurredAt: today - profile.historyDays * DAY + DAY,
+      hostname: 'youtube.com',
+      enabled: false,
+      baseline: true,
+    },
+  ];
+}
+
 /** 写入统计页非空演示数据（同一事务替换全部数据仓库）。 */
-export async function seedStatsDemoData(): Promise<void> {
+export async function seedStatsDemoData(scenario: PreviewLearningScenario = 'base'): Promise<void> {
   const now = Date.now();
   logSeq = 0;
+  const cards = scenario === 'base' ? buildCards(now) : buildScenarioCards(now, scenario);
+  const reviewLogs = scenario === 'base' ? buildLogs(now) : buildScenarioLogs(now, scenario, cards);
+  const sessionLogs =
+    scenario === 'base' ? buildSessions(now) : buildScenarioSessions(now, scenario);
+  const behaviorEvents =
+    scenario === 'base' ? buildEvents(now) : buildScenarioEvents(now, scenario);
   const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
   try {
     await idbReplaceAll(db, {
@@ -373,10 +582,10 @@ export async function seedStatsDemoData(): Promise<void> {
           onboardingCompleted: true,
         },
       ],
-      [STORES.cards]: buildCards(now),
-      [STORES.reviewLogs]: buildLogs(now),
-      [STORES.sessionLogs]: buildSessions(now),
-      [STORES.behaviorEvents]: buildEvents(now),
+      [STORES.cards]: cards,
+      [STORES.reviewLogs]: reviewLogs,
+      [STORES.sessionLogs]: sessionLogs,
+      [STORES.behaviorEvents]: behaviorEvents,
       [STORES.words]: [],
       [STORES.decks]: [],
     });

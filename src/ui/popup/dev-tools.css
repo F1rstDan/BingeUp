@@ -106,6 +106,44 @@
   transform: none;
 }
 
+.bingeup-dev-scenarios {
+  display: grid;
+  gap: 4px;
+  padding: 5px;
+  border: 1px dashed var(--island-border-color-light);
+  border-radius: 9px;
+}
+
+.bingeup-dev-scenario-title {
+  color: var(--island-text-color);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.bingeup-dev-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.bingeup-popup .bingeup-dev-scenario-button {
+  min-height: 26px;
+  padding: 2px 3px;
+  border: 1px solid var(--island-border-color);
+  border-radius: 9px;
+  color: var(--island-text-color);
+  background: var(--island-bg-color);
+  box-shadow: none;
+  font-size: 10px;
+}
+
+.bingeup-popup .bingeup-dev-scenario-button:hover:not(:disabled) {
+  border-color: var(--island-primary-color);
+  color: var(--island-primary-color);
+  background: var(--island-primary-color-bg);
+  transform: none;
+}
+
 .bingeup-dev-status,
 .bingeup-dev-muted,
 .bingeup-dev-notice {

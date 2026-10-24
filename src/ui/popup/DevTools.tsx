@@ -3,9 +3,11 @@ import type {
   DevCardType,
   DevDeckSummary,
   DevPingResponse,
+  DevScenario,
   DevShowCardResult,
 } from '@/dev-tools/messages';
-import { getDevDeckSummary } from '@/dev-tools/message-client';
+import { DEV_SCENARIOS } from '@/dev-tools/messages';
+import { getDevDeckSummary, seedDevScenario } from '@/dev-tools/message-client';
 import { messageClient } from '@/messaging/message-client';
 import './dev-tools.css';
 
@@ -39,6 +41,7 @@ export function DevTools(): JSX.Element {
   const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busyType, setBusyType] = useState<DevCardType | null>(null);
+  const [busyScenario, setBusyScenario] = useState<DevScenario | null>(null);
   const [clearing, setClearing] = useState(false);
 
   const loadSummary = useCallback(async (): Promise<boolean> => {
@@ -116,6 +119,36 @@ export function DevTools(): JSX.Element {
     }
   }, [clearing, loadSummary]);
 
+  const seedScenario = useCallback(
+    async (scenario: DevScenario, label: string) => {
+      if (busyScenario !== null) return;
+      if (
+        !window.confirm(
+          `将用“${label}”的模拟数据覆盖当前学习卡、复习日志、学习会话和行为事件。设置和网站保持不变。确定继续吗？`,
+        )
+      ) {
+        return;
+      }
+      setBusyScenario(scenario);
+      setNotice(null);
+      try {
+        await seedDevScenario(scenario);
+        const summaryReloaded = await loadSummary();
+        setNotice(
+          summaryReloaded
+            ? `已生成“${label}”学习历史。`
+            : `已生成“${label}”学习历史，但摘要刷新失败，请点击“重试”。`,
+        );
+        window.dispatchEvent(new Event('bingeup:dev-data-changed'));
+      } catch (error) {
+        setNotice(`生成失败：${error instanceof Error ? error.message : String(error)}`);
+      } finally {
+        setBusyScenario(null);
+      }
+    },
+    [busyScenario, loadSummary],
+  );
+
   return (
     <details className="bingeup-dev-tools" aria-labelledby="bingeup-dev-tools-title" open>
       <summary className="bingeup-dev-tools-heading">
@@ -134,7 +167,9 @@ export function DevTools(): JSX.Element {
                 key={type}
                 className="bingeup-dev-card-button"
                 type="button"
-                disabled={availability !== 'ready' || busyType !== null}
+                disabled={
+                  availability !== 'ready' || busyType !== null || busyScenario !== null || clearing
+                }
                 onClick={() => void openCard(type)}
               >
                 {busyType === type ? '打开中…' : label}
@@ -181,6 +216,24 @@ export function DevTools(): JSX.Element {
             </div>
           )}
 
+          <div className="bingeup-dev-scenarios">
+            <span className="bingeup-dev-scenario-title">模拟学习历史</span>
+            <div className="bingeup-dev-scenario-grid">
+              {DEV_SCENARIOS.map(({ id, label }) => (
+                <button
+                  key={id}
+                  className="bingeup-dev-scenario-button"
+                  type="button"
+                  disabled={busyScenario !== null || busyType !== null || clearing}
+                  onClick={() => void seedScenario(id, label)}
+                >
+                  {busyScenario === id ? '生成中…' : label}
+                </button>
+              ))}
+            </div>
+            <span className="bingeup-dev-muted">模拟数据会覆盖当前学习进度。</span>
+          </div>
+
           <button
             className="bingeup-dev-link"
             type="button"
@@ -196,7 +249,7 @@ export function DevTools(): JSX.Element {
           <button
             className="bingeup-dev-clear"
             type="button"
-            disabled={clearing}
+            disabled={clearing || busyScenario !== null}
             onClick={() => void clearProgress()}
           >
             {clearing ? '清除中…' : '清除全部学习进度'}

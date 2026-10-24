@@ -23,8 +23,9 @@ import {
   makeDemoNewWordItem,
   makeDemoSpellingQuestion,
   makeDemoSubmissionResult,
+  type PreviewLearningScenario,
 } from './demo-data';
-import { setPreviewGlobalPause } from './mock-message-client';
+import { getPreviewDevScenario, setPreviewGlobalPause } from './mock-message-client';
 import { mountOverlayShadow } from './overlay-shadow';
 import { ShadowFrame } from './shadow-frame';
 import { clearStatsDemoData, seedStatsDemoData } from './stats-fixtures';
@@ -207,8 +208,19 @@ type StatsMode = 'populated' | 'empty';
 function StatsStage(): JSX.Element {
   const [mode, setMode] = useState<StatsMode>('populated');
   const [attempt, setAttempt] = useState(0);
+  const [scenario, setScenario] = useState<PreviewLearningScenario>(() => getPreviewDevScenario());
   const [status, setStatus] = useState<'seeding' | 'ready' | 'error'>('seeding');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleDevDataChanged = (): void => {
+      setMode('populated');
+      setScenario(getPreviewDevScenario());
+      setAttempt((value) => value + 1);
+    };
+    window.addEventListener('bingeup:dev-data-changed', handleDevDataChanged);
+    return () => window.removeEventListener('bingeup:dev-data-changed', handleDevDataChanged);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -216,7 +228,7 @@ function StatsStage(): JSX.Element {
     setError(null);
     void (async () => {
       try {
-        if (mode === 'populated') await seedStatsDemoData();
+        if (mode === 'populated') await seedStatsDemoData(scenario);
         else await clearStatsDemoData();
         if (!cancelled) setStatus('ready');
       } catch (cause) {
@@ -229,12 +241,12 @@ function StatsStage(): JSX.Element {
     return () => {
       cancelled = true;
     };
-  }, [mode, attempt]);
+  }, [mode, scenario, attempt]);
 
   return (
     <PreviewCard
       title="统计页"
-      hint="真实 IndexedDB 数据链路：演示数据先写入 bingeup-v1，再由 StatsApp 派生指标"
+      hint="真实 IndexedDB 数据链路：Popup 开发工具的“模拟学习历史”会同步切换这里的数据"
       actions={
         <div className="preview-switch">
           <Button

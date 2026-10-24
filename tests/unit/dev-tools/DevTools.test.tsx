@@ -4,11 +4,13 @@ import { DevTools } from '@/ui/popup/DevTools';
 
 const mocks = vi.hoisted(() => ({
   getDevDeckSummary: vi.fn(),
+  seedDevScenario: vi.fn(),
   clearLearningProgress: vi.fn(),
 }));
 
 vi.mock('@/dev-tools/message-client', () => ({
   getDevDeckSummary: mocks.getDevDeckSummary,
+  seedDevScenario: mocks.seedDevScenario,
 }));
 
 vi.mock('@/messaging/message-client', () => ({
@@ -44,6 +46,7 @@ describe('Popup 开发工具', () => {
       stageCounts: { new: 0, 'short-term': 1, 'long-term': 1, 'self-reported-known': 1 },
     });
     mocks.clearLearningProgress.mockResolvedValue(undefined);
+    mocks.seedDevScenario.mockResolvedValue(undefined);
     vi.spyOn(window, 'close').mockImplementation(() => undefined);
   });
 
@@ -51,6 +54,7 @@ describe('Popup 开发工具', () => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
     mocks.getDevDeckSummary.mockReset();
+    mocks.seedDevScenario.mockReset();
     mocks.clearLearningProgress.mockReset();
   });
 
@@ -114,6 +118,25 @@ describe('Popup 开发工具', () => {
     await waitFor(() => expect(mocks.clearLearningProgress).toHaveBeenCalledTimes(1));
     expect(window.confirm).toHaveBeenCalled();
     expect(mocks.getDevDeckSummary).toHaveBeenCalledTimes(2);
+  });
+
+  it('模拟学习历史会确认、发送场景、刷新摘要并通知其他预览', async () => {
+    installChromeStub({ ok: true });
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    const changed = vi.fn();
+    window.addEventListener('bingeup:dev-data-changed', changed);
+    render(<DevTools />);
+    openDevTools();
+    await screen.findByText('测试词库');
+
+    fireEvent.click(screen.getByRole('button', { name: '1 周' }));
+
+    await waitFor(() => expect(mocks.seedDevScenario).toHaveBeenCalledWith('week'));
+    expect(await screen.findByText('已生成“1 周”学习历史。')).toBeInTheDocument();
+    expect(window.confirm).toHaveBeenCalled();
+    expect(mocks.getDevDeckSummary).toHaveBeenCalledTimes(2);
+    expect(changed).toHaveBeenCalledTimes(1);
+    window.removeEventListener('bingeup:dev-data-changed', changed);
   });
 
   it('取消清除确认不会发送清除消息', async () => {
