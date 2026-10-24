@@ -542,6 +542,44 @@ describe('OverlayApp — 连续学习模式（Issue #8）', () => {
       expect(screen.getByText('连续学习')).toBeInTheDocument();
     });
 
+    it('新词卡顶部统一，音标不带“读音”，其他义项直接展示', () => {
+      const item: LearningItem = {
+        kind: 'new-word-presentation',
+        presentation: {
+          word: {
+            ...NEW_WORD_PRESENTATION.word,
+            secondaryMeanings: [
+              { partOfSpeech: 'n.', meaningZh: '放任' },
+              { partOfSpeech: 'v.', meaningZh: '抛弃' },
+            ],
+          },
+        },
+      };
+      const { container } = render(<OverlayApp item={item} onAction={vi.fn()} isContinuous />);
+
+      const toolbar = container.querySelector('.bingeup-new-word-toolbar');
+      expect(toolbar).not.toBeNull();
+      expect(within(toolbar as HTMLElement).getByText('连续学习')).toBeInTheDocument();
+
+      const pronunciation = container.querySelector('.bingeup-word-pronunciation');
+      expect(pronunciation).toHaveTextContent('/əˈbændən/');
+      expect(pronunciation).not.toHaveTextContent('读音');
+      expect(container.querySelector('.bingeup-word-pronunciation-label')).toBeNull();
+
+      const meaning = container.querySelector('.bingeup-new-word-meaning');
+      expect(meaning).toHaveTextContent('v./n.');
+      expect(meaning).toHaveTextContent('放弃；遗弃');
+
+      const example = container.querySelector('.bingeup-example-panel');
+      expect(example).toHaveTextContent('He abandoned his car.');
+      expect(example).toHaveTextContent('他抛弃了他的车。');
+
+      const secondary = container.querySelector('.bingeup-secondary');
+      expect(secondary).toHaveTextContent('其他常见义');
+      expect(secondary).toHaveTextContent('n. 放任');
+      expect(screen.queryByRole('button', { name: /其他常见义/ })).not.toBeInTheDocument();
+    });
+
     it('连续答题界面不显示上一题反馈或评分操作', () => {
       renderOverlayContinuous({ kind: 'question', question: QUESTION });
       expect(screen.queryByText('上一题反馈')).not.toBeInTheDocument();
