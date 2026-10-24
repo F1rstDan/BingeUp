@@ -90,6 +90,19 @@ describe('LocalSpeechController', () => {
     expect(synth.resumeCount).toBe(1);
   });
 
+  it('Windows 上优先 Zira/Mark，避免默认选中可能无声的 David', () => {
+    const synth = new FakeSpeechSynthesis();
+    synth.voices = [
+      voice('en-US', true, 'Microsoft David - English (United States)'),
+      voice('en-US', true, 'Microsoft Zira - English (United States)'),
+      voice('en-US', true, 'Microsoft Mark - English (United States)'),
+    ];
+    install(synth);
+    const controller = new LocalSpeechController();
+    controller.speak('hello', 'word', 'owner');
+    expect(synth.spoken[0]?.voice?.name).toContain('Zira');
+  });
+
   it('仅远程 voice 时 3 秒后显示不可用且不朗读', () => {
     const synth = new FakeSpeechSynthesis();
     synth.voices = [voice('en-US', false, 'remote')];

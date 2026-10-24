@@ -91,7 +91,21 @@ export class LocalSpeechController {
       .sort((a, b) => {
         const rank = (voice: SpeechSynthesisVoice) =>
           /^en-US$/i.test(voice.lang) ? 0 : /^en[-_]?GB$/i.test(voice.lang) ? 1 : 2;
-        return rank(a) - rank(b) || a.lang.localeCompare(b.lang) || a.name.localeCompare(b.name);
+        // Windows 上优先使用常见的 Zira/Mark；部分机器的 David 会播放但无实际声音。
+        const nameRank = (voice: SpeechSynthesisVoice) => {
+          const name = voice.name.toLowerCase();
+          if (name.includes('zira')) return 0;
+          if (name.includes('mark')) return 1;
+          if (name.includes('aria') || name.includes('jenny') || name.includes('guy')) return 2;
+          if (name.includes('david')) return 4;
+          return 3;
+        };
+        return (
+          rank(a) - rank(b) ||
+          a.lang.localeCompare(b.lang) ||
+          nameRank(a) - nameRank(b) ||
+          a.name.localeCompare(b.name)
+        );
       });
     if (this.voices.length > 0) {
       if (this.voiceTimer !== null) window.clearTimeout(this.voiceTimer);
@@ -162,6 +176,7 @@ export class LocalSpeechController {
     utterance.voice = voice;
     utterance.lang = voice.lang;
     utterance.rate = 1;
+    utterance.volume = 1;
     utterance.onstart = () => {
       if (token !== this.token) return;
       this.clearTimers();
