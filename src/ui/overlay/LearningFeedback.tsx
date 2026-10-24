@@ -28,6 +28,8 @@ export interface LearningFeedbackProps {
   onContinue?: () => Promise<StartLearningResponse>;
   onTooEasy?: () => Promise<CorrectionResult>;
   onClose: () => void;
+  /** 预览页常驻展示：不自动收起，按钮只用于观察布局。 */
+  staticPreview?: boolean;
 }
 
 /** 右下角非模态答题反馈；不转移焦点、不拦截页面快捷键。 */
@@ -36,6 +38,7 @@ export function LearningFeedback({
   onContinue,
   onTooEasy,
   onClose,
+  staticPreview = false,
 }: LearningFeedbackProps) {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -59,6 +62,7 @@ export function LearningFeedback({
   const secondaryMeanings = explanation.secondaryMeanings ?? [];
 
   const dismiss = (): void => {
+    if (staticPreview) return;
     if (!continuationPending.current && !tooEasyPending.current) {
       localSpeech.stopOwnedBy(ownerId);
       setExiting(true);
@@ -74,6 +78,7 @@ export function LearningFeedback({
   }, [ownerId]);
 
   useEffect(() => {
+    if (staticPreview) return;
     if (
       hovered ||
       focused ||
@@ -91,7 +96,7 @@ export function LearningFeedback({
       window.clearTimeout(timer);
       remainingMs.current = Math.max(0, remainingMs.current - (Date.now() - startedAt));
     };
-  }, [hovered, focused, continuing, markingTooEasy, speechBusy, exiting, failure]);
+  }, [hovered, focused, continuing, markingTooEasy, speechBusy, exiting, failure, staticPreview]);
 
   useEffect(() => {
     if (!exiting) return;
@@ -101,6 +106,7 @@ export function LearningFeedback({
   }, [exiting, onClose]);
 
   const continueLearning = async (): Promise<void> => {
+    if (staticPreview) return;
     if (!onContinue || continuationPending.current || tooEasyPending.current || exiting) return;
     continuationPending.current = true;
     localSpeech.stopOwnedBy(ownerId);
@@ -123,6 +129,7 @@ export function LearningFeedback({
   };
 
   const markTooEasy = async (): Promise<void> => {
+    if (staticPreview) return;
     if (
       !onTooEasy ||
       !result.isCorrect ||

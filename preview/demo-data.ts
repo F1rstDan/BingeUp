@@ -144,6 +144,11 @@ export function makeDemoSubmissionResult(
     isCorrect,
     correctIndex: isSpelling ? undefined : question.correctIndex,
     correctAnswer: isSpelling ? question.correctAnswer : question.options[question.correctIndex]!,
+    submittedAnswer: isCorrect
+      ? undefined
+      : isSpelling
+        ? 'wrong'
+        : question.options[(question.correctIndex + 1) % question.options.length],
     cardId: question.cardId,
     reviewLogId: `demo-review-log-${Date.now()}`,
     explanation: question.explanation,

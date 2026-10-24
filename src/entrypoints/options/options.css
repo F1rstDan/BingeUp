@@ -210,6 +210,34 @@ body {
   width: min(240px, 100%);
 }
 
+/* 朗读音色：说明放在左侧标题下方，右侧是下拉框和试听按钮。 */
+.bingeup-voice-label {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 4px;
+  min-width: 0;
+}
+
+.bingeup-voice-control {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: var(--island-space-sm);
+  min-width: 0;
+}
+
+.bingeup-voice-control .bingeup-select {
+  width: min(240px, 100%);
+}
+
+.bingeup-voice-preview {
+  flex: none;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
 /* 原版 Select 的根节点没有对外类名，统一由本包一层容器约束宽度。 */
 .bingeup-select {
   width: min(240px, 100%);
@@ -324,7 +352,8 @@ body {
 
   .bingeup-field-control .bingeup-input,
   .bingeup-select,
-  .bingeup-deck-control {
+  .bingeup-deck-control,
+  .bingeup-voice-control {
     width: 100%;
   }
 

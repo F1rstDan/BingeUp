@@ -6,7 +6,9 @@ import popupCss from '@/entrypoints/popup/popup.css?raw';
 import statsCss from '@/entrypoints/stats/stats.css?raw';
 import { showEnablePrompt } from '@/content/enable-prompt';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
-import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { LEARNING_FEEDBACK_CSS, LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { PopupApp } from '@/ui/popup/PopupApp';
@@ -495,6 +497,33 @@ function OverlayStages(): JSX.Element {
 
 const previewFeedbackNotice = new LearningFeedbackNotice();
 
+function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Element {
+  return (
+    <div className="preview-feedback-static-item">
+      <div className="preview-feedback-static-label">
+        {isCorrect ? '答对提示（常驻）' : '答错提示（常驻）'}
+      </div>
+      <ShadowFrame
+        pageCss={`${LEARNING_FEEDBACK_CSS}\n${SPEECH_CONTROLS_CSS}\n.preview-feedback-canvas { min-height: 0; padding: 0; background: transparent; }`}
+        canvasClassName="preview-feedback-canvas"
+      >
+        <LearningFeedback
+          result={makeDemoSubmissionResult(choiceQuestion, isCorrect)}
+          onContinue={async () => ({ ok: true })}
+          onTooEasy={async () => ({
+            cardId: 'preview-card',
+            reviewLogId: 'preview-log',
+            rating: 'easy',
+            nextReviewAt: Date.now() + 86_400_000,
+          })}
+          onClose={() => {}}
+          staticPreview
+        />
+      </ShadowFrame>
+    </div>
+  );
+}
+
 function NoticesStage(): JSX.Element {
   return (
     <div className="preview-grid">
@@ -531,6 +560,10 @@ function NoticesStage(): JSX.Element {
               {isCorrect ? '查看答对提示' : '查看答错提示'}
             </Button>
           ))}
+        </div>
+        <div className="preview-feedback-static">
+          <StaticFeedbackPreview isCorrect />
+          <StaticFeedbackPreview isCorrect={false} />
         </div>
       </PreviewCard>
       <PreviewCard

@@ -1,8 +1,10 @@
 import { createRoot } from 'react-dom/client';
 import islandCss from 'animal-island-ui/style?raw';
 import { transformIslandShadowCss } from '@/ui/island/shadow-styles';
+import { OVERLAY_SHELL_CSS as CURRENT_OVERLAY_SHELL_CSS } from '@/content/overlay-controller';
 import { OverlayApp } from '@/ui/overlay/OverlayApp';
 import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import type { CorrectionResult, LearningItem, OverlayAction, SubmissionResult } from '@/types';
 
 import { previewAssetUrl } from './font-assets';
@@ -110,7 +112,11 @@ function overlayShadowCss(): string {
     '\n' +
     transformIslandShadowCss(islandCss, previewAssetUrl) +
     '\n' +
-    OVERLAY_SHELL_CSS;
+    OVERLAY_SHELL_CSS +
+    '\n' +
+    CURRENT_OVERLAY_SHELL_CSS +
+    '\n' +
+    SPEECH_CONTROLS_CSS;
   return cachedOverlayCss;
 }
 

@@ -18,11 +18,11 @@ const OVERLAY_HOST_ID = 'bingeup-overlay-host';
  *
  * 令牌（--animal-*）由第 2 段注入，因此自定义元素在第 3 段中始终可用。
  */
-const OVERLAY_RESET_CSS = `
+export const OVERLAY_RESET_CSS = `
   :host { all: initial; }
 `;
 
-const OVERLAY_SHELL_CSS = `
+export const OVERLAY_SHELL_CSS = `
   .bingeup-overlay {
     position: absolute; inset: 0; display: grid; width: 100%; height: 100%;
     box-sizing: border-box; place-items: center; overflow: hidden; padding: 15px;

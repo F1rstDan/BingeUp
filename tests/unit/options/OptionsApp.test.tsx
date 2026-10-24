@@ -237,6 +237,15 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   it('可选择本地英语朗读音色并保存，在线语音不出现在列表', async () => {
+    const speak = vi.fn();
+    class FakeUtterance {
+      voice: SpeechSynthesisVoice | null = null;
+      lang = '';
+      rate = 1;
+      volume = 1;
+      constructor(readonly text: string) {}
+    }
+    vi.stubGlobal('SpeechSynthesisUtterance', FakeUtterance);
     vi.stubGlobal('speechSynthesis', {
       getVoices: () => [
         {
@@ -257,6 +266,9 @@ describe('OptionsApp — Issue #10', () => {
       ],
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
+      cancel: vi.fn(),
+      resume: vi.fn(),
+      speak,
     });
     renderOptions();
 
@@ -265,6 +277,10 @@ describe('OptionsApp — Issue #10', () => {
     fireEvent.click(voiceSelect);
     expect(screen.queryByRole('option', { name: /Aria Online/ })).not.toBeInTheDocument();
     fireEvent.click(await screen.findByRole('option', { name: /Microsoft David/ }));
+
+    fireEvent.click(screen.getByRole('button', { name: '试听朗读音色' }));
+    expect(speak).toHaveBeenCalledTimes(1);
+    expect((speak.mock.calls[0]![0] as FakeUtterance).voice?.name).toContain('David');
 
     fireEvent.click(screen.getByRole('button', { name: '保存设置' }));
     await waitFor(() => expect(mocks.setAppSettings).toHaveBeenCalledTimes(1));

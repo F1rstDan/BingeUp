@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Button, Card, Input, Modal, Select, Switch, Tabs, Tag, Title } from 'animal-island-ui';
+import { VolumeIcon } from 'naive-icons';
 import { messageClient } from '@/messaging/message-client';
 import { BUILT_IN_DECKS } from '@/dictionary/built-in/decks';
 import { addWebsite } from '@/sites/site-access';
@@ -292,6 +293,33 @@ export function OptionsApp(): JSX.Element {
           : `${settings.speechVoiceName}（当前不可用）`,
     });
   }
+  const previewSpeechVoice = (): void => {
+    const synth = typeof window === 'undefined' ? undefined : window.speechSynthesis;
+    if (!synth || speechVoices.length === 0 || typeof SpeechSynthesisUtterance === 'undefined') {
+      showNotice('没有可用的本地英语语音');
+      return;
+    }
+    const voice = [...speechVoices].sort((a, b) =>
+      compareSpeechVoices(a, b, settings.speechVoiceName),
+    )[0];
+    if (!voice) {
+      showNotice('没有可用的本地英语语音');
+      return;
+    }
+    synth.cancel();
+    const utterance = new SpeechSynthesisUtterance('Hello. This is the selected reading voice.');
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    try {
+      synth.resume();
+    } catch {
+      // 某些环境没有 resume；继续尝试 speak。
+    }
+    synth.speak(utterance);
+    showNotice(`正在试听：${voice.name}`);
+  };
   const learningPanel = (
     <Card className="bingeup-card">
       {/* AC1：学习设置 */}
@@ -343,22 +371,6 @@ export function OptionsApp(): JSX.Element {
           checked={settings.spellingEnabled}
           onChange={(checked) => setSettings({ ...settings, spellingEnabled: checked })}
         />
-      </Field>
-
-      <Field label="朗读音色">
-        <div className="bingeup-deck-control">
-          <div className="bingeup-select">
-            <Select
-              aria-label="朗读音色"
-              value={settings.speechVoiceName}
-              options={voiceOptions}
-              onChange={(speechVoiceName) => setSettings({ ...settings, speechVoiceName })}
-            />
-          </div>
-          <p className="bingeup-deck-description">
-            默认 Microsoft Zira；仅列出设备本地英语语音，保证离线可用。
-          </p>
-        </div>
       </Field>
 
       <Field label="默认冷却（分钟）">
@@ -425,6 +437,35 @@ export function OptionsApp(): JSX.Element {
           }
         />
       </Field>
+
+      <div className="bingeup-field bingeup-voice-field">
+        <div className="bingeup-voice-label">
+          <span className="bingeup-field-label">朗读音色</span>
+          <p className="bingeup-deck-description">
+            默认 Microsoft Zira；仅列出设备本地英语语音，保证离线可用。
+          </p>
+        </div>
+        <div className="bingeup-field-control bingeup-voice-control">
+          <div className="bingeup-select">
+            <Select
+              aria-label="朗读音色"
+              value={settings.speechVoiceName}
+              options={voiceOptions}
+              onChange={(speechVoiceName) => setSettings({ ...settings, speechVoiceName })}
+            />
+          </div>
+          <Button
+            className="bingeup-voice-preview"
+            type="default"
+            size="small"
+            icon={<VolumeIcon size={16} />}
+            aria-label="试听朗读音色"
+            title="试听朗读音色"
+            disabled={speechVoices.length === 0}
+            onClick={previewSpeechVoice}
+          />
+        </div>
+      </div>
 
       <div className="bingeup-actions bingeup-learning-actions">
         <Button
