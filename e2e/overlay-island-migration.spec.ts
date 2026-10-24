@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Page } from '@playwright/test';
 import { expect, pageUrl, test } from './fixtures';
+import { OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT } from '../src/ui/overlay/layout';
 
 /**
  * M5 视频遮罩全量迁移 e2e（工单 #44）——真实 Chromium + 真实 MV3 产物。
@@ -15,7 +16,8 @@ import { expect, pageUrl, test } from './fixtures';
  *   :root 令牌映射为 :host；
  * - 字体（Nunito / Noto Sans SC）从 chrome-extension:// 本地加载并进入 loaded；
  * - 宿主页无 style/节点/滚动副作用，无 CSP 报错；
- * - 16:9、9:16 与小窗下卡片保持在播放器矩形内；小窗下卡片内部可滚动且滚动不外泄；
+ * - 16:9、9:16 与标准窗下卡片保持在播放器矩形内；较矮视频回退到视口居中；
+ * - 卡片不显示滚动条，内容未溢出时滚轮可继续滚动宿主页；
  * - Escape 退出后遮罩清理干净。真实站点（B 站/YouTube）的 CSP、全屏与真实媒体
  *   恢复由人工验收矩阵覆盖（见 docs/.archive/ui-migration-evidence.md 的 M5 小节）。
  *
@@ -778,7 +780,7 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     await page.close();
   });
 
-  test('9:16：竖屏播放器内卡片可见且保持内部滚动', async ({ context, extensionId }) => {
+  test('9:16：竖屏播放器内卡片完整可见且不产生内部溢出', async ({ context, extensionId }) => {
     const control = await context.newPage();
     await warmUp(control, extensionId);
 
@@ -800,8 +802,9 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     expect(state.card!.rect.right).toBeLessThanOrEqual(player!.right + 2);
     expect(state.card!.rect.top).toBeGreaterThanOrEqual(player!.top - 2);
     expect(state.card!.rect.bottom).toBeLessThanOrEqual(player!.bottom + 2);
-    // 卡片保持内部滚动机制（内容超出时滚动发生在卡片内）。
+    // 卡片保留溢出兜底，但正常竖屏内容应完整装入。
     expect(state.card!.overflowY).toBe('auto');
+    expect(state.card!.scrollHeight).toBeLessThanOrEqual(state.card!.clientHeight + 1);
 
     await captureViewport(page, 'overlay-9x16', 'overlay-9x16.png', {
       dialogLabel: state.dialogLabel,
@@ -815,18 +818,23 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     await page.close();
   });
 
-  test('小窗：卡片在播放器内可见、可滚动且滚动不外泄', async ({ context, extensionId }) => {
+  test('标准窗：临界高度保持标准样式，滚轮可继续滚动页面', async ({ context, extensionId }) => {
     const control = await context.newPage();
     await warmUp(control, extensionId);
 
     const page = await context.newPage();
     await page.setViewportSize({ width: 900, height: 700 });
-    // 覆盖要求的窄宽下限：320px 播放器内卡片约 290px。
-    await fulfillSyntheticPage(page, { playerWidth: 320, playerHeight: 200, pageHeight: 2400 });
+    // 临界值本身仍使用视频区域遮罩和唯一一套标准卡片样式。
+    await fulfillSyntheticPage(page, {
+      playerWidth: 720,
+      playerHeight: OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT,
+      pageHeight: 2400,
+    });
     await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
 
     const tabId = await findSyntheticTabId(control);
     expect(tabId).not.toBeNull();
+    const host = page.locator('#bingeup-overlay-host');
     await ensureOverlay(page, control, tabId!);
 
     const state = await readShadowState(page);
@@ -838,49 +846,74 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
     expect(state.card!.rect.top).toBeGreaterThanOrEqual(player!.top - 2);
     expect(state.card!.rect.bottom).toBeLessThanOrEqual(player!.bottom + 2);
     expect(state.card!.scrollWidth).toBeLessThanOrEqual(state.card!.clientWidth + 1);
-    // 小窗内容必然超出卡片高度：卡片必须可滚动。
-    expect(state.card!.scrollHeight).toBeGreaterThan(state.card!.clientHeight);
+    expect(
+      await page.evaluate(() => {
+        const card = document
+          .getElementById('bingeup-overlay-host')
+          ?.shadowRoot?.querySelector('.bingeup-card');
+        return card ? getComputedStyle(card).padding : null;
+      }),
+    ).toBe('16px 24px');
+    // 标准布局应完整容纳内容，不出现可见或隐藏的纵向滚动条。
+    expect(state.card!.scrollHeight).toBeLessThanOrEqual(state.card!.clientHeight + 1);
+    expect(
+      await page.evaluate(() => {
+        const card = document
+          .getElementById('bingeup-overlay-host')
+          ?.shadowRoot?.querySelector('.bingeup-card');
+        return card ? getComputedStyle(card).scrollbarWidth : null;
+      }),
+    ).toBe('none');
 
-    // 截图证据（可选）：滚动前的卡片可见状态。
-    await captureViewport(page, 'overlay-small', 'overlay-small.png', {
+    await captureViewport(page, 'overlay-short', 'overlay-short.png', {
       dialogLabel: state.dialogLabel,
-      scrollHeight: state.card!.scrollHeight,
       clientHeight: state.card!.clientHeight,
     });
 
-    // 滚轮落在卡片上：卡片滚动，页面不滚动。
+    // 卡片没有可滚动内容时，滚轮不能被遮罩拦截，宿主页应继续滚动。
     const centerX = state.card!.rect.left + state.card!.rect.width / 2;
     const centerY = state.card!.rect.top + state.card!.rect.height / 2;
     await page.mouse.move(centerX, centerY);
     await page.mouse.wheel(0, 400);
     await expect
-      .poll(
-        () =>
-          page.evaluate(
-            () =>
-              document
-                .getElementById('bingeup-overlay-host')
-                ?.shadowRoot?.querySelector('.bingeup-card')?.scrollTop ?? 0,
-          ),
-        { timeout: 5_000, message: '卡片未响应滚轮滚动' },
-      )
+      .poll(() => page.evaluate(() => window.scrollY), { timeout: 5_000 })
       .toBeGreaterThan(0);
-    expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
-    // 滚到卡片底部后继续滚动：overscroll-behavior: contain 阻止滚动链到页面。
-    await page.evaluate(() => {
-      const card = document
-        .getElementById('bingeup-overlay-host')
-        ?.shadowRoot?.querySelector('.bingeup-card');
-      if (card) card.scrollTop = card.scrollHeight;
-    });
-    await page.mouse.wheel(0, 600);
-    await page.waitForTimeout(250);
-    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    await page.keyboard.press('Escape');
+    await expect(host).toHaveCount(0, { timeout: 10_000 });
+
+    await control.close();
+    await page.close();
+  });
+
+  test('极矮窗：卡片回退到视口居中，不被 200px 播放器裁切', async ({ context, extensionId }) => {
+    const control = await context.newPage();
+    await warmUp(control, extensionId);
+
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 900, height: 700 });
+    await fulfillSyntheticPage(page, { playerWidth: 320, playerHeight: 200, pageHeight: 2400 });
+    await page.goto(SYNTHETIC_URL, { waitUntil: 'load' });
+
+    const tabId = await findSyntheticTabId(control);
+    expect(tabId).not.toBeNull();
+    await ensureOverlay(page, control, tabId!);
+
+    const state = await readShadowState(page);
+    expect(state.hostRect).not.toBeNull();
+    expect(state.hostRect!.left).toBe(0);
+    expect(state.hostRect!.top).toBe(0);
+    expect(state.hostRect!.width).toBe(900);
+    expect(state.hostRect!.height).toBe(700);
+    expect(state.card).not.toBeNull();
+    expect(state.card!.rect.left).toBeGreaterThanOrEqual(0);
+    expect(state.card!.rect.top).toBeGreaterThanOrEqual(0);
+    expect(state.card!.rect.right).toBeLessThanOrEqual(900);
+    expect(state.card!.rect.bottom).toBeLessThanOrEqual(700);
+    expect(state.card!.scrollHeight).toBeLessThanOrEqual(state.card!.clientHeight + 1);
 
     await page.keyboard.press('Escape');
     await expect(page.locator('#bingeup-overlay-host')).toHaveCount(0, { timeout: 10_000 });
-
     await control.close();
     await page.close();
   });

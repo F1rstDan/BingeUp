@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Button, Card, Tag } from 'animal-island-ui';
 import optionsCss from '@/entrypoints/options/options.css?raw';
 import onboardingCss from '@/entrypoints/onboarding/onboarding.css?raw';
 import popupCss from '@/entrypoints/popup/popup.css?raw';
 import statsCss from '@/entrypoints/stats/stats.css?raw';
+import devToolsCss from '@/ui/popup/dev-tools.css?raw';
 import { showEnablePrompt } from '@/content/enable-prompt';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
 import { LEARNING_FEEDBACK_CSS, LearningFeedbackNotice } from '@/content/learning-feedback-notice';
 import { LearningFeedback } from '@/ui/overlay/LearningFeedback';
+import { OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT } from '@/ui/overlay/layout';
 import { WORD_SUMMARY_CSS } from '@/ui/overlay/WordSummary';
 import { SPEECH_CONTROLS_CSS } from '@/ui/speech/SpeechControls';
 import { OnboardingApp } from '@/ui/onboarding/OnboardingApp';
@@ -97,6 +99,9 @@ type PopupStateId = 'learnable' | 'paused' | 'no-active-tab' | 'needs-permission
 
 const BILIBILI_TAB = { id: 101, url: 'https://www.bilibili.com/video/BV1xx411c7mD' };
 
+/** DevTools 是懒加载模块，它的 CSS 不会进入 popup.css；预览需显式注入同一个 ShadowRoot。 */
+const POPUP_PREVIEW_CSS = popupCss + '\n' + devToolsCss;
+
 const POPUP_STATES: Array<{
   id: PopupStateId;
   label: string;
@@ -175,7 +180,7 @@ function PopupStage(): JSX.Element {
       <div className="preview-browser-frame preview-browser-frame--popup">
         <ShadowFrame
           key={stateId}
-          pageCss={popupCss}
+          pageCss={POPUP_PREVIEW_CSS}
           canvasClassName="preview-canvas preview-canvas-popup"
           style={{ width: '340px' }}
         >
@@ -417,6 +422,34 @@ function demoOverlayActionHandler(action: OverlayAction): unknown {
   }
 }
 
+type OverlayPreviewModeId = 'standard' | 'fallback';
+
+const OVERLAY_PREVIEW_STANDARD_HEIGHT = OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT;
+const OVERLAY_PREVIEW_SOURCE_HEIGHT = OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT - 240;
+
+const OVERLAY_PREVIEW_MODES = [
+  {
+    id: 'standard',
+    label: '标准',
+    stageHeight: OVERLAY_PREVIEW_STANDARD_HEIGHT,
+    videoHeight: OVERLAY_PREVIEW_STANDARD_HEIGHT,
+    note: `标准布局：视频高度 ${OVERLAY_PREVIEW_STANDARD_HEIGHT}px`,
+  },
+  {
+    id: 'fallback',
+    label: '视口回退',
+    stageHeight: 600,
+    videoHeight: OVERLAY_PREVIEW_SOURCE_HEIGHT,
+    note: `视口回退：视频仅 ${OVERLAY_PREVIEW_SOURCE_HEIGHT}px，答题卡改在视口居中`,
+  },
+] as const satisfies ReadonlyArray<{
+  id: OverlayPreviewModeId;
+  label: string;
+  stageHeight: number;
+  videoHeight: number;
+  note: string;
+}>;
+
 function OverlayStage({
   title,
   hint,
@@ -435,6 +468,9 @@ function OverlayStage({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [log, setLog] = useState<string[]>([]);
+  const [previewMode, setPreviewMode] = useState<OverlayPreviewModeId>('standard');
+  const mode = OVERLAY_PREVIEW_MODES.find((candidate) => candidate.id === previewMode)!;
+  const isViewportFallback = previewMode === 'fallback';
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -460,14 +496,49 @@ function OverlayStage({
       title={title}
       hint={hint}
       actions={
-        <Button size="small" onClick={() => setAttempt((value) => value + 1)}>
-          重置
-        </Button>
+        <div className="preview-overlay-controls">
+          <div className="preview-switch" role="group" aria-label={`${title}高度形态`}>
+            {OVERLAY_PREVIEW_MODES.map((candidate) => (
+              <Button
+                key={candidate.id}
+                size="small"
+                type={candidate.id === previewMode ? 'primary' : 'default'}
+                aria-pressed={candidate.id === previewMode}
+                title={candidate.note}
+                onClick={() => setPreviewMode(candidate.id)}
+              >
+                {candidate.label}
+              </Button>
+            ))}
+          </div>
+          <Button size="small" onClick={() => setAttempt((value) => value + 1)}>
+            重置
+          </Button>
+        </div>
       }
     >
-      <div className="preview-overlay-stage" ref={stageRef}>
-        <div className="preview-video-fake" aria-hidden="true">
-          <span className="preview-video-fake-title">视频区域（演示背景）</span>
+      <p className="preview-overlay-mode-note" aria-live="polite">
+        {mode.note}
+      </p>
+      <div
+        className={`preview-overlay-stage${isViewportFallback ? ' preview-overlay-stage--fallback' : ''}`}
+        ref={stageRef}
+        data-preview-overlay-mode={previewMode}
+        style={{ height: `${mode.stageHeight}px` } as CSSProperties}
+      >
+        {isViewportFallback && (
+          <div
+            className="preview-overlay-stage-source"
+            style={{ height: `${mode.videoHeight}px` }}
+            aria-hidden="true"
+          />
+        )}
+        <div
+          className={`preview-video-fake${isViewportFallback ? ' preview-video-fake--source' : ''}`}
+          style={isViewportFallback ? { height: `${mode.videoHeight}px` } : undefined}
+          aria-hidden="true"
+        >
+          <span className="preview-video-fake-title">视频区域 · {mode.videoHeight}px</span>
           <span className="preview-video-fake-controls">00:00 / 12:34 ───────── ●</span>
         </div>
       </div>
@@ -665,7 +736,7 @@ export function ReviewApp(): JSX.Element {
       <Section
         id="overlay"
         title="5 · 视频遮罩（Shadow DOM）"
-        description="复刻 overlay-controller 的挂载：宿主元素 + attachShadow + 库 CSS 令牌映射与字体路径重写 + 外壳样式；每个区块可交互，动作会记录在下方。"
+        description="复刻 overlay-controller 的挂载与样式管线；每个遮罩可切换标准与视口回退两种形态，动作会记录在下方。"
       >
         <OverlayStages />
       </Section>

@@ -30,15 +30,16 @@ const OVERLAY_RESET_CSS = `
 const OVERLAY_SHELL_CSS = `
   .bingeup-overlay {
     position: absolute; inset: 0; display: grid; width: 100%; height: 100%;
-    box-sizing: border-box; place-items: center; overflow: hidden; padding: 15px;
+    box-sizing: border-box; place-items: center; overflow: clip; padding: 15px;
     color: var(--animal-text-color); background: var(--animal-mask-bg);
     font-family: var(--animal-font-family); font-size: var(--animal-font-size-base);
     line-height: var(--animal-line-height-base);
   }
   .bingeup-overlay .bingeup-card {
-    width: min(470px, 100%); max-height: 100%; overflow-y: auto; overflow-x: auto;
-    overscroll-behavior: contain;
+    width: min(470px, 100%); min-width: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden;
+    scrollbar-width: none;
   }
+  .bingeup-overlay .bingeup-card::-webkit-scrollbar { display: none; }
   .bingeup-continuous-badge {
     display: flex; justify-content: flex-start; margin-bottom: var(--animal-spacing-md);
   }
@@ -124,7 +125,12 @@ const OVERLAY_SHELL_CSS = `
     justify-content: center; border-radius: 8px; background: var(--animal-bg-color-secondary);
     color: var(--animal-text-color); font-size: var(--animal-font-size-sm); font-weight: 700;
   }
-  .bingeup-option-icon { flex-shrink: 0; margin-left: auto; }
+  .bingeup-option-radio {
+    display: inline-flex; flex-shrink: 0; margin-left: auto; pointer-events: none;
+  }
+  .bingeup-option-radio [role='radiogroup'] { display: block; gap: 0; }
+  .bingeup-option-radio label { gap: 0; cursor: default; }
+  .bingeup-option-radio label > span:last-child { display: none; }
   .bingeup-actions { display: flex; flex-wrap: wrap; gap: var(--animal-spacing-sm); }
   .bingeup-actions-new-word { flex-direction: column; }
   .bingeup-actions-new-word > button { width: 100%; }

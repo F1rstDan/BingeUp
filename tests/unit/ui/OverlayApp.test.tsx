@@ -263,6 +263,24 @@ describe('OverlayApp — 题目交互', () => {
     expect(submitButton()).toBeEnabled();
   });
 
+  it('仅选中项显示原版 Radio，切换后只保留一个选中状态', () => {
+    const { container } = render(
+      <OverlayApp item={{ kind: 'question', question: QUESTION }} onAction={vi.fn()} />,
+    );
+
+    expect(container.querySelector('.bingeup-option-radio')).toBeNull();
+
+    click('吸收');
+    expect(container.querySelectorAll('.bingeup-option-radio')).toHaveLength(1);
+    expect(container.querySelector('.bingeup-option-radio input[type="radio"]')).toBeChecked();
+
+    click('释放');
+    const selectedRadio = container.querySelector('.bingeup-option-radio');
+    expect(container.querySelectorAll('.bingeup-option-radio')).toHaveLength(1);
+    expect(selectedRadio?.closest('.bingeup-option')).toHaveTextContent('释放');
+    expect(selectedRadio?.querySelector('input[type="radio"]')).toBeChecked();
+  });
+
   it('未提交时显示按顺序排列的三个题目操作和快捷键', () => {
     renderOverlay({ kind: 'question', question: QUESTION });
 

@@ -95,11 +95,11 @@ describe('OverlayController — 视频区域布局', () => {
     const target = document.createElement('div');
     target.getBoundingClientRect = () => ({
       width: 800,
-      height: 450,
+      height: 600,
       top,
       left,
       right: left + 800,
-      bottom: top + 450,
+      bottom: top + 600,
       x: left,
       y: top,
       toJSON: () => ({}),
@@ -117,7 +117,34 @@ describe('OverlayController — 视频区域布局', () => {
     expect(host?.style.top).toBe('120px');
     expect(host?.style.left).toBe('140px');
     expect(host?.style.width).toBe('800px');
-    expect(host?.style.height).toBe('450px');
+    expect(host?.style.height).toBe('600px');
+    controller.close();
+  });
+
+  it('视频区域高度不足时让遮罩改用视口尺寸，避免裁切答题卡', () => {
+    const target = document.createElement('div');
+    target.getBoundingClientRect = () => ({
+      width: 800,
+      height: 300,
+      top: 40,
+      left: 60,
+      right: 860,
+      bottom: 340,
+      x: 60,
+      y: 40,
+      toJSON: () => ({}),
+    });
+    document.body.appendChild(target);
+
+    const controller = new OverlayController();
+    controller.open(ITEM, target, 'video-region');
+
+    const host = document.getElementById('bingeup-overlay-host');
+    expect(host?.style.left).toBe('0px');
+    expect(host?.style.top).toBe('0px');
+    expect(host?.style.width).toBe(`${document.documentElement.clientWidth}px`);
+    expect(host?.style.height).toBe(`${document.documentElement.clientHeight}px`);
+
     controller.close();
   });
 });
@@ -156,7 +183,7 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
 
   it('在真实遮罩 ShadowRoot 内注入库样式（:host 令牌与 chrome-extension 字体）并渲染原版 Card/按钮', async () => {
     stubExtensionRuntime();
-    const target = createTarget({ top: 40, left: 60, width: 800, height: 450 });
+    const target = createTarget({ top: 40, left: 60, width: 800, height: 600 });
     const controller = new OverlayController();
 
     controller.open(ITEM, target, 'video-region');
@@ -166,7 +193,7 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
     expect(host?.style.display).toBe('block');
     expect(host?.style.boxSizing).toBe('border-box');
     expect(host?.style.width).toBe('800px');
-    expect(host?.style.height).toBe('450px');
+    expect(host?.style.height).toBe('600px');
     expect(host?.style.left).toBe('60px');
     expect(host?.style.top).toBe('40px');
 
@@ -181,6 +208,9 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
     expect(styleText).toContain('var(--animal-mask-bg)');
     expect(styleText).not.toContain('backdrop-filter');
     expect(styleText).not.toContain('--bingeup-');
+    expect(styleText).not.toContain('@container');
+    expect(styleText).toContain('scrollbar-width: none');
+    expect(styleText).not.toContain('overscroll-behavior: contain');
 
     await waitFor(() => {
       expect(shadow?.querySelector('.bingeup-overlay')).not.toBeNull();
@@ -207,7 +237,7 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
       value: { add: (face: unknown) => added.push(face) },
       configurable: true,
     });
-    const target = createTarget({ top: 0, left: 0, width: 640, height: 360 });
+    const target = createTarget({ top: 0, left: 0, width: 640, height: 600 });
     const controller = new OverlayController();
 
     controller.open(ITEM, target, 'video-region');
@@ -229,7 +259,7 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
 
   it('库样式与节点不泄漏到宿主文档：无 document 级 style，无 body 新增节点', async () => {
     stubExtensionRuntime();
-    const target = createTarget({ top: 0, left: 0, width: 640, height: 360 });
+    const target = createTarget({ top: 0, left: 0, width: 640, height: 600 });
     const bodyChildrenBefore = document.body.childElementCount;
     const headStylesBefore = document.head.querySelectorAll('style,link[rel="stylesheet"]').length;
     const controller = new OverlayController();
@@ -257,7 +287,7 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
 
   it('重复打开不重复注入宿主，close 后宿主断开连接', () => {
     stubExtensionRuntime();
-    const target = createTarget({ top: 0, left: 0, width: 640, height: 360 });
+    const target = createTarget({ top: 0, left: 0, width: 640, height: 600 });
     const rootChildrenBefore = document.documentElement.childElementCount;
     const controller = new OverlayController();
 
@@ -290,14 +320,14 @@ describe('OverlayController — 岛屿样式与字体（M5 工单 #44）', () =>
     vi.stubGlobal('cancelAnimationFrame', (id: number) => window.clearTimeout(id));
     let top = 20;
     let left = 30;
-    const target = createTarget({ top, left, width: 800, height: 450 });
+    const target = createTarget({ top, left, width: 800, height: 600 });
     target.getBoundingClientRect = () => ({
       width: 800,
-      height: 450,
+      height: 600,
       top,
       left,
       right: left + 800,
-      bottom: top + 450,
+      bottom: top + 600,
       x: left,
       y: top,
       toJSON: () => ({}),

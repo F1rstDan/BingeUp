@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Button, Card, Input, Tag } from 'animal-island-ui';
-import { CheckIcon } from 'naive-icons';
+import { Button, Card, Input, Radio, Tag } from 'animal-island-ui';
 import { BadgeXIcon, CheckmarkBadge03Icon } from '@hugeicons/core-free-icons';
 import type { LearningItem, OverlayAction, SubmissionResult } from '@/types';
 import { HugeIcon } from '@/ui/icons/HugeIcon';
@@ -344,7 +343,16 @@ export function OverlayApp({ item, onAction, isContinuous, previousResult }: Ove
                     {idx + 1}
                   </span>
                   <span className="bingeup-option-text">{option}</span>
-                  {selectedOption && <CheckIcon className="bingeup-option-icon" size={18} />}
+                  {selectedOption && (
+                    <span
+                      className="bingeup-option-radio"
+                      aria-hidden="true"
+                      // 外层按钮负责选择；inert 只关闭内层 Radio 的交互与焦点，保留可见的选中动画。
+                      {...({ inert: '' } as Record<string, string>)}
+                    >
+                      <Radio size="middle" options={[{ label: '', value: idx }]} value={idx} />
+                    </span>
+                  )}
                 </button>
               );
             })}

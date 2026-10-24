@@ -132,12 +132,38 @@ body {
 
 /* ─── 遮罩预览台上的示意视频区域 ───────────────────────────── */
 
+.preview-overlay-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.preview-overlay-mode-note {
+  margin: -4px 0 0;
+  color: var(--animal-text-color-secondary, #9f927d);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .preview-overlay-stage {
   position: relative;
   width: 100%;
   height: 520px;
-  overflow: hidden;
+  overflow: clip;
   border-radius: 14px;
+  background: #23282f;
+}
+
+.preview-overlay-stage--fallback {
+  background: #e9e2d5;
+}
+
+.preview-overlay-stage-source {
+  position: absolute;
+  inset: 0 0 auto;
+  border-bottom: 1px solid rgb(255 255 255 / 14%);
   background: #23282f;
 }
 
@@ -150,6 +176,10 @@ body {
   color: rgb(255 255 255 / 70%);
   font-size: 13px;
   pointer-events: none;
+}
+
+.preview-video-fake--source {
+  inset: 0 0 auto;
 }
 
 .preview-video-fake-title {

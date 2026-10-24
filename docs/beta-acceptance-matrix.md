@@ -50,7 +50,7 @@ UI 原版视觉迁移（Issue #36）的阶段证据、体积与未验证项见
 | `e2e/options.spec.ts` | 设置修改→保存→刷新持久化（经 background + IndexedDB 端到端）、反馈入口指向 GitHub Issues |
 | `e2e/stats.spec.ts` | 统计页渲染且无页面错误 |
 | `e2e/site-scenarios.spec.ts` | 站点相关场景占位（skip），逐项指向下方人工矩阵 |
-| `e2e/overlay-island-migration.spec.ts` | 视频遮罩（合成 B 站页、真实 MV3 产物）：Shadow DOM 原版计算样式、字体本地加载、16:9/9:16/小窗布局与卡片内滚动、Escape 退出、无宿主页样式泄漏 |
+| `e2e/overlay-island-migration.spec.ts` | 视频遮罩（合成 B 站页、真实 MV3 产物）：Shadow DOM 原版计算样式、字体本地加载、16:9/9:16/标准窗布局、矮窗视口回退、滚轮滚动页面、Escape 退出、无宿主页样式泄漏 |
 | `e2e/island-notices.spec.ts` | 启用提示与播放恢复提示：原版计算样式、字体本地加载、启用/暂不/已启用交互与拒绝计数、提示不拦截播放器、6 秒消失 |
 | `e2e/migration-*.spec.ts`（默认跳过） | 各阶段界面截图采集（`CAPTURE_M1/M2/M3A/M3B/M3C/M5/M6A=1` 运行），仅作证据 |
 
