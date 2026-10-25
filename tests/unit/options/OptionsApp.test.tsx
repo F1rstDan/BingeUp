@@ -776,7 +776,9 @@ describe('OptionsApp — Issue #10', () => {
     });
     // 导入失败时不应显示成功通知
     await waitFor(() => {
-      expect(screen.getByText(/导入失败/)).toBeInTheDocument();
+      const feedback = screen.getByRole('alert');
+      expect(feedback).toHaveTextContent(/导入失败/);
+      expect(feedback.querySelector('[class*="animal-tag"]')).not.toBeNull();
     });
   });
 
@@ -799,8 +801,29 @@ describe('OptionsApp — Issue #10', () => {
       expect(mocks.importData).toHaveBeenCalledTimes(1);
     });
     await waitFor(() => {
-      expect(screen.getByText('数据导入成功')).toBeInTheDocument();
+      const feedback = screen.getByRole('status');
+      expect(feedback).toHaveTextContent('数据导入成功');
+      expect(feedback.querySelector('[class*="animal-tag"]')).not.toBeNull();
+      expect(screen.getByRole('button', { name: '导入数据' }).nextElementSibling).toBe(feedback);
     });
+  });
+
+  it('导入非 JSON 文件时显示就地错误提示', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+    await waitFor(() => {
+      expect(screen.getByText('导入数据')).toBeInTheDocument();
+    });
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const file = new File(['{not-json'], 'broken.json', { type: 'application/json' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    await waitFor(() => {
+      const feedback = screen.getByRole('alert');
+      expect(feedback).toHaveTextContent('导入失败：文件不是有效的 JSON');
+      expect(feedback.querySelector('[class*="animal-tag"]')).not.toBeNull();
+    });
+    expect(mocks.importData).not.toHaveBeenCalled();
   });
 
   it('数据库加载失败时先提供重试，并仅在两步确认后执行重建', async () => {

@@ -172,6 +172,11 @@ body {
   display: none;
 }
 
+.bingeup-import-status {
+  display: flex;
+  align-items: center;
+}
+
 /* ─── 设置字段行 ─────────────────────────────────────────── */
 
 .bingeup-field {

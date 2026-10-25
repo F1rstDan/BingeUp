@@ -71,6 +71,11 @@ interface NoticeMessage {
   persistent: boolean;
 }
 
+interface ImportFeedback {
+  tone: 'info' | 'success' | 'error';
+  text: string;
+}
+
 const NOTICE_AUTO_DISMISS_MS = 6000;
 
 function useSpeechVoices(): SpeechSynthesisVoice[] {
@@ -94,6 +99,8 @@ export function OptionsApp(): JSX.Element {
   const [siteInput, setSiteInput] = useState('');
   const [siteAdding, setSiteAdding] = useState(false);
   const [notice, setNotice] = useState<NoticeMessage | null>(null);
+  const [importFeedback, setImportFeedback] = useState<ImportFeedback | null>(null);
+  const [importing, setImporting] = useState(false);
   const [error, setError] = useState<LoadError | null>(null);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -545,13 +552,41 @@ export function OptionsApp(): JSX.Element {
         <Button type="primary" onClick={() => void handleExport(showNotice)}>
           导出数据
         </Button>
-        <Button onClick={() => fileInputRef.current?.click()}>导入数据</Button>
+        <Button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={importing}
+          aria-describedby={importFeedback === null ? undefined : 'bingeup-import-feedback'}
+        >
+          {importing ? '正在导入…' : '导入数据'}
+        </Button>
+        {importFeedback !== null && (
+          <div
+            id="bingeup-import-feedback"
+            className="bingeup-import-status"
+            role={importFeedback.tone === 'error' ? 'alert' : 'status'}
+            aria-live={importFeedback.tone === 'error' ? 'assertive' : 'polite'}
+          >
+            <Tag
+              size="medium"
+              variant="soft"
+              color={
+                importFeedback.tone === 'success'
+                  ? 'app-green'
+                  : importFeedback.tone === 'error'
+                    ? 'app-red'
+                    : 'app-teal'
+              }
+            >
+              {importFeedback.text}
+            </Tag>
+          </div>
+        )}
         <input
           ref={fileInputRef}
           type="file"
           accept="application/json"
           className="bingeup-file-input"
-          onChange={(e) => void handleImport(e, load, showNotice)}
+          onChange={(e) => void handleImport(e, load, setImportFeedback, setImporting)}
         />
       </div>
       <div className="bingeup-actions">
@@ -781,30 +816,46 @@ async function handleExport(onNotice: (msg: string | null) => void): Promise<voi
 async function handleImport(
   e: React.ChangeEvent<HTMLInputElement>,
   onReload: () => Promise<boolean>,
-  onNotice: (msg: string | null) => void,
+  onFeedback: (feedback: ImportFeedback | null) => void,
+  onImportingChange: (importing: boolean) => void,
 ): Promise<void> {
   const file = e.target.files?.[0];
   if (!file) return;
+  onImportingChange(true);
+  onFeedback({ tone: 'info', text: `正在导入 ${file.name}…` });
   try {
     const text = await file.text();
     const payload = JSON.parse(text);
     const result: ImportResult = await messageClient.importData(payload);
     if (result.ok) {
       if (!(await onReload())) {
-        onNotice('权威数据已恢复，但重新读取失败；当前显示状态未确认');
+        onFeedback({
+          tone: 'error',
+          text: '权威数据已恢复，但重新读取失败；当前显示状态未确认',
+        });
         return;
       }
-      onNotice(
-        result.warnings.length > 0 ? `数据已恢复；${result.warnings.join('；')}` : '数据导入成功',
-      );
+      onFeedback({
+        tone: result.warnings.length > 0 ? 'info' : 'success',
+        text:
+          result.warnings.length > 0 ? `数据已恢复；${result.warnings.join('；')}` : '数据导入成功',
+      });
     } else {
-      onNotice(`导入失败：${result.errors.join('；')}`);
+      onFeedback({ tone: 'error', text: `导入失败：${result.errors.join('；')}` });
     }
   } catch (err) {
-    onNotice(`导入失败：${err instanceof Error ? err.message : String(err)}`);
+    onFeedback({
+      tone: 'error',
+      text:
+        err instanceof SyntaxError
+          ? '导入失败：文件不是有效的 JSON'
+          : `导入失败：${err instanceof Error ? err.message : String(err)}`,
+    });
+  } finally {
+    onImportingChange(false);
+    // 重置 input 以允许重复导入同一文件
+    e.target.value = '';
   }
-  // 重置 input 以允许重复导入同一文件
-  e.target.value = '';
 }
 
 async function handleClearProgress(
