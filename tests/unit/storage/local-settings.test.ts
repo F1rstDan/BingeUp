@@ -2,7 +2,6 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
 import { applyComplete, applySkip } from '@/cooldown/cooldown-rules';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 
@@ -36,7 +35,7 @@ describe('LocalSettingsStore — ADR-0001 存储边界', () => {
 
   beforeEach(async () => {
     runtime = installRuntimeStorageMock();
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
   });
   afterEach(async () => {
     db.close();
@@ -118,7 +117,7 @@ describe('LocalSettingsStore — 并发冷却更新串行化（Issue #19 AC6/AC7
 
   beforeEach(async () => {
     installRuntimeStorageMock();
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
   });
   afterEach(async () => {
     db.close();

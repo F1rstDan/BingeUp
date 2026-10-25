@@ -1,8 +1,6 @@
 import type {
   DeckRecord,
   DictionaryContentManifest,
-  LegacyRegistry,
-  LegacyRegistryEntry,
   SecondaryMeaning,
   WordQuestionPlan,
   WordRecord,
@@ -15,7 +13,6 @@ import {
   primaryPartOfSpeech,
   questionPromptFor,
   referenceFor,
-  sha256Hex,
   spellingHintFor,
   type QuestionHashInput,
 } from '@/learning/content-hash';
@@ -41,6 +38,13 @@ export const CONTENT_CONTRACT_VERSION = 'learning-content-v1';
 export const BUILT_IN_CONTENT_SOURCE = 'bingeup-dictionary';
 export const BUILT_IN_CONTENT_LICENSE = 'LicenseRef-BingeUp-Dictionary-v1';
 export const BUILT_IN_DECK_IDS = ['deck-daily-high-frequency', 'deck-cet4', 'deck-cet6'] as const;
+export const CONTENT_FILE_NAMES = [
+  'words',
+  'decks',
+  'questions',
+  'sourceMetadata',
+  'license',
+] as const;
 
 export interface ContentValidationResult {
   valid: boolean;
@@ -377,75 +381,11 @@ export async function validateQuestionPlan(
   return errors;
 }
 
-/** 校验注册表：每个原始 ID 一条结论、目标有效、无环、成员关系可解析。 */
-export function validateLegacyRegistry(
-  registry: LegacyRegistry,
-  effectiveWords: Map<string, WordRecord>,
-  decksById: Map<string, DeckRecord>,
-): string[] {
-  const errors: string[] = [];
-  if (registry.schemaVersion !== 1) errors.push('注册表 schemaVersion 必须为 1');
-  if (!isSha256(registry.seedHash)) errors.push('注册表 seedHash 格式非法');
-  if (!isSha256(registry.registryHash)) errors.push('注册表 registryHash 格式非法');
-  const byLegacyId = new Map<string, LegacyRegistryEntry>();
-  for (const entry of registry.entries) {
-    if (byLegacyId.has(entry.legacyId)) errors.push(`注册表重复旧 ID：${entry.legacyId}`);
-    byLegacyId.set(entry.legacyId, entry);
-    if (!isSha256(entry.seedEntryHash)) errors.push(`${entry.legacyId} 种子哈希格式非法`);
-    if (!['keep', 'correct', 'merge', 'deactivate'].includes(entry.disposition)) {
-      errors.push(`${entry.legacyId} 去向非法：${String(entry.disposition)}`);
-    }
-    if (entry.disposition !== 'deactivate' && !effectiveWords.has(entry.canonicalId)) {
-      errors.push(`${entry.legacyId} 指向不存在的有效词：${entry.canonicalId}`);
-    }
-    if (entry.disposition === 'keep' && entry.canonicalId !== entry.legacyId) {
-      errors.push(`${entry.legacyId} 保留项不能改写身份`);
-    }
-  }
-  for (const entry of registry.entries) {
-    let current = entry;
-    const seen = new Set<string>();
-    while (current.disposition === 'merge') {
-      if (seen.has(current.legacyId)) {
-        errors.push(`注册表存在循环映射：${entry.legacyId}`);
-        break;
-      }
-      seen.add(current.legacyId);
-      const next = byLegacyId.get(current.canonicalId);
-      if (!next) {
-        errors.push(`${entry.legacyId} 映射悬空：${current.canonicalId}`);
-        break;
-      }
-      current = next;
-    }
-  }
-
-  // 有效词必须至少属于一个词库，且成员关系来自注册表解析后的并集。
-  const memberships = new Map<string, Set<string>>();
-  for (const entry of registry.entries) {
-    if (entry.disposition === 'deactivate') continue;
-    const set = memberships.get(entry.canonicalId) ?? new Set<string>();
-    for (const membership of entry.original.decks) set.add(membership.deckId);
-    memberships.set(entry.canonicalId, set);
-  }
-  for (const wordId of effectiveWords.keys()) {
-    const resolved = memberships.get(wordId);
-    if (!resolved || resolved.size === 0) errors.push(`有效词没有词库成员关系：${wordId}`);
-    for (const deckId of resolved ?? []) {
-      if (!decksById.get(deckId)?.wordIds.includes(wordId)) {
-        errors.push(`有效词成员关系未写入词库：${wordId} / ${deckId}`);
-      }
-    }
-  }
-  return errors;
-}
-
 export interface ContentPackageInput {
   manifest: DictionaryContentManifest;
   words: WordRecord[];
   decks: DeckRecord[];
   questions: WordQuestionPlan[];
-  registry: LegacyRegistry;
   fileHashes: Record<keyof DictionaryContentManifest['files'], string>;
   /** 运行时已校验整包文件哈希时可跳过逐题重算，避免启动过慢。 */
   verifyQuestionHashes?: boolean;
@@ -456,17 +396,24 @@ export async function validateContentPackage(
   input: ContentPackageInput,
 ): Promise<ContentValidationResult> {
   const errors: string[] = [];
-  const { manifest, words, decks, questions, registry, fileHashes } = input;
-  if (manifest.schemaVersion !== 2) errors.push('内容 manifest schemaVersion 必须为 2');
+  const { manifest, words, decks, questions, fileHashes } = input;
+  if (manifest.schemaVersion !== 1) errors.push('内容 manifest schemaVersion 必须为 1');
   if (manifest.contentContractVersion !== CONTENT_CONTRACT_VERSION) {
     errors.push(`内容契约版本不支持：${manifest.contentContractVersion}`);
   }
   if (manifest.questionTemplateVersion !== QUESTION_TEMPLATE_VERSION) {
     errors.push(`题组模板版本不支持：${manifest.questionTemplateVersion}`);
   }
-  for (const [name, file] of Object.entries(manifest.files) as Array<
-    [keyof DictionaryContentManifest['files'], { sha256: string }]
-  >) {
+  const manifestFileNames = Object.keys(manifest.files);
+  if (manifestFileNames.length !== CONTENT_FILE_NAMES.length) {
+    errors.push('manifest 文件数量必须为 5');
+  }
+  for (const name of CONTENT_FILE_NAMES) {
+    const file = manifest.files[name];
+    if (!file) {
+      errors.push(`manifest 缺少文件：${name}`);
+      continue;
+    }
     if (fileHashes[name] !== file.sha256) errors.push(`包内文件哈希不一致：${name}`);
   }
 
@@ -487,16 +434,21 @@ export async function validateContentPackage(
   }
 
   const decksById = new Map<string, DeckRecord>();
+  const wordIdsInDecks = new Set<string>();
   for (const deck of decks) {
     if (decksById.has(deck.id)) errors.push(`重复词库 ID：${deck.id}`);
     decksById.set(deck.id, deck);
     if (!BUILT_IN_DECK_IDS.includes(deck.id as (typeof BUILT_IN_DECK_IDS)[number])) {
       errors.push(`未知内置词库：${deck.id}`);
     }
+    if (deck.source !== BUILT_IN_CONTENT_SOURCE || deck.license !== BUILT_IN_CONTENT_LICENSE) {
+      errors.push(`${deck.id}: source/license 不是本版内容声明`);
+    }
     if (new Set(deck.wordIds).size !== deck.wordIds.length) {
       errors.push(`${deck.id}: wordIds 重复`);
     }
     for (const wordId of deck.wordIds) {
+      wordIdsInDecks.add(wordId);
       if (!wordsById.has(wordId)) errors.push(`${deck.id}: 引用不存在的单词 ${wordId}`);
       const difficulty = deck.wordDifficulties?.[wordId];
       if (!Number.isInteger(difficulty) || difficulty! < 1 || difficulty! > 4) {
@@ -505,6 +457,12 @@ export async function validateContentPackage(
     }
   }
   if (decks.length !== BUILT_IN_DECK_IDS.length) errors.push('内置词库数量必须为 3');
+  for (const deckId of BUILT_IN_DECK_IDS) {
+    if (!decksById.has(deckId)) errors.push(`manifest 缺少内置词库：${deckId}`);
+  }
+  for (const word of words) {
+    if (!wordIdsInDecks.has(word.id)) errors.push(`有效词没有词库成员关系：${word.id}`);
+  }
 
   const plansByWordId = new Map<string, WordQuestionPlan>();
   for (const plan of questions) {
@@ -529,19 +487,11 @@ export async function validateContentPackage(
     if (!wordsById.has(wordId)) errors.push(`题组引用不存在的有效词：${wordId}`);
   }
 
-  errors.push(...validateLegacyRegistry(registry, wordsById, decksById));
-  if (manifest.registryHash !== registry.registryHash) {
-    errors.push('manifest 注册表哈希与注册表不一致');
-  }
   if (manifest.counts.effectiveWords !== words.length) errors.push('manifest 有效词数不一致');
   if (manifest.counts.questionPlans !== questions.length) errors.push('manifest 题组数不一致');
   if (manifest.counts.decks !== decks.length) errors.push('manifest 词库数不一致');
-  if (manifest.counts.legacyWords !== registry.entries.length)
-    errors.push('manifest 原始词数不一致');
+  if (manifest.source.content !== BUILT_IN_CONTENT_SOURCE) errors.push('manifest 内容来源不正确');
+  if (manifest.source.license !== BUILT_IN_CONTENT_LICENSE)
+    errors.push('manifest 许可证标识不正确');
   return { valid: errors.length === 0, errors };
-}
-
-/** 计算内容包文件的 SHA-256；构建器与加载器共用。 */
-export async function hashContentFile(text: string): Promise<string> {
-  return sha256Hex(text);
 }

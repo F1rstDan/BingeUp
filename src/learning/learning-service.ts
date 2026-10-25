@@ -23,14 +23,7 @@ import {
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import { FsrsReviewScheduler } from '@/learning/review-scheduler';
-import { acceptanceEvents, type ContentCompatibilityRecord } from '@/storage/content-compat';
-import {
-  chooseQuestionType,
-  generateContextChoiceQuestion,
-  generateEnToZhQuestion,
-  generateSpellingQuestion,
-  generateZhToEnQuestion,
-} from '@/learning/question-generator';
+import { chooseQuestionType } from '@/learning/question-generator';
 import {
   ContentUnavailableError,
   generatePlannedContextChoice,
@@ -69,12 +62,10 @@ export interface WordBankPort {
     preferredDifficulty: number[];
     excludeWordIds: string[];
   }): Promise<WordRecord[]>;
-  /** 列出所有单词（用于干扰项池）。 */
+  /** 列出所有单词。 */
   listWords(): Promise<WordRecord[]>;
-  /** 新内容包读取固定题组；旧内容或自定义词库可不提供。 */
-  getQuestionPlan?(wordId: string): Promise<WordQuestionPlan | null>;
-  /** 当前内容包类型，用于区分旧动态出题与新固定题组。 */
-  getContentKind?(): 'legacy-v1' | 'content-v2';
+  /** 获取单词的当前固定题组。 */
+  getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null>;
 }
 
 /** 时钟端口，便于测试注入。 */
@@ -121,8 +112,6 @@ export interface LearningServiceDeps {
   };
   /** 随机函数，用于自报认识词验证题延迟（[1,2) 天），缺省 Math.random。 */
   random?: () => number;
-  /** 合卡前接受事实；缺省表示没有兼容记录。 */
-  compatibility?: { get(): Promise<ContentCompatibilityRecord | null> };
 }
 
 /**
@@ -214,36 +203,30 @@ export class LearningService {
     ]);
     const allowSpelling = (options?.allowSpelling ?? false) && settings.spellingEnabled;
     const excludedWordIds = options?.excludedWordIds;
-    const availableCards = allCards.filter(
-      (card) => !card.disabled && !excludedWordIds?.has(card.wordId),
-    );
+    const availableCards = allCards.filter((card) => !excludedWordIds?.has(card.wordId));
 
     // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
     const dueWrongLongTerm = this.findDueLongTermWithRecentError(availableCards, now);
     if (dueWrongLongTerm) {
-      const question = await this.makeQuestionForCard(dueWrongLongTerm, allowSpelling);
-      if (question) return this.wrapQuestion(question);
+      return this.wrapQuestion(await this.makeQuestionForCard(dueWrongLongTerm, allowSpelling));
     }
 
     // 2. 其他到期长期复习词（无近期答错记录）
     const dueLongTerm = this.findDueLongTermWithoutRecentError(availableCards, now);
     if (dueLongTerm) {
-      const question = await this.makeQuestionForCard(dueLongTerm, allowSpelling);
-      if (question) return this.wrapQuestion(question);
+      return this.wrapQuestion(await this.makeQuestionForCard(dueLongTerm, allowSpelling));
     }
 
     // 3. 到期自报认识词验证题
     const dueVerification = this.findDueCard(availableCards, 'self-reported-known', now);
     if (dueVerification) {
-      const question = await this.makeQuestionForCard(dueVerification, allowSpelling);
-      if (question) return this.wrapQuestion(question);
+      return this.wrapQuestion(await this.makeQuestionForCard(dueVerification, allowSpelling));
     }
 
     // 4. 到期短期学习词
     const dueShortTerm = this.findDueCard(availableCards, 'short-term', now);
     if (dueShortTerm) {
-      const question = await this.makeQuestionForCard(dueShortTerm, allowSpelling);
-      if (question) return this.wrapQuestion(question);
+      return this.wrapQuestion(await this.makeQuestionForCard(dueShortTerm, allowSpelling));
     }
 
     // 5. 无到期复习：候选新词（受每日上限约束）
@@ -256,8 +239,7 @@ export class LearningService {
           excludedWordIds,
         );
         if (earlyShortTerm) {
-          const question = await this.makeQuestionForCard(earlyShortTerm, allowSpelling);
-          if (question) return this.wrapQuestion(question);
+          return this.wrapQuestion(await this.makeQuestionForCard(earlyShortTerm, allowSpelling));
         }
       }
       return null;
@@ -389,8 +371,7 @@ export class LearningService {
   /**
    * 提交拼写题答案并持久化结果（Issue #8 验收标准 3）。
    *
-   * 判定逻辑：忽略大小写和首尾空格后与正确答案比较，
-   * 或匹配可接受的其他形式。
+   * 判定逻辑：忽略大小写和首尾空格后与目标 lemma 比较。
    *
    * Issue #19 AC4：同一题目在途调用去重（同 `submitAnswer`）。
    */
@@ -399,8 +380,7 @@ export class LearningService {
       const { question } = submission;
       const normalized = submission.spelledAnswer.trim().toLowerCase();
       const correct = question.correctAnswer.trim().toLowerCase();
-      const acceptable = (question.acceptableAnswers ?? []).map((a) => a.trim().toLowerCase());
-      const isCorrect = normalized === correct || acceptable.includes(normalized);
+      const isCorrect = normalized === correct;
 
       return this.processSubmission({
         question,
@@ -428,14 +408,13 @@ export class LearningService {
     correctAnswer: string;
     responseTimeMs: number;
     answerChanges: number;
-    source?: AnswerSubmission['source'];
+    source: AnswerSubmission['source'];
     correctIndex?: number;
   }): Promise<SubmissionResult> {
     const { question, isCorrect, selectedAnswer, correctAnswer } = input;
     const { cards, logs, clock } = this.deps;
     const now = clock.now();
 
-    // 自动评分（Issue #7 验收标准 5）。旧题在身份合卡后不得写入新卡或孤立日志。
     const card = await cards.getById(question.cardId);
     if (!card) {
       throw new ContentUnavailableError(question.wordId, `学习卡已失效：${question.cardId}`);
@@ -458,7 +437,7 @@ export class LearningService {
       isCorrect,
       responseTimeMs: input.responseTimeMs,
       reviewedAt: now,
-      stageAtSubmission: card?.stage,
+      stageAtSubmission: card.stage,
       source: input.source,
       rating,
       answerChanges: input.answerChanges,
@@ -556,7 +535,7 @@ export class LearningService {
         throw new Error('评分已经纠正');
       }
 
-      const originalRating = log.rating ?? 'good';
+      const originalRating = log.rating;
       const correctedRating = this.applyCorrection(originalRating, correction);
 
       log.rating = correctedRating;
@@ -743,7 +722,6 @@ export class LearningService {
       .filter(
         (card) =>
           card.stage === 'short-term' &&
-          !card.disabled &&
           card.nextReviewAt !== undefined &&
           card.nextReviewAt > now &&
           !excludedWordIds?.has(card.wordId),
@@ -784,64 +762,27 @@ export class LearningService {
   }
 
   /**
-   * 为已有学习卡生成题目（根据阶段选择题型，四选一）。
+   * 为已有学习卡生成题目。
    *
-   * 连续学习模式（Issue #8 验收标准 3）：`allowSpelling` 为 true 时，
-   * 长期复习词（reps >= 2）有 50% 概率出现拼写题替代语境选择题。
+   * 只读取当前内容包中的固定题组。连续学习模式下，长期复习词有 50% 概率
+   * 使用计划中的拼写题替代语境选择题。
    */
   private async makeQuestionForCard(
     card: CardRecord,
     allowSpelling: boolean = false,
-  ): Promise<Question | null> {
-    const targetWord = await this.deps.words.getWord(card.wordId);
+  ): Promise<Question> {
+    const [targetWord, plan] = await Promise.all([
+      this.deps.words.getWord(card.wordId),
+      this.deps.words.getQuestionPlan(card.wordId),
+    ]);
     if (!targetWord) {
       throw new ContentUnavailableError(card.wordId, `学习卡引用的词条不存在：${card.wordId}`);
     }
-
-    const plan = (await this.deps.words.getQuestionPlan?.(card.wordId)) ?? null;
-    if (plan) return this.makePlannedQuestion(card, targetWord, plan, allowSpelling);
-    if (this.deps.words.getContentKind?.() === 'content-v2') {
-      throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
-    }
-
-    let questionType = chooseQuestionType(card.stage, card.schedulerState?.reps);
-
-    // 拼写只依赖释义和词形；先决定是否出拼写，不能被缺少例句的语境题回退挡住。
-    if (allowSpelling && questionType === 'context-choice' && this.random() < 0.5) {
-      return generateSpellingQuestion({ targetWord, distractors: [], cardId: card.id });
-    }
-
-    // 语境题需要例句；缺少例句时仍可做中选英与连续模式拼写。
-    if (questionType === 'context-choice' && !targetWord.exampleSentence?.trim()) {
-      questionType = 'zh-to-en';
-    }
-
-    const allWords = await this.deps.words.listWords();
-    const distractors = allWords.filter((w) => w.id !== card.wordId);
-    if (distractors.length < 3) {
-      throw new ContentUnavailableError(card.wordId, '可用干扰项不足，无法生成题目');
-    }
-
-    const baseInput = {
-      targetWord,
-      distractors,
-      cardId: card.id,
-      random: this.random,
-    };
-
-    switch (questionType) {
-      case 'en-to-zh':
-        return generateEnToZhQuestion(baseInput);
-      case 'zh-to-en':
-        return generateZhToEnQuestion(baseInput);
-      case 'context-choice':
-        return generateContextChoiceQuestion(baseInput);
-      case 'spelling':
-        return generateSpellingQuestion(baseInput);
-    }
+    if (!plan) throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
+    return this.makePlannedQuestion(card, targetWord, plan, allowSpelling);
   }
 
-  /** 新内容包：只读取已检查的固定题组，并按同卡顺序回退。 */
+  /** 只读取已检查的固定题组，并按题型顺序回退。 */
   private async makePlannedQuestion(
     card: CardRecord,
     targetWord: WordRecord,
@@ -942,9 +883,8 @@ export class LearningService {
 
   /** 统计本地自然日内通过“知道了”接受的新词数量。 */
   private async countTodayNewWords(cards: CardRecord[], now: number): Promise<number> {
-    const compatibility = (await this.deps.compatibility?.get()) ?? null;
-    return acceptanceEvents(cards, compatibility).filter((event) =>
-      isSameLocalDay(event.createdAt, now),
+    return cards.filter(
+      (card) => card.origin === 'accepted-new' && isSameLocalDay(card.createdAt, now),
     ).length;
   }
 }

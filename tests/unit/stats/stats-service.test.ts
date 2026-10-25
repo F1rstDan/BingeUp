@@ -6,7 +6,6 @@ import {
   isSameLocalDay,
 } from '@/stats/stats-service';
 import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
-import type { ContentCompatibilityRecord } from '@/storage/content-compat';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const MS_PER_MIN = 60 * 1000;
@@ -38,6 +37,9 @@ function makeLog(overrides: Partial<ReviewLogRecord> = {}): ReviewLogRecord {
     isCorrect: true,
     responseTimeMs: 2000,
     reviewedAt: NOW,
+    stageAtSubmission: 'short-term',
+    source: 'natural',
+    rating: 'good',
     ...overrides,
   };
 }
@@ -50,6 +52,8 @@ function makeSession(overrides: Partial<SessionLogRecord> = {}): SessionLogRecor
     mode: 'single',
     outcome: 'submitted',
     questionsAnswered: 1,
+    source: 'natural',
+    continuousQuestionsAnswered: 0,
     ...overrides,
   };
 }
@@ -336,17 +340,6 @@ describe('StatsService — 今日统计（Issue #12 AC1）', () => {
     expect(stats.today.continuousSessions).toBe(2);
   });
 
-  it('连续题数 = 今日连续学习会话中提交的题目总数', () => {
-    const service = makeService();
-    const sessions = [
-      makeSession({ id: 's1', mode: 'continuous', questionsAnswered: 3, startedAt: NOW }),
-      makeSession({ id: 's2', mode: 'single', questionsAnswered: 1, startedAt: NOW - 100 }),
-      makeSession({ id: 's3', mode: 'continuous', questionsAnswered: 2, startedAt: NOW - 200 }),
-    ];
-    const stats = service.computeStats([], [], sessions);
-    expect(stats.today.continuousQuestions).toBe(5); // 3 + 2
-  });
-
   it('昨日的数据不计入今日统计', () => {
     const service = makeService();
     const todayStart = startOfLocalDay(NOW);
@@ -597,46 +590,5 @@ describe('StatsService — 交叉验证（Issue #12 AC5）', () => {
       (c) => c.nextReviewAt !== undefined && c.nextReviewAt <= NOW,
     ).length;
     expect(stats.dueReviewCount).toBe(manualCount);
-  });
-});
-
-describe('StatsService — 内容兼容事实（Issue #54）', () => {
-  it('合卡前后的接受事实和历史新词数保持一致', () => {
-    const todayStart = startOfLocalDay(NOW);
-    const cards = [makeCard({ id: 'card-a', createdAt: todayStart + 100 })];
-    const compatibility: ContentCompatibilityRecord = {
-      id: 'content-compat-v1',
-      schemaVersion: 1,
-      contentVersion: 'content-v2',
-      registryVersion: 'legacy-registry-1',
-      registryHash: 'a'.repeat(64),
-      completedAt: NOW,
-      originals: [
-        {
-          card: { ...makeCard({ id: 'card-a', createdAt: todayStart + 100 }) },
-          canonicalWordId: 'w-1',
-          reviewLogIds: [],
-        },
-        {
-          card: { ...makeCard({ id: 'card-b', createdAt: todayStart + 200 }) },
-          canonicalWordId: 'w-1',
-          reviewLogIds: [],
-        },
-      ],
-      merges: [],
-      deactivatedCardIds: [],
-    };
-    const stats = makeService().computeStats(cards, [], [], [], {}, compatibility);
-    expect(stats.today.newWords).toBe(2);
-  });
-
-  it('停用卡不计入活动卡状态和待复习数量', () => {
-    const cards = [
-      makeCard({ id: 'active', nextReviewAt: NOW - 1 }),
-      makeCard({ id: 'disabled', nextReviewAt: NOW - 1, disabled: true }),
-    ];
-    const stats = makeService().computeStats(cards, [], []);
-    expect(stats.dueReviewCount).toBe(1);
-    expect(stats.cardStatus.shortTerm).toBe(1);
   });
 });

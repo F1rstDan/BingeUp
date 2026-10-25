@@ -30,10 +30,6 @@ import { ContentUnavailableError } from '@/learning/planned-questions';
  * 提供类型安全的 SDK 风格接口（M1-02 / Issue #9）。
  */
 export const messageClient = {
-  /** 等待后台完成身份转换与兼容记录准备；统计页直接读库前必须调用。 */
-  async prepareContent(): Promise<void> {
-    await send({ type: 'CONTENT_PREPARE' });
-  },
   async getCooldownStatus(): Promise<CooldownStatusResponse> {
     return send({ type: 'COOLDOWN_GET_STATUS' });
   },

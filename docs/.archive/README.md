@@ -7,7 +7,6 @@
 ## 词库历史
 
 - `dictionary-manual-acceptance.md`
-- `dictionary-pipeline.md`
 - `dictionary-switch-acceptance.md`
 
 当前词库使用方式见 [`../词库使用说明.md`](../词库使用说明.md)。

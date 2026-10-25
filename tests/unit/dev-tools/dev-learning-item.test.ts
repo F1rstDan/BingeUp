@@ -4,7 +4,13 @@ import {
   CardUniquenessError,
   type CardRepositoryPort,
 } from '@/storage/repositories/card-repository';
-import type { CardRecord, DeckRecord, ReviewLogRecord, WordRecord } from '@/types';
+import type {
+  CardRecord,
+  DeckRecord,
+  ReviewLogRecord,
+  WordQuestionPlan,
+  WordRecord,
+} from '@/types';
 import type { WordBankPort } from '@/learning/learning-service';
 
 class MemoryCards implements CardRepositoryPort {
@@ -47,13 +53,15 @@ class UniqueCards extends MemoryCards {
 }
 
 function word(id: string): WordRecord {
+  const form = id.replace('word-', '');
   return {
     id,
-    word: id.replace('word-', ''),
-    lemma: id.replace('word-', ''),
+    word: form,
+    lemma: form,
     partOfSpeech: ['n.'],
     coreMeaningZh: [`${id} 的释义`],
-    exampleSentence: `${id.replace('word-', '')} example.`,
+    exampleSentence: `${form} example.`,
+    surfaceFormInExample: form,
     exampleTranslation: '例句翻译',
     difficulty: 2,
     frequencyRank: 1,
@@ -78,6 +86,32 @@ const emptyDeck: DeckRecord = {
   wordIds: [],
 };
 
+function planFor(target: WordRecord): WordQuestionPlan {
+  const ids = words
+    .filter((item) => item.id !== target.id)
+    .slice(0, 3)
+    .map((item) => item.id) as [string, string, string];
+  return {
+    wordId: target.id,
+    enToZh: { distractors: ids, checkedContentHash: 'test-en-to-zh' },
+    zhToEn: { distractors: ids, checkedContentHash: 'test-zh-to-en' },
+    contextChoice: {
+      distractors: ids.map((wordId) => ({
+        wordId,
+        surfaceForm: wordId.replace('word-', ''),
+      })) as [
+        { wordId: string; surfaceForm: string },
+        { wordId: string; surfaceForm: string },
+        { wordId: string; surfaceForm: string },
+      ],
+      checkedContentHash: 'test-context-choice',
+    },
+    spelling: { prefixLength: 2, checkedContentHash: 'test-spelling' },
+  };
+}
+
+const plans = new Map(words.map((item) => [item.id, planFor(item)]));
+
 class MemoryWords implements WordBankPort {
   async getDefaultDeck(): Promise<DeckRecord> {
     return deck;
@@ -98,6 +132,9 @@ class MemoryWords implements WordBankPort {
   async listWords(): Promise<WordRecord[]> {
     return [...words];
   }
+  async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
+    return plans.get(wordId) ?? null;
+  }
 
   async sampleDeckWords(params: {
     deckId: string;
@@ -112,6 +149,13 @@ class MemoryWords implements WordBankPort {
         (item) => !excluded.has(item.id) && params.preferredDifficulty.includes(item.difficulty),
       )
       .slice(0, params.count);
+  }
+}
+
+class MissingZhToEnPlanWords extends MemoryWords {
+  override async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
+    const plan = await super.getQuestionPlan(wordId);
+    return wordId === 'word-target' && plan ? { ...plan, zhToEn: null } : plan;
   }
 }
 
@@ -135,6 +179,9 @@ class EmptyDeckWords implements WordBankPort {
   async listWords(): Promise<WordRecord[]> {
     return [];
   }
+  async getQuestionPlan(): Promise<WordQuestionPlan | null> {
+    return null;
+  }
 
   async sampleDeckWords(): Promise<WordRecord[]> {
     return [];
@@ -154,12 +201,12 @@ function createCard(wordId: string, deckId = deck.id): CardRecord {
   };
 }
 
-function createService(cards = new MemoryCards()) {
+function createService(cards = new MemoryCards(), wordBank: WordBankPort = new MemoryWords()) {
   return {
     cards,
     service: new DevLearningItemService({
       cards,
-      words: new MemoryWords(),
+      words: wordBank,
       clock: { now: () => 1_000_000 },
       settings: {
         get: async () => ({
@@ -199,6 +246,17 @@ describe('DevLearningItemService', () => {
     if (!result.ok || result.item.kind !== 'question') throw new Error('expected question');
     expect(result.item.question.type).toBe('zh-to-en');
     expect(result.item.question.cardId).toBe('card-word-target');
+  });
+
+  it('没有请求题型的固定计划时换词，不动态补题', async () => {
+    const { service } = createService(new MemoryCards(), new MissingZhToEnPlanWords());
+
+    const result = await service.prepare('zh-to-en');
+
+    expect(result.ok).toBe(true);
+    if (!result.ok || result.item.kind !== 'question') throw new Error('expected question');
+    expect(result.item.question.type).toBe('zh-to-en');
+    expect(result.item.question.wordId).not.toBe('word-target');
   });
 
   it('creates a real short-term card when a requested question has no card', async () => {

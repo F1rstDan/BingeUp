@@ -17,7 +17,6 @@ export default tseslint.config(
       'node_modules/',
       '.trash/',
       'public/dictionaries/',
-      'data/dictionary-rebuild/archive/',
       '.npm-cache/',
     ],
   },

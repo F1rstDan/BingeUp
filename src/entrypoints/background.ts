@@ -1,7 +1,6 @@
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
-import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
 import { syncCustomContentScripts } from '@/sites/custom-content-script';
 
 /**
@@ -23,10 +22,10 @@ export default defineBackground(() => {
   };
   const getDatabase = (): Promise<IDBDatabase> => {
     if (dbPromise === null) {
-      dbPromise = openDatabase(DATABASE_NAME, MIGRATIONS)
+      dbPromise = openDatabase()
         .then(prepareDatabase)
         .catch((error) => {
-          // 失败不删除数据库，并清除缓存以允许用户关闭旧页面后再次尝试。
+          // 连接失败后清除缓存，允许再次尝试。
           dbPromise = null;
           throw new Error(
             `数据库打开失败，现有数据未被更改。请关闭其他刷刷升级页面后重试：${error instanceof Error ? error.message : String(error)}`,
@@ -36,7 +35,7 @@ export default defineBackground(() => {
     return dbPromise;
   };
 
-  // 扩展升级后动态注册表可能为空；根据权威网站设置恢复精确 origin 注册。
+  // 根据已保存的网站设置注册内容脚本。
   const customScriptsReady = getDatabase()
     .then(async (db) => {
       const store = new LocalSettingsStore(db);
@@ -61,7 +60,7 @@ export default defineBackground(() => {
           }
         }
         if (message?.type === 'REBUILD_DATABASE') {
-          const rebuilt = await rebuildDatabase(DATABASE_NAME, MIGRATIONS);
+          const rebuilt = await rebuildDatabase();
           dbPromise = Promise.resolve(prepareDatabase(rebuilt));
           router = null;
           const rebuiltStore = new LocalSettingsStore(rebuilt);

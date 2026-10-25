@@ -2,12 +2,18 @@ import type { CardRepositoryPort } from '@/storage/repositories/card-repository'
 import { CardUniquenessError } from '@/storage/repositories/card-repository';
 import type { WordBankPort } from '@/learning/learning-service';
 import {
-  generateContextChoiceQuestion,
-  generateEnToZhQuestion,
-  generateSpellingQuestion,
-  generateZhToEnQuestion,
-} from '@/learning/question-generator';
-import type { CardRecord, LearningItem, SelfRatedLevel, WordRecord } from '@/types';
+  generatePlannedContextChoice,
+  generatePlannedEnToZh,
+  generatePlannedSpelling,
+  generatePlannedZhToEn,
+} from '@/learning/planned-questions';
+import type {
+  CardRecord,
+  LearningItem,
+  SelfRatedLevel,
+  WordQuestionPlan,
+  WordRecord,
+} from '@/types';
 import type { DevCardType, PrepareDevCardResult } from '@/dev-tools/messages';
 
 const SHORT_TERM_DELAY_MS = 10 * 60_000;
@@ -28,7 +34,7 @@ export interface DevLearningItemDeps {
 /**
  * 开发题卡准备模块。
  *
- * Popup 只提交题型，选词、题目数据校验和必要的真实建卡全部在此处完成，
+ * Popup 只提交题型，选词、固定题组校验和必要的真实建卡全部在此处完成，
  * 避免多个调用方各自复制正式学习规则。
  */
 export class DevLearningItemService {
@@ -52,7 +58,6 @@ export class DevLearningItemService {
         : { ok: true, item: { kind: 'new-word-presentation', presentation: { word: candidate } } };
     }
 
-    const allWords = await this.deps.words.listWords();
     const deckWordIds = new Set(deck.wordIds);
     const deckCards = cards.filter((card) => deckWordIds.has(card.wordId));
     let sawDeckWord = deck.wordIds.length > 0;
@@ -62,25 +67,30 @@ export class DevLearningItemService {
       const target = await this.deps.words.getWord(card.wordId);
       if (target === null) continue;
       sawDeckWord = true;
-      if (!this.canGenerate(cardType, target)) continue;
-      sawValidTarget = true;
-      const item = this.tryBuildItem(cardType, target, card.id, allWords);
-      if (item !== null) return { ok: true, item };
+      const plan = await this.deps.words.getQuestionPlan(card.wordId);
+      if (plan === null) continue;
+      if (!this.hasRequestedPlan(cardType, plan)) continue;
+      const item = await this.tryBuildItem(cardType, target, card.id, plan);
+      if (item !== null) {
+        sawValidTarget = true;
+        return { ok: true, item };
+      }
     }
 
     const candidates = await this.pickCandidates(deck.id, cards, settings, cardType);
     for (const target of candidates) {
       sawDeckWord = true;
-      if (!this.canGenerate(cardType, target)) continue;
-      sawValidTarget = true;
+      const plan = await this.deps.words.getQuestionPlan(target.id);
+      if (plan === null || !this.hasRequestedPlan(cardType, plan)) continue;
 
       const card = this.buildAcceptedNewCard(target.id, deck.id);
-      const provisionalItem = this.tryBuildItem(cardType, target, card.id, allWords);
+      const provisionalItem = await this.tryBuildItem(cardType, target, card.id, plan);
       if (provisionalItem === null) continue;
+      sawValidTarget = true;
 
       const existing = await this.deps.cards.getByWordId(target.id);
       if (existing !== undefined) {
-        const existingItem = this.tryBuildItem(cardType, target, existing.id, allWords);
+        const existingItem = await this.tryBuildItem(cardType, target, existing.id, plan);
         if (existingItem !== null) return { ok: true, item: existingItem };
         continue;
       }
@@ -92,7 +102,7 @@ export class DevLearningItemService {
         if (!(error instanceof CardUniquenessError)) throw error;
         const concurrent = await this.deps.cards.getByWordId(target.id);
         if (concurrent === undefined) throw error;
-        const concurrentItem = this.tryBuildItem(cardType, target, concurrent.id, allWords);
+        const concurrentItem = await this.tryBuildItem(cardType, target, concurrent.id, plan);
         if (concurrentItem !== null) return { ok: true, item: concurrentItem };
       }
     }
@@ -129,7 +139,6 @@ export class DevLearningItemService {
   ): Promise<WordRecord[]> {
     const excludedWordIds = new Set(existingCards.map((card) => card.wordId));
     const zones = this.difficultyZones(this.preferredDifficulty(settings.selfRatedLevel));
-    const candidates: WordRecord[] = [];
 
     for (const zone of zones) {
       const sampled = await this.deps.words.sampleDeckWords({
@@ -138,18 +147,37 @@ export class DevLearningItemService {
         preferredDifficulty: zone,
         excludeWordIds: [...excludedWordIds],
       });
-      const valid = this.shuffle(
-        sampled.filter(
-          (word) =>
-            !excludedWordIds.has(word.id) &&
-            (cardType === 'new-word' || this.canGenerate(cardType, word)),
-        ),
-      );
-      candidates.push(...valid);
-      if (candidates.length > 0) return candidates;
+      const valid: WordRecord[] = [];
+      for (const word of this.shuffle(sampled)) {
+        if (excludedWordIds.has(word.id)) continue;
+        if (cardType === 'new-word') {
+          valid.push(word);
+          continue;
+        }
+        const plan = await this.deps.words.getQuestionPlan(word.id);
+        if (plan === null || !this.hasRequestedPlan(cardType, plan)) continue;
+        const item = await this.tryBuildItem(cardType, word, 'candidate-probe', plan);
+        if (item !== null) valid.push(word);
+      }
+      if (valid.length > 0) return valid;
     }
 
-    return candidates;
+    return [];
+  }
+
+  private hasRequestedPlan(cardType: DevCardType, plan: WordQuestionPlan): boolean {
+    switch (cardType) {
+      case 'new-word':
+        return true;
+      case 'en-to-zh':
+        return plan.enToZh !== null;
+      case 'zh-to-en':
+        return plan.zhToEn !== null;
+      case 'context-choice':
+        return plan.contextChoice !== null;
+      case 'spelling':
+        return plan.spelling !== null;
+    }
   }
 
   private preferredDifficulty(level: SelfRatedLevel): number[] {
@@ -171,39 +199,49 @@ export class DevLearningItemService {
     return zones;
   }
 
-  private canGenerate(cardType: DevCardType, word: WordRecord): boolean {
-    if (cardType !== 'context-choice') return true;
-    const correctText = word.surfaceFormInExample || word.word;
-    if (!word.exampleSentence) return false;
-    const escaped = correctText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return (
-      word.exampleSentence.replace(new RegExp(`\\b${escaped}\\b`, 'i'), '____') !==
-      word.exampleSentence
-    );
-  }
-
-  private tryBuildItem(
+  private async tryBuildItem(
     cardType: DevCardType,
     target: WordRecord,
     cardId: string,
-    allWords: WordRecord[],
-  ): LearningItem | null {
+    plan: WordQuestionPlan,
+  ): Promise<LearningItem | null> {
     try {
-      const input = {
-        targetWord: target,
-        distractors: allWords.filter((word) => word.id !== target.id),
-        cardId,
-        random: this.random,
-      };
       switch (cardType) {
         case 'en-to-zh':
-          return { kind: 'question', question: generateEnToZhQuestion(input) };
         case 'zh-to-en':
-          return { kind: 'question', question: generateZhToEnQuestion(input) };
-        case 'context-choice':
-          return { kind: 'question', question: generateContextChoiceQuestion(input) };
+        case 'context-choice': {
+          const referencedIds = new Set<string>();
+          for (const wordId of plan.enToZh.distractors) referencedIds.add(wordId);
+          for (const wordId of plan.zhToEn?.distractors ?? []) referencedIds.add(wordId);
+          for (const item of plan.contextChoice?.distractors ?? []) {
+            referencedIds.add(item.wordId);
+          }
+          const referenced = await this.deps.words.getWordsByIds([...referencedIds]);
+          const wordsById = new Map(referenced.map((word) => [word.id, word]));
+          wordsById.set(target.id, target);
+
+          if (cardType === 'en-to-zh') {
+            return {
+              kind: 'question',
+              question: generatePlannedEnToZh(target, plan, wordsById, cardId, this.random),
+            };
+          }
+          if (cardType === 'zh-to-en') {
+            return {
+              kind: 'question',
+              question: generatePlannedZhToEn(target, plan, wordsById, cardId, this.random),
+            };
+          }
+          return {
+            kind: 'question',
+            question: generatePlannedContextChoice(target, plan, wordsById, cardId, this.random),
+          };
+        }
         case 'spelling':
-          return { kind: 'spelling-question', question: generateSpellingQuestion(input) };
+          return {
+            kind: 'spelling-question',
+            question: generatePlannedSpelling(target, plan, cardId),
+          };
         case 'new-word':
           return { kind: 'new-word-presentation', presentation: { word: target } };
       }

@@ -9,7 +9,6 @@ import type {
   WeekComparison,
   ReviewPerformance,
 } from '@/types';
-import { acceptanceEvents, type ContentCompatibilityRecord } from '@/storage/content-compat';
 
 /**
  * 本地学习统计服务（Issue #12）。
@@ -88,7 +87,6 @@ export class StatsService {
     sessions: SessionLogRecord[],
     behaviorEvents: BehaviorEventRecord[] = [],
     siteStates: Record<string, boolean> = {},
-    compatibility: ContentCompatibilityRecord | null = null,
   ): LearningStats {
     const now = this.deps.clock.now();
     const todayStart = startOfLocalDay(now);
@@ -100,15 +98,7 @@ export class StatsService {
     const longTermAllTime = this.computeReviewPerformance(longTermLogs);
 
     return {
-      today: this.computeTodayStats(
-        cards,
-        logs,
-        sessions,
-        behaviorEvents,
-        todayStart,
-        now,
-        compatibility,
-      ),
+      today: this.computeTodayStats(cards, logs, sessions, behaviorEvents, todayStart, now),
       weekLearningDays: this.computeWeekLearningDays(logs, sessions, thisWeekStart, now),
       cardStatus: this.computeCardStatus(cards),
       dueReviewCount: this.computeDueReviewCount(cards, now),
@@ -138,7 +128,6 @@ export class StatsService {
     behaviorEvents: BehaviorEventRecord[],
     todayStart: number,
     now: number,
-    compatibility: ContentCompatibilityRecord | null,
   ): TodayStats {
     const todayLogs = logs.filter((l) => l.reviewedAt >= todayStart);
     const todaySessions = sessions.filter((s) => s.startedAt >= todayStart);
@@ -147,13 +136,6 @@ export class StatsService {
     const cardCreatedAtByWordId = new Map<string, number>();
     for (const card of cards) {
       cardCreatedAtByWordId.set(card.wordId, card.createdAt);
-    }
-    for (const original of compatibility?.originals ?? []) {
-      const wordId = original.canonicalWordId;
-      const existing = cardCreatedAtByWordId.get(wordId);
-      if (existing === undefined || original.card.createdAt < existing) {
-        cardCreatedAtByWordId.set(wordId, original.card.createdAt);
-      }
     }
     const reviewedWordIds = new Set<string>();
     for (const log of todayLogs) {
@@ -165,8 +147,8 @@ export class StatsService {
     }
 
     // 新词数：今日通过"知道了"接受的学习卡数
-    const newWords = acceptanceEvents(cards, compatibility).filter(
-      (event) => event.createdAt >= todayStart,
+    const newWords = cards.filter(
+      (card) => card.origin === 'accepted-new' && card.createdAt >= todayStart,
     ).length;
 
     const sessionMetrics = this.computeSessionMetrics(todaySessions);
@@ -202,7 +184,7 @@ export class StatsService {
         naturalSessions.length === 0 ? null : naturalSkipped / naturalSessions.length,
       continuousSessions: continuousSessions.length,
       continuousQuestions: continuousSessions.reduce(
-        (sum, session) => sum + (session.continuousQuestionsAnswered ?? session.questionsAnswered),
+        (sum, session) => sum + session.continuousQuestionsAnswered,
         0,
       ),
     };
@@ -330,35 +312,17 @@ export class StatsService {
 
   /** 学习卡状态分布（AC2）。 */
   private computeCardStatus(cards: CardRecord[]): CardStatusStats {
-    const active = cards.filter((card) => !card.disabled);
     return {
-      shortTerm: active.filter((c) => c.stage === 'short-term').length,
-      longTerm: active.filter((c) => c.stage === 'long-term').length,
-      selfReported: active.filter((c) => c.stage === 'self-reported-known').length,
+      shortTerm: cards.filter((c) => c.stage === 'short-term').length,
+      longTerm: cards.filter((c) => c.stage === 'long-term').length,
+      selfReported: cards.filter((c) => c.stage === 'self-reported-known').length,
     };
   }
 
   /** 待复习词数（AC2）：nextReviewAt <= now 的学习卡数。 */
   private computeDueReviewCount(cards: CardRecord[], now: number): number {
-    return cards.filter(
-      (card) => !card.disabled && card.nextReviewAt !== undefined && card.nextReviewAt <= now,
-    ).length;
-  }
-
-  /**
-   * 延迟复习正确率（AC2）。
-   * 只统计长期复习词的复习日志正确率（isCorrect=true 的比例）。
-   * 通过 cardId 关联学习卡阶段来过滤（AC5：可由复习日志和学习卡状态交叉验证）。
-   * 无长期复习日志时返回 0。
-   */
-  private computeDelayedReviewAccuracy(
-    logs: ReviewLogRecord[],
-    longTermCardIds: Set<string>,
-  ): number {
-    const longTermLogs = logs.filter((l) => longTermCardIds.has(l.cardId));
-    if (longTermLogs.length === 0) return 0;
-    const correct = longTermLogs.filter((l) => l.isCorrect).length;
-    return correct / longTermLogs.length;
+    return cards.filter((card) => card.nextReviewAt !== undefined && card.nextReviewAt <= now)
+      .length;
   }
 
   /** 周对比（AC2）：本周与上周的完成题数和正确率。 */

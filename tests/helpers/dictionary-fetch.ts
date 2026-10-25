@@ -7,19 +7,17 @@ const FILES: Record<string, string> = Object.fromEntries(
     'words.json',
     'decks.json',
     'questions.json',
-    'legacy-registry.json',
     'source-metadata.json',
     'LICENSE.txt',
   ].map((name) => [name, readFileSync(`${DIR}/${name}`, 'utf8')]),
 );
 
 export const DICTIONARY_MANIFEST = JSON.parse(FILES['manifest.json']!) as {
+  schemaVersion: 1;
   dictionaryVersion: string;
-  registryVersion: string;
-  registryHash: string;
 };
 
-/** 用真实交付包响应扩展词库请求，供后台与数据迁移测试共用。 */
+/** 用真实交付包响应扩展词库请求，供后台测试共用。 */
 export function dictionaryFetch(input: RequestInfo | URL): Promise<Response> {
   const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
   const name = url.split('/').pop() ?? '';

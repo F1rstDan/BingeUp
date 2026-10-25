@@ -397,12 +397,7 @@ function demoOverlayActionHandler(action: OverlayAction): unknown {
     case 'submit-spelling-and-continue':
     case 'submit-spelling-and-end': {
       const normalized = action.spelledAnswer.trim().toLowerCase();
-      const acceptable = (action.question.acceptableAnswers ?? []).map((answer) =>
-        answer.trim().toLowerCase(),
-      );
-      const isCorrect =
-        normalized === action.question.correctAnswer.trim().toLowerCase() ||
-        acceptable.includes(normalized);
+      const isCorrect = normalized === action.question.correctAnswer.trim().toLowerCase();
       return {
         ...makeDemoSubmissionResult(action.question, isCorrect),
         submittedAnswer: action.spelledAnswer,

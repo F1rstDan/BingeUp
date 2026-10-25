@@ -8,6 +8,7 @@ import type {
   DeckRecord,
   ReviewLogRecord,
   SessionLogRecord,
+  WordQuestionPlan,
   WordRecord,
 } from '@/types';
 import type { WordBankPort } from '@/learning/learning-service';
@@ -47,6 +48,9 @@ class MemoryWords implements WordBankPort {
   }
   async listWords(): Promise<WordRecord[]> {
     return [word];
+  }
+  async getQuestionPlan(): Promise<WordQuestionPlan | null> {
+    return null;
   }
   async sampleDeckWords(): Promise<WordRecord[]> {
     return [];
@@ -95,6 +99,7 @@ const currentDeckCard: CardRecord = {
   wordId: word.id,
   deckId: 'deck-other',
   stage: 'long-term',
+  origin: 'accepted-new',
   createdAt: 1,
   updatedAt: 1,
 };
@@ -104,6 +109,7 @@ const otherDeckCard: CardRecord = {
   wordId: 'word-outside',
   deckId: 'deck-other',
   stage: 'short-term',
+  origin: 'accepted-new',
   createdAt: 1,
   updatedAt: 1,
 };
@@ -121,6 +127,9 @@ function createService() {
       isCorrect: true,
       responseTimeMs: 100,
       reviewedAt: 1,
+      stageAtSubmission: 'long-term',
+      source: 'natural',
+      rating: 'good',
     },
   ];
   const sessions: SessionLogRecord[] = [
@@ -131,6 +140,8 @@ function createService() {
       mode: 'single',
       outcome: 'submitted',
       questionsAnswered: 1,
+      source: 'natural',
+      continuousQuestionsAnswered: 0,
     },
   ];
   return new DevDataService({

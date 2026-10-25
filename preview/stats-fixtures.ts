@@ -1,6 +1,5 @@
 import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
-import { openDatabase, idbReplaceAll, STORES } from '@/storage/database';
-import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
+import { openDatabase, idbReplaceAll, STORES, DATABASE_NAME } from '@/storage/database';
 import { DEFAULT_AUTHORITATIVE_STATE } from '@/storage/local-settings';
 
 import {
@@ -15,7 +14,7 @@ import {
  * 统计页演示数据。
  *
  * 预览站直接复用真实统计链路：把学习卡 / 复习日志 / 会话日志 / 指标源事件与
- * 权威状态（网站启用、应用设置）写入同一个 IndexedDB（bingeup-v1），再由
+ * 权威状态（网站启用、应用设置）写入同一个 IndexedDB，再由
  * StatsApp 通过真实仓储与 StatsService 派生全部指标。
  *
  * 「非空」与「空态」两个预览通过 seed / clear 切换；StatsApp 在挂载时读取一次，
@@ -288,7 +287,7 @@ function buildSessions(now: number): SessionLogRecord[] {
       outcome: 'submitted',
       questionsAnswered: 1,
       source: 'natural',
-      initialItemKind: 'new-word-presentation',
+      continuousQuestionsAnswered: 0,
       initialOutcome: 'accepted-new',
     },
     {
@@ -299,7 +298,7 @@ function buildSessions(now: number): SessionLogRecord[] {
       outcome: 'skipped',
       questionsAnswered: 0,
       source: 'natural',
-      initialItemKind: 'question',
+      continuousQuestionsAnswered: 0,
       initialOutcome: 'skipped',
     },
     {
@@ -320,7 +319,7 @@ function buildSessions(now: number): SessionLogRecord[] {
       outcome: 'submitted',
       questionsAnswered: 1,
       source: 'natural',
-      initialItemKind: 'question',
+      continuousQuestionsAnswered: 0,
       initialOutcome: 'submitted',
     },
   ];
@@ -525,10 +524,9 @@ function buildScenarioSessions(
       outcome,
       questionsAnswered,
       source: index % 3 === 0 ? 'manual' : 'natural',
-      initialItemKind: index % 4 === 0 ? 'new-word-presentation' : 'question',
       initialOutcome:
         outcome === 'skipped' ? 'skipped' : index % 4 === 0 ? 'accepted-new' : 'submitted',
-      ...(mode === 'continuous' ? { continuousQuestionsAnswered: questionsAnswered } : {}),
+      continuousQuestionsAnswered: mode === 'continuous' ? questionsAnswered : 0,
     } satisfies SessionLogRecord;
   });
 }
@@ -569,7 +567,7 @@ export async function seedStatsDemoData(scenario: PreviewLearningScenario = 'bas
     scenario === 'base' ? buildSessions(now) : buildScenarioSessions(now, scenario);
   const behaviorEvents =
     scenario === 'base' ? buildEvents(now) : buildScenarioEvents(now, scenario);
-  const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
+  const db = await openDatabase(DATABASE_NAME);
   try {
     await idbReplaceAll(db, {
       [STORES.authoritativeState]: [
@@ -596,7 +594,7 @@ export async function seedStatsDemoData(scenario: PreviewLearningScenario = 'bas
 
 /** 清空演示数据，得到统计页的空态（无学习卡、无日志、无已启用网站）。 */
 export async function clearStatsDemoData(): Promise<void> {
-  const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
+  const db = await openDatabase(DATABASE_NAME);
   try {
     await idbReplaceAll(db, {
       [STORES.authoritativeState]: [{ ...DEFAULT_AUTHORITATIVE_STATE }],

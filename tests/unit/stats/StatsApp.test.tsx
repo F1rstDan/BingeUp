@@ -2,8 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { StatsApp } from '@/ui/stats/StatsApp';
-import { idbReplaceAll, openDatabase } from '@/storage/database';
-import { DATABASE_NAME, MIGRATIONS } from '@/storage/migrations';
+import { idbReplaceAll, openDatabase, DATABASE_NAME } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { startOfLocalDay } from '@/stats/stats-service';
 import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
@@ -44,6 +43,9 @@ function makeLog(
     isCorrect: true,
     responseTimeMs: 2000,
     reviewedAt: NOW,
+    stageAtSubmission: 'short-term',
+    source: 'natural',
+    rating: 'good',
     ...overrides,
   };
 }
@@ -55,6 +57,8 @@ function makeSession(overrides: Partial<SessionLogRecord> & { id: string }): Ses
     mode: 'single',
     outcome: 'submitted',
     questionsAnswered: 1,
+    source: 'natural',
+    continuousQuestionsAnswered: 0,
     ...overrides,
   };
 }
@@ -68,7 +72,7 @@ interface SeedOptions {
 }
 
 async function seedDatabase(options: SeedOptions): Promise<void> {
-  const db = await openDatabase(DATABASE_NAME, MIGRATIONS);
+  const db = await openDatabase(DATABASE_NAME);
   await idbReplaceAll(db, {
     cards: options.cards ?? [],
     reviewLogs: options.reviewLogs ?? [],

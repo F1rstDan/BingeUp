@@ -1,11 +1,7 @@
-/**
- * IndexedDB 封装与版本迁移（Issue #5 验收标准 4）。
- *
- * 设计要点：
- * - 迁移在 `onupgradeneeded` 中按版本顺序执行，只运行 oldVersion 之后的迁移；
- * - 迁移失败时显式中止事务并抛出错误，不静默清空既有数据；
- * - 提供 Promise 风格的 IDB 辅助函数供仓库使用。
- */
+/** IndexedDB 连接、结构初始化与事务辅助函数。 */
+
+export const DATABASE_NAME = 'bingeup';
+export const DATABASE_VERSION = 1;
 
 /** 对象仓库名称常量。 */
 export const STORES = {
@@ -20,72 +16,74 @@ export const STORES = {
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
 
-/** 单次版本迁移。 */
-export interface Migration {
-  /** 目标版本号。 */
-  version: number;
-  description: string;
-  run: (db: IDBDatabase, transaction: IDBTransaction) => void;
+function createSchema(db: IDBDatabase): void {
+  const cards = db.createObjectStore(STORES.cards, { keyPath: 'id' });
+  cards.createIndex('byWordId', 'wordId', { unique: true });
+
+  const logs = db.createObjectStore(STORES.reviewLogs, { keyPath: 'id' });
+  logs.createIndex('byCardId', 'cardId', { unique: false });
+
+  db.createObjectStore(STORES.words, { keyPath: 'id' });
+  db.createObjectStore(STORES.decks, { keyPath: 'id' });
+
+  const sessions = db.createObjectStore(STORES.sessionLogs, { keyPath: 'id' });
+  sessions.createIndex('byStartedAt', 'startedAt', { unique: false });
+
+  const events = db.createObjectStore(STORES.behaviorEvents, { keyPath: 'id' });
+  events.createIndex('byOccurredAt', 'occurredAt', { unique: false });
+
+  db.createObjectStore(STORES.authoritativeState, { keyPath: 'id' });
 }
 
-/**
- * 打开数据库并执行版本迁移。
- *
- * 迁移失败时会中止事务、拒绝 Promise，既有数据不会被清空。
- */
-export function openDatabase(name: string, migrations: Migration[]): Promise<IDBDatabase> {
-  if (migrations.length === 0) {
-    return Promise.reject(new Error('迁移列表不能为空'));
-  }
-  const targetVersion = migrations[migrations.length - 1]!.version;
-
+/** 打开数据库；首次打开时创建仓库与索引。 */
+export function openDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(name, targetVersion);
-    let migrationError: Error | null = null;
+    const request = indexedDB.open(name, DATABASE_VERSION);
+    let settled = false;
+    let openError: Error | null = null;
+    const fail = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      reject(error);
+    };
 
-    request.onupgradeneeded = (event) => {
-      const db = request.result;
-      const tx = request.transaction;
-      if (tx === null) {
-        migrationError = new Error('版本迁移事务不可用');
-        return;
-      }
+    request.onupgradeneeded = () => {
       try {
-        for (const migration of migrations) {
-          if (migration.version > event.oldVersion) {
-            migration.run(db, tx);
-          }
-        }
+        createSchema(request.result);
       } catch (err) {
-        // 捕获迁移错误，中止事务以保留既有数据。
-        migrationError = err instanceof Error ? err : new Error(String(err));
-        tx.abort();
+        openError = err instanceof Error ? err : new Error(String(err));
+        request.transaction!.abort();
       }
     };
 
     request.onsuccess = () => {
       const db = request.result;
-      // 长期打开的设置页、统计页或内容页必须让出后续版本升级。
+      if (settled) {
+        db.close();
+        return;
+      }
+      // 删除或重建数据空间时，释放其他页面持有的连接。
       db.onversionchange = () => db.close();
+      settled = true;
       resolve(db);
     };
     request.onerror = () => {
-      reject(migrationError ?? request.error ?? new Error('数据库打开失败'));
+      fail(openError ?? request.error ?? new Error('数据库打开失败'));
     };
     request.onblocked = () => {
-      reject(new Error('数据库打开被阻塞，请关闭其他标签页后重试'));
+      fail(new Error('数据库打开被阻塞，请关闭其他标签页后重试'));
     };
   });
 }
 
 /** 用户明确确认后的故障恢复：删除整个数据空间并按当前结构重建。 */
-export function rebuildDatabase(name: string, migrations: Migration[]): Promise<IDBDatabase> {
+export function rebuildDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.deleteDatabase(name);
     request.onerror = () => reject(request.error ?? new Error('删除本地数据失败'));
-    request.onblocked = () => reject(new Error('重建被旧页面阻塞，请关闭其他刷刷升级页面后重试'));
+    request.onblocked = () => reject(new Error('数据库被其他页面占用，请关闭其他扩展页面后重试'));
     request.onsuccess = () => {
-      openDatabase(name, migrations).then(resolve, reject);
+      openDatabase(name).then(resolve, reject);
     };
   });
 }

@@ -1,233 +1,29 @@
 import { describe, expect, it } from 'vitest';
-import type {
-  DeckRecord,
-  DictionaryContentManifest,
-  LegacyRegistry,
-  WordQuestionPlan,
-  WordRecord,
-} from '@/types';
+import type { DictionaryContentManifest, WordQuestionPlan } from '@/types';
 import {
-  BUILT_IN_CONTENT_LICENSE,
-  BUILT_IN_CONTENT_SOURCE,
-  CONTENT_CONTRACT_VERSION,
-  computeQuestionPlanHashes,
+  CONTENT_FILE_NAMES,
   validateBuiltInWordRecord,
   validateContentPackage,
-  validateLegacyRegistry,
   validateQuestionPlan,
 } from '@/dictionary/content-contract';
-import { QUESTION_TEMPLATE_VERSION, sha256Hex } from '@/learning/content-hash';
-
-const WORDS: WordRecord[] = [
-  {
-    id: 'w-abandon',
-    word: 'abandon',
-    lemma: 'abandon',
-    phonetic: '/əˈbændən/',
-    partOfSpeech: ['v.'],
-    coreMeaningZh: ['放弃'],
-    secondaryMeanings: [{ partOfSpeech: 'v.', meaningZh: '遗弃' }],
-    exampleSentence: 'They abandoned the old plan.',
-    exampleTranslation: '他们放弃了旧计划。',
-    surfaceFormInExample: 'abandoned',
-    difficulty: 1,
-    frequencyRank: 2182,
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-  },
-  {
-    id: 'w-decline',
-    word: 'decline',
-    lemma: 'decline',
-    phonetic: '/dɪˈklaɪn/',
-    partOfSpeech: ['v.'],
-    coreMeaningZh: ['下降'],
-    exampleSentence: 'Sales declined last month.',
-    exampleTranslation: '上个月销量下降了。',
-    surfaceFormInExample: 'declined',
-    difficulty: 2,
-    frequencyRank: 3000,
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-  },
-  {
-    id: 'w-accept',
-    word: 'accept',
-    lemma: 'accept',
-    phonetic: '/əkˈsɛpt/',
-    partOfSpeech: ['v.'],
-    coreMeaningZh: ['接受'],
-    exampleSentence: 'She accepted the offer.',
-    exampleTranslation: '她接受了这个提议。',
-    surfaceFormInExample: 'accepted',
-    difficulty: 2,
-    frequencyRank: 3200,
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-  },
-  {
-    id: 'w-reduce',
-    word: 'reduce',
-    lemma: 'reduce',
-    phonetic: '/ɹɪˈdus/',
-    partOfSpeech: ['v.'],
-    coreMeaningZh: ['减少'],
-    exampleSentence: 'We reduced the cost by half.',
-    exampleTranslation: '我们把成本减少了一半。',
-    surfaceFormInExample: 'reduced',
-    difficulty: 2,
-    frequencyRank: 2800,
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-  },
-];
-
-const DECKS: DeckRecord[] = [
-  {
-    id: 'deck-daily-high-frequency',
-    name: '日常高频',
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-    wordIds: WORDS.map((word) => word.id),
-    wordDifficulties: Object.fromEntries(WORDS.map((word) => [word.id, word.difficulty])),
-  },
-  {
-    id: 'deck-cet4',
-    name: '四级',
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-    wordIds: ['w-abandon', 'w-decline'],
-    wordDifficulties: { 'w-abandon': 1, 'w-decline': 2 },
-  },
-  {
-    id: 'deck-cet6',
-    name: '六级',
-    source: BUILT_IN_CONTENT_SOURCE,
-    license: BUILT_IN_CONTENT_LICENSE,
-    wordIds: ['w-accept', 'w-reduce'],
-    wordDifficulties: { 'w-accept': 2, 'w-reduce': 2 },
-  },
-];
-
-const REGISTRY: LegacyRegistry = {
-  schemaVersion: 1,
-  registryVersion: 'legacy-registry-1',
-  registryHash: 'a'.repeat(64),
-  datasetId: 'test-dataset',
-  seedHash: 'b'.repeat(64),
-  source: {
-    name: 'ECDICT',
-    repository: 'https://example.com',
-    commit: 'test',
-    license: 'MIT',
-    capturedAt: '2026-10-23',
-    note: 'test',
-  },
-  review: { reviewedAt: '2026-10-23', method: 'test', evidenceSources: [] },
-  entries: WORDS.map((word) => ({
-    legacyId: word.id,
-    disposition: 'keep' as const,
-    canonicalId: word.id,
-    canonicalWord: word.word,
-    reason: 'test',
-    evidence: ['test'],
-    seedEntryHash: 'c'.repeat(64),
-    original: {
-      word: word.word,
-      difficulty: word.difficulty,
-      frequencyRank: word.frequencyRank,
-      decks: DECKS.filter((deck) => deck.wordIds.includes(word.id)).map((deck) => ({
-        deckId: deck.id,
-        difficulty: word.difficulty,
-      })),
-    },
-  })),
-};
-
-async function buildPlans(): Promise<WordQuestionPlan[]> {
-  const byId = new Map(WORDS.map((word) => [word.id, word]));
-  const plans: WordQuestionPlan[] = [];
-  for (const [index, word] of WORDS.entries()) {
-    const others = WORDS.filter((candidate) => candidate.id !== word.id);
-    const distractors = [
-      others[index % 3]!.id,
-      others[(index + 1) % 3]!.id,
-      others[(index + 2) % 3]!.id,
-    ] as [string, string, string];
-    const draft: WordQuestionPlan = {
-      wordId: word.id,
-      enToZh: { distractors, checkedContentHash: '' },
-      zhToEn: { distractors, checkedContentHash: '' },
-      contextChoice: {
-        distractors: distractors.map((id) => ({
-          wordId: id,
-          surfaceForm: byId.get(id)!.word,
-        })) as [
-          { wordId: string; surfaceForm: string },
-          { wordId: string; surfaceForm: string },
-          { wordId: string; surfaceForm: string },
-        ],
-        checkedContentHash: '',
-      },
-      spelling: { prefixLength: 1, checkedContentHash: '' },
-    };
-    const hashes = await computeQuestionPlanHashes(word, draft, byId);
-    plans.push({
-      ...draft,
-      enToZh: { ...draft.enToZh, checkedContentHash: hashes.enToZh },
-      zhToEn: { ...draft.zhToEn!, checkedContentHash: hashes.zhToEn! },
-      contextChoice: { ...draft.contextChoice!, checkedContentHash: hashes.contextChoice! },
-      spelling: { ...draft.spelling!, checkedContentHash: hashes.spelling! },
-    });
-  }
-  return plans;
-}
+import { PACKAGE_DECKS, PACKAGE_WORDS, buildPackageTexts } from '../../helpers/content-package';
 
 async function buildPackage() {
-  const questions = await buildPlans();
-  const texts = {
-    words: `${JSON.stringify(WORDS, null, 2)}\n`,
-    decks: `${JSON.stringify(DECKS, null, 2)}\n`,
-    questions: `${JSON.stringify(questions, null, 2)}\n`,
-    legacyRegistry: `${JSON.stringify(REGISTRY, null, 2)}\n`,
-    sourceMetadata: '{}\n',
-    license: 'test license\n',
-  };
-  const files = Object.fromEntries(
-    await Promise.all(
-      Object.entries(texts).map(async ([key, text]) => [
-        key,
-        { sha256: await sha256Hex(text), bytes: Buffer.byteLength(text) },
-      ]),
-    ),
-  ) as DictionaryContentManifest['files'];
-  const manifest: DictionaryContentManifest = {
-    schemaVersion: 2,
-    contentContractVersion: CONTENT_CONTRACT_VERSION,
-    dictionaryVersion: '2026.10.1',
-    generatedAt: '2026-10-23T00:00:00.000Z',
-    datasetId: REGISTRY.datasetId,
-    registryVersion: REGISTRY.registryVersion,
-    registryHash: REGISTRY.registryHash,
-    questionTemplateVersion: QUESTION_TEMPLATE_VERSION,
-    files,
-    counts: { legacyWords: 4, effectiveWords: 4, decks: 3, questionPlans: 4 },
-    source: { content: BUILT_IN_CONTENT_SOURCE, license: BUILT_IN_CONTENT_LICENSE },
-  };
+  const { manifest, questions } = await buildPackageTexts();
   const fileHashes = Object.fromEntries(
-    Object.entries(files).map(([key, value]) => [key, value.sha256]),
+    CONTENT_FILE_NAMES.map((name) => [name, manifest.files[name].sha256]),
   ) as Record<keyof DictionaryContentManifest['files'], string>;
-  return { questions, manifest, fileHashes, texts };
+  return { manifest, questions, fileHashes };
 }
 
 describe('正式内置词条契约', () => {
   it('接受完整词条', () => {
-    expect(validateBuiltInWordRecord(WORDS[0]!)).toEqual([]);
+    expect(validateBuiltInWordRecord(PACKAGE_WORDS[0]!)).toEqual([]);
   });
 
   it('拒绝多个主词性、多个主释义和缺失例句', () => {
     const errors = validateBuiltInWordRecord({
-      ...WORDS[0]!,
+      ...PACKAGE_WORDS[0]!,
       partOfSpeech: ['v.', 'n.'],
       coreMeaningZh: ['放弃', '遗弃'],
       exampleSentence: '',
@@ -246,14 +42,14 @@ describe('正式内置词条契约', () => {
   it('拒绝长释义、拼接义项和词性前缀', () => {
     expect(
       validateBuiltInWordRecord({
-        ...WORDS[0]!,
+        ...PACKAGE_WORDS[0]!,
         coreMeaningZh: ['这是一个超过二十四个字符的释义文本用于验证长度约束'],
       }),
     ).toEqual(expect.arrayContaining([expect.stringContaining('1–24')]));
-    expect(validateBuiltInWordRecord({ ...WORDS[0]!, coreMeaningZh: ['放弃；遗弃'] })).toEqual(
-      expect.arrayContaining([expect.stringContaining('不能拼接')]),
-    );
-    expect(validateBuiltInWordRecord({ ...WORDS[0]!, coreMeaningZh: ['v. 放弃'] })).toEqual(
+    expect(
+      validateBuiltInWordRecord({ ...PACKAGE_WORDS[0]!, coreMeaningZh: ['放弃；遗弃'] }),
+    ).toEqual(expect.arrayContaining([expect.stringContaining('不能拼接')]));
+    expect(validateBuiltInWordRecord({ ...PACKAGE_WORDS[0]!, coreMeaningZh: ['v. 放弃'] })).toEqual(
       expect.arrayContaining([expect.stringContaining('词性前缀')]),
     );
   });
@@ -261,11 +57,11 @@ describe('正式内置词条契约', () => {
   it('拒绝表层词形出现两次或音标格式错误', () => {
     expect(
       validateBuiltInWordRecord({
-        ...WORDS[0]!,
-        exampleSentence: 'They abandoned it, but he abandoned nothing.',
+        ...PACKAGE_WORDS[0]!,
+        exampleSentence: 'The reservoir overflowed, so the reservoir closed.',
       }),
     ).toEqual(expect.arrayContaining([expect.stringContaining('恰好出现一次')]));
-    expect(validateBuiltInWordRecord({ ...WORDS[0]!, phonetic: 'əˈbændən' })).toEqual(
+    expect(validateBuiltInWordRecord({ ...PACKAGE_WORDS[0]!, phonetic: 'ˈrezəvˌwɑr' })).toEqual(
       expect.arrayContaining([expect.stringContaining('斜线')]),
     );
   });
@@ -273,75 +69,89 @@ describe('正式内置词条契约', () => {
   it('拒绝重复的其他义项', () => {
     expect(
       validateBuiltInWordRecord({
-        ...WORDS[0]!,
+        ...PACKAGE_WORDS[0]!,
         secondaryMeanings: [
-          { partOfSpeech: 'v.', meaningZh: '遗弃' },
-          { partOfSpeech: 'v.', meaningZh: '遗弃' },
+          { partOfSpeech: 'n.', meaningZh: '储备' },
+          { partOfSpeech: 'n.', meaningZh: '储备' },
         ],
       }),
     ).toEqual(expect.arrayContaining([expect.stringContaining('其他义项重复')]));
   });
 });
 
-describe('固定题组与内容包', () => {
+describe('固定题组', () => {
   it('固定题组通过依赖哈希检查', async () => {
-    const plans = await buildPlans();
-    const byId = new Map(WORDS.map((word) => [word.id, word]));
-    for (const plan of plans) {
+    const { questions } = await buildPackage();
+    const byId = new Map(PACKAGE_WORDS.map((word) => [word.id, word]));
+    for (const plan of questions) {
       expect(await validateQuestionPlan(byId.get(plan.wordId)!, plan, byId)).toEqual([]);
     }
   });
 
   it('依赖改变后检查哈希失效', async () => {
-    const plans = await buildPlans();
-    const changed = WORDS.map((word) => ({ ...word }));
-    changed[0]!.coreMeaningZh = ['抛弃'];
+    const { questions } = await buildPackage();
+    const changed = PACKAGE_WORDS.map((word) => ({ ...word }));
+    changed[0]!.coreMeaningZh = ['水池'];
     const byId = new Map(changed.map((word) => [word.id, word]));
-    expect(await validateQuestionPlan(changed[0]!, plans[0]!, byId)).toEqual(
+    expect(await validateQuestionPlan(changed[0]!, questions[0]!, byId)).toEqual(
       expect.arrayContaining([expect.stringContaining('检查哈希失效')]),
     );
   });
 
   it('拒绝干扰项引用目标词或不存在词', async () => {
-    const plans = await buildPlans();
-    const byId = new Map(WORDS.map((word) => [word.id, word]));
-    const broken = {
-      ...plans[0]!,
+    const { questions } = await buildPackage();
+    const byId = new Map(PACKAGE_WORDS.map((word) => [word.id, word]));
+    const broken: WordQuestionPlan = {
+      ...questions[0]!,
       enToZh: {
-        ...plans[0]!.enToZh,
-        distractors: ['w-abandon', 'w-missing', 'w-decline'] as [string, string, string],
+        ...questions[0]!.enToZh,
+        distractors: ['w-reservoir', 'w-missing', 'w-candle'],
       },
     };
-    expect(await validateQuestionPlan(WORDS[0]!, broken, byId)).toEqual(
+    expect(await validateQuestionPlan(PACKAGE_WORDS[0]!, broken, byId)).toEqual(
       expect.arrayContaining([
         expect.stringContaining('不能包含目标词'),
         expect.stringContaining('引用不存在的单词'),
       ]),
     );
   });
+});
 
+describe('内容包校验', () => {
   it('完整内容包通过全量检查', async () => {
     const { manifest, questions, fileHashes } = await buildPackage();
     const result = await validateContentPackage({
       manifest,
-      words: WORDS,
-      decks: DECKS,
+      words: PACKAGE_WORDS,
+      decks: PACKAGE_DECKS,
       questions,
-      registry: REGISTRY,
       fileHashes,
     });
-    expect(result.errors).toEqual([]);
-    expect(result.valid).toBe(true);
+    expect(result).toEqual({ valid: true, errors: [] });
+  });
+
+  it('manifest schemaVersion 非法时格式校验失败', async () => {
+    const { manifest, questions, fileHashes } = await buildPackage();
+    const result = await validateContentPackage({
+      manifest: {
+        ...manifest,
+        schemaVersion: 99 as DictionaryContentManifest['schemaVersion'],
+      },
+      words: PACKAGE_WORDS,
+      decks: PACKAGE_DECKS,
+      questions,
+      fileHashes,
+    });
+    expect(result.errors).toContain('内容 manifest schemaVersion 必须为 1');
   });
 
   it('文件哈希或题组数量不一致时拒绝内容包', async () => {
     const { manifest, questions, fileHashes } = await buildPackage();
     const result = await validateContentPackage({
       manifest: { ...manifest, counts: { ...manifest.counts, questionPlans: 3 } },
-      words: WORDS,
-      decks: DECKS,
+      words: PACKAGE_WORDS,
+      decks: PACKAGE_DECKS,
       questions,
-      registry: REGISTRY,
       fileHashes: { ...fileHashes, words: 'd'.repeat(64) },
     });
     expect(result.valid).toBe(false);
@@ -353,59 +163,62 @@ describe('固定题组与内容包', () => {
     );
   });
 
-  it('注册表拒绝悬空合并映射', async () => {
+  it('manifest 必须恰好声明五个内容文件', async () => {
     const { manifest, questions, fileHashes } = await buildPackage();
-    const broken: LegacyRegistry = {
-      ...REGISTRY,
-      entries: [
-        ...REGISTRY.entries.slice(0, 3),
-        { ...REGISTRY.entries[3]!, canonicalId: 'w-missing', disposition: 'merge' as const },
-      ],
-    };
+    const missingFiles = { ...manifest.files };
+    delete (missingFiles as Partial<typeof missingFiles>).sourceMetadata;
     const result = await validateContentPackage({
-      manifest,
-      words: WORDS,
-      decks: DECKS,
+      manifest: { ...manifest, files: missingFiles as typeof manifest.files },
+      words: PACKAGE_WORDS,
+      decks: PACKAGE_DECKS,
       questions,
-      registry: broken,
       fileHashes,
     });
     expect(result.errors).toEqual(
-      expect.arrayContaining([expect.stringContaining('指向不存在的有效词')]),
+      expect.arrayContaining(['manifest 文件数量必须为 5', 'manifest 缺少文件：sourceMetadata']),
     );
   });
 
-  it('注册表拒绝重复旧 ID、保留项改写身份和循环映射', () => {
-    const byId = new Map(WORDS.map((word) => [word.id, word]));
-    const decks = new Map(DECKS.map((deck) => [deck.id, deck]));
-    const duplicate = {
-      ...REGISTRY,
-      entries: [...REGISTRY.entries, { ...REGISTRY.entries[0]! }],
-    };
-    expect(validateLegacyRegistry(duplicate, byId, decks)).toEqual(
-      expect.arrayContaining([expect.stringContaining('重复旧 ID')]),
-    );
-
-    const rewritten = {
-      ...REGISTRY,
-      entries: REGISTRY.entries.map((entry, index) =>
-        index === 0 ? { ...entry, canonicalId: 'w-decline' } : entry,
+  it('每个有效词必须至少属于一个词库', async () => {
+    const { manifest, questions, fileHashes } = await buildPackage();
+    const decksWithoutCandle = PACKAGE_DECKS.map((deck) => ({
+      ...deck,
+      wordIds: deck.wordIds.filter((wordId) => wordId !== 'w-candle'),
+      wordDifficulties: Object.fromEntries(
+        Object.entries(deck.wordDifficulties ?? {}).filter(([wordId]) => wordId !== 'w-candle'),
       ),
-    };
-    expect(validateLegacyRegistry(rewritten, byId, decks)).toEqual(
-      expect.arrayContaining([expect.stringContaining('保留项不能改写身份')]),
-    );
+    }));
+    const result = await validateContentPackage({
+      manifest,
+      words: PACKAGE_WORDS,
+      decks: decksWithoutCandle,
+      questions,
+      fileHashes,
+    });
+    expect(result.errors).toContain('有效词没有词库成员关系：w-candle');
+  });
 
-    const cyclic = {
-      ...REGISTRY,
-      entries: [
-        { ...REGISTRY.entries[0]!, disposition: 'merge' as const, canonicalId: 'w-decline' },
-        { ...REGISTRY.entries[1]!, disposition: 'merge' as const, canonicalId: 'w-abandon' },
-        ...REGISTRY.entries.slice(2),
-      ],
-    };
-    expect(validateLegacyRegistry(cyclic, byId, decks)).toEqual(
-      expect.arrayContaining([expect.stringContaining('循环映射')]),
+  it('拒绝缺失题组、错误来源和悬空词库成员', async () => {
+    const { manifest, questions, fileHashes } = await buildPackage();
+    const words = PACKAGE_WORDS.map((word, index) =>
+      index === 0 ? { ...word, source: 'other-source' } : word,
+    );
+    const decks = PACKAGE_DECKS.map((deck, index) =>
+      index === 0 ? { ...deck, wordIds: [...deck.wordIds, 'w-missing'] } : deck,
+    );
+    const result = await validateContentPackage({
+      manifest,
+      words,
+      decks,
+      questions: questions.slice(1),
+      fileHashes,
+    });
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('source/license 不是本版内容声明'),
+        expect.stringContaining('缺少固定题组'),
+        expect.stringContaining('引用不存在的单词 w-missing'),
+      ]),
     );
   });
 });

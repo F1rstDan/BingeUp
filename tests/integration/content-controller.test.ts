@@ -359,6 +359,12 @@ const SPELLING_ITEM: LearningItem = {
     wordId: 'w-2',
     prompt: '吸收',
     correctAnswer: 'absorb',
+    hint: {
+      partOfSpeech: 'v.',
+      exampleSentence: 'Plants ____ sunlight.',
+      prefix: 'a',
+      letterCount: 6,
+    },
     explanation: {
       word: 'absorb',
       partOfSpeech: ['v.'],
@@ -1520,7 +1526,6 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       questionsAnswered: 1,
       continuousQuestionsAnswered: 0,
       source: 'natural',
-      initialItemKind: 'question',
       initialOutcome: 'submitted',
       startedAt: NOW,
       endedAt: NOW,
@@ -1651,7 +1656,10 @@ describe('ContentController — 会话日志记录（Issue #12）', () => {
       mode: 'continuous',
       outcome: 'exit',
       questionsAnswered: 0,
+      continuousQuestionsAnswered: 0,
+      source: 'manual',
     });
+    expect(sessionLogger!.logs[0]!.initialOutcome).toBeUndefined();
   });
 
   it('未提供 sessionLogger 时不报错', async () => {

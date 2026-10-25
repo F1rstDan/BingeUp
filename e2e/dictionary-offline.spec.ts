@@ -25,13 +25,15 @@ test.describe('新词库整包离线', () => {
       ]);
       return {
         schemaVersion: manifest.schemaVersion,
+        dictionaryVersion: manifest.dictionaryVersion,
         effectiveWords: manifest.counts.effectiveWords,
         words: words.length,
         questions: questions.length,
       };
     });
     expect(delivered).toMatchObject({
-      schemaVersion: 2,
+      schemaVersion: 1,
+      dictionaryVersion: '1',
       effectiveWords: 5374,
       words: 5374,
       questions: 5374,
@@ -48,9 +50,9 @@ test.describe('新词库整包离线', () => {
       wordId,
     );
     // 新卡默认 10 分钟后复习；测试把该卡到期时间移到过去，继续验证真实出题与提交。
-    await page.evaluate(async (id) => {
+    const databaseVersion = await page.evaluate(async (id) => {
       const db = await new Promise<IDBDatabase>((resolve, reject) => {
-        const request = indexedDB.open('bingeup-v1');
+        const request = indexedDB.open('bingeup');
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
       });
@@ -75,7 +77,9 @@ test.describe('新词库整包离线', () => {
         tx.oncomplete = () => resolve();
       });
       db.close();
+      return db.version;
     }, wordId);
+    expect(databaseVersion).toBe(1);
     const next = await page.evaluate(() =>
       chrome.runtime.sendMessage({ type: 'LEARNING_GET_NEXT' }),
     );
@@ -85,12 +89,24 @@ test.describe('新词库整包离线', () => {
       (question) =>
         chrome.runtime.sendMessage({
           type: 'LEARNING_SUBMIT_ANSWER',
-          submission: { question, selectedIndex: 0, responseTimeMs: 1200 },
+          submission: { question, selectedIndex: 0, responseTimeMs: 1200, source: 'manual' },
         }),
       next.question,
     );
     expect(result.reviewLogId).toBeTruthy();
     expect(result.nextReviewAt).toBeGreaterThan(Date.now());
+
+    const backup = await page.evaluate(() => chrome.runtime.sendMessage({ type: 'EXPORT_DATA' }));
+    expect(backup.version).toBe(1);
+    expect(backup.data.reviewLogs[0]).toMatchObject({
+      stageAtSubmission: 'short-term',
+      source: 'manual',
+    });
+    const restored = await page.evaluate(
+      (payload) => chrome.runtime.sendMessage({ type: 'IMPORT_DATA', payload }),
+      backup,
+    );
+    expect(restored).toMatchObject({ ok: true, errors: [] });
     expect(errors).toEqual([]);
 
     await context.setOffline(false);

@@ -8,7 +8,6 @@ import { SessionLogRepository } from '@/storage/repositories/session-log-reposit
 import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
 import { LearningService } from '@/learning/learning-service';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
-import { getContentCompatibility, prepareContentCompatibility } from '@/storage/content-compat';
 import {
   clearAllLocalData,
   clearLearningProgress,
@@ -16,7 +15,7 @@ import {
   importLocalData,
 } from '@/storage/data-transfer';
 import { isSupportedHostname } from '@/sites/supported-sites';
-import { exactHttpsOriginPattern, legacyBroadOriginPatterns } from '@/sites/site-origin';
+import { exactHttpsOriginPattern } from '@/sites/site-origin';
 import {
   registerCustomContentScript,
   syncCustomContentScripts,
@@ -50,20 +49,17 @@ async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
 }
 
 async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
-  const [cards, logs, sessions, events, compatibility] = await Promise.all([
+  const [cards, logs, sessions, events] = await Promise.all([
     new CardRepository(db).getAll(),
     new ReviewLogRepository(db).getAll(),
     new SessionLogRepository(db).getAll(),
     new BehaviorEventRepository(db).getAll(),
-    getContentCompatibility(db),
   ]);
   const stats = new StatsService({ clock: { now: () => Date.now() } }).computeStats(
     cards,
     logs,
     sessions,
     events,
-    {},
-    compatibility,
   );
   return {
     today: {
@@ -98,7 +94,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         words: wordBank,
         clock: { now: () => Date.now() },
         settings: { get: () => store.getAppSettings() },
-        compatibility: { get: () => getContentCompatibility(db) },
       })
     : null;
   const sessionLogs = db ? new SessionLogRepository(db) : null;
@@ -110,19 +105,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
     await behaviorEvents.save(event);
   };
   let baselinesReady: Promise<void> | null = null;
-  let contentReady: Promise<void> | null = null;
-  const ensureContentReady = (): Promise<void> => {
-    if (!db) return Promise.resolve();
-    contentReady ??= (async () => {
-      const registry = await wordBank.getLegacyRegistry();
-      if (!registry || wordBank.getContentKind() !== 'content-v2') return;
-      await prepareContentCompatibility(db, registry, wordBank.getContentVersion(), Date.now());
-    })().catch((error) => {
-      contentReady = null;
-      throw error;
-    });
-    return contentReady;
-  };
   const ensureBaselines = (): Promise<void> => {
     baselinesReady ??= (async () => {
       if (!behaviorEvents) return;
@@ -159,10 +141,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
   async function handle(message: ExtensionMessage, _sender: chrome.runtime.MessageSender) {
     await ensureBaselines();
     switch (message.type) {
-      case 'CONTENT_PREPARE': {
-        await ensureContentReady();
-        return undefined;
-      }
       case 'COOLDOWN_GET_STATUS': {
         // 全局暂停期间，有效冷却截止时间取 max(cooldown, pauseUntil)，
         // 使内容控制器的 isReady 判定自然尊重 AC4 暂停控制。
@@ -188,7 +166,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return store.updateCooldown((before) => applySkip(before, Date.now(), config));
       }
       case 'LEARNING_GET_NEXT': {
-        await ensureContentReady();
         const options = message.options
           ? {
               ...message.options,
@@ -198,25 +175,20 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return requireLearningService().getNextItem(options);
       }
       case 'LEARNING_ACCEPT_NEW_WORD': {
-        await ensureContentReady();
         await requireLearningService().acceptNewWord(message.wordId);
         return undefined;
       }
       case 'LEARNING_SELF_REPORT_KNOWN': {
-        await ensureContentReady();
         await requireLearningService().selfReportKnown(message.wordId);
         return undefined;
       }
       case 'LEARNING_SUBMIT_ANSWER': {
-        await ensureContentReady();
         return requireLearningService().submitAnswer(message.submission);
       }
       case 'LEARNING_SUBMIT_SPELLING': {
-        await ensureContentReady();
         return requireLearningService().submitSpellingAnswer(message.submission);
       }
       case 'LEARNING_CORRECT_RATING': {
-        await ensureContentReady();
         return requireLearningService().correctRating(message.reviewLogId, message.correction);
       }
       case 'LEARNING_SAVE_SESSION': {
@@ -351,7 +323,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return undefined;
       }
       case 'GET_POPUP_DATA': {
-        await ensureContentReady();
         const site = await store.getSite(message.hostname);
         const [onboardingCompleted, globalPausedUntil] = await Promise.all([
           store.isOnboardingCompleted(),
@@ -406,23 +377,16 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
           !isSupportedHostname(message.hostname) &&
           typeof chrome.permissions?.remove === 'function'
         ) {
-          const exactReleased = await tryRemoveOrigins([exactHttpsOriginPattern(message.hostname)]);
-          // 即使当前精确权限释放失败，也继续清理 Issue #16 之前申请的宽泛权限。
-          const legacyReleased = await tryRemoveOrigins(
-            legacyBroadOriginPatterns(message.hostname),
-          );
-          released = exactReleased || legacyReleased;
+          released = await tryRemoveOrigins([exactHttpsOriginPattern(message.hostname)]);
         }
         await store.removeSite(message.hostname);
         return { released };
       }
       case 'EXPORT_DATA': {
-        await ensureContentReady();
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         return exportLocalData(store);
       }
       case 'IMPORT_DATA': {
-        await ensureContentReady();
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         const result = await importLocalData(store, message.payload);
         if (!result.ok) return result;
@@ -432,7 +396,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return warning ? { ...result, warnings: [...result.warnings, warning] } : result;
       }
       case 'CLEAR_LEARNING_PROGRESS': {
-        await ensureContentReady();
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         const occurredAt = Date.now();
         const baselines = await Promise.all(
@@ -447,7 +410,6 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return undefined;
       }
       case 'CLEAR_ALL_DATA': {
-        await ensureContentReady();
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');
         const result = await clearAllLocalData(store);
         if (!result.ok) return result;

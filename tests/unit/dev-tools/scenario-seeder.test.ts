@@ -2,8 +2,6 @@ import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import { buildDevScenarioSeed, DevScenarioSeeder } from '@/dev-tools/scenario-seeder';
 import { idbGet, idbGetAll, idbPut, openDatabase, STORES } from '@/storage/database';
-import { CONTENT_COMPAT_ID } from '@/storage/content-compat';
-import { MIGRATIONS } from '@/storage/migrations';
 import type { CardRecord, DeckRecord, WordRecord } from '@/types';
 
 const NOW = new Date(2026, 9, 25, 15, 30, 0, 0).getTime();
@@ -89,10 +87,9 @@ describe('开发场景数据', () => {
     const source = words(20);
     const deckRecord = deck(source);
     const dbName = `dev-scenario-${Date.now()}`;
-    const db = await openDatabase(dbName, MIGRATIONS);
+    const db = await openDatabase(dbName);
     try {
       await idbPut(db, STORES.authoritativeState, { id: 'keep-settings', value: 'keep' });
-      await idbPut(db, STORES.authoritativeState, { id: CONTENT_COMPAT_ID, stale: true });
       const seeder = new DevScenarioSeeder({
         db,
         words: {
@@ -128,7 +125,6 @@ describe('开发场景数据', () => {
         id: 'keep-settings',
         value: 'keep',
       });
-      expect(await idbGet(db, STORES.authoritativeState, CONTENT_COMPAT_ID)).toBeUndefined();
     } finally {
       db.close();
     }

@@ -145,7 +145,6 @@ export interface SchedulerState {
  * 学习卡来源（Issue #6）。
  * - `accepted-new`：用户在候选新词展示中选择“知道了”接受的新词；
  * - `self-reported`：用户选择“我认识，换一个”创建的自报认识词。
- * 旧记录可能缺少该字段，按 `accepted-new` 处理。
  */
 export type CardOrigin = 'accepted-new' | 'self-reported';
 
@@ -222,79 +221,28 @@ export interface WordQuestionPlan {
   } | null;
 }
 
-/** 旧身份去向：保留、纠正、合并或停用。 */
-export type LegacyDisposition = 'keep' | 'correct' | 'merge' | 'deactivate';
-
-/** 身份注册表中的单条旧 ID 结论。 */
-export interface LegacyRegistryEntry {
-  legacyId: string;
-  disposition: LegacyDisposition;
-  /** 有效规范 ID；合并项指向承接身份的旧 ID。 */
-  canonicalId: string;
-  /** 规范词形；纠正大小写时可能与原词形不同。 */
-  canonicalWord: string;
-  reason: string;
-  evidence: string[];
-  /** 原始种子条目的哈希，用于确认身份元数据未被改写。 */
-  seedEntryHash: string;
-  original: {
-    word: string;
-    difficulty: number;
-    frequencyRank: number;
-    decks: Array<{ deckId: string; difficulty: number }>;
-  };
-}
-
-/** 版本化身份注册表。 */
-export interface LegacyRegistry {
-  schemaVersion: 1;
-  registryVersion: string;
-  /** 注册表内容版本哈希；manifest 与兼容记录绑定此值。 */
-  registryHash: string;
-  datasetId: string;
-  seedHash: string;
-  source: {
-    name: string;
-    repository: string;
-    commit: string;
-    license: string;
-    capturedAt: string;
-    note: string;
-  };
-  review: {
-    reviewedAt: string;
-    method: string;
-    evidenceSources: string[];
-  };
-  entries: LegacyRegistryEntry[];
-}
-
 /** 包内文件哈希。 */
 export interface ContentFileHash {
   sha256: string;
   bytes: number;
 }
 
-/** 新内容包 manifest（schema 2）。 */
+/** 当前内置内容包的 manifest。 */
 export interface DictionaryContentManifest {
-  schemaVersion: 2;
+  schemaVersion: 1;
   contentContractVersion: string;
   dictionaryVersion: string;
   generatedAt: string;
   datasetId: string;
-  registryVersion: string;
-  registryHash: string;
   questionTemplateVersion: string;
   files: {
     words: ContentFileHash;
     decks: ContentFileHash;
     questions: ContentFileHash;
-    legacyRegistry: ContentFileHash;
     sourceMetadata: ContentFileHash;
     license: ContentFileHash;
   };
   counts: {
-    legacyWords: number;
     effectiveWords: number;
     decks: number;
     questionPlans: number;
@@ -327,8 +275,8 @@ export interface CardRecord {
   wordId: string;
   deckId: string;
   stage: CardStage;
-  /** 该卡的来源（Issue #6）。旧记录缺省时按 `accepted-new` 处理。 */
-  origin?: CardOrigin;
+  /** 用户创建该学习卡时的选择。 */
+  origin: CardOrigin;
   createdAt: number;
   updatedAt: number;
   /**
@@ -349,8 +297,6 @@ export interface CardRecord {
    * 仅投影最近三条复习日志；undefined 表示该窗口内没有答错。
    */
   lastWrongAt?: number;
-  /** 停用词的已有卡保留历史，但不再引入或调度复习。 */
-  disabled?: boolean;
 }
 
 /** 复习日志：一次完成题目的判定记录。 */
@@ -364,15 +310,12 @@ export interface ReviewLogRecord {
   isCorrect: boolean;
   responseTimeMs: number;
   reviewedAt: number;
-  /** 提交判定前学习卡所处阶段；缺省表示开发期旧记录，阶段未知。 */
-  stageAtSubmission?: CardStage;
-  /** 当前题目为何被呈现；缺省表示开发期旧记录，来源未知。 */
-  source?: LearningItemSource;
-  /**
-   * 自动评分或用户纠正后的最终评分（Issue #7 验收标准 5）。
-   * 旧日志可能缺省；按 `good` 处理。
-   */
-  rating?: ReviewRating;
+  /** 提交判定前学习卡所处阶段。 */
+  stageAtSubmission: CardStage;
+  /** 当前题目为何被呈现。 */
+  source: LearningItemSource;
+  /** 自动评分或用户纠正后的最终评分（Issue #7 验收标准 5）。 */
+  rating: ReviewRating;
   /** 用户纠正类型（Issue #7 验收标准 5）。未纠正时缺省。 */
   userCorrection?: UserCorrection;
   /** 提交前的选项切换次数（Issue #7 自动评分输入）。 */
@@ -422,10 +365,8 @@ export interface SpellingQuestion {
   prompt: string;
   /** 正确答案（英文词形）。 */
   correctAnswer: string;
-  /** 可接受的其他正确形式（如词形变化），可选。 */
-  acceptableAnswers?: string[];
-  /** 固定拼写计划的消歧提示；旧内容缺省。 */
-  hint?: {
+  /** 固定拼写计划提供的消歧提示。 */
+  hint: {
     partOfSpeech: string;
     exampleSentence: string;
     prefix: string;
@@ -460,7 +401,7 @@ export interface AnswerSubmission {
   responseTimeMs: number;
   /** 提交前的选项切换次数（Issue #7 自动评分输入，缺省 0）。 */
   answerChanges?: number;
-  source?: LearningItemSource;
+  source: LearningItemSource;
 }
 
 /** 提交拼写题答案的内容（Issue #8 验收标准 3）。 */
@@ -469,7 +410,7 @@ export interface SpellingSubmission {
   spelledAnswer: string;
   responseTimeMs: number;
   answerChanges?: number;
-  source?: LearningItemSource;
+  source: LearningItemSource;
 }
 
 /** 答案保存后的判定结果，供轻量反馈展示词形和释义。 */
@@ -606,12 +547,12 @@ export interface SessionLogRecord {
   outcome: 'submitted' | 'skipped' | 'exit';
   /** 会话中提交的题目数（含连续模式多题）。 */
   questionsAnswered: number;
-  /** 首个学习项目的来源与类型；缺省表示开发期旧记录。 */
-  source?: Exclude<LearningItemSource, 'continuous'>;
-  initialItemKind?: LearningItem['kind'];
+  /** 首个学习项目的来源。 */
+  source: Exclude<LearningItemSource, 'continuous'>;
+  /** 首题未记录结果；连续学习中首题未答即退出时保持缺省。 */
   initialOutcome?: 'submitted' | 'accepted-new' | 'self-reported' | 'skipped';
   /** 真正在连续学习状态中提交的题目数。 */
-  continuousQuestionsAnswered?: number;
+  continuousQuestionsAnswered: number;
 }
 
 export type BehaviorEventRecord =

@@ -1,7 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
 import { openDatabase, STORES } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import type { CardRecord, ReviewLogRecord } from '@/types';
@@ -23,6 +22,7 @@ function makeCard(overrides: Partial<CardRecord> = {}): CardRecord {
     wordId: 'w-abandon',
     deckId: 'deck-daily',
     stage: 'short-term',
+    origin: 'accepted-new',
     createdAt: 1_000_000,
     updatedAt: 1_000_000,
     ...overrides,
@@ -40,6 +40,9 @@ function makeLog(overrides: Partial<ReviewLogRecord> = {}): ReviewLogRecord {
     isCorrect: false,
     responseTimeMs: 3200,
     reviewedAt: 1_000_000,
+    stageAtSubmission: 'short-term',
+    source: 'natural',
+    rating: 'again',
     ...overrides,
   };
 }
@@ -50,7 +53,7 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('save 写入后 getById 可读', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     const card = makeCard();
     await repo.save(card);
@@ -61,7 +64,7 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('getByWordId 通过索引查找学习卡', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     await repo.save(makeCard({ id: 'card-a', wordId: 'w-abandon' }));
     await repo.save(makeCard({ id: 'card-b', wordId: 'w-benefit' }));
@@ -73,7 +76,7 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('getByWordId 不存在时返回 undefined', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     const found = await repo.getByWordId('nonexistent');
     expect(found).toBeUndefined();
@@ -81,7 +84,7 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('save 覆盖同 id 记录（更新学习卡）', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     await repo.save(makeCard({ stage: 'short-term' }));
     await repo.save(makeCard({ stage: 'long-term', updatedAt: 2_000_000 }));
@@ -93,13 +96,13 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('刷新或重启浏览器后学习卡仍可读取（新实例模拟重启）', async () => {
-    const db1 = await openDatabase(TEST_DB, MIGRATIONS);
+    const db1 = await openDatabase(TEST_DB);
     const repo1 = new CardRepository(db1);
     await repo1.save(makeCard({ id: 'card-persist', wordId: 'w-persist' }));
     db1.close();
 
     // 模拟浏览器重启：丢弃旧实例，用新实例重新打开数据库
-    const db2 = await openDatabase(TEST_DB, MIGRATIONS);
+    const db2 = await openDatabase(TEST_DB);
     const repo2 = new CardRepository(db2);
     const restored = await repo2.getById('card-persist');
     expect(restored).toBeDefined();
@@ -108,7 +111,7 @@ describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', (
   });
 
   it('getAll 返回所有学习卡', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     await repo.save(makeCard({ id: 'c1', wordId: 'w1' }));
     await repo.save(makeCard({ id: 'c2', wordId: 'w2' }));
@@ -126,7 +129,7 @@ describe('ReviewLogRepository — 复习日志持久化（Issue #5 验收标准 
   });
 
   it('save 写入后可按 id 读取', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new ReviewLogRepository(db);
     const log = makeLog();
     await repo.save(log);
@@ -137,7 +140,7 @@ describe('ReviewLogRepository — 复习日志持久化（Issue #5 验收标准 
   });
 
   it('getByCardId 通过索引查找该学习卡的所有复习日志', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new ReviewLogRepository(db);
     await repo.save(makeLog({ id: 'log-1', cardId: 'card-1' }));
     await repo.save(makeLog({ id: 'log-2', cardId: 'card-1', reviewedAt: 2_000_000 }));
@@ -150,13 +153,13 @@ describe('ReviewLogRepository — 复习日志持久化（Issue #5 验收标准 
   });
 
   it('刷新或重启浏览器后复习日志仍可读取（新实例模拟重启）', async () => {
-    const db1 = await openDatabase(TEST_DB, MIGRATIONS);
+    const db1 = await openDatabase(TEST_DB);
     const repo1 = new ReviewLogRepository(db1);
     await repo1.save(makeLog({ id: 'log-persist', cardId: 'card-persist' }));
     db1.close();
 
     // 模拟浏览器重启
-    const db2 = await openDatabase(TEST_DB, MIGRATIONS);
+    const db2 = await openDatabase(TEST_DB);
     const repo2 = new ReviewLogRepository(db2);
     const restored = await repo2.getByCardId('card-persist');
     expect(restored).toHaveLength(1);
@@ -165,7 +168,7 @@ describe('ReviewLogRepository — 复习日志持久化（Issue #5 验收标准 
   });
 
   it('getAll 返回所有复习日志', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new ReviewLogRepository(db);
     await repo.save(makeLog({ id: 'l1', cardId: 'c1' }));
     await repo.save(makeLog({ id: 'l2', cardId: 'c2' }));
@@ -176,9 +179,9 @@ describe('ReviewLogRepository — 复习日志持久化（Issue #5 验收标准 
   });
 });
 
-describe('STORES — 仓库与迁移一致性', () => {
-  it('迁移创建的仓库名称与 STORES 常量一致', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+describe('STORES — 仓库定义', () => {
+  it('初始化的仓库名称与 STORES 常量一致', async () => {
+    const db = await openDatabase(TEST_DB);
     expect(db.objectStoreNames.contains(STORES.cards)).toBe(true);
     expect(db.objectStoreNames.contains(STORES.reviewLogs)).toBe(true);
     expect(db.objectStoreNames.contains(STORES.words)).toBe(true);
@@ -196,7 +199,7 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
   });
 
   it('AC1：唯一索引拒绝同 wordId 不同 id 的重复学习卡', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const repo = new CardRepository(db);
     await repo.save(makeCard({ id: 'card-a', wordId: 'w-dup' }));
 
@@ -214,7 +217,7 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
   });
 
   it('AC3：saveCardAndLog 在单一事务内原子写入学习卡与复习日志', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
     const card = makeCard({ id: 'card-1', wordId: 'w-1' });
@@ -229,7 +232,7 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
   });
 
   it('AC3：saveCardAndLog 失败时学习卡与复习日志都不写入（事务回滚）', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
     // 先存一张卡占据该 wordId
@@ -254,7 +257,7 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
   });
 
   it('AC3：saveCardAndLog 事务回滚不残留部分写入到复习日志', async () => {
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
 

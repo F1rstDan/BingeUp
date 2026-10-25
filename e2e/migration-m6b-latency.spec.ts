@@ -6,7 +6,7 @@ import { installOverlayTiming, readOverlayTiming, waitForOverlayCard } from './o
 
 /**
  * M6b 遮罩进入延迟复测（工单 #47）——复用 M0 采样方法（e2e/overlay-timing.ts），
- * 在最终构建上采集自然触发样本，供 docs/.archive/ui-migration-evidence.md 的 M6b 小节对比。
+ * 采集自然触发延迟样本。
  *
  * 默认跳过；显式采集：
  *

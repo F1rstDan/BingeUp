@@ -19,7 +19,7 @@ import { OVERLAY_VIEWPORT_FALLBACK_MAX_HEIGHT } from '../src/ui/overlay/layout';
  * - 16:9、9:16 与标准窗下卡片保持在播放器矩形内；较矮视频回退到视口居中；
  * - 卡片不显示滚动条，内容未溢出时滚轮可继续滚动宿主页；
  * - Escape 退出后遮罩清理干净。真实站点（B 站/YouTube）的 CSP、全屏与真实媒体
- *   恢复由人工验收矩阵覆盖（见 docs/.archive/ui-migration-evidence.md 的 M5 小节）。
+ *   恢复由 docs/beta-acceptance-matrix.md 中的人工验收覆盖。
  *
  * 截图证据为可选采集（默认只跑断言，不落盘）：
  *

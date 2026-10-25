@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
@@ -59,7 +58,7 @@ describe('message-router — Issue #9 新增消息', () => {
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
     store = new LocalSettingsStore(db);
     router = createMessageRouter(store, db);
   });
@@ -91,44 +90,7 @@ describe('message-router — Issue #9 新增消息', () => {
   });
 
   it('Issue #22：两个网站通过 background 共享同一扩展源学习卡', async () => {
-    const words = [
-      {
-        id: 'w-shared-a',
-        word: 'alpha',
-        lemma: 'alpha',
-        partOfSpeech: ['n.'],
-        coreMeaningZh: ['阿尔法'],
-        difficulty: 2,
-        frequencyRank: 1,
-        source: 'test',
-        license: 'test',
-      },
-      {
-        id: 'w-shared-b',
-        word: 'beta',
-        lemma: 'beta',
-        partOfSpeech: ['n.'],
-        coreMeaningZh: ['贝塔'],
-        difficulty: 2,
-        frequencyRank: 1,
-        source: 'test',
-        license: 'test',
-      },
-    ];
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
-      const url = String(input);
-      const data = url.endsWith('/words.json')
-        ? words
-        : [
-            {
-              id: DEFAULT_SETTINGS.selectedDeckId,
-              name: '测试词库',
-              description: '测试',
-              wordIds: words.map((word) => word.id),
-            },
-          ];
-      return new Response(JSON.stringify(data), { status: 200 });
-    });
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockImplementation(dictionaryFetch);
     try {
       const first = (await router.handle({ type: 'LEARNING_GET_NEXT' }, {
         url: 'https://site-a.example/',
@@ -362,7 +324,7 @@ describe('message-router — Issue #21 默认启用与引导一致性', () => {
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
     store = new LocalSettingsStore(db);
     router = createMessageRouter(store, db);
   });
@@ -507,7 +469,7 @@ describe('message-router — Issue #10 新增消息', () => {
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
     store = new LocalSettingsStore(db);
     router = createMessageRouter(store, db);
   });
@@ -527,6 +489,7 @@ describe('message-router — Issue #10 新增消息', () => {
       wordId: 'word-long',
       deckId: 'deck-1',
       stage: 'long-term',
+      origin: 'accepted-new',
       createdAt: now - 86_400_000,
       updatedAt: now,
       nextReviewAt: now - 1,
@@ -542,6 +505,8 @@ describe('message-router — Issue #10 新增消息', () => {
       source: 'natural',
       responseTimeMs: 500,
       reviewedAt: now,
+      stageAtSubmission: 'long-term',
+      rating: 'good',
     } satisfies ReviewLogRecord);
 
     const res = (await router.handle(
@@ -561,8 +526,8 @@ describe('message-router — Issue #10 新增消息', () => {
         newWords: 0,
         continuousSessions: 0,
         continuousQuestions: 0,
-        longTermCompleted: 0,
-        longTermAccuracy: 0,
+        longTermCompleted: 1,
+        longTermAccuracy: 1,
       },
       dueReviewCount: 1,
     });
@@ -701,7 +666,7 @@ describe('message-router — Issue #10 新增消息', () => {
     expect(permissionsRemove).not.toHaveBeenCalled();
   });
 
-  it('REMOVE_SITE：自定义站点尝试释放当前与旧版可选权限（AC5）', async () => {
+  it('REMOVE_SITE：自定义站点尝试释放精确 HTTPS 权限（AC5）', async () => {
     // 直接写入一个自定义站点（绕过 enableSite 的受支持检查）
     await store.setSite('example.com', {
       enabled: true,
@@ -725,33 +690,9 @@ describe('message-router — Issue #10 新增消息', () => {
     expect(permissionsRemove).toHaveBeenNthCalledWith(1, {
       origins: ['https://example.com/*'],
     });
-    expect(permissionsRemove).toHaveBeenNthCalledWith(2, {
-      origins: ['*://example.com/*', '*://*.example.com/*'],
-    });
+    expect(permissionsRemove).toHaveBeenCalledTimes(1);
     expect(chrome.scripting.unregisterContentScripts).toHaveBeenCalledWith({
       ids: ['bingeup_custom_ZXhhbXBsZS5jb20'],
-    });
-  });
-
-  it('REMOVE_SITE：仅存在旧版宽泛权限时仍报告已释放', async () => {
-    permissionsRemove.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-    await store.setSite('example.com', {
-      enabled: true,
-      mode: 'basic-web',
-      firstQuestionPending: false,
-    });
-
-    const res = (await router.handle(
-      { type: 'REMOVE_SITE', hostname: 'example.com' },
-      {} as chrome.runtime.MessageSender,
-    )) as { released: boolean };
-
-    expect(res.released).toBe(true);
-    expect(permissionsRemove).toHaveBeenNthCalledWith(1, {
-      origins: ['https://example.com/*'],
-    });
-    expect(permissionsRemove).toHaveBeenNthCalledWith(2, {
-      origins: ['*://example.com/*', '*://*.example.com/*'],
     });
   });
 
@@ -765,6 +706,7 @@ describe('message-router — Issue #10 新增消息', () => {
       wordId: 'w-1',
       deckId: 'd-1',
       stage: 'short-term',
+      origin: 'accepted-new',
       createdAt: 1000,
       updatedAt: 1000,
     } satisfies CardRecord);
@@ -778,6 +720,9 @@ describe('message-router — Issue #10 新增消息', () => {
       isCorrect: false,
       responseTimeMs: 500,
       reviewedAt: 2000,
+      stageAtSubmission: 'short-term',
+      source: 'natural',
+      rating: 'again',
     } satisfies ReviewLogRecord);
 
     const res = (await router.handle(
@@ -785,7 +730,7 @@ describe('message-router — Issue #10 新增消息', () => {
       {} as chrome.runtime.MessageSender,
     )) as ExportPayload;
 
-    expect(res.version).toBe(2);
+    expect(res.version).toBe(1);
     expect(res.authoritativeState.appSettings.dailyNewWordLimit).toBe(15);
     expect(res.data.cards).toHaveLength(1);
     expect(res.data.reviewLogs).toHaveLength(1);
@@ -812,6 +757,7 @@ describe('message-router — Issue #10 新增消息', () => {
             wordId: 'w-abandon',
             deckId: 'deck-daily-high-frequency',
             stage: 'new',
+            origin: 'accepted-new',
             createdAt: 1,
             updatedAt: 1,
           } satisfies CardRecord,
@@ -875,7 +821,7 @@ describe('message-router — Issue #10 新增消息', () => {
       ).toEqual({ ok: true, errors: [], warnings: [] });
 
       db.close();
-      db = await openDatabase(TEST_DB, MIGRATIONS);
+      db = await openDatabase(TEST_DB);
       store = new LocalSettingsStore(db);
       router = createMessageRouter(store, db);
       expect(await new CardRepository(db).getAll()).toEqual(
@@ -919,6 +865,7 @@ describe('message-router — Issue #10 新增消息', () => {
       wordId: 'w1',
       deckId: 'd1',
       stage: 'new',
+      origin: 'accepted-new',
       createdAt: 1,
       updatedAt: 1,
     });
@@ -969,6 +916,7 @@ describe('message-router — Issue #10 新增消息', () => {
       wordId: 'w1',
       deckId: 'd1',
       stage: 'new',
+      origin: 'accepted-new',
       createdAt: 1,
       updatedAt: 1,
     });
@@ -1037,7 +985,7 @@ describe('message-router — Issue #10 新增消息', () => {
 describe('message-router — Issue #13 数据库不可用', () => {
   it('数据操作明确失败，不把不可用数据库伪装成成功', async () => {
     installChromeStorageMock();
-    const db = await openDatabase(TEST_DB, MIGRATIONS);
+    const db = await openDatabase(TEST_DB);
     const store = new LocalSettingsStore(db);
     const router = createMessageRouter(store, null);
 
@@ -1064,7 +1012,7 @@ describe('message-router — Issue #11 新增消息', () => {
     cleanup = () => {
       delete (globalThis as { chrome?: unknown }).chrome;
     };
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
     store = new LocalSettingsStore(db);
     router = createMessageRouter(store, db);
   });

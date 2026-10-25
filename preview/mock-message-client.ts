@@ -133,9 +133,6 @@ function setSiteEnabledState(hostname: string, enabled: boolean): SiteStateRespo
 }
 
 export const messageClient = {
-  async prepareContent(): Promise<void> {
-    return undefined;
-  },
   async getCooldownStatus(): Promise<CooldownStatusResponse> {
     return { nextAllowedAt: Date.now() + 2 * 60 * 1000, consecutiveSkipCount: 0 };
   },
@@ -171,12 +168,7 @@ export const messageClient = {
   },
   async submitLearningSpelling(submission: SpellingSubmission): Promise<SubmissionResult> {
     const normalized = submission.spelledAnswer.trim().toLowerCase();
-    const acceptable = (submission.question.acceptableAnswers ?? []).map((answer) =>
-      answer.trim().toLowerCase(),
-    );
-    const isCorrect =
-      normalized === submission.question.correctAnswer.trim().toLowerCase() ||
-      acceptable.includes(normalized);
+    const isCorrect = normalized === submission.question.correctAnswer.trim().toLowerCase();
     return makeDemoSubmissionResult(submission.question, isCorrect);
   },
   async correctLearningRating(

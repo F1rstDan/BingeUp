@@ -69,6 +69,12 @@ const SPELLING_QUESTION: SpellingQuestion = {
   wordId: 'w-spell',
   prompt: '吸收',
   correctAnswer: 'absorb',
+  hint: {
+    partOfSpeech: 'v.',
+    exampleSentence: 'Plants ____ sunlight.',
+    prefix: 'a',
+    letterCount: 6,
+  },
   explanation: {
     word: 'absorb',
     phonetic: '/əbˈzɔːrb/',

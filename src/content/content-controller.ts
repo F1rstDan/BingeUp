@@ -150,7 +150,6 @@ interface ActiveInteraction {
   continuousQuestionsAnswered: number;
   currentSource: 'natural' | 'manual' | 'continuous';
   source: 'natural' | 'manual';
-  initialItemKind: LearningItem['kind'];
   initialOutcome?: SessionLogRecord['initialOutcome'];
   /** 是否由 Popup 主动学习入口启动，可在新词额度用完后使用主动巩固题。 */
   allowEarlyShortTermReview: boolean;
@@ -304,7 +303,6 @@ export class ContentController {
         continuousQuestionsAnswered: 0,
         currentSource: 'manual',
         source: 'manual',
-        initialItemKind: item.kind,
         allowEarlyShortTermReview: true,
         effects: 'standard',
       };
@@ -398,7 +396,6 @@ export class ContentController {
       continuousQuestionsAnswered: 0,
       currentSource: 'natural',
       source: 'natural',
-      initialItemKind: item.kind,
       allowEarlyShortTermReview: false,
       effects: 'standard',
     };
@@ -438,7 +435,6 @@ export class ContentController {
         continuousQuestionsAnswered: 0,
         currentSource: 'manual',
         source: 'manual',
-        initialItemKind: prepared.item.kind,
         allowEarlyShortTermReview: false,
         effects: 'dev',
       };
@@ -678,7 +674,6 @@ export class ContentController {
             questionsAnswered: active.questionsAnswered,
             continuousQuestionsAnswered: active.continuousQuestionsAnswered,
             source: active.source,
-            initialItemKind: active.initialItemKind,
             initialOutcome: active.initialOutcome,
           });
         } catch (error) {

@@ -1,16 +1,6 @@
 import type { WordBankPort } from '@/learning/learning-service';
-import type {
-  DeckRecord,
-  DictionaryContentManifest,
-  LegacyRegistry,
-  WordQuestionPlan,
-  WordRecord,
-} from '@/types';
-import {
-  BUILT_IN_CONTENT_LICENSE,
-  BUILT_IN_CONTENT_SOURCE,
-  validateContentPackage,
-} from '@/dictionary/content-contract';
+import type { DeckRecord, DictionaryContentManifest, WordQuestionPlan, WordRecord } from '@/types';
+import { validateContentPackage } from '@/dictionary/content-contract';
 import { sha256Hex } from '@/learning/content-hash';
 
 /**
@@ -25,11 +15,7 @@ export class BuiltInWordBank implements WordBankPort {
   private words: Map<string, WordRecord> = new Map();
   private decks: Map<string, DeckRecord> = new Map();
   private questionPlans: Map<string, WordQuestionPlan> = new Map();
-  private registry: LegacyRegistry | null = null;
-  private aliasToCanonical: Map<string, string> = new Map();
   private defaultDeckId: string | null = null;
-  private contentVersion = 'legacy-v1';
-  private contentKind: 'legacy-v1' | 'content-v2' = 'legacy-v1';
   private loaded = false;
   private loadingPromise: Promise<void> | null = null;
 
@@ -50,46 +36,29 @@ export class BuiltInWordBank implements WordBankPort {
 
   private async loadData(): Promise<void> {
     const baseUrl = chrome.runtime.getURL('dictionaries');
-    let manifest: (DictionaryContentManifest & { schemaVersion: number }) | null = null;
+    let manifest: DictionaryContentManifest & { schemaVersion: number };
     try {
       manifest = await fetchJson<DictionaryContentManifest & { schemaVersion: number }>(
         `${baseUrl}/manifest.json`,
       );
-    } catch {
-      // 旧包允许没有 manifest；新内容包缺失 manifest 时必须拒绝，不能静默降级。
-      manifest = null;
+    } catch (error) {
+      throw new Error('词库 manifest 缺失或无法读取', { cause: error });
     }
-    if (manifest?.schemaVersion === 2) {
-      await this.loadContentV2(baseUrl, manifest as DictionaryContentManifest);
-      return;
+    if (manifest.schemaVersion !== 1) {
+      throw new Error(`词库 manifest schemaVersion 必须为 1：${manifest.schemaVersion}`);
     }
-
-    const [wordsData, decksData] = await Promise.all([
-      fetchJson<WordRecord[]>(`${baseUrl}/words.json`),
-      fetchJson<DeckRecord[]>(`${baseUrl}/decks.json`),
-    ]);
-    if (
-      wordsData.some(
-        (word) =>
-          word.source === BUILT_IN_CONTENT_SOURCE ||
-          word.license === BUILT_IN_CONTENT_LICENSE ||
-          word.secondaryMeanings !== undefined,
-      )
-    ) {
-      throw new Error('新词库内容包缺少 manifest，拒绝加载以避免资源混版');
-    }
-    this.loadMaps(wordsData, decksData);
-    this.contentVersion = 'legacy-v1';
-    this.contentKind = 'legacy-v1';
+    await this.loadCurrentPackage(baseUrl, manifest as DictionaryContentManifest);
   }
 
-  /** 新整包：先校验 manifest 与全部依赖哈希，再允许任何学习内容进入内存。 */
-  private async loadContentV2(baseUrl: string, manifest: DictionaryContentManifest): Promise<void> {
+  /** 当前整包：先校验 manifest 与全部依赖哈希，再允许任何学习内容进入内存。 */
+  private async loadCurrentPackage(
+    baseUrl: string,
+    manifest: DictionaryContentManifest,
+  ): Promise<void> {
     const fileTexts = {
       words: await fetchText(`${baseUrl}/words.json`),
       decks: await fetchText(`${baseUrl}/decks.json`),
       questions: await fetchText(`${baseUrl}/questions.json`),
-      legacyRegistry: await fetchText(`${baseUrl}/legacy-registry.json`),
       sourceMetadata: await fetchText(`${baseUrl}/source-metadata.json`),
       license: await fetchText(`${baseUrl}/LICENSE.txt`),
     };
@@ -101,14 +70,12 @@ export class BuiltInWordBank implements WordBankPort {
     const wordsData = JSON.parse(fileTexts.words) as WordRecord[];
     const decksData = JSON.parse(fileTexts.decks) as DeckRecord[];
     const questionsData = JSON.parse(fileTexts.questions) as WordQuestionPlan[];
-    const registryData = JSON.parse(fileTexts.legacyRegistry) as LegacyRegistry;
 
     const validation = await validateContentPackage({
       manifest,
       words: wordsData,
       decks: decksData,
       questions: questionsData,
-      registry: registryData,
       fileHashes,
       verifyQuestionHashes: false,
     });
@@ -116,56 +83,23 @@ export class BuiltInWordBank implements WordBankPort {
       throw new Error(`词库内容包校验失败：${validation.errors.slice(0, 5).join('；')}`);
     }
 
-    this.words.clear();
-    this.decks.clear();
-    this.questionPlans.clear();
-    this.aliasToCanonical.clear();
     this.loadMaps(wordsData, decksData);
     for (const plan of questionsData) this.questionPlans.set(plan.wordId, plan);
-    this.registry = registryData;
-    for (const entry of registryData.entries) {
-      this.aliasToCanonical.set(entry.legacyId, entry.canonicalId);
-      this.aliasToCanonical.set(entry.canonicalId, entry.canonicalId);
-    }
-    this.contentKind = 'content-v2';
-    this.contentVersion = manifest.dictionaryVersion;
   }
 
   private loadMaps(wordsData: WordRecord[], decksData: DeckRecord[]): void {
     this.words.clear();
     this.decks.clear();
     this.questionPlans.clear();
-    this.aliasToCanonical.clear();
-    this.registry = null;
     for (const w of wordsData) this.words.set(w.id, w);
     for (const d of decksData) this.decks.set(d.id, d);
     this.defaultDeckId = decksData[0]?.id ?? null;
   }
 
-  /** 把旧 ID 解析为有效规范 ID；未知 ID 原样返回。 */
-  resolveWordId(wordId: string): string {
-    return this.aliasToCanonical.get(wordId) ?? wordId;
-  }
-
-  /** 内容包类型；旧包没有固定题组。 */
-  getContentVersion(): string {
-    return this.contentVersion;
-  }
-
-  getContentKind(): 'legacy-v1' | 'content-v2' {
-    return this.contentKind;
-  }
-
-  /** 读取版本化身份注册表；旧包返回 null。 */
-  async getLegacyRegistry(): Promise<LegacyRegistry | null> {
-    await this.ensureLoaded();
-    return this.registry;
-  }
-
-  /** 读取固定题组；旧包或未配置时返回 null。 */
+  /** 读取当前词条的固定题组。 */
   async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
     await this.ensureLoaded();
-    return this.questionPlans.get(this.resolveWordId(wordId)) ?? null;
+    return this.questionPlans.get(wordId) ?? null;
   }
 
   async getDefaultDeck(): Promise<DeckRecord> {
@@ -186,14 +120,14 @@ export class BuiltInWordBank implements WordBankPort {
 
   async getWord(wordId: string): Promise<WordRecord | null> {
     await this.ensureLoaded();
-    return this.words.get(this.resolveWordId(wordId)) ?? null;
+    return this.words.get(wordId) ?? null;
   }
 
   async getWordsByIds(wordIds: string[]): Promise<WordRecord[]> {
     await this.ensureLoaded();
     const result: WordRecord[] = [];
     for (const id of wordIds) {
-      const word = this.words.get(this.resolveWordId(id));
+      const word = this.words.get(id);
       if (word) result.push(word);
     }
     return result;

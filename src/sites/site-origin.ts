@@ -2,8 +2,3 @@
 export function exactHttpsOriginPattern(hostname: string): string {
   return `https://${hostname}/*`;
 }
-
-/** Issue #16 之前自定义站点曾申请的宽泛权限，仅用于删除时迁移清理。 */
-export function legacyBroadOriginPatterns(hostname: string): string[] {
-  return [`*://${hostname}/*`, `*://*.${hostname}/*`];
-}

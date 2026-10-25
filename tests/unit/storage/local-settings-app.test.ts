@@ -2,7 +2,6 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase } from '@/storage/database';
-import { MIGRATIONS } from '@/storage/migrations';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 
 const TEST_DB = 'test-authoritative-app-settings';
@@ -18,7 +17,7 @@ describe('LocalSettingsStore — 长期学习设置', () => {
         },
       },
     };
-    db = await openDatabase(TEST_DB, MIGRATIONS);
+    db = await openDatabase(TEST_DB);
   });
   afterEach(async () => {
     db.close();

@@ -754,7 +754,7 @@ describe('OptionsApp — Issue #10', () => {
   it('导入数据先校验再写入：非法 payload 显示错误不调用 reload（AC4）', async () => {
     const importResult: ImportResult = {
       ok: false,
-      errors: ['不支持的备份版本：999'],
+      errors: ['备份格式无效'],
       warnings: [],
     };
     mocks.importData.mockResolvedValue(importResult);

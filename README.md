@@ -78,11 +78,7 @@ npm run build
 4. 选择构建产物目录 `.output/chrome-mv3`；Edge 构建请先运行 `npm run build:edge`，再选择 `.output/edge-mv3`。
 5. 打开 Bilibili 或 YouTube，完成首次引导后进入一个视频。
 
-### 升级到新版本
-
-1. 拉取最新代码并重新构建：`git pull && npm install && npm run build`（Edge 另需 `npm run build:edge`）。
-2. 回到扩展管理页，在「刷刷升级」卡片上点击「重新加载」（环形箭头图标）。
-3. 学习进度、设置与复习记录保存在浏览器本地 IndexedDB，升级不会清除；如遇不兼容变更，请先按下方「数据备份」导出。
+修改代码并重新构建后，在扩展管理页点击「重新加载」。
 
 ### 卸载
 
@@ -145,7 +141,7 @@ npm run dev:preview   # 启动后打开 http://localhost:5174
 
 预览站只复用一个明确的仿真缝——`preview/mock-message-client.ts` 替换 `@/messaging/message-client`，其余组件、样式与类型全部来自 `src/`；浏览器 API 由 `preview/chrome-shim.ts` 提供。页面只存在于开发环境，不会进入扩展产物（`npm run build` 仍以 `src/` 为唯一来源）。
 
-预览站适合配合 Codex 的内置浏览器使用：打开页面后按区块圈选批注或截图说明问题，回到对话里反馈即可。更多背景见 [归档的 UI 迁移证据](./docs/.archive/ui-migration-evidence.md) 的「本地 UI 预览站」一节。
+预览站适合配合 Codex 的内置浏览器使用：打开页面后按区块圈选批注或截图说明问题，回到对话里反馈即可。
 
 项目基于 [WXT](https://wxt.dev/)、React 18、TypeScript、IndexedDB、[ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs) 与 Manifest V3。领域术语见 [CONTEXT.md](./CONTEXT.md)，架构决策见 [docs/adr](./docs/adr)。
 

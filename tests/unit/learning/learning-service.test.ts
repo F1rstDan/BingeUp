@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LearningService, type WordBankPort } from '@/learning/learning-service';
+import { ContentUnavailableError } from '@/learning/planned-questions';
 import type { CardRepositoryPort } from '@/storage/repositories/card-repository';
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
@@ -13,6 +14,7 @@ import type {
   ReviewRating,
   SchedulerState,
   SpellingQuestion,
+  WordQuestionPlan,
   WordRecord,
 } from '@/types';
 
@@ -105,15 +107,17 @@ class FakeReviewLogRepository implements ReviewLogRepositoryPort {
 }
 
 function makeWord(id: string, meaning: string): WordRecord {
+  const form = id.replace('w-', '');
   return {
     id,
-    word: id.replace('w-', ''),
-    lemma: id.replace('w-', ''),
+    word: form,
+    lemma: form,
     phonetic: '/test/',
     partOfSpeech: ['v.'],
     coreMeaningZh: [meaning],
-    exampleSentence: 'Example sentence.',
+    exampleSentence: `${form} example.`,
     exampleTranslation: '示例翻译。',
+    surfaceFormInExample: form,
     difficulty: 2,
     frequencyRank: 1,
     source: 'builtin-sample',
@@ -138,6 +142,31 @@ const DECK: DeckRecord = {
   wordIds: WORDS.map((w) => w.id),
 };
 
+function makePlan(target: WordRecord): WordQuestionPlan {
+  const ids = WORDS.filter((word) => word.id !== target.id)
+    .slice(0, 3)
+    .map((word) => word.id) as [string, string, string];
+  return {
+    wordId: target.id,
+    enToZh: { distractors: ids, checkedContentHash: 'test-en-to-zh' },
+    zhToEn: { distractors: ids, checkedContentHash: 'test-zh-to-en' },
+    contextChoice: {
+      distractors: ids.map((wordId) => ({
+        wordId,
+        surfaceForm: wordId.replace('w-', ''),
+      })) as [
+        { wordId: string; surfaceForm: string },
+        { wordId: string; surfaceForm: string },
+        { wordId: string; surfaceForm: string },
+      ],
+      checkedContentHash: 'test-context-choice',
+    },
+    spelling: { prefixLength: 2, checkedContentHash: 'test-spelling' },
+  };
+}
+
+const PLANS = new Map(WORDS.map((word) => [word.id, makePlan(word)]));
+
 class FakeWordBank implements WordBankPort {
   async getDefaultDeck(): Promise<DeckRecord> {
     return DECK;
@@ -154,6 +183,9 @@ class FakeWordBank implements WordBankPort {
   async listWords(): Promise<WordRecord[]> {
     return [...WORDS];
   }
+  async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
+    return PLANS.get(wordId) ?? null;
+  }
   async sampleDeckWords(params: {
     deckId: string;
     count: number;
@@ -169,11 +201,15 @@ class FakeWordBank implements WordBankPort {
   }
 }
 
-/** 与当前 ECDICT 产出一致：词形、释义存在，但没有例句。 */
+/** 用于验证词条没有例句时的出题行为。 */
 class WordBankWithoutExamples extends FakeWordBank {
   override async getWord(wordId: string): Promise<WordRecord | null> {
     const word = await super.getWord(wordId);
     return word ? { ...word, exampleSentence: undefined, exampleTranslation: undefined } : null;
+  }
+  override async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
+    const plan = await super.getQuestionPlan(wordId);
+    return plan ? { ...plan, contextChoice: null } : null;
   }
 }
 
@@ -302,7 +338,7 @@ describe('LearningService — 候选新词展示（Issue #6 验收标准 1）', 
     const word = presentationOf(item).word;
     expect(word.word).toBe('abandon');
     expect(word.coreMeaningZh).toEqual(['放弃；遗弃']);
-    expect(word.exampleSentence).toBe('Example sentence.');
+    expect(word.exampleSentence).toBe('abandon example.');
   });
 });
 
@@ -382,6 +418,7 @@ describe('LearningService — acceptNewWord（Issue #6 验收标准 1、4）', (
         question: questionOf(item),
         selectedIndex: questionOf(item).correctIndex,
         responseTimeMs: 1000,
+        source: 'natural',
       });
     }
 
@@ -681,6 +718,7 @@ describe('LearningService — submitAnswer 反馈（Issue #6 验收标准 5）',
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 2000,
+      source: 'natural',
     });
 
     expect(result.isCorrect).toBe(true);
@@ -697,6 +735,7 @@ describe('LearningService — submitAnswer 反馈（Issue #6 验收标准 5）',
       question,
       selectedIndex: wrongIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     expect(result.isCorrect).toBe(false);
@@ -712,6 +751,7 @@ describe('LearningService — submitAnswer 反馈（Issue #6 验收标准 5）',
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 1500,
+      source: 'natural',
     });
 
     const all = await env.logs.getAll();
@@ -743,6 +783,7 @@ describe('LearningService — 验证题流转（Issue #6 验收标准 3）', () 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 1000,
+      source: 'natural',
     });
 
     const card = await env.cards.getByWordId(wordId);
@@ -757,6 +798,7 @@ describe('LearningService — 验证题流转（Issue #6 验收标准 3）', () 
       question,
       selectedIndex: wrongIndex,
       responseTimeMs: 1000,
+      source: 'natural',
     });
 
     const card = await env.cards.getByWordId(wordId);
@@ -798,6 +840,7 @@ describe('LearningService — 端到端持久化', () => {
       question: questionOf(q),
       selectedIndex: questionOf(q).correctIndex,
       responseTimeMs: 2000,
+      source: 'natural',
     });
 
     const { service: service2 } = makeService({ cards, logs });
@@ -1034,6 +1077,7 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
       question: questionOf(item),
       selectedIndex: questionOf(item).correctIndex,
       responseTimeMs: 1000,
+      source: 'natural',
     });
 
     const card = await cards.getById('card-w-abandon');
@@ -1056,6 +1100,9 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
       isCorrect: false,
       responseTimeMs: 1_000,
       reviewedAt: now - 100,
+      stageAtSubmission: 'long-term',
+      source: 'natural',
+      rating: 'again',
     });
 
     const { service } = makeService({ cards, logs, scheduler, now });
@@ -1064,6 +1111,7 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
       question: questionOf(item),
       selectedIndex: questionOf(item).correctIndex,
       responseTimeMs: 1_000,
+      source: 'natural',
     });
 
     const card = await cards.getById('card-w-abandon');
@@ -1084,6 +1132,7 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
       question: questionOf(item),
       selectedIndex: wrongIndex,
       responseTimeMs: 1000,
+      source: 'natural',
     });
 
     const card = await cards.getById('card-w-abandon');
@@ -1110,6 +1159,7 @@ describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     const card = await env.cards.getById(question.cardId);
@@ -1130,6 +1180,7 @@ describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）
       question,
       selectedIndex: wrongIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     const card = await env.cards.getById(question.cardId);
@@ -1179,6 +1230,7 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
       question: questionOf(item),
       selectedIndex: questionOf(item).correctIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     // 调度器被调用
@@ -1227,6 +1279,7 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
       question: questionOf(item),
       selectedIndex: wrongIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     const updated = await cards.getById('card-lt');
@@ -1268,6 +1321,7 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
       question: questionOf(item),
       selectedIndex: questionOf(item).correctIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     // 模拟重启：新实例共享同一仓库
@@ -1303,6 +1357,7 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
       question: questionOf(q),
       selectedIndex: questionOf(q).correctIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
 
     expect(scheduler.initCalls).toHaveLength(1);
@@ -1331,6 +1386,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question,
       selectedIndex: wrongIndex,
       responseTimeMs: 3000,
+      source: 'natural',
     });
     expect(result.rating).toBe('again');
   });
@@ -1341,6 +1397,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 15_000,
+      source: 'natural',
     });
     expect(result.rating).toBe('hard');
   });
@@ -1352,6 +1409,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       selectedIndex: question.correctIndex,
       responseTimeMs: 3000,
       answerChanges: 2,
+      source: 'natural',
     });
     expect(result.rating).toBe('hard');
   });
@@ -1362,6 +1420,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
     expect(result.rating).toBe('good');
   });
@@ -1373,6 +1432,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
 
     // 长期复习词到期后再次答对：快速 + 有历史 → easy
@@ -1383,6 +1443,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question: questionOf(q2),
       selectedIndex: questionOf(q2).correctIndex,
       responseTimeMs: 1500,
+      source: 'natural',
     });
     expect(result.rating).toBe('easy');
   });
@@ -1394,6 +1455,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       selectedIndex: question.correctIndex,
       responseTimeMs: 5000,
       answerChanges: 1,
+      source: 'natural',
     });
 
     const allLogs = await env.logs.getAll();
@@ -1416,6 +1478,9 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
         isCorrect: index !== 0,
         responseTimeMs: 3_000,
         reviewedAt: index + 1,
+        stageAtSubmission: 'short-term',
+        source: 'natural',
+        rating: index === 0 ? 'again' : 'good',
       });
     }
 
@@ -1423,6 +1488,7 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 5_000,
+      source: 'natural',
     });
 
     expect(result.rating).toBe('good');
@@ -1443,6 +1509,7 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
       question: questionOf(q),
       selectedIndex: questionOf(q).correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
     return { env, result };
   }
@@ -1509,6 +1576,7 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
       question: questionOf(q),
       selectedIndex: questionOf(q).correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
 
     await env.service.correctRating(result.reviewLogId, 'too-easy');
@@ -1543,6 +1611,7 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
       question: questionOf(q1),
       selectedIndex: questionOf(q1).correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
     const cardAfterInit = await cards.getByWordId(presentationOf(item).word.id);
     expect(cardAfterInit!.schedulerState!.reps).toBe(1);
@@ -1554,6 +1623,7 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
       question: questionOf(q2),
       selectedIndex: questionOf(q2).correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
     const cardAfterSchedule = await cards.getByWordId(presentationOf(item).word.id);
     expect(cardAfterSchedule!.schedulerState!.reps).toBe(2);
@@ -1589,6 +1659,17 @@ describe('LearningService — 题型按学习阶段选择（Issue #7 验收标�
     const q = await env.service.getNextItem();
     expect(q!.kind).toBe('question');
     expect(questionOf(q).type).toBe('en-to-zh');
+  });
+
+  it('固定题组缺失时明确报 ContentUnavailableError', async () => {
+    const words = new FakeWordBank();
+    words.getQuestionPlan = async () => null;
+    const env = makeService({ now: 1_000_000, words });
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    env.advance(10 * MS_PER_MIN);
+
+    await expect(env.service.getNextItem()).rejects.toBeInstanceOf(ContentUnavailableError);
   });
 
   it('长期复习词 reps=1 出 zh-to-en 题', async () => {
@@ -1784,13 +1865,13 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
       expect(questionOf(await service.getNextItem({ allowSpelling: true })).type).toBe('zh-to-en');
     });
 
-    it('拼写题不需要读取或凑齐选择题干扰项', async () => {
+    it('拼写题只读取自身固定计划，不读取选择题引用', async () => {
       const now = 1_000_000;
       const cards = new FakeCardRepository();
       await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
       const words = new WordBankWithoutExamples();
-      words.listWords = async () => {
-        throw new Error('拼写题不应读取干扰项池');
+      words.getWordsByIds = async () => {
+        throw new Error('拼写题不应读取选择题引用');
       };
       const { service } = makeService({ cards, words, now, random: () => 0 });
 
@@ -1814,6 +1895,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question: recognition,
         selectedIndex: recognition.correctIndex,
         responseTimeMs: 3_000,
+        source: 'natural',
       });
       env.setNow(firstResult.nextReviewAt!);
 
@@ -1824,6 +1906,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question: recall,
         selectedIndex: recall.correctIndex,
         responseTimeMs: 3_000,
+        source: 'natural',
       });
       env.setNow(secondResult.nextReviewAt!);
 
@@ -1919,9 +2002,21 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'abandon',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect(result.isCorrect).toBe(true);
       expect(result.correctAnswer).toBe('abandon');
+    });
+
+    it('只接受目标 lemma，不扩展其他词形', async () => {
+      const { service, question } = await prepareSpellingQuestion();
+      const result = await service.submitSpellingAnswer({
+        question,
+        spelledAnswer: 'abandoned',
+        responseTimeMs: 3000,
+        source: 'continuous',
+      });
+      expect(result.isCorrect).toBe(false);
     });
 
     it('大小写不敏感：Abandon 判定为正确', async () => {
@@ -1930,6 +2025,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'Abandon',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect(result.isCorrect).toBe(true);
     });
@@ -1940,6 +2036,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: '  abandon  ',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect(result.isCorrect).toBe(true);
     });
@@ -1950,6 +2047,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'abandn',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect(result.isCorrect).toBe(false);
       expect(result.submittedAnswer).toBe('abandn');
@@ -1961,6 +2059,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'abandon',
         responseTimeMs: 2500,
+        source: 'continuous',
       });
       const all = await logs.getAll();
       expect(all).toHaveLength(1);
@@ -1976,6 +2075,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'abandon',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect((scheduler as FakeScheduler).scheduleCalls).toHaveLength(1);
       const card = await cards.getById(question.cardId);
@@ -1988,6 +2088,7 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
         question,
         spelledAnswer: 'abandon',
         responseTimeMs: 3000,
+        source: 'continuous',
       });
       expect(result.explanation.word).toBe('abandon');
       expect(result.explanation.meanings).toEqual(['放弃；遗弃']);
@@ -2088,11 +2189,13 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
         question,
         selectedIndex: question.correctIndex,
         responseTimeMs: 2000,
+        source: 'natural',
       }),
       env.service.submitAnswer({
         question,
         selectedIndex: question.correctIndex,
         responseTimeMs: 2000,
+        source: 'natural',
       }),
     ]);
 
@@ -2122,11 +2225,13 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
         question,
         spelledAnswer: question.correctAnswer,
         responseTimeMs: 2000,
+        source: 'continuous',
       }),
       env.service.submitSpellingAnswer({
         question,
         spelledAnswer: question.correctAnswer,
         responseTimeMs: 2000,
+        source: 'continuous',
       }),
     ]);
 
@@ -2146,6 +2251,7 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
       question: questionOf(q),
       selectedIndex: questionOf(q).correctIndex,
       responseTimeMs: 5000,
+      source: 'natural',
     });
 
     // 两个调用方并发纠正同一评分
@@ -2171,6 +2277,7 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
       question,
       selectedIndex: question.correctIndex,
       responseTimeMs: 2000,
+      source: 'natural',
     });
 
     // 学习卡与复习日志应同时持久化（原子提交的 happy path）

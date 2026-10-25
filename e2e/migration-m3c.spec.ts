@@ -176,6 +176,7 @@ function buildSeedPayload(): Record<string, unknown[]> {
     reviewedAt,
     source,
     stageAtSubmission,
+    rating: isCorrect ? 'good' : 'again',
   });
 
   const reviewLogs = [
@@ -207,6 +208,8 @@ function buildSeedPayload(): Record<string, unknown[]> {
     mode: 'single',
     outcome: 'submitted',
     questionsAnswered: 1,
+    source: 'natural',
+    continuousQuestionsAnswered: 0,
     ...overrides,
   });
 
@@ -250,7 +253,7 @@ function buildSeedPayload(): Record<string, unknown[]> {
 async function seedRecords(control: Page, payload: Record<string, unknown[]>): Promise<void> {
   await control.evaluate(async (data) => {
     const db: IDBDatabase = await new Promise((resolve, reject) => {
-      const request = indexedDB.open('bingeup-v1');
+      const request = indexedDB.open('bingeup');
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });

@@ -107,12 +107,6 @@ class PlannedWordBank implements WordBankPort {
   async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
     return this.questionPlans.get(wordId) ?? null;
   }
-  getContentVersion(): string {
-    return 'test-content';
-  }
-  getContentKind(): 'legacy-v1' | 'content-v2' {
-    return 'content-v2';
-  }
 }
 
 class Cards {
@@ -163,6 +157,7 @@ function card(overrides: Partial<CardRecord> = {}): CardRecord {
     wordId: 'w-abandon',
     deckId: DECK.id,
     stage: 'long-term',
+    origin: 'accepted-new',
     createdAt: 1_000,
     updatedAt: 2_000,
     nextReviewAt: 0,
@@ -271,38 +266,5 @@ describe('固定题组运行时', () => {
     expect(question.correctAnswer).toBe('reduce');
     expect(question.hint).toMatchObject({ partOfSpeech: 'v.', prefix: 'r', letterCount: 6 });
     expect(question.hint?.exampleSentence).toContain('____');
-  });
-
-  it('每日额度用尽时跳过停用卡，提前复习正常短期卡', async () => {
-    const plans = await makePlans();
-    const cards = new Cards();
-    cards.add(
-      card({
-        id: 'card-disabled',
-        wordId: 'w-decline',
-        stage: 'short-term',
-        nextReviewAt: 20_000,
-        createdAt: 1,
-        disabled: true,
-      }),
-    );
-    cards.add(
-      card({
-        id: 'card-active',
-        wordId: 'w-reduce',
-        stage: 'short-term',
-        nextReviewAt: 20_000,
-        createdAt: 2,
-      }),
-    );
-    const service = await serviceFor(
-      new Map(plans.map((plan) => [plan.wordId, plan])),
-      WORDS,
-      cards,
-      0,
-    );
-    const item = await service.getNextItem({ allowEarlyShortTermReview: true });
-    expect(item?.kind).toBe('question');
-    if (item?.kind === 'question') expect(item.question.cardId).toBe('card-active');
   });
 });

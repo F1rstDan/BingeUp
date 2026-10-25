@@ -42,17 +42,8 @@ jobs:
       - name: Prepare WXT
         run: npx wxt prepare
 
-      - name: Format check
-        run: npm run format:check
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
+      - name: Check
+        run: npm run check
 
   build:
     name: Build (${{ matrix.target }})

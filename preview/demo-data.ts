@@ -155,7 +155,12 @@ export function makeDemoSpellingQuestion(): SpellingQuestion {
     wordId: word.id,
     prompt: word.coreMeaningZh.join('；'),
     correctAnswer: word.word,
-    acceptableAnswers: [word.word],
+    hint: {
+      partOfSpeech: word.partOfSpeech[0]!,
+      exampleSentence: 'These measures can ____ the impact.',
+      prefix: 'm',
+      letterCount: word.word.length,
+    },
     explanation: {
       word: word.word,
       phonetic: word.phonetic,

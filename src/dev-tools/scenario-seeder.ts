@@ -10,7 +10,6 @@ import type {
 import type { DevScenario } from '@/dev-tools/messages';
 import type { WordBankPort } from '@/learning/learning-service';
 import { STORES } from '@/storage/database';
-import { CONTENT_COMPAT_ID } from '@/storage/content-compat';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 
 const MINUTE = 60 * 1000;
@@ -110,13 +109,7 @@ export class DevScenarioSeeder {
 function replaceLearningProgress(db: IDBDatabase, data: DevScenarioSeed): Promise<void> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction(
-      [
-        STORES.cards,
-        STORES.reviewLogs,
-        STORES.sessionLogs,
-        STORES.behaviorEvents,
-        STORES.authoritativeState,
-      ],
+      [STORES.cards, STORES.reviewLogs, STORES.sessionLogs, STORES.behaviorEvents],
       'readwrite',
     );
     try {
@@ -130,7 +123,6 @@ function replaceLearningProgress(db: IDBDatabase, data: DevScenarioSeed): Promis
         store.clear();
         for (const record of records) store.put(record);
       }
-      tx.objectStore(STORES.authoritativeState).delete(CONTENT_COMPAT_ID);
     } catch (error) {
       tx.abort();
       reject(error instanceof Error ? error : new Error(String(error)));
@@ -358,10 +350,9 @@ function buildSessions(params: {
       outcome,
       questionsAnswered,
       source: index % 3 === 0 ? 'manual' : 'natural',
-      initialItemKind: index % 4 === 0 ? 'new-word-presentation' : 'question',
       initialOutcome:
         outcome === 'skipped' ? 'skipped' : index % 4 === 0 ? 'accepted-new' : 'submitted',
-      ...(mode === 'continuous' ? { continuousQuestionsAnswered: questionsAnswered } : {}),
+      continuousQuestionsAnswered: mode === 'continuous' ? questionsAnswered : 0,
     };
   });
 }
