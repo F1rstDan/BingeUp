@@ -17,8 +17,8 @@ import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-// 页面使用真实时钟（Date.now）；测试数据相对当前时刻构造。
-const NOW = Date.now();
+// 固定到周六，避免本地时区与周一/周末边界改变周对比和近 7 日窗口。
+const NOW = new Date(2026, 6, 11, 10, 0, 0).getTime();
 const TODAY_START = startOfLocalDay(NOW);
 
 function makeCard(overrides: Partial<CardRecord> & { id: string; wordId: string }): CardRecord {
@@ -96,10 +96,12 @@ function deleteDatabase(): Promise<void> {
 }
 
 beforeEach(async () => {
+  vi.spyOn(Date, 'now').mockReturnValue(NOW);
   await deleteDatabase();
 });
 
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
 
