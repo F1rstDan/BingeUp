@@ -588,6 +588,22 @@ function OverlayStages(): JSX.Element {
 
 const previewFeedbackNotice = new LearningFeedbackNotice();
 
+const previewFeedbackActions = {
+  onContinue: async () => ({ ok: true as const }),
+  onTooEasy: async (): Promise<CorrectionResult> => ({
+    cardId: 'preview-card',
+    reviewLogId: 'preview-log',
+    rating: 'easy',
+    nextReviewAt: Date.now() + 86_400_000,
+  }),
+  onTooHard: async (): Promise<CorrectionResult> => ({
+    cardId: 'preview-card',
+    reviewLogId: 'preview-log',
+    rating: 'hard',
+    nextReviewAt: Date.now() + 86_400_000,
+  }),
+};
+
 function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Element {
   return (
     <div className="preview-feedback-static-item">
@@ -600,19 +616,7 @@ function StaticFeedbackPreview({ isCorrect }: { isCorrect: boolean }): JSX.Eleme
       >
         <LearningFeedback
           result={makeDemoSubmissionResult(choiceQuestion, isCorrect)}
-          onContinue={async () => ({ ok: true })}
-          onTooEasy={async () => ({
-            cardId: 'preview-card',
-            reviewLogId: 'preview-log',
-            rating: 'easy',
-            nextReviewAt: Date.now() + 86_400_000,
-          })}
-          onTooHard={async () => ({
-            cardId: 'preview-card',
-            reviewLogId: 'preview-log',
-            rating: 'hard',
-            nextReviewAt: Date.now() + 86_400_000,
-          })}
+          {...previewFeedbackActions}
           onClose={() => {}}
           staticPreview
         />
@@ -644,14 +648,16 @@ function NoticesStage(): JSX.Element {
       </PreviewCard>
       <PreviewCard
         title="右下角答题反馈提示"
-        hint="纸片风格非模态 status，位于独立 Shadow DOM：无遮罩、不锁滚动、不抢焦点；5 秒后自动关闭，悬停或聚焦提示内按钮时暂停计时。"
+        hint="纸片风格非模态 status，位于独立 Shadow DOM：无遮罩、不锁滚动、不抢焦点；默认 5 秒后关闭，评分后改为 2 秒关闭。悬停或聚焦时暂停计时，点击其他位置可取消计时。"
       >
         <div className="preview-actions">
           {[true, false].map((isCorrect) => (
             <Button
               key={String(isCorrect)}
               onClick={() => {
-                previewFeedbackNotice.show(makeDemoSubmissionResult(choiceQuestion, isCorrect));
+                previewFeedbackNotice.show(makeDemoSubmissionResult(choiceQuestion, isCorrect), {
+                  ...previewFeedbackActions,
+                });
               }}
             >
               {isCorrect ? '查看答对提示' : '查看答错提示'}

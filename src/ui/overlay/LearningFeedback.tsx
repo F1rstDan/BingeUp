@@ -14,6 +14,7 @@ import { localSpeech, useLocalSpeech } from '@/ui/speech/local-speech';
 import { WordSummary } from '@/ui/overlay/WordSummary';
 
 export const LEARNING_FEEDBACK_DURATION_MS = 5_000;
+export const LEARNING_FEEDBACK_RATING_CLOSE_MS = 2_000;
 export const LEARNING_FEEDBACK_EXIT_DURATION_MS = 0;
 
 const FAILURE_MESSAGES: Record<StartLearningFailureReason, string> = {
@@ -37,7 +38,7 @@ export interface LearningFeedbackProps {
   onTooEasy?: () => Promise<CorrectionResult>;
   onTooHard?: () => Promise<CorrectionResult>;
   onClose: () => void;
-  /** 预览页常驻展示：不自动收起，按钮只用于观察布局。 */
+  /** 预览页常驻展示：不自动收起，但仍可演示按钮交互和倒计时取消。 */
   staticPreview?: boolean;
 }
 
@@ -61,6 +62,8 @@ export function LearningFeedback({
   const [failure, setFailure] = useState<string | null>(null);
   const [countdownProgress, setCountdownProgress] = useState(staticPreview ? 0.45 : 0);
   const [countdownCancelled, setCountdownCancelled] = useState(false);
+  const [countdownStarted, setCountdownStarted] = useState(!staticPreview);
+  const [countdownDurationMs, setCountdownDurationMs] = useState(LEARNING_FEEDBACK_DURATION_MS);
   const remainingMs = useRef(LEARNING_FEEDBACK_DURATION_MS);
   const mounted = useRef(false);
   const continuationPending = useRef(false);
@@ -89,9 +92,19 @@ export function LearningFeedback({
   };
 
   const cancelAutoClose = (): void => {
-    if (staticPreview || countdownCancelled) return;
+    if (countdownCancelled) return;
     setCountdownCancelled(true);
     setCountdownProgress(0);
+  };
+
+  const startRatingCloseCountdown = (): void => {
+    remainingMs.current = LEARNING_FEEDBACK_RATING_CLOSE_MS;
+    setCountdownDurationMs(LEARNING_FEEDBACK_RATING_CLOSE_MS);
+    setCountdownStarted(true);
+    setCountdownCancelled(false);
+    setCountdownProgress(0);
+    setFocused(false);
+    setHovered(false);
   };
 
   useEffect(() => {
@@ -103,7 +116,7 @@ export function LearningFeedback({
   }, [ownerId]);
 
   useEffect(() => {
-    if (staticPreview || countdownCancelled) return;
+    if (!countdownStarted || countdownCancelled) return;
     if (
       hovered ||
       focused ||
@@ -118,12 +131,15 @@ export function LearningFeedback({
 
     const startedAt = Date.now();
     const startingRemaining = remainingMs.current;
-    setCountdownProgress(1 - startingRemaining / LEARNING_FEEDBACK_DURATION_MS);
+    setCountdownProgress(1 - startingRemaining / countdownDurationMs);
     const interval = window.setInterval(() => {
       const remaining = Math.max(0, startingRemaining - (Date.now() - startedAt));
-      setCountdownProgress(1 - remaining / LEARNING_FEEDBACK_DURATION_MS);
+      setCountdownProgress(1 - remaining / countdownDurationMs);
     }, 50);
-    const timer = window.setTimeout(() => setExiting(true), remainingMs.current);
+    const timer = window.setTimeout(() => {
+      if (staticPreview) setCountdownProgress(1);
+      else setExiting(true);
+    }, remainingMs.current);
     return () => {
       window.clearInterval(interval);
       window.clearTimeout(timer);
@@ -140,6 +156,8 @@ export function LearningFeedback({
     failure,
     staticPreview,
     countdownCancelled,
+    countdownStarted,
+    countdownDurationMs,
   ]);
 
   useEffect(() => {
@@ -180,7 +198,6 @@ export function LearningFeedback({
   };
 
   const markTooEasy = async (): Promise<void> => {
-    if (staticPreview) return;
     if (
       !onTooEasy ||
       !result.isCorrect ||
@@ -203,9 +220,7 @@ export function LearningFeedback({
       await onTooEasy();
       if (mounted.current) {
         setTooEasySaved(true);
-        // 成功的原按钮会卸载，不保证再触发 blur/mouseleave；主动恢复自动收起。
-        setFocused(false);
-        setHovered(false);
+        startRatingCloseCountdown();
       }
     } catch {
       if (mounted.current) setFailure(TOO_EASY_FAILURE_MESSAGE);
@@ -218,7 +233,6 @@ export function LearningFeedback({
   };
 
   const markTooHard = async (): Promise<void> => {
-    if (staticPreview) return;
     if (
       !onTooHard ||
       !result.isCorrect ||
@@ -241,8 +255,7 @@ export function LearningFeedback({
       await onTooHard();
       if (mounted.current) {
         setTooHardSaved(true);
-        setFocused(false);
-        setHovered(false);
+        startRatingCloseCountdown();
       }
     } catch {
       if (mounted.current) setFailure(TOO_HARD_FAILURE_MESSAGE);

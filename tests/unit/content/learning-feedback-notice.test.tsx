@@ -1,9 +1,11 @@
-import { act, fireEvent, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LEARNING_FEEDBACK_CSS, LearningFeedbackNotice } from '@/content/learning-feedback-notice';
 import {
   LEARNING_FEEDBACK_DURATION_MS,
   LEARNING_FEEDBACK_EXIT_DURATION_MS,
+  LEARNING_FEEDBACK_RATING_CLOSE_MS,
+  LearningFeedback,
 } from '@/ui/overlay/LearningFeedback';
 import { getIslandShadowStyleBundle } from '@/ui/island/shadow-styles';
 import type { StartLearningFailureReason, StartLearningResponse } from '@/messaging/messages';
@@ -257,7 +259,7 @@ describe('LearningFeedbackNotice', () => {
     expect(queryFeedback()).toBeNull();
   });
 
-  it('太难了纠正调用 onTooHard，成功后两个评分按钮一起隐藏', async () => {
+  it('太难了纠正成功后隐藏评分按钮，并重启 2 秒关闭倒计时', async () => {
     const onTooHard = vi.fn().mockResolvedValue({ ...CORRECTION_RESULT, rating: 'hard' });
     const { feedback, queries } = showNotice(RESULT, { onTooHard });
 
@@ -267,6 +269,14 @@ describe('LearningFeedbackNotice', () => {
     expect(queries.queryByRole('button', { name: '太难了' })).not.toBeInTheDocument();
     expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
     expect(feedback).toHaveTextContent('已标记为太难了');
+
+    const closeControl = feedback.querySelector('.bingeup-learning-feedback__close-control');
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
+    advanceTime(LEARNING_FEEDBACK_RATING_CLOSE_MS - 1);
+    expect(queryFeedback()).toBe(feedback);
+    advanceTime(1);
+    expect(queryFeedback()).toBeNull();
+    finishExit();
   });
 
   it('挂载到 documentElement 的开放 ShadowRoot，样式限定为非模态右下角通知且不改宿主页', () => {
@@ -400,7 +410,7 @@ describe('LearningFeedbackNotice', () => {
     expect(document.getElementById(NOTICE_ID)).toBeNull();
   });
 
-  it('TooEasy 成功后防重复，并取消本次自动关闭', async () => {
+  it('TooEasy 成功后防重复，并重启 2 秒关闭倒计时', async () => {
     let resolve!: (value: CorrectionResult) => void;
     const onTooEasy = vi.fn(() => new Promise<CorrectionResult>((done) => (resolve = done)));
     const { feedback, queries } = showNotice(RESULT, { onTooEasy });
@@ -419,13 +429,14 @@ describe('LearningFeedbackNotice', () => {
     await act(async () => resolve(CORRECTION_RESULT));
     expect(queries.queryByRole('button', { name: '太简单' })).not.toBeInTheDocument();
     expect(feedback).toHaveTextContent('已标记为太简单');
-    expect(feedback.querySelector('.bingeup-learning-feedback__close-control')).toHaveAttribute(
-      'data-countdown-cancelled',
-      'true',
-    );
+    const closeControl = feedback.querySelector('.bingeup-learning-feedback__close-control');
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
 
-    advanceTime(60_000);
+    advanceTime(LEARNING_FEEDBACK_RATING_CLOSE_MS - 1);
     expect(queryFeedback()).toBe(feedback);
+    advanceTime(1);
+    expect(queryFeedback()).toBeNull();
+    finishExit();
   });
 
   it('TooEasy 失败保留错误并允许重试，重试成功后才显示已标记', async () => {
@@ -731,5 +742,33 @@ describe('LearningFeedbackNotice', () => {
     pageInput.focus();
     expect(fireEvent.keyDown(pageInput, { key: ' ' })).toBe(true);
     expect(onDocumentKeyDown).toHaveBeenCalledOnce();
+  });
+});
+
+describe('LearningFeedback 常驻预览', () => {
+  it('允许评分操作，并在点击后启动 2 秒倒计时环', async () => {
+    const onTooEasy = vi.fn().mockResolvedValue(CORRECTION_RESULT);
+    const { unmount } = render(
+      <LearningFeedback result={RESULT} onTooEasy={onTooEasy} onClose={() => {}} staticPreview />,
+    );
+
+    const feedback = screen.getByRole('region', { name: '答题反馈' });
+    const closeControl = feedback.querySelector('.bingeup-learning-feedback__close-control');
+    const timer = feedback.querySelector<HTMLElement>('.bingeup-learning-feedback__close-timer');
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
+
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: '太简单' })));
+
+    expect(onTooEasy).toHaveBeenCalledOnce();
+    expect(feedback).toHaveTextContent('已标记为太简单');
+    expect(closeControl).toHaveAttribute('data-countdown-cancelled', 'false');
+
+    advanceTime(LEARNING_FEEDBACK_RATING_CLOSE_MS / 2);
+    expect(Number(timer?.style.getPropertyValue('--feedback-countdown'))).toBeCloseTo(0.5, 1);
+    advanceTime(LEARNING_FEEDBACK_RATING_CLOSE_MS / 2);
+    expect(timer?.style.getPropertyValue('--feedback-countdown')).toBe('1');
+    expect(feedback).toBeInTheDocument();
+
+    unmount();
   });
 });
