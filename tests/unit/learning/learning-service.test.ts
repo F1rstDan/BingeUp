@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { ContentController } from '@/content/content-controller';
 import { LearningService, type WordBankPort } from '@/learning/learning-service';
 import { ContentUnavailableError } from '@/learning/planned-questions';
 import type { CardRepositoryPort } from '@/storage/repositories/card-repository';
@@ -10,6 +11,7 @@ import type {
   LearningItem,
   MultipleChoiceQuestion,
   NewWordPresentation,
+  OverlayAction,
   ReviewLogRecord,
   ReviewRating,
   SchedulerState,
@@ -559,6 +561,123 @@ describe('LearningService — 主动巩固题（Issue #22）', () => {
     });
 
     expect(questionOf(item).wordId).toBe('w-benefit');
+  });
+});
+
+describe('连续学习新词与答题', () => {
+  function makeFlow(env: ReturnType<typeof makeService>) {
+    let onAction!: (action: OverlayAction) => unknown | Promise<unknown>;
+    const overlay = {
+      open: vi.fn((item: LearningItem) => item),
+      close: vi.fn(),
+      onAction: (handler: typeof onAction) => {
+        onAction = handler;
+      },
+    };
+    const feedback = { show: vi.fn(), close: vi.fn() };
+    const controller = new ContentController({
+      adapter: {
+        onVideoChange: () => () => {},
+        getCurrentLearningContext: () => ({
+          identity: 'page-1',
+          video: null,
+          overlayTarget: document.body,
+          overlayMode: 'full-page',
+        }),
+      },
+      overlay,
+      learningService: env.service,
+      learningFeedbackNotice: feedback,
+      clock: env.clock,
+      cooldownStore: {
+        get: async () => ({ nextAllowedAt: 0, consecutiveSkipCount: 0 }),
+        recordOutcome: async () => {},
+      },
+      pauseState: { isGloballyPaused: async () => false },
+      siteState: {
+        isEnabled: async () => true,
+        isFirstQuestionPending: async () => false,
+        markFirstQuestionHandled: async () => {},
+      },
+      videoPortFor: () => {
+        throw new Error('全页面模式没有视频');
+      },
+    });
+    controller.start();
+    return { controller, overlay, feedback, onAction: (action: OverlayAction) => onAction(action) };
+  }
+
+  it('展示新词并提交选择题后，继续练习本轮展示过的新词', async () => {
+    const now = Date.UTC(2026, 9, 27, 4);
+    const cards = new FakeCardRepository();
+    await cards.save({
+      id: 'card-w-capable',
+      wordId: 'w-capable',
+      deckId: DECK.id,
+      stage: 'short-term',
+      origin: 'accepted-new',
+      createdAt: now - MS_PER_DAY,
+      updatedAt: now - MS_PER_DAY,
+      nextReviewAt: now + 8 * MS_PER_MIN,
+      shortTermStep: 0,
+    });
+    const env = makeService({ cards, now, dailyNewWordLimit: 2, random: () => 0 });
+    const { controller, overlay, feedback, onAction } = makeFlow(env);
+    expect(await controller.startContinuousLearning()).toEqual({ ok: true });
+
+    for (const [index, wordId] of ['w-abandon', 'w-benefit'].entries()) {
+      expect(presentationOf(overlay.open.mock.calls[index]?.[0] ?? null).word.id).toBe(wordId);
+      await onAction({ type: 'accept-new-word-and-continue', wordId });
+    }
+
+    for (const [index, wordId] of ['w-capable', 'w-abandon', 'w-benefit'].entries()) {
+      const question = questionOf(overlay.open.mock.calls[index + 2]?.[0] ?? null);
+      expect(question.wordId).toBe(wordId);
+      await onAction({
+        type: 'submit-and-continue',
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 3000,
+      });
+      if (index < 2) {
+        expect(feedback.show).not.toHaveBeenCalled();
+        expect(overlay.close).not.toHaveBeenCalled();
+      }
+    }
+
+    expect(feedback.show).toHaveBeenCalledTimes(1);
+    expect(overlay.close).toHaveBeenCalledTimes(1);
+
+    feedback.show.mockClear();
+    expect(await controller.startContinuousLearning()).toEqual({ ok: true });
+    const repeated = questionOf(overlay.open.mock.calls[5]?.[0] ?? null);
+    expect(repeated.wordId).toBe('w-capable');
+    await onAction({
+      type: 'submit-and-continue',
+      question: repeated,
+      selectedIndex: repeated.correctIndex,
+      responseTimeMs: 3000,
+    });
+    expect(questionOf(overlay.open.mock.calls[6]?.[0] ?? null).wordId).toBe('w-abandon');
+    expect(feedback.show).not.toHaveBeenCalled();
+    controller.stop();
+  });
+
+  it('只有一个已接受的新词时，不会在展示后立刻测试同一个词', async () => {
+    const env = makeService({ dailyNewWordLimit: 1, random: () => 0 });
+    const { controller, overlay, feedback, onAction } = makeFlow(env);
+    expect(await controller.startContinuousLearning()).toEqual({ ok: true });
+    const wordId = presentationOf(overlay.open.mock.calls[0]?.[0] ?? null).word.id;
+
+    await onAction({ type: 'accept-new-word-and-continue', wordId });
+
+    expect(overlay.open).toHaveBeenCalledTimes(1);
+    expect(overlay.close).toHaveBeenCalledTimes(1);
+    expect(feedback.show).not.toHaveBeenCalled();
+    expect(
+      questionOf(await env.service.getNextItem({ allowEarlyShortTermReview: true })).wordId,
+    ).toBe(wordId);
+    controller.stop();
   });
 });
 

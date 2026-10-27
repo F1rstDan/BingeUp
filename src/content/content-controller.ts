@@ -184,7 +184,7 @@ export class ContentController {
   private actionInProgress = false;
   private unsubscribe: (() => void) | null = null;
 
-  /** 连续学习中已展示过的单词 ID，避免重复展示（Issue #8 验收标准 5）。 */
+  /** 已出题或暂不可再次展示的单词 ID，避免同一轮重复出题。 */
   private readonly sessionWordIds = new Set<string>();
 
   constructor(deps: ContentControllerDeps) {
@@ -527,14 +527,17 @@ export class ContentController {
     if (action.type === 'accept-new-word-and-continue') {
       await this.deps.learningService.acceptNewWord(action.wordId);
       active.initialOutcome ??= 'accepted-new';
-      await this.loadNextContinuous(active);
+      // 新词展示不是答题；以后可以复习该词，但不要紧接展示立即出题。
+      this.sessionWordIds.delete(action.wordId);
+      await this.loadNextContinuous(active, undefined, action.wordId);
       return;
     }
 
     if (action.type === 'self-report-and-continue') {
       await this.deps.learningService.selfReportKnown(action.wordId);
       active.initialOutcome ??= 'self-reported';
-      await this.loadNextContinuous(active);
+      this.sessionWordIds.delete(action.wordId);
+      await this.loadNextContinuous(active, undefined, action.wordId);
       return;
     }
 
@@ -600,10 +603,13 @@ export class ContentController {
   private async loadNextContinuous(
     active: ActiveInteraction,
     previousResult?: SubmissionResult,
+    justPresentedWordId?: string,
   ): Promise<boolean> {
     pauseIfPlaying(active.playback);
+    const excludedWordIds = new Set(this.sessionWordIds);
+    if (justPresentedWordId !== undefined) excludedWordIds.add(justPresentedWordId);
     const nextItem = await this.deps.learningService.getNextItem({
-      excludedWordIds: this.sessionWordIds,
+      excludedWordIds,
       allowSpelling: true,
       allowEarlyShortTermReview: active.allowEarlyShortTermReview,
     });

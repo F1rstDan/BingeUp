@@ -1006,7 +1006,8 @@ test.describe('M5 视频遮罩原版视觉（合成 Bilibili 页面）', () => {
         continue;
       }
 
-      if (!(await clickOverlayButton(page, ['提交并继续']))) break;
+      // 此用例检查独立答题反馈；明确结束本轮，避免依赖后续题目是否耗尽。
+      if (!(await clickOverlayButton(page, ['提交并结束', '提交Enter']))) break;
       await expect
         .poll(async () => (await inspectLayout(page)).feedback !== null, { timeout: 10_000 })
         .toBe(true);
