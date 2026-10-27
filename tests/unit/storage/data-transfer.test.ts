@@ -64,6 +64,7 @@ const CARD: CardRecord = {
   createdAt: 1_000,
   updatedAt: 1_000,
   nextReviewAt: 2_000,
+  shortTermStep: 1,
 };
 
 const LOG: ReviewLogRecord = {

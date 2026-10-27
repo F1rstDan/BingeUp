@@ -76,6 +76,18 @@ interface Clock {
 /** 短期学习词接受后最早可测试的延迟（CONTEXT.md：最早十分钟后才可测试）。 */
 const SHORT_TERM_DELAY_MS = 10 * 60_000;
 
+/** 返回当前步骤之后第一个有固定题组的短期题型。 */
+function nextShortTermStep(step: number, plan: WordQuestionPlan): number | undefined {
+  if (step < 1 && plan.zhToEn) return 1;
+  if (step < 2 && plan.contextChoice) return 2;
+  return undefined;
+}
+
+/** 返回当前步骤之前最近的可用题型；英选中始终可用。 */
+function previousShortTermStep(step: number, plan: WordQuestionPlan): number {
+  return step > 1 && plan.zhToEn ? 1 : 0;
+}
+
 /** 同一题已完成提交的幂等窗口，覆盖重复按钮和迟到的重复消息。 */
 const SUBMISSION_IDEMPOTENCY_MS = 30_000;
 
@@ -122,7 +134,7 @@ export interface LearningServiceDeps {
  * - 候选新词展示不创建学习卡；只有“知道了”创建新词并计入每日上限；
  * - “我认识，换一个”创建自报认识词并安排一至两天后的验证题；
  * - 提交答案后持久化复习日志、更新学习卡，并返回带解释的反馈；
- * - 短期学习词答对后进入长期复习；答错后按短期规则重新安排；
+ * - 短期学习词完成可用题型后进入长期复习；答错后按短期规则重新安排；
  * - 长期复习词通过隔离的 FSRS 调度接口持久化完整复习历史与下次时间；
  * - 自动评分来自正误、用时、选项切换次数与历史；用户可在反馈阶段纠正评分。
  *
@@ -188,7 +200,7 @@ export class LearningService {
    * 5. 候选新词（受每日上限约束）。
    *
    * 连续学习模式（Issue #8 验收标准 3、5）：
-   * - `allowSpelling` 为 true 时，长期复习词有概率出现拼写题；
+   * - `allowSpelling` 为 true 时，可用的短期拼写题会出现一次，长期复习词可与选择题交替；
    * - `excludedWordIds` 中的单词不会被选为新词或复习题，避免同一轮重复展示。
    */
   async getNextItem(options?: {
@@ -283,6 +295,7 @@ export class LearningService {
       createdAt: now,
       updatedAt: now,
       nextReviewAt: now + SHORT_TERM_DELAY_MS,
+      shortTermStep: 0,
     }));
   }
 
@@ -340,7 +353,7 @@ export class LearningService {
    * 提交选择题答案并持久化结果（Issue #7 验收标准 3、4、5）。
    *
    * - 判定正误并写入复习日志（含自动评分）；
-   * - 短期学习词答对 → 进入长期复习（通过调度器初始化）；答错 → 10 分钟后重测；
+   * - 短期学习词答对 → 进入下一个可用题型或长期复习；答错 → 10 分钟后重测；
    * - 自报认识词验证题答对 → 进入长期复习；答错 → 短期学习词（10 分钟后重测）；
    * - 长期复习词 → 通过调度器更新状态与下次时间；
    * - 返回带可展开学习信息和评分的判定结果。
@@ -425,6 +438,7 @@ export class LearningService {
       responseTimeMs: input.responseTimeMs,
       answerChanges: input.answerChanges,
       recentLogs,
+      stage: card.stage,
     });
 
     const reviewLog: ReviewLogRecord = {
@@ -458,18 +472,37 @@ export class LearningService {
           nextReviewAt = due;
         } else {
           card.stage = 'short-term';
+          card.shortTermStep = 0;
           card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
           nextReviewAt = card.nextReviewAt;
         }
       } else if (card.stage === 'short-term') {
-        // 短期学习词答对 → 进入长期复习；答错 → 按短期规则重新安排（Issue #7 验收标准 3）
+        // 短期学习只安排有固定题组的题型；答错后停留在当前步骤。
+        const currentStep = card.shortTermStep ?? 0;
         if (isCorrect) {
-          const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
-          card.stage = 'long-term';
-          card.schedulerState = state;
-          card.nextReviewAt = due;
-          nextReviewAt = due;
+          if (question.type === 'spelling') {
+            // 连续学习中的拼写是额外练习，之后仍完成当前的选择题。
+            card.shortTermStep = currentStep;
+            card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
+            nextReviewAt = card.nextReviewAt;
+          } else {
+            const plan = await this.getRequiredQuestionPlan(card);
+            const nextStep = nextShortTermStep(currentStep, plan);
+            if (nextStep !== undefined) {
+              card.shortTermStep = nextStep;
+              card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
+              nextReviewAt = card.nextReviewAt;
+            } else {
+              const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
+              card.stage = 'long-term';
+              card.shortTermStep = undefined;
+              card.schedulerState = state;
+              card.nextReviewAt = due;
+              nextReviewAt = due;
+            }
+          }
         } else {
+          card.shortTermStep = currentStep;
           card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
           nextReviewAt = card.nextReviewAt;
         }
@@ -534,6 +567,10 @@ export class LearningService {
       if (log.userCorrection !== undefined) {
         throw new Error('评分已经纠正');
       }
+      const cardLogs = await logs.getByCardId(log.cardId);
+      if (cardLogs.some((entry) => entry.id !== log.id && entry.reviewedAt > log.reviewedAt)) {
+        throw new Error('这道题之后已有新的答题记录，无法纠正评分');
+      }
 
       const originalRating = log.rating;
       const correctedRating = this.applyCorrection(originalRating, correction);
@@ -547,7 +584,27 @@ export class LearningService {
       }
       let nextReviewAt: number | undefined;
 
-      if (card.stage === 'long-term') {
+      if (
+        log.stageAtSubmission === 'short-term' &&
+        (correction === 'too-hard' || (correction === 'guessed' && card.stage === 'short-term'))
+      ) {
+        const plan = await this.getRequiredQuestionPlan(card);
+        const submittedStep =
+          card.stage === 'short-term'
+            ? (card.shortTermStep ?? 0)
+            : log.questionType === 'context-choice'
+              ? 2
+              : log.questionType === 'zh-to-en'
+                ? 1
+                : 0;
+        card.stage = 'short-term';
+        card.shortTermStep = previousShortTermStep(submittedStep, plan);
+        card.schedulerState = undefined;
+        card.nextReviewAt = log.reviewedAt + SHORT_TERM_DELAY_MS;
+        card.updatedAt = now;
+        nextReviewAt = card.nextReviewAt;
+        await cards.saveCardAndLog(card, log);
+      } else if (card.stage === 'long-term') {
         // 回滚-重放：用评分前的调度器状态 + 纠正后评分重新调度（Issue #7 验收标准 5）
         const previousState = log.previousSchedulerState;
         if (previousState) {
@@ -570,8 +627,30 @@ export class LearningService {
         card.updatedAt = now;
         // Issue #19 AC3：学习卡调度更新与复习日志标记更新在同一事务内提交。
         await cards.saveCardAndLog(card, log);
+      } else if (card.stage === 'short-term') {
+        // 拼写是额外练习；纠正后立即开放当前选择题。
+        // 其他题型太简单时跳过下一个可用题型，没有后续题型则进入长期复习。
+        const plan = await this.getRequiredQuestionPlan(card);
+        const nextStep =
+          log.questionType === 'spelling'
+            ? (card.shortTermStep ?? 0)
+            : nextShortTermStep(card.shortTermStep ?? 0, plan);
+        if (nextStep !== undefined) {
+          card.shortTermStep = nextStep;
+          card.nextReviewAt =
+            log.reviewedAt + (log.questionType === 'spelling' ? 0 : SHORT_TERM_DELAY_MS);
+        } else {
+          const { state, nextReviewAt: due } = this.scheduler.init(correctedRating, log.reviewedAt);
+          card.stage = 'long-term';
+          card.shortTermStep = undefined;
+          card.schedulerState = state;
+          card.nextReviewAt = due;
+        }
+        card.updatedAt = now;
+        nextReviewAt = card.nextReviewAt;
+        await cards.saveCardAndLog(card, log);
       } else {
-        // 非长期复习词：纠正只更新复习日志的评分与标记，不推进调度。
+        // 其他阶段：纠正只更新复习日志的评分与标记，不推进调度。
         await logs.save(log);
       }
 
@@ -661,13 +740,14 @@ export class LearningService {
    * - 答对 + 用时 > 10s → hard（费力）；
    * - 答对 + 最近有答错记录 → hard（不稳定）；
    * - 答对 + 快速 + 无切换 + 无近期答错 → good；
-   * - 答对 + 用时 < 2s + 无切换 + 无近期答错 + 历史 ≥ 1 → easy。
+   * - 长期复习答对 + 用时 < 2s + 无切换 + 无近期答错 + 历史 ≥ 1 → easy。
    */
   private autoRate(input: {
     isCorrect: boolean;
     responseTimeMs: number;
     answerChanges: number;
     recentLogs: ReviewLogRecord[];
+    stage: CardRecord['stage'];
   }): ReviewRating {
     if (!input.isCorrect) return 'again';
 
@@ -678,7 +758,8 @@ export class LearningService {
     const fast = input.responseTimeMs < 2_000;
     const slow = input.responseTimeMs > SLOW_RESPONSE_MS;
     const manyChanges = input.answerChanges >= MANY_ANSWER_CHANGES;
-    const hasHistory = input.recentLogs.length > 0;
+    // 短期连续练习只相隔几分钟，不因为这些记录把首次长期调度自动升为 Easy。
+    const hasHistory = input.stage === 'long-term' && input.recentLogs.length > 0;
 
     if (manyChanges || slow || hasRecentWrong) return 'hard';
     if (fast && !manyChanges && !hasRecentWrong && hasHistory) return 'easy';
@@ -696,6 +777,12 @@ export class LearningService {
     }
     // too-easy：提升到 easy
     return 'easy';
+  }
+
+  private async getRequiredQuestionPlan(card: CardRecord): Promise<WordQuestionPlan> {
+    const plan = await this.deps.words.getQuestionPlan(card.wordId);
+    if (!plan) throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
+    return plan;
   }
 
   /** 查找指定阶段中最早到期的复习卡。 */
@@ -764,8 +851,8 @@ export class LearningService {
   /**
    * 为已有学习卡生成题目。
    *
-   * 只读取当前内容包中的固定题组。连续学习模式下，长期复习词有 50% 概率
-   * 使用计划中的拼写题替代语境选择题。
+   * 只读取当前内容包中的固定题组。连续学习模式下，短期学习词可额外练习一次拼写，
+   * 长期复习词可将拼写题与选择题交替安排。
    */
   private async makeQuestionForCard(
     card: CardRecord,
@@ -773,13 +860,26 @@ export class LearningService {
   ): Promise<Question> {
     const [targetWord, plan] = await Promise.all([
       this.deps.words.getWord(card.wordId),
-      this.deps.words.getQuestionPlan(card.wordId),
+      this.getRequiredQuestionPlan(card),
     ]);
     if (!targetWord) {
       throw new ContentUnavailableError(card.wordId, `学习卡引用的词条不存在：${card.wordId}`);
     }
-    if (!plan) throw new ContentUnavailableError(card.wordId, `固定题组缺失：${card.wordId}`);
-    return this.makePlannedQuestion(card, targetWord, plan, allowSpelling);
+    const shortTermStep = card.stage === 'short-term' ? (card.shortTermStep ?? 0) : 0;
+    const cardLogs =
+      (card.stage === 'short-term' || card.stage === 'long-term') && allowSpelling && plan.spelling
+        ? await this.deps.logs.getByCardId(card.id)
+        : [];
+    const hasShortTermSpelling =
+      card.stage === 'short-term' &&
+      cardLogs.some(
+        (log) => log.stageAtSubmission === 'short-term' && log.questionType === 'spelling',
+      );
+    const lastLog = [...cardLogs].sort((a, b) => b.reviewedAt - a.reviewedAt)[0];
+    const spellingAvailable =
+      allowSpelling &&
+      (card.stage === 'short-term' ? !hasShortTermSpelling : lastLog?.questionType !== 'spelling');
+    return this.makePlannedQuestion(card, targetWord, plan, spellingAvailable, shortTermStep);
   }
 
   /** 只读取已检查的固定题组，并按题型顺序回退。 */
@@ -788,9 +888,14 @@ export class LearningService {
     targetWord: WordRecord,
     plan: WordQuestionPlan,
     allowSpelling: boolean,
+    shortTermStep: number,
   ): Promise<Question> {
-    const desired = chooseQuestionType(card.stage, card.schedulerState?.reps);
-    if (allowSpelling && desired === 'context-choice' && plan.spelling && this.random() < 0.5) {
+    const desired = chooseQuestionType(card.stage, card.schedulerState?.reps, shortTermStep);
+    const shortTermSpelling =
+      card.stage === 'short-term' &&
+      (shortTermStep === 2 || (shortTermStep === 1 && !plan.contextChoice));
+    const longTermSpelling = card.stage === 'long-term';
+    if (allowSpelling && plan.spelling && (shortTermSpelling || longTermSpelling)) {
       return generatePlannedSpelling(targetWord, plan, card.id);
     }
 

@@ -2,8 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { chooseQuestionType } from '@/learning/question-generator';
 
 describe('chooseQuestionType', () => {
-  it('短期学习词使用 en-to-zh', () => {
+  it('短期学习词第 0 步使用 en-to-zh', () => {
     expect(chooseQuestionType('short-term')).toBe('en-to-zh');
+    expect(chooseQuestionType('short-term', undefined, 0)).toBe('en-to-zh');
+  });
+
+  it('短期学习词第 1 步使用 zh-to-en', () => {
+    expect(chooseQuestionType('short-term', undefined, 1)).toBe('zh-to-en');
+  });
+
+  it('短期学习词第 2 步使用 context-choice', () => {
+    expect(chooseQuestionType('short-term', undefined, 2)).toBe('context-choice');
   });
 
   it('自报认识词使用 en-to-zh', () => {

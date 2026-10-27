@@ -14,6 +14,7 @@ import type {
   ReviewRating,
   SchedulerState,
   SpellingQuestion,
+  SubmissionResult,
   WordQuestionPlan,
   WordRecord,
 } from '@/types';
@@ -1153,23 +1154,167 @@ describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）
     return { env, question: questionOf(q) };
   }
 
-  it('短期学习词答对后进入长期复习（通过调度器初始化）', async () => {
-    const { env, question } = await prepareDueShortTerm();
-    const result = await env.service.submitAnswer({
+  /** 让接受的新词具有指定的短期可选题型。 */
+  class ShortTermPlanWordBank extends FakeWordBank {
+    constructor(
+      private readonly availability: {
+        zhToEn: boolean;
+        contextChoice: boolean;
+        spelling: boolean;
+      },
+    ) {
+      super();
+    }
+
+    override async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
+      const plan = await super.getQuestionPlan(wordId);
+      if (!plan) return plan;
+      return {
+        ...plan,
+        zhToEn: this.availability.zhToEn ? plan.zhToEn : null,
+        contextChoice: this.availability.contextChoice ? plan.contextChoice : null,
+        spelling: this.availability.spelling ? plan.spelling : null,
+      };
+    }
+  }
+
+  async function submitCorrect(
+    env: ReturnType<typeof makeService>,
+    question: MultipleChoiceQuestion,
+    responseTimeMs = 3000,
+  ): Promise<SubmissionResult> {
+    return env.service.submitAnswer({
       question,
       selectedIndex: question.correctIndex,
-      responseTimeMs: 3000,
+      responseTimeMs,
       source: 'natural',
     });
+  }
 
-    const card = await env.cards.getById(question.cardId);
-    expect(card!.stage).toBe('long-term');
-    expect(card!.schedulerState).toBeDefined();
-    expect(card!.schedulerState!.reps).toBe(1);
-    expect(card!.nextReviewAt).toBe(result.nextReviewAt);
+  it('短期学习词按英选中、中选英、语境轮换后进入长期复习', async () => {
+    const { env, question } = await prepareDueShortTerm();
+    const expectedTypes = ['en-to-zh', 'zh-to-en', 'context-choice'] as const;
+
+    for (const [index, expectedType] of expectedTypes.entries()) {
+      const current = index === 0 ? question : questionOf(await env.service.getNextItem());
+      expect(current.type).toBe(expectedType);
+      const before = env.clock.now();
+      const result = await env.service.submitAnswer({
+        question: current,
+        selectedIndex: current.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
+      const card = await env.cards.getById(current.cardId);
+
+      if (index < expectedTypes.length - 1) {
+        expect(card!.stage).toBe('short-term');
+        expect(card!.shortTermStep).toBe(index + 1);
+        expect(card!.nextReviewAt).toBe(before + 10 * MS_PER_MIN);
+        expect(card!.schedulerState).toBeUndefined();
+        expect(result.nextReviewAt).toBe(before + 10 * MS_PER_MIN);
+        env.advance(10 * MS_PER_MIN);
+      } else {
+        expect(card!.stage).toBe('long-term');
+        expect(card!.shortTermStep).toBeUndefined();
+        expect(card!.schedulerState).toBeDefined();
+        expect(card!.schedulerState!.reps).toBe(1);
+        expect(card!.nextReviewAt).toBe(result.nextReviewAt);
+      }
+    }
+
     expect(env.scheduler).toBeInstanceOf(FakeScheduler);
     expect((env.scheduler as FakeScheduler).initCalls).toHaveLength(1);
     expect((env.scheduler as FakeScheduler).initCalls[0]!.rating).toBe('good');
+  });
+
+  it('缺语境和拼写时英选中、中选英各出现一次后进入长期', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: false,
+        spelling: false,
+      }),
+      random: () => 0.99,
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recall.type).toBe('zh-to-en');
+    const result = await submitCorrect(env, recall);
+
+    const card = await env.cards.getByWordId(wordId);
+    expect(card!.stage).toBe('long-term');
+    expect(card!.shortTermStep).toBeUndefined();
+    expect(card!.schedulerState).toBeDefined();
+
+    const shortTermLogs = (await env.logs.getAll()).filter(
+      (log) => log.cardId === recognition.cardId && log.stageAtSubmission === 'short-term',
+    );
+    expect(shortTermLogs.map((log) => log.questionType)).toEqual(['en-to-zh', 'zh-to-en']);
+
+    env.setNow(result.nextReviewAt!);
+    const longTerm = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(longTerm.wordId).toBe(wordId);
+  });
+
+  it('只有英选中时一次答对即进入长期', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: false,
+        contextChoice: false,
+        spelling: false,
+      }),
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem());
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    const card = await env.cards.getByWordId(wordId);
+    expect(card!.stage).toBe('long-term');
+    expect(card!.shortTermStep).toBeUndefined();
+    expect(card!.schedulerState).toBeDefined();
+    expect((env.scheduler as FakeScheduler).initCalls.at(-1)?.rating).toBe('good');
+  });
+
+  it('英选中后跳过不存在的中选英，直接做可用语境题', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: false,
+        contextChoice: true,
+        spelling: false,
+      }),
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem());
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const context = questionOf(await env.service.getNextItem());
+    expect(context.type).toBe('context-choice');
+    await submitCorrect(env, context);
+
+    const card = await env.cards.getByWordId(wordId);
+    expect(card!.stage).toBe('long-term');
+    expect(card!.shortTermStep).toBeUndefined();
   });
 
   it('短期学习词答错后按短期规则重新安排（10 分钟后可再测）', async () => {
@@ -1185,9 +1330,356 @@ describe('LearningService — 短期学习词流转（Issue #7 验收标准 3）
 
     const card = await env.cards.getById(question.cardId);
     expect(card!.stage).toBe('short-term');
+    expect(card!.shortTermStep).toBe(0);
     expect(card!.nextReviewAt).toBe(before + 10 * MS_PER_MIN);
     expect(card!.schedulerState).toBeUndefined();
   });
+
+  it('第 2 步答错停留在中选英，10 分钟后重测', async () => {
+    const { env, question } = await prepareDueShortTerm();
+    await env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 3000,
+      source: 'natural',
+    });
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem());
+    expect(recall.type).toBe('zh-to-en');
+
+    const before = env.clock.now();
+    await env.service.submitAnswer({
+      question: recall,
+      selectedIndex: (recall.correctIndex + 1) % 4,
+      responseTimeMs: 3000,
+      source: 'natural',
+    });
+
+    const card = await env.cards.getById(recall.cardId);
+    expect(card!.stage).toBe('short-term');
+    expect(card!.shortTermStep).toBe(1);
+    expect(card!.nextReviewAt).toBe(before + 10 * MS_PER_MIN);
+  });
+
+  it('短期阶段“太简单”前进一步，“太难了”后退一步', async () => {
+    async function correctFirstStep(correction: 'too-easy' | 'too-hard') {
+      const { env, question } = await prepareDueShortTerm();
+      const result = await env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
+      const before = env.clock.now();
+      const corrected = await env.service.correctRating(result.reviewLogId, correction);
+      const card = await env.cards.getById(result.cardId);
+      return { env, card, corrected, before };
+    }
+
+    const easy = await correctFirstStep('too-easy');
+    expect(easy.card!.stage).toBe('short-term');
+    expect(easy.card!.shortTermStep).toBe(2);
+    expect(easy.card!.nextReviewAt).toBe(easy.before + 10 * MS_PER_MIN);
+    expect(easy.corrected.rating).toBe('easy');
+
+    const hard = await correctFirstStep('too-hard');
+    expect(hard.card!.stage).toBe('short-term');
+    expect(hard.card!.shortTermStep).toBe(0);
+    expect(hard.card!.nextReviewAt).toBe(hard.before + 10 * MS_PER_MIN);
+    expect(hard.corrected.rating).toBe('hard');
+  });
+
+  it('最后一道短期语境题纠正太难后，退回上一可用题型并清空调度状态', async () => {
+    const env = makeService({ now: 1_000_000 });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem());
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem());
+    expect(recall.type).toBe('zh-to-en');
+    await submitCorrect(env, recall);
+
+    env.advance(10 * MS_PER_MIN);
+    const context = questionOf(await env.service.getNextItem());
+    expect(context.type).toBe('context-choice');
+    const lastShortTermResult = await submitCorrect(env, context);
+    const cardAfterShortTerm = await env.cards.getById(context.cardId);
+    expect(cardAfterShortTerm!.stage).toBe('long-term');
+    expect(cardAfterShortTerm!.schedulerState).toBeDefined();
+
+    const corrected = await env.service.correctRating(lastShortTermResult.reviewLogId, 'too-hard');
+
+    const reviewLog = await env.logs.getById(lastShortTermResult.reviewLogId);
+    const card = await env.cards.getById(context.cardId);
+    expect(corrected.rating).toBe('hard');
+    expect(card!.stage).toBe('short-term');
+    expect(card!.shortTermStep).toBe(1);
+    expect(card!.schedulerState).toBeUndefined();
+    expect(card!.nextReviewAt).toBe(reviewLog!.reviewedAt + 10 * MS_PER_MIN);
+    expect((env.scheduler as FakeScheduler).initCalls).toHaveLength(1);
+
+    env.setNow(card!.nextReviewAt!);
+    expect(questionOf(await env.service.getNextItem()).type).toBe('zh-to-en');
+  });
+
+  it('最后一道短期中选英纠正太难后，退回英选中并清空调度状态', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: false,
+        spelling: false,
+      }),
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem());
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem());
+    expect(recall.type).toBe('zh-to-en');
+    const lastShortTermResult = await submitCorrect(env, recall);
+    const cardAfterShortTerm = await env.cards.getById(recall.cardId);
+    expect(cardAfterShortTerm!.stage).toBe('long-term');
+    expect(cardAfterShortTerm!.schedulerState).toBeDefined();
+
+    await env.service.correctRating(lastShortTermResult.reviewLogId, 'too-hard');
+
+    const card = await env.cards.getById(recall.cardId);
+    expect(card!.stage).toBe('short-term');
+    expect(card!.shortTermStep).toBe(0);
+    expect(card!.schedulerState).toBeUndefined();
+
+    env.setNow(card!.nextReviewAt!);
+    expect(questionOf(await env.service.getNextItem()).type).toBe('en-to-zh');
+  });
+
+  it('短期前步纠正太简单且无后续更难题型时，直接以 Easy 进入长期', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: false,
+        spelling: false,
+      }),
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem());
+    const result = await submitCorrect(env, recognition);
+    expect((await env.cards.getByWordId(wordId))?.stage).toBe('short-term');
+    const corrected = await env.service.correctRating(result.reviewLogId, 'too-easy');
+
+    const card = await env.cards.getByWordId(wordId);
+    expect(corrected.rating).toBe('easy');
+    expect(card!.stage).toBe('long-term');
+    expect(card!.shortTermStep).toBeUndefined();
+    expect(card!.schedulerState).toBeDefined();
+    expect((env.scheduler as FakeScheduler).initCalls.at(-1)?.rating).toBe('easy');
+  });
+
+  it('先前的反馈不能回滚后续已经完成的长期复习', async () => {
+    const env = makeService({ now: 1_000_000 });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    let lastShortTermResult: SubmissionResult | undefined;
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const question = questionOf(await env.service.getNextItem());
+      expect(question.type).toBe(expectedType);
+      lastShortTermResult = await submitCorrect(env, question);
+    }
+    if (!lastShortTermResult) throw new Error('expected a completed short-term review');
+
+    env.setNow(lastShortTermResult.nextReviewAt!);
+    const longTerm = questionOf(await env.service.getNextItem());
+    await submitCorrect(env, longTerm);
+    const cardBeforeCorrection = await env.cards.getByWordId(wordId);
+
+    await expect(
+      env.service.correctRating(lastShortTermResult.reviewLogId, 'too-hard'),
+    ).rejects.toThrow('这道题之后已有新的答题记录');
+    expect(await env.cards.getByWordId(wordId)).toEqual(cardBeforeCorrection);
+    expect(
+      (await env.logs.getById(lastShortTermResult.reviewLogId))?.userCorrection,
+    ).toBeUndefined();
+  });
+
+  it('短期十分钟内连续快速答对，不因短期日志将首次长期评分初始化为 Easy', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      dailyNewWordLimit: 1,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: true,
+        spelling: false,
+      }),
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    const shortTermTypes: MultipleChoiceQuestion['type'][] = [];
+    let result: SubmissionResult | undefined;
+    for (let index = 0; index < 3; index++) {
+      const question = questionOf(
+        await env.service.getNextItem({ allowEarlyShortTermReview: true }),
+      );
+      shortTermTypes.push(question.type);
+      result = await submitCorrect(env, question, 500);
+    }
+
+    if (result === undefined) throw new Error('expected the short-term rotation to finish');
+    expect(shortTermTypes).toEqual(['en-to-zh', 'zh-to-en', 'context-choice']);
+    expect(result.rating).toBe('good');
+    expect((env.scheduler as FakeScheduler).initCalls.at(-1)?.rating).toBe('good');
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
+  });
+
+  it('连续学习短期拼写确定性出现一次，并在完成后继续语境题', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: true,
+        spelling: true,
+      }),
+      random: () => 0.99,
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recall.type).toBe('zh-to-en');
+    await submitCorrect(env, recall);
+
+    env.advance(10 * MS_PER_MIN);
+    const spelling = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+    await env.service.submitSpellingAnswer({
+      question: spelling,
+      spelledAnswer: spelling.correctAnswer,
+      responseTimeMs: 3000,
+      source: 'continuous',
+    });
+
+    env.advance(10 * MS_PER_MIN);
+    const context = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(context.type).toBe('context-choice');
+    await submitCorrect(env, context);
+
+    const shortTermLogs = (await env.logs.getAll()).filter(
+      (log) => log.cardId === recognition.cardId && log.stageAtSubmission === 'short-term',
+    );
+    expect(shortTermLogs.map((log) => log.questionType)).toEqual([
+      'en-to-zh',
+      'zh-to-en',
+      'spelling',
+      'context-choice',
+    ]);
+    expect(shortTermLogs.filter((log) => log.questionType === 'spelling')).toHaveLength(1);
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
+  });
+
+  it('题组无语境但有拼写时，先出拼写再继续中选英', async () => {
+    const env = makeService({
+      now: 1_000_000,
+      words: new ShortTermPlanWordBank({
+        zhToEn: true,
+        contextChoice: false,
+        spelling: true,
+      }),
+      random: () => 0.99,
+    });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    env.advance(10 * MS_PER_MIN);
+    const recognition = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recognition.type).toBe('en-to-zh');
+    await submitCorrect(env, recognition);
+
+    env.advance(10 * MS_PER_MIN);
+    const spelling = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+    await env.service.submitSpellingAnswer({
+      question: spelling,
+      spelledAnswer: spelling.correctAnswer,
+      responseTimeMs: 3000,
+      source: 'continuous',
+    });
+
+    env.advance(10 * MS_PER_MIN);
+    const recall = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+    expect(recall.type).toBe('zh-to-en');
+    await submitCorrect(env, recall);
+
+    const shortTermLogs = (await env.logs.getAll()).filter(
+      (log) => log.cardId === recognition.cardId && log.stageAtSubmission === 'short-term',
+    );
+    expect(shortTermLogs.map((log) => log.questionType)).toEqual([
+      'en-to-zh',
+      'spelling',
+      'zh-to-en',
+    ]);
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
+  });
+
+  it.each([
+    { contextChoice: true, expectedType: 'context-choice' },
+    { contextChoice: false, expectedType: 'zh-to-en' },
+  ] as const)(
+    '短期拼写标记太简单后仍完成 $expectedType',
+    async ({ contextChoice, expectedType }) => {
+      const env = makeService({
+        now: 1_000_000,
+        words: new ShortTermPlanWordBank({ zhToEn: true, contextChoice, spelling: true }),
+      });
+      const wordId = presentationOf(await env.service.getNextItem()).word.id;
+      await env.service.acceptNewWord(wordId);
+
+      env.advance(10 * MS_PER_MIN);
+      await submitCorrect(env, questionOf(await env.service.getNextItem()));
+      env.advance(10 * MS_PER_MIN);
+      if (contextChoice) {
+        const recall = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+        expect(recall.type).toBe('zh-to-en');
+        await submitCorrect(env, recall);
+        env.advance(10 * MS_PER_MIN);
+      }
+
+      const spelling = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+      const result = await env.service.submitSpellingAnswer({
+        question: spelling,
+        spelledAnswer: spelling.correctAnswer,
+        responseTimeMs: 3000,
+        source: 'continuous',
+      });
+      await env.service.correctRating(result.reviewLogId, 'too-easy');
+
+      const card = await env.cards.getByWordId(wordId);
+      expect(card?.stage).toBe('short-term');
+      expect(card?.nextReviewAt).toBe(env.clock.now());
+      expect((await env.logs.getById(result.reviewLogId))?.rating).toBe('easy');
+      expect(questionOf(await env.service.getNextItem({ allowSpelling: true })).type).toBe(
+        expectedType,
+      );
+    },
+  );
 });
 
 // ─── Issue #7 验收标准 4：FSRS 调度持久化 ───────────────────────
@@ -1340,25 +1832,22 @@ describe('LearningService — FSRS 调度持久化（Issue #7 验收标准 4）'
     // 此测试验证 ReviewSchedulerPort 是隔离边界：
     // FakeScheduler 实现了端口，不引用 ts-fsrs，学习服务通过端口调用。
     const scheduler = new FakeScheduler();
-    const { service } = makeService({ scheduler, now: 1_000_000 });
+    const env = makeService({ scheduler, now: 1_000_000 });
 
-    // 接受新词 → 短期 → 答对 → 进入长期复习（通过端口初始化）
-    const item = await service.getNextItem();
-    await service.acceptNewWord(presentationOf(item).word.id);
-    const env = makeService({
-      cards: service['deps'].cards as unknown as CardRepositoryPort,
-      logs: service['deps'].logs as unknown as ReviewLogRepositoryPort,
-      scheduler,
-      now: 1_000_000,
-    });
-    env.advance(10 * MS_PER_MIN);
-    const q = await env.service.getNextItem();
-    await env.service.submitAnswer({
-      question: questionOf(q),
-      selectedIndex: questionOf(q).correctIndex,
-      responseTimeMs: 3000,
-      source: 'natural',
-    });
+    // 接受新词 → 完成三步短期轮换 → 进入长期复习（通过端口初始化）
+    const item = await env.service.getNextItem();
+    await env.service.acceptNewWord(presentationOf(item).word.id);
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const q = questionOf(await env.service.getNextItem());
+      expect(q.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question: q,
+        selectedIndex: q.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
+    }
 
     expect(scheduler.initCalls).toHaveLength(1);
     // 端口只暴露 domain 类型，不泄露 ts-fsrs Rating 枚举
@@ -1426,19 +1915,29 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
   });
 
   it('答对 + 快速（<2s）+ 有历史 → easy', async () => {
-    const { env, question } = await prepareDueQuestion();
-    // 先答对一次建立历史（短期词答对进入长期复习）
-    await env.service.submitAnswer({
-      question,
-      selectedIndex: question.correctIndex,
-      responseTimeMs: 5000,
-      source: 'natural',
-    });
+    const env = makeService({ now: 1_000_000 });
+    const wordId = presentationOf(await env.service.getNextItem()).word.id;
+    await env.service.acceptNewWord(wordId);
+
+    // 先完成全部短期题型，最后一次提交才使学习卡进入长期复习。
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const question = questionOf(await env.service.getNextItem());
+      expect(question.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
+    }
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
 
     // 长期复习词到期后再次答对：快速 + 有历史 → easy
     env.advance(MS_PER_DAY);
     const q2 = await env.service.getNextItem();
     expect(q2!.kind).toBe('question');
+    expect(questionOf(q2).wordId).toBe(wordId);
     const result = await env.service.submitAnswer({
       question: questionOf(q2),
       selectedIndex: questionOf(q2).correctIndex,
@@ -1498,20 +1997,49 @@ describe('LearningService — 自动评分（Issue #7 验收标准 5）', () => 
 // ─── Issue #7 验收标准 5：用户纠正评分 ───────────────────────────
 
 describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', () => {
-  async function prepareSubmittedLongTerm(now = 1_000_000) {
-    const env = makeService({ now });
-    const item = await env.service.getNextItem();
-    await env.service.acceptNewWord(presentationOf(item).word.id);
-    env.advance(10 * MS_PER_MIN);
-    const q = await env.service.getNextItem();
-    // 答对进入长期复习
-    const result = await env.service.submitAnswer({
-      question: questionOf(q),
-      selectedIndex: questionOf(q).correctIndex,
+  async function completeShortTerm(
+    env: ReturnType<typeof makeService>,
+    wordId: string,
+  ): Promise<void> {
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const question = questionOf(await env.service.getNextItem());
+      expect(question.wordId).toBe(wordId);
+      expect(question.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 5000,
+        source: 'natural',
+      });
+    }
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
+  }
+
+  async function submitDueLongTerm(
+    env: ReturnType<typeof makeService>,
+    wordId: string,
+  ): Promise<SubmissionResult> {
+    env.advance(MS_PER_DAY);
+    const question = questionOf(await env.service.getNextItem());
+    expect(question.wordId).toBe(wordId);
+    expect((await env.cards.getByWordId(wordId))!.stage).toBe('long-term');
+    return env.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
       responseTimeMs: 5000,
       source: 'natural',
     });
-    return { env, result };
+  }
+
+  async function prepareSubmittedLongTerm(now = 1_000_000) {
+    const env = makeService({ now });
+    const item = await env.service.getNextItem();
+    const wordId = presentationOf(item).word.id;
+    await env.service.acceptNewWord(wordId);
+    await completeShortTerm(env, wordId);
+    const result = await submitDueLongTerm(env, wordId);
+    return { env, result, wordId };
   }
 
   it('“其实是蒙的”纠正：评分降为 again，重新调度', async () => {
@@ -1565,24 +2093,22 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
     const logs = new FakeReviewLogRepository();
     const cards = new FakeCardRepository().bindLogs(logs);
     const scheduler = new FakeScheduler();
-    const { service } = makeService({ cards, logs, scheduler, now: 1_000_000 });
-
-    const item = await service.getNextItem();
-    await service.acceptNewWord(presentationOf(item).word.id);
     const env = makeService({ cards, logs, scheduler, now: 1_000_000 });
-    env.advance(10 * MS_PER_MIN);
-    const q = await env.service.getNextItem();
-    const result = await env.service.submitAnswer({
-      question: questionOf(q),
-      selectedIndex: questionOf(q).correctIndex,
-      responseTimeMs: 5000,
-      source: 'natural',
-    });
+    const item = await env.service.getNextItem();
+    const wordId = presentationOf(item).word.id;
+    await env.service.acceptNewWord(wordId);
+    await completeShortTerm(env, wordId);
+    const result = await submitDueLongTerm(env, wordId);
 
     await env.service.correctRating(result.reviewLogId, 'too-easy');
 
     // 模拟重启
-    const { service: service2 } = makeService({ cards, logs, scheduler, now: 1_000_000 });
+    const { service: service2 } = makeService({
+      cards,
+      logs,
+      scheduler,
+      now: env.clock.now(),
+    });
     const log = await service2['deps'].logs.getById(result.reviewLogId);
     expect(log!.rating).toBe('easy');
     expect(log!.userCorrection).toBe('too-easy');
@@ -1602,17 +2128,20 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
     const scheduler = new FakeScheduler();
     const env = makeService({ cards, logs, scheduler, now: 1_000_000 });
 
-    // 1. 短期词答对 → 长期复习（init，reps=1）
+    // 1. 完成短期三步轮换 → 长期复习（init，reps=1）
     const item = await env.service.getNextItem();
     await env.service.acceptNewWord(presentationOf(item).word.id);
-    env.advance(10 * MS_PER_MIN);
-    const q1 = await env.service.getNextItem();
-    await env.service.submitAnswer({
-      question: questionOf(q1),
-      selectedIndex: questionOf(q1).correctIndex,
-      responseTimeMs: 5000,
-      source: 'natural',
-    });
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const q = questionOf(await env.service.getNextItem());
+      expect(q.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question: q,
+        selectedIndex: q.correctIndex,
+        responseTimeMs: 5000,
+        source: 'natural',
+      });
+    }
     const cardAfterInit = await cards.getByWordId(presentationOf(item).word.id);
     expect(cardAfterInit!.schedulerState!.reps).toBe(1);
 
@@ -1641,7 +2170,7 @@ describe('LearningService — 用户纠正评分（Issue #7 验收标准 5）', 
 
     await env.service.correctRating(result.reviewLogId, 'guessed');
 
-    expect((env.scheduler as FakeScheduler).initCalls.at(-1)?.now).toBe(submittedAt);
+    expect((env.scheduler as FakeScheduler).scheduleCalls.at(-1)?.now).toBe(submittedAt);
     await expect(env.service.correctRating(result.reviewLogId, 'too-easy')).rejects.toThrow(
       '评分已经纠正',
     );
@@ -1762,59 +2291,128 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
     };
   }
 
+  function makeReviewLog(
+    card: CardRecord,
+    questionType: ReviewLogRecord['questionType'],
+    reviewedAt: number,
+  ): ReviewLogRecord {
+    return {
+      id: crypto.randomUUID(),
+      cardId: card.id,
+      wordId: card.wordId,
+      questionType,
+      selectedAnswer: 'test',
+      correctAnswer: 'test',
+      isCorrect: true,
+      responseTimeMs: 3000,
+      reviewedAt,
+      stageAtSubmission: 'long-term',
+      source: 'natural',
+      rating: 'good',
+    };
+  }
+
   describe('验收标准 3：连续模式可出拼写题，单题模式不出拼写题', () => {
-    it('单题模式（无 allowSpelling）不出拼写题', async () => {
+    it('单题模式不出拼写题，也不修改既有长期到期时间', async () => {
       const now = 1_000_000;
       const cards = new FakeCardRepository();
-      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const card = makeDueLongTermCard('w-abandon', now, { reps: 3 });
+      await cards.save(card);
 
-      // 多次调用 getNextItem（无 allowSpelling），不应返回拼写题
-      for (let i = 0; i < 20; i++) {
-        const { service } = makeService({ cards, now, random: () => 0.99 });
-        const item = await service.getNextItem();
-        expect(item).not.toBeNull();
-        expect(item!.kind).not.toBe('spelling-question');
-        // 重置该卡为到期以再次测试
-        await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
-      }
+      const { service } = makeService({ cards, now, random: () => 0 });
+      const item = await service.getNextItem();
+
+      expect(questionOf(item).type).toBe('context-choice');
+      const cardAfterSelection = await cards.getById(card.id);
+      expect(cardAfterSelection!.nextReviewAt).toBe(card.nextReviewAt);
+      expect(cardAfterSelection!.schedulerState).toEqual(card.schedulerState);
     });
 
-    it('连续模式（allowSpelling: true）长期复习词有概率出拼写题', async () => {
+    it('连续模式在最近一次答题不是拼写时优先出拼写题', async () => {
       const now = 1_000_000;
+      const logs = new FakeReviewLogRepository();
       const cards = new FakeCardRepository();
-      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const card = makeDueLongTermCard('w-abandon', now, { reps: 3 });
+      await cards.save(card);
+      await logs.save(makeReviewLog(card, 'context-choice', now - 1000));
 
-      // random=0 → 50% 概率（<0.5），出拼写题
-      const { service } = makeService({ cards, now, random: () => 0 });
+      // random 已不参与短期拼写优先级；给它一个通常不会选中拼写的值。
+      const { service } = makeService({ cards, logs, now, random: () => 0.99 });
       const item = await service.getNextItem({ allowSpelling: true });
       expect(item).not.toBeNull();
       expect(item!.kind).toBe('spelling-question');
       expect(spellingQuestionOf(item).correctAnswer).toBe('abandon');
     });
 
-    it('连续模式 random >= 0.5 时仍出 context-choice 题', async () => {
+    it('连续模式在最近一次答题是拼写时改用现有选择题策略', async () => {
       const now = 1_000_000;
+      const logs = new FakeReviewLogRepository();
       const cards = new FakeCardRepository();
-      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const card = makeDueLongTermCard('w-abandon', now, { reps: 3 });
+      await cards.save(card);
+      await logs.save(makeReviewLog(card, 'context-choice', now - 2000));
+      await logs.save(makeReviewLog(card, 'spelling', now - 1000));
 
-      const { service } = makeService({ cards, now, random: () => 0.6 });
+      const { service } = makeService({ cards, logs, now, random: () => 0.99 });
       const item = await service.getNextItem({ allowSpelling: true });
-      expect(item).not.toBeNull();
-      expect(item!.kind).toBe('question');
       expect(questionOf(item).type).toBe('context-choice');
     });
 
-    it('连续模式不出拼写题给 reps < 2 的长期复习词', async () => {
+    it('连续模式给 reps=1 的到期长期复习词优先出拼写题', async () => {
       const now = 1_000_000;
       const cards = new FakeCardRepository();
       await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 1 }));
 
-      const { service } = makeService({ cards, now, random: () => 0 });
+      const { service } = makeService({ cards, now, random: () => 0.99 });
       const item = await service.getNextItem({ allowSpelling: true });
-      expect(item).not.toBeNull();
-      // reps=1 → zh-to-en，不是 context-choice，不会替换为 spelling
-      expect(item!.kind).toBe('question');
-      expect(questionOf(item).type).toBe('zh-to-en');
+      expect(item!.kind).toBe('spelling-question');
+    });
+
+    it('连续学习按最近题型在拼写与选择题之间轮换', async () => {
+      const now = 1_000_000;
+      const logs = new FakeReviewLogRepository();
+      const cards = new FakeCardRepository().bindLogs(logs);
+      const card = makeDueLongTermCard('w-abandon', now, { reps: 1 });
+      await cards.save(card);
+      const env = makeService({ cards, logs, now, random: () => 0.99 });
+
+      const spelling = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+      const spellingResult = await env.service.submitSpellingAnswer({
+        question: spelling,
+        spelledAnswer: spelling.correctAnswer,
+        responseTimeMs: 3000,
+        source: 'continuous',
+      });
+
+      env.setNow(spellingResult.nextReviewAt!);
+      const choice = questionOf(await env.service.getNextItem({ allowSpelling: true }));
+      const choiceResult = await env.service.submitAnswer({
+        question: choice,
+        selectedIndex: choice.correctIndex,
+        responseTimeMs: 3000,
+        source: 'continuous',
+      });
+
+      env.setNow(choiceResult.nextReviewAt!);
+      expect((await env.service.getNextItem({ allowSpelling: true }))?.kind).toBe(
+        'spelling-question',
+      );
+    });
+
+    it('长期卡没有拼写题组时回退到现有选择题', async () => {
+      const now = 1_000_000;
+      const words = new FakeWordBank();
+      words.getQuestionPlan = async (wordId) => {
+        const plan = PLANS.get(wordId);
+        return plan ? { ...plan, spelling: null } : null;
+      };
+      const cards = new FakeCardRepository();
+      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+
+      const { service } = makeService({ cards, words, now });
+      const item = await service.getNextItem({ allowSpelling: true });
+
+      expect(questionOf(item).type).toBe('context-choice');
     });
 
     it('无例句的熟悉词仍可在连续模式出拼写题', async () => {
@@ -1834,15 +2432,19 @@ describe('LearningService — 连续学习模式与拼写题（Issue #8）', () 
       expect(spellingQuestionOf(item).explanation.exampleSentence).toBeUndefined();
     });
 
-    it('无例句且未选中拼写时出中选英题', async () => {
+    it('无例句且最近已做拼写时回退中选英题', async () => {
       const now = 1_000_000;
+      const logs = new FakeReviewLogRepository();
       const cards = new FakeCardRepository();
-      await cards.save(makeDueLongTermCard('w-abandon', now, { reps: 3 }));
+      const card = makeDueLongTermCard('w-abandon', now, { reps: 3 });
+      await cards.save(card);
+      await logs.save(makeReviewLog(card, 'spelling', now - 1000));
       const { service } = makeService({
         cards,
+        logs,
         words: new WordBankWithoutExamples(),
         now,
-        random: () => 0.6,
+        random: () => 0.99,
       });
 
       const item = await service.getNextItem({ allowSpelling: true });
@@ -2207,18 +2809,25 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
   });
 
   it('AC4：并发提交同一拼写题只写入一条复习日志', async () => {
-    const env = makeService({ now: 1_000_000, dailyNewWordLimit: 5 });
+    const env = makeService({ now: 1_000_000 });
     const item = await env.service.getNextItem();
-    await env.service.acceptNewWord(presentationOf(item).word.id);
-    env.advance(10 * MS_PER_MIN);
-    env.advance(MS_PER_DAY); // 推进到长期复习，以便出现拼写题
-    const q = await env.service.getNextItem({ allowSpelling: true });
-    expect(q).not.toBeNull();
-    if (q!.kind !== 'spelling-question') {
-      // 拼写题出现概率性：若本次未出拼写题则跳过
-      return;
+    const wordId = presentationOf(item).word.id;
+    await env.service.acceptNewWord(wordId);
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const question = questionOf(await env.service.getNextItem());
+      expect(question.wordId).toBe(wordId);
+      expect(question.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
     }
-    const question = spellingQuestionOf(q);
+    env.advance(MS_PER_DAY);
+    const question = spellingQuestionOf(await env.service.getNextItem({ allowSpelling: true }));
+    const logCountBeforeSubmission = (await env.logs.getAll()).length;
 
     const [r1, r2] = await Promise.all([
       env.service.submitSpellingAnswer({
@@ -2237,19 +2846,33 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
 
     expect(r1).toBe(r2);
     const logs = await env.logs.getAll();
-    expect(logs).toHaveLength(1);
+    expect(logs).toHaveLength(logCountBeforeSubmission + 1);
+    expect(logs.filter((log) => log.questionType === 'spelling')).toHaveLength(1);
   });
 
   it('AC4：并发纠正同一复习日志评分只调度一次且结果共享', async () => {
     // 准备一张已提交的长期复习卡
     const env = makeService({ now: 1_000_000 });
     const item = await env.service.getNextItem();
-    await env.service.acceptNewWord(presentationOf(item).word.id);
-    env.advance(10 * MS_PER_MIN);
-    const q = await env.service.getNextItem();
+    const wordId = presentationOf(item).word.id;
+    await env.service.acceptNewWord(wordId);
+    for (const expectedType of ['en-to-zh', 'zh-to-en', 'context-choice'] as const) {
+      env.advance(10 * MS_PER_MIN);
+      const question = questionOf(await env.service.getNextItem());
+      expect(question.wordId).toBe(wordId);
+      expect(question.type).toBe(expectedType);
+      await env.service.submitAnswer({
+        question,
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 3000,
+        source: 'natural',
+      });
+    }
+    env.advance(MS_PER_DAY);
+    const q = questionOf(await env.service.getNextItem());
     const result = await env.service.submitAnswer({
-      question: questionOf(q),
-      selectedIndex: questionOf(q).correctIndex,
+      question: q,
+      selectedIndex: q.correctIndex,
       responseTimeMs: 5000,
       source: 'natural',
     });

@@ -83,7 +83,7 @@ export class DevLearningItemService {
       const plan = await this.deps.words.getQuestionPlan(target.id);
       if (plan === null || !this.hasRequestedPlan(cardType, plan)) continue;
 
-      const card = this.buildAcceptedNewCard(target.id, deck.id);
+      const card = this.buildAcceptedNewCard(target.id, deck.id, cardType);
       const provisionalItem = await this.tryBuildItem(cardType, target, card.id, plan);
       if (provisionalItem === null) continue;
       sawValidTarget = true;
@@ -250,7 +250,7 @@ export class DevLearningItemService {
     }
   }
 
-  private buildAcceptedNewCard(wordId: string, deckId: string): CardRecord {
+  private buildAcceptedNewCard(wordId: string, deckId: string, cardType: DevCardType): CardRecord {
     const now = this.deps.clock.now();
     return {
       id: crypto.randomUUID(),
@@ -261,6 +261,12 @@ export class DevLearningItemService {
       createdAt: now,
       updatedAt: now,
       nextReviewAt: now + SHORT_TERM_DELAY_MS,
+      shortTermStep:
+        cardType === 'zh-to-en'
+          ? 1
+          : cardType === 'context-choice' || cardType === 'spelling'
+            ? 2
+            : 0,
     };
   }
 

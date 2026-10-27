@@ -121,7 +121,7 @@ describe('background 入口 — 共享持久化上下文', () => {
     try {
       expect(await idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs)).toHaveLength(1);
       expect(await idbGetAll<CardRecord>(db, STORES.cards)).toMatchObject([
-        { stage: 'long-term', schedulerState: { reps: 1 } },
+        { stage: 'short-term', shortTermStep: 1 },
       ]);
     } finally {
       db.close();

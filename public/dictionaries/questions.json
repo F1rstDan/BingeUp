@@ -9266,7 +9266,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-during",
+          "surfaceForm": "during"
+        },
+        {
+          "wordId": "w-versus",
+          "surfaceForm": "versus"
+        },
+        {
+          "wordId": "w-despite",
+          "surfaceForm": "despite"
+        }
+      ],
+      "checkedContentHash": "56c9beca48e38ba62ae80e695b319655eafcbf1229b5a94fa98a0e1b200abe04"
+    },
     "enToZh": {
       "checkedContentHash": "16cd1d6c5fdc561b8d0dcc95fd7b7a900d375abf0eb37555da1646b50ee50f18",
       "distractors": [
@@ -12873,7 +12889,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-listen",
+          "surfaceForm": "listen"
+        },
+        {
+          "wordId": "w-reply",
+          "surfaceForm": "reply"
+        },
+        {
+          "wordId": "w-respond",
+          "surfaceForm": "respond"
+        }
+      ],
+      "checkedContentHash": "9b21d061b7f3eec4fe5002f3aa40a6630270be7034f3048af011c14f3740edaa"
+    },
     "enToZh": {
       "checkedContentHash": "8146e7eb9e5080791445168fcb9b5c1756097e50f4cb32bd9604a4639006dc23",
       "distractors": [
@@ -12882,7 +12914,10 @@
         "w-accompany"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "2a3d3f34e76d902c39ad3aa5f737eb5d0e34958fea63559360f2f827d298a60d"
+    },
     "wordId": "w-call",
     "zhToEn": {
       "checkedContentHash": "4c165447dbfaf69a1e6e0c1bd3ed245aaab9bd5cdff632c6ad782535fe838438",
@@ -15660,7 +15695,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-cent",
+          "surfaceForm": "cent"
+        },
+        {
+          "wordId": "w-cable",
+          "surfaceForm": "cable"
+        },
+        {
+          "wordId": "w-nose",
+          "surfaceForm": "nose"
+        }
+      ],
+      "checkedContentHash": "22f6a779606538df9501ce2b514f895c90e6e048b86bbacaf2bc221c9b728ce5"
+    },
     "enToZh": {
       "checkedContentHash": "7288651afe8c1685a5e2fc86efcb9f8f86d238704896a44094e018404d874124",
       "distractors": [
@@ -15669,7 +15720,10 @@
         "w-cable"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "1b2183cff28eb5b1101a48069b33e18dacd889cafb13fc04bd0c666bd1094953"
+    },
     "wordId": "w-child",
     "zhToEn": {
       "checkedContentHash": "b5427a805eac33178c8f22b96574863e06089fc3855f0bb0df5683c350a5e6db",
@@ -37587,7 +37641,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-goods",
+          "surfaceForm": "goods"
+        },
+        {
+          "wordId": "w-cattle",
+          "surfaceForm": "cattle"
+        },
+        {
+          "wordId": "w-clothes",
+          "surfaceForm": "clothes"
+        }
+      ],
+      "checkedContentHash": "132e5b98b5bc721458d7f433ce4f00dc94736fc0b36239d5097882d0cd442553"
+    },
     "enToZh": {
       "checkedContentHash": "5e80262bfd0fce4537aa73a43f6270de3b4e1db7a05ac98fd12b0d5716939273",
       "distractors": [
@@ -37596,7 +37666,10 @@
         "w-punishment"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "b81f679bda07dcc689ad5a36dc28bda83e98c666751e367f1e94d0e6571ad8f1"
+    },
     "wordId": "w-family",
     "zhToEn": {
       "checkedContentHash": "91e2868ec12fc5cddc1491843e9fe40b4e95ffffab53dc29f90205b7439f1a4a",
@@ -38196,7 +38269,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-deny",
+          "surfaceForm": "deny"
+        },
+        {
+          "wordId": "w-confine",
+          "surfaceForm": "confine"
+        },
+        {
+          "wordId": "w-embarrass",
+          "surfaceForm": "embarrass"
+        }
+      ],
+      "checkedContentHash": "0d8240e1516a5db1477f940d532e5f4faedfff0ece25182ff32e5879520fa768"
+    },
     "enToZh": {
       "checkedContentHash": "b8c7db8d86192d7822066bb1505c42626da93b347d537989dafdb5f6c3415f30",
       "distractors": [
@@ -38205,7 +38294,10 @@
         "w-embarrass"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "e63d5db98d3b382cdf0a4b40abed3c1c7add80acf7d92a868737d789a0a90615"
+    },
     "wordId": "w-feel",
     "zhToEn": {
       "checkedContentHash": "d9d8d721e7b46db2f071816584090be0be8058376f305c51f8d51e97924da27a",
@@ -38763,7 +38855,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-reply",
+          "surfaceForm": "reply"
+        },
+        {
+          "wordId": "w-listen",
+          "surfaceForm": "listen"
+        },
+        {
+          "wordId": "w-arrive",
+          "surfaceForm": "arrive"
+        }
+      ],
+      "checkedContentHash": "e8ae93d5b6809ddedb06c7fc0a2897d1916e69ce735acd6e41485a4cff985077"
+    },
     "enToZh": {
       "checkedContentHash": "95a0efa707a2da48c7f0c5c9b11f426f74d7e5363c89fd2379f4e969dfd96246",
       "distractors": [
@@ -38772,7 +38880,10 @@
         "w-adapt"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "bdb74bf5ac042cafd92c2f94e443ef8df4e742f944e0c56ef29889ff4d400927"
+    },
     "wordId": "w-find",
     "zhToEn": {
       "checkedContentHash": "6289ffe24f0e69e1358b0ea9735ecd089363145a3386296d9bde6dc61ae8f800",
@@ -46921,7 +47032,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-politically",
+          "surfaceForm": "politically"
+        },
+        {
+          "wordId": "w-economically",
+          "surfaceForm": "economically"
+        },
+        {
+          "wordId": "w-intellectually",
+          "surfaceForm": "intellectually"
+        }
+      ],
+      "checkedContentHash": "80f17f4dd52fd0a9407c452a5fb19b4c61c9879c8d19a842f7dc9673ef13af40"
+    },
     "enToZh": {
       "checkedContentHash": "ef78cf4f6310cc094453fa2795a816017aab7e8ae2d57dbfeec877893fc4a7a5",
       "distractors": [
@@ -46930,7 +47057,10 @@
         "w-even"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "538f281f059dac7ccf1c1292c7c8134ba3181efd88c830cfc38359f0aad1100d"
+    },
     "wordId": "w-here",
     "zhToEn": {
       "checkedContentHash": "a00d6d8096aeeb17c60419e126af297f2ce4b71ddb127d9fae45e86210573761",
@@ -47089,7 +47219,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-blind",
+          "surfaceForm": "blind"
+        },
+        {
+          "wordId": "w-sick",
+          "surfaceForm": "sick"
+        },
+        {
+          "wordId": "w-shy",
+          "surfaceForm": "shy"
+        }
+      ],
+      "checkedContentHash": "92db37760bffacbdd58936dedcb54d6b730bd8e277cfc2b7aad5bf8868bf08d9"
+    },
     "enToZh": {
       "checkedContentHash": "0718bf8b50889e11d1549ea599dd17dfbbd3b9a0b7c18a50b29a7c753ee10a95",
       "distractors": [
@@ -47098,7 +47244,10 @@
         "w-plain"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "286455d7a53eebcaa44eabfdc7e81181b39608926b9a0933a2c74842a834b3a7"
+    },
     "wordId": "w-high",
     "zhToEn": {
       "checkedContentHash": "1646a9a40a23d3435f5746071e1b0a068996bee0cd3022c6dda4a20bbf7e4a3e",
@@ -54797,7 +54946,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-listen",
+          "surfaceForm": "listen"
+        },
+        {
+          "wordId": "w-swim",
+          "surfaceForm": "swim"
+        },
+        {
+          "wordId": "w-occur",
+          "surfaceForm": "occur"
+        }
+      ],
+      "checkedContentHash": "6fbe13aad31f6529a6e61350b236689a341b4410470b1064b9ca19492d1d9f61"
+    },
     "enToZh": {
       "checkedContentHash": "dc034a71cf2f4fe9309695468bb8d95e6f8e49e6b56997e82090be0e9ed0d82f",
       "distractors": [
@@ -54806,7 +54971,10 @@
         "w-count"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "94ddef44c5bc38e0283acb3393702e559f86b0b4116e960e2f926be77faf8c38"
+    },
     "wordId": "w-keep",
     "zhToEn": {
       "checkedContentHash": "dc79e66cdf0490b6b49c372cbca31288323019535de17a0c2360f5be925fb26d",
@@ -56727,7 +56895,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-arrive",
+          "surfaceForm": "arrive"
+        },
+        {
+          "wordId": "w-appear",
+          "surfaceForm": "appear"
+        },
+        {
+          "wordId": "w-belong",
+          "surfaceForm": "belong"
+        }
+      ],
+      "checkedContentHash": "c9829cabfd5782c43ce3bad050ea954740b6395291bc82f357983cb1280df654"
+    },
     "enToZh": {
       "checkedContentHash": "908c7e871c53d091cfa1577890b63ddf4e6a400091078bc253b885324686aa26",
       "distractors": [
@@ -56736,7 +56920,10 @@
         "w-die"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "4c2d93fada07b98f2255858b04bdc1340958926aa51c0d83b1657b8074c9596d"
+    },
     "wordId": "w-leave",
     "zhToEn": {
       "checkedContentHash": "2d42dbe5a43d21de66f024561f92a67ebb466d545b3dca2522081dd149fe7efb",
@@ -57467,7 +57654,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-furniture",
+          "surfaceForm": "furniture"
+        },
+        {
+          "wordId": "w-knowledge",
+          "surfaceForm": "knowledge"
+        },
+        {
+          "wordId": "w-baggage",
+          "surfaceForm": "baggage"
+        }
+      ],
+      "checkedContentHash": "b77c362bb5c2ba66acf06a5fe05969f2527d0891feec380c150393e006c75710"
+    },
     "enToZh": {
       "checkedContentHash": "528883b4db5255d41443ec1d831f80ef1d4af3f14eb51ee61a727ebd9b009013",
       "distractors": [
@@ -57476,7 +57679,10 @@
         "w-fork"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "de2b2ba97911a045e5463f00459e108fe1a63617997e42e60f58b8f1740a805c"
+    },
     "wordId": "w-life",
     "zhToEn": {
       "checkedContentHash": "7ab4f96876b98fba7f544b3fec4f9fc68afb773162989b3f9b3cc7076036adf8",
@@ -65779,7 +65985,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-respectively",
+          "surfaceForm": "respectively"
+        },
+        {
+          "wordId": "w-whereby",
+          "surfaceForm": "whereby"
+        },
+        {
+          "wordId": "w-thereof",
+          "surfaceForm": "thereof"
+        }
+      ],
+      "checkedContentHash": "90a254576a877aec19e1fcbadd6ebae9a6889ae70657c0a2e9b68c25f41d5ba2"
+    },
     "enToZh": {
       "checkedContentHash": "7e82635ff2c4d7e304400afb47f610ef4ee92615176a09f8cc8d4ee0465d83e5",
       "distractors": [
@@ -65788,7 +66010,10 @@
         "w-slightly"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "86eacb0c3b4fd289f53027d0e512a3dec38638d1448499b6ba53989ca3089110"
+    },
     "wordId": "w-never",
     "zhToEn": {
       "checkedContentHash": "5c0f4e78a41757dd8c00c94f52b53edbc81239eafcf59d52e8a93b4c5936e13b",
@@ -88579,7 +88804,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-movie",
+          "surfaceForm": "movie"
+        },
+        {
+          "wordId": "w-police",
+          "surfaceForm": "police"
+        },
+        {
+          "wordId": "w-appeal",
+          "surfaceForm": "appeal"
+        }
+      ],
+      "checkedContentHash": "1e738f8007d933b735d53b88af961bee6970b1607508f529fff3c564eee4197a"
+    },
     "enToZh": {
       "checkedContentHash": "18e79e73eb74225dc6ea56ec3815a75021b6a7dddd0e2b504d65c2852d564e3b",
       "distractors": [
@@ -88588,7 +88829,10 @@
         "w-appeal"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "68df5d85491bfdc938522905765581f9695540705b0e2985651b670059bcd474"
+    },
     "wordId": "w-school",
     "zhToEn": {
       "checkedContentHash": "9907d682dfd7bc68fd2151b32b152224dd8224ae05c25b7802f66f3ef20fcf54",
@@ -96844,7 +97088,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-flower",
+          "surfaceForm": "flower"
+        },
+        {
+          "wordId": "w-nest",
+          "surfaceForm": "nest"
+        },
+        {
+          "wordId": "w-publication",
+          "surfaceForm": "publication"
+        }
+      ],
+      "checkedContentHash": "c6c71f833fd3f8024f227a91122b5f8307c3bd7bb5833b56ae3896e317d4189d"
+    },
     "enToZh": {
       "checkedContentHash": "259f135b98e2f5e977520a3b5df24bdc528949e5b06790b985189018f4188d61",
       "distractors": [
@@ -96853,7 +97113,10 @@
         "w-publication"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "ede43bde6f44ecff9c597c4011f551083dd1999ab90c71f31594bb57a13c1043"
+    },
     "wordId": "w-state",
     "zhToEn": {
       "checkedContentHash": "34ca40f05a4ae15a13a682c16f3edcbe6e3d91c883b7a385d2cf911342e0d1b7",
@@ -98581,7 +98844,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-battery",
+          "surfaceForm": "battery"
+        },
+        {
+          "wordId": "w-fence",
+          "surfaceForm": "fence"
+        },
+        {
+          "wordId": "w-closet",
+          "surfaceForm": "closet"
+        }
+      ],
+      "checkedContentHash": "b62868e3002197edae5007c6e372638309a30dd0c7666e710e400199bb6553b8"
+    },
     "enToZh": {
       "checkedContentHash": "b05f0f463bca8908a90a4683312920240fb661daf1add9687e19fe2f8bf2c137",
       "distractors": [
@@ -102166,7 +102445,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-reply",
+          "surfaceForm": "reply"
+        },
+        {
+          "wordId": "w-respond",
+          "surfaceForm": "respond"
+        },
+        {
+          "wordId": "w-apologize",
+          "surfaceForm": "apologize"
+        }
+      ],
+      "checkedContentHash": "92a221dcf991325359b593db58dbf332b1eec4014f4492f478fc162ecb89fd93"
+    },
     "enToZh": {
       "checkedContentHash": "20f1a87d10a4b45ffff7fbdb4675efe26b00f0c134f787f697e747470f6afecc",
       "distractors": [
@@ -102175,7 +102470,10 @@
         "w-hold"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "8415491fa542e958284273c9f65708f98aff1206aaae62a92a56290857685b8e"
+    },
     "wordId": "w-tell",
     "zhToEn": {
       "checkedContentHash": "a1d9632f9b1442e9bfd216631275e899c7905608b6e582fed69254baed3f7ffd",
@@ -103279,7 +103577,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-movement",
+          "surfaceForm": "movement"
+        },
+        {
+          "wordId": "w-beach",
+          "surfaceForm": "beach"
+        },
+        {
+          "wordId": "w-french",
+          "surfaceForm": "French"
+        }
+      ],
+      "checkedContentHash": "89eb32765c57efb3dc2b5d58af0b890e2549c87c912ea261dfd97d5c26d7b2c6"
+    },
     "enToZh": {
       "checkedContentHash": "1f507f37eafae801ce77341ebe0aa80aff8b7c4958924a29e692b6a856d6c9df",
       "distractors": [
@@ -103288,7 +103602,10 @@
         "w-french"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "d6a201d5a9d5ca2513023d1fdeb83dd07dbe20e6a400a5271e31bb6994db9818"
+    },
     "wordId": "w-thing",
     "zhToEn": {
       "checkedContentHash": "a8ed295f06c5b15db68abaf9d6ad86064bf4a5c8d628589f8d22b1650bb8c847",
@@ -103760,7 +104077,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-per",
+          "surfaceForm": "per"
+        },
+        {
+          "wordId": "w-plus",
+          "surfaceForm": "plus"
+        },
+        {
+          "wordId": "w-except",
+          "surfaceForm": "except"
+        }
+      ],
+      "checkedContentHash": "7bd5e85c9258d3538d3d320d888150d9d9f126a18dcb6869d6291f397ef0f892"
+    },
     "enToZh": {
       "checkedContentHash": "f8f1ebe0e3d52258a6d490fc0ddb3a7045caef9f14fd30992dfe8ef88549ec0d",
       "distractors": [
@@ -103769,7 +104102,10 @@
         "w-against"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "04c64b359fff0eda748ede993ffd11ffaaa2fe26d5ca7183aa34c40db4cc1d5a"
+    },
     "wordId": "w-through",
     "zhToEn": {
       "checkedContentHash": "8046a4e450ea09dd1cfc523e52801957a4cf39a150210c570866dee69ba4f5e2",
@@ -113219,7 +113555,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-deer",
+          "surfaceForm": "deer"
+        },
+        {
+          "wordId": "w-camel",
+          "surfaceForm": "camel"
+        },
+        {
+          "wordId": "w-whale",
+          "surfaceForm": "whale"
+        }
+      ],
+      "checkedContentHash": "b26021dce2f5c9813f15ba0806a6d046bfe6673bb057c8831c3cc74c45e102bb"
+    },
     "enToZh": {
       "checkedContentHash": "56f90669924b78e1aca7920d1e74d37b452cf8d26d2887a863974ad5c72a708c",
       "distractors": [
@@ -113228,7 +113580,10 @@
         "w-nose"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "89f706a06fa2139d107ab2441c4d0de1f498e3fb3108ccf29069ef1b6d1fc231"
+    },
     "wordId": "w-woman",
     "zhToEn": {
       "checkedContentHash": "1caea6358d57aa3288bedcf5511d90924f9c63ece956669f0c3a62fab466cd15",
@@ -113490,7 +113845,23 @@
     }
   },
   {
-    "contextChoice": null,
+    "contextChoice": {
+      "distractors": [
+        {
+          "wordId": "w-advice",
+          "surfaceForm": "advice"
+        },
+        {
+          "wordId": "w-information",
+          "surfaceForm": "information"
+        },
+        {
+          "wordId": "w-news",
+          "surfaceForm": "news"
+        }
+      ],
+      "checkedContentHash": "44bf4b5b6e3b57513266c9c869782095a1bed09be5379a577ce97323c64fbe14"
+    },
     "enToZh": {
       "checkedContentHash": "5654e6287b742b06c4c7f743d897e50b2c4f5ee0c269b6c92955833f8919eef3",
       "distractors": [
@@ -113499,7 +113870,10 @@
         "w-top"
       ]
     },
-    "spelling": null,
+    "spelling": {
+      "prefixLength": 1,
+      "checkedContentHash": "bc74a54fc54f263841ac19eaada8c22717cfb5042c818f90e8b40829ed2396ae"
+    },
     "wordId": "w-world",
     "zhToEn": {
       "checkedContentHash": "576e5bfd799f900f3eede5b80fafbfb69ea8d2fbb68b4597e45275d23e4b21a0",

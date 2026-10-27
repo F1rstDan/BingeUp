@@ -169,6 +169,11 @@ const ENTITY_VALIDATORS: Record<keyof ExportedData, (value: unknown) => boolean>
       createdAt: isNonNegativeNumber,
       updatedAt: isNonNegativeNumber,
       nextReviewAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
+      shortTermStep: (candidate) =>
+        isOptional(
+          candidate,
+          (step) => Number.isInteger(step) && Number(step) >= 0 && Number(step) <= 2,
+        ),
       schedulerState: (candidate) => isOptional(candidate, isSchedulerState),
       lastWrongAt: (candidate) => isOptional(candidate, isNonNegativeNumber),
     }),
@@ -300,6 +305,7 @@ const ENTITY_KEYS: Record<keyof ExportedData, string[]> = {
     'createdAt',
     'updatedAt',
     'nextReviewAt',
+    'shortTermStep',
     'schedulerState',
     'lastWrongAt',
   ],

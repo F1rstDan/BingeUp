@@ -287,6 +287,11 @@ export interface CardRecord {
    */
   nextReviewAt?: number;
   /**
+   * 短期学习词的题型轮换进度：0=英选中，1=中选英，2=语境。
+   * 仅 stage === 'short-term' 时使用；未设置时从英选中开始。
+   */
+  shortTermStep?: number;
+  /**
    * FSRS 调度器状态（Issue #7 验收标准 4）。
    * 仅在 stage === 'long-term' 时存在；由 ReviewSchedulerPort 管理，
    * 学习代码将其视为可持久化的不透明数据。
