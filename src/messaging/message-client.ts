@@ -21,6 +21,7 @@ import type {
   RemoveSiteResponse,
   SiteListResponse,
   SiteStateResponse,
+  StorageDiagnosticsResponse,
 } from '@/messaging/messages';
 import type { DataOperationResult } from '@/storage/data-transfer';
 import { ContentUnavailableError } from '@/learning/planned-questions';
@@ -164,6 +165,9 @@ export const messageClient = {
   },
   async rebuildDatabase(): Promise<DataOperationResult> {
     return send({ type: 'REBUILD_DATABASE' });
+  },
+  async getStorageDiagnostics(): Promise<StorageDiagnosticsResponse> {
+    return send({ type: 'GET_STORAGE_DIAGNOSTICS' });
   },
 
   // ─── Issue #11：自定义网站兼容模式 ─────────────────────

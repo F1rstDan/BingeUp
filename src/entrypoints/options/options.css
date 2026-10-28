@@ -79,6 +79,85 @@ body {
   line-height: 1.6;
 }
 
+/* 存档读取诊断：按字段展示启动读取、当前读取和快照状态。 */
+.bingeup-diagnostics {
+  gap: var(--island-space-sm);
+}
+
+.bingeup-diagnostics-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--island-space-sm);
+}
+
+.bingeup-diagnostics-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--island-space-xs);
+}
+
+.bingeup-diagnostics-grid {
+  display: grid;
+  gap: var(--island-space-xs);
+  margin: 0;
+}
+
+.bingeup-diagnostics-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: var(--island-space-sm);
+  align-items: baseline;
+}
+
+.bingeup-diagnostics-row dt {
+  color: var(--island-text-color-secondary);
+  font-weight: 700;
+}
+
+.bingeup-diagnostics-row dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.bingeup-diagnostics-history-block {
+  display: grid;
+  gap: var(--island-space-xs);
+  padding-top: var(--island-space-sm);
+  border-top: 1px dashed var(--island-border-color);
+}
+
+.bingeup-diagnostics-history {
+  display: grid;
+  gap: var(--island-space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bingeup-diagnostics-history li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--island-space-xs) var(--island-space-sm);
+  align-items: center;
+  color: var(--island-text-color-secondary);
+  line-height: 1.5;
+}
+
+.bingeup-diagnostics-history-time {
+  color: var(--island-text-color);
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .bingeup-diagnostics-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
 .bingeup-notice-text {
   margin: 0;
   color: var(--island-text-color);

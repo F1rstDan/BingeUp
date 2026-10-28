@@ -20,6 +20,7 @@ import type {
   RemoveSiteResponse,
   SiteListResponse,
   SiteStateResponse,
+  StorageDiagnosticsResponse,
 } from '@/messaging/messages';
 import type { DataOperationResult } from '@/storage/data-transfer';
 import type { DevScenario } from '@/dev-tools/messages';
@@ -325,6 +326,48 @@ export const messageClient = {
   async rebuildDatabase(): Promise<DataOperationResult> {
     resetPreviewDemoState();
     return { ok: true, errors: [], warnings: [] };
+  },
+  async getStorageDiagnostics(): Promise<StorageDiagnosticsResponse> {
+    const counts = {
+      cards: 18,
+      reviewLogs: 13,
+      sessionLogs: 20,
+      behaviorEvents: 2,
+      words: 0,
+      decks: 0,
+    };
+    const startedAt = Date.now() - 60_000;
+    return {
+      extensionId: 'preview-extension',
+      extensionVersion: '0.0.1',
+      databaseName: 'bingeup',
+      databaseVersion: 1,
+      databaseOpen: true,
+      startup: {
+        startedAt,
+        databaseOpenedAt: startedAt + 100,
+        databaseVersion: 1,
+        readAt: startedAt + 1_000,
+        counts,
+        restoredFromSnapshot: false,
+        snapshotPresent: true,
+        snapshotSavedAt: startedAt + 2_000,
+        snapshotMode: 'full',
+        snapshotCards: 18,
+      },
+      current: { readAt: Date.now(), counts },
+      snapshot: { present: true, savedAt: startedAt + 2_000, mode: 'full', counts },
+      history: [
+        {
+          startedAt,
+          readAt: startedAt + 1_000,
+          counts,
+          restoredFromSnapshot: false,
+          snapshotPresent: true,
+          snapshotSavedAt: startedAt + 2_000,
+        },
+      ],
+    };
   },
 
   // ─── 自定义网站兼容模式 ───────────────────────────────────

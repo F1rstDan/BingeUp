@@ -13,7 +13,14 @@ import {
 } from '@/settings/speech-voice';
 import { FeedbackLink } from '@/ui/FeedbackLink';
 import { IslandPage } from '@/ui/island';
-import type { AppSettings, SelfRatedLevel, SiteSettings } from '@/types';
+import type {
+  AppSettings,
+  SelfRatedLevel,
+  SiteSettings,
+  StorageCounts,
+  StorageDiagnostics,
+  StorageStartupRecord,
+} from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
 
 /**
@@ -103,6 +110,9 @@ export function OptionsApp(): JSX.Element {
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState<LoadError | null>(null);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
+  const [diagnostics, setDiagnostics] = useState<StorageDiagnostics | null>(null);
+  const [diagnosticsError, setDiagnosticsError] = useState<string | null>(null);
+  const [diagnosticsLoading, setDiagnosticsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const speechVoices = useSpeechVoices();
 
@@ -149,6 +159,22 @@ export function OptionsApp(): JSX.Element {
   useEffect(() => {
     void load();
   }, [load]);
+
+  const refreshDiagnostics = useCallback(async () => {
+    setDiagnosticsLoading(true);
+    try {
+      setDiagnostics(await messageClient.getStorageDiagnostics());
+      setDiagnosticsError(null);
+    } catch (e) {
+      setDiagnosticsError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setDiagnosticsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshDiagnostics();
+  }, [refreshDiagnostics]);
 
   useEffect(() => {
     if (notice === null || notice.persistent) return undefined;
@@ -269,6 +295,14 @@ export function OptionsApp(): JSX.Element {
             )}
           </div>
         </Card>
+        {(diagnostics !== null || diagnosticsError !== null) && (
+          <StorageDiagnosticsCard
+            diagnostics={diagnostics}
+            error={diagnosticsError}
+            loading={diagnosticsLoading}
+            onRefresh={() => void refreshDiagnostics()}
+          />
+        )}
         {noticeToast}
         {confirmModal}
       </IslandPage>
@@ -543,61 +577,69 @@ export function OptionsApp(): JSX.Element {
   );
 
   const dataPanel = (
-    <Card className="bingeup-card">
-      {/* AC4：数据管理 */}
-      <p className="bingeup-hint">
-        恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
-      </p>
-      <div className="bingeup-actions">
-        <Button type="primary" onClick={() => void handleExport(showNotice)}>
-          导出数据
-        </Button>
-        <Button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={importing}
-          aria-describedby={importFeedback === null ? undefined : 'bingeup-import-feedback'}
-        >
-          {importing ? '正在导入…' : '导入数据'}
-        </Button>
-        {importFeedback !== null && (
-          <div
-            id="bingeup-import-feedback"
-            className="bingeup-import-status"
-            role={importFeedback.tone === 'error' ? 'alert' : 'status'}
-            aria-live={importFeedback.tone === 'error' ? 'assertive' : 'polite'}
+    <div className="bingeup-panel">
+      <Card className="bingeup-card">
+        {/* AC4：数据管理 */}
+        <p className="bingeup-hint">
+          恢复默认只重置学习设置；清除学习进度会删除学习卡、复习日志和学习会话；清除全部数据还会删除网站设置和本地词库。
+        </p>
+        <div className="bingeup-actions">
+          <Button type="primary" onClick={() => void handleExport(showNotice)}>
+            导出数据
+          </Button>
+          <Button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={importing}
+            aria-describedby={importFeedback === null ? undefined : 'bingeup-import-feedback'}
           >
-            <Tag
-              size="medium"
-              variant="soft"
-              color={
-                importFeedback.tone === 'success'
-                  ? 'app-green'
-                  : importFeedback.tone === 'error'
-                    ? 'app-red'
-                    : 'app-teal'
-              }
+            {importing ? '正在导入…' : '导入数据'}
+          </Button>
+          {importFeedback !== null && (
+            <div
+              id="bingeup-import-feedback"
+              className="bingeup-import-status"
+              role={importFeedback.tone === 'error' ? 'alert' : 'status'}
+              aria-live={importFeedback.tone === 'error' ? 'assertive' : 'polite'}
             >
-              {importFeedback.text}
-            </Tag>
-          </div>
-        )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="application/json"
-          className="bingeup-file-input"
-          onChange={(e) => void handleImport(e, load, setImportFeedback, setImporting)}
-        />
-      </div>
-      <div className="bingeup-actions">
-        <Button danger onClick={requestClearProgress}>
-          清除学习进度
-        </Button>
-        <Button danger onClick={requestClearAll}>
-          清除全部数据
-        </Button>
-      </div>
-    </Card>
+              <Tag
+                size="medium"
+                variant="soft"
+                color={
+                  importFeedback.tone === 'success'
+                    ? 'app-green'
+                    : importFeedback.tone === 'error'
+                      ? 'app-red'
+                      : 'app-teal'
+                }
+              >
+                {importFeedback.text}
+              </Tag>
+            </div>
+          )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            className="bingeup-file-input"
+            onChange={(e) => void handleImport(e, load, setImportFeedback, setImporting)}
+          />
+        </div>
+        <div className="bingeup-actions">
+          <Button danger onClick={requestClearProgress}>
+            清除学习进度
+          </Button>
+          <Button danger onClick={requestClearAll}>
+            清除全部数据
+          </Button>
+        </div>
+      </Card>
+      <StorageDiagnosticsCard
+        diagnostics={diagnostics}
+        error={diagnosticsError}
+        loading={diagnosticsLoading}
+        onRefresh={() => void refreshDiagnostics()}
+      />
+    </div>
   );
 
   return (
@@ -623,6 +665,195 @@ export function OptionsApp(): JSX.Element {
 }
 
 // ─── 子组件 ──────────────────────────────────────────────
+
+type DiagnosticTagColor = 'app-green' | 'app-yellow' | 'app-red' | 'app-teal';
+
+function formatDiagnosticTime(value: number | undefined): string {
+  if (value === undefined) return '—';
+  return new Date(value).toLocaleString('zh-CN', { hour12: false });
+}
+
+function formatDiagnosticCounts(counts: StorageCounts | undefined): string {
+  if (counts === undefined) return '—';
+  return `卡 ${counts.cards} · 日志 ${counts.reviewLogs} · 会话 ${counts.sessionLogs} · 事件 ${counts.behaviorEvents}`;
+}
+
+function learningRecordTotal(counts: StorageCounts | undefined): number {
+  if (counts === undefined) return 0;
+  return counts.cards + counts.reviewLogs + counts.sessionLogs + counts.behaviorEvents;
+}
+
+function formatSnapshotMode(mode: 'full' | 'compact' | undefined): string {
+  return mode === 'compact' ? '精简' : '完整';
+}
+
+function StorageDiagnosticsCard({
+  diagnostics,
+  error,
+  loading,
+  onRefresh,
+}: {
+  diagnostics: StorageDiagnostics | null;
+  error: string | null;
+  loading: boolean;
+  onRefresh: () => void;
+}): JSX.Element {
+  const startup = diagnostics?.startup ?? null;
+  const startupTotal = learningRecordTotal(startup?.counts);
+  const currentTotal = learningRecordTotal(diagnostics?.current?.counts);
+  const databaseError = diagnostics?.databaseOpenError ?? startup?.databaseOpenError;
+  const fewerThanStartup = startupTotal > 0 && currentTotal < startupTotal;
+  const snapshotSaveError =
+    startup?.snapshotSaveError !== undefined &&
+    (startup.snapshotSaveErrorAt ?? 0) >= (diagnostics?.snapshot.savedAt ?? 0)
+      ? startup.snapshotSaveError
+      : undefined;
+
+  let statusText = '尚无启动记录';
+  let statusColor: DiagnosticTagColor = 'app-teal';
+  if (databaseError !== undefined) {
+    statusText = '数据库打开失败';
+    statusColor = 'app-red';
+  } else if (startup?.restoredFromSnapshot) {
+    statusText = '启动时使用了快照恢复';
+    statusColor = 'app-green';
+  } else if (startup?.readAt !== undefined && startupTotal > 0) {
+    statusText = '启动已读取到存档';
+    statusColor = 'app-green';
+  } else if (startup?.readAt !== undefined) {
+    statusText = '启动时存档为空';
+    statusColor = 'app-teal';
+  } else if (startup !== null) {
+    statusText = '启动读取未完成';
+    statusColor = 'app-yellow';
+  }
+
+  return (
+    <Card className="bingeup-card bingeup-diagnostics">
+      <div className="bingeup-diagnostics-header">
+        <Title size="small">存档读取状态</Title>
+        <Button onClick={onRefresh} disabled={loading}>
+          {loading ? '读取中…' : '刷新'}
+        </Button>
+      </div>
+      <p className="bingeup-hint">
+        用于确认扩展启动时是否读到本地存档、是否触发了快照恢复，以及最近一次保存的时间。
+      </p>
+      {error !== null && (
+        <p className="bingeup-error" role="alert">
+          诊断读取失败：{error}
+        </p>
+      )}
+      {diagnostics === null && !loading && error === null && (
+        <p className="bingeup-hint">尚未读取存档状态。</p>
+      )}
+      {diagnostics !== null && (
+        <>
+          <div className="bingeup-diagnostics-tags" aria-live="polite">
+            <Tag size="small" variant="soft" color={statusColor}>
+              {statusText}
+            </Tag>
+            {startup?.restoredFromSnapshot && (
+              <Tag size="small" variant="soft" color="app-green">
+                已使用快照
+              </Tag>
+            )}
+            {fewerThanStartup && (
+              <Tag size="small" variant="soft" color="app-red">
+                当前数据少于启动读取
+              </Tag>
+            )}
+          </div>
+          <dl className="bingeup-diagnostics-grid">
+            <div className="bingeup-diagnostics-row">
+              <dt>扩展</dt>
+              <dd>
+                {diagnostics.extensionId} · v{diagnostics.extensionVersion}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>数据库</dt>
+              <dd>
+                {diagnostics.databaseName} v{diagnostics.databaseVersion} ·{' '}
+                {diagnostics.databaseOpen ? '当前已打开' : '当前未打开'}
+                {databaseError !== undefined && ` · ${databaseError}`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>后台启动</dt>
+              <dd>{formatDiagnosticTime(startup?.startedAt)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>启动读取</dt>
+              <dd>
+                {formatDiagnosticTime(startup?.readAt)} · {formatDiagnosticCounts(startup?.counts)}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>当前读取</dt>
+              <dd>
+                {formatDiagnosticTime(diagnostics.current?.readAt)} ·{' '}
+                {formatDiagnosticCounts(diagnostics.current?.counts)}
+                {diagnostics.currentError !== undefined && ` · ${diagnostics.currentError}`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>自动恢复</dt>
+              <dd>
+                {startup?.restoredFromSnapshot ? '已使用快照恢复' : '未使用快照'}
+                {startup?.restoreError !== undefined && ` · ${startup.restoreError}`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>最近保存</dt>
+              <dd>
+                {diagnostics.snapshot.present
+                  ? formatDiagnosticTime(diagnostics.snapshot.savedAt)
+                  : '尚无保存快照'}
+                {snapshotSaveError !== undefined && ` · 保存失败：${snapshotSaveError}`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>自动快照</dt>
+              <dd>
+                {diagnostics.snapshot.present
+                  ? `${formatSnapshotMode(diagnostics.snapshot.mode)} · 卡 ${diagnostics.snapshot.counts?.cards ?? '?'} 张 · ${formatDiagnosticTime(diagnostics.snapshot.savedAt)}`
+                  : '无'}
+              </dd>
+            </div>
+          </dl>
+          <div className="bingeup-diagnostics-history-block">
+            <Title size="small">最近启动记录</Title>
+            {diagnostics.history.length === 0 ? (
+              <p className="bingeup-hint">暂无启动记录。</p>
+            ) : (
+              <ul className="bingeup-diagnostics-history">
+                {diagnostics.history.slice(0, 5).map((record: StorageStartupRecord, index) => (
+                  <li key={`${record.startedAt}-${index}`}>
+                    <span className="bingeup-diagnostics-history-time">
+                      {formatDiagnosticTime(record.startedAt)}
+                    </span>
+                    <span>{formatDiagnosticCounts(record.counts)}</span>
+                    {record.restoredFromSnapshot && (
+                      <Tag size="small" variant="soft" color="app-green">
+                        快照恢复
+                      </Tag>
+                    )}
+                    {record.databaseOpenError !== undefined && (
+                      <Tag size="small" variant="soft" color="app-red">
+                        数据库失败
+                      </Tag>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </>
+      )}
+    </Card>
+  );
+}
 
 function Field({ label, children }: { label: string; children: ReactNode }): JSX.Element {
   return (

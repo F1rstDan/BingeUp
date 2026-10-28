@@ -2,7 +2,13 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { openDatabase, idbGetAll, STORES, DATABASE_NAME } from '@/storage/database';
 import type { ExtensionMessage } from '@/messaging/messages';
-import type { CardRecord, LearningItem, ReviewLogRecord, SubmissionResult } from '@/types';
+import type {
+  CardRecord,
+  LearningItem,
+  ReviewLogRecord,
+  StorageDiagnostics,
+  SubmissionResult,
+} from '@/types';
 import { dictionaryFetch } from '../../helpers/dictionary-fetch';
 
 vi.mock('@/sites/custom-content-script', () => ({
@@ -91,6 +97,27 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(await send({ type: 'COOLDOWN_GET_STATUS' })).toMatchObject({
       consecutiveSkipCount: 2,
     });
+  });
+
+  it('学习数据写入后同步刷新自动恢复快照', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+
+    const stored = await chrome.storage.local.get('bingeup:recovery-snapshot');
+    const snapshot = stored['bingeup:recovery-snapshot'] as {
+      payload: { data: { cards: { wordId: string }[] } };
+    };
+    expect(snapshot.payload.data.cards.some((card) => card.wordId === 'w-abandon')).toBe(true);
+  });
+
+  it('返回启动读取、当前计数和快照的诊断信息', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+
+    const diagnostics = await send<StorageDiagnostics>({ type: 'GET_STORAGE_DIAGNOSTICS' });
+    expect(diagnostics.startup?.readAt).toEqual(expect.any(Number));
+    expect(diagnostics.current?.counts.cards).toBe(1);
+    expect(diagnostics.snapshot.present).toBe(true);
+    expect(diagnostics.snapshot.counts?.cards).toBe(1);
+    expect(diagnostics.history.length).toBeGreaterThan(0);
   });
 
   it('同一题的并发提交只写一条日志并推进一次学习状态', async () => {

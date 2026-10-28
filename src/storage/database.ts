@@ -1,5 +1,9 @@
 /** IndexedDB 连接、结构初始化与事务辅助函数。 */
 
+/**
+ * 数据库名是本地存档的持久化身份，不得为了整理命名而更改。
+ * 改名会让旧 IndexedDB 无法被读取，表现为关闭浏览器后存档全部丢失。
+ */
 export const DATABASE_NAME = 'bingeup';
 export const DATABASE_VERSION = 1;
 

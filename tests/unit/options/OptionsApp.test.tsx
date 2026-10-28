@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { OptionsApp } from '@/ui/options/OptionsApp';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
-import type { AppSettings } from '@/types';
+import type { AppSettings, StorageDiagnostics } from '@/types';
 import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
 
 const NativeURL = globalThis.URL;
@@ -24,6 +24,7 @@ const mocks = vi.hoisted(() => ({
   clearLearningProgress: vi.fn(),
   clearAllData: vi.fn(),
   rebuildDatabase: vi.fn(),
+  getStorageDiagnostics: vi.fn(),
 }));
 
 const permissionsContains = vi.fn();
@@ -48,6 +49,7 @@ vi.mock('@/messaging/message-client', () => ({
     clearLearningProgress: mocks.clearLearningProgress,
     clearAllData: mocks.clearAllData,
     rebuildDatabase: mocks.rebuildDatabase,
+    getStorageDiagnostics: mocks.getStorageDiagnostics,
   },
 }));
 
@@ -68,6 +70,46 @@ const SAMPLE_SITES = {
         pageLoadTrigger: true,
         scrollTrigger: false,
       },
+    },
+  ],
+};
+
+const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
+  extensionId: 'test-extension',
+  extensionVersion: '0.0.1',
+  databaseName: 'bingeup',
+  databaseVersion: 1,
+  databaseOpen: true,
+  startup: {
+    startedAt: 1_700_000_000_000,
+    databaseOpenedAt: 1_700_000_000_100,
+    databaseVersion: 1,
+    readAt: 1_700_000_001_000,
+    counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+    restoredFromSnapshot: false,
+    snapshotPresent: true,
+    snapshotSavedAt: 1_700_000_002_000,
+    snapshotMode: 'full',
+    snapshotCards: 18,
+  },
+  current: {
+    readAt: 1_700_000_010_000,
+    counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+  },
+  snapshot: {
+    present: true,
+    savedAt: 1_700_000_002_000,
+    mode: 'full',
+    counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+  },
+  history: [
+    {
+      startedAt: 1_700_000_000_000,
+      readAt: 1_700_000_001_000,
+      counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+      restoredFromSnapshot: false,
+      snapshotPresent: true,
+      snapshotSavedAt: 1_700_000_002_000,
     },
   ],
 };
@@ -101,6 +143,7 @@ describe('OptionsApp — Issue #10', () => {
     mocks.clearLearningProgress.mockReset();
     mocks.clearAllData.mockReset();
     mocks.rebuildDatabase.mockReset();
+    mocks.getStorageDiagnostics.mockReset();
 
     mocks.getAppSettings.mockResolvedValue({ ...SAMPLE_SETTINGS });
     mocks.listSites.mockResolvedValue({ sites: [] });
@@ -121,6 +164,7 @@ describe('OptionsApp — Issue #10', () => {
     mocks.clearLearningProgress.mockResolvedValue(undefined);
     mocks.clearAllData.mockResolvedValue({ ok: true, errors: [], warnings: [] });
     mocks.rebuildDatabase.mockResolvedValue({ ok: true, errors: [], warnings: [] });
+    mocks.getStorageDiagnostics.mockResolvedValue(SAMPLE_DIAGNOSTICS);
     permissionsContains.mockReset().mockResolvedValue(true);
     permissionsRequest.mockReset().mockResolvedValue(true);
     permissionsRemove.mockReset().mockResolvedValue(true);
@@ -672,6 +716,31 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   // ── AC4：数据管理 ────────────────────────────────────────
+
+  it('数据管理展示启动读取、当前记录和自动快照状态', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText('存档读取状态')).toBeInTheDocument();
+    expect(screen.getByText('启动已读取到存档')).toBeInTheDocument();
+    expect(screen.getAllByText(/卡 18 · 日志 13 · 会话 20 · 事件 2/).length).toBeGreaterThan(0);
+    expect(screen.getByText('未使用快照')).toBeInTheDocument();
+    expect(screen.getByText(/完整 · 卡 18 张/)).toBeInTheDocument();
+    expect(screen.getByText('最近启动记录')).toBeInTheDocument();
+  });
+
+  it('当前记录少于启动读取时给出丢档警告', async () => {
+    mocks.getStorageDiagnostics.mockResolvedValue({
+      ...SAMPLE_DIAGNOSTICS,
+      current: {
+        readAt: 1_700_000_010_000,
+        counts: { cards: 3, reviewLogs: 2, sessionLogs: 1, behaviorEvents: 2, words: 0, decks: 0 },
+      },
+    });
+
+    await renderOptionsAndOpenTab('数据管理');
+    expect(await screen.findByText('当前数据少于启动读取')).toBeInTheDocument();
+  });
 
   it('点击导出数据调用 exportData（AC4）', async () => {
     // jsdom 未实现 blob URL 导航，stub 掉 anchor.click 避免噪声日志

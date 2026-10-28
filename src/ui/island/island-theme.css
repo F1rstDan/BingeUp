@@ -35,6 +35,7 @@
   --island-border-color-light: var(--animal-border-color-light, #e8e2d6);
 
   /* 间距、圆角与动效 */
+  --island-space-xs: var(--animal-spacing-xs, 4px);
   --island-space-sm: var(--animal-spacing-sm, 8px);
   --island-space-md: var(--animal-spacing-md, 12px);
   --island-space-lg: var(--animal-spacing-lg, 16px);

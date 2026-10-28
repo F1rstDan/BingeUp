@@ -665,3 +665,54 @@ export interface LearningStats {
   /** 周对比。 */
   weekComparison: WeekComparison;
 }
+
+/** 存档读取诊断中的记录数量。 */
+export interface StorageCounts {
+  cards: number;
+  reviewLogs: number;
+  sessionLogs: number;
+  behaviorEvents: number;
+  words: number;
+  decks: number;
+}
+
+/** 一次扩展后台启动的存档读取记录。 */
+export interface StorageStartupRecord {
+  startedAt: number;
+  databaseOpenedAt?: number;
+  databaseVersion?: number;
+  databaseOpenError?: string;
+  readAt?: number;
+  counts?: StorageCounts;
+  restoredFromSnapshot: boolean;
+  restoreError?: string;
+  snapshotPresent: boolean;
+  snapshotSavedAt?: number;
+  snapshotMode?: 'full' | 'compact';
+  snapshotCards?: number;
+  snapshotSaveError?: string;
+  snapshotSaveErrorAt?: number;
+}
+
+/** 自动恢复快照的诊断摘要。 */
+export interface StorageSnapshotDiagnostic {
+  present: boolean;
+  savedAt?: number;
+  mode?: 'full' | 'compact';
+  counts?: StorageCounts;
+}
+
+/** 设置页数据管理读取的完整存档诊断。 */
+export interface StorageDiagnostics {
+  extensionId: string;
+  extensionVersion: string;
+  databaseName: string;
+  databaseVersion: number;
+  databaseOpen: boolean;
+  databaseOpenError?: string;
+  startup: StorageStartupRecord | null;
+  current: { readAt: number; counts: StorageCounts } | null;
+  currentError?: string;
+  snapshot: StorageSnapshotDiagnostic;
+  history: StorageStartupRecord[];
+}
