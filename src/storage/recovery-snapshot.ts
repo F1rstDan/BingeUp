@@ -19,6 +19,22 @@ interface RecoverySnapshot {
   payload: ExportPayload;
 }
 
+interface SnapshotWriteResult {
+  saved: boolean;
+  snapshot: RecoverySnapshot | null;
+}
+
+interface PendingSnapshotWrite {
+  database: IDBDatabase;
+  operation: 'save' | 'reset';
+  promise: Promise<SnapshotWriteResult>;
+}
+
+export interface StartupRecoverySnapshotResult {
+  saved: boolean;
+  snapshot: StorageSnapshotDiagnostic;
+}
+
 export interface RecoveryRestoreResult {
   restored: boolean;
   error?: string;
@@ -53,12 +69,45 @@ function countsFromPayload(payload: ExportPayload): StorageCounts {
   };
 }
 
+function diagnosticFromSnapshot(snapshot: RecoverySnapshot | null): StorageSnapshotDiagnostic {
+  if (snapshot === null) return { present: false };
+  return {
+    present: true,
+    savedAt: snapshot.savedAt,
+    mode: snapshot.mode,
+    counts: countsFromPayload(snapshot.payload),
+  };
+}
+
 async function writeSnapshot(snapshot: RecoverySnapshot): Promise<void> {
   await chrome.storage.local.set({ [RECOVERY_SNAPSHOT_KEY]: snapshot });
 }
 
 /** 快照串行写入，避免并发消息把较旧的导出结果覆盖到较新的快照上。 */
 let snapshotWriteQueue: Promise<void> = Promise.resolve();
+let pendingSnapshotWrite: PendingSnapshotWrite | null = null;
+
+function enqueueSnapshotWrite(
+  store: LocalSettingsStore,
+  operation: PendingSnapshotWrite['operation'],
+): Promise<SnapshotWriteResult> {
+  const tail = pendingSnapshotWrite;
+  if (operation === 'save' && tail?.operation === 'save' && tail.database === store.database) {
+    return tail.promise;
+  }
+
+  const task = { database: store.database, operation } as PendingSnapshotWrite;
+  task.promise = snapshotWriteQueue.then(() => {
+    if (pendingSnapshotWrite === task) pendingSnapshotWrite = null;
+    return operation === 'reset' ? resetRecoverySnapshotNow(store) : writeRecoverySnapshot(store);
+  });
+  pendingSnapshotWrite = task;
+  snapshotWriteQueue = task.promise.then(
+    () => undefined,
+    () => undefined,
+  );
+  return task.promise;
+}
 
 /**
  * 把当前权威数据写入自动恢复快照。
@@ -67,18 +116,13 @@ let snapshotWriteQueue: Promise<void> = Promise.resolve();
  * 学习卡与长期设置，避免明细日志挤掉最关键的进度。
  */
 export function saveRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
-  const next = snapshotWriteQueue.then(() => writeRecoverySnapshot(store));
-  snapshotWriteQueue = next.then(
-    () => undefined,
-    () => undefined,
-  );
-  return next;
+  return enqueueSnapshotWrite(store, 'save').then((result) => result.saved);
 }
 
-async function writeRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+async function writeRecoverySnapshot(store: LocalSettingsStore): Promise<SnapshotWriteResult> {
   try {
     const payload = await exportLocalData(store);
-    const snapshot: RecoverySnapshot = {
+    let snapshot: RecoverySnapshot = {
       version: 1,
       savedAt: Date.now(),
       mode: 'full',
@@ -87,7 +131,7 @@ async function writeRecoverySnapshot(store: LocalSettingsStore): Promise<boolean
     try {
       await writeSnapshot(snapshot);
     } catch {
-      await writeSnapshot({
+      snapshot = {
         ...snapshot,
         mode: 'compact',
         payload: {
@@ -99,12 +143,13 @@ async function writeRecoverySnapshot(store: LocalSettingsStore): Promise<boolean
             behaviorEvents: [],
           },
         },
-      });
+      };
+      await writeSnapshot(snapshot);
     }
-    return true;
+    return { saved: true, snapshot };
   } catch (error) {
     console.error('[BingeUp] 自动存档备份失败', error);
-    return false;
+    return { saved: false, snapshot: null };
   }
 }
 
@@ -113,13 +158,7 @@ export async function inspectRecoverySnapshot(): Promise<StorageSnapshotDiagnost
   try {
     const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
-    if (snapshot === null) return { present: false };
-    return {
-      present: true,
-      savedAt: snapshot.savedAt,
-      mode: snapshot.mode,
-      counts: countsFromPayload(snapshot.payload),
-    };
+    return diagnosticFromSnapshot(snapshot);
   } catch (error) {
     console.error('[BingeUp] 读取自动存档快照信息失败', error);
     return { present: false };
@@ -138,10 +177,14 @@ async function markRecoveryDataCleared(): Promise<boolean> {
 }
 
 /** 用户明确清除或重建数据后，写入空快照并留下清除标记。 */
-export async function resetRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+async function resetRecoverySnapshotNow(store: LocalSettingsStore): Promise<SnapshotWriteResult> {
   const marked = await markRecoveryDataCleared();
-  const saved = await saveRecoverySnapshot(store);
-  return marked || saved;
+  const result = await writeRecoverySnapshot(store);
+  return { ...result, saved: marked || result.saved };
+}
+
+export async function resetRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+  return (await enqueueSnapshotWrite(store, 'reset')).saved;
 }
 
 /**
@@ -190,16 +233,25 @@ export async function restoreRecoverySnapshotIfNeeded(
  * 日常写入已经同步更新快照；这里仅在空库或学习卡数量与快照不一致时重建，
  * 避免 service worker 每次启动都完整读取一遍大数据。
  */
-export async function saveStartupRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+export async function saveStartupRecoverySnapshot(
+  store: LocalSettingsStore,
+): Promise<StartupRecoverySnapshotResult> {
   try {
     const cardCount = await idbCount(store.database, STORES.cards);
-    if (cardCount === 0) return false;
     const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
-    if (snapshot !== null && snapshot.payload.data.cards.length === cardCount) return false;
-    return await saveRecoverySnapshot(store);
+    const existing = diagnosticFromSnapshot(snapshot);
+    if (cardCount === 0) return { saved: false, snapshot: existing };
+    if (snapshot !== null && snapshot.payload.data.cards.length === cardCount) {
+      return { saved: false, snapshot: existing };
+    }
+    const result = await enqueueSnapshotWrite(store, 'save');
+    return {
+      saved: result.saved,
+      snapshot: result.snapshot === null ? existing : diagnosticFromSnapshot(result.snapshot),
+    };
   } catch (error) {
     console.error('[BingeUp] 启动自动存档备份失败', error);
-    return false;
+    return { saved: false, snapshot: await inspectRecoverySnapshot() };
   }
 }

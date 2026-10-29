@@ -1,4 +1,4 @@
-import { DATABASE_NAME, DATABASE_VERSION, STORES, idbCount } from '@/storage/database';
+import { DATABASE_NAME, DATABASE_VERSION, STORES, type StoreName } from '@/storage/database';
 import { inspectRecoverySnapshot } from '@/storage/recovery-snapshot';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type { StorageCounts, StorageDiagnostics, StorageStartupRecord } from '@/types';
@@ -132,13 +132,28 @@ export function recordSnapshotSaveError(error: string): Promise<void> {
 
 /** 读取 IndexedDB 当前各仓库的记录数。 */
 export async function readStorageCounts(store: LocalSettingsStore): Promise<StorageCounts> {
+  const stores: readonly StoreName[] = [
+    STORES.cards,
+    STORES.reviewLogs,
+    STORES.sessionLogs,
+    STORES.behaviorEvents,
+    STORES.words,
+    STORES.decks,
+  ];
+  const transaction = store.database.transaction(stores, 'readonly');
+  const count = (name: StoreName) =>
+    new Promise<number>((resolve, reject) => {
+      const request = transaction.objectStore(name).count();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error ?? new Error('读取仓库记录数失败'));
+    });
   const [cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] = await Promise.all([
-    idbCount(store.database, STORES.cards),
-    idbCount(store.database, STORES.reviewLogs),
-    idbCount(store.database, STORES.sessionLogs),
-    idbCount(store.database, STORES.behaviorEvents),
-    idbCount(store.database, STORES.words),
-    idbCount(store.database, STORES.decks),
+    count(STORES.cards),
+    count(STORES.reviewLogs),
+    count(STORES.sessionLogs),
+    count(STORES.behaviorEvents),
+    count(STORES.words),
+    count(STORES.decks),
   ]);
   return { cards, reviewLogs, sessionLogs, behaviorEvents, words, decks };
 }

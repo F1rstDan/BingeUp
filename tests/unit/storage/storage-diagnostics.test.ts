@@ -131,6 +131,29 @@ describe('存档诊断记录', () => {
     expect(diagnostics.history).toHaveLength(1);
   });
 
+  it('在一个多仓库只读事务中读取当前计数', async () => {
+    const transaction = vi.spyOn(db, 'transaction');
+
+    await expect(readStorageCounts(store)).resolves.toMatchObject({
+      cards: 1,
+      reviewLogs: 1,
+      sessionLogs: 1,
+      behaviorEvents: 1,
+    });
+    expect(transaction).toHaveBeenCalledTimes(1);
+    expect(transaction).toHaveBeenCalledWith(
+      [
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+        STORES.words,
+        STORES.decks,
+      ],
+      'readonly',
+    );
+  });
+
   it('新启动记录排在最前，且保留数据库打开失败原因', async () => {
     await startStorageDiagnosticSession(1_000);
     await recordDatabaseOpenError('数据库被占用');

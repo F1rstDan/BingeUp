@@ -2,7 +2,6 @@ import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
 import {
-  inspectRecoverySnapshot,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
@@ -87,11 +86,10 @@ export default defineBackground(() => {
       const store = new LocalSettingsStore(db);
       // 旧版本换库名或浏览器清掉 IndexedDB 后，先用本地恢复快照救回学习进度。
       const restoreResult = await restoreRecoverySnapshotIfNeeded(store);
-      // 已有数据在每次启动时刷新快照，保证下一次整体丢失仍可恢复。
-      await saveStartupRecoverySnapshot(store);
+      // 备份独立于诊断读取；快照摘要由本次启动检查直接返回。
+      const { snapshot } = await saveStartupRecoverySnapshot(store);
       try {
         const counts = await readStorageCounts(store);
-        const snapshot = await inspectRecoverySnapshot();
         await recordStartupRead({
           counts,
           restoredFromSnapshot: restoreResult.restored,

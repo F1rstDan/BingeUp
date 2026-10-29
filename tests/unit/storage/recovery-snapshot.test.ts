@@ -97,7 +97,14 @@ const EVENT: BehaviorEventRecord = {
 
 interface StorageState {
   values: Record<string, unknown>;
-  failNextSet: boolean;
+  failNextSetCalls: number;
+  snapshotWrites: unknown[];
+  snapshotWriteHold: SnapshotWriteHold | null;
+}
+
+interface SnapshotWriteHold {
+  start: () => void;
+  finished: Promise<void>;
 }
 
 async function deleteDatabase(): Promise<void> {
@@ -110,7 +117,12 @@ async function deleteDatabase(): Promise<void> {
 }
 
 function installChromeMock() {
-  const state: StorageState = { values: {}, failNextSet: false };
+  const state: StorageState = {
+    values: {},
+    failNextSetCalls: 0,
+    snapshotWrites: [],
+    snapshotWriteHold: null,
+  };
   vi.stubGlobal('chrome', {
     storage: {
       local: {
@@ -119,16 +131,38 @@ function installChromeMock() {
           return Object.fromEntries(list.map((key) => [key, state.values[key]]));
         }),
         set: vi.fn(async (entries: Record<string, unknown>) => {
-          if (state.failNextSet) {
-            state.failNextSet = false;
+          if (state.failNextSetCalls > 0) {
+            state.failNextSetCalls -= 1;
             throw new Error('QUOTA_BYTES quota exceeded');
           }
+          const hold =
+            entries[RECOVERY_SNAPSHOT_KEY] === undefined ? null : state.snapshotWriteHold;
+          if (hold !== null) {
+            state.snapshotWriteHold = null;
+            hold.start();
+            await hold.finished;
+          }
           Object.assign(state.values, entries);
+          if (entries[RECOVERY_SNAPSHOT_KEY] !== undefined) {
+            state.snapshotWrites.push(structuredClone(entries[RECOVERY_SNAPSHOT_KEY]));
+          }
         }),
       },
     },
   });
   return state;
+}
+
+function createSnapshotWriteHold() {
+  let start!: () => void;
+  let release!: () => void;
+  const started = new Promise<void>((resolve) => {
+    start = resolve;
+  });
+  const finished = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  return { hold: { start, finished }, started, release };
 }
 
 describe('本地自动恢复快照', () => {
@@ -170,6 +204,25 @@ describe('本地自动恢复快照', () => {
     store = new LocalSettingsStore(db);
   }
 
+  async function clearLearningData(): Promise<void> {
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(
+        [STORES.cards, STORES.reviewLogs, STORES.sessionLogs, STORES.behaviorEvents],
+        'readwrite',
+      );
+      for (const storeName of [
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+      ]) {
+        tx.objectStore(storeName).clear();
+      }
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
   it('IndexedDB 整体为空时从快照恢复学习数据与设置', async () => {
     await seedLearningData();
     expect(await saveRecoverySnapshot(store)).toBe(true);
@@ -207,7 +260,7 @@ describe('本地自动恢复快照', () => {
 
   it('快照超出配额时退化为只保留学习卡与设置', async () => {
     await seedLearningData();
-    storage.failNextSet = true;
+    storage.failNextSetCalls = 1;
 
     expect(await saveRecoverySnapshot(store)).toBe(true);
     const snapshot = storage.values[RECOVERY_SNAPSHOT_KEY] as {
@@ -217,29 +270,127 @@ describe('本地自动恢复快照', () => {
     expect(snapshot.payload.data.reviewLogs).toEqual([]);
   });
 
+  it('合并同一数据库的未开始尾任务，并等待快照落盘后返回', async () => {
+    const cards = Array.from({ length: 6 }, (_, index) => ({
+      ...CARD,
+      id: `card-burst-${index}`,
+      wordId: `w-burst-${index}`,
+      updatedAt: CARD.updatedAt + index,
+    }));
+    await idbPut(db, STORES.cards, cards[0]);
+
+    const firstHold = createSnapshotWriteHold();
+    storage.snapshotWriteHold = firstHold.hold;
+    const first = saveRecoverySnapshot(store);
+    await firstHold.started;
+
+    const pending = [];
+    for (const card of cards.slice(1)) {
+      await idbPut(db, STORES.cards, card);
+      pending.push(saveRecoverySnapshot(store));
+    }
+
+    const batchHold = createSnapshotWriteHold();
+    storage.snapshotWriteHold = batchHold.hold;
+    firstHold.release();
+    expect(await first).toBe(true);
+    await batchHold.started;
+
+    let batchSettled = false;
+    const batch = Promise.all(pending).then((results) => {
+      batchSettled = true;
+      return results;
+    });
+    await Promise.resolve();
+    expect(batchSettled).toBe(false);
+
+    batchHold.release();
+    expect(await batch).toEqual([true, true, true, true, true]);
+    expect(storage.snapshotWrites).toHaveLength(2);
+
+    const firstSnapshot = storage.snapshotWrites[0] as {
+      payload: { data: { cards: { wordId: string }[] } };
+    };
+    const batchSnapshot = storage.snapshotWrites[1] as {
+      payload: { data: { cards: { wordId: string }[] } };
+    };
+    expect(firstSnapshot.payload.data.cards.map((card) => card.wordId)).toEqual(['w-burst-0']);
+    expect(batchSnapshot.payload.data.cards.map((card) => card.wordId)).toEqual(
+      cards.map((card) => card.wordId),
+    );
+  });
+
+  it('不同数据库的快照任务不共享导出结果', async () => {
+    const otherDatabaseName = `${TEST_DB}-other`;
+    const otherDb = await openDatabase(otherDatabaseName);
+    try {
+      const otherCard = { ...CARD, id: 'card-other', wordId: 'w-other' };
+      await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(otherDb, STORES.cards, otherCard)]);
+
+      const firstHold = createSnapshotWriteHold();
+      storage.snapshotWriteHold = firstHold.hold;
+      const first = saveRecoverySnapshot(store);
+      await firstHold.started;
+      const second = saveRecoverySnapshot(new LocalSettingsStore(otherDb));
+      firstHold.release();
+
+      expect(await Promise.all([first, second])).toEqual([true, true]);
+      const snapshots = storage.snapshotWrites as {
+        payload: { data: { cards: { wordId: string }[] } };
+      }[];
+      expect(snapshots[0]?.payload.data.cards.map((card) => card.wordId)).toEqual([CARD.wordId]);
+      expect(snapshots[1]?.payload.data.cards.map((card) => card.wordId)).toEqual([
+        otherCard.wordId,
+      ]);
+    } finally {
+      otherDb.close();
+      await new Promise<void>((resolve) => {
+        const request = indexedDB.deleteDatabase(otherDatabaseName);
+        request.onsuccess = () => resolve();
+        request.onerror = () => resolve();
+        request.onblocked = () => resolve();
+      });
+    }
+  });
+
+  it('快照失败后队列仍可重试', async () => {
+    await seedLearningData();
+    storage.failNextSetCalls = 2;
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBeDefined();
+    expect(consoleError).toHaveBeenCalled();
+  });
+
   it('明确清除后写入空快照，空库不再恢复旧进度', async () => {
     await seedLearningData();
     await saveRecoverySnapshot(store);
-    await new Promise<void>((resolve, reject) => {
-      const tx = db.transaction(
-        [STORES.cards, STORES.reviewLogs, STORES.sessionLogs, STORES.behaviorEvents],
-        'readwrite',
-      );
-      for (const storeName of [
-        STORES.cards,
-        STORES.reviewLogs,
-        STORES.sessionLogs,
-        STORES.behaviorEvents,
-      ]) {
-        tx.objectStore(storeName).clear();
-      }
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
+    await clearLearningData();
 
     expect(await resetRecoverySnapshot(store)).toBe(true);
     await wipeDatabase();
     expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+  });
+
+  it('清除快照不合并到已排队任务，并等待前面的快照完成', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    const firstHold = createSnapshotWriteHold();
+    storage.snapshotWriteHold = firstHold.hold;
+    const first = saveRecoverySnapshot(store);
+    await firstHold.started;
+    const pending = saveRecoverySnapshot(store);
+    await clearLearningData();
+    const reset = resetRecoverySnapshot(store);
+
+    firstHold.release();
+    expect(await Promise.all([first, pending, reset])).toEqual([true, true, true]);
+    expect(storage.snapshotWrites).toHaveLength(3);
+    const finalSnapshot = storage.snapshotWrites[2] as {
+      payload: { data: { cards: unknown[] } };
+    };
+    expect(finalSnapshot.payload.data.cards).toEqual([]);
   });
 
   it('启动备份不覆盖仍有学习卡可恢复的空库快照', async () => {
@@ -248,7 +399,7 @@ describe('本地自动恢复快照', () => {
     const original = storage.values[RECOVERY_SNAPSHOT_KEY];
     await wipeDatabase();
 
-    expect(await saveStartupRecoverySnapshot(store)).toBe(false);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
   });
 
@@ -257,7 +408,12 @@ describe('本地自动恢复快照', () => {
     await saveRecoverySnapshot(store);
     const original = storage.values[RECOVERY_SNAPSHOT_KEY];
 
-    expect(await saveStartupRecoverySnapshot(store)).toBe(false);
+    const storageGet = vi.mocked(chrome.storage.local.get);
+    storageGet.mockClear();
+    const startup = await saveStartupRecoverySnapshot(store);
+    expect(startup.saved).toBe(false);
+    expect(startup.snapshot).toMatchObject({ present: true, counts: { cards: 1 } });
+    expect(storageGet).toHaveBeenCalledTimes(1);
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
   });
 });
