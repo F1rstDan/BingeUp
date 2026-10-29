@@ -83,4 +83,18 @@ describe('SessionLogRepository — 会话日志持久化（Issue #12）', () => 
     expect(all).toHaveLength(3);
     db.close();
   });
+
+  it('getStartedAtOrAfter 使用 byStartedAt 索引并包含相同时间边界', async () => {
+    const db = await openDatabase(TEST_DB);
+    const repo = new SessionLogRepository(db);
+    const boundary = 2_000_000;
+    await repo.save(makeSession({ id: 'before', startedAt: boundary - 1 }));
+    await repo.save(makeSession({ id: 'equal', startedAt: boundary }));
+    await repo.save(makeSession({ id: 'after', startedAt: boundary + 1 }));
+
+    const sessions = await repo.getStartedAtOrAfter(boundary);
+
+    expect(sessions.map((session) => session.id)).toEqual(['equal', 'after']);
+    db.close();
+  });
 });

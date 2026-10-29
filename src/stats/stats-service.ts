@@ -9,6 +9,7 @@ import type {
   WeekComparison,
   ReviewPerformance,
 } from '@/types';
+import type { PopupLearningStats } from '@/messaging/messages';
 
 /**
  * 本地学习统计服务（Issue #12）。
@@ -117,6 +118,32 @@ export class StatsService {
         this.computeSiteMetric(hostname, behaviorEvents, siteStates[hostname] ?? false, now),
       ),
       weekComparison: this.computeWeekComparison(logs, thisWeekStart, lastWeekStart, now),
+    };
+  }
+
+  /** 计算 Popup 所需的最小今日统计，不复用完整统计页的数据装载。 */
+  computePopupSummary(
+    cards: CardRecord[],
+    logs: ReviewLogRecord[],
+    sessions: SessionLogRecord[],
+  ): PopupLearningStats {
+    const now = this.deps.clock.now();
+    const todayStart = startOfLocalDay(now);
+    const today = this.computeTodayStats(cards, logs, sessions, [], todayStart, now);
+    const todayLongTerm = this.computeReviewPerformance(
+      logs.filter((log) => log.reviewedAt >= todayStart && log.stageAtSubmission === 'long-term'),
+    );
+    return {
+      today: {
+        completedQuestions: today.naturalCompletedQuestions,
+        reviewedWords: today.reviewedWords,
+        newWords: today.newWords,
+        continuousSessions: today.continuousSessions,
+        continuousQuestions: today.continuousQuestions,
+        longTermCompleted: todayLongTerm.completed,
+        longTermAccuracy: todayLongTerm.accuracy,
+      },
+      dueReviewCount: this.computeDueReviewCount(cards, now),
     };
   }
 

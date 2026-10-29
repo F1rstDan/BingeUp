@@ -16,6 +16,7 @@ import type {
   ExportDataResponse,
   ExtensionMessage,
   ImportDataResponse,
+  OnboardingStatusResponse,
   PauseResponse,
   PopupDataResponse,
   RemoveSiteResponse,
@@ -99,6 +100,9 @@ export const messageClient = {
   },
   async enableSite(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'SITE_ENABLE', hostname });
+  },
+  async getOnboardingStatus(): Promise<OnboardingStatusResponse> {
+    return send({ type: 'GET_ONBOARDING_STATUS' });
   },
   async disableSite(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'SITE_DISABLE', hostname });

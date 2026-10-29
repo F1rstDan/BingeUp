@@ -15,6 +15,7 @@ import type {
   CooldownStatusResponse,
   ExportDataResponse,
   ImportDataResponse,
+  OnboardingStatusResponse,
   PauseResponse,
   PopupDataResponse,
   RemoveSiteResponse,
@@ -213,6 +214,9 @@ export const messageClient = {
   },
   async enableSite(hostname: string): Promise<SiteStateResponse> {
     return setSiteEnabledState(hostname, true);
+  },
+  async getOnboardingStatus(): Promise<OnboardingStatusResponse> {
+    return { onboardingCompleted: previewDemoState.onboardingCompleted };
   },
   async disableSite(hostname: string): Promise<SiteStateResponse> {
     return setSiteEnabledState(hostname, false);

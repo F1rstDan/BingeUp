@@ -1,5 +1,5 @@
 import type { SessionLogRecord } from '@/types';
-import { STORES, idbPut, idbGetAll } from '@/storage/database';
+import { STORES, idbPut, idbGetAll, idbGetAllByIndex } from '@/storage/database';
 
 /**
  * 学习会话日志仓库端口（Issue #12）。
@@ -21,5 +21,14 @@ export class SessionLogRepository implements SessionLogRepositoryPort {
 
   async getAll(): Promise<SessionLogRecord[]> {
     return idbGetAll<SessionLogRecord>(this.db, STORES.sessionLogs);
+  }
+
+  async getStartedAtOrAfter(startedAt: number): Promise<SessionLogRecord[]> {
+    return idbGetAllByIndex<SessionLogRecord>(
+      this.db,
+      STORES.sessionLogs,
+      'byStartedAt',
+      IDBKeyRange.lowerBound(startedAt),
+    );
   }
 }

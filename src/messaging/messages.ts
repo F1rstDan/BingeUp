@@ -50,6 +50,8 @@ export type ExtensionMessage =
     }
   /** 启用当前网站（Popup / 启用提示）。 */
   | { type: 'SITE_ENABLE'; hostname: string }
+  /** 查询安装引导是否完成，供内容侧决定是否显示启用提示。 */
+  | { type: 'GET_ONBOARDING_STATUS' }
   /** 暂停当前网站（AC4）。 */
   | { type: 'SITE_DISABLE'; hostname: string }
   /** 暂停 10 分钟，Popup 用倒计时显示剩余时间。 */
@@ -107,6 +109,10 @@ export type CooldownStatusResponse = CooldownState;
 /** Background 返回给 Content 的站点状态。 */
 export interface SiteStateResponse extends SiteSettings {
   hostname: string;
+}
+
+export interface OnboardingStatusResponse {
+  onboardingCompleted: boolean;
 }
 
 /** Background 返回给 Popup 的综合数据（AC3）。 */

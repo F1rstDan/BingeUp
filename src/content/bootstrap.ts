@@ -150,8 +150,8 @@ async function bootstrapOfficialSite(adapter: VideoSiteAdapter, hostname: string
   if (!site.enabled) {
     console.info('[BingeUp] 内容脚本未启动：网站已暂停', hostname);
     // AC2：跳过引导后，在受支持但未启用的网站上显示有限启用提示。
-    const data = await messageClient.getPopupData(hostname);
-    if (shouldShowEnablePrompt(site, data.onboardingCompleted)) {
+    const { onboardingCompleted } = await messageClient.getOnboardingStatus();
+    if (shouldShowEnablePrompt(site, onboardingCompleted)) {
       showEnablePrompt(hostname, {
         onEnable: async () => {
           await messageClient.enableSite(hostname);

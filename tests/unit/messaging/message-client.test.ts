@@ -28,4 +28,14 @@ describe('messageClient — 错误边界', () => {
     });
     await expect(messageClient.getNextLearningItem()).rejects.toThrow('普通失败');
   });
+
+  it('读取安装引导状态并返回完成标志', async () => {
+    const sendMessage = vi.fn(async () => ({ onboardingCompleted: true }));
+    vi.stubGlobal('chrome', { runtime: { sendMessage } });
+
+    await expect(messageClient.getOnboardingStatus()).resolves.toEqual({
+      onboardingCompleted: true,
+    });
+    expect(sendMessage).toHaveBeenCalledWith({ type: 'GET_ONBOARDING_STATUS' });
+  });
 });

@@ -5,7 +5,7 @@ import {
   startOfLocalWeek,
   isSameLocalDay,
 } from '@/stats/stats-service';
-import type { CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
+import type { CardRecord, LearningStats, ReviewLogRecord, SessionLogRecord } from '@/types';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const MS_PER_MIN = 60 * 1000;
@@ -60,6 +60,21 @@ function makeSession(overrides: Partial<SessionLogRecord> = {}): SessionLogRecor
 
 function makeService(now: number = NOW): StatsService {
   return new StatsService({ clock: { now: () => now } });
+}
+
+function popupFields(stats: LearningStats) {
+  return {
+    today: {
+      completedQuestions: stats.today.naturalCompletedQuestions,
+      reviewedWords: stats.today.reviewedWords,
+      newWords: stats.today.newWords,
+      continuousSessions: stats.today.continuousSessions,
+      continuousQuestions: stats.today.continuousQuestions,
+      longTermCompleted: stats.longTermReview.today.completed,
+      longTermAccuracy: stats.longTermReview.today.accuracy,
+    },
+    dueReviewCount: stats.dueReviewCount,
+  };
 }
 
 // ─── 日期辅助函数 ─────────────────────────────────────────────
@@ -549,6 +564,140 @@ describe('StatsService — 不重复/不过期统计（Issue #12 AC3）', () => 
     ];
     const stats = service.computeStats([], logs, []);
     expect(stats.today.completedQuestions).toBe(1);
+  });
+});
+
+describe('StatsService — Popup 今日摘要', () => {
+  it('空库摘要与完整统计对应字段一致', () => {
+    const service = makeService();
+    const full = service.computeStats([], [], []);
+
+    expect(service.computePopupSummary([], [], [])).toEqual(popupFields(full));
+  });
+
+  it('混合历史与今日数据时摘要与完整统计对应字段一致', () => {
+    const service = makeService();
+    const todayStart = startOfLocalDay(NOW);
+    const cards = [
+      makeCard({
+        id: 'card-old',
+        wordId: 'word-old',
+        createdAt: todayStart - MS_PER_DAY,
+        nextReviewAt: NOW,
+      }),
+      makeCard({
+        id: 'card-new',
+        wordId: 'word-new',
+        createdAt: todayStart,
+        nextReviewAt: NOW + 1,
+      }),
+    ];
+    const logs = [
+      makeLog({
+        id: 'log-history',
+        cardId: 'card-old',
+        wordId: 'word-old',
+        reviewedAt: todayStart - 1,
+        stageAtSubmission: 'long-term',
+      }),
+      makeLog({
+        id: 'log-today-short',
+        cardId: 'card-new',
+        wordId: 'word-new',
+        reviewedAt: todayStart,
+      }),
+      makeLog({
+        id: 'log-today-long',
+        cardId: 'card-old',
+        wordId: 'word-old',
+        reviewedAt: NOW,
+        stageAtSubmission: 'long-term',
+        isCorrect: false,
+      }),
+    ];
+    const sessions = [
+      makeSession({
+        id: 'session-history',
+        startedAt: todayStart - 1,
+        mode: 'continuous',
+        continuousQuestionsAnswered: 9,
+      }),
+      makeSession({
+        id: 'session-today',
+        startedAt: todayStart,
+        mode: 'continuous',
+        continuousQuestionsAnswered: 2,
+      }),
+    ];
+    const full = service.computeStats(cards, logs, sessions);
+
+    expect(service.computePopupSummary(cards, logs, sessions)).toEqual(popupFields(full));
+  });
+
+  it('评分纠正后摘要不重复计数', () => {
+    const service = makeService();
+    const logs = [
+      makeLog({
+        id: 'corrected-log',
+        stageAtSubmission: 'long-term',
+        userCorrection: 'too-easy',
+      }),
+    ];
+    const full = service.computeStats([], logs, []);
+    const summary = service.computePopupSummary([], logs, []);
+
+    expect(summary).toEqual(popupFields(full));
+    expect(summary.today.completedQuestions).toBe(1);
+    expect(summary.today.longTermCompleted).toBe(1);
+  });
+
+  it('待复习数包含恰好到期的学习卡', () => {
+    const service = makeService();
+    const cards = [
+      makeCard({ id: 'past', nextReviewAt: NOW - 1 }),
+      makeCard({ id: 'due-now', nextReviewAt: NOW }),
+      makeCard({ id: 'future', nextReviewAt: NOW + 1 }),
+      makeCard({ id: 'unscheduled' }),
+    ];
+    const full = service.computeStats(cards, [], []);
+    const summary = service.computePopupSummary(cards, [], []);
+
+    expect(summary).toEqual(popupFields(full));
+    expect(summary.dueReviewCount).toBe(2);
+  });
+
+  it('午夜边界使用同一个 now 计算今日字段', () => {
+    const now = new Date(2026, 6, 12, 0, 0, 0).getTime();
+    const todayStart = startOfLocalDay(now);
+    const service = makeService(now);
+    const cards = [
+      makeCard({ id: 'before', wordId: 'word-before', createdAt: todayStart - 1 }),
+      makeCard({ id: 'at-boundary', wordId: 'word-boundary', createdAt: todayStart }),
+    ];
+    const logs = [
+      makeLog({
+        id: 'before',
+        cardId: 'before',
+        wordId: 'word-before',
+        reviewedAt: todayStart - 1,
+      }),
+      makeLog({
+        id: 'at-boundary',
+        cardId: 'at-boundary',
+        wordId: 'word-boundary',
+        reviewedAt: todayStart,
+      }),
+    ];
+    const sessions = [
+      makeSession({ id: 'before', startedAt: todayStart - 1 }),
+      makeSession({ id: 'at-boundary', startedAt: todayStart }),
+    ];
+    const full = service.computeStats(cards, logs, sessions);
+    const summary = service.computePopupSummary(cards, logs, sessions);
+
+    expect(summary).toEqual(popupFields(full));
+    expect(summary.today.completedQuestions).toBe(1);
+    expect(summary.today.newWords).toBe(1);
   });
 });
 

@@ -3,6 +3,7 @@ import 'fake-indexeddb/auto';
 
 const getSiteState = vi.fn();
 const getPopupData = vi.fn();
+const getOnboardingStatus = vi.fn();
 const enableSite = vi.fn();
 const recordPromptDecline = vi.fn();
 const getAppSettings = vi.fn();
@@ -22,6 +23,7 @@ vi.mock('@/messaging/message-client', () => ({
   messageClient: {
     getSiteState,
     getPopupData,
+    getOnboardingStatus,
     enableSite,
     recordPromptDecline,
     getAppSettings,
@@ -80,6 +82,8 @@ describe('bootstrapContent — 启动诊断', () => {
     vi.resetModules();
     getSiteState.mockReset();
     getPopupData.mockReset();
+    getOnboardingStatus.mockReset();
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: false });
     enableSite.mockReset();
     recordPromptDecline.mockReset();
     getAppSettings.mockReset();
@@ -118,17 +122,7 @@ describe('bootstrapContent — 启动诊断', () => {
       firstQuestionPending: false,
       promptDeclineCount: 0,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.bilibili.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 0,
-      },
-      onboardingCompleted: false,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: false });
     const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
     const { bootstrapContent } = await import('@/content/bootstrap');
 
@@ -136,6 +130,8 @@ describe('bootstrapContent — 启动诊断', () => {
 
     expect(info).toHaveBeenCalledWith('[BingeUp] 内容脚本未启动：网站已暂停', 'www.bilibili.com');
     expect(showEnablePrompt).not.toHaveBeenCalled();
+    expect(getOnboardingStatus).toHaveBeenCalledTimes(1);
+    expect(getPopupData).not.toHaveBeenCalled();
     info.mockRestore();
   });
 
@@ -324,6 +320,8 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
     vi.resetModules();
     getSiteState.mockReset();
     getPopupData.mockReset();
+    getOnboardingStatus.mockReset();
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: false });
     enableSite.mockReset();
     recordPromptDecline.mockReset();
     getAppSettings.mockReset();
@@ -360,17 +358,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       firstQuestionPending: false,
       promptDeclineCount: 0,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.bilibili.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 0,
-      },
-      onboardingCompleted: true,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: true });
     const { bootstrapContent } = await import('@/content/bootstrap');
 
     await bootstrapContent();
@@ -387,17 +375,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       firstQuestionPending: false,
       promptDeclineCount: 2,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.bilibili.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 2,
-      },
-      onboardingCompleted: true,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: true });
     const { bootstrapContent } = await import('@/content/bootstrap');
 
     await bootstrapContent();
@@ -413,17 +391,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       firstQuestionPending: false,
       promptDeclineCount: 0,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.bilibili.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 0,
-      },
-      onboardingCompleted: false,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: false });
     const { bootstrapContent } = await import('@/content/bootstrap');
 
     await bootstrapContent();
@@ -454,17 +422,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       firstQuestionPending: false,
       promptDeclineCount: 1,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.youtube.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 1,
-      },
-      onboardingCompleted: true,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: true });
     enableSite.mockResolvedValue(undefined);
     const { bootstrapContent } = await import('@/content/bootstrap');
 
@@ -488,17 +446,7 @@ describe('bootstrapContent — 有限启用提示（Issue #9 AC2）', () => {
       firstQuestionPending: false,
       promptDeclineCount: 0,
     });
-    getPopupData.mockResolvedValue({
-      site: {
-        hostname: 'www.youtube.com',
-        enabled: false,
-        mode: 'full-adaptation',
-        firstQuestionPending: false,
-        promptDeclineCount: 0,
-      },
-      onboardingCompleted: true,
-      globalPausedUntil: 0,
-    });
+    getOnboardingStatus.mockResolvedValue({ onboardingCompleted: true });
     recordPromptDecline.mockResolvedValue(undefined);
     const { bootstrapContent } = await import('@/content/bootstrap');
 

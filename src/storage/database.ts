@@ -204,7 +204,7 @@ export async function idbGetAllByIndex<T>(
   db: IDBDatabase,
   store: StoreName,
   indexName: string,
-  key: IDBValidKey,
+  key: IDBValidKey | IDBKeyRange,
 ): Promise<T[]> {
   const tx = db.transaction(store, 'readonly');
   const index = tx.objectStore(store).index(indexName);

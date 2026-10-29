@@ -5,8 +5,17 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { CardRepository } from '@/storage/repositories/card-repository';
+import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
+import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
+import { StatsService, startOfLocalDay } from '@/stats/stats-service';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
-import type { AppSettings, BehaviorEventRecord, CardRecord, ReviewLogRecord } from '@/types';
+import type {
+  AppSettings,
+  BehaviorEventRecord,
+  CardRecord,
+  ReviewLogRecord,
+  SessionLogRecord,
+} from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
 import { dictionaryFetch } from '../../helpers/dictionary-fetch';
 
@@ -87,6 +96,18 @@ describe('message-router — Issue #9 新增消息', () => {
     expect(bilibili.firstQuestionPending).toBe(true);
     const youtube = await store.getSite('www.youtube.com');
     expect(youtube.enabled).toBe(true);
+  });
+
+  it('GET_ONBOARDING_STATUS：返回当前引导完成状态', async () => {
+    await expect(
+      router.handle({ type: 'GET_ONBOARDING_STATUS' }, {} as chrome.runtime.MessageSender),
+    ).resolves.toEqual({ onboardingCompleted: false });
+
+    await store.markOnboardingCompleted();
+
+    await expect(
+      router.handle({ type: 'GET_ONBOARDING_STATUS' }, {} as chrome.runtime.MessageSender),
+    ).resolves.toEqual({ onboardingCompleted: true });
   });
 
   it('Issue #22：两个网站通过 background 共享同一扩展源学习卡', async () => {
@@ -531,6 +552,61 @@ describe('message-router — Issue #10 新增消息', () => {
       },
       dueReviewCount: 1,
     });
+  });
+
+  it('GET_POPUP_DATA：初始化基线后只按今日范围读取会话，不扫描行为事件', async () => {
+    await router.handle({ type: 'GET_ONBOARDING_STATUS' }, {} as chrome.runtime.MessageSender);
+    const behaviorGetAll = vi.spyOn(BehaviorEventRepository.prototype, 'getAll');
+    const sessionQuery = vi.spyOn(SessionLogRepository.prototype, 'getStartedAtOrAfter');
+    const fullStats = vi.spyOn(StatsService.prototype, 'computeStats');
+    vi.spyOn(Date, 'now').mockReturnValue(NOW);
+    const session: SessionLogRecord = {
+      id: 'session-today',
+      startedAt: startOfLocalDay(NOW),
+      endedAt: startOfLocalDay(NOW) + 1_000,
+      mode: 'continuous',
+      outcome: 'submitted',
+      questionsAnswered: 1,
+      source: 'natural',
+      continuousQuestionsAnswered: 1,
+    };
+    await idbPut(db, STORES.sessionLogs, session);
+
+    const result = (await router.handle(
+      { type: 'GET_POPUP_DATA', hostname: 'www.bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as { stats?: { today: { continuousSessions: number } } };
+
+    expect(result.stats?.today.continuousSessions).toBe(1);
+    expect(behaviorGetAll).not.toHaveBeenCalled();
+    expect(fullStats).not.toHaveBeenCalled();
+    expect(sessionQuery).toHaveBeenCalledWith(startOfLocalDay(NOW));
+  });
+
+  it('GET_POPUP_DATA：统计失败不阻塞站点、引导与暂停字段', async () => {
+    vi.spyOn(StatsService.prototype, 'computePopupSummary').mockRejectedValueOnce(
+      new Error('统计失败'),
+    );
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    await store.markOnboardingCompleted();
+    await store.setGlobalPausedUntil(7_000_000);
+
+    const result = (await router.handle(
+      { type: 'GET_POPUP_DATA', hostname: 'www.bilibili.com' },
+      {} as chrome.runtime.MessageSender,
+    )) as {
+      site: { hostname: string };
+      onboardingCompleted: boolean;
+      globalPausedUntil: number;
+      stats?: unknown;
+    };
+
+    expect(result).toMatchObject({
+      site: { hostname: 'www.bilibili.com' },
+      onboardingCompleted: true,
+      globalPausedUntil: 7_000_000,
+    });
+    expect(result.stats).toBeUndefined();
   });
 
   // ── AC1：应用设置读写 ──────────────────────────────────

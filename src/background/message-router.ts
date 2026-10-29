@@ -1,7 +1,7 @@
 import { applyComplete, applySkip } from '@/cooldown/cooldown-rules';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { pauseForTenMinutes, pauseToday, resumeGlobalPause } from '@/pause/pause-rules';
-import { StatsService } from '@/stats/stats-service';
+import { StatsService, startOfLocalDay } from '@/stats/stats-service';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
@@ -48,31 +48,13 @@ async function tryRemoveOrigins(origins: string[]): Promise<boolean> {
   }
 }
 
-async function computePopupStats(db: IDBDatabase): Promise<PopupLearningStats> {
-  const [cards, logs, sessions, events] = await Promise.all([
+async function computePopupStats(db: IDBDatabase, now: number): Promise<PopupLearningStats> {
+  const [cards, logs, sessions] = await Promise.all([
     new CardRepository(db).getAll(),
     new ReviewLogRepository(db).getAll(),
-    new SessionLogRepository(db).getAll(),
-    new BehaviorEventRepository(db).getAll(),
+    new SessionLogRepository(db).getStartedAtOrAfter(startOfLocalDay(now)),
   ]);
-  const stats = new StatsService({ clock: { now: () => Date.now() } }).computeStats(
-    cards,
-    logs,
-    sessions,
-    events,
-  );
-  return {
-    today: {
-      completedQuestions: stats.today.naturalCompletedQuestions,
-      reviewedWords: stats.today.reviewedWords,
-      newWords: stats.today.newWords,
-      continuousSessions: stats.today.continuousSessions,
-      continuousQuestions: stats.today.continuousQuestions,
-      longTermCompleted: stats.longTermReview.today.completed,
-      longTermAccuracy: stats.longTermReview.today.accuracy,
-    },
-    dueReviewCount: stats.dueReviewCount,
-  };
+  return new StatsService({ clock: { now: () => now } }).computePopupSummary(cards, logs, sessions);
 }
 
 /**
@@ -200,6 +182,9 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         const site = await store.getSite(message.hostname);
         return { ...site, hostname: message.hostname };
       }
+      case 'GET_ONBOARDING_STATUS': {
+        return { onboardingCompleted: await store.isOnboardingCompleted() };
+      }
       case 'SITE_MARK_FIRST_QUESTION_HANDLED': {
         await store.markFirstQuestionHandled(message.hostname);
         const site = await store.getSite(message.hostname);
@@ -323,6 +308,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         return undefined;
       }
       case 'GET_POPUP_DATA': {
+        const now = Date.now();
         const site = await store.getSite(message.hostname);
         const [onboardingCompleted, globalPausedUntil] = await Promise.all([
           store.isOnboardingCompleted(),
@@ -331,7 +317,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
         let stats: PopupLearningStats | undefined;
         if (db) {
           try {
-            stats = await computePopupStats(db);
+            stats = await computePopupStats(db, now);
           } catch (error) {
             // 统计是面板的补充信息；读取失败不应遮蔽站点状态与暂停控制。
             console.error('[BingeUp] Popup 学习统计读取失败', error);
