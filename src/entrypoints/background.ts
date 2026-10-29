@@ -3,6 +3,7 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
 import {
   inspectStorageHealth,
+  isStorageIsolationActive,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
@@ -38,7 +39,6 @@ const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
   'RESET_APP_SETTINGS',
   'UPDATE_SITE_TRIGGERS',
   'REMOVE_SITE',
-  'IMPORT_DATA',
   'ADD_CUSTOM_SITE',
   'UPDATE_SITE_MODE',
 ]);
@@ -117,6 +117,18 @@ export default defineBackground(() => {
     (async () => {
       try {
         await customScriptsReady;
+        if (
+          typeof message?.type === 'string' &&
+          message.type.startsWith('LEARNING_') &&
+          (await isStorageIsolationActive())
+        ) {
+          sendResponse({
+            __bingeupError:
+              '存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。',
+            __bingeupErrorCode: 'STORAGE_ISOLATED',
+          });
+          return;
+        }
         if (message?.type === 'GET_STORAGE_DIAGNOSTICS') {
           let diagnosticsStore: LocalSettingsStore | null = settingsStore;
           if (diagnosticsStore === null) {
@@ -187,6 +199,13 @@ export default defineBackground(() => {
           if (clearResult?.ok !== false) {
             if (!(await resetRecoverySnapshot(settingsStore)) && clearResult?.warnings) {
               clearResult.warnings.push('自动存档清理失败；下次启动可能恢复旧数据。');
+            }
+          }
+        } else if (message?.type === 'IMPORT_DATA') {
+          const importResult = result as { ok?: boolean; warnings?: string[] } | undefined;
+          if (importResult?.ok !== false) {
+            if (!(await resetRecoverySnapshot(settingsStore)) && importResult?.warnings) {
+              importResult.warnings.push('导入已成功，但自动存档更新失败；存档仍保持隔离。');
             }
           }
         } else if (typeof message?.type === 'string' && SNAPSHOT_MESSAGE_TYPES.has(message.type)) {

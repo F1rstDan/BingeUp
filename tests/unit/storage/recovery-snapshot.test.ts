@@ -8,6 +8,7 @@ import {
   RECOVERY_CLEARED_AT_KEY,
   RECOVERY_SNAPSHOT_KEY,
   inspectStorageHealth,
+  isStorageIsolationActive,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
@@ -410,9 +411,9 @@ describe('本地自动恢复快照', () => {
     const reset = resetRecoverySnapshot(store);
 
     firstHold.release();
-    expect(await Promise.all([first, pending, reset])).toEqual([true, true, true]);
-    expect(storage.snapshotWrites).toHaveLength(3);
-    const finalSnapshot = storage.snapshotWrites[2] as {
+    expect(await Promise.all([first, pending, reset])).toEqual([true, false, true]);
+    expect(storage.snapshotWrites).toHaveLength(2);
+    const finalSnapshot = storage.snapshotWrites[1] as {
       payload: { data: { cards: unknown[] } };
     };
     expect(finalSnapshot.payload.data.cards).toEqual([]);
@@ -438,7 +439,6 @@ describe('本地自动恢复快照', () => {
     const startup = await saveStartupRecoverySnapshot(store);
     expect(startup.saved).toBe(false);
     expect(startup.snapshot).toMatchObject({ present: true, counts: { cards: 1 } });
-    expect(storageGet).toHaveBeenCalledTimes(1);
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
   });
 
@@ -467,7 +467,7 @@ describe('本地自动恢复快照', () => {
   });
 
   it('健康检查识别找不到学习卡的孤立复习日志', async () => {
-    await idbPut(db, STORES.reviewLogs, LOG);
+    await idbPut(db, STORES.reviewLogs, { ...LOG, id: 'log-orphan', cardId: 'missing-card' });
 
     const health = await inspectStorageHealth(store);
 
@@ -516,9 +516,88 @@ describe('本地自动恢复快照', () => {
     expect((await restoreRecoverySnapshotIfNeeded(store)).error).toBeDefined();
     const health = await inspectStorageHealth(store);
 
-    expect(health.status).toBe('attention');
+    expect(health.status).toBe('isolated');
     expect(health.issues).toContainEqual(
       expect.objectContaining({ code: 'restore-failed', message: expect.any(String) }),
     );
+  });
+
+  it('部分丢失时隔离，保留当前数据库与健康快照并停止自动覆盖', async () => {
+    await Promise.all([
+      idbPut(db, STORES.cards, CARD),
+      idbPut(db, STORES.cards, SECOND_CARD),
+      idbPut(db, STORES.behaviorEvents, EVENT),
+    ]);
+    await saveRecoverySnapshot(store);
+    const healthySnapshot = storage.values[RECOVERY_SNAPSHOT_KEY];
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(STORES.cards, 'readwrite');
+      transaction.objectStore(STORES.cards).delete(CARD.id);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+    expect(await idbGetAll(db, STORES.cards)).toEqual([SECOND_CARD]);
+    expect(await isStorageIsolationActive()).toBe(true);
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(healthySnapshot);
+  });
+
+  it('孤立复习日志会触发隔离并保留快照', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const healthySnapshot = storage.values[RECOVERY_SNAPSHOT_KEY];
+    await idbPut(db, STORES.reviewLogs, { ...LOG, id: 'log-orphan', cardId: 'missing-card' });
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(await isStorageIsolationActive()).toBe(true);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(healthySnapshot);
+  });
+
+  it('恢复失败状态跨模块重载保留，并可在后续启动重试成功', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await wipeDatabase();
+    vi.mocked(BuiltInWordBank.prototype.listWords).mockResolvedValue([]);
+    vi.mocked(BuiltInWordBank.prototype.getDeck).mockResolvedValue(null);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    expect((await restoreRecoverySnapshotIfNeeded(store)).error).toBeDefined();
+    vi.resetModules();
+    const freshModule = await import('@/storage/recovery-snapshot');
+    expect(await freshModule.isStorageIsolationActive()).toBe(true);
+
+    vi.mocked(BuiltInWordBank.prototype.listWords).mockResolvedValue(WORDS);
+    vi.mocked(BuiltInWordBank.prototype.getDeck).mockImplementation(
+      async (deckId) => DECKS.find((deck) => deck.id === deckId) ?? null,
+    );
+    expect(await restoreRecoverySnapshotIfNeeded(store)).toMatchObject({
+      restored: true,
+    });
+    expect(await freshModule.isStorageIsolationActive()).toBe(false);
+  });
+
+  it('明确替换数据后写入当前快照并解除隔离', async () => {
+    await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(db, STORES.cards, SECOND_CARD)]);
+    await saveRecoverySnapshot(store);
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(STORES.cards, 'readwrite');
+      transaction.objectStore(STORES.cards).delete(CARD.id);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(await isStorageIsolationActive()).toBe(true);
+
+    expect(await resetRecoverySnapshot(store)).toBe(true);
+
+    expect(await isStorageIsolationActive()).toBe(false);
+    expect((await inspectStorageHealth(store)).status).toBe('healthy');
+    const snapshot = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      payload: { data: { cards: CardRecord[] } };
+    };
+    expect(snapshot.payload.data.cards).toEqual([SECOND_CARD]);
   });
 });

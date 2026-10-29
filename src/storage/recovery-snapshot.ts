@@ -38,6 +38,10 @@ interface RecoveryHealthState {
     message: string;
     failedAt: number;
   };
+  isolation?: {
+    detectedAt: number;
+    issues: StorageHealthIssue[];
+  };
 }
 
 interface PendingSnapshotWrite {
@@ -60,17 +64,61 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+function parseHealthIssue(value: unknown): StorageHealthIssue | null {
+  if (!isRecord(value)) return null;
+  if (
+    value.code === 'card-count-decreased' &&
+    typeof value.message === 'string' &&
+    typeof value.currentCards === 'number' &&
+    typeof value.healthyCards === 'number'
+  ) {
+    return {
+      code: value.code,
+      message: value.message,
+      currentCards: value.currentCards,
+      healthyCards: value.healthyCards,
+    };
+  }
+  if (
+    value.code === 'orphan-review-logs' &&
+    typeof value.message === 'string' &&
+    typeof value.count === 'number'
+  ) {
+    return { code: value.code, message: value.message, count: value.count };
+  }
+  if (
+    value.code === 'restore-failed' &&
+    typeof value.message === 'string' &&
+    typeof value.failedAt === 'number'
+  ) {
+    return { code: value.code, message: value.message, failedAt: value.failedAt };
+  }
+  return null;
+}
+
 function parseRecoveryHealthState(value: unknown): RecoveryHealthState {
   if (!isRecord(value) || value.version !== 1) return { version: 1 };
-  const failure = value.restoreFailure;
-  if (
-    !isRecord(failure) ||
-    typeof failure.message !== 'string' ||
-    typeof failure.failedAt !== 'number'
-  ) {
-    return { version: 1 };
-  }
-  return { version: 1, restoreFailure: { message: failure.message, failedAt: failure.failedAt } };
+  const failure =
+    isRecord(value.restoreFailure) &&
+    typeof value.restoreFailure.message === 'string' &&
+    typeof value.restoreFailure.failedAt === 'number'
+      ? { message: value.restoreFailure.message, failedAt: value.restoreFailure.failedAt }
+      : undefined;
+  const isolation =
+    isRecord(value.isolation) && Array.isArray(value.isolation.issues)
+      ? {
+          detectedAt:
+            typeof value.isolation.detectedAt === 'number' ? value.isolation.detectedAt : 0,
+          issues: value.isolation.issues
+            .map(parseHealthIssue)
+            .filter((issue): issue is StorageHealthIssue => issue !== null),
+        }
+      : undefined;
+  return {
+    version: 1,
+    ...(failure ? { restoreFailure: failure } : {}),
+    ...(isolation ? { isolation } : {}),
+  };
 }
 
 function parseSnapshot(value: unknown): RecoverySnapshot | null {
@@ -157,24 +205,59 @@ async function writeSnapshot(snapshot: RecoverySnapshot): Promise<void> {
   await chrome.storage.local.set({ [RECOVERY_SNAPSHOT_KEY]: snapshot });
 }
 
-async function recordRecoveryFailure(message: string): Promise<void> {
-  try {
-    await chrome.storage.local.set({
-      [RECOVERY_HEALTH_KEY]: {
-        version: 1,
-        restoreFailure: { message, failedAt: Date.now() },
-      } satisfies RecoveryHealthState,
-    });
-  } catch (error) {
-    console.error('[BingeUp] 写入存档恢复失败状态失败', error);
-  }
+let healthStateQueue: Promise<void> = Promise.resolve();
+
+function updateRecoveryHealthState(
+  update: (state: RecoveryHealthState) => RecoveryHealthState,
+): Promise<boolean> {
+  const task = healthStateQueue.then(async () => {
+    const stored = await chrome.storage.local.get(RECOVERY_HEALTH_KEY);
+    const current = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
+    await chrome.storage.local.set({ [RECOVERY_HEALTH_KEY]: update(current) });
+    return true;
+  });
+  healthStateQueue = task.then(
+    () => undefined,
+    () => undefined,
+  );
+  return task.catch((error) => {
+    console.error('[BingeUp] 更新存档健康状态失败', error);
+    return false;
+  });
 }
 
-async function clearRecoveryFailure(): Promise<void> {
+async function activateRecoveryIsolation(issues: StorageHealthIssue[]): Promise<boolean> {
+  if (issues.length === 0) return false;
+  return updateRecoveryHealthState((state) => ({
+    ...state,
+    isolation: state.isolation ?? { detectedAt: Date.now(), issues },
+  }));
+}
+
+async function recordRecoveryFailure(message: string): Promise<void> {
+  await updateRecoveryHealthState((state) => {
+    const failedAt = Date.now();
+    const issue: StorageHealthIssue = { code: 'restore-failed', message, failedAt };
+    return {
+      ...state,
+      restoreFailure: { message, failedAt },
+      isolation: state.isolation ?? { detectedAt: failedAt, issues: [issue] },
+    };
+  });
+}
+
+async function clearRecoveryHealth(): Promise<boolean> {
+  return updateRecoveryHealthState(() => ({ version: 1 }));
+}
+
+/** 学习入口使用该轻量状态；需要问题明细时调用健康检查。 */
+export async function isStorageIsolationActive(): Promise<boolean> {
   try {
-    await chrome.storage.local.set({ [RECOVERY_HEALTH_KEY]: { version: 1 } });
+    const stored = await chrome.storage.local.get(RECOVERY_HEALTH_KEY);
+    return parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]).isolation !== undefined;
   } catch (error) {
-    console.error('[BingeUp] 清除存档恢复失败状态失败', error);
+    console.error('[BingeUp] 读取存档隔离状态失败', error);
+    return true;
   }
 }
 
@@ -194,7 +277,9 @@ function enqueueSnapshotWrite(
   const task = { database: store.database, operation } as PendingSnapshotWrite;
   task.promise = snapshotWriteQueue.then(() => {
     if (pendingSnapshotWrite === task) pendingSnapshotWrite = null;
-    return operation === 'reset' ? resetRecoverySnapshotNow(store) : writeRecoverySnapshot(store);
+    return operation === 'reset'
+      ? resetRecoverySnapshotNow(store)
+      : writeProtectedRecoverySnapshot(store);
   });
   pendingSnapshotWrite = task;
   snapshotWriteQueue = task.promise.then(
@@ -212,6 +297,15 @@ function enqueueSnapshotWrite(
  */
 export function saveRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
   return enqueueSnapshotWrite(store, 'save').then((result) => result.saved);
+}
+
+async function writeProtectedRecoverySnapshot(
+  store: LocalSettingsStore,
+): Promise<SnapshotWriteResult> {
+  const health = await inspectStorageHealth(store);
+  if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
+  if (health.status !== 'healthy') return { saved: false, snapshot: null };
+  return writeRecoverySnapshot(store);
 }
 
 async function writeRecoverySnapshot(store: LocalSettingsStore): Promise<SnapshotWriteResult> {
@@ -295,8 +389,17 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
     });
   }
 
+  for (const issue of healthState.isolation?.issues ?? []) {
+    if (!issues.some((current) => current.code === issue.code)) issues.push(issue);
+  }
+
   return {
-    status: issues.length === 0 ? 'healthy' : 'attention',
+    status:
+      healthState.isolation === undefined
+        ? issues.length === 0
+          ? 'healthy'
+          : 'attention'
+        : 'isolated',
     checkedAt: Date.now(),
     currentCounts,
     ...(snapshotCounts === undefined ? {} : { snapshotCounts }),
@@ -317,9 +420,10 @@ async function markRecoveryDataCleared(): Promise<boolean> {
 
 /** 用户明确清除或重建数据后，写入空快照并留下清除标记。 */
 async function resetRecoverySnapshotNow(store: LocalSettingsStore): Promise<SnapshotWriteResult> {
-  const marked = await markRecoveryDataCleared();
+  await markRecoveryDataCleared();
   const result = await writeRecoverySnapshot(store);
-  return { ...result, saved: marked || result.saved };
+  if (result.saved) await clearRecoveryHealth();
+  return result;
 }
 
 export async function resetRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
@@ -341,7 +445,11 @@ export async function restoreRecoverySnapshotIfNeeded(
       idbCount(store.database, STORES.sessionLogs),
       idbCount(store.database, STORES.behaviorEvents),
     ]);
-    if (cards > 0 || logs > 0 || sessions > 0 || events > 0) return { restored: false };
+    if (cards > 0 || logs > 0 || sessions > 0 || events > 0) {
+      const health = await inspectStorageHealth(store);
+      if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
+      return { restored: false };
+    }
 
     const stored = await chrome.storage.local.get([RECOVERY_SNAPSHOT_KEY, RECOVERY_CLEARED_AT_KEY]);
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
@@ -361,7 +469,7 @@ export async function restoreRecoverySnapshotIfNeeded(
       await recordRecoveryFailure(error);
       return { restored: false, error };
     }
-    await clearRecoveryFailure();
+    await clearRecoveryHealth();
     return { restored: true };
   } catch (error) {
     console.error('[BingeUp] 自动存档恢复失败', error);
@@ -386,6 +494,9 @@ export async function saveStartupRecoverySnapshot(
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
     const existing = diagnosticFromSnapshot(snapshot);
     if (cardCount === 0) return { saved: false, snapshot: existing };
+    const health = await inspectStorageHealth(store);
+    if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
+    if (health.status !== 'healthy') return { saved: false, snapshot: existing };
     if (snapshot !== null && snapshot.payload.data.cards.length === cardCount) {
       return { saved: false, snapshot: existing };
     }

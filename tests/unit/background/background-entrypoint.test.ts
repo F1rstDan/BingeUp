@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { openDatabase, idbGetAll, STORES, DATABASE_NAME } from '@/storage/database';
+import { openDatabase, idbDelete, idbGetAll, STORES, DATABASE_NAME } from '@/storage/database';
 import type { ExtensionMessage } from '@/messaging/messages';
 import type {
   CardRecord,
@@ -10,6 +10,9 @@ import type {
   StorageHealth,
   SubmissionResult,
 } from '@/types';
+import type { ExportPayload } from '@/storage/data-transfer';
+import { LocalSettingsStore } from '@/storage/local-settings';
+import { saveRecoverySnapshot } from '@/storage/recovery-snapshot';
 import { dictionaryFetch } from '../../helpers/dictionary-fetch';
 
 vi.mock('@/sites/custom-content-script', () => ({
@@ -31,16 +34,38 @@ type MessageListener = (
 describe('background 入口 — 共享持久化上下文', () => {
   let listener: MessageListener;
   let now: number;
+  let values: Record<string, unknown>;
 
   const send = <T = unknown>(message: ExtensionMessage): Promise<T> =>
     new Promise((resolve) => {
       expect(listener(message, {}, (response) => resolve(response as T))).toBe(true);
     });
 
+  async function deleteCardByWordId(wordId: string): Promise<void> {
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      const cards = await idbGetAll<CardRecord>(db, STORES.cards);
+      const card = cards.find((candidate) => candidate.wordId === wordId);
+      if (!card) throw new Error(`找不到学习卡：${wordId}`);
+      await idbDelete(db, STORES.cards, card.id);
+    } finally {
+      db.close();
+    }
+  }
+
+  async function saveSnapshotAndExpectIsolation(): Promise<void> {
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      expect(await saveRecoverySnapshot(new LocalSettingsStore(db))).toBe(false);
+    } finally {
+      db.close();
+    }
+  }
+
   beforeEach(async () => {
     now = Date.UTC(2026, 9, 22, 12);
     vi.spyOn(Date, 'now').mockImplementation(() => now);
-    const values: Record<string, unknown> = {};
+    values = {};
     vi.stubGlobal('defineBackground', (initialize: () => void) => initialize);
     vi.stubGlobal('chrome', {
       runtime: {
@@ -54,7 +79,10 @@ describe('background 入口 — 共享持久化上下文', () => {
       },
       storage: {
         local: {
-          get: async (key: string) => structuredClone({ [key]: values[key] }),
+          get: async (keys: string | string[]) => {
+            const list = Array.isArray(keys) ? keys : [keys];
+            return structuredClone(Object.fromEntries(list.map((key) => [key, values[key]])));
+          },
           set: async (entries: Record<string, unknown>) => {
             Object.assign(values, structuredClone(entries));
           },
@@ -188,5 +216,85 @@ describe('background 入口 — 共享持久化上下文', () => {
     } finally {
       db.close();
     }
+  });
+
+  it('部分丢失时隔离并阻止学习，仍允许导出和诊断', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-ability' });
+    await deleteCardByWordId('w-abandon');
+    await saveSnapshotAndExpectIsolation();
+
+    const health = await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' });
+    expect(health.status).toBe('isolated');
+    const blocked = await send<{ __bingeupErrorCode?: string }>({ type: 'LEARNING_GET_NEXT' });
+    expect(blocked.__bingeupErrorCode).toBe('STORAGE_ISOLATED');
+    const exported = await send<ExportPayload>({ type: 'EXPORT_DATA' });
+    expect(exported.data.cards).toHaveLength(1);
+    expect(
+      (await send<StorageDiagnostics>({ type: 'GET_STORAGE_DIAGNOSTICS' })).current?.counts,
+    ).toMatchObject({ cards: 1 });
+  });
+
+  it('合法导入少于旧快照的卡后解除隔离，并允许继续学习', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    const oneCardBackup = await send<ExportPayload>({ type: 'EXPORT_DATA' });
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-ability' });
+    await deleteCardByWordId('w-abandon');
+    await saveSnapshotAndExpectIsolation();
+
+    const result = await send({ type: 'IMPORT_DATA', payload: oneCardBackup });
+
+    expect(result).toMatchObject({ ok: true });
+    expect(await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).toMatchObject({
+      status: 'healthy',
+      currentCounts: { cards: 1 },
+    });
+    const next = await send<{ __bingeupErrorCode?: string }>({ type: 'LEARNING_GET_NEXT' });
+    expect(next.__bingeupErrorCode).toBeUndefined();
+  });
+
+  it('明确清除学习进度后解除隔离，并允许继续学习', async () => {
+    await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId: 'w-ability' });
+    await deleteCardByWordId('w-ability');
+    await saveSnapshotAndExpectIsolation();
+
+    await send({ type: 'CLEAR_LEARNING_PROGRESS' });
+
+    expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
+      type: 'LEARNING_ACCEPT_NEW_WORD',
+      wordId: 'w-abandon',
+    });
+    expect(accepted?.__bingeupErrorCode).toBeUndefined();
+  });
+
+  it('明确清除全部数据后解除隔离，并允许继续学习', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    await deleteCardByWordId('w-abandon');
+    await saveSnapshotAndExpectIsolation();
+
+    expect(await send({ type: 'CLEAR_ALL_DATA' })).toMatchObject({ ok: true });
+
+    expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
+      type: 'LEARNING_SELF_REPORT_KNOWN',
+      wordId: 'w-ability',
+    });
+    expect(accepted?.__bingeupErrorCode).toBeUndefined();
+  });
+
+  it('明确重建数据库后解除隔离，并允许继续学习', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    await deleteCardByWordId('w-abandon');
+    await saveSnapshotAndExpectIsolation();
+
+    expect(await send({ type: 'REBUILD_DATABASE' })).toMatchObject({ ok: true });
+
+    expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
+      type: 'LEARNING_SELF_REPORT_KNOWN',
+      wordId: 'w-ability',
+    });
+    expect(accepted?.__bingeupErrorCode).toBeUndefined();
   });
 });
