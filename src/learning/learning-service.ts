@@ -126,6 +126,13 @@ export interface LearningServiceDeps {
   random?: () => number;
 }
 
+interface CardSelection {
+  dueCard: CardRecord | undefined;
+  earlyShortTerm: CardRecord | undefined;
+  todayNewWordCount: number;
+  existingWordIds: Set<string>;
+}
+
 /**
  * 学习服务：编排词库、新词展示、题目生成、学习卡与复习日志（Issue #5 / #6 / #7）。
  *
@@ -215,50 +222,27 @@ export class LearningService {
     ]);
     const allowSpelling = (options?.allowSpelling ?? false) && settings.spellingEnabled;
     const excludedWordIds = options?.excludedWordIds;
-    const availableCards = allCards.filter((card) => !excludedWordIds?.has(card.wordId));
+    const selection = this.selectCards(allCards, now, excludedWordIds);
 
-    // 1. 近期答错的到期长期复习词（lastWrongAt 存在且到期）
-    const dueWrongLongTerm = this.findDueLongTermWithRecentError(availableCards, now);
-    if (dueWrongLongTerm) {
-      return this.wrapQuestion(await this.makeQuestionForCard(dueWrongLongTerm, allowSpelling));
-    }
-
-    // 2. 其他到期长期复习词（无近期答错记录）
-    const dueLongTerm = this.findDueLongTermWithoutRecentError(availableCards, now);
-    if (dueLongTerm) {
-      return this.wrapQuestion(await this.makeQuestionForCard(dueLongTerm, allowSpelling));
-    }
-
-    // 3. 到期自报认识词验证题
-    const dueVerification = this.findDueCard(availableCards, 'self-reported-known', now);
-    if (dueVerification) {
-      return this.wrapQuestion(await this.makeQuestionForCard(dueVerification, allowSpelling));
-    }
-
-    // 4. 到期短期学习词
-    const dueShortTerm = this.findDueCard(availableCards, 'short-term', now);
-    if (dueShortTerm) {
-      return this.wrapQuestion(await this.makeQuestionForCard(dueShortTerm, allowSpelling));
+    if (selection.dueCard) {
+      return this.wrapQuestion(await this.makeQuestionForCard(selection.dueCard, allowSpelling));
     }
 
     // 5. 无到期复习：候选新词（受每日上限约束）
     const dailyLimit = settings.dailyNewWordLimit;
-    if ((await this.countTodayNewWords(allCards, now)) >= dailyLimit) {
+    if (selection.todayNewWordCount >= dailyLimit) {
       if (options?.allowEarlyShortTermReview) {
-        const earlyShortTerm = this.findEarliestShortTermForActiveReview(
-          availableCards,
-          now,
-          excludedWordIds,
-        );
-        if (earlyShortTerm) {
-          return this.wrapQuestion(await this.makeQuestionForCard(earlyShortTerm, allowSpelling));
+        if (selection.earlyShortTerm) {
+          return this.wrapQuestion(
+            await this.makeQuestionForCard(selection.earlyShortTerm, allowSpelling),
+          );
         }
       }
       return null;
     }
 
     const candidate = await this.pickCandidateNewWord(
-      allCards,
+      selection.existingWordIds,
       settings.selectedDeckId,
       settings.selfRatedLevel,
       excludedWordIds,
@@ -785,67 +769,57 @@ export class LearningService {
     return plan;
   }
 
-  /** 查找指定阶段中最早到期的复习卡。 */
-  private findDueCard(
-    cards: CardRecord[],
-    stage: CardRecord['stage'],
-    now: number,
-  ): CardRecord | undefined {
-    return cards
-      .filter((c) => c.stage === stage && c.nextReviewAt !== undefined && now >= c.nextReviewAt)
-      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
-  }
-
-  /**
-   * 主动学习在每日新词额度用完后，可提前巩固尚未到期的短期学习词。
-   * 最早接受者优先；同一连续学习轮次已出现的单词必须排除。
-   */
-  private findEarliestShortTermForActiveReview(
+  /** 扫描学习卡，同时选出到期复习卡、主动巩固卡并统计新词。 */
+  private selectCards(
     cards: CardRecord[],
     now: number,
     excludedWordIds?: Set<string>,
-  ): CardRecord | undefined {
-    return cards
-      .filter(
-        (card) =>
-          card.stage === 'short-term' &&
-          card.nextReviewAt !== undefined &&
-          card.nextReviewAt > now &&
-          !excludedWordIds?.has(card.wordId),
-      )
-      .sort((a, b) => a.createdAt - b.createdAt)[0];
-  }
+  ): CardSelection {
+    let dueCard: CardRecord | undefined;
+    let duePriority = 5;
+    let dueReviewAt = Number.POSITIVE_INFINITY;
+    let earlyShortTerm: CardRecord | undefined;
+    let todayNewWordCount = 0;
+    const existingWordIds = new Set<string>();
 
-  /**
-   * 查找近期答错的到期长期复习词（Issue #7 验收标准 1：第 1 优先级）。
-   * `lastWrongAt` 是最近三条复习日志窗口的持久化投影；窗口中任一答错即属于近期答错。
-   */
-  private findDueLongTermWithRecentError(cards: CardRecord[], now: number): CardRecord | undefined {
-    return cards
-      .filter(
-        (c) =>
-          c.stage === 'long-term' &&
-          c.nextReviewAt !== undefined &&
-          now >= c.nextReviewAt &&
-          c.lastWrongAt !== undefined,
-      )
-      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
-  }
+    for (const card of cards) {
+      existingWordIds.add(card.wordId);
+      if (card.origin === 'accepted-new' && isSameLocalDay(card.createdAt, now)) {
+        todayNewWordCount += 1;
+      }
+      if (excludedWordIds?.has(card.wordId)) continue;
 
-  /** 查找无近期答错记录的到期长期复习词（Issue #7 验收标准 1：第 2 优先级）。 */
-  private findDueLongTermWithoutRecentError(
-    cards: CardRecord[],
-    now: number,
-  ): CardRecord | undefined {
-    return cards
-      .filter(
-        (c) =>
-          c.stage === 'long-term' &&
-          c.nextReviewAt !== undefined &&
-          now >= c.nextReviewAt &&
-          c.lastWrongAt === undefined,
-      )
-      .sort((a, b) => a.nextReviewAt! - b.nextReviewAt!)[0];
+      const nextReviewAt = card.nextReviewAt;
+      if (nextReviewAt !== undefined && nextReviewAt <= now) {
+        let priority: number | undefined;
+        if (card.stage === 'long-term') {
+          priority = card.lastWrongAt !== undefined ? 1 : 2;
+        } else if (card.stage === 'self-reported-known') {
+          priority = 3;
+        } else if (card.stage === 'short-term') {
+          priority = 4;
+        }
+        if (
+          priority !== undefined &&
+          (priority < duePriority || (priority === duePriority && nextReviewAt < dueReviewAt))
+        ) {
+          dueCard = card;
+          duePriority = priority;
+          dueReviewAt = nextReviewAt;
+        }
+      }
+
+      if (
+        card.stage === 'short-term' &&
+        nextReviewAt !== undefined &&
+        nextReviewAt > now &&
+        (earlyShortTerm === undefined || card.createdAt < earlyShortTerm.createdAt)
+      ) {
+        earlyShortTerm = card;
+      }
+    }
+
+    return { dueCard, earlyShortTerm, todayNewWordCount, existingWordIds };
   }
 
   /**
@@ -936,14 +910,13 @@ export class LearningService {
    * 5. 最低保证：从所有剩余合格词中随机选
    */
   private async pickCandidateNewWord(
-    existingCards: CardRecord[],
+    existingWordIds: ReadonlySet<string>,
     selectedDeckId: string,
     selfRatedLevel: SelfRatedLevel,
     excludedWordIds?: Set<string>,
   ): Promise<WordRecord | null> {
     const deckId = await this.getSelectedDeckId(selectedDeckId);
-    const cardWordIds = new Set(existingCards.map((c) => c.wordId));
-    const allExcluded = new Set([...cardWordIds, ...(excludedWordIds ?? [])]);
+    const allExcluded = new Set([...existingWordIds, ...(excludedWordIds ?? [])]);
 
     // 逐级扩展的难度区间
     const preferred = this.getPreferredDifficulty(selfRatedLevel);
@@ -984,13 +957,6 @@ export class LearningService {
     }
 
     return zones;
-  }
-
-  /** 统计本地自然日内通过“知道了”接受的新词数量。 */
-  private async countTodayNewWords(cards: CardRecord[], now: number): Promise<number> {
-    return cards.filter(
-      (card) => card.origin === 'accepted-new' && isSameLocalDay(card.createdAt, now),
-    ).length;
   }
 }
 

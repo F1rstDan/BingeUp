@@ -562,6 +562,28 @@ describe('LearningService — 主动巩固题（Issue #22）', () => {
 
     expect(questionOf(item).wordId).toBe('w-benefit');
   });
+
+  it('主动巩固题在 createdAt 相同时保留原数组先后', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    for (const wordId of ['w-abandon', 'w-benefit']) {
+      await cards.save({
+        id: `card-${wordId}`,
+        wordId,
+        deckId: DECK.id,
+        stage: 'short-term',
+        origin: 'accepted-new',
+        createdAt: now - 1_000,
+        updatedAt: now - 1_000,
+        nextReviewAt: now + 8 * MS_PER_MIN,
+      });
+    }
+    const { service } = makeService({ cards, now, dailyNewWordLimit: 2 });
+
+    const item = await service.getNextItem({ allowEarlyShortTermReview: true });
+
+    expect(questionOf(item).wordId).toBe('w-abandon');
+  });
 });
 
 describe('连续学习新词与答题', () => {
@@ -1178,6 +1200,32 @@ describe('LearningService — 复习优先级（Issue #7 验收标准 1）', () 
     });
     item = await service.getNextItem();
     expect(item!.kind).toBe('new-word-presentation');
+  });
+
+  it('到期时间相同时保留原数组先后，排除首项后选择下一项', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    await cards.save(makeLongTermCard('w-abandon', now, { nextReviewAt: now }));
+    await cards.save(makeLongTermCard('w-benefit', now, { nextReviewAt: now }));
+    const { service } = makeService({ cards, now });
+
+    const first = await service.getNextItem();
+    const second = await service.getNextItem({ excludedWordIds: new Set(['w-abandon']) });
+
+    expect(questionOf(first).wordId).toBe('w-abandon');
+    expect(questionOf(second).wordId).toBe('w-benefit');
+  });
+
+  it('lastWrongAt 为 0 时仍属于近期答错', async () => {
+    const now = 1_000_000;
+    const cards = new FakeCardRepository();
+    await cards.save(makeLongTermCard('w-abandon', now, { lastWrongAt: 0 }));
+    await cards.save(makeLongTermCard('w-benefit', now, { nextReviewAt: now - 1_000 }));
+    const { service } = makeService({ cards, now });
+
+    const item = await service.getNextItem();
+
+    expect(questionOf(item).wordId).toBe('w-abandon');
   });
 
   it('最近三条均答对时清除 lastWrongAt', async () => {
