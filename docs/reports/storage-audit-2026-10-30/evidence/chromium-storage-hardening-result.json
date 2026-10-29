@@ -1,0 +1,35 @@
+{
+  "channel": "chromium",
+  "rounds": 2,
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\chromium-v4wzLb",
+  "startedAt": "2026-10-29T19:31:14.230Z",
+  "status": "passed",
+  "observations": [
+    {
+      "round": 1,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 2,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    }
+  ],
+  "browserVersion": "149.0.7827.55",
+  "extensionId": "glmnhnhflfpihgjogjcloinkegjjomdi",
+  "wordId": "w-student",
+  "partialLoss": {
+    "cards": 0,
+    "events": 2,
+    "snapshotCards": 1,
+    "restored": false,
+    "healthStatus": "isolated",
+    "blockedCode": "STORAGE_ISOLATED",
+    "blockedError": "存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。",
+    "returnedLearningItem": false
+  },
+  "completedAt": "2026-10-29T19:31:17.375Z"
+}

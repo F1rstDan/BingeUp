@@ -1,6 +1,6 @@
 /* global chrome, indexedDB */
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 
@@ -8,11 +8,21 @@ import { chromium } from '@playwright/test';
 const channel = process.argv[2] ?? 'chromium';
 const rounds = Number(process.argv[3] ?? 5);
 assert(Number.isInteger(rounds) && rounds > 0 && rounds <= 50);
-const extension = resolve('.output/chrome-mv3');
+const extension = resolve(`.output/${channel === 'msedge' ? 'edge-mv3' : 'chrome-mv3'}`);
 const output = resolve('.output/storage-audit');
+const evidence = resolve('docs/reports/storage-audit-2026-10-30/evidence');
+const resultPath = resolve(evidence, `${channel}-storage-hardening-result.json`);
 await mkdir(output, { recursive: true });
+await mkdir(evidence, { recursive: true });
 const profile = await mkdtemp(resolve(output, `${channel}-`));
-const results = { channel, rounds, profile, observations: [] };
+const results = {
+  channel,
+  rounds,
+  profile,
+  startedAt: new Date().toISOString(),
+  status: 'running',
+  observations: [],
+};
 let context;
 let extensionId;
 
@@ -33,8 +43,12 @@ async function launch() {
   return page;
 }
 
+async function sendRaw(page, message) {
+  return page.evaluate((request) => chrome.runtime.sendMessage(request), message);
+}
+
 async function send(page, message) {
-  const result = await page.evaluate((request) => chrome.runtime.sendMessage(request), message);
+  const result = await sendRaw(page, message);
   if (result?.__bingeupError) throw new Error(result.__bingeupError);
   return result;
 }
@@ -79,27 +93,35 @@ try {
   context = null;
   page = await launch();
   const diagnostics = await send(page, { type: 'GET_STORAGE_DIAGNOSTICS' });
-  // 生产选词包含随机抽样；排除其他词，确定性验证丢卡词是否重新成为候选。
-  const dictionary = JSON.parse(await readFile(resolve(extension, 'dictionaries/words.json'), 'utf8'));
-  const next = await send(page, {
-    type: 'LEARNING_GET_NEXT',
-    options: { excludedWordIds: dictionary.filter((word) => word.id !== wordId).map((word) => word.id) },
-  });
-  const repeated = next.kind === 'new-word-presentation' && next.presentation.word.id === wordId;
+  const health = await send(page, { type: 'GET_STORAGE_HEALTH' });
+  const blocked = await sendRaw(page, { type: 'LEARNING_GET_NEXT' });
   results.partialLoss = {
     cards: diagnostics.current.counts.cards,
     events: diagnostics.current.counts.behaviorEvents,
     snapshotCards: diagnostics.snapshot.counts?.cards,
     restored: diagnostics.startup.restoredFromSnapshot,
-    repeated,
+    healthStatus: health.status,
+    blockedCode: blocked.__bingeupErrorCode,
+    blockedError: blocked.__bingeupError,
+    returnedLearningItem: blocked.kind !== undefined,
   };
   assert.equal(results.partialLoss.cards, 0);
   assert(results.partialLoss.events > 0);
   assert.equal(results.partialLoss.snapshotCards, 1);
   assert.equal(results.partialLoss.restored, false);
-  assert.equal(repeated, true);
+  assert.equal(results.partialLoss.healthStatus, 'isolated');
+  assert.equal(results.partialLoss.blockedCode, 'STORAGE_ISOLATED');
+  assert.equal(results.partialLoss.returnedLearningItem, false);
+  results.status = 'passed';
+  results.completedAt = new Date().toISOString();
   console.log(JSON.stringify(results, null, 2));
+} catch (error) {
+  results.status = 'failed';
+  results.error = error instanceof Error ? error.stack ?? error.message : String(error);
+  throw error;
 } finally {
   if (context) await context.close();
-  await writeFile(resolve(output, `${channel}-result.json`), JSON.stringify(results, null, 2));
+  results.completedAt ??= new Date().toISOString();
+  if (results.status === 'running') results.status = 'failed';
+  await writeFile(resultPath, JSON.stringify(results, null, 2));
 }

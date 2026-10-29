@@ -10,6 +10,8 @@ import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import {
   RECOVERY_SNAPSHOT_KEY,
+  inspectStorageHealth,
+  isStorageIsolationActive,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
   saveStartupRecoverySnapshot,
@@ -127,19 +129,20 @@ it('CONTROL: 整库为空时能够从快照恢复自报认识卡', async () => {
   expect(await new CardRepository(db).getByWordId('w-high')).toBeDefined();
 });
 
-it('F1: 卡片丢失但行为事件尚在时，应恢复已认识词而不是再次作为新词', async () => {
+it('F1: 卡片丢失但行为事件尚在时，应隔离并保留健康快照', async () => {
   await service().selfReportKnown('w-high');
   await idbPut(db, STORES.behaviorEvents, {
     id: 'site-baseline', kind: 'site-enabled', occurredAt: 1, hostname: 'youtube.com', enabled: true,
   });
   await saveRecoverySnapshot(store);
+  const healthySnapshot = structuredClone(snapshot());
   await idbClear(db, STORES.cards); // 故障注入，不代表已找到浏览器删卡原因。
   await reopen();
-  await restoreRecoverySnapshotIfNeeded(store);
-  expect(await service().getNextItem()).not.toMatchObject({
-    kind: 'new-word-presentation',
-    presentation: { word: { id: 'w-high' } },
-  });
+  expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+  expect(await isStorageIsolationActive()).toBe(true);
+  expect((await inspectStorageHealth(store)).status).toBe('isolated');
+  expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+  expect(snapshot()).toEqual(healthySnapshot);
 });
 
 it('F2: 部分卡片丢失时，启动检查应保留原有较完整快照', async () => {
@@ -147,11 +150,16 @@ it('F2: 部分卡片丢失时，启动检查应保留原有较完整快照', asy
   await service().selfReportKnown('w-low');
   await saveRecoverySnapshot(store);
   expect(snapshot().payload.data.cards).toHaveLength(2);
+  const healthySnapshot = structuredClone(snapshot());
   const missing = await new CardRepository(db).getByWordId('w-high');
   await idbDelete(db, STORES.cards, missing!.id);
   await reopen();
-  await restoreRecoverySnapshotIfNeeded(store);
-  await saveStartupRecoverySnapshot(store);
+  expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+  expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+  expect(await isStorageIsolationActive()).toBe(true);
+  expect((await inspectStorageHealth(store)).status).toBe('isolated');
+  expect(await idbGetAll(db, STORES.cards)).toHaveLength(1);
+  expect(snapshot()).toEqual(healthySnapshot);
   expect(snapshot().payload.data.cards).toHaveLength(2);
 });
 
@@ -177,18 +185,21 @@ it('F4: 只有设置、没有学习卡的完整快照，也应能恢复设置', 
   expect((await store.getAppSettings()).dailyNewWordLimit).toBe(8);
 });
 
-it('F5: 恢复因词库校验失败后，后续保存应保留故障前快照', async () => {
+it('F5: 恢复因词库校验失败后，应隔离并保留故障前快照', async () => {
   await service().selfReportKnown('w-high');
   await saveRecoverySnapshot(store);
+  const healthySnapshot = structuredClone(snapshot());
   await wipe();
   vi.mocked(BuiltInWordBank.prototype.listWords).mockResolvedValue([]);
   vi.mocked(BuiltInWordBank.prototype.getDeck).mockResolvedValue(null);
   vi.spyOn(console, 'error').mockImplementation(() => undefined);
   const recovery = await restoreRecoverySnapshotIfNeeded(store);
   expect(recovery.error).toBeDefined();
-  await saveStartupRecoverySnapshot(store);
-  expect(snapshot().payload.data.cards).toHaveLength(1);
-  await saveRecoverySnapshot(store); // 对应继续操作并触发后台常规快照。
+  expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+  expect(await saveRecoverySnapshot(store)).toBe(false); // 对应继续操作并触发后台常规快照。
+  expect(await isStorageIsolationActive()).toBe(true);
+  expect((await inspectStorageHealth(store)).status).toBe('isolated');
+  expect(snapshot()).toEqual(healthySnapshot);
   expect(snapshot().payload.data.cards).toHaveLength(1);
 });
 
