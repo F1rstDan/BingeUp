@@ -482,15 +482,34 @@ describe('background 入口 — 共享持久化上下文', () => {
   });
 
   it('并发破坏性操作只有取得 pending 的一份执行', async () => {
-    const [cleared, clearedLearning] = await Promise.all([
-      send<{ __bingeupErrorCode?: string }>({ type: 'CLEAR_ALL_DATA' }),
-      send<{ __bingeupErrorCode?: string }>({ type: 'CLEAR_LEARNING_PROGRESS' }),
-    ]);
+    const originalSet = chrome.storage.local.set;
+    let releaseSnapshot!: () => void;
+    let markSnapshotStarted!: () => void;
+    let holdingSnapshot = false;
+    const snapshotGate = new Promise<void>((resolve) => {
+      releaseSnapshot = resolve;
+    });
+    const snapshotStarted = new Promise<void>((resolve) => {
+      markSnapshotStarted = resolve;
+    });
+    vi.spyOn(chrome.storage.local, 'set').mockImplementation(async (entries) => {
+      if (!holdingSnapshot && 'bingeup:recovery-snapshot' in entries) {
+        holdingSnapshot = true;
+        markSnapshotStarted();
+        await snapshotGate;
+      }
+      await originalSet(entries);
+    });
 
-    const blocked = [cleared, clearedLearning].filter(
-      (result) => result?.__bingeupErrorCode === 'STORAGE_OPERATION_IN_PROGRESS',
-    );
-    expect(blocked).toHaveLength(1);
+    const clearing = send<{ ok: boolean }>({ type: 'CLEAR_ALL_DATA' });
+    await snapshotStarted;
+    const blocked = await send<{ __bingeupErrorCode?: string }>({
+      type: 'CLEAR_LEARNING_PROGRESS',
+    });
+
+    expect(blocked.__bingeupErrorCode).toBe('STORAGE_OPERATION_IN_PROGRESS');
+    releaseSnapshot();
+    await expect(clearing).resolves.toMatchObject({ ok: true });
     expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
   });
 });
