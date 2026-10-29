@@ -9,7 +9,7 @@ import {
   importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, idbGetAll, idbPut, openDatabase } from '@/storage/database';
+import { STORES, idbGetAll, idbPut, openDatabase, readStorageMeta } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   BehaviorEventRecord,
@@ -204,6 +204,13 @@ describe('本地用户数据备份', () => {
     expect(exported.data.words).toEqual(expect.arrayContaining([BUILT_IN_WORDS[0], customWord]));
     expect(exported.data.decks).toHaveLength(2);
     expect(exported.data.decks).toEqual(expect.arrayContaining([BUILT_IN_DECKS[0], customDeck]));
+    expect(Object.keys(exported).sort()).toEqual([
+      'authoritativeState',
+      'data',
+      'exportedAt',
+      'version',
+    ]);
+    expect(JSON.stringify(exported)).not.toContain('storageMeta');
   });
 
   it('拒绝无效格式且不修改现有数据', async () => {
@@ -268,6 +275,7 @@ describe('本地用户数据备份', () => {
     await idbPut(db, STORES.cards, { ...CARD, id: 'obsolete', wordId: 'w-help' });
     const incoming = payload({ cards: [{ ...CARD, id: 'restored' }] });
     incoming.data.reviewLogs = [];
+    const beforeImport = await readStorageMeta(db);
 
     expect(await importLocalData(store, incoming)).toEqual({
       ok: true,
@@ -276,10 +284,16 @@ describe('本地用户数据备份', () => {
     });
     expect(await idbGetAll(db, STORES.cards)).toEqual([{ ...CARD, id: 'restored' }]);
     expect(await store.getCooldown()).toEqual({ nextAllowedAt: 0, consecutiveSkipCount: 0 });
+    const afterImport = await readStorageMeta(db);
+    expect(afterImport.generation).not.toBe(beforeImport.generation);
+    expect(afterImport.revision).toBe(beforeImport.revision + 1);
+    expect(afterImport.pendingBackup).toBe(true);
+    expect(afterImport.committedAt).toBeGreaterThanOrEqual(beforeImport.committedAt);
   });
 
   it('事务中途失败时保留全部原数据', async () => {
     await seedCurrentData();
+    const beforeImport = await readStorageMeta(db);
     const originalPut = IDBObjectStore.prototype.put;
     let putCount = 0;
     vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (
@@ -296,6 +310,7 @@ describe('本地用户数据备份', () => {
     expect(result.errors[0]).toContain('原有权威数据未改变');
     expect(await idbGetAll(db, STORES.cards)).toEqual([CARD]);
     expect(await idbGetAll(db, STORES.reviewLogs)).toEqual([LOG]);
+    expect(await readStorageMeta(db)).toEqual(beforeImport);
   });
 
   it('词库读取失败时拒绝导入并保持原数据', async () => {
@@ -333,6 +348,7 @@ describe('本地用户数据备份', () => {
 
   it('清除学习进度保留设置；清除全部数据回到默认状态', async () => {
     await seedCurrentData();
+    const beforeClearProgress = await readStorageMeta(db);
     await clearLearningProgress(db);
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
     expect(await idbGetAll(db, STORES.reviewLogs)).toEqual([]);
@@ -340,8 +356,17 @@ describe('本地用户数据备份', () => {
     expect(await idbGetAll(db, STORES.behaviorEvents)).toEqual([]);
     expect(await store.getAppSettings()).toMatchObject({ dailyNewWordLimit: 8 });
 
+    const afterClearProgress = await readStorageMeta(db);
+    expect(afterClearProgress.generation).not.toBe(beforeClearProgress.generation);
+    expect(afterClearProgress.revision).toBe(beforeClearProgress.revision + 1);
+    expect(afterClearProgress.pendingBackup).toBe(true);
+
     expect(await clearAllLocalData(store)).toEqual({ ok: true, errors: [], warnings: [] });
     expect(await store.getAppSettings()).toEqual(DEFAULT_SETTINGS);
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+    const afterClearAll = await readStorageMeta(db);
+    expect(afterClearAll.generation).not.toBe(afterClearProgress.generation);
+    expect(afterClearAll.revision).toBe(afterClearProgress.revision + 1);
+    expect(afterClearAll.pendingBackup).toBe(true);
   });
 });

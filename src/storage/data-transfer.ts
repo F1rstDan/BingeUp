@@ -1,7 +1,13 @@
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { BUILT_IN_DECK_IDS } from '@/dictionary/content-contract';
 import { validateAppSettings } from '@/settings/validator';
-import { STORES, idbGetAll, idbReplaceAll } from '@/storage/database';
+import {
+  STORES,
+  idbGetAll,
+  idbReplaceAll,
+  markStorageMetaChanged,
+  openTrackedTransaction,
+} from '@/storage/database';
 import {
   AUTHORITATIVE_STATE_ID,
   DEFAULT_AUTHORITATIVE_STATE,
@@ -573,15 +579,19 @@ export async function importLocalData(
   }
   const { payload } = parsed;
   try {
-    await idbReplaceAll(store.database, {
-      [STORES.authoritativeState]: [authoritativeRecord(payload)],
-      [STORES.cards]: payload.data.cards,
-      [STORES.reviewLogs]: payload.data.reviewLogs,
-      [STORES.sessionLogs]: payload.data.sessionLogs,
-      [STORES.behaviorEvents]: payload.data.behaviorEvents,
-      [STORES.words]: payload.data.words,
-      [STORES.decks]: payload.data.decks,
-    });
+    await idbReplaceAll(
+      store.database,
+      {
+        [STORES.authoritativeState]: [authoritativeRecord(payload)],
+        [STORES.cards]: payload.data.cards,
+        [STORES.reviewLogs]: payload.data.reviewLogs,
+        [STORES.sessionLogs]: payload.data.sessionLogs,
+        [STORES.behaviorEvents]: payload.data.behaviorEvents,
+        [STORES.words]: payload.data.words,
+        [STORES.decks]: payload.data.decks,
+      },
+      { rotateGeneration: true },
+    );
   } catch (error) {
     return {
       ok: false,
@@ -600,11 +610,14 @@ export async function clearLearningProgress(
   siteBaselines: BehaviorEventRecord[] = [],
 ): Promise<void> {
   await new Promise<void>((resolve, reject) => {
-    const tx = db.transaction(
-      [STORES.cards, STORES.reviewLogs, STORES.sessionLogs, STORES.behaviorEvents],
-      'readwrite',
-    );
+    const tx = openTrackedTransaction(db, [
+      STORES.cards,
+      STORES.reviewLogs,
+      STORES.sessionLogs,
+      STORES.behaviorEvents,
+    ]);
     try {
+      markStorageMetaChanged(tx, { rotateGeneration: true });
       for (const store of [
         STORES.cards,
         STORES.reviewLogs,
@@ -627,15 +640,19 @@ export async function clearLearningProgress(
 
 export async function clearAllLocalData(store: LocalSettingsStore): Promise<DataOperationResult> {
   try {
-    await idbReplaceAll(store.database, {
-      [STORES.authoritativeState]: [{ ...DEFAULT_AUTHORITATIVE_STATE }],
-      [STORES.cards]: [],
-      [STORES.reviewLogs]: [],
-      [STORES.sessionLogs]: [],
-      [STORES.behaviorEvents]: [],
-      [STORES.words]: [],
-      [STORES.decks]: [],
-    });
+    await idbReplaceAll(
+      store.database,
+      {
+        [STORES.authoritativeState]: [{ ...DEFAULT_AUTHORITATIVE_STATE }],
+        [STORES.cards]: [],
+        [STORES.reviewLogs]: [],
+        [STORES.sessionLogs]: [],
+        [STORES.behaviorEvents]: [],
+        [STORES.words]: [],
+        [STORES.decks]: [],
+      },
+      { rotateGeneration: true },
+    );
   } catch (error) {
     return {
       ok: false,

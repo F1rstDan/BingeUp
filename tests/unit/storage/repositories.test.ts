@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { openDatabase, STORES } from '@/storage/database';
+import { openDatabase, readStorageMeta, STORES } from '@/storage/database';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { ReviewLogRepository } from '@/storage/repositories/review-log-repository';
 import type { CardRecord, ReviewLogRecord } from '@/types';
@@ -356,6 +356,63 @@ describe('CardRepository — 答题提交幂等', () => {
 
     await expect(logRepo.getById(original.id)).resolves.toEqual(original);
     await expect(cardRepo.getById(card.id)).resolves.toEqual(card);
+    db.close();
+  });
+});
+
+describe('权威仓库 — storageMeta revision', () => {
+  afterEach(async () => {
+    await deleteDatabase(TEST_DB);
+  });
+
+  it('每个实际写事务递增一次，重复提交不递增', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const initial = await readStorageMeta(db);
+    const card = makeCard({ id: 'rev-card', wordId: 'w-rev' });
+
+    await cardRepo.save(card);
+    expect((await readStorageMeta(db)).revision).toBe(initial.revision + 1);
+
+    const firstLog = makeLog({ id: 'rev-log-1', cardId: card.id, wordId: card.wordId });
+    await cardRepo.saveCardAndLog(card, firstLog);
+    expect((await readStorageMeta(db)).revision).toBe(initial.revision + 2);
+
+    await logRepo.save(makeLog({ id: 'rev-log-2', cardId: card.id, wordId: card.wordId }));
+    expect((await readStorageMeta(db)).revision).toBe(initial.revision + 3);
+
+    const submissionCard = makeCard({ id: 'rev-submission', wordId: 'w-submission' });
+    const submissionLog = makeLog({
+      id: 'question:rev',
+      cardId: submissionCard.id,
+      wordId: submissionCard.wordId,
+    });
+    await cardRepo.saveSubmission(submissionCard, submissionLog);
+    const afterInsert = await readStorageMeta(db);
+    expect(afterInsert.revision).toBe(initial.revision + 4);
+
+    await cardRepo.saveSubmission(submissionCard, submissionLog);
+    expect(await readStorageMeta(db)).toEqual(afterInsert);
+    expect(afterInsert.generation).toBe(initial.generation);
+    expect(afterInsert.pendingBackup).toBe(true);
+    db.close();
+  });
+
+  it('写事务失败时 revision 回滚', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    await cardRepo.save(makeCard({ id: 'existing', wordId: 'w-existing' }));
+    const before = await readStorageMeta(db);
+
+    await expect(
+      cardRepo.saveCardAndLog(
+        makeCard({ id: 'conflict', wordId: 'w-existing' }),
+        makeLog({ id: 'conflict-log', cardId: 'conflict', wordId: 'w-existing' }),
+      ),
+    ).rejects.toThrow();
+
+    expect(await readStorageMeta(db)).toEqual(before);
     db.close();
   });
 });

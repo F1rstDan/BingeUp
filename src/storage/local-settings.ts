@@ -10,7 +10,13 @@ import {
   isYouTubeHostname,
 } from '@/sites/supported-sites';
 import { recordPromptDecline as recordPromptDeclinePure } from '@/onboarding/onboarding-service';
-import { STORES, idbGet, idbPut } from '@/storage/database';
+import {
+  STORES,
+  idbGet,
+  idbPut,
+  markStorageMetaChanged,
+  openTrackedTransaction,
+} from '@/storage/database';
 
 const RUNTIME_STORAGE_KEY = 'bingeup:runtime';
 export const AUTHORITATIVE_STATE_ID = 'current';
@@ -133,15 +139,25 @@ export class LocalSettingsStore {
     update: (state: AuthoritativeStateRecord) => void,
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      const transaction = this.database.transaction(STORES.authoritativeState, 'readwrite');
+      const transaction = openTrackedTransaction(this.database, STORES.authoritativeState);
       const objectStore = transaction.objectStore(STORES.authoritativeState);
+      markStorageMetaChanged(transaction);
       const request = objectStore.get(AUTHORITATIVE_STATE_ID);
       request.onsuccess = () => {
-        const state = request.result
-          ? copyAuthoritativeState(request.result as AuthoritativeStateRecord)
-          : copyAuthoritativeState(DEFAULT_AUTHORITATIVE_STATE);
-        update(state);
-        objectStore.put(copyAuthoritativeState(state));
+        try {
+          const state = request.result
+            ? copyAuthoritativeState(request.result as AuthoritativeStateRecord)
+            : copyAuthoritativeState(DEFAULT_AUTHORITATIVE_STATE);
+          update(state);
+          objectStore.put(copyAuthoritativeState(state));
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch {
+            // 事务已结束时，保留更新函数的原始错误。
+          }
+          reject(error);
+        }
       };
       request.onerror = () => reject(request.error ?? new Error('读取权威状态失败'));
       transaction.oncomplete = () => resolve();

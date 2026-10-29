@@ -1,7 +1,13 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
-import { STORES, idbGetAll, idbReplaceAll, openDatabase } from '@/storage/database';
+import {
+  STORES,
+  idbGetAll,
+  idbReplaceAll,
+  openDatabase,
+  readStorageMeta,
+} from '@/storage/database';
 import type { BehaviorEventRecord } from '@/types';
 
 const TEST_DB = 'test-behavior-event-repository';
@@ -47,11 +53,15 @@ describe('BehaviorEventRepository — 行为事件时间戳写入', () => {
 
     await repo.save(makeEvent('event-a', 0));
     expect(transaction).toHaveBeenCalledTimes(1);
-    expect(transaction).toHaveBeenCalledWith(STORES.behaviorEvents, 'readwrite');
+    expect(transaction).toHaveBeenCalledWith(
+      [STORES.behaviorEvents, STORES.storageMeta],
+      'readwrite',
+    );
     await repo.save(makeEvent('event-b', 0));
     expect(transaction).toHaveBeenCalledTimes(2);
 
     expect(await repo.getAll()).toEqual([makeEvent('event-a', 0), makeEvent('event-b', 1)]);
+    expect((await readStorageMeta(db)).revision).toBe(2);
   });
 
   it('乱序输入取最大值，相同时间戳递增，同 id 覆盖沿用现有规则', async () => {
@@ -112,8 +122,10 @@ describe('BehaviorEventRepository — 行为事件时间戳写入', () => {
       throw new Error('synthetic put failure');
     });
 
+    const beforeFailure = await readStorageMeta(db);
     await expect(repo.save(makeEvent('failed', 100))).rejects.toThrow('synthetic put failure');
     expect(await repo.getAll()).toEqual([]);
+    expect(await readStorageMeta(db)).toEqual(beforeFailure);
 
     await expect(repo.save(makeEvent('retry', 100))).resolves.toBeUndefined();
     expect((await repo.getAll()).map((event) => event.occurredAt)).toEqual([100]);

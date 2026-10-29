@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { openDatabase } from '@/storage/database';
+import { openDatabase, readStorageMeta } from '@/storage/database';
 import { applyComplete, applySkip } from '@/cooldown/cooldown-rules';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 
@@ -52,6 +52,53 @@ describe('LocalSettingsStore — ADR-0001 存储边界', () => {
     await expect(reader.getSite('m.youtube.com')).resolves.toMatchObject({ enabled: false });
     await expect(reader.isOnboardingCompleted()).resolves.toBe(true);
     expect(runtime.chromeStub.storage.local.set).not.toHaveBeenCalled();
+  });
+
+  it('权威设置和站点写入各提交一次 revision，读取不改变 revision', async () => {
+    const store = new LocalSettingsStore(db);
+    const initial = await readStorageMeta(db);
+
+    await store.getAuthoritativeState();
+    expect(await readStorageMeta(db)).toEqual(initial);
+
+    await store.disableSite('youtube.com');
+    const afterDisable = await readStorageMeta(db);
+    expect(afterDisable).toMatchObject({
+      revision: initial.revision + 1,
+      generation: initial.generation,
+      pendingBackup: true,
+    });
+    expect(afterDisable.committedAt).toBeGreaterThan(0);
+
+    await store.markOnboardingCompleted();
+    expect((await readStorageMeta(db)).revision).toBe(afterDisable.revision + 1);
+  });
+
+  it('权威状态更新函数抛错时，状态与 revision 一并回滚', async () => {
+    const store = new LocalSettingsStore(db);
+    await store.setSite('example.com', {
+      enabled: true,
+      mode: 'generic-video',
+      firstQuestionPending: true,
+    });
+    const beforeState = await store.getAuthoritativeState();
+    const beforeMeta = await readStorageMeta(db);
+
+    await expect(
+      store.updateSiteTriggers('example.com', {
+        pageLoadTrigger: false,
+        scrollTrigger: false,
+      }),
+    ).rejects.toThrow('只有基础网页模式可以修改页面触发设置');
+
+    await expect(store.getAuthoritativeState()).resolves.toEqual(beforeState);
+    await expect(readStorageMeta(db)).resolves.toEqual(beforeMeta);
+
+    await store.markOnboardingCompleted();
+    await expect(readStorageMeta(db)).resolves.toMatchObject({
+      revision: beforeMeta.revision + 1,
+      pendingBackup: true,
+    });
   });
 
   it('冷却和临时暂停只写入 chrome.storage.local', async () => {

@@ -1,11 +1,14 @@
 /** IndexedDB 连接、结构初始化与事务辅助函数。 */
 
+import type { StorageMetaRecord } from '@/types';
+
 /**
  * 数据库名是本地存档的持久化身份，不得为了整理命名而更改。
  * 改名会让旧 IndexedDB 无法被读取，表现为关闭浏览器后存档全部丢失。
  */
 export const DATABASE_NAME = 'bingeup';
-export const DATABASE_VERSION = 1;
+export const DATABASE_VERSION = 2;
+export const STORAGE_META_ID = 'current';
 
 /** 对象仓库名称常量。 */
 export const STORES = {
@@ -16,11 +19,12 @@ export const STORES = {
   sessionLogs: 'sessionLogs',
   behaviorEvents: 'behaviorEvents',
   authoritativeState: 'authoritativeState',
+  storageMeta: 'storageMeta',
 } as const;
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
 
-function createSchema(db: IDBDatabase): void {
+function createBaseSchema(db: IDBDatabase): void {
   const cards = db.createObjectStore(STORES.cards, { keyPath: 'id' });
   cards.createIndex('byWordId', 'wordId', { unique: true });
 
@@ -39,6 +43,24 @@ function createSchema(db: IDBDatabase): void {
   db.createObjectStore(STORES.authoritativeState, { keyPath: 'id' });
 }
 
+export function createInitialStorageMeta(): StorageMetaRecord {
+  return {
+    id: STORAGE_META_ID,
+    revision: 0,
+    generation: crypto.randomUUID(),
+    pendingBackup: true,
+    committedAt: 0,
+  };
+}
+
+function upgradeSchema(db: IDBDatabase, oldVersion: number): void {
+  if (oldVersion < 1) createBaseSchema(db);
+  if (oldVersion < 2) {
+    const store = db.createObjectStore(STORES.storageMeta, { keyPath: 'id' });
+    store.add(createInitialStorageMeta());
+  }
+}
+
 /** 打开数据库；首次打开时创建仓库与索引。 */
 export function openDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -51,9 +73,9 @@ export function openDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
       reject(error);
     };
 
-    request.onupgradeneeded = () => {
+    request.onupgradeneeded = (event) => {
       try {
-        createSchema(request.result);
+        upgradeSchema(request.result, event.oldVersion);
       } catch (err) {
         openError = err instanceof Error ? err : new Error(String(err));
         request.transaction!.abort();
@@ -111,6 +133,89 @@ function awaitTransaction(tx: IDBTransaction): Promise<void> {
   });
 }
 
+function normalizeStorageMeta(value: unknown): StorageMetaRecord {
+  if (typeof value !== 'object' || value === null) return createInitialStorageMeta();
+  const candidate = value as Partial<StorageMetaRecord>;
+  return {
+    id: STORAGE_META_ID,
+    revision:
+      typeof candidate.revision === 'number' && Number.isSafeInteger(candidate.revision)
+        ? Math.max(0, candidate.revision)
+        : 0,
+    generation:
+      typeof candidate.generation === 'string' && candidate.generation.length > 0
+        ? candidate.generation
+        : crypto.randomUUID(),
+    pendingBackup: candidate.pendingBackup !== false,
+    committedAt:
+      typeof candidate.committedAt === 'number' && Number.isFinite(candidate.committedAt)
+        ? candidate.committedAt
+        : 0,
+  };
+}
+
+/** 所有权威写事务必须同时包含 storageMeta，才能原子提交修订号。 */
+export function openTrackedTransaction(
+  db: IDBDatabase,
+  stores: StoreName | readonly StoreName[],
+  mode: IDBTransactionMode = 'readwrite',
+): IDBTransaction {
+  const names = [...(typeof stores === 'string' ? [stores] : stores), STORES.storageMeta];
+  return db.transaction([...new Set(names)], mode);
+}
+
+export async function readStorageMeta(db: IDBDatabase): Promise<StorageMetaRecord> {
+  return normalizeStorageMeta(await idbGet(db, STORES.storageMeta, STORAGE_META_ID));
+}
+
+/** 在已经包含 storageMeta 的写事务中安排一次 revision 提交。 */
+export function markStorageMetaChanged(
+  transaction: IDBTransaction,
+  options: { rotateGeneration?: boolean } = {},
+): void {
+  if (transaction.mode !== 'readwrite') {
+    throw new Error('只读事务不能更新 storageMeta');
+  }
+  const store = transaction.objectStore(STORES.storageMeta);
+  let request: IDBRequest<StorageMetaRecord | undefined>;
+  try {
+    request = store.get(STORAGE_META_ID);
+  } catch (error) {
+    try {
+      transaction.abort();
+    } catch {
+      // 事务已结束时，保留读取 meta 失败的原始错误。
+    }
+    throw error;
+  }
+  request.onerror = () => {
+    try {
+      transaction.abort();
+    } catch {
+      // 事务已中止时不再覆盖原始请求错误。
+    }
+  };
+  request.onsuccess = () => {
+    const current = normalizeStorageMeta(request.result);
+    try {
+      store.put({
+        ...current,
+        revision: current.revision + 1,
+        generation: options.rotateGeneration ? crypto.randomUUID() : current.generation,
+        pendingBackup: true,
+        committedAt: Date.now(),
+      } satisfies StorageMetaRecord);
+    } catch (error) {
+      try {
+        transaction.abort();
+      } catch {
+        // 事务已结束时，保留写入 meta 失败的原始错误。
+      }
+      throw error;
+    }
+  };
+}
+
 /** 按 key 读取单条记录。 */
 export async function idbGet<T>(
   db: IDBDatabase,
@@ -124,8 +229,9 @@ export async function idbGet<T>(
 
 /** 写入（或覆盖）一条记录。 */
 export async function idbPut<T>(db: IDBDatabase, store: StoreName, value: T): Promise<void> {
-  const tx = db.transaction(store, 'readwrite');
+  const tx = openTrackedTransaction(db, store);
   tx.objectStore(store).put(value);
+  markStorageMetaChanged(tx);
   await awaitTransaction(tx);
 }
 
@@ -135,8 +241,9 @@ export async function idbDelete(
   store: StoreName,
   key: IDBValidKey,
 ): Promise<void> {
-  const tx = db.transaction(store, 'readwrite');
+  const tx = openTrackedTransaction(db, store);
   tx.objectStore(store).delete(key);
+  markStorageMetaChanged(tx);
   await awaitTransaction(tx);
 }
 
@@ -156,8 +263,9 @@ export async function idbCount(db: IDBDatabase, store: StoreName): Promise<numbe
 
 /** 清空指定仓库内的所有记录（Issue #10 AC4 数据清除）。 */
 export async function idbClear(db: IDBDatabase, store: StoreName): Promise<void> {
-  const tx = db.transaction(store, 'readwrite');
+  const tx = openTrackedTransaction(db, store);
   tx.objectStore(store).clear();
+  markStorageMetaChanged(tx);
   await awaitTransaction(tx);
 }
 
@@ -165,15 +273,17 @@ export async function idbClear(db: IDBDatabase, store: StoreName): Promise<void>
 export async function idbReplaceAll(
   db: IDBDatabase,
   records: Partial<Record<StoreName, readonly unknown[]>>,
+  options: { rotateGeneration?: boolean } = {},
 ): Promise<void> {
   const stores = Object.keys(records) as StoreName[];
-  const tx = db.transaction(stores, 'readwrite');
+  const tx = openTrackedTransaction(db, stores);
   try {
     for (const storeName of stores) {
       const store = tx.objectStore(storeName);
       store.clear();
       for (const record of records[storeName] ?? []) store.put(record);
     }
+    markStorageMetaChanged(tx, options);
   } catch (error) {
     tx.abort();
     try {

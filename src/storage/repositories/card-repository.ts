@@ -1,5 +1,12 @@
 import type { CardRecord, ReviewLogRecord } from '@/types';
-import { STORES, idbGet, idbGetAll, idbGetByIndex } from '@/storage/database';
+import {
+  STORES,
+  idbGet,
+  idbGetAll,
+  idbGetByIndex,
+  markStorageMetaChanged,
+  openTrackedTransaction,
+} from '@/storage/database';
 
 /**
  * 持久化层抛出的唯一约束冲突错误（Issue #19 AC1/AC2）。
@@ -88,9 +95,10 @@ export class CardRepository implements CardRepositoryPort {
    */
   private putCardWithUniqueGuard(card: CardRecord): Promise<void> {
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction(STORES.cards, 'readwrite');
+      const tx = openTrackedTransaction(this.db, STORES.cards);
       const store = tx.objectStore(STORES.cards);
       const request = store.put(card);
+      markStorageMetaChanged(tx);
       request.onerror = () => {
         const error = request.error;
         if (error !== null && error.name === 'ConstraintError') {
@@ -126,7 +134,7 @@ export class CardRepository implements CardRepositoryPort {
    */
   private runCardAndLogTransaction(card: CardRecord, log: ReviewLogRecord): Promise<void> {
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction([STORES.cards, STORES.reviewLogs], 'readwrite');
+      const tx = openTrackedTransaction(this.db, [STORES.cards, STORES.reviewLogs]);
       const handleConstraint = (error: DOMException | null, fallback: string) => {
         if (error !== null && error.name === 'ConstraintError') {
           reject(new CardUniquenessError(card.wordId));
@@ -135,6 +143,7 @@ export class CardRepository implements CardRepositoryPort {
         }
       };
       try {
+        markStorageMetaChanged(tx);
         tx.objectStore(STORES.cards).put(card);
         tx.objectStore(STORES.reviewLogs).put(log);
       } catch (error) {
@@ -157,7 +166,7 @@ export class CardRepository implements CardRepositoryPort {
     log: ReviewLogRecord,
   ): Promise<SubmissionSaveResult> {
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction([STORES.cards, STORES.reviewLogs], 'readwrite');
+      const tx = openTrackedTransaction(this.db, [STORES.cards, STORES.reviewLogs]);
       const cardStore = tx.objectStore(STORES.cards);
       const logStore = tx.objectStore(STORES.reviewLogs);
       let result: SubmissionSaveResult | undefined;
@@ -209,6 +218,7 @@ export class CardRepository implements CardRepositoryPort {
         }
 
         try {
+          markStorageMetaChanged(tx);
           cardStore.put(card);
           logStore.put(log);
           result = { inserted: true, card, log };

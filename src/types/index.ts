@@ -676,6 +676,15 @@ export interface StorageCounts {
   decks: number;
 }
 
+/** IndexedDB 内部的权威数据版本记录；不进入公开备份。 */
+export interface StorageMetaRecord {
+  id: 'current';
+  revision: number;
+  generation: string;
+  pendingBackup: boolean;
+  committedAt: number;
+}
+
 export type StorageHealthStatus = 'healthy' | 'attention' | 'isolated';
 
 export type StorageHealthIssue =

@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { openDatabase, idbPut, idbGetAll, STORES } from '@/storage/database';
+import { openDatabase, idbPut, idbGetAll, readStorageMeta, STORES } from '@/storage/database';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
 import { CardRepository } from '@/storage/repositories/card-repository';
 import { BehaviorEventRepository } from '@/storage/repositories/behavior-event-repository';
@@ -77,6 +77,19 @@ describe('message-router — Issue #9 新增消息', () => {
     await deleteDatabase(TEST_DB);
     cleanup?.();
     cleanup = null;
+  });
+
+  it('首次消息建立两条网站基线时各递增一次 revision', async () => {
+    const initial = await readStorageMeta(db);
+
+    await router.handle({ type: 'GET_ONBOARDING_STATUS' }, {} as chrome.runtime.MessageSender);
+
+    expect(await idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents)).toHaveLength(2);
+    expect(await readStorageMeta(db)).toMatchObject({
+      revision: initial.revision + 2,
+      generation: initial.generation,
+      pendingBackup: true,
+    });
   });
 
   it('ONBOARDING_COMPLETE：标记引导完成并启用选定网站', async () => {

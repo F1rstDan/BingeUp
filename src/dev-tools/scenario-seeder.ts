@@ -9,7 +9,7 @@ import type {
 } from '@/types';
 import type { DevScenario } from '@/dev-tools/messages';
 import type { WordBankPort } from '@/learning/learning-service';
-import { STORES } from '@/storage/database';
+import { STORES, markStorageMetaChanged, openTrackedTransaction } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 
 const MINUTE = 60 * 1000;
@@ -108,11 +108,14 @@ export class DevScenarioSeeder {
 
 function replaceLearningProgress(db: IDBDatabase, data: DevScenarioSeed): Promise<void> {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(
-      [STORES.cards, STORES.reviewLogs, STORES.sessionLogs, STORES.behaviorEvents],
-      'readwrite',
-    );
+    const tx = openTrackedTransaction(db, [
+      STORES.cards,
+      STORES.reviewLogs,
+      STORES.sessionLogs,
+      STORES.behaviorEvents,
+    ]);
     try {
+      markStorageMetaChanged(tx);
       for (const [storeName, records] of [
         [STORES.cards, data.cards],
         [STORES.reviewLogs, data.reviewLogs],

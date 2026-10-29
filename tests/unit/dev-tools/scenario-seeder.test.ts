@@ -1,7 +1,14 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import { buildDevScenarioSeed, DevScenarioSeeder } from '@/dev-tools/scenario-seeder';
-import { idbGet, idbGetAll, idbPut, openDatabase, STORES } from '@/storage/database';
+import {
+  idbGet,
+  idbGetAll,
+  idbPut,
+  openDatabase,
+  readStorageMeta,
+  STORES,
+} from '@/storage/database';
 import type { CardRecord, DeckRecord, WordRecord } from '@/types';
 
 const NOW = new Date(2026, 9, 25, 15, 30, 0, 0).getTime();
@@ -103,6 +110,7 @@ describe('开发场景数据', () => {
         clock: { now: () => NOW },
       });
 
+      const beforeSeed = await readStorageMeta(db);
       await seeder.seed('month');
 
       const cards = await idbGetAll<CardRecord>(db, STORES.cards);
@@ -124,6 +132,11 @@ describe('开发场景数据', () => {
       expect(await idbGet(db, STORES.authoritativeState, 'keep-settings')).toEqual({
         id: 'keep-settings',
         value: 'keep',
+      });
+      expect(await readStorageMeta(db)).toMatchObject({
+        revision: beforeSeed.revision + 1,
+        generation: beforeSeed.generation,
+        pendingBackup: true,
       });
     } finally {
       db.close();

@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { openDatabase } from '@/storage/database';
+import { openDatabase, readStorageMeta } from '@/storage/database';
 import { SessionLogRepository } from '@/storage/repositories/session-log-repository';
 import type { SessionLogRecord } from '@/types';
 
@@ -38,11 +38,16 @@ describe('SessionLogRepository — 会话日志持久化（Issue #12）', () => 
     const db = await openDatabase(TEST_DB);
     const repo = new SessionLogRepository(db);
     const session = makeSession();
+    const initial = await readStorageMeta(db);
     await repo.save(session);
 
     const all = await repo.getAll();
     expect(all).toHaveLength(1);
     expect(all[0]).toEqual(session);
+    expect(await readStorageMeta(db)).toMatchObject({
+      revision: initial.revision + 1,
+      generation: initial.generation,
+    });
     db.close();
   });
 

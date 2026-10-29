@@ -1,5 +1,10 @@
 import type { BehaviorEventRecord } from '@/types';
-import { STORES, idbGetAll } from '@/storage/database';
+import {
+  STORES,
+  idbGetAll,
+  markStorageMetaChanged,
+  openTrackedTransaction,
+} from '@/storage/database';
 
 export interface BehaviorEventRepositoryPort {
   save(event: BehaviorEventRecord): Promise<void>;
@@ -11,9 +16,10 @@ export class BehaviorEventRepository implements BehaviorEventRepositoryPort {
 
   save(event: BehaviorEventRecord): Promise<void> {
     return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction(STORES.behaviorEvents, 'readwrite');
+      const transaction = openTrackedTransaction(this.db, STORES.behaviorEvents);
       const store = transaction.objectStore(STORES.behaviorEvents);
       const cursorRequest = store.index('byOccurredAt').openCursor(null, 'prev');
+      markStorageMetaChanged(transaction);
 
       cursorRequest.onsuccess = () => {
         const lastOccurredAt = cursorRequest.result?.value.occurredAt ?? -1;
