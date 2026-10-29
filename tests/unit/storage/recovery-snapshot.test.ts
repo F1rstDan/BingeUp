@@ -118,6 +118,7 @@ interface StorageState {
   failNextSetCalls: number;
   snapshotWrites: unknown[];
   snapshotWriteHold: SnapshotWriteHold | null;
+  beforeSnapshotGet: (() => Promise<void>) | null;
 }
 
 interface SnapshotWriteHold {
@@ -140,12 +141,18 @@ function installChromeMock() {
     failNextSetCalls: 0,
     snapshotWrites: [],
     snapshotWriteHold: null,
+    beforeSnapshotGet: null,
   };
   vi.stubGlobal('chrome', {
     storage: {
       local: {
         get: vi.fn(async (keys: string | string[]) => {
           const list = Array.isArray(keys) ? keys : [keys];
+          if (list.includes(RECOVERY_SNAPSHOT_KEY) && state.beforeSnapshotGet !== null) {
+            const hook = state.beforeSnapshotGet;
+            state.beforeSnapshotGet = null;
+            await hook();
+          }
           return Object.fromEntries(list.map((key) => [key, state.values[key]]));
         }),
         set: vi.fn(async (entries: Record<string, unknown>) => {
@@ -467,6 +474,34 @@ describe('本地自动恢复快照', () => {
     expect(health.status).toBe('attention');
     expect(health.issues).toContainEqual(
       expect.objectContaining({ code: 'orphan-review-logs', count: 1 }),
+    );
+  });
+
+  it('读取健康元数据期间提交新卡和快照时不会误报卡片减少', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    storage.beforeSnapshotGet = async () => {
+      await idbPut(db, STORES.cards, SECOND_CARD);
+      const current = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+        savedAt: number;
+        mode: 'full' | 'compact';
+        payload: { data: { cards: CardRecord[] } };
+      };
+      storage.values[RECOVERY_SNAPSHOT_KEY] = {
+        ...current,
+        savedAt: current.savedAt + 1,
+        payload: {
+          ...current.payload,
+          data: { ...current.payload.data, cards: [CARD, SECOND_CARD] },
+        },
+      };
+    };
+
+    const health = await inspectStorageHealth(store);
+
+    expect(health.currentCounts.cards).toBe(2);
+    expect(health.issues).not.toContainEqual(
+      expect.objectContaining({ code: 'card-count-decreased' }),
     );
   });
 

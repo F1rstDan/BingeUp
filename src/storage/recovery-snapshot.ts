@@ -1,5 +1,5 @@
 import { exportLocalData, importLocalData, type ExportPayload } from '@/storage/data-transfer';
-import { STORES, idbCount, idbGetAll } from '@/storage/database';
+import { STORES, idbCount } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
@@ -96,6 +96,51 @@ function countsFromPayload(payload: ExportPayload): StorageCounts {
     words: payload.data.words.length,
     decks: payload.data.decks.length,
   };
+}
+
+async function readStorageHealthData(database: IDBDatabase): Promise<{
+  currentCounts: StorageCounts;
+  cards: CardRecord[];
+  reviewLogs: ReviewLogRecord[];
+}> {
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(
+      [
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+        STORES.words,
+        STORES.decks,
+      ],
+      'readonly',
+    );
+    const cardsRequest = transaction.objectStore(STORES.cards).getAll();
+    const reviewLogsRequest = transaction.objectStore(STORES.reviewLogs).getAll();
+    const sessionLogsCount = transaction.objectStore(STORES.sessionLogs).count();
+    const behaviorEventsCount = transaction.objectStore(STORES.behaviorEvents).count();
+    const wordsCount = transaction.objectStore(STORES.words).count();
+    const decksCount = transaction.objectStore(STORES.decks).count();
+    transaction.oncomplete = () => {
+      const cards = cardsRequest.result as CardRecord[];
+      const reviewLogs = reviewLogsRequest.result as ReviewLogRecord[];
+      resolve({
+        cards,
+        reviewLogs,
+        currentCounts: {
+          cards: cards.length,
+          reviewLogs: reviewLogs.length,
+          sessionLogs: sessionLogsCount.result,
+          behaviorEvents: behaviorEventsCount.result,
+          words: wordsCount.result,
+          decks: decksCount.result,
+        },
+      });
+    };
+    transaction.onerror = () => reject(transaction.error ?? new Error('读取存档健康数据事务失败'));
+    transaction.onabort = () =>
+      reject(transaction.error ?? new Error('读取存档健康数据事务已中止'));
+  });
 }
 
 function diagnosticFromSnapshot(snapshot: RecoverySnapshot | null): StorageSnapshotDiagnostic {
@@ -218,25 +263,10 @@ export async function inspectRecoverySnapshot(): Promise<StorageSnapshotDiagnost
 /** 检测当前权威数据相对恢复快照的异常减少、孤立日志和恢复失败。 */
 export async function inspectStorageHealth(store: LocalSettingsStore): Promise<StorageHealth> {
   const issues: StorageHealthIssue[] = [];
-  const counts = await Promise.all([
-    idbCount(store.database, STORES.cards),
-    idbCount(store.database, STORES.reviewLogs),
-    idbCount(store.database, STORES.sessionLogs),
-    idbCount(store.database, STORES.behaviorEvents),
-    idbCount(store.database, STORES.words),
-    idbCount(store.database, STORES.decks),
-  ]);
-  const currentCounts: StorageCounts = {
-    cards: counts[0] ?? 0,
-    reviewLogs: counts[1] ?? 0,
-    sessionLogs: counts[2] ?? 0,
-    behaviorEvents: counts[3] ?? 0,
-    words: counts[4] ?? 0,
-    decks: counts[5] ?? 0,
-  };
-
   const stored = await chrome.storage.local.get([RECOVERY_SNAPSHOT_KEY, RECOVERY_HEALTH_KEY]);
   const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
+  const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
+  const { currentCounts, cards, reviewLogs } = await readStorageHealthData(store.database);
   const snapshotCounts = snapshot === null ? undefined : countsFromPayload(snapshot.payload);
   if (snapshotCounts !== undefined && currentCounts.cards < snapshotCounts.cards) {
     issues.push({
@@ -247,10 +277,6 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
     });
   }
 
-  const [cards, reviewLogs] = await Promise.all([
-    idbGetAll<CardRecord>(store.database, STORES.cards),
-    idbGetAll<ReviewLogRecord>(store.database, STORES.reviewLogs),
-  ]);
   const cardIds = new Set(cards.map((card) => card.id));
   const orphanCount = reviewLogs.filter((log) => !cardIds.has(log.cardId)).length;
   if (orphanCount > 0) {
@@ -261,7 +287,6 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
     });
   }
 
-  const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
   if (healthState.restoreFailure !== undefined) {
     issues.push({
       code: 'restore-failed',
