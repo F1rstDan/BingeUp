@@ -7,6 +7,7 @@ import type {
   LearningItem,
   ReviewLogRecord,
   StorageDiagnostics,
+  StorageHealth,
   SubmissionResult,
 } from '@/types';
 import { dictionaryFetch } from '../../helpers/dictionary-fetch';
@@ -118,6 +119,15 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(diagnostics.snapshot.present).toBe(true);
     expect(diagnostics.snapshot.counts?.cards).toBe(1);
     expect(diagnostics.history.length).toBeGreaterThan(0);
+  });
+
+  it('通过独立消息返回存档健康状态', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+
+    const health = await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' });
+
+    expect(health).toMatchObject({ status: 'healthy', issues: [] });
+    expect(health.currentCounts.cards).toBe(1);
   });
 
   it('自报认识会写入学习卡并记录最近自报单词', async () => {

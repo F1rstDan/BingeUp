@@ -676,6 +676,27 @@ export interface StorageCounts {
   decks: number;
 }
 
+export type StorageHealthStatus = 'healthy' | 'attention' | 'isolated';
+
+export type StorageHealthIssue =
+  | {
+      code: 'card-count-decreased';
+      message: string;
+      currentCards: number;
+      healthyCards: number;
+    }
+  | { code: 'orphan-review-logs'; message: string; count: number }
+  | { code: 'restore-failed'; message: string; failedAt: number };
+
+/** IndexedDB 与自动恢复快照的只读健康检查结果。 */
+export interface StorageHealth {
+  status: StorageHealthStatus;
+  checkedAt: number;
+  currentCounts: StorageCounts;
+  snapshotCounts?: StorageCounts;
+  issues: StorageHealthIssue[];
+}
+
 export interface StorageCardStages {
   shortTerm: number;
   longTerm: number;

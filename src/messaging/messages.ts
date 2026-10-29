@@ -7,6 +7,7 @@ import type {
   SiteSettings,
   SpellingSubmission,
   StorageDiagnostics,
+  StorageHealth,
   UserCorrection,
 } from '@/types';
 import type { ExportPayload, ImportResult } from '@/storage/data-transfer';
@@ -97,6 +98,8 @@ export type ExtensionMessage =
   | { type: 'REBUILD_DATABASE' }
   /** 读取存档诊断：启动读取、当前记录数、快照与最近保存时间。 */
   | { type: 'GET_STORAGE_DIAGNOSTICS' }
+  /** 读取存档健康状态：异常减少、孤立日志与恢复失败。 */
+  | { type: 'GET_STORAGE_HEALTH' }
   // ─── Issue #11：自定义网站兼容模式 ─────────────────────
   /** 加入当前网站：启用站点并写入默认模式，用户需刷新页面激活。 */
   | { type: 'ADD_CUSTOM_SITE'; hostname: string }
@@ -162,6 +165,9 @@ export type ImportDataResponse = ImportResult;
 
 /** 存档诊断响应。 */
 export type StorageDiagnosticsResponse = StorageDiagnostics;
+
+/** 存档健康状态响应。 */
+export type StorageHealthResponse = StorageHealth;
 
 /**
  * Popup → Content Script 消息（通过 chrome.tabs.sendMessage 发送）。

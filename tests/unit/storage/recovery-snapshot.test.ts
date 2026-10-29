@@ -7,6 +7,7 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import {
   RECOVERY_CLEARED_AT_KEY,
   RECOVERY_SNAPSHOT_KEY,
+  inspectStorageHealth,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
@@ -35,6 +36,17 @@ const WORDS: WordRecord[] = [
     source: 'test',
     license: 'test',
   },
+  {
+    id: 'w-low',
+    word: 'low',
+    lemma: 'low',
+    partOfSpeech: ['adj.'],
+    coreMeaningZh: ['低的'],
+    difficulty: 1,
+    frequencyRank: 2,
+    source: 'test',
+    license: 'test',
+  },
 ];
 
 const DECKS: DeckRecord[] = [
@@ -43,7 +55,7 @@ const DECKS: DeckRecord[] = [
     name: '日常高频',
     source: 'test',
     license: 'test',
-    wordIds: ['w-high'],
+    wordIds: ['w-high', 'w-low'],
   },
   { id: 'deck-cet4', name: '四级', source: 'test', license: 'test', wordIds: [] },
   { id: 'deck-cet6', name: '六级', source: 'test', license: 'test', wordIds: [] },
@@ -59,6 +71,12 @@ const CARD: CardRecord = {
   updatedAt: 1_000,
   nextReviewAt: 2_000,
   shortTermStep: 1,
+};
+
+const SECOND_CARD: CardRecord = {
+  ...CARD,
+  id: 'card-2',
+  wordId: 'w-low',
 };
 
 const LOG: ReviewLogRecord = {
@@ -415,5 +433,57 @@ describe('本地自动恢复快照', () => {
     expect(startup.snapshot).toMatchObject({ present: true, counts: { cards: 1 } });
     expect(storageGet).toHaveBeenCalledTimes(1);
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
+  });
+
+  it('健康检查识别相对快照的卡片异常减少', async () => {
+    await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(db, STORES.cards, SECOND_CARD)]);
+    await saveRecoverySnapshot(store);
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(STORES.cards, 'readwrite');
+      transaction.objectStore(STORES.cards).delete(CARD.id);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+
+    const health = await inspectStorageHealth(store);
+
+    expect(health.status).toBe('attention');
+    expect(health.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'card-count-decreased',
+          currentCards: 1,
+          healthyCards: 2,
+        }),
+      ]),
+    );
+  });
+
+  it('健康检查识别找不到学习卡的孤立复习日志', async () => {
+    await idbPut(db, STORES.reviewLogs, LOG);
+
+    const health = await inspectStorageHealth(store);
+
+    expect(health.status).toBe('attention');
+    expect(health.issues).toContainEqual(
+      expect.objectContaining({ code: 'orphan-review-logs', count: 1 }),
+    );
+  });
+
+  it('恢复失败会持久化为可查询的健康问题', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await wipeDatabase();
+    vi.mocked(BuiltInWordBank.prototype.listWords).mockResolvedValue([]);
+    vi.mocked(BuiltInWordBank.prototype.getDeck).mockResolvedValue(null);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    expect((await restoreRecoverySnapshotIfNeeded(store)).error).toBeDefined();
+    const health = await inspectStorageHealth(store);
+
+    expect(health.status).toBe('attention');
+    expect(health.issues).toContainEqual(
+      expect.objectContaining({ code: 'restore-failed', message: expect.any(String) }),
+    );
   });
 });

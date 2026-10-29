@@ -2,6 +2,7 @@ import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
 import {
+  inspectStorageHealth,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
@@ -127,6 +128,11 @@ export default defineBackground(() => {
             }
           }
           sendResponse(await getStorageDiagnostics(diagnosticsStore));
+          return;
+        }
+        if (message?.type === 'GET_STORAGE_HEALTH') {
+          const healthStore = new LocalSettingsStore(await getDatabase());
+          sendResponse(await inspectStorageHealth(healthStore));
           return;
         }
         if (import.meta.env.DEV) {

@@ -1,7 +1,14 @@
 import { exportLocalData, importLocalData, type ExportPayload } from '@/storage/data-transfer';
-import { STORES, idbCount } from '@/storage/database';
+import { STORES, idbCount, idbGetAll } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
-import type { StorageCounts, StorageSnapshotDiagnostic } from '@/types';
+import type {
+  CardRecord,
+  ReviewLogRecord,
+  StorageCounts,
+  StorageHealth,
+  StorageHealthIssue,
+  StorageSnapshotDiagnostic,
+} from '@/types';
 
 /**
  * IndexedDB 的自动恢复快照。
@@ -11,6 +18,7 @@ import type { StorageCounts, StorageSnapshotDiagnostic } from '@/types';
  */
 export const RECOVERY_SNAPSHOT_KEY = 'bingeup:recovery-snapshot';
 export const RECOVERY_CLEARED_AT_KEY = 'bingeup:recovery-cleared-at';
+export const RECOVERY_HEALTH_KEY = 'bingeup:recovery-health';
 
 interface RecoverySnapshot {
   version: 1;
@@ -22,6 +30,14 @@ interface RecoverySnapshot {
 interface SnapshotWriteResult {
   saved: boolean;
   snapshot: RecoverySnapshot | null;
+}
+
+interface RecoveryHealthState {
+  version: 1;
+  restoreFailure?: {
+    message: string;
+    failedAt: number;
+  };
 }
 
 interface PendingSnapshotWrite {
@@ -42,6 +58,19 @@ export interface RecoveryRestoreResult {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parseRecoveryHealthState(value: unknown): RecoveryHealthState {
+  if (!isRecord(value) || value.version !== 1) return { version: 1 };
+  const failure = value.restoreFailure;
+  if (
+    !isRecord(failure) ||
+    typeof failure.message !== 'string' ||
+    typeof failure.failedAt !== 'number'
+  ) {
+    return { version: 1 };
+  }
+  return { version: 1, restoreFailure: { message: failure.message, failedAt: failure.failedAt } };
 }
 
 function parseSnapshot(value: unknown): RecoverySnapshot | null {
@@ -81,6 +110,27 @@ function diagnosticFromSnapshot(snapshot: RecoverySnapshot | null): StorageSnaps
 
 async function writeSnapshot(snapshot: RecoverySnapshot): Promise<void> {
   await chrome.storage.local.set({ [RECOVERY_SNAPSHOT_KEY]: snapshot });
+}
+
+async function recordRecoveryFailure(message: string): Promise<void> {
+  try {
+    await chrome.storage.local.set({
+      [RECOVERY_HEALTH_KEY]: {
+        version: 1,
+        restoreFailure: { message, failedAt: Date.now() },
+      } satisfies RecoveryHealthState,
+    });
+  } catch (error) {
+    console.error('[BingeUp] 写入存档恢复失败状态失败', error);
+  }
+}
+
+async function clearRecoveryFailure(): Promise<void> {
+  try {
+    await chrome.storage.local.set({ [RECOVERY_HEALTH_KEY]: { version: 1 } });
+  } catch (error) {
+    console.error('[BingeUp] 清除存档恢复失败状态失败', error);
+  }
 }
 
 /** 快照串行写入，避免并发消息把较旧的导出结果覆盖到较新的快照上。 */
@@ -165,6 +215,70 @@ export async function inspectRecoverySnapshot(): Promise<StorageSnapshotDiagnost
   }
 }
 
+/** 检测当前权威数据相对恢复快照的异常减少、孤立日志和恢复失败。 */
+export async function inspectStorageHealth(store: LocalSettingsStore): Promise<StorageHealth> {
+  const issues: StorageHealthIssue[] = [];
+  const counts = await Promise.all([
+    idbCount(store.database, STORES.cards),
+    idbCount(store.database, STORES.reviewLogs),
+    idbCount(store.database, STORES.sessionLogs),
+    idbCount(store.database, STORES.behaviorEvents),
+    idbCount(store.database, STORES.words),
+    idbCount(store.database, STORES.decks),
+  ]);
+  const currentCounts: StorageCounts = {
+    cards: counts[0] ?? 0,
+    reviewLogs: counts[1] ?? 0,
+    sessionLogs: counts[2] ?? 0,
+    behaviorEvents: counts[3] ?? 0,
+    words: counts[4] ?? 0,
+    decks: counts[5] ?? 0,
+  };
+
+  const stored = await chrome.storage.local.get([RECOVERY_SNAPSHOT_KEY, RECOVERY_HEALTH_KEY]);
+  const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
+  const snapshotCounts = snapshot === null ? undefined : countsFromPayload(snapshot.payload);
+  if (snapshotCounts !== undefined && currentCounts.cards < snapshotCounts.cards) {
+    issues.push({
+      code: 'card-count-decreased',
+      message: '当前学习卡数量少于健康快照的学习卡数量。',
+      currentCards: currentCounts.cards,
+      healthyCards: snapshotCounts.cards,
+    });
+  }
+
+  const [cards, reviewLogs] = await Promise.all([
+    idbGetAll<CardRecord>(store.database, STORES.cards),
+    idbGetAll<ReviewLogRecord>(store.database, STORES.reviewLogs),
+  ]);
+  const cardIds = new Set(cards.map((card) => card.id));
+  const orphanCount = reviewLogs.filter((log) => !cardIds.has(log.cardId)).length;
+  if (orphanCount > 0) {
+    issues.push({
+      code: 'orphan-review-logs',
+      message: '部分复习日志引用不存在的学习卡。',
+      count: orphanCount,
+    });
+  }
+
+  const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
+  if (healthState.restoreFailure !== undefined) {
+    issues.push({
+      code: 'restore-failed',
+      message: healthState.restoreFailure.message,
+      failedAt: healthState.restoreFailure.failedAt,
+    });
+  }
+
+  return {
+    status: issues.length === 0 ? 'healthy' : 'attention',
+    checkedAt: Date.now(),
+    currentCounts,
+    ...(snapshotCounts === undefined ? {} : { snapshotCounts }),
+    issues,
+  };
+}
+
 /** 记录用户明确清除数据的时刻，阻止旧快照在下次启动时复活。 */
 async function markRecoveryDataCleared(): Promise<boolean> {
   try {
@@ -217,13 +331,18 @@ export async function restoreRecoverySnapshotIfNeeded(
 
     const result = await importLocalData(store, snapshot.payload);
     if (!result.ok) {
+      const error = result.errors.join('；');
       console.error('[BingeUp] 自动存档恢复失败，快照仍保留', result.errors);
-      return { restored: false, error: result.errors.join('；') };
+      await recordRecoveryFailure(error);
+      return { restored: false, error };
     }
+    await clearRecoveryFailure();
     return { restored: true };
   } catch (error) {
     console.error('[BingeUp] 自动存档恢复失败', error);
-    return { restored: false, error: error instanceof Error ? error.message : String(error) };
+    const message = error instanceof Error ? error.message : String(error);
+    await recordRecoveryFailure(message);
+    return { restored: false, error: message };
   }
 }
 
