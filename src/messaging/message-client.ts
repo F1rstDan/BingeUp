@@ -66,10 +66,10 @@ export const messageClient = {
     await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId });
   },
   async submitLearningAnswer(submission: AnswerSubmission): Promise<SubmissionResult> {
-    return send({ type: 'LEARNING_SUBMIT_ANSWER', submission });
+    return send({ type: 'LEARNING_SUBMIT_ANSWER', submission }, requireSubmissionResult);
   },
   async submitLearningSpelling(submission: SpellingSubmission): Promise<SubmissionResult> {
-    return send({ type: 'LEARNING_SUBMIT_SPELLING', submission });
+    return send({ type: 'LEARNING_SUBMIT_SPELLING', submission }, requireSubmissionResult);
   },
   async correctLearningRating(
     reviewLogId: string,
@@ -212,10 +212,11 @@ async function sendRaw(message: ExtensionMessage): Promise<unknown> {
   return response;
 }
 
-async function send<T>(message: ExtensionMessage): Promise<T> {
+async function send<T>(message: ExtensionMessage, validate?: (value: unknown) => T): Promise<T> {
   const decoded = decodeBackgroundResult<T>(await sendRaw(message));
+  const result = validate ? validate(decoded.result) : decoded.result;
   if (decoded.backupWarning) showBackupWarning(decoded.backupWarning);
-  return decoded.result;
+  return result;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -224,6 +225,20 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isBackupWarning(value: unknown): value is { message: string } {
   return isRecord(value) && typeof value.message === 'string';
+}
+
+function requireSubmissionResult(value: unknown): SubmissionResult {
+  if (
+    !isRecord(value) ||
+    typeof value.isCorrect !== 'boolean' ||
+    typeof value.correctAnswer !== 'string' ||
+    typeof value.cardId !== 'string' ||
+    typeof value.reviewLogId !== 'string' ||
+    !isRecord(value.explanation)
+  ) {
+    throw new Error('学习记录保存响应格式无效');
+  }
+  return value as unknown as SubmissionResult;
 }
 
 function decodeBackgroundResult<T>(response: unknown): {
@@ -240,10 +255,20 @@ function decodeBackgroundResult<T>(response: unknown): {
   return { result: response as T };
 }
 
+let backupWarningSequence = 0;
+
 function showBackupWarning(warning: BackupWarning): void {
+  const sequence = ++backupWarningSequence;
   backupWarningNotice.showBackupWarning({
     detail: warning.message || undefined,
-    retry: retryRecoverySnapshot,
-    dismiss: () => backupWarningNotice.close(),
+    retry: async () => {
+      await retryRecoverySnapshot();
+      if (backupWarningSequence === sequence) backupWarningNotice.close();
+    },
+    dismiss: () => {
+      if (backupWarningSequence !== sequence) return;
+      backupWarningSequence += 1;
+      backupWarningNotice.close();
+    },
   });
 }

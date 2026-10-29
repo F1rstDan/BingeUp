@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { messageClient, retryRecoverySnapshot } from '@/messaging/message-client';
 import { ContentUnavailableError } from '@/learning/planned-questions';
-import type { AnswerSubmission, SubmissionResult } from '@/types';
+import type { AnswerSubmission, SpellingSubmission, SubmissionResult } from '@/types';
 
 vi.mock('animal-island-ui/style?raw', () => ({
   default: ':root{--animal-primary-color:#19c8b9;--animal-font-family:Nunito,sans-serif}',
@@ -34,6 +34,27 @@ const SUBMISSION: AnswerSubmission = {
   selectedIndex: 0,
   responseTimeMs: 1200,
   source: 'natural',
+};
+
+const SPELLING_SUBMISSION: SpellingSubmission = {
+  question: {
+    id: QUESTION.id,
+    type: 'spelling' as const,
+    cardId: QUESTION.cardId,
+    wordId: QUESTION.wordId,
+    prompt: QUESTION.prompt,
+    correctAnswer: 'abandon',
+    hint: {
+      partOfSpeech: 'v.',
+      exampleSentence: 'They ____ the plan.',
+      prefix: 'ab',
+      letterCount: 7,
+    },
+    explanation: QUESTION.explanation,
+  },
+  spelledAnswer: 'abandon',
+  responseTimeMs: 1200,
+  source: 'continuous' as const,
 };
 
 const RESULT: SubmissionResult = {
@@ -118,6 +139,30 @@ describe('messageClient — 错误边界', () => {
     );
   });
 
+  it.each([null, undefined])('答题结果缺失（%s）时按保存未确认抛错', async (invalidResult) => {
+    const sendMessage = vi.fn(async () => invalidResult);
+    stubRuntime(sendMessage);
+
+    await expect(messageClient.submitLearningAnswer(SUBMISSION)).rejects.toThrow(
+      '学习记录保存响应格式无效',
+    );
+    expect(document.getElementById(BACKUP_NOTICE_ID)).toBeNull();
+  });
+
+  it('拼写 envelope 的 result 残缺时按保存未确认抛错', async () => {
+    const sendMessage = vi.fn(async () => ({
+      __bingeupEnvelope: 'result-with-backup-warning',
+      result: { ...RESULT, reviewLogId: undefined },
+      backupWarning: { message: '快照写入失败' },
+    }));
+    stubRuntime(sendMessage);
+
+    await expect(messageClient.submitLearningSpelling(SPELLING_SUBMISSION)).rejects.toThrow(
+      '学习记录保存响应格式无效',
+    );
+    expect(document.getElementById(BACKUP_NOTICE_ID)).toBeNull();
+  });
+
   it('void 创建卡告警也先解包并显示备份提示', async () => {
     const sendMessage = vi.fn(async () => ({
       __bingeupEnvelope: 'result-with-backup-warning',
@@ -164,6 +209,37 @@ describe('messageClient — 错误边界', () => {
     await Promise.resolve();
     expect(sendMessage).toHaveBeenLastCalledWith({ type: 'RETRY_RECOVERY_SNAPSHOT' });
     expect(sendMessage).toHaveBeenCalledTimes(3);
+    await vi.waitFor(() => expect(document.getElementById(BACKUP_NOTICE_ID)).toBeNull());
+  });
+
+  it('备份重试失败时保留提示并恢复可重试状态', async () => {
+    const sendMessage = vi
+      .fn()
+      .mockResolvedValueOnce({
+        __bingeupEnvelope: 'result-with-backup-warning',
+        result: { selectedDeckId: 'deck-1' },
+        backupWarning: { message: '快照写入失败' },
+      })
+      .mockResolvedValueOnce({ ok: false, error: '配额不足' });
+    stubRuntime(sendMessage);
+    await messageClient.getAppSettings();
+
+    const root = document.getElementById(BACKUP_NOTICE_ID)?.shadowRoot;
+    const retryButton = [...(root?.querySelectorAll<HTMLButtonElement>('button') ?? [])].find(
+      (button) => button.textContent === '重试备份',
+    );
+    retryButton!.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(document.getElementById(BACKUP_NOTICE_ID)).not.toBeNull();
+    await vi.waitFor(() => {
+      expect(root?.querySelector('.bingeup-persistence-notice__status')).toHaveTextContent(
+        '自动备份仍未完成',
+      );
+      expect(retryButton).not.toBeDisabled();
+    });
   });
 
   it('只发送专用备份重试消息，并将失败响应还原为错误', async () => {

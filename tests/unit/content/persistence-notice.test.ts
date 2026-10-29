@@ -58,6 +58,7 @@ describe('PersistenceNotice', () => {
     expect(host).not.toBeNull();
     expect(host?.style.pointerEvents).toBe('none');
     expect(alert).toHaveTextContent('保存未获确认');
+    expect(alert).toHaveTextContent('这次学习记录尚未收到保存确认');
     expect(alert).not.toHaveAttribute('aria-modal');
 
     vi.advanceTimersByTime(10 * 60_000);
@@ -94,6 +95,13 @@ describe('PersistenceNotice', () => {
     await Promise.resolve();
     expect(retry).toHaveBeenCalledTimes(1);
     expect(dismiss).not.toHaveBeenCalled();
+  });
+
+  it('备份提示默认文案使用可覆盖创建卡的学习记录表述', () => {
+    notice.showBackupWarning({ retry: async () => undefined, dismiss: vi.fn() });
+    expect(shadow().querySelector('[role="alert"]')).toHaveTextContent(
+      '本次学习记录已保存，可只重试自动备份',
+    );
   });
 
   it('重复显示替换旧提示，且旧按钮不会关闭新提示', () => {

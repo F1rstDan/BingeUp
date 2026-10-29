@@ -107,8 +107,8 @@ export class PersistenceNotice implements PersistenceNoticePort {
     detail.textContent =
       options.detail ??
       (kind === 'save'
-        ? '这次答案尚未收到保存确认。原答案已保留，可手动重试。'
-        : '答案已保存，可只重试自动备份。');
+        ? '这次学习记录尚未收到保存确认。原操作已保留，可手动重试。'
+        : '本次学习记录已保存，可只重试自动备份。');
 
     const status = document.createElement('p');
     status.className = 'bingeup-persistence-notice__status';
