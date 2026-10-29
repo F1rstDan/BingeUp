@@ -18,6 +18,7 @@ import type {
 } from '@/types';
 import {
   CardUniquenessError,
+  SubmissionLogConflictError,
   type CardRepositoryPort,
 } from '@/storage/repositories/card-repository';
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
@@ -90,6 +91,11 @@ function previousShortTermStep(step: number, plan: WordQuestionPlan): number {
 
 /** 同一题已完成提交的幂等窗口，覆盖重复按钮和迟到的重复消息。 */
 const SUBMISSION_IDEMPOTENCY_MS = 30_000;
+
+/** 同一道题的复习日志使用稳定 ID，供持久化事务跨 Service Worker 查重。 */
+function submissionLogId(questionId: string): string {
+  return `question:${questionId}`;
+}
 
 /** 自报认识词验证题延迟区间：一至两天后（CONTEXT.md）。 */
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -395,8 +401,8 @@ export class LearningService {
    * 提交判定的通用逻辑：写入复习日志、更新学习卡、调度下次复习。
    * 选择题和拼写题共用此方法（Issue #8）。
    *
-   * Issue #19 AC3：学习卡更新与复习日志写入通过 `saveCardAndLog` 在同一持久化事务内提交，
-   * 要么同时成功、要么都不发生。失败回滚后调度状态与历史始终一致。
+   * 学习卡更新与复习日志写入通过 `saveSubmission` 在同一持久化事务内提交，
+   * 事务还会按稳定日志 ID 查重；失败回滚后调度状态与历史始终一致。
    */
   private async processSubmission(input: {
     question: Question;
@@ -410,6 +416,20 @@ export class LearningService {
   }): Promise<SubmissionResult> {
     const { question, isCorrect, selectedAnswer, correctAnswer } = input;
     const { cards, logs, clock } = this.deps;
+
+    // 已提交的重试优先返回持久化结果；当前题组缺失或内容升级不应阻止反馈恢复。
+    const committedLog = await logs.getById(submissionLogId(question.id));
+    if (committedLog) {
+      this.assertSubmissionLogIdentity(committedLog, question);
+      const currentCard = await cards.getById(committedLog.cardId);
+      return this.buildSubmissionResult(
+        question,
+        committedLog,
+        input.correctIndex,
+        currentCard?.nextReviewAt,
+      );
+    }
+
     const now = clock.now();
 
     const card = await cards.getById(question.cardId);
@@ -426,7 +446,7 @@ export class LearningService {
     });
 
     const reviewLog: ReviewLogRecord = {
-      id: crypto.randomUUID(),
+      id: submissionLogId(question.id),
       cardId: question.cardId,
       wordId: question.wordId,
       questionType: question.type,
@@ -441,86 +461,104 @@ export class LearningService {
       answerChanges: input.answerChanges,
     };
 
-    let nextReviewAt: number | undefined;
-
-    if (card) {
-      // 记录评分前的调度器状态，供用户纠正评分时回滚重放（Issue #7 验收标准 5）
-      reviewLog.previousSchedulerState = card.schedulerState;
-      if (card.stage === 'self-reported-known') {
-        // 验证题流转（CONTEXT.md：答对进入长期复习，答错进入普通学习流程）
-        if (isCorrect) {
-          const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
-          card.stage = 'long-term';
-          card.schedulerState = state;
-          card.nextReviewAt = due;
-          nextReviewAt = due;
-        } else {
-          card.stage = 'short-term';
-          card.shortTermStep = 0;
-          card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
-          nextReviewAt = card.nextReviewAt;
-        }
-      } else if (card.stage === 'short-term') {
-        // 短期学习只安排有固定题组的题型；答错后停留在当前步骤。
-        const currentStep = card.shortTermStep ?? 0;
-        if (isCorrect) {
-          if (question.type === 'spelling') {
-            // 连续学习中的拼写是额外练习，之后仍完成当前的选择题。
-            card.shortTermStep = currentStep;
-            card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
-            nextReviewAt = card.nextReviewAt;
-          } else {
-            const plan = await this.getRequiredQuestionPlan(card);
-            const nextStep = nextShortTermStep(currentStep, plan);
-            if (nextStep !== undefined) {
-              card.shortTermStep = nextStep;
-              card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
-              nextReviewAt = card.nextReviewAt;
-            } else {
-              const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
-              card.stage = 'long-term';
-              card.shortTermStep = undefined;
-              card.schedulerState = state;
-              card.nextReviewAt = due;
-              nextReviewAt = due;
-            }
-          }
-        } else {
+    // 记录评分前的调度器状态，供用户纠正评分时回滚重放（Issue #7 验收标准 5）
+    reviewLog.previousSchedulerState = card.schedulerState;
+    if (card.stage === 'self-reported-known') {
+      // 验证题流转（CONTEXT.md：答对进入长期复习，答错进入普通学习流程）
+      if (isCorrect) {
+        const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
+        card.stage = 'long-term';
+        card.schedulerState = state;
+        card.nextReviewAt = due;
+      } else {
+        card.stage = 'short-term';
+        card.shortTermStep = 0;
+        card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
+      }
+    } else if (card.stage === 'short-term') {
+      // 短期学习只安排有固定题组的题型；答错后停留在当前步骤。
+      const currentStep = card.shortTermStep ?? 0;
+      if (isCorrect) {
+        if (question.type === 'spelling') {
+          // 连续学习中的拼写是额外练习，之后仍完成当前的选择题。
           card.shortTermStep = currentStep;
           card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
-          nextReviewAt = card.nextReviewAt;
+        } else {
+          const plan = await this.getRequiredQuestionPlan(card);
+          const nextStep = nextShortTermStep(currentStep, plan);
+          if (nextStep !== undefined) {
+            card.shortTermStep = nextStep;
+            card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
+          } else {
+            const { state, nextReviewAt: due } = this.scheduler.init(rating, now);
+            card.stage = 'long-term';
+            card.shortTermStep = undefined;
+            card.schedulerState = state;
+            card.nextReviewAt = due;
+          }
         }
-      } else if (card.stage === 'long-term') {
-        // 长期复习词：通过调度器更新状态与下次时间（Issue #7 验收标准 4）
-        const currentState = card.schedulerState;
-        if (currentState) {
-          const { state, nextReviewAt: due } = this.scheduler.schedule(currentState, rating, now);
-          card.schedulerState = state;
-          card.nextReviewAt = due;
-          nextReviewAt = due;
-        }
-        // 近期答错以当前提交结束后的最近三条日志为准；一次答对不会抹掉仍在窗口内的错误。
-        card.lastWrongAt = [...recentLogs, reviewLog]
-          .sort((a, b) => b.reviewedAt - a.reviewedAt)
-          .slice(0, RECENT_REVIEW_COUNT)
-          .find((log) => !log.isCorrect)?.reviewedAt;
+      } else {
+        card.shortTermStep = currentStep;
+        card.nextReviewAt = now + SHORT_TERM_DELAY_MS;
       }
-      card.updatedAt = now;
-      // Issue #19 AC3：学习卡更新与复习日志写入在同一事务内提交，保证原子一致。
-      await cards.saveCardAndLog(card, reviewLog);
+    } else if (card.stage === 'long-term') {
+      // 长期复习词：通过调度器更新状态与下次时间（Issue #7 验收标准 4）
+      const currentState = card.schedulerState;
+      if (currentState) {
+        const { state, nextReviewAt: due } = this.scheduler.schedule(currentState, rating, now);
+        card.schedulerState = state;
+        card.nextReviewAt = due;
+      }
+      // 近期答错以当前提交结束后的最近三条日志为准；一次答对不会抹掉仍在窗口内的错误。
+      card.lastWrongAt = [...recentLogs, reviewLog]
+        .sort((a, b) => b.reviewedAt - a.reviewedAt)
+        .slice(0, RECENT_REVIEW_COUNT)
+        .find((log) => !log.isCorrect)?.reviewedAt;
     }
+    card.updatedAt = now;
+    // 仓储事务在写入前按稳定日志 ID 最终查重，覆盖跨 Service Worker 的响应丢失重试。
+    const saved = await cards.saveSubmission(card, reviewLog);
+    return this.buildSubmissionResult(
+      question,
+      saved.log,
+      input.correctIndex,
+      saved.card.nextReviewAt,
+    );
+  }
 
+  /** 使用已持久化日志重建反馈；当前题组不再参与重复提交判定。 */
+  private buildSubmissionResult(
+    question: Question,
+    log: ReviewLogRecord,
+    correctIndex: number | undefined,
+    nextReviewAt: number | undefined,
+  ): SubmissionResult {
     return {
-      isCorrect,
-      correctIndex: input.correctIndex,
-      correctAnswer,
-      cardId: question.cardId,
-      reviewLogId: reviewLog.id,
-      submittedAnswer: selectedAnswer,
+      isCorrect: log.isCorrect,
+      correctIndex,
+      correctAnswer: log.correctAnswer,
+      cardId: log.cardId,
+      reviewLogId: log.id,
+      submittedAnswer: log.selectedAnswer,
       explanation: question.explanation,
-      rating,
+      rating: log.rating,
       nextReviewAt,
     };
+  }
+
+  /** 稳定日志 ID 命中后仍核对题目身份，禁止跨卡、跨词或跨题型复用。 */
+  private assertSubmissionLogIdentity(log: ReviewLogRecord, question: Question): void {
+    const mismatchedField =
+      log.cardId !== question.cardId
+        ? 'cardId'
+        : log.wordId !== question.wordId
+          ? 'wordId'
+          : log.questionType !== question.type
+            ? 'questionType'
+            : null;
+    if (mismatchedField !== null) {
+      throw new SubmissionLogConflictError(log.id, mismatchedField);
+    }
   }
 
   /**

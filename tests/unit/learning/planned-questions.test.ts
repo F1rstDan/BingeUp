@@ -121,6 +121,18 @@ class Cards {
     this.map.set(card.id, card);
     logs.add(log);
   }
+  async saveSubmission(card: CardRecord, log: ReviewLogRecord) {
+    const existing = await logs.getById(log.id);
+    if (existing) {
+      return {
+        inserted: false,
+        card: this.map.get(existing.cardId) ?? card,
+        log: existing,
+      };
+    }
+    await this.saveCardAndLog(card, log);
+    return { inserted: true, card, log };
+  }
   async getById(id: string) {
     return this.map.get(id);
   }

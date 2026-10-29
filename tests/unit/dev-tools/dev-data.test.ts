@@ -70,6 +70,9 @@ class MemoryCards implements CardRepositoryPort {
     return this.rows;
   }
   async saveCardAndLog(): Promise<void> {}
+  async saveSubmission(): Promise<never> {
+    throw new Error('not used by development data reads');
+  }
 }
 
 class MemoryReviewLogs implements ReviewLogRepositoryPort {

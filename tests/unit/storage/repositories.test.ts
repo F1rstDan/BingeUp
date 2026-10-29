@@ -276,3 +276,86 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
     db.close();
   });
 });
+
+describe('CardRepository — 答题提交幂等', () => {
+  afterEach(async () => {
+    await deleteDatabase(TEST_DB);
+  });
+
+  it('同一日志 id 只提交一次，并返回原日志与当前学习卡', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const card = makeCard({ id: 'card-idempotent', wordId: 'w-idempotent', shortTermStep: 0 });
+    const log = makeLog({
+      id: 'question:stable-question',
+      cardId: card.id,
+      wordId: card.wordId,
+    });
+
+    const first = await cardRepo.saveSubmission(card, log);
+    expect(first).toMatchObject({ inserted: true, card, log });
+
+    const proposedProgressedCard = makeCard({
+      ...card,
+      stage: 'long-term',
+      shortTermStep: 1,
+      updatedAt: 2_000_000,
+    });
+    const retriedLog = makeLog({
+      ...log,
+      selectedAnswer: '重试时改变的答案',
+      reviewedAt: 2_000_000,
+    });
+    const duplicate = await cardRepo.saveSubmission(proposedProgressedCard, retriedLog);
+
+    expect(duplicate).toMatchObject({ inserted: false, card, log });
+    await expect(cardRepo.getById(card.id)).resolves.toEqual(card);
+    await expect(logRepo.getAll()).resolves.toEqual([log]);
+    db.close();
+  });
+
+  it('并发提交同一日志 id 时，仅一个事务写入并推进学习卡', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const card = makeCard({ id: 'card-race', wordId: 'w-race' });
+    const firstLog = makeLog({ id: 'question:race', cardId: card.id, wordId: card.wordId });
+    const secondLog = makeLog({
+      id: firstLog.id,
+      cardId: card.id,
+      wordId: card.wordId,
+      selectedAnswer: '另一个答案',
+    });
+
+    const results = await Promise.all([
+      cardRepo.saveSubmission(card, firstLog),
+      cardRepo.saveSubmission({ ...card, updatedAt: 2_000_000 }, secondLog),
+    ]);
+
+    expect(results.filter((result) => result.inserted)).toHaveLength(1);
+    expect(results.filter((result) => !result.inserted)).toHaveLength(1);
+    await expect(new ReviewLogRepository(db).getAll()).resolves.toHaveLength(1);
+    db.close();
+  });
+
+  it.each([
+    ['cardId', { cardId: 'card-other' }],
+    ['wordId', { wordId: 'w-other' }],
+    ['questionType', { questionType: 'zh-to-en' as const }],
+  ])('已存在日志的 %s 不一致时拒绝覆盖', async (_field, mismatch) => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const card = makeCard({ id: 'card-conflict', wordId: 'w-conflict' });
+    const original = makeLog({ id: 'question:conflict', cardId: card.id, wordId: card.wordId });
+    await cardRepo.saveSubmission(card, original);
+
+    await expect(cardRepo.saveSubmission(card, { ...original, ...mismatch })).rejects.toThrow(
+      /不一致|冲突/,
+    );
+
+    await expect(logRepo.getById(original.id)).resolves.toEqual(original);
+    await expect(cardRepo.getById(card.id)).resolves.toEqual(card);
+    db.close();
+  });
+});

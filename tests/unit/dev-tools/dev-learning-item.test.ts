@@ -41,6 +41,10 @@ class MemoryCards implements CardRepositoryPort {
   async saveCardAndLog(_card: CardRecord, _log: ReviewLogRecord): Promise<void> {
     throw new Error('not used by the development item seam');
   }
+
+  async saveSubmission(): Promise<never> {
+    throw new Error('not used by the development item seam');
+  }
 }
 
 class UniqueCards extends MemoryCards {

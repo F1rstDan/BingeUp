@@ -2,7 +2,11 @@ import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
 import { LearningService, type WordBankPort } from '@/learning/learning-service';
 import { ContentUnavailableError } from '@/learning/planned-questions';
-import type { CardRepositoryPort } from '@/storage/repositories/card-repository';
+import {
+  SubmissionLogConflictError,
+  type CardRepositoryPort,
+  type SubmissionSaveResult,
+} from '@/storage/repositories/card-repository';
 import type { ReviewLogRepositoryPort } from '@/storage/repositories/review-log-repository';
 import type { ReviewSchedulerPort } from '@/learning/review-scheduler';
 import type {
@@ -89,6 +93,29 @@ class FakeCardRepository implements CardRepositoryPort {
       throw new Error('FakeCardRepository.saveCardAndLog 未绑定 logs 仓库');
     }
     await this.logsSink.save(log);
+  }
+  async saveSubmission(card: CardRecord, log: ReviewLogRecord): Promise<SubmissionSaveResult> {
+    if (this.logsSink === null) {
+      throw new Error('FakeCardRepository.saveSubmission 未绑定 logs 仓库');
+    }
+    const existing = await this.logsSink.getById(log.id);
+    if (existing) {
+      const field =
+        existing.cardId !== log.cardId
+          ? 'cardId'
+          : existing.wordId !== log.wordId
+            ? 'wordId'
+            : existing.questionType !== log.questionType
+              ? 'questionType'
+              : null;
+      if (field !== null) throw new SubmissionLogConflictError(log.id, field);
+      const currentCard = await this.getById(existing.cardId);
+      if (!currentCard) throw new Error(`答题日志对应的学习卡不存在：${existing.cardId}`);
+      return { inserted: false, card: currentCard, log: { ...existing } };
+    }
+    await this.save(card);
+    await this.logsSink.save(log);
+    return { inserted: true, card: { ...card }, log: { ...log } };
   }
 }
 
@@ -213,6 +240,13 @@ class WordBankWithoutExamples extends FakeWordBank {
   override async getQuestionPlan(wordId: string): Promise<WordQuestionPlan | null> {
     const plan = await super.getQuestionPlan(wordId);
     return plan ? { ...plan, contextChoice: null } : null;
+  }
+}
+
+/** 模拟升级后当前题型不可用；已提交日志仍应支持原题幂等重试。 */
+class WordBankWithoutQuestionPlans extends FakeWordBank {
+  override async getQuestionPlan(): Promise<WordQuestionPlan | null> {
+    return null;
   }
 }
 
@@ -2973,6 +3007,76 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
     expect(r1.reviewLogId).toBeTruthy();
     const logs = await env.logs.getAll();
     expect(logs).toHaveLength(1);
+  });
+
+  it('跨 LearningService 实例重试同一题时只写一条日志并只推进一次', async () => {
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const firstService = makeService({ cards, logs, now: 1_000_000 });
+    const item = await firstService.service.getNextItem();
+    await firstService.service.acceptNewWord(presentationOf(item).word.id);
+    firstService.advance(10 * MS_PER_MIN);
+    const question = questionOf(await firstService.service.getNextItem());
+
+    const firstResult = await firstService.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 2000,
+      source: 'natural',
+    });
+    const cardAfterFirstCommit = await cards.getById(question.cardId);
+
+    // 模拟响应丢失后 Service Worker 已重启：不共享旧实例的任何内存缓存。
+    const retryService = makeService({
+      cards,
+      logs,
+      words: new WordBankWithoutQuestionPlans(),
+      now: firstService.clock.now(),
+    }).service;
+    const retryResult = await retryService.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 2000,
+      source: 'natural',
+    });
+
+    expect(retryResult).toEqual(firstResult);
+    await expect(cards.getById(question.cardId)).resolves.toEqual(cardAfterFirstCommit);
+    await expect(logs.getAll()).resolves.toHaveLength(1);
+    await expect(logs.getById(`question:${question.id}`)).resolves.toBeDefined();
+  });
+
+  it('持久化快路径遇到题目身份不一致时拒绝返回错误反馈', async () => {
+    const cards = new FakeCardRepository();
+    const logs = new FakeReviewLogRepository();
+    const firstService = makeService({ cards, logs, now: 1_000_000 });
+    const item = await firstService.service.getNextItem();
+    await firstService.service.acceptNewWord(presentationOf(item).word.id);
+    firstService.advance(10 * MS_PER_MIN);
+    const question = questionOf(await firstService.service.getNextItem());
+    await firstService.service.submitAnswer({
+      question,
+      selectedIndex: question.correctIndex,
+      responseTimeMs: 2000,
+      source: 'natural',
+    });
+
+    const retryService = makeService({
+      cards,
+      logs,
+      words: new WordBankWithoutQuestionPlans(),
+      now: firstService.clock.now(),
+    }).service;
+
+    await expect(
+      retryService.submitAnswer({
+        question: { ...question, wordId: 'w-benefit' },
+        selectedIndex: question.correctIndex,
+        responseTimeMs: 2000,
+        source: 'natural',
+      }),
+    ).rejects.toThrow(/wordId.*不一致/);
+    await expect(logs.getAll()).resolves.toHaveLength(1);
   });
 
   it('AC4：并发提交同一拼写题只写入一条复习日志', async () => {
