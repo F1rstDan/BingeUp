@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { STORES, idbPut, openDatabase } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { saveRecoverySnapshot } from '@/storage/recovery-snapshot';
@@ -12,9 +13,39 @@ import {
   recordStartupRead,
   startStorageDiagnosticSession,
 } from '@/storage/storage-diagnostics';
-import type { BehaviorEventRecord, CardRecord, ReviewLogRecord, SessionLogRecord } from '@/types';
+import type {
+  BehaviorEventRecord,
+  CardRecord,
+  DeckRecord,
+  ReviewLogRecord,
+  SessionLogRecord,
+  WordRecord,
+} from '@/types';
 
 const TEST_DB = 'test-storage-diagnostics';
+
+const WORD: WordRecord = {
+  id: 'w-test',
+  word: 'test',
+  lemma: 'test',
+  partOfSpeech: ['n.'],
+  coreMeaningZh: ['测试'],
+  difficulty: 1,
+  frequencyRank: 1,
+  source: 'test',
+  license: 'test',
+};
+const DECKS: DeckRecord[] = [
+  {
+    id: 'deck-daily-high-frequency',
+    name: '日常高频',
+    source: 'test',
+    license: 'test',
+    wordIds: [WORD.id],
+  },
+  { id: 'deck-cet4', name: '四级', source: 'test', license: 'test', wordIds: [WORD.id] },
+  { id: 'deck-cet6', name: '六级', source: 'test', license: 'test', wordIds: [] },
+];
 
 const CARD: CardRecord = {
   id: 'card-1',
@@ -93,6 +124,10 @@ describe('存档诊断记录', () => {
 
   beforeEach(async () => {
     installChromeMock();
+    vi.spyOn(BuiltInWordBank.prototype, 'listWords').mockResolvedValue([WORD]);
+    vi.spyOn(BuiltInWordBank.prototype, 'getDeck').mockImplementation(
+      async (deckId) => DECKS.find((deck) => deck.id === deckId) ?? null,
+    );
     db = await openDatabase(TEST_DB);
     store = new LocalSettingsStore(db);
     await Promise.all([

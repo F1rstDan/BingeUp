@@ -45,6 +45,12 @@ export interface DataOperationResult {
   warnings: string[];
 }
 
+export interface LocalDataValidationResult {
+  ok: boolean;
+  errors: string[];
+  payload?: ExportPayload;
+}
+
 export type ImportResult = DataOperationResult;
 
 /** 导入校验使用的内置内容。 */
@@ -53,11 +59,13 @@ interface BuiltInContent {
   decks: DeckRecord[];
 }
 
+/** 备份校验共享词库实例，避免每次快照轮换都重新加载完整词库。 */
+const validationWordBank = new BuiltInWordBank();
+
 async function loadBuiltInContent(): Promise<BuiltInContent> {
-  const wordBank = new BuiltInWordBank();
   const [words, decks] = await Promise.all([
-    wordBank.listWords(),
-    Promise.all(BUILT_IN_DECK_IDS.map((id) => wordBank.getDeck(id))),
+    validationWordBank.listWords(),
+    Promise.all(BUILT_IN_DECK_IDS.map((id) => validationWordBank.getDeck(id))),
   ]);
   return {
     words,
@@ -500,9 +508,7 @@ function validateTopLevel(input: Record<string, unknown>, errors: string[]): voi
   }
 }
 
-async function parseAndValidateBackup(
-  input: unknown,
-): Promise<{ ok: boolean; errors: string[]; payload?: ExportPayload }> {
+async function parseAndValidateBackup(input: unknown): Promise<LocalDataValidationResult> {
   if (!isRecord(input)) return { ok: false, errors: ['payload 不是对象'] };
   if (input.version !== EXPORT_VERSION) {
     return {
@@ -533,6 +539,11 @@ async function parseAndValidateBackup(
 
   validateBaseReferences(payload.data, payload.authoritativeState, builtIn, errors);
   return errors.length > 0 ? { ok: false, errors } : { ok: true, errors: [], payload };
+}
+
+/** 只校验本地数据，不改变 IndexedDB 或运行状态。 */
+export function validateLocalData(input: unknown): Promise<LocalDataValidationResult> {
+  return parseAndValidateBackup(input);
 }
 
 function authoritativeRecord(payload: {

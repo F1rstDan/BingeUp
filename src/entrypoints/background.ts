@@ -164,7 +164,7 @@ export default defineBackground(() => {
           settingsStore = null;
           const rebuiltStore = new LocalSettingsStore(rebuilt);
           const warnings: string[] = [];
-          if (!(await resetRecoverySnapshot(rebuiltStore))) {
+          if (!(await resetRecoverySnapshot(rebuiltStore, 'rebuild'))) {
             warnings.push('本地用户数据已重建，但自动存档清理失败；下次启动可能恢复旧数据。');
           }
           try {
@@ -193,18 +193,21 @@ export default defineBackground(() => {
           await recordSelfReportActivity(message.wordId);
         }
         if (message?.type === 'CLEAR_LEARNING_PROGRESS') {
-          await resetRecoverySnapshot(settingsStore);
+          await resetRecoverySnapshot(settingsStore, 'clear-learning-progress');
         } else if (message?.type === 'CLEAR_ALL_DATA') {
           const clearResult = result as { ok?: boolean; warnings?: string[] } | undefined;
           if (clearResult?.ok !== false) {
-            if (!(await resetRecoverySnapshot(settingsStore)) && clearResult?.warnings) {
+            if (
+              !(await resetRecoverySnapshot(settingsStore, 'clear-all')) &&
+              clearResult?.warnings
+            ) {
               clearResult.warnings.push('自动存档清理失败；下次启动可能恢复旧数据。');
             }
           }
         } else if (message?.type === 'IMPORT_DATA') {
           const importResult = result as { ok?: boolean; warnings?: string[] } | undefined;
           if (importResult?.ok !== false) {
-            if (!(await resetRecoverySnapshot(settingsStore)) && importResult?.warnings) {
+            if (!(await resetRecoverySnapshot(settingsStore, 'import')) && importResult?.warnings) {
               importResult.warnings.push('导入已成功，但自动存档更新失败；存档仍保持隔离。');
             }
           }

@@ -62,6 +62,14 @@ describe('background 入口 — 共享持久化上下文', () => {
     }
   }
 
+  function snapshotGeneration(): string {
+    return (values['bingeup:recovery-snapshot'] as { generation: string }).generation;
+  }
+
+  function expectSnapshotWithoutWord(wordId: string): void {
+    expect(JSON.stringify(values['bingeup:recovery-snapshot'])).not.toContain(wordId);
+  }
+
   beforeEach(async () => {
     now = Date.UTC(2026, 9, 22, 12);
     vi.spyOn(Date, 'now').mockImplementation(() => now);
@@ -241,6 +249,7 @@ describe('background 入口 — 共享持久化上下文', () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-ability' });
     await deleteCardByWordId('w-abandon');
     await saveSnapshotAndExpectIsolation();
+    const previousGeneration = snapshotGeneration();
 
     const result = await send({ type: 'IMPORT_DATA', payload: oneCardBackup });
 
@@ -249,6 +258,8 @@ describe('background 入口 — 共享持久化上下文', () => {
       status: 'healthy',
       currentCounts: { cards: 1 },
     });
+    expect(snapshotGeneration()).not.toBe(previousGeneration);
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({ tombstone: null });
     const next = await send<{ __bingeupErrorCode?: string }>({ type: 'LEARNING_GET_NEXT' });
     expect(next.__bingeupErrorCode).toBeUndefined();
   });
@@ -257,10 +268,17 @@ describe('background 入口 — 共享持久化上下文', () => {
     await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId: 'w-ability' });
     await deleteCardByWordId('w-ability');
     await saveSnapshotAndExpectIsolation();
+    const previousGeneration = snapshotGeneration();
 
     await send({ type: 'CLEAR_LEARNING_PROGRESS' });
 
     expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    expect(snapshotGeneration()).not.toBe(previousGeneration);
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({
+      tombstone: { kind: 'clear-learning-progress' },
+      previous: null,
+    });
+    expectSnapshotWithoutWord('w-ability');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_ACCEPT_NEW_WORD',
       wordId: 'w-abandon',
@@ -272,10 +290,17 @@ describe('background 入口 — 共享持久化上下文', () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
     await deleteCardByWordId('w-abandon');
     await saveSnapshotAndExpectIsolation();
+    const previousGeneration = snapshotGeneration();
 
     expect(await send({ type: 'CLEAR_ALL_DATA' })).toMatchObject({ ok: true });
 
     expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    expect(snapshotGeneration()).not.toBe(previousGeneration);
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({
+      tombstone: { kind: 'clear-all' },
+      previous: null,
+    });
+    expectSnapshotWithoutWord('w-abandon');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_SELF_REPORT_KNOWN',
       wordId: 'w-ability',
@@ -287,10 +312,17 @@ describe('background 入口 — 共享持久化上下文', () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
     await deleteCardByWordId('w-abandon');
     await saveSnapshotAndExpectIsolation();
+    const previousGeneration = snapshotGeneration();
 
     expect(await send({ type: 'REBUILD_DATABASE' })).toMatchObject({ ok: true });
 
     expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('healthy');
+    expect(snapshotGeneration()).not.toBe(previousGeneration);
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({
+      tombstone: { kind: 'rebuild' },
+      previous: null,
+    });
+    expectSnapshotWithoutWord('w-abandon');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_SELF_REPORT_KNOWN',
       wordId: 'w-ability',

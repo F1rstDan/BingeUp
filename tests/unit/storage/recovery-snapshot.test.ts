@@ -48,6 +48,17 @@ const WORDS: WordRecord[] = [
     source: 'test',
     license: 'test',
   },
+  ...Array.from({ length: 6 }, (_, index) => ({
+    id: `w-burst-${index}`,
+    word: `burst-${index}`,
+    lemma: `burst-${index}`,
+    partOfSpeech: ['n.'],
+    coreMeaningZh: [`突发词 ${index}`],
+    difficulty: 1,
+    frequencyRank: index + 3,
+    source: 'test',
+    license: 'test',
+  })),
 ];
 
 const DECKS: DeckRecord[] = [
@@ -56,7 +67,7 @@ const DECKS: DeckRecord[] = [
     name: '日常高频',
     source: 'test',
     license: 'test',
-    wordIds: ['w-high', 'w-low'],
+    wordIds: WORDS.map((word) => word.id),
   },
   { id: 'deck-cet4', name: '四级', source: 'test', license: 'test', wordIds: [] },
   { id: 'deck-cet6', name: '六级', source: 'test', license: 'test', wordIds: [] },
@@ -276,6 +287,17 @@ describe('本地自动恢复快照', () => {
   it('用户清除数据后旧快照不会在下次启动时复活', async () => {
     await seedLearningData();
     await saveRecoverySnapshot(store);
+    const current = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      savedAt: number;
+      mode: 'full' | 'compact';
+      payload: unknown;
+    };
+    storage.values[RECOVERY_SNAPSHOT_KEY] = {
+      version: 1,
+      savedAt: current.savedAt,
+      mode: current.mode,
+      payload: current.payload,
+    };
     storage.values[RECOVERY_CLEARED_AT_KEY] = Date.now() + 1_000;
 
     await wipeDatabase();
@@ -350,7 +372,7 @@ describe('本地自动恢复快照', () => {
     const otherDatabaseName = `${TEST_DB}-other`;
     const otherDb = await openDatabase(otherDatabaseName);
     try {
-      const otherCard = { ...CARD, id: 'card-other', wordId: 'w-other' };
+      const otherCard = { ...CARD, id: 'card-other', wordId: 'w-low' };
       await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(otherDb, STORES.cards, otherCard)]);
 
       const firstHold = createSnapshotWriteHold();
@@ -414,8 +436,14 @@ describe('本地自动恢复快照', () => {
     expect(await Promise.all([first, pending, reset])).toEqual([true, false, true]);
     expect(storage.snapshotWrites).toHaveLength(2);
     const finalSnapshot = storage.snapshotWrites[1] as {
+      version: number;
+      tombstone: { kind: string } | null;
+      previous: unknown;
       payload: { data: { cards: unknown[] } };
     };
+    expect(finalSnapshot.version).toBe(2);
+    expect(finalSnapshot.tombstone).toMatchObject({ kind: 'clear-all' });
+    expect(finalSnapshot.previous).toBeNull();
     expect(finalSnapshot.payload.data.cards).toEqual([]);
   });
 
@@ -599,5 +627,213 @@ describe('本地自动恢复快照', () => {
       payload: { data: { cards: CardRecord[] } };
     };
     expect(snapshot.payload.data.cards).toEqual([SECOND_CARD]);
+  });
+
+  it('连续保存时保留上一代快照并记录不同代次', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    const first = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      version: number;
+      generation: string;
+    };
+    await idbPut(db, STORES.cards, SECOND_CARD);
+
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+
+    const archive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      version: number;
+      generation: string;
+      payload: { data: { cards: CardRecord[] } };
+      previous: { generation?: string; payload: { data: { cards: CardRecord[] } } } | null;
+    };
+    expect(archive).toMatchObject({ version: 2, previous: expect.any(Object) });
+    expect(archive.generation).not.toBe(first.generation);
+    expect(archive.payload.data.cards.map((card) => card.id).sort()).toEqual(['card-1', 'card-2']);
+    expect(archive.previous?.payload.data.cards).toEqual([CARD]);
+    expect(archive.previous?.generation).toBe(first.generation);
+    expect(await inspectStorageHealth(store)).toMatchObject({
+      snapshotGeneration: archive.generation,
+      previousSnapshot: {
+        generation: first.generation,
+        counts: { cards: 1 },
+      },
+    });
+  });
+
+  it('快照结构无效时保留原始字节并阻止自动和启动覆盖', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    const invalidBytes = { version: 999, payload: { marker: '必须保留' } };
+    storage.values[RECOVERY_SNAPSHOT_KEY] = structuredClone(invalidBytes);
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(invalidBytes);
+    expect((await inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'snapshot-invalid' }),
+    );
+  });
+
+  it('旧快照未通过语义校验时保留原始字节并阻止覆盖', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const current = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      savedAt: number;
+      mode: 'full' | 'compact';
+      payload: { data: { cards: CardRecord[] } };
+    };
+    current.payload.data.cards[0]!.wordId = 'w-missing';
+    const invalid = {
+      version: 1,
+      savedAt: current.savedAt,
+      mode: current.mode,
+      payload: current.payload,
+    };
+    storage.values[RECOVERY_SNAPSHOT_KEY] = invalid;
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(invalid);
+    expect((await inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'snapshot-validation-failed' }),
+    );
+  });
+
+  it('兼容旧版单快照并从新代次档案继续轮换', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const currentArchive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      generation: string;
+      savedAt: number;
+      mode: 'full' | 'compact';
+      payload: unknown;
+    };
+    const legacy = {
+      version: 1,
+      savedAt: currentArchive.savedAt,
+      mode: currentArchive.mode,
+      payload: currentArchive.payload,
+    };
+    storage.values[RECOVERY_SNAPSHOT_KEY] = structuredClone(legacy);
+    await wipeDatabase();
+
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(true);
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    const upgraded = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      version: number;
+      previous: { payload: { data: { cards: CardRecord[] } } } | null;
+    };
+    expect(upgraded.version).toBe(2);
+    expect(upgraded.previous?.payload.data.cards).toEqual([CARD]);
+  });
+
+  it('用户清除后使用新一代次和 tombstone，重启时不恢复旧数据', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(50_000);
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    const before = storage.values[RECOVERY_SNAPSHOT_KEY] as { generation: string };
+    await clearLearningData();
+
+    expect(await resetRecoverySnapshot(store, 'clear-all')).toBe(true);
+
+    const archive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      generation: string;
+      tombstone: { generation: string; kind: string } | null;
+      payload: { data: { cards: unknown[] } };
+      previous: { payload: { data: { cards: unknown[] } } } | null;
+    };
+    expect(archive.generation).not.toBe(before.generation);
+    expect(archive.tombstone).toMatchObject({ generation: archive.generation, kind: 'clear-all' });
+    expect(archive.payload.data.cards).toEqual([]);
+    expect(archive.previous).toBeNull();
+    expect(JSON.stringify(storage.values[RECOVERY_SNAPSHOT_KEY])).not.toContain(CARD.wordId);
+
+    await wipeDatabase();
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+    expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+  });
+
+  it('清除学习进度时删除旧卡与日志，但保留自定义单词和词库', async () => {
+    const customWord: WordRecord = {
+      ...WORDS[0]!,
+      id: 'w-custom',
+      word: 'custom',
+      lemma: 'custom',
+      frequencyRank: 99,
+    };
+    const customDeck: DeckRecord = {
+      ...DECKS[0]!,
+      id: 'deck-custom',
+      name: '自定义',
+      wordIds: [customWord.id],
+    };
+    const customCard: CardRecord = {
+      ...CARD,
+      id: 'card-custom',
+      wordId: customWord.id,
+      deckId: customDeck.id,
+    };
+    const customLog: ReviewLogRecord = {
+      ...LOG,
+      id: 'log-custom',
+      cardId: customCard.id,
+      wordId: customWord.id,
+    };
+    await Promise.all([
+      idbPut(db, STORES.words, customWord),
+      idbPut(db, STORES.decks, customDeck),
+      idbPut(db, STORES.cards, customCard),
+      idbPut(db, STORES.reviewLogs, customLog),
+    ]);
+    await saveRecoverySnapshot(store);
+    await clearLearningData();
+
+    expect(await resetRecoverySnapshot(store, 'clear-learning-progress')).toBe(true);
+
+    const archive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      payload: {
+        data: {
+          cards: CardRecord[];
+          reviewLogs: ReviewLogRecord[];
+          words: WordRecord[];
+          decks: DeckRecord[];
+        };
+      };
+      previous: unknown;
+    };
+    expect(archive.payload.data.cards).toEqual([]);
+    expect(archive.payload.data.reviewLogs).toEqual([]);
+    expect(archive.payload.data.words).toContainEqual(customWord);
+    expect(archive.payload.data.decks).toContainEqual(customDeck);
+    expect(archive.previous).toBeNull();
+    expect(JSON.stringify(archive)).not.toContain(customCard.id);
+    expect(JSON.stringify(archive)).not.toContain(customLog.id);
+  });
+
+  it('快照写入失败时保留旧代次字节，后续保存仍可重试', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(60_000);
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const healthyBytes = storage.values[RECOVERY_SNAPSHOT_KEY];
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    storage.failNextSetCalls = 2;
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(healthyBytes);
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).not.toBe(healthyBytes);
+  });
+
+  it('同一毫秒内的用户操作仍使用不同 generation', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(70_000);
+    await saveRecoverySnapshot(store);
+    expect(await resetRecoverySnapshot(store, 'clear-all')).toBe(true);
+    const first = (storage.values[RECOVERY_SNAPSHOT_KEY] as { generation: string }).generation;
+    expect(await resetRecoverySnapshot(store, 'clear-all')).toBe(true);
+    const second = (storage.values[RECOVERY_SNAPSHOT_KEY] as { generation: string }).generation;
+    expect(second).not.toBe(first);
   });
 });

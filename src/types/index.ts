@@ -686,7 +686,9 @@ export type StorageHealthIssue =
       healthyCards: number;
     }
   | { code: 'orphan-review-logs'; message: string; count: number }
-  | { code: 'restore-failed'; message: string; failedAt: number };
+  | { code: 'restore-failed'; message: string; failedAt: number }
+  | { code: 'snapshot-invalid'; message: string }
+  | { code: 'snapshot-validation-failed'; message: string; errors: string[] };
 
 /** IndexedDB 与自动恢复快照的只读健康检查结果。 */
 export interface StorageHealth {
@@ -694,6 +696,12 @@ export interface StorageHealth {
   checkedAt: number;
   currentCounts: StorageCounts;
   snapshotCounts?: StorageCounts;
+  snapshotGeneration?: string;
+  previousSnapshot?: {
+    generation: string;
+    savedAt: number;
+    counts: StorageCounts;
+  };
   issues: StorageHealthIssue[];
 }
 
