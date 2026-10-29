@@ -15,6 +15,7 @@ export class BuiltInWordBank implements WordBankPort {
   private words: Map<string, WordRecord> = new Map();
   private decks: Map<string, DeckRecord> = new Map();
   private questionPlans: Map<string, WordQuestionPlan> = new Map();
+  private deckWordBuckets: Map<string, Map<number, WordRecord[]>> = new Map();
   private defaultDeckId: string | null = null;
   private loaded = false;
   private loadingPromise: Promise<void> | null = null;
@@ -91,9 +92,26 @@ export class BuiltInWordBank implements WordBankPort {
     this.words.clear();
     this.decks.clear();
     this.questionPlans.clear();
+    this.deckWordBuckets.clear();
     for (const w of wordsData) this.words.set(w.id, w);
     for (const d of decksData) this.decks.set(d.id, d);
     this.defaultDeckId = decksData[0]?.id ?? null;
+
+    for (const deck of decksData) {
+      const buckets = new Map<number, WordRecord[]>();
+      for (const wordId of deck.wordIds) {
+        const word = this.words.get(wordId);
+        if (!word) continue;
+        const difficulty = deck.wordDifficulties?.[wordId] ?? word.difficulty;
+        const bucket = buckets.get(difficulty);
+        if (bucket) bucket.push(word);
+        else buckets.set(difficulty, [word]);
+      }
+      for (const bucket of buckets.values()) {
+        bucket.sort((left, right) => left.frequencyRank - right.frequencyRank);
+      }
+      this.deckWordBuckets.set(deck.id, buckets);
+    }
   }
 
   /** 读取当前词条的固定题组。 */
@@ -149,32 +167,60 @@ export class BuiltInWordBank implements WordBankPort {
     const deck = this.decks.get(params.deckId);
     if (!deck) return [];
 
-    const deckWordIds = new Set(deck.wordIds);
+    const count = Math.max(0, Math.floor(params.count));
+    if (count === 0) return [];
+
+    const buckets = this.deckWordBuckets.get(params.deckId);
+    if (!buckets) return [];
     const excludeSet = new Set(params.excludeWordIds);
     const difficultySet = new Set(params.preferredDifficulty);
+    const selectedBuckets = [...difficultySet]
+      .map((difficulty) => buckets.get(difficulty))
+      .filter((bucket): bucket is WordRecord[] => bucket !== undefined);
+    const positions = selectedBuckets.map(() => 0);
+    const result: WordRecord[] = [];
 
-    // 获取词库中的单词，排除已排除项，按难度筛选
-    const candidates: Array<{ word: WordRecord; deckDifficulty: number }> = [];
-
-    for (const wordId of deckWordIds) {
-      if (excludeSet.has(wordId)) continue;
-      const word = this.words.get(wordId);
-      if (!word) continue;
-
-      const deckDifficulty = deck.wordDifficulties?.[wordId] ?? word.difficulty;
-
-      if (difficultySet.has(deckDifficulty)) {
-        candidates.push({ word, deckDifficulty });
+    while (result.length < count) {
+      let nextRank = Number.POSITIVE_INFINITY;
+      for (let bucketIndex = 0; bucketIndex < selectedBuckets.length; bucketIndex += 1) {
+        const bucket = selectedBuckets[bucketIndex]!;
+        let position = positions[bucketIndex]!;
+        while (position < bucket.length && excludeSet.has(bucket[position]!.id)) position += 1;
+        positions[bucketIndex] = position;
+        const word = bucket[position];
+        if (word && word.frequencyRank < nextRank) nextRank = word.frequencyRank;
       }
+      if (nextRank === Number.POSITIVE_INFINITY) break;
+
+      const sameRank: WordRecord[] = [];
+      for (let bucketIndex = 0; bucketIndex < selectedBuckets.length; bucketIndex += 1) {
+        const bucket = selectedBuckets[bucketIndex]!;
+        let position = positions[bucketIndex]!;
+        while (position < bucket.length) {
+          const word = bucket[position]!;
+          if (excludeSet.has(word.id)) {
+            position += 1;
+            continue;
+          }
+          if (word.frequencyRank !== nextRank) break;
+          sameRank.push(word);
+          position += 1;
+        }
+        positions[bucketIndex] = position;
+      }
+      shuffle(sameRank);
+      result.push(...sameRank.slice(0, count - result.length));
     }
 
-    // 按词频排名排序（优先高频词），同频随机打乱，取前 count 个
-    candidates.sort((a, b) => {
-      const rankDiff = a.word.frequencyRank - b.word.frequencyRank;
-      if (rankDiff !== 0) return rankDiff;
-      return Math.random() - 0.5;
-    });
-    return candidates.slice(0, params.count).map((c) => c.word);
+    return result;
+  }
+}
+
+/** 原地打乱调用方提供的临时数组；缓存桶不受影响。 */
+function shuffle<T>(items: T[]): void {
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const selected = Math.floor(Math.random() * (index + 1));
+    [items[index], items[selected]] = [items[selected]!, items[index]!];
   }
 }
 
