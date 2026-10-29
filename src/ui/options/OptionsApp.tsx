@@ -83,6 +83,8 @@ interface ImportFeedback {
   text: string;
 }
 
+type OptionsTab = 'learning' | 'sites' | 'data';
+
 const NOTICE_AUTO_DISMISS_MS = 6000;
 
 function useSpeechVoices(): SpeechSynthesisVoice[] {
@@ -103,6 +105,7 @@ function useSpeechVoices(): SpeechSynthesisVoice[] {
 export function OptionsApp(): JSX.Element {
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [sites, setSites] = useState<SiteEntry[]>([]);
+  const [activeTab, setActiveTab] = useState<OptionsTab>('learning');
   const [siteInput, setSiteInput] = useState('');
   const [siteAdding, setSiteAdding] = useState(false);
   const [notice, setNotice] = useState<NoticeMessage | null>(null);
@@ -114,6 +117,7 @@ export function OptionsApp(): JSX.Element {
   const [diagnosticsError, setDiagnosticsError] = useState<string | null>(null);
   const [diagnosticsLoading, setDiagnosticsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const diagnosticsRequestId = useRef(0);
   const speechVoices = useSpeechVoices();
 
   const showNotice = useCallback((message: string | null) => {
@@ -161,20 +165,32 @@ export function OptionsApp(): JSX.Element {
   }, [load]);
 
   const refreshDiagnostics = useCallback(async () => {
+    const requestId = ++diagnosticsRequestId.current;
     setDiagnosticsLoading(true);
     try {
-      setDiagnostics(await messageClient.getStorageDiagnostics());
+      const nextDiagnostics = await messageClient.getStorageDiagnostics();
+      if (requestId !== diagnosticsRequestId.current) return;
+      setDiagnostics(nextDiagnostics);
       setDiagnosticsError(null);
     } catch (e) {
+      if (requestId !== diagnosticsRequestId.current) return;
       setDiagnosticsError(e instanceof Error ? e.message : String(e));
     } finally {
-      setDiagnosticsLoading(false);
+      if (requestId === diagnosticsRequestId.current) setDiagnosticsLoading(false);
     }
   }, []);
 
+  const diagnosticsNeeded = activeTab === 'data' || error !== null;
   useEffect(() => {
+    if (!diagnosticsNeeded) {
+      diagnosticsRequestId.current += 1;
+      return undefined;
+    }
     void refreshDiagnostics();
-  }, [refreshDiagnostics]);
+    return () => {
+      diagnosticsRequestId.current += 1;
+    };
+  }, [diagnosticsNeeded, refreshDiagnostics]);
 
   useEffect(() => {
     if (notice === null || notice.persistent) return undefined;
@@ -650,6 +666,8 @@ export function OptionsApp(): JSX.Element {
 
       <Tabs
         className="bingeup-tabs"
+        activeKey={activeTab}
+        onChange={(key) => setActiveTab(key as OptionsTab)}
         items={[
           { key: 'learning', label: '学习设置', children: learningPanel },
           { key: 'sites', label: '网站管理', children: sitesPanel },

@@ -118,6 +118,16 @@ function renderOptions() {
   return render(<OptionsApp />);
 }
 
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  let reject!: (reason?: unknown) => void;
+  const promise = new Promise<T>((complete, fail) => {
+    resolve = complete;
+    reject = fail;
+  });
+  return { promise, resolve, reject };
+}
+
 /** 渲染设置页并切换到指定分区（工单 #41 M3b：三个分区由原版 Tabs 承载）。 */
 async function renderOptionsAndOpenTab(name: '学习设置' | '网站管理' | '数据管理'): Promise<void> {
   renderOptions();
@@ -716,6 +726,67 @@ describe('OptionsApp — Issue #10', () => {
   });
 
   // ── AC4：数据管理 ────────────────────────────────────────
+
+  it('正常首屏和网站分区不预取诊断，首次进入数据分区才读取', async () => {
+    renderOptions();
+    await screen.findByRole('tab', { name: '学习设置' });
+    await waitFor(() => expect(mocks.getAppSettings).toHaveBeenCalled());
+    expect(mocks.getStorageDiagnostics).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('tab', { name: '网站管理' }));
+    await Promise.resolve();
+    expect(mocks.getStorageDiagnostics).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('tab', { name: '数据管理' }));
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
+  });
+
+  it('手动刷新和重新进入数据分区都会读取最新诊断', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
+
+    fireEvent.click(screen.getByRole('button', { name: '刷新' }));
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(2));
+
+    fireEvent.click(screen.getByRole('tab', { name: '学习设置' }));
+    fireEvent.click(screen.getByRole('tab', { name: '数据管理' }));
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(3));
+  });
+
+  it('主加载失败时仍会在错误分支读取诊断', async () => {
+    mocks.getAppSettings.mockRejectedValueOnce(new Error('数据库打开失败'));
+    renderOptions();
+
+    expect(await screen.findByText(/加载失败：数据库打开失败/)).toBeInTheDocument();
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText('存档读取状态')).toBeInTheDocument();
+  });
+
+  it('两个诊断请求逆序结束只更新最新结果并正确结束 loading', async () => {
+    const first = deferred<StorageDiagnostics>();
+    const second = deferred<StorageDiagnostics>();
+    mocks.getStorageDiagnostics
+      .mockReset()
+      .mockReturnValueOnce(first.promise)
+      .mockReturnValueOnce(second.promise);
+    renderOptions();
+    fireEvent.click(await screen.findByRole('tab', { name: '数据管理' }));
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
+    expect(screen.getByRole('button', { name: '读取中…' })).toBeDisabled();
+
+    fireEvent.click(screen.getByRole('tab', { name: '学习设置' }));
+    fireEvent.click(screen.getByRole('tab', { name: '数据管理' }));
+    await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(2));
+
+    second.resolve({ ...SAMPLE_DIAGNOSTICS, extensionId: 'latest-extension' });
+    expect(await screen.findByText(/latest-extension · v/)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('button', { name: '刷新' })).toBeEnabled());
+
+    first.reject(new Error('旧请求失败'));
+    await waitFor(() => expect(screen.getByRole('button', { name: '刷新' })).toBeEnabled());
+    expect(screen.queryByText('旧请求失败')).not.toBeInTheDocument();
+    expect(screen.getByText(/latest-extension · v/)).toBeInTheDocument();
+  });
 
   it('数据管理展示启动读取、当前记录和自动快照状态', async () => {
     await renderOptionsAndOpenTab('数据管理');
