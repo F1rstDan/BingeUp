@@ -6,6 +6,7 @@ import {
   clearAllLocalData,
   clearLearningProgress,
   exportLocalData,
+  exportLocalDataForSnapshot,
   importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
@@ -211,6 +212,36 @@ describe('本地用户数据备份', () => {
       'version',
     ]);
     expect(JSON.stringify(exported)).not.toContain('storageMeta');
+  });
+
+  it('内部快照导出在同一只读事务中返回 payload 与 storageMeta', async () => {
+    await seedCurrentData();
+    const before = await readStorageMeta(db);
+    const transaction = vi.spyOn(db, 'transaction');
+
+    const bundle = await exportLocalDataForSnapshot(store);
+
+    expect(transaction).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        STORES.authoritativeState,
+        STORES.storageMeta,
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+        STORES.words,
+        STORES.decks,
+      ]),
+      'readonly',
+    );
+    expect(bundle.storageMeta).toEqual(before);
+    expect(bundle.payload.data.cards).toEqual([CARD]);
+    expect(Object.keys(bundle.payload).sort()).toEqual([
+      'authoritativeState',
+      'data',
+      'exportedAt',
+      'version',
+    ]);
   });
 
   it('拒绝无效格式且不修改现有数据', async () => {

@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
-import { STORES, idbGetAll, idbPut, openDatabase } from '@/storage/database';
+import { STORES, idbGetAll, idbPut, openDatabase, readStorageMeta } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import {
   RECOVERY_CLEARED_AT_KEY,
@@ -468,10 +468,11 @@ describe('本地自动恢复快照', () => {
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
   });
 
-  it('启动时快照学习卡数量一致就不重复写入', async () => {
+  it('启动时数据库 stamp 与快照一致就不重复写入', async () => {
     await seedLearningData();
     await saveRecoverySnapshot(store);
     const original = storage.values[RECOVERY_SNAPSHOT_KEY];
+    const meta = await readStorageMeta(db);
 
     const storageGet = vi.mocked(chrome.storage.local.get);
     storageGet.mockClear();
@@ -479,6 +480,68 @@ describe('本地自动恢复快照', () => {
     expect(startup.saved).toBe(false);
     expect(startup.snapshot).toMatchObject({ present: true, counts: { cards: 1 } });
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toBe(original);
+    expect((storage.values[RECOVERY_SNAPSHOT_KEY] as { storage: unknown }).storage).toEqual({
+      generation: meta.generation,
+      revision: meta.revision,
+    });
+  });
+
+  it('学习卡内容改变但数量不变时，启动按 revision 重写快照', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, { ...CARD, updatedAt: 9_000 });
+    const meta = await readStorageMeta(db);
+
+    const startup = await saveStartupRecoverySnapshot(store);
+
+    expect(startup.saved).toBe(true);
+    const snapshot = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      storage: { generation: string; revision: number };
+      payload: { data: { cards: CardRecord[] } };
+    };
+    expect(snapshot.storage).toEqual({ generation: meta.generation, revision: meta.revision });
+    expect(snapshot.payload.data.cards).toEqual([{ ...CARD, updatedAt: 9_000 }]);
+  });
+
+  it('current 与 previous 各自保存数据库 stamp，且不等同于快照档案 generation', async () => {
+    await seedLearningData();
+    const firstMeta = await readStorageMeta(db);
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, { ...CARD, updatedAt: 9_000 });
+    const secondMeta = await readStorageMeta(db);
+    await saveRecoverySnapshot(store);
+
+    const archive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      generation: string;
+      storage: { generation: string; revision: number };
+      previous: { generation: string; storage: { generation: string; revision: number } };
+    };
+    expect(archive.storage).toEqual({
+      generation: secondMeta.generation,
+      revision: secondMeta.revision,
+    });
+    expect(archive.previous.storage).toEqual({
+      generation: firstMeta.generation,
+      revision: firstMeta.revision,
+    });
+    expect(archive.generation).not.toBe(archive.storage.generation);
+    expect(archive.previous.generation).not.toBe(archive.previous.storage.generation);
+  });
+
+  it('旧 v1 权威设置缺少可默认字段时仍可生成可校验快照', async () => {
+    await idbPut(db, STORES.authoritativeState, {
+      id: 'current',
+      appSettings: {},
+      sites: {},
+      onboardingCompleted: false,
+    });
+
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+
+    const archive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
+      payload: { authoritativeState: { appSettings: typeof DEFAULT_SETTINGS } };
+    };
+    expect(archive.payload.authoritativeState.appSettings).toMatchObject(DEFAULT_SETTINGS);
   });
 
   it('健康检查识别相对快照的卡片异常减少', async () => {

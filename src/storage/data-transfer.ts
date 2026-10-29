@@ -3,14 +3,17 @@ import { BUILT_IN_DECK_IDS } from '@/dictionary/content-contract';
 import { validateAppSettings } from '@/settings/validator';
 import {
   STORES,
+  STORAGE_META_ID,
   idbGetAll,
   idbReplaceAll,
   markStorageMetaChanged,
+  normalizeStorageMeta,
   openTrackedTransaction,
 } from '@/storage/database';
 import {
   AUTHORITATIVE_STATE_ID,
   DEFAULT_AUTHORITATIVE_STATE,
+  copyAuthoritativeState,
   type AuthoritativeStateRecord,
   type LocalSettingsStore,
 } from '@/storage/local-settings';
@@ -23,6 +26,7 @@ import type {
   SchedulerState,
   SessionLogRecord,
   SiteSettings,
+  StorageMetaRecord,
   WordRecord,
 } from '@/types';
 
@@ -43,6 +47,12 @@ export interface ExportPayload {
   exportedAt: number;
   authoritativeState: Omit<AuthoritativeStateRecord, 'id'>;
   data: ExportedData;
+}
+
+/** 自动快照使用的一致导出；revision 与 payload 来自同一只读事务。 */
+export interface ExportSnapshotBundle {
+  payload: ExportPayload;
+  storageMeta: StorageMetaRecord;
 }
 
 export interface DataOperationResult {
@@ -105,6 +115,91 @@ export async function exportLocalData(store: LocalSettingsStore): Promise<Export
       words,
       decks,
     },
+  };
+}
+
+function readRequest<T>(request: IDBRequest<T>): Promise<T> {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error ?? new Error('读取导出一致性数据失败'));
+  });
+}
+
+function awaitReadTransaction(transaction: IDBTransaction): Promise<void> {
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error ?? new Error('导出一致性事务失败'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('导出一致性事务已中止'));
+  });
+}
+
+/**
+ * 为自动快照读取一致数据。payload 与 storageMeta 必须来自同一只读事务；
+ * 公开导出在 2.4 再切换到该辅助路径。
+ */
+export async function exportLocalDataForSnapshot(
+  store: LocalSettingsStore,
+): Promise<ExportSnapshotBundle> {
+  const db = store.database;
+  const transaction = db.transaction(
+    [
+      STORES.authoritativeState,
+      STORES.storageMeta,
+      STORES.cards,
+      STORES.reviewLogs,
+      STORES.sessionLogs,
+      STORES.behaviorEvents,
+      STORES.words,
+      STORES.decks,
+    ],
+    'readonly',
+  );
+  const transactionDone = awaitReadTransaction(transaction);
+  const stateRequest = transaction
+    .objectStore(STORES.authoritativeState)
+    .get(AUTHORITATIVE_STATE_ID);
+  const metaRequest = transaction.objectStore(STORES.storageMeta).get(STORAGE_META_ID);
+  const cardsRequest = transaction.objectStore(STORES.cards).getAll();
+  const reviewLogsRequest = transaction.objectStore(STORES.reviewLogs).getAll();
+  const sessionLogsRequest = transaction.objectStore(STORES.sessionLogs).getAll();
+  const behaviorEventsRequest = transaction.objectStore(STORES.behaviorEvents).getAll();
+  const wordsRequest = transaction.objectStore(STORES.words).getAll();
+  const decksRequest = transaction.objectStore(STORES.decks).getAll();
+
+  const [storedState, storedMeta, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] =
+    await Promise.all([
+      readRequest(stateRequest),
+      readRequest(metaRequest),
+      readRequest(cardsRequest),
+      readRequest(reviewLogsRequest),
+      readRequest(sessionLogsRequest),
+      readRequest(behaviorEventsRequest),
+      readRequest(wordsRequest),
+      readRequest(decksRequest),
+      transactionDone,
+    ]);
+  const state = copyAuthoritativeState(
+    storedState === undefined
+      ? DEFAULT_AUTHORITATIVE_STATE
+      : (storedState as AuthoritativeStateRecord),
+  );
+  const { id: _id, ...authoritativeState } = state;
+
+  return {
+    payload: {
+      version: EXPORT_VERSION,
+      exportedAt: Date.now(),
+      authoritativeState,
+      data: {
+        cards: cards as CardRecord[],
+        reviewLogs: reviewLogs as ReviewLogRecord[],
+        sessionLogs: sessionLogs as SessionLogRecord[],
+        behaviorEvents: behaviorEvents as BehaviorEventRecord[],
+        words: words as WordRecord[],
+        decks: decks as DeckRecord[],
+      },
+    },
+    storageMeta: normalizeStorageMeta(storedMeta),
   };
 }
 

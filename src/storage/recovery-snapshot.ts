@@ -1,10 +1,10 @@
 import {
-  exportLocalData,
+  exportLocalDataForSnapshot,
   importLocalData,
   validateLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, idbCount } from '@/storage/database';
+import { STORES, idbCount, readStorageMeta } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
@@ -29,9 +29,16 @@ export const RECOVERY_PENDING_OPERATION_KEY = 'bingeup:recovery-pending-operatio
 interface RecoverySnapshot {
   version: 1;
   generation: string;
+  /** 生成 payload 时数据库的权威修订信息；与快照档案 generation 分开。 */
+  storage: RecoveryStorageStamp | null;
   savedAt: number;
   mode: 'full' | 'compact';
   payload: ExportPayload;
+}
+
+interface RecoveryStorageStamp {
+  generation: string;
+  revision: number;
 }
 
 export type UserRecoveryOperation = 'import' | 'clear-learning-progress' | 'clear-all' | 'rebuild';
@@ -230,10 +237,25 @@ function parseSnapshotEntity(value: unknown): RecoverySnapshot | null {
   return {
     version: 1,
     generation: typeof value.generation === 'string' ? value.generation : 'legacy',
+    storage: parseRecoveryStorageStamp(value.storage),
     savedAt: value.savedAt,
     mode: value.mode === 'compact' ? 'compact' : 'full',
     payload: payload as unknown as ExportPayload,
   };
+}
+
+function parseRecoveryStorageStamp(value: unknown): RecoveryStorageStamp | null {
+  if (
+    !isRecord(value) ||
+    typeof value.generation !== 'string' ||
+    value.generation.length === 0 ||
+    typeof value.revision !== 'number' ||
+    !Number.isSafeInteger(value.revision) ||
+    value.revision < 0
+  ) {
+    return null;
+  }
+  return { generation: value.generation, revision: value.revision };
 }
 
 const RECOVERY_OPERATIONS: ReadonlySet<string> = new Set([
@@ -307,6 +329,7 @@ function snapshotEntityFromArchive(archive: RecoverySnapshotArchive): RecoverySn
   return {
     version: 1,
     generation: archive.generation,
+    storage: archive.storage,
     savedAt: archive.savedAt,
     mode: archive.mode,
     payload: archive.payload,
@@ -764,11 +787,15 @@ async function writeRecoverySnapshot(
   context: SnapshotWriteContext,
 ): Promise<SnapshotWriteResult> {
   try {
-    const payload = await exportLocalData(store);
+    const { payload, storageMeta } = await exportLocalDataForSnapshot(store);
     const generation = createGeneration();
     let snapshot: RecoverySnapshot = {
       version: 1,
       generation,
+      storage: {
+        generation: storageMeta.generation,
+        revision: storageMeta.revision,
+      },
       savedAt: Date.now(),
       mode: 'full',
       payload,
@@ -1062,18 +1089,17 @@ export async function restoreRecoverySnapshotIfNeeded(
 /**
  * 启动时只为已有学习数据补齐缺失的快照。
  *
- * 日常写入已经同步更新快照；这里仅在空库或学习卡数量与快照不一致时重建，
+ * 日常写入已经同步更新快照；这里按数据库 generation/revision 判断同步状态，
  * 避免 service worker 每次启动都完整读取一遍大数据。
  */
 export async function saveStartupRecoverySnapshot(
   store: LocalSettingsStore,
 ): Promise<StartupRecoverySnapshotResult> {
   try {
-    const cardCount = await idbCount(store.database, STORES.cards);
+    const currentMeta = await readStorageMeta(store.database);
     const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
     const existing = diagnosticFromSnapshot(snapshot);
-    if (cardCount === 0) return { saved: false, snapshot: existing };
     const health = await inspectStorageHealth(store);
     if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
     if (health.status !== 'healthy') return { saved: false, snapshot: existing };
@@ -1085,7 +1111,10 @@ export async function saveStartupRecoverySnapshot(
         return { saved: false, snapshot: existing };
       }
     }
-    if (snapshot !== null && snapshot.payload.data.cards.length === cardCount) {
+    if (
+      snapshot?.storage?.generation === currentMeta.generation &&
+      snapshot.storage.revision === currentMeta.revision
+    ) {
       return { saved: false, snapshot: existing };
     }
     const result = await enqueueSnapshotWrite(store, 'save');

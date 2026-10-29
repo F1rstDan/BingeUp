@@ -80,7 +80,7 @@ function normalizeSiteSettings(hostname: string, settings: SiteSettings): SiteSe
   return normalizeSiteSettingsPure(settings);
 }
 
-function copyAuthoritativeState(state: AuthoritativeStateRecord): AuthoritativeStateRecord {
+export function copyAuthoritativeState(state: AuthoritativeStateRecord): AuthoritativeStateRecord {
   return {
     id: AUTHORITATIVE_STATE_ID,
     appSettings: normalizeAppSettings(state.appSettings),

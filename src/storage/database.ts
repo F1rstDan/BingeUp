@@ -133,7 +133,7 @@ function awaitTransaction(tx: IDBTransaction): Promise<void> {
   });
 }
 
-function normalizeStorageMeta(value: unknown): StorageMetaRecord {
+export function normalizeStorageMeta(value: unknown): StorageMetaRecord {
   if (typeof value !== 'object' || value === null) return createInitialStorageMeta();
   const candidate = value as Partial<StorageMetaRecord>;
   return {
