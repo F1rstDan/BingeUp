@@ -6,7 +6,12 @@ import { STORES, idbGetAll, idbPut, openDatabase } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import {
   RECOVERY_CLEARED_AT_KEY,
+  RECOVERY_HEALTH_KEY,
+  RECOVERY_PENDING_OPERATION_KEY,
   RECOVERY_SNAPSHOT_KEY,
+  beginRecoveryOperation,
+  clearStorageIsolation,
+  completeRecoveryOperation,
   inspectStorageHealth,
   isStorageIsolationActive,
   resetRecoverySnapshot,
@@ -128,6 +133,7 @@ const EVENT: BehaviorEventRecord = {
 interface StorageState {
   values: Record<string, unknown>;
   failNextSetCalls: number;
+  failNextSetFor: string | null;
   snapshotWrites: unknown[];
   snapshotWriteHold: SnapshotWriteHold | null;
   beforeSnapshotGet: (() => Promise<void>) | null;
@@ -151,6 +157,7 @@ function installChromeMock() {
   const state: StorageState = {
     values: {},
     failNextSetCalls: 0,
+    failNextSetFor: null,
     snapshotWrites: [],
     snapshotWriteHold: null,
     beforeSnapshotGet: null,
@@ -168,6 +175,11 @@ function installChromeMock() {
           return Object.fromEntries(list.map((key) => [key, state.values[key]]));
         }),
         set: vi.fn(async (entries: Record<string, unknown>) => {
+          if (state.failNextSetFor !== null && state.failNextSetFor in entries) {
+            const key = state.failNextSetFor;
+            state.failNextSetFor = null;
+            throw new Error(`模拟 ${key} 写入失败`);
+          }
           if (state.failNextSetCalls > 0) {
             state.failNextSetCalls -= 1;
             throw new Error('QUOTA_BYTES quota exceeded');
@@ -209,6 +221,7 @@ describe('本地自动恢复快照', () => {
 
   beforeEach(async () => {
     storage = installChromeMock();
+    await clearStorageIsolation();
     vi.spyOn(BuiltInWordBank.prototype, 'listWords').mockResolvedValue(WORDS);
     vi.spyOn(BuiltInWordBank.prototype, 'getDeck').mockImplementation(
       async (deckId) => DECKS.find((candidate) => candidate.id === deckId) ?? null,
@@ -372,7 +385,7 @@ describe('本地自动恢复快照', () => {
     const otherDatabaseName = `${TEST_DB}-other`;
     const otherDb = await openDatabase(otherDatabaseName);
     try {
-      const otherCard = { ...CARD, id: 'card-other', wordId: 'w-low' };
+      const otherCard = { ...CARD, updatedAt: 2_000 };
       await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(otherDb, STORES.cards, otherCard)]);
 
       const firstHold = createSnapshotWriteHold();
@@ -384,12 +397,10 @@ describe('本地自动恢复快照', () => {
 
       expect(await Promise.all([first, second])).toEqual([true, true]);
       const snapshots = storage.snapshotWrites as {
-        payload: { data: { cards: { wordId: string }[] } };
+        payload: { data: { cards: { wordId: string; updatedAt: number }[] } };
       }[];
-      expect(snapshots[0]?.payload.data.cards.map((card) => card.wordId)).toEqual([CARD.wordId]);
-      expect(snapshots[1]?.payload.data.cards.map((card) => card.wordId)).toEqual([
-        otherCard.wordId,
-      ]);
+      expect(snapshots[0]?.payload.data.cards[0]?.updatedAt).toBe(CARD.updatedAt);
+      expect(snapshots[1]?.payload.data.cards[0]?.updatedAt).toBe(otherCard.updatedAt);
     } finally {
       otherDb.close();
       await new Promise<void>((resolve) => {
@@ -486,11 +497,55 @@ describe('本地自动恢复快照', () => {
     expect(health.issues).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          code: 'card-count-decreased',
-          currentCards: 1,
-          healthyCards: 2,
+          code: 'storage-count-decreased',
+          collection: 'cards',
+          currentCount: 1,
+          healthyCount: 2,
         }),
       ]),
+    );
+  });
+
+  it('健康检查覆盖六类存档计数，并识别同数卡片身份替换', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const healthy = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      payload: {
+        data: Record<
+          'cards' | 'reviewLogs' | 'sessionLogs' | 'behaviorEvents' | 'words' | 'decks',
+          unknown[]
+        >;
+      };
+    };
+    const collections = [
+      'cards',
+      'reviewLogs',
+      'sessionLogs',
+      'behaviorEvents',
+      'words',
+      'decks',
+    ] as const;
+
+    for (const collection of collections) {
+      const changed = structuredClone(healthy);
+      changed.payload.data[collection].push({ id: `extra-${collection}` });
+      storage.values[RECOVERY_SNAPSHOT_KEY] = changed;
+      const health = await inspectStorageHealth(store);
+      expect(health.issues).toContainEqual(
+        expect.objectContaining({ code: 'storage-count-decreased', collection }),
+      );
+    }
+
+    storage.values[RECOVERY_SNAPSHOT_KEY] = healthy;
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(STORES.cards, 'readwrite');
+      transaction.objectStore(STORES.cards).delete(CARD.id);
+      transaction.objectStore(STORES.cards).put(SECOND_CARD);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    expect((await inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'card-identities-changed' }),
     );
   });
 
@@ -529,7 +584,7 @@ describe('本地自动恢复快照', () => {
 
     expect(health.currentCounts.cards).toBe(2);
     expect(health.issues).not.toContainEqual(
-      expect.objectContaining({ code: 'card-count-decreased' }),
+      expect.objectContaining({ code: 'storage-count-decreased' }),
     );
   });
 
@@ -548,6 +603,54 @@ describe('本地自动恢复快照', () => {
     expect(health.issues).toContainEqual(
       expect.objectContaining({ code: 'restore-failed', message: expect.any(String) }),
     );
+  });
+
+  it('隔离状态写入失败时仍在当前模块内失败关闭', async () => {
+    await Promise.all([idbPut(db, STORES.cards, CARD), idbPut(db, STORES.cards, SECOND_CARD)]);
+    await saveRecoverySnapshot(store);
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(STORES.cards, 'readwrite');
+      transaction.objectStore(STORES.cards).delete(CARD.id);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    storage.failNextSetFor = RECOVERY_HEALTH_KEY;
+
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(await isStorageIsolationActive()).toBe(true);
+  });
+
+  it('跨存储破坏操作存在 pending 标记时，启动不自动恢复旧档', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await wipeDatabase();
+    storage.values[RECOVERY_PENDING_OPERATION_KEY] = {
+      id: crypto.randomUUID(),
+      operation: 'clear-all',
+      startedAt: Date.now(),
+    };
+
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+    expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+    expect(await isStorageIsolationActive()).toBe(true);
+  });
+
+  it('并发开始两个破坏性操作时只建立一个 pending', async () => {
+    const [first, second] = await Promise.allSettled([
+      beginRecoveryOperation('clear-all'),
+      beginRecoveryOperation('import'),
+    ]);
+    const fulfilled = [first, second].filter(
+      (result): result is PromiseFulfilledResult<string> => result.status === 'fulfilled',
+    );
+    const rejected = [first, second].filter(
+      (result): result is PromiseRejectedResult => result.status === 'rejected',
+    );
+
+    expect(fulfilled).toHaveLength(1);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0]?.reason).toMatchObject({ code: 'STORAGE_OPERATION_IN_PROGRESS' });
+    await completeRecoveryOperation(fulfilled[0]!.value);
   });
 
   it('部分丢失时隔离，保留当前数据库与健康快照并停止自动覆盖', async () => {
@@ -691,6 +794,7 @@ describe('本地自动恢复快照', () => {
     };
     storage.values[RECOVERY_SNAPSHOT_KEY] = invalid;
 
+    expect((await inspectStorageHealth(store)).status).toBe('attention');
     expect(await saveRecoverySnapshot(store)).toBe(false);
     expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
 
@@ -812,13 +916,28 @@ describe('本地自动恢复快照', () => {
     expect(JSON.stringify(archive)).not.toContain(customLog.id);
   });
 
-  it('快照写入失败时保留旧代次字节，后续保存仍可重试', async () => {
+  it('完整双份快照失败后改用精简当前快照，且不静默丢失上一代', async () => {
     vi.spyOn(Date, 'now').mockReturnValue(60_000);
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    storage.failNextSetCalls = 2;
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toMatchObject({
+      mode: 'compact',
+      previous: null,
+      payload: { data: { reviewLogs: [], sessionLogs: [], behaviorEvents: [] } },
+    });
+  });
+
+  it('完整、精简和末次精简均失败时保留旧代次字节', async () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
     const healthyBytes = storage.values[RECOVERY_SNAPSHOT_KEY];
     await idbPut(db, STORES.cards, SECOND_CARD);
-    storage.failNextSetCalls = 2;
+    storage.failNextSetCalls = 3;
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     expect(await saveRecoverySnapshot(store)).toBe(false);

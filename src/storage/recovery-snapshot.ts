@@ -24,6 +24,7 @@ import type {
 export const RECOVERY_SNAPSHOT_KEY = 'bingeup:recovery-snapshot';
 export const RECOVERY_CLEARED_AT_KEY = 'bingeup:recovery-cleared-at';
 export const RECOVERY_HEALTH_KEY = 'bingeup:recovery-health';
+export const RECOVERY_PENDING_OPERATION_KEY = 'bingeup:recovery-pending-operation';
 
 interface RecoverySnapshot {
   version: 1;
@@ -33,7 +34,14 @@ interface RecoverySnapshot {
   payload: ExportPayload;
 }
 
-type UserRecoveryOperation = 'import' | 'clear-learning-progress' | 'clear-all' | 'rebuild';
+export type UserRecoveryOperation = 'import' | 'clear-learning-progress' | 'clear-all' | 'rebuild';
+
+interface PendingRecoveryOperation {
+  version: 1;
+  id: string;
+  operation: UserRecoveryOperation | 'unknown';
+  startedAt: number;
+}
 
 interface RecoverySnapshotArchive extends Omit<RecoverySnapshot, 'version'> {
   version: 2;
@@ -73,8 +81,9 @@ interface RecoveryHealthState {
 
 interface PendingSnapshotWrite {
   database: IDBDatabase;
-  operation: 'save' | 'reset';
+  operation: 'save' | 'reset' | 'retry-pending';
   resetKind?: UserRecoveryOperation;
+  retainIsolation?: boolean;
   promise: Promise<SnapshotWriteResult>;
 }
 
@@ -108,6 +117,45 @@ function parseHealthIssue(value: unknown): StorageHealthIssue | null {
     };
   }
   if (
+    value.code === 'storage-count-decreased' &&
+    typeof value.message === 'string' &&
+    typeof value.collection === 'string' &&
+    value.collection in
+      {
+        cards: true,
+        reviewLogs: true,
+        sessionLogs: true,
+        behaviorEvents: true,
+        words: true,
+        decks: true,
+      } &&
+    typeof value.currentCount === 'number' &&
+    typeof value.healthyCount === 'number'
+  ) {
+    return {
+      code: value.code,
+      message: value.message,
+      collection: value.collection as keyof StorageCounts,
+      currentCount: value.currentCount,
+      healthyCount: value.healthyCount,
+    };
+  }
+  if (
+    value.code === 'card-identities-changed' &&
+    typeof value.message === 'string' &&
+    Array.isArray(value.missingCardIds) &&
+    value.missingCardIds.every((id) => typeof id === 'string') &&
+    Array.isArray(value.addedCardIds) &&
+    value.addedCardIds.every((id) => typeof id === 'string')
+  ) {
+    return {
+      code: value.code,
+      message: value.message,
+      missingCardIds: value.missingCardIds,
+      addedCardIds: value.addedCardIds,
+    };
+  }
+  if (
     value.code === 'orphan-review-logs' &&
     typeof value.message === 'string' &&
     typeof value.count === 'number'
@@ -131,6 +179,19 @@ function parseHealthIssue(value: unknown): StorageHealthIssue | null {
     value.errors.every((error) => typeof error === 'string')
   ) {
     return { code: value.code, message: value.message, errors: value.errors };
+  }
+  if (
+    value.code === 'pending-operation' &&
+    typeof value.message === 'string' &&
+    typeof value.operation === 'string' &&
+    typeof value.startedAt === 'number'
+  ) {
+    return {
+      code: value.code,
+      message: value.message,
+      operation: value.operation,
+      startedAt: value.startedAt,
+    };
   }
   return null;
 }
@@ -331,6 +392,17 @@ async function validateSnapshot(snapshot: RecoverySnapshot): Promise<string[]> {
   return result.ok ? [] : result.errors;
 }
 
+const snapshotValidationCache = new Map<string, string[]>();
+
+async function validateSnapshotOnce(snapshot: RecoverySnapshot): Promise<string[]> {
+  const key = `${snapshot.generation}:${snapshot.savedAt}`;
+  const cached = snapshotValidationCache.get(key);
+  if (cached !== undefined) return cached;
+  const errors = await validateSnapshot(snapshot);
+  snapshotValidationCache.set(key, errors);
+  return errors;
+}
+
 async function activateInvalidSnapshotIsolation(errors: string[]): Promise<void> {
   await activateRecoveryIsolation([
     {
@@ -342,6 +414,7 @@ async function activateInvalidSnapshotIsolation(errors: string[]): Promise<void>
 }
 
 let healthStateQueue: Promise<void> = Promise.resolve();
+let memoryIsolationActive = false;
 
 function updateRecoveryHealthState(
   update: (state: RecoveryHealthState) => RecoveryHealthState,
@@ -364,13 +437,16 @@ function updateRecoveryHealthState(
 
 async function activateRecoveryIsolation(issues: StorageHealthIssue[]): Promise<boolean> {
   if (issues.length === 0) return false;
-  return updateRecoveryHealthState((state) => ({
+  memoryIsolationActive = true;
+  const persisted = await updateRecoveryHealthState((state) => ({
     ...state,
     isolation: state.isolation ?? { detectedAt: Date.now(), issues },
   }));
+  return persisted;
 }
 
 async function recordRecoveryFailure(message: string): Promise<void> {
+  memoryIsolationActive = true;
   await updateRecoveryHealthState((state) => {
     const failedAt = Date.now();
     const issue: StorageHealthIssue = { code: 'restore-failed', message, failedAt };
@@ -383,11 +459,19 @@ async function recordRecoveryFailure(message: string): Promise<void> {
 }
 
 async function clearRecoveryHealth(): Promise<boolean> {
-  return updateRecoveryHealthState(() => ({ version: 1 }));
+  const cleared = await updateRecoveryHealthState(() => ({ version: 1 }));
+  if (cleared) memoryIsolationActive = false;
+  return cleared;
+}
+
+export async function clearStorageIsolation(): Promise<boolean> {
+  snapshotValidationCache.clear();
+  return clearRecoveryHealth();
 }
 
 /** 学习入口使用该轻量状态；需要问题明细时调用健康检查。 */
 export async function isStorageIsolationActive(): Promise<boolean> {
+  if (memoryIsolationActive) return true;
   try {
     const stored = await chrome.storage.local.get(RECOVERY_HEALTH_KEY);
     return parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]).isolation !== undefined;
@@ -395,6 +479,143 @@ export async function isStorageIsolationActive(): Promise<boolean> {
     console.error('[BingeUp] 读取存档隔离状态失败', error);
     return true;
   }
+}
+
+function storageOperationError(message: string, code: string): Error & { code: string } {
+  return Object.assign(new Error(message), { code });
+}
+
+async function readPendingRecoveryOperation(): Promise<PendingRecoveryOperation | null> {
+  try {
+    const stored = await chrome.storage.local.get(RECOVERY_PENDING_OPERATION_KEY);
+    const raw = stored[RECOVERY_PENDING_OPERATION_KEY];
+    if (raw === undefined || raw === null) return null;
+    if (
+      isRecord(raw) &&
+      raw.version === 1 &&
+      typeof raw.id === 'string' &&
+      typeof raw.startedAt === 'number' &&
+      (raw.operation === 'import' ||
+        raw.operation === 'clear-learning-progress' ||
+        raw.operation === 'clear-all' ||
+        raw.operation === 'rebuild')
+    ) {
+      return {
+        version: 1,
+        id: raw.id,
+        operation: raw.operation,
+        startedAt: raw.startedAt,
+      };
+    }
+    return { version: 1, id: 'invalid-marker', operation: 'unknown', startedAt: 0 };
+  } catch (error) {
+    console.error('[BingeUp] 读取存档操作标记失败', error);
+    return { version: 1, id: 'unreadable-marker', operation: 'unknown', startedAt: 0 };
+  }
+}
+
+async function activatePendingOperationIsolation(pending: PendingRecoveryOperation): Promise<void> {
+  await activateRecoveryIsolation([
+    {
+      code: 'pending-operation',
+      message: '检测到未完成的存档替换操作；已停止自动恢复。',
+      operation: pending.operation,
+      startedAt: pending.startedAt,
+    },
+  ]);
+}
+
+export async function getPendingRecoveryOperation(): Promise<PendingRecoveryOperation | null> {
+  return readPendingRecoveryOperation();
+}
+
+let pendingOperationLock: Promise<void> = Promise.resolve();
+
+function withPendingOperationLock<T>(operation: () => Promise<T>): Promise<T> {
+  const result = pendingOperationLock.then(operation);
+  pendingOperationLock = result.then(
+    () => undefined,
+    () => undefined,
+  );
+  return result;
+}
+
+/** 破坏数据库与快照的一致性前，必须先持久化该标记。 */
+export function beginRecoveryOperation(operation: UserRecoveryOperation): Promise<string> {
+  return withPendingOperationLock(async () => {
+    if ((await readPendingRecoveryOperation()) !== null) {
+      throw storageOperationError(
+        '已有未完成的存档操作；本次操作未执行。',
+        'STORAGE_OPERATION_IN_PROGRESS',
+      );
+    }
+    const pending: PendingRecoveryOperation = {
+      version: 1,
+      id: crypto.randomUUID(),
+      operation,
+      startedAt: Date.now(),
+    };
+    try {
+      await chrome.storage.local.set({ [RECOVERY_PENDING_OPERATION_KEY]: pending });
+      memoryIsolationActive = true;
+      return pending.id;
+    } catch (error) {
+      memoryIsolationActive = true;
+      throw storageOperationError(
+        `无法写入存档操作标记，操作未执行：${error instanceof Error ? error.message : String(error)}`,
+        'STORAGE_PENDING_WRITE_FAILED',
+      );
+    }
+  });
+}
+
+async function readPendingOperationForToken(token: string): Promise<PendingRecoveryOperation> {
+  const pending = await readPendingRecoveryOperation();
+  if (pending === null) return { version: 1, id: token, operation: 'unknown', startedAt: 0 };
+  if (pending.id !== token) {
+    throw storageOperationError(
+      `存档操作标记已被替换，拒绝清除较新的操作状态。expected=${token} actual=${pending.id}`,
+      'STORAGE_PENDING_TOKEN_MISMATCH',
+    );
+  }
+  return pending;
+}
+
+/** 明确失败且数据库确定未变时，只清除本次 pending，不解除既有隔离。 */
+export async function abandonRecoveryOperation(
+  token: string,
+  options: { clearIsolation?: boolean } = {},
+): Promise<void> {
+  await withPendingOperationLock(async () => {
+    await readPendingOperationForToken(token);
+    try {
+      await chrome.storage.local.set({
+        [RECOVERY_PENDING_OPERATION_KEY]: null,
+        ...(options.clearIsolation ? { [RECOVERY_HEALTH_KEY]: { version: 1 } } : {}),
+      });
+      if (options.clearIsolation) memoryIsolationActive = false;
+    } catch (error) {
+      memoryIsolationActive = true;
+      throw error;
+    }
+  });
+}
+
+/** 新档案已成功落盘后，同时清除 pending 和隔离。 */
+export async function completeRecoveryOperation(token: string): Promise<void> {
+  await withPendingOperationLock(async () => {
+    await readPendingOperationForToken(token);
+    try {
+      await chrome.storage.local.set({
+        [RECOVERY_PENDING_OPERATION_KEY]: null,
+        [RECOVERY_HEALTH_KEY]: { version: 1 },
+      });
+      memoryIsolationActive = false;
+    } catch (error) {
+      memoryIsolationActive = true;
+      throw error;
+    }
+  });
 }
 
 /** 快照串行写入，避免并发消息把较旧的导出结果覆盖到较新的快照上。 */
@@ -405,17 +626,26 @@ function enqueueSnapshotWrite(
   store: LocalSettingsStore,
   operation: PendingSnapshotWrite['operation'],
   resetKind?: UserRecoveryOperation,
+  retainIsolation = false,
 ): Promise<SnapshotWriteResult> {
   const tail = pendingSnapshotWrite;
   if (operation === 'save' && tail?.operation === 'save' && tail.database === store.database) {
     return tail.promise;
   }
 
-  const task = { database: store.database, operation, resetKind } as PendingSnapshotWrite;
+  const task = {
+    database: store.database,
+    operation,
+    resetKind,
+    retainIsolation,
+  } as PendingSnapshotWrite;
   task.promise = snapshotWriteQueue.then(() => {
     if (pendingSnapshotWrite === task) pendingSnapshotWrite = null;
-    return operation === 'reset'
-      ? resetRecoverySnapshotNow(store, resetKind ?? 'clear-all')
+    if (operation === 'reset') {
+      return resetRecoverySnapshotNow(store, resetKind ?? 'clear-all', retainIsolation);
+    }
+    return operation === 'retry-pending'
+      ? retryPendingRecoverySnapshotNow(store)
       : writeProtectedRecoverySnapshot(store);
   });
   pendingSnapshotWrite = task;
@@ -436,6 +666,41 @@ export function saveRecoverySnapshot(store: LocalSettingsStore): Promise<boolean
   return enqueueSnapshotWrite(store, 'save').then((result) => result.saved);
 }
 
+async function retryPendingRecoverySnapshotNow(
+  store: LocalSettingsStore,
+): Promise<SnapshotWriteResult> {
+  const pending = await getPendingRecoveryOperation();
+  if (pending === null) return writeProtectedRecoverySnapshot(store);
+  if (pending.operation === 'unknown') {
+    memoryIsolationActive = true;
+    return { saved: false, snapshot: null };
+  }
+  const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
+  const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
+  const result = await writeRecoverySnapshot(store, {
+    previous:
+      pending.operation === 'import' && archive !== null
+        ? snapshotEntityFromArchive(archive)
+        : null,
+    operation: pending.operation,
+    tombstoneKind: pending.operation === 'import' ? null : pending.operation,
+  });
+  if (result.saved) {
+    try {
+      await completeRecoveryOperation(pending.id);
+    } catch (error) {
+      console.error('[BingeUp] 清除存档恢复标记失败', error);
+      return { saved: false, snapshot: null };
+    }
+  }
+  return result;
+}
+
+/** 用户明确重试时，若有 pending，则以当前 DB 建立新档案后再解除隔离。 */
+export function retryRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+  return enqueueSnapshotWrite(store, 'retry-pending').then((result) => result.saved);
+}
+
 async function writeProtectedRecoverySnapshot(
   store: LocalSettingsStore,
 ): Promise<SnapshotWriteResult> {
@@ -445,7 +710,7 @@ async function writeProtectedRecoverySnapshot(
   const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
   const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
   if (archive?.operation === 'legacy') {
-    const errors = await validateSnapshot(snapshotEntityFromArchive(archive));
+    const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));
     if (errors.length > 0) {
       await activateInvalidSnapshotIsolation(errors);
       return { saved: false, snapshot: null };
@@ -520,7 +785,12 @@ async function writeRecoverySnapshot(
           ? {}
           : { invalidSnapshot: context.invalidSnapshot }),
       };
-      await writeSnapshotArchive(archive);
+      try {
+        await writeSnapshotArchive(archive);
+      } catch {
+        if (context.previous === null) throw new Error('精简快照写入失败');
+        await writeSnapshotArchive({ ...archive, previous: null });
+      }
     }
     return { saved: true, snapshot };
   } catch (error) {
@@ -544,10 +814,12 @@ export async function inspectRecoverySnapshot(): Promise<StorageSnapshotDiagnost
 /** 检测当前权威数据相对恢复快照的异常减少、孤立日志和恢复失败。 */
 export async function inspectStorageHealth(store: LocalSettingsStore): Promise<StorageHealth> {
   const issues: StorageHealthIssue[] = [];
+  const pendingOperation = await getPendingRecoveryOperation();
   const stored = await chrome.storage.local.get([RECOVERY_SNAPSHOT_KEY, RECOVERY_HEALTH_KEY]);
   const storedSnapshot = stored[RECOVERY_SNAPSHOT_KEY];
   const archive = parseRecoveryArchive(storedSnapshot);
   const snapshot = archive === null ? null : snapshotEntityFromArchive(archive);
+  const snapshotValidationErrors = snapshot === null ? [] : await validateSnapshotOnce(snapshot);
   const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
   const { currentCounts, cards, reviewLogs } = await readStorageHealthData(store.database);
   const snapshotCounts = snapshot === null ? undefined : countsFromPayload(snapshot.payload);
@@ -557,13 +829,53 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
       message: '恢复快照格式无效；原快照已保留。',
     });
   }
-  if (snapshotCounts !== undefined && currentCounts.cards < snapshotCounts.cards) {
+  if (snapshotValidationErrors.length > 0) {
     issues.push({
-      code: 'card-count-decreased',
-      message: '当前学习卡数量少于健康快照的学习卡数量。',
-      currentCards: currentCounts.cards,
-      healthyCards: snapshotCounts.cards,
+      code: 'snapshot-validation-failed',
+      message: '恢复快照未通过完整性校验；原快照已保留。',
+      errors: snapshotValidationErrors,
     });
+  }
+  if (pendingOperation !== null) {
+    issues.push({
+      code: 'pending-operation',
+      message: '检测到未完成的存档替换操作；已停止自动恢复。',
+      operation: pendingOperation.operation,
+      startedAt: pendingOperation.startedAt,
+    });
+  }
+  if (snapshotCounts !== undefined) {
+    for (const collection of [
+      'cards',
+      'reviewLogs',
+      'sessionLogs',
+      'behaviorEvents',
+      'words',
+      'decks',
+    ] as const) {
+      if (currentCounts[collection] >= snapshotCounts[collection]) continue;
+      issues.push({
+        code: 'storage-count-decreased',
+        message: `${collection} 当前记录数少于健康快照。`,
+        collection,
+        currentCount: currentCounts[collection],
+        healthyCount: snapshotCounts[collection],
+      });
+    }
+    if (currentCounts.cards === snapshotCounts.cards && archive !== null) {
+      const currentCardIds = new Set(cards.map((card) => card.id));
+      const healthyCardIds = new Set(archive.payload.data.cards.map((card) => card.id));
+      const missingCardIds = [...healthyCardIds].filter((id) => !currentCardIds.has(id));
+      const addedCardIds = [...currentCardIds].filter((id) => !healthyCardIds.has(id));
+      if (missingCardIds.length > 0 || addedCardIds.length > 0) {
+        issues.push({
+          code: 'card-identities-changed',
+          message: '学习卡数量相同，但卡片身份与健康快照不同。',
+          missingCardIds,
+          addedCardIds,
+        });
+      }
+    }
   }
 
   const cardIds = new Set(cards.map((card) => card.id));
@@ -616,6 +928,7 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
 async function resetRecoverySnapshotNow(
   store: LocalSettingsStore,
   operation: UserRecoveryOperation,
+  retainIsolation: boolean,
 ): Promise<SnapshotWriteResult> {
   let previous: RecoverySnapshot | null = null;
   if (operation === 'import') {
@@ -624,7 +937,7 @@ async function resetRecoverySnapshotNow(
     if (archive !== null && archive.operation !== 'legacy') {
       previous = snapshotEntityFromArchive(archive);
     } else if (archive !== null) {
-      const errors = await validateSnapshot(snapshotEntityFromArchive(archive));
+      const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));
       if (errors.length === 0) previous = snapshotEntityFromArchive(archive);
     }
   }
@@ -633,15 +946,16 @@ async function resetRecoverySnapshotNow(
     operation,
     tombstoneKind: operation === 'import' ? null : operation,
   });
-  if (result.saved) await clearRecoveryHealth();
+  if (result.saved && !retainIsolation) await clearRecoveryHealth();
   return result;
 }
 
 export async function resetRecoverySnapshot(
   store: LocalSettingsStore,
   operation: UserRecoveryOperation = 'clear-all',
+  options: { retainIsolation?: boolean } = {},
 ): Promise<boolean> {
-  return (await enqueueSnapshotWrite(store, 'reset', operation)).saved;
+  return (await enqueueSnapshotWrite(store, 'reset', operation, options.retainIsolation)).saved;
 }
 
 /**
@@ -653,6 +967,11 @@ export async function restoreRecoverySnapshotIfNeeded(
   store: LocalSettingsStore,
 ): Promise<RecoveryRestoreResult> {
   try {
+    const pending = await getPendingRecoveryOperation();
+    if (pending !== null) {
+      await activatePendingOperationIsolation(pending);
+      return { restored: false };
+    }
     const [cards, logs, sessions, events] = await Promise.all([
       idbCount(store.database, STORES.cards),
       idbCount(store.database, STORES.reviewLogs),
@@ -722,6 +1041,14 @@ export async function saveStartupRecoverySnapshot(
     const health = await inspectStorageHealth(store);
     if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
     if (health.status !== 'healthy') return { saved: false, snapshot: existing };
+    const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
+    if (archive !== null) {
+      const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));
+      if (errors.length > 0) {
+        await activateInvalidSnapshotIsolation(errors);
+        return { saved: false, snapshot: existing };
+      }
+    }
     if (snapshot !== null && snapshot.payload.data.cards.length === cardCount) {
       return { saved: false, snapshot: existing };
     }

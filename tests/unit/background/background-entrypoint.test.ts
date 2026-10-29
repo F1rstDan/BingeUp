@@ -12,7 +12,12 @@ import type {
 } from '@/types';
 import type { ExportPayload } from '@/storage/data-transfer';
 import { LocalSettingsStore } from '@/storage/local-settings';
-import { saveRecoverySnapshot } from '@/storage/recovery-snapshot';
+import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import {
+  RECOVERY_PENDING_OPERATION_KEY,
+  clearStorageIsolation,
+  saveRecoverySnapshot,
+} from '@/storage/recovery-snapshot';
 import { dictionaryFetch } from '../../helpers/dictionary-fetch';
 
 vi.mock('@/sites/custom-content-script', () => ({
@@ -36,6 +41,7 @@ describe('background 入口 — 共享持久化上下文', () => {
   let now: number;
   let values: Record<string, unknown>;
   let failSnapshotWrites: boolean;
+  let failNextSetFor: string | null;
 
   const send = <T = unknown>(message: ExtensionMessage): Promise<T> =>
     new Promise((resolve) => {
@@ -74,6 +80,7 @@ describe('background 入口 — 共享持久化上下文', () => {
   beforeEach(async () => {
     now = Date.UTC(2026, 9, 22, 12);
     failSnapshotWrites = false;
+    failNextSetFor = null;
     vi.spyOn(Date, 'now').mockImplementation(() => now);
     values = {};
     vi.stubGlobal('defineBackground', (initialize: () => void) => initialize);
@@ -94,6 +101,10 @@ describe('background 入口 — 共享持久化上下文', () => {
             return structuredClone(Object.fromEntries(list.map((key) => [key, values[key]])));
           },
           set: async (entries: Record<string, unknown>) => {
+            if (failNextSetFor !== null && failNextSetFor in entries) {
+              failNextSetFor = null;
+              throw new Error('模拟跨存储标记写入失败');
+            }
             if (failSnapshotWrites && 'bingeup:recovery-snapshot' in entries) {
               throw new Error('模拟配额不足');
             }
@@ -102,6 +113,7 @@ describe('background 入口 — 共享持久化上下文', () => {
         },
       },
     });
+    await clearStorageIsolation();
     vi.stubGlobal('fetch', vi.fn(dictionaryFetch));
     const background = await import('@/entrypoints/background');
     (background.default as unknown as () => void)();
@@ -288,6 +300,9 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(imported.__bingeupEnvelope).toBeUndefined();
     expect(imported.warnings).toContain('导入已成功，但自动存档更新失败；存档仍保持隔离。');
 
+    failSnapshotWrites = false;
+    await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toEqual({ ok: true });
+    failSnapshotWrites = true;
     const cleared = await send<{ ok: boolean; warnings: string[]; __bingeupEnvelope?: string }>({
       type: 'CLEAR_ALL_DATA',
     });
@@ -322,6 +337,29 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(health.status).toBe('isolated');
     const blocked = await send<{ __bingeupErrorCode?: string }>({ type: 'LEARNING_GET_NEXT' });
     expect(blocked.__bingeupErrorCode).toBe('STORAGE_ISOLATED');
+    const blockedWrites: ExtensionMessage[] = [
+      { type: 'SITE_DISABLE', hostname: 'youtube.com' },
+      { type: 'SET_APP_SETTINGS', settings: DEFAULT_SETTINGS },
+      { type: 'PAUSE_TEN_MINUTES' },
+      {
+        type: 'ONBOARDING_COMPLETE',
+        hostnames: ['bilibili.com'],
+        deckId: 'deck-daily-high-frequency',
+        selfRatedLevel: 'intermediate',
+      },
+    ];
+    for (const blockedWrite of blockedWrites) {
+      const response = await send<{ __bingeupErrorCode?: string }>(blockedWrite);
+      expect(response.__bingeupErrorCode).toBe('STORAGE_ISOLATED');
+    }
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      expect((await new LocalSettingsStore(db).getSite('youtube.com')).enabled).toBe(true);
+    } finally {
+      db.close();
+    }
+    await expect(send({ type: 'GET_APP_SETTINGS' })).resolves.toBeDefined();
+    await expect(send({ type: 'COOLDOWN_GET_STATUS' })).resolves.toBeDefined();
     const exported = await send<ExportPayload>({ type: 'EXPORT_DATA' });
     expect(exported.data.cards).toHaveLength(1);
     expect(
@@ -346,6 +384,7 @@ describe('background 入口 — 共享持久化上下文', () => {
     });
     expect(snapshotGeneration()).not.toBe(previousGeneration);
     expect(values['bingeup:recovery-snapshot']).toMatchObject({ tombstone: null });
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     const next = await send<{ __bingeupErrorCode?: string }>({ type: 'LEARNING_GET_NEXT' });
     expect(next.__bingeupErrorCode).toBeUndefined();
   });
@@ -364,6 +403,7 @@ describe('background 入口 — 共享持久化上下文', () => {
       tombstone: { kind: 'clear-learning-progress' },
       previous: null,
     });
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     expectSnapshotWithoutWord('w-ability');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_ACCEPT_NEW_WORD',
@@ -386,6 +426,7 @@ describe('background 入口 — 共享持久化上下文', () => {
       tombstone: { kind: 'clear-all' },
       previous: null,
     });
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     expectSnapshotWithoutWord('w-abandon');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_SELF_REPORT_KNOWN',
@@ -408,11 +449,40 @@ describe('background 入口 — 共享持久化上下文', () => {
       tombstone: { kind: 'rebuild' },
       previous: null,
     });
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     expectSnapshotWithoutWord('w-abandon');
     const accepted = await send<{ __bingeupErrorCode?: string } | undefined>({
       type: 'LEARNING_SELF_REPORT_KNOWN',
       wordId: 'w-ability',
     });
     expect(accepted?.__bingeupErrorCode).toBeUndefined();
+  });
+
+  it('pending 标记写入失败时不执行破坏性操作', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    failNextSetFor = RECOVERY_PENDING_OPERATION_KEY;
+
+    const blocked = await send<{ __bingeupErrorCode?: string }>({ type: 'CLEAR_ALL_DATA' });
+
+    expect(blocked.__bingeupErrorCode).toBe('STORAGE_PENDING_WRITE_FAILED');
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      expect(await idbGetAll<CardRecord>(db, STORES.cards)).toHaveLength(1);
+    } finally {
+      db.close();
+    }
+  });
+
+  it('并发破坏性操作只有取得 pending 的一份执行', async () => {
+    const [cleared, clearedLearning] = await Promise.all([
+      send<{ __bingeupErrorCode?: string }>({ type: 'CLEAR_ALL_DATA' }),
+      send<{ __bingeupErrorCode?: string }>({ type: 'CLEAR_LEARNING_PROGRESS' }),
+    ]);
+
+    const blocked = [cleared, clearedLearning].filter(
+      (result) => result?.__bingeupErrorCode === 'STORAGE_OPERATION_IN_PROGRESS',
+    );
+    expect(blocked).toHaveLength(1);
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
   });
 });

@@ -120,8 +120,12 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
     }
   }
 
-  async function handle(message: ExtensionMessage, _sender: chrome.runtime.MessageSender) {
-    await ensureBaselines();
+  async function handle(
+    message: ExtensionMessage,
+    _sender: chrome.runtime.MessageSender,
+    options: { skipInitialBaselines?: boolean } = {},
+  ) {
+    if (!options.skipInitialBaselines) await ensureBaselines();
     switch (message.type) {
       case 'COOLDOWN_GET_STATUS': {
         // 全局暂停期间，有效冷却截止时间取 max(cooldown, pauseUntil)，

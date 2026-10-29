@@ -2,10 +2,14 @@ import { createMessageRouter } from '@/background/message-router';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import { openDatabase, rebuildDatabase } from '@/storage/database';
 import {
+  abandonRecoveryOperation,
+  beginRecoveryOperation,
+  completeRecoveryOperation,
   inspectStorageHealth,
   isStorageIsolationActive,
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
+  retryRecoverySnapshot,
   saveRecoverySnapshot,
   saveStartupRecoverySnapshot,
 } from '@/storage/recovery-snapshot';
@@ -22,6 +26,7 @@ import {
 } from '@/storage/storage-diagnostics';
 import { syncCustomContentScripts } from '@/sites/custom-content-script';
 import type { ResultWithBackupWarning } from '@/messaging/messages';
+import type { UserRecoveryOperation } from '@/storage/recovery-snapshot';
 
 /** 这些消息成功后会改变需要备份的权威数据。 */
 const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
@@ -43,6 +48,30 @@ const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
   'ADD_CUSTOM_SITE',
   'UPDATE_SITE_MODE',
 ]);
+
+const ISOLATION_ALLOWED_NON_GET_MESSAGES = new Set<string>([
+  'COOLDOWN_GET_STATUS',
+  'EXPORT_DATA',
+  'IMPORT_DATA',
+  'CLEAR_LEARNING_PROGRESS',
+  'CLEAR_ALL_DATA',
+  'REBUILD_DATABASE',
+  'RETRY_RECOVERY_SNAPSHOT',
+]);
+
+function isAllowedDuringIsolation(type: unknown): boolean {
+  return (
+    typeof type === 'string' &&
+    (type.startsWith('GET_') || ISOLATION_ALLOWED_NON_GET_MESSAGES.has(type))
+  );
+}
+
+function storageIsolationResponse() {
+  return {
+    __bingeupError: '存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。',
+    __bingeupErrorCode: 'STORAGE_ISOLATED',
+  };
+}
 
 function withBackupWarning<T>(result: T): ResultWithBackupWarning<T> {
   return {
@@ -126,16 +155,9 @@ export default defineBackground(() => {
     (async () => {
       try {
         await customScriptsReady;
-        if (
-          typeof message?.type === 'string' &&
-          message.type.startsWith('LEARNING_') &&
-          (await isStorageIsolationActive())
-        ) {
-          sendResponse({
-            __bingeupError:
-              '存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。',
-            __bingeupErrorCode: 'STORAGE_ISOLATED',
-          });
+        const isolated = await isStorageIsolationActive();
+        if (isolated && !isAllowedDuringIsolation(message?.type)) {
+          sendResponse(storageIsolationResponse());
           return;
         }
         if (message?.type === 'GET_STORAGE_DIAGNOSTICS') {
@@ -160,7 +182,7 @@ export default defineBackground(() => {
           try {
             const db = await getDatabase();
             settingsStore ??= new LocalSettingsStore(db);
-            const saved = await saveRecoverySnapshot(settingsStore);
+            const saved = await retryRecoverySnapshot(settingsStore);
             if (!saved) void recordSnapshotSaveError('自动快照重试写入失败');
             sendResponse(
               saved ? { ok: true } : { ok: false, error: '自动备份仍未完成；学习记录未受影响。' },
@@ -183,14 +205,20 @@ export default defineBackground(() => {
           }
         }
         if (message?.type === 'REBUILD_DATABASE') {
+          const operationToken = await beginRecoveryOperation('rebuild');
           const rebuilt = await rebuildDatabase();
           dbPromise = Promise.resolve(prepareDatabase(rebuilt));
           router = null;
           settingsStore = null;
           const rebuiltStore = new LocalSettingsStore(rebuilt);
           const warnings: string[] = [];
-          if (!(await resetRecoverySnapshot(rebuiltStore, 'rebuild'))) {
+          const archiveSaved = await resetRecoverySnapshot(rebuiltStore, 'rebuild', {
+            retainIsolation: true,
+          });
+          if (!archiveSaved) {
             warnings.push('本地用户数据已重建，但自动存档清理失败；下次启动可能恢复旧数据。');
+          } else {
+            await completeRecoveryOperation(operationToken);
           }
           try {
             await rebuiltStore.resetRuntimeState();
@@ -209,35 +237,53 @@ export default defineBackground(() => {
           sendResponse({ ok: true, errors: [], warnings });
           return;
         }
+        const protectedMutation =
+          message?.type === 'IMPORT_DATA' ||
+          message?.type === 'CLEAR_LEARNING_PROGRESS' ||
+          message?.type === 'CLEAR_ALL_DATA';
+        if (protectedMutation) {
+          const recoveryOperation: UserRecoveryOperation =
+            message.type === 'IMPORT_DATA'
+              ? 'import'
+              : message.type === 'CLEAR_LEARNING_PROGRESS'
+                ? 'clear-learning-progress'
+                : 'clear-all';
+          const operationToken = await beginRecoveryOperation(recoveryOperation);
+          const db = await getDatabase();
+          settingsStore ??= new LocalSettingsStore(db);
+          router ??= createMessageRouter(settingsStore, db);
+          const result = await router.handle(message, sender, { skipInitialBaselines: true });
+          const operationResult = result as { ok?: boolean; warnings?: string[] } | undefined;
+          if (operationResult?.ok === false) {
+            await abandonRecoveryOperation(operationToken, { clearIsolation: !isolated });
+            sendResponse(result);
+            return;
+          }
+          const archiveSaved = await resetRecoverySnapshot(settingsStore, recoveryOperation, {
+            retainIsolation: true,
+          });
+          if (archiveSaved) {
+            await completeRecoveryOperation(operationToken);
+          } else if (operationResult?.warnings !== undefined) {
+            operationResult.warnings.push(
+              recoveryOperation === 'import'
+                ? '导入已成功，但自动存档更新失败；存档仍保持隔离。'
+                : '自动存档清理失败；下次启动可能恢复旧数据。',
+            );
+          }
+          sendResponse(result);
+          return;
+        }
         const db = await getDatabase();
         // 同一后台与数据库共享实例，保留提交去重、运行状态写入锁和基线初始化状态。
         settingsStore ??= new LocalSettingsStore(db);
         router ??= createMessageRouter(settingsStore, db);
-        const result = await router.handle(message, sender);
+        const result = await router.handle(message, sender, { skipInitialBaselines: isolated });
         let response: unknown = result;
         if (message?.type === 'LEARNING_SELF_REPORT_KNOWN') {
           await recordSelfReportActivity(message.wordId);
         }
-        if (message?.type === 'CLEAR_LEARNING_PROGRESS') {
-          await resetRecoverySnapshot(settingsStore, 'clear-learning-progress');
-        } else if (message?.type === 'CLEAR_ALL_DATA') {
-          const clearResult = result as { ok?: boolean; warnings?: string[] } | undefined;
-          if (clearResult?.ok !== false) {
-            if (
-              !(await resetRecoverySnapshot(settingsStore, 'clear-all')) &&
-              clearResult?.warnings
-            ) {
-              clearResult.warnings.push('自动存档清理失败；下次启动可能恢复旧数据。');
-            }
-          }
-        } else if (message?.type === 'IMPORT_DATA') {
-          const importResult = result as { ok?: boolean; warnings?: string[] } | undefined;
-          if (importResult?.ok !== false) {
-            if (!(await resetRecoverySnapshot(settingsStore, 'import')) && importResult?.warnings) {
-              importResult.warnings.push('导入已成功，但自动存档更新失败；存档仍保持隔离。');
-            }
-          }
-        } else if (typeof message?.type === 'string' && SNAPSHOT_MESSAGE_TYPES.has(message.type)) {
+        if (typeof message?.type === 'string' && SNAPSHOT_MESSAGE_TYPES.has(message.type)) {
           if (!(await saveRecoverySnapshot(settingsStore))) {
             void recordSnapshotSaveError('自动快照写入失败');
             response = withBackupWarning(result);

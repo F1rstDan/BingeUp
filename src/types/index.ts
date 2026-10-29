@@ -685,8 +685,27 @@ export type StorageHealthIssue =
       currentCards: number;
       healthyCards: number;
     }
+  | {
+      code: 'storage-count-decreased';
+      message: string;
+      collection: keyof StorageCounts;
+      currentCount: number;
+      healthyCount: number;
+    }
+  | {
+      code: 'card-identities-changed';
+      message: string;
+      missingCardIds: string[];
+      addedCardIds: string[];
+    }
   | { code: 'orphan-review-logs'; message: string; count: number }
   | { code: 'restore-failed'; message: string; failedAt: number }
+  | {
+      code: 'pending-operation';
+      message: string;
+      operation: string;
+      startedAt: number;
+    }
   | { code: 'snapshot-invalid'; message: string }
   | { code: 'snapshot-validation-failed'; message: string; errors: string[] };
 
