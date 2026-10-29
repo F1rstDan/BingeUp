@@ -300,8 +300,15 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(imported.__bingeupEnvelope).toBeUndefined();
     expect(imported.warnings).toContain('导入已成功，但自动存档更新失败；存档仍保持隔离。');
 
+    await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toMatchObject({
+      ok: false,
+    });
+    expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('isolated');
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toMatchObject({ operation: 'import' });
+
     failSnapshotWrites = false;
     await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toEqual({ ok: true });
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     failSnapshotWrites = true;
     const cleared = await send<{ ok: boolean; warnings: string[]; __bingeupEnvelope?: string }>({
       type: 'CLEAR_ALL_DATA',

@@ -641,7 +641,8 @@ describe('本地自动恢复快照', () => {
       beginRecoveryOperation('import'),
     ]);
     const fulfilled = [first, second].filter(
-      (result): result is PromiseFulfilledResult<string> => result.status === 'fulfilled',
+      (result): result is PromiseFulfilledResult<{ token: string; replacedPending: boolean }> =>
+        result.status === 'fulfilled',
     );
     const rejected = [first, second].filter(
       (result): result is PromiseRejectedResult => result.status === 'rejected',
@@ -650,7 +651,7 @@ describe('本地自动恢复快照', () => {
     expect(fulfilled).toHaveLength(1);
     expect(rejected).toHaveLength(1);
     expect(rejected[0]?.reason).toMatchObject({ code: 'STORAGE_OPERATION_IN_PROGRESS' });
-    await completeRecoveryOperation(fulfilled[0]!.value);
+    await completeRecoveryOperation(fulfilled[0]!.value.token);
   });
 
   it('部分丢失时隔离，保留当前数据库与健康快照并停止自动覆盖', async () => {

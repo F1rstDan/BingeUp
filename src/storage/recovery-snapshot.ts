@@ -415,6 +415,7 @@ async function activateInvalidSnapshotIsolation(errors: string[]): Promise<void>
 
 let healthStateQueue: Promise<void> = Promise.resolve();
 let memoryIsolationActive = false;
+let activeRecoveryOperation: { id: string; operation: UserRecoveryOperation } | null = null;
 
 function updateRecoveryHealthState(
   update: (state: RecoveryHealthState) => RecoveryHealthState,
@@ -466,15 +467,33 @@ async function clearRecoveryHealth(): Promise<boolean> {
 
 export async function clearStorageIsolation(): Promise<boolean> {
   snapshotValidationCache.clear();
-  return clearRecoveryHealth();
+  activeRecoveryOperation = null;
+  try {
+    await chrome.storage.local.set({
+      [RECOVERY_HEALTH_KEY]: { version: 1 },
+      [RECOVERY_PENDING_OPERATION_KEY]: null,
+    });
+    memoryIsolationActive = false;
+    return true;
+  } catch (error) {
+    console.error('[BingeUp] 清除存档隔离状态失败', error);
+    return false;
+  }
 }
 
 /** 学习入口使用该轻量状态；需要问题明细时调用健康检查。 */
 export async function isStorageIsolationActive(): Promise<boolean> {
   if (memoryIsolationActive) return true;
   try {
-    const stored = await chrome.storage.local.get(RECOVERY_HEALTH_KEY);
-    return parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]).isolation !== undefined;
+    const stored = await chrome.storage.local.get([
+      RECOVERY_HEALTH_KEY,
+      RECOVERY_PENDING_OPERATION_KEY,
+    ]);
+    return (
+      parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]).isolation !== undefined ||
+      (stored[RECOVERY_PENDING_OPERATION_KEY] !== undefined &&
+        stored[RECOVERY_PENDING_OPERATION_KEY] !== null)
+    );
   } catch (error) {
     console.error('[BingeUp] 读取存档隔离状态失败', error);
     return true;
@@ -541,13 +560,19 @@ function withPendingOperationLock<T>(operation: () => Promise<T>): Promise<T> {
 }
 
 /** 破坏数据库与快照的一致性前，必须先持久化该标记。 */
-export function beginRecoveryOperation(operation: UserRecoveryOperation): Promise<string> {
+export function beginRecoveryOperation(
+  operation: UserRecoveryOperation,
+): Promise<{ token: string; replacedPending: boolean }> {
   return withPendingOperationLock(async () => {
-    if ((await readPendingRecoveryOperation()) !== null) {
+    if (activeRecoveryOperation !== null) {
       throw storageOperationError(
         '已有未完成的存档操作；本次操作未执行。',
         'STORAGE_OPERATION_IN_PROGRESS',
       );
+    }
+    const previousPending = await readPendingRecoveryOperation();
+    if (previousPending !== null) {
+      console.warn('[BingeUp] 替换未完成的存档操作标记', previousPending.operation);
     }
     const pending: PendingRecoveryOperation = {
       version: 1,
@@ -558,7 +583,8 @@ export function beginRecoveryOperation(operation: UserRecoveryOperation): Promis
     try {
       await chrome.storage.local.set({ [RECOVERY_PENDING_OPERATION_KEY]: pending });
       memoryIsolationActive = true;
-      return pending.id;
+      activeRecoveryOperation = { id: pending.id, operation };
+      return { token: pending.id, replacedPending: previousPending !== null };
     } catch (error) {
       memoryIsolationActive = true;
       throw storageOperationError(
@@ -581,6 +607,13 @@ async function readPendingOperationForToken(token: string): Promise<PendingRecov
   return pending;
 }
 
+/** 数据库或快照步骤失败时结束本 SW 的 active，但保留磁盘 pending 和隔离。 */
+export async function suspendRecoveryOperation(token: string): Promise<void> {
+  await withPendingOperationLock(async () => {
+    if (activeRecoveryOperation?.id === token) activeRecoveryOperation = null;
+  });
+}
+
 /** 明确失败且数据库确定未变时，只清除本次 pending，不解除既有隔离。 */
 export async function abandonRecoveryOperation(
   token: string,
@@ -594,6 +627,7 @@ export async function abandonRecoveryOperation(
         ...(options.clearIsolation ? { [RECOVERY_HEALTH_KEY]: { version: 1 } } : {}),
       });
       if (options.clearIsolation) memoryIsolationActive = false;
+      if (activeRecoveryOperation?.id === token) activeRecoveryOperation = null;
     } catch (error) {
       memoryIsolationActive = true;
       throw error;
@@ -611,6 +645,7 @@ export async function completeRecoveryOperation(token: string): Promise<void> {
         [RECOVERY_HEALTH_KEY]: { version: 1 },
       });
       memoryIsolationActive = false;
+      if (activeRecoveryOperation?.id === token) activeRecoveryOperation = null;
     } catch (error) {
       memoryIsolationActive = true;
       throw error;
@@ -671,6 +706,7 @@ async function retryPendingRecoverySnapshotNow(
 ): Promise<SnapshotWriteResult> {
   const pending = await getPendingRecoveryOperation();
   if (pending === null) return writeProtectedRecoverySnapshot(store);
+  if (activeRecoveryOperation !== null) return { saved: false, snapshot: null };
   if (pending.operation === 'unknown') {
     memoryIsolationActive = true;
     return { saved: false, snapshot: null };
@@ -902,7 +938,7 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
 
   return {
     status:
-      healthState.isolation === undefined
+      healthState.isolation === undefined && pendingOperation === null
         ? issues.length === 0
           ? 'healthy'
           : 'attention'

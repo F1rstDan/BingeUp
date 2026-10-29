@@ -12,6 +12,7 @@ import {
   retryRecoverySnapshot,
   saveRecoverySnapshot,
   saveStartupRecoverySnapshot,
+  suspendRecoveryOperation,
 } from '@/storage/recovery-snapshot';
 import {
   getStorageDiagnostics,
@@ -206,36 +207,42 @@ export default defineBackground(() => {
           }
         }
         if (message?.type === 'REBUILD_DATABASE') {
-          const operationToken = await beginRecoveryOperation('rebuild');
-          const rebuilt = await rebuildDatabase();
-          dbPromise = Promise.resolve(prepareDatabase(rebuilt));
-          router = null;
-          settingsStore = null;
-          const rebuiltStore = new LocalSettingsStore(rebuilt);
-          const warnings: string[] = [];
-          const archiveSaved = await resetRecoverySnapshot(rebuiltStore, 'rebuild', {
-            retainIsolation: true,
-          });
-          if (!archiveSaved) {
-            warnings.push('本地用户数据已重建，但自动存档清理失败；下次启动可能恢复旧数据。');
-          } else {
-            await completeRecoveryOperation(operationToken);
-          }
+          const started = await beginRecoveryOperation('rebuild');
           try {
-            await rebuiltStore.resetRuntimeState();
+            const rebuilt = await rebuildDatabase();
+            dbPromise = Promise.resolve(prepareDatabase(rebuilt));
+            router = null;
+            settingsStore = null;
+            const rebuiltStore = new LocalSettingsStore(rebuilt);
+            const warnings: string[] = [];
+            const archiveSaved = await resetRecoverySnapshot(rebuiltStore, 'rebuild', {
+              retainIsolation: true,
+            });
+            if (!archiveSaved) {
+              warnings.push('本地用户数据已重建，但自动存档清理失败；下次启动可能恢复旧数据。');
+              await suspendRecoveryOperation(started.token);
+            } else {
+              await completeRecoveryOperation(started.token);
+            }
+            try {
+              await rebuiltStore.resetRuntimeState();
+            } catch (error) {
+              warnings.push(
+                `本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`,
+              );
+            }
+            try {
+              await syncCustomContentScripts(await rebuiltStore.listSites());
+            } catch (error) {
+              warnings.push(
+                `本地用户数据已重建，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`,
+              );
+            }
+            sendResponse({ ok: true, errors: [], warnings });
           } catch (error) {
-            warnings.push(
-              `本地用户数据已重建，但临时运行状态重置失败：${error instanceof Error ? error.message : String(error)}`,
-            );
+            await suspendRecoveryOperation(started.token);
+            throw error;
           }
-          try {
-            await syncCustomContentScripts(await rebuiltStore.listSites());
-          } catch (error) {
-            warnings.push(
-              `本地用户数据已重建，但内容脚本同步失败；浏览器下次启动时将重试：${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-          sendResponse({ ok: true, errors: [], warnings });
           return;
         }
         const protectedMutation =
@@ -249,30 +256,41 @@ export default defineBackground(() => {
               : message.type === 'CLEAR_LEARNING_PROGRESS'
                 ? 'clear-learning-progress'
                 : 'clear-all';
-          const operationToken = await beginRecoveryOperation(recoveryOperation);
-          const db = await getDatabase();
-          settingsStore ??= new LocalSettingsStore(db);
-          router ??= createMessageRouter(settingsStore, db);
-          const result = await router.handle(message, sender, { skipInitialBaselines: true });
-          const operationResult = result as { ok?: boolean; warnings?: string[] } | undefined;
-          if (operationResult?.ok === false) {
-            await abandonRecoveryOperation(operationToken, { clearIsolation: !isolated });
+          const started = await beginRecoveryOperation(recoveryOperation);
+          try {
+            const db = await getDatabase();
+            settingsStore ??= new LocalSettingsStore(db);
+            router ??= createMessageRouter(settingsStore, db);
+            const result = await router.handle(message, sender, { skipInitialBaselines: true });
+            const operationResult = result as { ok?: boolean; warnings?: string[] } | undefined;
+            if (started.replacedPending && operationResult?.warnings !== undefined) {
+              operationResult.warnings.push('已替换未完成的旧存档操作标记。');
+            }
+            if (operationResult?.ok === false) {
+              await abandonRecoveryOperation(started.token, { clearIsolation: !isolated });
+              sendResponse(result);
+              return;
+            }
+            const archiveSaved = await resetRecoverySnapshot(settingsStore, recoveryOperation, {
+              retainIsolation: true,
+            });
+            if (archiveSaved) {
+              await completeRecoveryOperation(started.token);
+            } else {
+              await suspendRecoveryOperation(started.token);
+              if (operationResult?.warnings !== undefined) {
+                operationResult.warnings.push(
+                  recoveryOperation === 'import'
+                    ? '导入已成功，但自动存档更新失败；存档仍保持隔离。'
+                    : '自动存档清理失败；下次启动可能恢复旧数据。',
+                );
+              }
+            }
             sendResponse(result);
-            return;
+          } catch (error) {
+            await suspendRecoveryOperation(started.token);
+            throw error;
           }
-          const archiveSaved = await resetRecoverySnapshot(settingsStore, recoveryOperation, {
-            retainIsolation: true,
-          });
-          if (archiveSaved) {
-            await completeRecoveryOperation(operationToken);
-          } else if (operationResult?.warnings !== undefined) {
-            operationResult.warnings.push(
-              recoveryOperation === 'import'
-                ? '导入已成功，但自动存档更新失败；存档仍保持隔离。'
-                : '自动存档清理失败；下次启动可能恢复旧数据。',
-            );
-          }
-          sendResponse(result);
           return;
         }
         const db = await getDatabase();
