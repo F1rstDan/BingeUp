@@ -359,6 +359,7 @@ describe('background 入口 — 共享持久化上下文', () => {
       db.close();
     }
     await expect(send({ type: 'GET_APP_SETTINGS' })).resolves.toBeDefined();
+    await expect(send({ type: 'LIST_SITES' })).resolves.toEqual({ sites: [] });
     await expect(send({ type: 'COOLDOWN_GET_STATUS' })).resolves.toBeDefined();
     const exported = await send<ExportPayload>({ type: 'EXPORT_DATA' });
     expect(exported.data.cards).toHaveLength(1);
