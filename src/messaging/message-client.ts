@@ -13,19 +13,25 @@ import type {
 } from '@/types';
 import type {
   CooldownStatusResponse,
+  BackupWarning,
   ExportDataResponse,
   ExtensionMessage,
   ImportDataResponse,
   OnboardingStatusResponse,
   PauseResponse,
   PopupDataResponse,
+  ResultWithBackupWarning,
   RemoveSiteResponse,
+  RetryRecoverySnapshotResponse,
   SiteListResponse,
   SiteStateResponse,
   StorageDiagnosticsResponse,
 } from '@/messaging/messages';
 import type { DataOperationResult } from '@/storage/data-transfer';
 import { ContentUnavailableError } from '@/learning/planned-questions';
+import { PersistenceNotice } from '@/content/persistence-notice';
+
+const backupWarningNotice = new PersistenceNotice();
 
 /**
  * Content / Popup → Background 消息客户端。封装 chrome.runtime.sendMessage，
@@ -173,7 +179,6 @@ export const messageClient = {
   async getStorageDiagnostics(): Promise<StorageDiagnosticsResponse> {
     return send({ type: 'GET_STORAGE_DIAGNOSTICS' });
   },
-
   // ─── Issue #11：自定义网站兼容模式 ─────────────────────
   async addCustomSite(hostname: string): Promise<SiteStateResponse> {
     return send({ type: 'ADD_CUSTOM_SITE', hostname });
@@ -183,7 +188,15 @@ export const messageClient = {
   },
 };
 
-async function send<T>(message: ExtensionMessage): Promise<T> {
+/** 专用备份重试入口；不经过学习服务，也不会重提答题。 */
+export async function retryRecoverySnapshot(): Promise<void> {
+  const result = await send<RetryRecoverySnapshotResponse>({
+    type: 'RETRY_RECOVERY_SNAPSHOT',
+  });
+  if (!result.ok) throw new Error(result.error);
+}
+
+async function sendRaw(message: ExtensionMessage): Promise<unknown> {
   const response = await chrome.runtime.sendMessage(message);
   if (
     typeof response === 'object' &&
@@ -196,5 +209,41 @@ async function send<T>(message: ExtensionMessage): Promise<T> {
     }
     throw new Error(response.__bingeupError);
   }
-  return response as T;
+  return response;
+}
+
+async function send<T>(message: ExtensionMessage): Promise<T> {
+  const decoded = decodeBackgroundResult<T>(await sendRaw(message));
+  if (decoded.backupWarning) showBackupWarning(decoded.backupWarning);
+  return decoded.result;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isBackupWarning(value: unknown): value is { message: string } {
+  return isRecord(value) && typeof value.message === 'string';
+}
+
+function decodeBackgroundResult<T>(response: unknown): {
+  result: T;
+  backupWarning?: BackupWarning;
+} {
+  if (isRecord(response) && response.__bingeupEnvelope === 'result-with-backup-warning') {
+    const envelope = response as unknown as ResultWithBackupWarning<unknown>;
+    if (!('result' in envelope) || !isBackupWarning(envelope.backupWarning)) {
+      throw new Error('后台响应格式无效');
+    }
+    return { result: envelope.result as T, backupWarning: envelope.backupWarning };
+  }
+  return { result: response as T };
+}
+
+function showBackupWarning(warning: BackupWarning): void {
+  backupWarningNotice.showBackupWarning({
+    detail: warning.message || undefined,
+    retry: retryRecoverySnapshot,
+    dismiss: () => backupWarningNotice.close(),
+  });
 }

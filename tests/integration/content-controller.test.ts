@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { ContentController } from '@/content/content-controller';
 import { ContentUnavailableError } from '@/learning/planned-questions';
 import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
+import type { PersistenceNoticePort } from '@/content/persistence-notice';
 import { applyComplete, applySkip, type CooldownConfig } from '@/cooldown/cooldown-rules';
 import { TimedLearningAdapter, type VisibilityPort } from '@/adapters/timed-learning';
 import type { VideoSiteAdapter } from '@/adapters/types';
@@ -296,6 +297,7 @@ function makeController(
     playbackRecoveryNotice?: { show(): Promise<void> };
     stopSpeech?: () => void;
     contentUnavailableNotice?: { show(): void };
+    persistenceNotice?: PersistenceNoticePort;
   } = {},
 ) {
   const adapter = fakeAdapter();
@@ -310,6 +312,11 @@ function makeController(
   const learningFeedbackNotice = {
     show: vi.fn<LearningFeedbackNoticePort['show']>(),
     close: vi.fn(),
+  };
+  const persistenceNotice = opts.persistenceNotice ?? {
+    showSaveUnconfirmed: vi.fn<PersistenceNoticePort['showSaveUnconfirmed']>(),
+    showBackupWarning: vi.fn<PersistenceNoticePort['showBackupWarning']>(),
+    close: vi.fn<PersistenceNoticePort['close']>(),
   };
   const pauseState = {
     async isGloballyPaused() {
@@ -329,6 +336,7 @@ function makeController(
     pauseState,
     playbackRecoveryNotice: opts.playbackRecoveryNotice,
     learningFeedbackNotice,
+    persistenceNotice,
     stopSpeech: opts.stopSpeech,
     contentUnavailableNotice: opts.contentUnavailableNotice,
   };
@@ -346,6 +354,7 @@ function makeController(
     learningService,
     sessionLogger,
     learningFeedbackNotice,
+    persistenceNotice,
   };
 }
 
@@ -397,6 +406,11 @@ function makeContinuousController(
     show: vi.fn<LearningFeedbackNoticePort['show']>(),
     close: vi.fn(),
   };
+  const persistenceNotice = {
+    showSaveUnconfirmed: vi.fn<PersistenceNoticePort['showSaveUnconfirmed']>(),
+    showBackupWarning: vi.fn<PersistenceNoticePort['showBackupWarning']>(),
+    close: vi.fn<PersistenceNoticePort['close']>(),
+  };
 
   const controller = new ContentController({
     adapter,
@@ -413,6 +427,7 @@ function makeContinuousController(
     learningService,
     sessionLogger,
     learningFeedbackNotice,
+    persistenceNotice,
   });
   controller.start();
 
@@ -427,6 +442,7 @@ function makeContinuousController(
     learningService,
     sessionLogger,
     learningFeedbackNotice,
+    persistenceNotice,
   };
 }
 
@@ -648,7 +664,7 @@ describe('ContentController — 核心闭环编排', () => {
       ]);
     });
 
-    it('保存失败时返回视频，不显示已答题反馈或写入完成日志', async () => {
+    it('保存失败时返回视频并显示持久重试提示，不伪造成功或写入完成日志', async () => {
       const {
         adapter,
         overlay,
@@ -657,6 +673,7 @@ describe('ContentController — 核心闭环编排', () => {
         learningFeedbackNotice,
         sessionLogger,
         cooldownStore,
+        persistenceNotice,
       } = makeController({ withSessionLogger: true });
       vi.spyOn(learningService, 'submitAnswer').mockRejectedValue(new Error('保存失败'));
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -675,6 +692,205 @@ describe('ContentController — 核心闭环编排', () => {
         expect(learningFeedbackNotice.show).not.toHaveBeenCalled();
         expect(sessionLogger?.logs).toHaveLength(0);
         expect(cooldownStore.recordCalls).toBe(0);
+        expect(persistenceNotice.showSaveUnconfirmed).toHaveBeenCalledWith({
+          retry: expect.any(Function),
+          dismiss: expect.any(Function),
+        });
+        expect(errorSpy).toHaveBeenCalledWith('[BingeUp] 学习记录保存未获确认', expect.any(Error));
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it('保存重试复用原动作，重复调用只提交一次并在成功后继续反馈', async () => {
+      const harness = makeController({ withSessionLogger: true });
+      const {
+        adapter,
+        overlay,
+        learningService,
+        learningFeedbackNotice,
+        persistenceNotice,
+        sessionLogger,
+        cooldownStore,
+      } = harness;
+      const saved = await learningService.submitAnswer();
+      const submit = vi
+        .spyOn(learningService, 'submitAnswer')
+        .mockRejectedValueOnce(new Error('首次保存失败'))
+        .mockResolvedValueOnce(saved);
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const action: OverlayAction = {
+        type: 'submit-answer',
+        question: LEARNING_ITEM.question,
+        selectedIndex: 0,
+        responseTimeMs: 1000,
+      };
+
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction(action);
+        await flush();
+        const options = vi.mocked(persistenceNotice.showSaveUnconfirmed).mock.lastCall?.[0];
+        expect(options).toBeDefined();
+
+        await Promise.all([options!.retry(), options!.retry()]);
+        await flush();
+
+        expect(submit).toHaveBeenCalledTimes(2);
+        expect(submit).toHaveBeenNthCalledWith(
+          2,
+          expect.objectContaining({
+            question: LEARNING_ITEM.question,
+            selectedIndex: action.selectedIndex,
+            responseTimeMs: action.responseTimeMs,
+            source: 'natural',
+          }),
+        );
+        expect(persistenceNotice.close).toHaveBeenCalled();
+        expect(learningFeedbackNotice.show).toHaveBeenCalledWith(saved, {
+          onContinue: expect.any(Function),
+          onTooEasy: expect.any(Function),
+          onTooHard: expect.any(Function),
+        });
+        expect(sessionLogger?.logs).toHaveLength(1);
+        expect(cooldownStore.recordCalls).toBe(1);
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it('关闭旧保存提示后，迟到的旧重试不会覆盖新交互', async () => {
+      const { adapter, overlay, learningService, persistenceNotice } = makeController();
+      const submit = vi
+        .spyOn(learningService, 'submitAnswer')
+        .mockRejectedValueOnce(new Error('保存失败'));
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction({
+          type: 'submit-answer',
+          question: LEARNING_ITEM.question,
+          selectedIndex: 0,
+          responseTimeMs: 1000,
+        });
+        await flush();
+        const showSaveUnconfirmed = vi.mocked(persistenceNotice.showSaveUnconfirmed);
+        const oldRetry = showSaveUnconfirmed.mock.lastCall?.[0].retry;
+        const oldDismiss = showSaveUnconfirmed.mock.lastCall?.[0].dismiss;
+
+        oldDismiss!();
+        await flush();
+        adapter.emit('bv-2', {});
+        await flush();
+        expect(overlay.openCalls).toBe(2);
+
+        await oldRetry!();
+        await flush();
+        expect(submit).toHaveBeenCalledTimes(1);
+        expect(overlay.openCalls).toBe(2);
+        expect(overlay.closeCalls).toBe(1);
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it('保存成功后的取下一题失败不误标为保存失败', async () => {
+      const { adapter, overlay, learningService, persistenceNotice } = makeContinuousController({
+        items: [LEARNING_ITEM],
+      });
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        learningService.getNextItem = async () => {
+          throw new Error('下一题读取失败');
+        };
+        overlay.fireAction({
+          type: 'submit-and-continue',
+          question: LEARNING_ITEM.question,
+          selectedIndex: 0,
+          responseTimeMs: 1000,
+        });
+        await flush();
+
+        expect(persistenceNotice.showSaveUnconfirmed).not.toHaveBeenCalled();
+        expect(errorSpy).toHaveBeenCalledWith(
+          '[BingeUp] 学习交互失败，正在返回视频',
+          expect.any(Error),
+        );
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it.each([
+      ['accept-new-word', 'accept'],
+      ['accept-new-word-and-continue', 'accept'],
+      ['self-report', 'self-report'],
+      ['self-report-and-continue', 'self-report'],
+    ] as const)('%s 保存失败后从原动作手动重试一次', async (type, saveKind) => {
+      const harness = makeController({ withSessionLogger: true });
+      const { adapter, overlay, learningService, persistenceNotice } = harness;
+      learningService.items = [LEARNING_ITEM, SPELLING_ITEM];
+      learningService.itemIndex = 0;
+      const save =
+        saveKind === 'accept'
+          ? vi
+              .spyOn(learningService, 'acceptNewWord')
+              .mockRejectedValueOnce(new Error('创建失败'))
+              .mockResolvedValueOnce(undefined)
+          : vi
+              .spyOn(learningService, 'selfReportKnown')
+              .mockRejectedValueOnce(new Error('创建失败'))
+              .mockResolvedValueOnce(undefined);
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction({ type, wordId: 'w-1' } as OverlayAction);
+        await flush();
+        const options = vi.mocked(persistenceNotice.showSaveUnconfirmed).mock.lastCall?.[0];
+        expect(options).toBeDefined();
+
+        await Promise.all([options!.retry(), options!.retry()]);
+        await flush();
+
+        expect(save).toHaveBeenCalledTimes(2);
+        expect(save).toHaveBeenNthCalledWith(2, 'w-1');
+        expect(persistenceNotice.close).toHaveBeenCalled();
+        expect(persistenceNotice.showSaveUnconfirmed).toHaveBeenCalledTimes(1);
+      } finally {
+        errorSpy.mockRestore();
+      }
+    });
+
+    it('自报认识保存成功后取下一词失败，不重标为创建卡失败', async () => {
+      const { adapter, overlay, learningService, persistenceNotice } = makeController();
+      const nextItem = vi
+        .spyOn(learningService, 'getNextItem')
+        .mockResolvedValueOnce(LEARNING_ITEM)
+        .mockRejectedValueOnce(new Error('下一词读取失败'));
+      const selfReport = vi.spyOn(learningService, 'selfReportKnown');
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      try {
+        adapter.emit('bv-1', {});
+        await flush();
+        overlay.fireAction({ type: 'self-report', wordId: 'w-1' });
+        await flush();
+
+        expect(selfReport).toHaveBeenCalledTimes(1);
+        expect(nextItem).toHaveBeenCalledTimes(2);
+        expect(persistenceNotice.showSaveUnconfirmed).not.toHaveBeenCalled();
+        expect(errorSpy).toHaveBeenCalledWith(
+          '[BingeUp] 学习交互失败，正在返回视频',
+          expect.any(Error),
+        );
       } finally {
         errorSpy.mockRestore();
       }
@@ -1810,9 +2026,9 @@ describe('ContentController — 故障恢复（Issue #13）', () => {
     expect(notice.show).toHaveBeenCalledTimes(1);
   });
 
-  it('提交失败时关闭遮罩并恢复原本播放的视频', async () => {
+  it('保存失败时关闭遮罩、恢复视频并保留可重试提示', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    const { adapter, overlay, playback, learningService } = makeController();
+    const { adapter, overlay, playback, learningService, persistenceNotice } = makeController();
     learningService.submitAnswer = async () => {
       throw new Error('模拟存储失败');
     };
@@ -1830,10 +2046,8 @@ describe('ContentController — 故障恢复（Issue #13）', () => {
     expect(overlay.closeCalls).toBe(1);
     expect(playback.playCalls).toBe(1);
     // 断言故障日志，避免未断言的错误日志噪声
-    expect(errorSpy).toHaveBeenCalledWith(
-      '[BingeUp] 学习交互失败，正在返回视频',
-      expect.any(Error),
-    );
+    expect(errorSpy).toHaveBeenCalledWith('[BingeUp] 学习记录保存未获确认', expect.any(Error));
+    expect(persistenceNotice.showSaveUnconfirmed).toHaveBeenCalledTimes(1);
     errorSpy.mockRestore();
   });
 });

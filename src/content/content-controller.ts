@@ -18,6 +18,7 @@ import { pauseForInteraction, restore, type VideoPlaybackPort } from '@/video/pl
 import type { StartLearningResponse } from '@/messaging/messages';
 import type { DevCardType, PrepareDevCardResult, DevShowCardResult } from '@/dev-tools/messages';
 import type { LearningFeedbackNoticePort } from '@/content/learning-feedback-notice';
+import type { PersistenceNoticePort } from '@/content/persistence-notice';
 import { ContentUnavailableError } from '@/learning/planned-questions';
 
 /** 站点适配器端口：内容控制器只通过它接收视频变化事件。 */
@@ -122,6 +123,8 @@ export interface ContentControllerDeps {
   playbackRecoveryNotice?: { show(): Promise<void> };
   /** 已保存答案的独立反馈；不重复提交答案或改变视频恢复结果。 */
   learningFeedbackNotice?: LearningFeedbackNoticePort;
+  /** 保存未确认与自动备份未完成提示；两者均需用户手动处理。 */
+  persistenceNotice?: PersistenceNoticePort;
   /** 恢复视频前停止本插件持有的系统朗读。 */
   stopSpeech?: () => void;
   /** 内容包无法为到期卡出题时的明确提示。 */
@@ -155,6 +158,61 @@ interface ActiveInteraction {
   allowEarlyShortTermReview: boolean;
   /** 正式交互或开发交互；开发交互不产生冷却、首次触发和会话副作用。 */
   effects: 'standard' | 'dev';
+  /** 保存失败后已解除题卡并恢复播放，等待用户在持久提示中处理。 */
+  detachedForSaveRetry?: boolean;
+}
+
+type SubmissionAction = Extract<
+  OverlayAction,
+  {
+    type:
+      | 'submit-answer'
+      | 'submit-spelling'
+      | 'submit-and-continue'
+      | 'submit-spelling-and-continue'
+      | 'submit-and-end'
+      | 'submit-spelling-and-end';
+  }
+>;
+
+type SaveAction = Extract<
+  OverlayAction,
+  {
+    type:
+      | SubmissionAction['type']
+      | 'accept-new-word'
+      | 'accept-new-word-and-continue'
+      | 'self-report'
+      | 'self-report-and-continue';
+  }
+>;
+
+function isSubmissionAction(action: SaveAction): action is SubmissionAction {
+  return action.type.startsWith('submit-');
+}
+
+function isSaveAction(action: OverlayAction): action is SaveAction {
+  switch (action.type) {
+    case 'submit-answer':
+    case 'submit-spelling':
+    case 'submit-and-continue':
+    case 'submit-spelling-and-continue':
+    case 'submit-and-end':
+    case 'submit-spelling-and-end':
+    case 'accept-new-word':
+    case 'accept-new-word-and-continue':
+    case 'self-report':
+    case 'self-report-and-continue':
+      return true;
+    default:
+      return false;
+  }
+}
+
+interface PendingSaveFailure {
+  token: string;
+  action: SaveAction;
+  active: ActiveInteraction;
 }
 
 /** Reassert the pause invariant without replacing the original playback snapshot. */
@@ -182,7 +240,9 @@ export class ContentController {
   private pendingVideoChange: VideoChangeEvent | null = null;
   private triggerInProgress = false;
   private actionInProgress = false;
+  private saveRetryInProgress = false;
   private unsubscribe: (() => void) | null = null;
+  private pendingSaveFailure: PendingSaveFailure | null = null;
 
   /** 已出题或暂不可再次展示的单词 ID，避免同一轮重复出题。 */
   private readonly sessionWordIds = new Set<string>();
@@ -217,6 +277,7 @@ export class ContentController {
     this.unsubscribe?.();
     this.unsubscribe = null;
     this.deps.learningFeedbackNotice?.close();
+    this.deps.persistenceNotice?.close();
   }
 
   /**
@@ -468,99 +529,20 @@ export class ContentController {
       return;
     }
 
-    const choiceSubmission =
-      action.type === 'submit-answer' ||
-      action.type === 'submit-and-continue' ||
-      action.type === 'submit-and-end';
-    const spellingSubmission =
-      action.type === 'submit-spelling' ||
-      action.type === 'submit-spelling-and-continue' ||
-      action.type === 'submit-spelling-and-end';
-    if (choiceSubmission || spellingSubmission) {
-      // 保存完成后才显示结果；所有提交路径共用同一计数和播放恢复逻辑。
-      const result = choiceSubmission
-        ? await this.deps.learningService.submitAnswer({
-            question: action.question,
-            selectedIndex: action.selectedIndex,
-            responseTimeMs: action.responseTimeMs,
-            answerChanges: action.answerChanges,
-            source: active.currentSource,
-          })
-        : await this.deps.learningService.submitSpellingAnswer({
-            question: action.question,
-            spelledAnswer: action.spelledAnswer,
-            responseTimeMs: action.responseTimeMs,
-            answerChanges: action.answerChanges,
-            source: active.currentSource,
-          });
-      this.recordSubmittedQuestion(active);
-      const continueLearning =
-        action.type === 'submit-and-continue' || action.type === 'submit-spelling-and-continue';
-      let nextQuestionLoaded = false;
-      if (continueLearning && active.effects === 'standard') {
-        nextQuestionLoaded = await this.loadNextContinuous(active, result);
-      } else {
-        await this.endInteraction(active, 'submitted');
+    if (isSaveAction(action)) {
+      let result: SubmissionResult | undefined;
+      try {
+        result = await this.performSaveAction(active, action);
+      } catch (error) {
+        await this.handleSaveFailure(active, action, error);
+        return undefined;
       }
-      if (!nextQuestionLoaded) {
-        this.deps.learningFeedbackNotice?.show(result, {
-          // 普通提交已经结束原会话；按钮从当前页面重新取上下文并开始主动学习。
-          onContinue:
-            this.active === null && active.effects === 'standard'
-              ? () => this.startContinuousLearning()
-              : undefined,
-          onTooEasy: result.isCorrect
-            ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
-            : undefined,
-          onTooHard: result.isCorrect
-            ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-hard')
-            : undefined,
-        });
-      }
+      await this.completeSaveAction(active, action, result);
       return result;
     }
 
     if (action.type === 'correct-rating') {
       return this.deps.learningService.correctRating(action.reviewLogId, action.correction);
-    }
-
-    if (action.type === 'accept-new-word-and-continue') {
-      await this.deps.learningService.acceptNewWord(action.wordId);
-      active.initialOutcome ??= 'accepted-new';
-      // 新词展示不是答题；以后可以复习该词，但不要紧接展示立即出题。
-      this.sessionWordIds.delete(action.wordId);
-      await this.loadNextContinuous(active, undefined, action.wordId);
-      return;
-    }
-
-    if (action.type === 'self-report-and-continue') {
-      await this.deps.learningService.selfReportKnown(action.wordId);
-      active.initialOutcome ??= 'self-reported';
-      this.sessionWordIds.delete(action.wordId);
-      await this.loadNextContinuous(active, undefined, action.wordId);
-      return;
-    }
-
-    if (action.type === 'self-report') {
-      await this.deps.learningService.selfReportKnown(action.wordId);
-      active.initialOutcome ??= 'self-reported';
-      if (active.effects === 'dev') {
-        await this.endInteraction(active, 'submitted');
-        return;
-      }
-      pauseIfPlaying(active.playback);
-      const nextItem = await this.deps.learningService.getNextItem({
-        excludedWordIds: this.sessionWordIds,
-      });
-      if (nextItem === null) {
-        await this.endInteraction(active, 'submitted');
-        return;
-      }
-      this.trackWordId(nextItem);
-      this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
-        isContinuous: false,
-      });
-      return;
     }
 
     // ─── 终态动作：关闭遮罩、恢复视频、记录冷却 ──────────────
@@ -572,21 +554,209 @@ export class ContentController {
       return;
     }
 
-    // accept-new-word / skip：单题模式终态动作。
-    let outcome: InteractionOutcome;
+    active.initialOutcome ??= 'skipped';
+    await this.endInteraction(active, 'skipped');
+  }
+
+  /** 原样执行创建卡或答题动作；重试不得重建题目或改写答案。 */
+  private async performSaveAction(
+    active: ActiveInteraction,
+    action: SaveAction,
+  ): Promise<SubmissionResult | undefined> {
+    if (isSubmissionAction(action)) return this.submitAction(active, action);
     switch (action.type) {
       case 'accept-new-word':
+      case 'accept-new-word-and-continue':
         await this.deps.learningService.acceptNewWord(action.wordId);
-        active.initialOutcome ??= 'accepted-new';
-        outcome = 'submitted';
-        break;
-      case 'skip':
-        outcome = 'skipped';
-        active.initialOutcome ??= 'skipped';
-        break;
+        return undefined;
+      case 'self-report':
+      case 'self-report-and-continue':
+        await this.deps.learningService.selfReportKnown(action.wordId);
+        return undefined;
+    }
+  }
+
+  /** 原样转发答题动作；持久重试不得重建题目或改写答案。 */
+  private submitAction(
+    active: ActiveInteraction,
+    action: SubmissionAction,
+  ): Promise<SubmissionResult> {
+    switch (action.type) {
+      case 'submit-answer':
+      case 'submit-and-continue':
+      case 'submit-and-end':
+        return this.deps.learningService.submitAnswer({
+          question: action.question,
+          selectedIndex: action.selectedIndex,
+          responseTimeMs: action.responseTimeMs,
+          answerChanges: action.answerChanges,
+          source: active.currentSource,
+        });
+      case 'submit-spelling':
+      case 'submit-spelling-and-continue':
+      case 'submit-spelling-and-end':
+        return this.deps.learningService.submitSpellingAnswer({
+          question: action.question,
+          spelledAnswer: action.spelledAnswer,
+          responseTimeMs: action.responseTimeMs,
+          answerChanges: action.answerChanges,
+          source: active.currentSource,
+        });
+    }
+  }
+
+  /** 保存成功后执行原动作对应的会话流转。 */
+  private async completeSaveAction(
+    active: ActiveInteraction,
+    action: SaveAction,
+    result: SubmissionResult | undefined,
+  ): Promise<void> {
+    if (isSubmissionAction(action)) {
+      if (!result) throw new Error('答题保存成功后缺少结果');
+      await this.completeSubmission(active, action, result);
+      return;
     }
 
-    await this.endInteraction(active, outcome);
+    if (action.type === 'accept-new-word-and-continue') {
+      active.initialOutcome ??= 'accepted-new';
+      // 新词展示不是答题；以后可以复习该词，但不要紧接展示立即出题。
+      this.sessionWordIds.delete(action.wordId);
+      await this.loadNextContinuous(active, undefined, action.wordId);
+      return;
+    }
+    if (action.type === 'self-report-and-continue') {
+      active.initialOutcome ??= 'self-reported';
+      this.sessionWordIds.delete(action.wordId);
+      await this.loadNextContinuous(active, undefined, action.wordId);
+      return;
+    }
+    if (action.type === 'accept-new-word') {
+      active.initialOutcome ??= 'accepted-new';
+      await this.endInteraction(active, 'submitted');
+      return;
+    }
+
+    active.initialOutcome ??= 'self-reported';
+    if (active.effects === 'dev') {
+      await this.endInteraction(active, 'submitted');
+      return;
+    }
+    pauseIfPlaying(active.playback);
+    const nextItem = await this.deps.learningService.getNextItem({
+      excludedWordIds: this.sessionWordIds,
+    });
+    if (nextItem === null) {
+      await this.endInteraction(active, 'submitted');
+      return;
+    }
+    this.trackWordId(nextItem);
+    active.detachedForSaveRetry = false;
+    this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
+      isContinuous: false,
+    });
+  }
+
+  /** 保存成功后继续原有单题/连续学习语义。 */
+  private async completeSubmission(
+    active: ActiveInteraction,
+    action: SubmissionAction,
+    result: SubmissionResult,
+  ): Promise<void> {
+    this.recordSubmittedQuestion(active);
+    const continueLearning =
+      action.type === 'submit-and-continue' || action.type === 'submit-spelling-and-continue';
+    let nextQuestionLoaded = false;
+    if (continueLearning && active.effects === 'standard') {
+      nextQuestionLoaded = await this.loadNextContinuous(active, result);
+    } else {
+      await this.endInteraction(active, 'submitted');
+    }
+    if (!nextQuestionLoaded) {
+      this.deps.learningFeedbackNotice?.show(result, {
+        // 普通提交已经结束原会话；按钮从当前页面重新取上下文并开始主动学习。
+        onContinue:
+          this.active === null && active.effects === 'standard'
+            ? () => this.startContinuousLearning()
+            : undefined,
+        onTooEasy: result.isCorrect
+          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-easy')
+          : undefined,
+        onTooHard: result.isCorrect
+          ? () => this.deps.learningService.correctRating(result.reviewLogId, 'too-hard')
+          : undefined,
+      });
+    }
+  }
+
+  /** 创建卡或答题保存失败进入此路径；保留原动作供手动重试。 */
+  private async handleSaveFailure(
+    active: ActiveInteraction,
+    action: SaveAction,
+    error: unknown,
+  ): Promise<void> {
+    console.error('[BingeUp] 学习记录保存未获确认', error);
+    const token = crypto.randomUUID();
+    this.pendingSaveFailure = { token, action, active };
+    active.detachedForSaveRetry = true;
+    try {
+      this.deps.overlay.close();
+    } catch (closeError) {
+      console.error('[BingeUp] 保存失败后关闭遮罩失败', closeError);
+    }
+    if (active.playback !== null && active.snapshot !== null) {
+      try {
+        await this.restorePlayback(active.playback, active.snapshot);
+      } catch (restoreError) {
+        console.error('[BingeUp] 保存失败后恢复播放失败', restoreError);
+      }
+    }
+
+    if (!this.deps.persistenceNotice) {
+      await this.dismissPendingSave(token);
+      return;
+    }
+    this.deps.persistenceNotice.showSaveUnconfirmed({
+      retry: () => this.retryPendingSave(token),
+      dismiss: () => void this.dismissPendingSave(token),
+    });
+  }
+
+  /** 同一提示重复点击只允许一个重试请求；成功后重走原提交后的交互。 */
+  private async retryPendingSave(token: string): Promise<void> {
+    const pending = this.pendingSaveFailure;
+    if (pending?.token !== token || this.saveRetryInProgress) return;
+    this.saveRetryInProgress = true;
+    try {
+      let result: SubmissionResult | undefined;
+      try {
+        result = await this.performSaveAction(pending.active, pending.action);
+      } catch (error) {
+        console.error('[BingeUp] 学习记录重试保存仍未获确认', error);
+        throw error;
+      }
+
+      if (this.pendingSaveFailure?.token !== token) return;
+      this.pendingSaveFailure = null;
+      this.deps.persistenceNotice?.close();
+      // 防御性保护：旧重试绝不接管后来出现的交互。
+      if (this.active !== pending.active) return;
+      try {
+        await this.completeSaveAction(pending.active, pending.action, result);
+      } catch (error) {
+        // 保存已经成功，后续取题失败属于普通交互故障，不能回标为保存失败。
+        await this.recoverFromFailure(error);
+      }
+    } finally {
+      this.saveRetryInProgress = false;
+    }
+  }
+
+  private async dismissPendingSave(token: string): Promise<void> {
+    const pending = this.pendingSaveFailure;
+    if (pending?.token !== token) return;
+    this.pendingSaveFailure = null;
+    this.deps.persistenceNotice?.close();
+    if (this.active === pending.active) await this.clearFailedInteraction(pending.active);
   }
 
   private recordSubmittedQuestion(active: ActiveInteraction): void {
@@ -627,6 +797,7 @@ export class ContentController {
     this.trackWordId(nextItem);
 
     pauseIfPlaying(active.playback);
+    active.detachedForSaveRetry = false;
     this.deps.overlay.open(nextItem, active.target, active.overlayMode, {
       isContinuous: true,
       previousResult,
@@ -650,13 +821,15 @@ export class ContentController {
   ): Promise<void> {
     this.active = null;
     this.sessionWordIds.clear();
-    try {
-      this.deps.overlay.close();
-    } catch (error) {
-      console.error('[BingeUp] 关闭遮罩失败', error);
-    }
-    if (active.playback !== null && active.snapshot !== null) {
-      await this.restorePlayback(active.playback, active.snapshot);
+    if (!active.detachedForSaveRetry) {
+      try {
+        this.deps.overlay.close();
+      } catch (error) {
+        console.error('[BingeUp] 关闭遮罩失败', error);
+      }
+      if (active.playback !== null && active.snapshot !== null) {
+        await this.restorePlayback(active.playback, active.snapshot);
+      }
     }
     if (active.effects === 'standard') {
       try {
@@ -711,13 +884,15 @@ export class ContentController {
   private async clearFailedInteraction(active: ActiveInteraction): Promise<void> {
     this.active = null;
     this.sessionWordIds.clear();
-    try {
-      this.deps.overlay.close();
-    } catch (closeError) {
-      console.error('[BingeUp] 故障恢复时关闭遮罩失败', closeError);
-    }
-    if (active.playback !== null && active.snapshot !== null) {
-      await this.restorePlayback(active.playback, active.snapshot);
+    if (!active.detachedForSaveRetry) {
+      try {
+        this.deps.overlay.close();
+      } catch (closeError) {
+        console.error('[BingeUp] 故障恢复时关闭遮罩失败', closeError);
+      }
+      if (active.playback !== null && active.snapshot !== null) {
+        await this.restorePlayback(active.playback, active.snapshot);
+      }
     }
     await this.drainPendingVideoChange();
   }

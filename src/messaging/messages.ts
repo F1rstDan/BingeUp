@@ -36,6 +36,8 @@ export type ExtensionMessage =
   | { type: 'LEARNING_SUBMIT_SPELLING'; submission: SpellingSubmission }
   | { type: 'LEARNING_CORRECT_RATING'; reviewLogId: string; correction: UserCorrection }
   | { type: 'LEARNING_SAVE_SESSION'; log: SessionLogRecord }
+  /** 只重试自动恢复快照；不得重提已经成功的答题业务。 */
+  | { type: 'RETRY_RECOVERY_SNAPSHOT' }
   | { type: 'SITE_GET_STATE'; hostname: string }
   | { type: 'SITE_MARK_FIRST_QUESTION_HANDLED'; hostname: string }
   // ─── Issue #9：安装引导、可选权限与 Popup 控制 ──────────────
@@ -108,6 +110,21 @@ export type ExtensionMessage =
 
 /** Background 返回给 Content 的冷却状态。 */
 export type CooldownStatusResponse = CooldownState;
+
+/** 答题已提交，但自动恢复快照尚未完成的附加提示。 */
+export interface BackupWarning {
+  message: string;
+}
+
+/** Background 的兼容 envelope：保留原业务结果，并附加备份告警。 */
+export interface ResultWithBackupWarning<T> {
+  __bingeupEnvelope: 'result-with-backup-warning';
+  /** void 业务以 null 承载；普通可空结果保持原值。 */
+  result: T | null;
+  backupWarning: BackupWarning;
+}
+
+export type RetryRecoverySnapshotResponse = { ok: true } | { ok: false; error: string };
 
 /** Background 返回给 Content 的站点状态。 */
 export interface SiteStateResponse extends SiteSettings {

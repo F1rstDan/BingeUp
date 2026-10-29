@@ -24,6 +24,7 @@ import { isGloballyPaused } from '@/pause/pause-rules';
 import { normalizeLearningContext } from '@/content/learning-context';
 import { showPlaybackRecoveryNotice } from '@/content/playback-recovery-notice';
 import { LearningFeedbackNotice } from '@/content/learning-feedback-notice';
+import { PersistenceNotice } from '@/content/persistence-notice';
 import { localSpeech } from '@/ui/speech/local-speech';
 import { showContentUnavailableNotice } from '@/content/playback-recovery-notice';
 import type { DevCardType, PrepareDevCardResult } from '@/dev-tools/messages';
@@ -313,6 +314,7 @@ async function startController(adapter: VideoSiteAdapter, hostname: string): Pro
     sessionLogger: new MessageSessionLogger(),
     playbackRecoveryNotice: new MessagePlaybackRecoveryNotice(),
     learningFeedbackNotice: new LearningFeedbackNotice(),
+    persistenceNotice: new PersistenceNotice(),
     stopSpeech: () => localSpeech.stopOwned(),
     contentUnavailableNotice: { show: showContentUnavailableNotice },
   });

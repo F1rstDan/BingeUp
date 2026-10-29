@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { openDatabase, idbDelete, idbGetAll, STORES, DATABASE_NAME } from '@/storage/database';
-import type { ExtensionMessage } from '@/messaging/messages';
+import type { ExtensionMessage, ResultWithBackupWarning } from '@/messaging/messages';
 import type {
   CardRecord,
   LearningItem,
@@ -35,6 +35,7 @@ describe('background 入口 — 共享持久化上下文', () => {
   let listener: MessageListener;
   let now: number;
   let values: Record<string, unknown>;
+  let failSnapshotWrites: boolean;
 
   const send = <T = unknown>(message: ExtensionMessage): Promise<T> =>
     new Promise((resolve) => {
@@ -72,6 +73,7 @@ describe('background 入口 — 共享持久化上下文', () => {
 
   beforeEach(async () => {
     now = Date.UTC(2026, 9, 22, 12);
+    failSnapshotWrites = false;
     vi.spyOn(Date, 'now').mockImplementation(() => now);
     values = {};
     vi.stubGlobal('defineBackground', (initialize: () => void) => initialize);
@@ -92,6 +94,9 @@ describe('background 入口 — 共享持久化上下文', () => {
             return structuredClone(Object.fromEntries(list.map((key) => [key, values[key]])));
           },
           set: async (entries: Record<string, unknown>) => {
+            if (failSnapshotWrites && 'bingeup:recovery-snapshot' in entries) {
+              throw new Error('模拟配额不足');
+            }
             Object.assign(values, structuredClone(entries));
           },
         },
@@ -208,6 +213,87 @@ describe('background 入口 — 共享持久化上下文', () => {
     } finally {
       db.close();
     }
+  });
+
+  it('答题已保存但备份失败时返回原 result 与 backupWarning', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    now += 10 * 60_000;
+    const item = await send<LearningItem>({ type: 'LEARNING_GET_NEXT' });
+    if (item.kind !== 'question') throw new Error('应先生成短期学习题');
+    failSnapshotWrites = true;
+
+    const response = await send<ResultWithBackupWarning<SubmissionResult>>({
+      type: 'LEARNING_SUBMIT_ANSWER',
+      submission: {
+        question: item.question,
+        selectedIndex: item.question.correctIndex,
+        responseTimeMs: 3_000,
+        source: 'natural',
+      },
+    });
+
+    expect(response).toMatchObject({
+      __bingeupEnvelope: 'result-with-backup-warning',
+      result: { reviewLogId: expect.any(String), isCorrect: true },
+      backupWarning: { message: expect.stringContaining('自动备份未完成') },
+    });
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      expect(await idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs)).toHaveLength(1);
+    } finally {
+      db.close();
+    }
+  });
+
+  it('void 创建卡备份失败使用 null 原 result，专用重试不重放创建卡', async () => {
+    failSnapshotWrites = true;
+    const response = await send<ResultWithBackupWarning<null>>({
+      type: 'LEARNING_SELF_REPORT_KNOWN',
+      wordId: 'w-ability',
+    });
+    expect(response).toMatchObject({
+      __bingeupEnvelope: 'result-with-backup-warning',
+      result: null,
+      backupWarning: { message: expect.stringContaining('自动备份未完成') },
+    });
+
+    await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toMatchObject({
+      ok: false,
+      error: expect.stringContaining('自动备份仍未完成'),
+    });
+    failSnapshotWrites = false;
+    await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toEqual({ ok: true });
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      expect(await idbGetAll<CardRecord>(db, STORES.cards)).toHaveLength(1);
+      expect(await idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs)).toHaveLength(0);
+    } finally {
+      db.close();
+    }
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({
+      payload: { data: { cards: [{ wordId: 'w-ability' }] } },
+    });
+  });
+
+  it('导入与清除的 warnings 保持结构化，不被 envelope 替换', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    const backup = await send<ExportPayload>({ type: 'EXPORT_DATA' });
+    failSnapshotWrites = true;
+
+    const imported = await send<{ ok: boolean; warnings: string[]; __bingeupEnvelope?: string }>({
+      type: 'IMPORT_DATA',
+      payload: backup,
+    });
+    expect(imported.ok).toBe(true);
+    expect(imported.__bingeupEnvelope).toBeUndefined();
+    expect(imported.warnings).toContain('导入已成功，但自动存档更新失败；存档仍保持隔离。');
+
+    const cleared = await send<{ ok: boolean; warnings: string[]; __bingeupEnvelope?: string }>({
+      type: 'CLEAR_ALL_DATA',
+    });
+    expect(cleared.ok).toBe(true);
+    expect(cleared.__bingeupEnvelope).toBeUndefined();
+    expect(cleared.warnings).toContain('自动存档清理失败；下次启动可能恢复旧数据。');
   });
 
   it('明确重建后，下一条学习消息使用新数据库', async () => {

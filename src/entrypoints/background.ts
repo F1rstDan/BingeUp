@@ -21,6 +21,7 @@ import {
   startStorageDiagnosticSession,
 } from '@/storage/storage-diagnostics';
 import { syncCustomContentScripts } from '@/sites/custom-content-script';
+import type { ResultWithBackupWarning } from '@/messaging/messages';
 
 /** 这些消息成功后会改变需要备份的权威数据。 */
 const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
@@ -42,6 +43,14 @@ const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
   'ADD_CUSTOM_SITE',
   'UPDATE_SITE_MODE',
 ]);
+
+function withBackupWarning<T>(result: T): ResultWithBackupWarning<T> {
+  return {
+    __bingeupEnvelope: 'result-with-backup-warning',
+    result: result ?? null,
+    backupWarning: { message: '自动备份未完成；学习记录已经保存。' },
+  };
+}
 
 /**
  * Background service worker 入口（WXT）。
@@ -147,6 +156,22 @@ export default defineBackground(() => {
           sendResponse(await inspectStorageHealth(healthStore));
           return;
         }
+        if (message?.type === 'RETRY_RECOVERY_SNAPSHOT') {
+          try {
+            const db = await getDatabase();
+            settingsStore ??= new LocalSettingsStore(db);
+            const saved = await saveRecoverySnapshot(settingsStore);
+            if (!saved) void recordSnapshotSaveError('自动快照重试写入失败');
+            sendResponse(
+              saved ? { ok: true } : { ok: false, error: '自动备份仍未完成；学习记录未受影响。' },
+            );
+          } catch (error) {
+            const detail = error instanceof Error ? error.message : String(error);
+            void recordSnapshotSaveError(`自动快照重试失败：${detail}`);
+            sendResponse({ ok: false, error: detail });
+          }
+          return;
+        }
         if (import.meta.env.DEV) {
           const { handleDevExtensionMessage, isDevExtensionMessage } =
             await import('@/dev-tools/background-handler');
@@ -189,6 +214,7 @@ export default defineBackground(() => {
         settingsStore ??= new LocalSettingsStore(db);
         router ??= createMessageRouter(settingsStore, db);
         const result = await router.handle(message, sender);
+        let response: unknown = result;
         if (message?.type === 'LEARNING_SELF_REPORT_KNOWN') {
           await recordSelfReportActivity(message.wordId);
         }
@@ -214,9 +240,10 @@ export default defineBackground(() => {
         } else if (typeof message?.type === 'string' && SNAPSHOT_MESSAGE_TYPES.has(message.type)) {
           if (!(await saveRecoverySnapshot(settingsStore))) {
             void recordSnapshotSaveError('自动快照写入失败');
+            response = withBackupWarning(result);
           }
         }
-        sendResponse(result);
+        sendResponse(response);
       } catch (error) {
         console.error('[BingeUp] background message error', error);
         const code =

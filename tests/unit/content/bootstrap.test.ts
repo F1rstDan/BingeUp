@@ -17,6 +17,7 @@ const submitLearningSpelling = vi.fn();
 const correctLearningRating = vi.fn();
 const saveLearningSession = vi.fn();
 const claimPlaybackRecoveryNotice = vi.fn();
+const retryRecoverySnapshot = vi.fn();
 const showEnablePrompt = vi.fn();
 
 vi.mock('@/messaging/message-client', () => ({
@@ -38,6 +39,7 @@ vi.mock('@/messaging/message-client', () => ({
     saveLearningSession,
     claimPlaybackRecoveryNotice,
   },
+  retryRecoverySnapshot,
 }));
 
 vi.mock('@/content/enable-prompt', () => ({
@@ -92,6 +94,7 @@ describe('bootstrapContent — 启动诊断', () => {
     getNextLearningItem.mockReset();
     getNextLearningItem.mockResolvedValue(null);
     claimPlaybackRecoveryNotice.mockReset();
+    retryRecoverySnapshot.mockReset();
     claimPlaybackRecoveryNotice.mockResolvedValue(false);
     getGlobalPauseStatus.mockResolvedValue({ globalPausedUntil: 0 });
     getAppSettings.mockResolvedValue({
