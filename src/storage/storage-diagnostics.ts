@@ -1,7 +1,13 @@
 import { DATABASE_NAME, DATABASE_VERSION, STORES, type StoreName } from '@/storage/database';
 import { inspectRecoverySnapshot } from '@/storage/recovery-snapshot';
 import type { LocalSettingsStore } from '@/storage/local-settings';
-import type { StorageCounts, StorageDiagnostics, StorageStartupRecord } from '@/types';
+import type {
+  CardRecord,
+  StorageCardStages,
+  StorageCounts,
+  StorageDiagnostics,
+  StorageStartupRecord,
+} from '@/types';
 
 export const STORAGE_DIAGNOSTICS_KEY = 'bingeup:storage-diagnostics';
 
@@ -100,6 +106,7 @@ export function recordDatabaseOpenError(error: string): Promise<void> {
 
 interface StartupReadInput {
   counts: StorageCounts;
+  cardStages: StorageCardStages;
   restoredFromSnapshot: boolean;
   restoreError?: string;
   snapshotPresent: boolean;
@@ -113,6 +120,7 @@ export function recordStartupRead(input: StartupReadInput): Promise<void> {
     updateCurrentRecord({
       readAt: Date.now(),
       counts: input.counts,
+      cardStages: input.cardStages,
       databaseOpenError: undefined,
       restoredFromSnapshot: input.restoredFromSnapshot,
       ...(input.restoreError ? { restoreError: input.restoreError } : {}),
@@ -127,6 +135,12 @@ export function recordStartupRead(input: StartupReadInput): Promise<void> {
 export function recordSnapshotSaveError(error: string): Promise<void> {
   return enqueue(() =>
     updateCurrentRecord({ snapshotSaveError: error, snapshotSaveErrorAt: Date.now() }),
+  );
+}
+
+export function recordSelfReportActivity(wordId: string): Promise<void> {
+  return enqueue(() =>
+    updateCurrentRecord({ lastSelfReportAt: Date.now(), lastSelfReportWordId: wordId }),
   );
 }
 
@@ -158,6 +172,24 @@ export async function readStorageCounts(store: LocalSettingsStore): Promise<Stor
   return { cards, reviewLogs, sessionLogs, behaviorEvents, words, decks };
 }
 
+/** 读取学习卡阶段分布，便于确认“我认识”是否真的写入了学习卡。 */
+export async function readCardStages(store: LocalSettingsStore): Promise<StorageCardStages> {
+  const transaction = store.database.transaction(STORES.cards, 'readonly');
+  const cards = await new Promise<CardRecord[]>((resolve, reject) => {
+    const request = transaction.objectStore(STORES.cards).getAll();
+    request.onsuccess = () => resolve(request.result as CardRecord[]);
+    request.onerror = () => reject(request.error ?? new Error('读取学习卡阶段失败'));
+  });
+  const stages: StorageCardStages = { shortTerm: 0, longTerm: 0, selfReported: 0, other: 0 };
+  for (const card of cards) {
+    if (card.stage === 'short-term') stages.shortTerm += 1;
+    else if (card.stage === 'long-term') stages.longTerm += 1;
+    else if (card.stage === 'self-reported-known') stages.selfReported += 1;
+    else stages.other += 1;
+  }
+  return stages;
+}
+
 /** 汇总启动记录、当前数据与快照信息，供设置页展示。 */
 export async function getStorageDiagnostics(
   store: LocalSettingsStore | null,
@@ -173,7 +205,11 @@ export async function getStorageDiagnostics(
     let currentError: string | undefined;
     if (store !== null) {
       try {
-        current = { readAt: Date.now(), counts: await readStorageCounts(store) };
+        current = {
+          readAt: Date.now(),
+          counts: await readStorageCounts(store),
+          cardStages: await readCardStages(store),
+        };
       } catch (error) {
         currentError = error instanceof Error ? error.message : String(error);
       }

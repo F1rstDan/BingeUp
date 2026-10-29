@@ -676,6 +676,13 @@ export interface StorageCounts {
   decks: number;
 }
 
+export interface StorageCardStages {
+  shortTerm: number;
+  longTerm: number;
+  selfReported: number;
+  other: number;
+}
+
 /** 一次扩展后台启动的存档读取记录。 */
 export interface StorageStartupRecord {
   startedAt: number;
@@ -684,6 +691,7 @@ export interface StorageStartupRecord {
   databaseOpenError?: string;
   readAt?: number;
   counts?: StorageCounts;
+  cardStages?: StorageCardStages;
   restoredFromSnapshot: boolean;
   restoreError?: string;
   snapshotPresent: boolean;
@@ -692,6 +700,8 @@ export interface StorageStartupRecord {
   snapshotCards?: number;
   snapshotSaveError?: string;
   snapshotSaveErrorAt?: number;
+  lastSelfReportAt?: number;
+  lastSelfReportWordId?: string;
 }
 
 /** 自动恢复快照的诊断摘要。 */
@@ -711,7 +721,7 @@ export interface StorageDiagnostics {
   databaseOpen: boolean;
   databaseOpenError?: string;
   startup: StorageStartupRecord | null;
-  current: { readAt: number; counts: StorageCounts } | null;
+  current: { readAt: number; counts: StorageCounts; cardStages?: StorageCardStages } | null;
   currentError?: string;
   snapshot: StorageSnapshotDiagnostic;
   history: StorageStartupRecord[];

@@ -17,6 +17,7 @@ import type {
   AppSettings,
   SelfRatedLevel,
   SiteSettings,
+  StorageCardStages,
   StorageCounts,
   StorageDiagnostics,
   StorageStartupRecord,
@@ -696,6 +697,12 @@ function formatDiagnosticCounts(counts: StorageCounts | undefined): string {
   return `卡 ${counts.cards} · 日志 ${counts.reviewLogs} · 会话 ${counts.sessionLogs} · 事件 ${counts.behaviorEvents}`;
 }
 
+function formatCardStages(stages: StorageCardStages | undefined): string {
+  if (stages === undefined) return '—';
+  const other = stages.other > 0 ? ` · 其他 ${stages.other}` : '';
+  return `自报认识 ${stages.selfReported} · 短期 ${stages.shortTerm} · 长期 ${stages.longTerm}${other}`;
+}
+
 function learningRecordTotal(counts: StorageCounts | undefined): number {
   if (counts === undefined) return 0;
   return counts.cards + counts.reviewLogs + counts.sessionLogs + counts.behaviorEvents;
@@ -726,6 +733,9 @@ function StorageDiagnosticsCard({
     (startup.snapshotSaveErrorAt ?? 0) >= (diagnostics?.snapshot.savedAt ?? 0)
       ? startup.snapshotSaveError
       : undefined;
+  const lastSelfReport = diagnostics?.history.find(
+    (record) => record.lastSelfReportAt !== undefined,
+  );
 
   let statusText = '尚无启动记录';
   let statusColor: DiagnosticTagColor = 'app-teal';
@@ -816,10 +826,26 @@ function StorageDiagnosticsCard({
               </dd>
             </div>
             <div className="bingeup-diagnostics-row">
+              <dt>启动卡状态</dt>
+              <dd>{formatCardStages(startup?.cardStages)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>当前卡状态</dt>
+              <dd>{formatCardStages(diagnostics.current?.cardStages)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
               <dt>自动恢复</dt>
               <dd>
                 {startup?.restoredFromSnapshot ? '已使用快照恢复' : '未使用快照'}
                 {startup?.restoreError !== undefined && ` · ${startup.restoreError}`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>最近自报</dt>
+              <dd>
+                {lastSelfReport?.lastSelfReportAt === undefined
+                  ? '—'
+                  : `${formatDiagnosticTime(lastSelfReport.lastSelfReportAt)} · ${lastSelfReport.lastSelfReportWordId ?? '—'}`}
               </dd>
             </div>
             <div className="bingeup-diagnostics-row">

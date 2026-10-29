@@ -86,15 +86,19 @@ const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
     databaseVersion: 1,
     readAt: 1_700_000_001_000,
     counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+    cardStages: { shortTerm: 2, longTerm: 5, selfReported: 11, other: 0 },
     restoredFromSnapshot: false,
     snapshotPresent: true,
     snapshotSavedAt: 1_700_000_002_000,
     snapshotMode: 'full',
     snapshotCards: 18,
+    lastSelfReportAt: 1_700_000_001_500,
+    lastSelfReportWordId: 'w-ask',
   },
   current: {
     readAt: 1_700_000_010_000,
     counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+    cardStages: { shortTerm: 2, longTerm: 5, selfReported: 11, other: 0 },
   },
   snapshot: {
     present: true,
@@ -107,9 +111,12 @@ const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
       startedAt: 1_700_000_000_000,
       readAt: 1_700_000_001_000,
       counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+      cardStages: { shortTerm: 2, longTerm: 5, selfReported: 11, other: 0 },
       restoredFromSnapshot: false,
       snapshotPresent: true,
       snapshotSavedAt: 1_700_000_002_000,
+      lastSelfReportAt: 1_700_000_001_500,
+      lastSelfReportWordId: 'w-ask',
     },
   ],
 };
@@ -796,6 +803,8 @@ describe('OptionsApp — Issue #10', () => {
     expect(screen.getByText('启动已读取到存档')).toBeInTheDocument();
     expect(screen.getAllByText(/卡 18 · 日志 13 · 会话 20 · 事件 2/).length).toBeGreaterThan(0);
     expect(screen.getByText('未使用快照')).toBeInTheDocument();
+    expect(screen.getAllByText('自报认识 11 · 短期 2 · 长期 5').length).toBeGreaterThan(0);
+    expect(screen.getByText(/w-ask/)).toBeInTheDocument();
     expect(screen.getByText(/完整 · 卡 18 张/)).toBeInTheDocument();
     expect(screen.getByText('最近启动记录')).toBeInTheDocument();
   });

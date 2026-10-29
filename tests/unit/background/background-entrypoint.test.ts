@@ -120,6 +120,15 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(diagnostics.history.length).toBeGreaterThan(0);
   });
 
+  it('自报认识会写入学习卡并记录最近自报单词', async () => {
+    await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId: 'w-ability' });
+
+    const diagnostics = await send<StorageDiagnostics>({ type: 'GET_STORAGE_DIAGNOSTICS' });
+    expect(diagnostics.current?.cardStages?.selfReported).toBe(1);
+    expect(diagnostics.startup?.lastSelfReportWordId).toBe('w-ability');
+    expect(diagnostics.startup?.lastSelfReportAt).toEqual(expect.any(Number));
+  });
+
   it('同一题的并发提交只写一条日志并推进一次学习状态', async () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
     now += 10 * 60_000;

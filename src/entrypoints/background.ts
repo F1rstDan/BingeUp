@@ -9,10 +9,12 @@ import {
 } from '@/storage/recovery-snapshot';
 import {
   getStorageDiagnostics,
+  readCardStages,
   readStorageCounts,
   recordDatabaseOpenError,
   recordDatabaseOpened,
   recordSnapshotSaveError,
+  recordSelfReportActivity,
   recordStartupRead,
   startStorageDiagnosticSession,
 } from '@/storage/storage-diagnostics';
@@ -90,8 +92,10 @@ export default defineBackground(() => {
       const { snapshot } = await saveStartupRecoverySnapshot(store);
       try {
         const counts = await readStorageCounts(store);
+        const cardStages = await readCardStages(store);
         await recordStartupRead({
           counts,
+          cardStages,
           restoredFromSnapshot: restoreResult.restored,
           ...(restoreResult.error ? { restoreError: restoreResult.error } : {}),
           snapshotPresent: snapshot.present,
@@ -167,6 +171,9 @@ export default defineBackground(() => {
         settingsStore ??= new LocalSettingsStore(db);
         router ??= createMessageRouter(settingsStore, db);
         const result = await router.handle(message, sender);
+        if (message?.type === 'LEARNING_SELF_REPORT_KNOWN') {
+          await recordSelfReportActivity(message.wordId);
+        }
         if (message?.type === 'CLEAR_LEARNING_PROGRESS') {
           await resetRecoverySnapshot(settingsStore);
         } else if (message?.type === 'CLEAR_ALL_DATA') {

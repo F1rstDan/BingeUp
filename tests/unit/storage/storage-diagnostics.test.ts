@@ -5,6 +5,7 @@ import { LocalSettingsStore } from '@/storage/local-settings';
 import { saveRecoverySnapshot } from '@/storage/recovery-snapshot';
 import {
   getStorageDiagnostics,
+  readCardStages,
   readStorageCounts,
   recordDatabaseOpenError,
   recordDatabaseOpened,
@@ -114,8 +115,11 @@ describe('存档诊断记录', () => {
     await recordDatabaseOpened(1);
     const counts = await readStorageCounts(store);
     expect(counts).toMatchObject({ cards: 1, reviewLogs: 1, sessionLogs: 1, behaviorEvents: 1 });
+    const cardStages = await readCardStages(store);
+    expect(cardStages).toEqual({ shortTerm: 1, longTerm: 0, selfReported: 0, other: 0 });
     await recordStartupRead({
       counts,
+      cardStages,
       restoredFromSnapshot: false,
       snapshotPresent: false,
     });
@@ -125,6 +129,7 @@ describe('存档诊断记录', () => {
     expect(diagnostics.databaseOpen).toBe(true);
     expect(diagnostics.startup?.startedAt).toBe(1_000);
     expect(diagnostics.startup?.counts?.cards).toBe(1);
+    expect(diagnostics.startup?.cardStages?.shortTerm).toBe(1);
     expect(diagnostics.current?.counts.cards).toBe(1);
     expect(diagnostics.snapshot.present).toBe(true);
     expect(diagnostics.snapshot.counts?.cards).toBe(1);
@@ -161,6 +166,7 @@ describe('存档诊断记录', () => {
     await recordDatabaseOpened(1);
     await recordStartupRead({
       counts: { cards: 1, reviewLogs: 1, sessionLogs: 1, behaviorEvents: 1, words: 0, decks: 0 },
+      cardStages: { shortTerm: 1, longTerm: 0, selfReported: 0, other: 0 },
       restoredFromSnapshot: true,
       restoreError: undefined,
       snapshotPresent: true,
