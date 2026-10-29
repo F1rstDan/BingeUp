@@ -56,6 +56,7 @@ export class AdaptiveCustomSiteAdapter implements VideoSiteAdapter {
     const stopGeneric = this.generic.observePageChanges((event) => {
       if (!this.upgraded) {
         this.upgraded = true;
+        stopBasic();
         void this.onUpgrade().catch((error: unknown) => {
           console.error('[BingeUp] 同步通用视频兼容等级失败', error);
         });

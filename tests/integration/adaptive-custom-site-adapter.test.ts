@@ -8,6 +8,14 @@ function flush(): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, 0));
 }
 
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((complete) => {
+    resolve = complete;
+  });
+  return { promise, resolve };
+}
+
 function reliableVideo(src = 'https://cdn.example.com/video.mp4'): HTMLVideoElement {
   const video = document.createElement('video');
   video.src = src;
@@ -58,8 +66,9 @@ describe('AdaptiveCustomSiteAdapter', () => {
   it('升级后忽略后续基础网页滚动事件且不降级', async () => {
     Object.defineProperty(window, 'scrollY', { value: 0, configurable: true, writable: true });
     const onUpgrade = vi.fn(async () => undefined);
+    const getLatest = vi.fn(async () => ({ pageLoadTrigger: false, scrollTrigger: true }));
     const adapter = new AdaptiveCustomSiteAdapter(
-      new BasicWebAdapter({ pageLoadTrigger: false, scrollTrigger: true }),
+      new BasicWebAdapter({ pageLoadTrigger: false, scrollTrigger: true, getLatest }),
       new GenericVideoAdapter(),
       onUpgrade,
     );
@@ -69,13 +78,62 @@ describe('AdaptiveCustomSiteAdapter', () => {
     document.body.appendChild(reliableVideo());
     await flush();
     expect(events).toHaveLength(1);
+    const getLatestCallsAfterUpgrade = getLatest.mock.calls.length;
 
     Object.defineProperty(window, 'scrollY', { value: 2500, configurable: true, writable: true });
     window.dispatchEvent(new Event('scroll'));
     await flush();
 
     expect(events).toHaveLength(1);
+    expect(getLatest).toHaveBeenCalledTimes(getLatestCallsAfterUpgrade);
     expect(onUpgrade).toHaveBeenCalledTimes(1);
     stop();
+  });
+
+  it('升级后已排队的基础网页设置结果不再发出 basic 事件', async () => {
+    const latest = deferred<{ pageLoadTrigger: boolean; scrollTrigger: boolean }>();
+    const getLatest = vi.fn(() => latest.promise);
+    const adapter = new AdaptiveCustomSiteAdapter(
+      new BasicWebAdapter({ pageLoadTrigger: true, scrollTrigger: false, getLatest }),
+      new GenericVideoAdapter(),
+      async () => undefined,
+    );
+    const events: VideoChangeEvent[] = [];
+    const stop = adapter.observePageChanges((event) => events.push(event));
+
+    document.body.appendChild(reliableVideo());
+    await flush();
+    expect(events).toHaveLength(1);
+
+    latest.resolve({ pageLoadTrigger: true, scrollTrigger: false });
+    await flush();
+
+    expect(events).toHaveLength(1);
+    expect(events[0]?.video).not.toBeNull();
+    stop();
+  });
+
+  it('cleanup 同时停止基础与通用监听，重复调用保持安全', async () => {
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true, writable: true });
+    const getLatest = vi.fn(async () => ({ pageLoadTrigger: false, scrollTrigger: true }));
+    const adapter = new AdaptiveCustomSiteAdapter(
+      new BasicWebAdapter({ pageLoadTrigger: false, scrollTrigger: true, getLatest }),
+      new GenericVideoAdapter(),
+      async () => undefined,
+    );
+    const events: VideoChangeEvent[] = [];
+    const stop = adapter.observePageChanges((event) => events.push(event));
+    const getLatestCallsBeforeCleanup = getLatest.mock.calls.length;
+
+    stop();
+    stop();
+    document.body.appendChild(reliableVideo());
+    await flush();
+    Object.defineProperty(window, 'scrollY', { value: 2500, configurable: true, writable: true });
+    window.dispatchEvent(new Event('scroll'));
+    await flush();
+
+    expect(events).toHaveLength(0);
+    expect(getLatest).toHaveBeenCalledTimes(getLatestCallsBeforeCleanup);
   });
 });
