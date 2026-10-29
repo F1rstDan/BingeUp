@@ -163,6 +163,23 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(snapshot.payload.data.cards.some((card) => card.wordId === 'w-abandon')).toBe(true);
   });
 
+  it('基线初始化和暂停事件也进入快照，不依赖写消息清单', async () => {
+    await send({ type: 'COOLDOWN_GET_STATUS' });
+    expect(values['bingeup:recovery-snapshot']).toMatchObject({
+      payload: { data: { behaviorEvents: expect.any(Array) } },
+    });
+    const before = structuredClone(values['bingeup:recovery-snapshot']);
+    await send({ type: 'PAUSE_TEN_MINUTES' });
+    expect(values['bingeup:recovery-snapshot']).not.toEqual(before);
+    const db = await openDatabase(DATABASE_NAME);
+    try {
+      const { readStorageMeta } = await import('@/storage/database');
+      expect((await readStorageMeta(db)).pendingBackup).toBe(false);
+    } finally {
+      db.close();
+    }
+  });
+
   it('返回启动读取、当前计数和快照的诊断信息', async () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
 
@@ -482,6 +499,7 @@ describe('background 入口 — 共享持久化上下文', () => {
   });
 
   it('并发破坏性操作只有取得 pending 的一份执行', async () => {
+    await send({ type: 'COOLDOWN_GET_STATUS' });
     const originalSet = chrome.storage.local.set;
     let releaseSnapshot!: () => void;
     let markSnapshotStarted!: () => void;

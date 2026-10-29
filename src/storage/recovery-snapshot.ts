@@ -4,7 +4,7 @@ import {
   validateLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, idbCount, readStorageMeta } from '@/storage/database';
+import { STORES, acknowledgeStorageBackup, idbCount, readStorageMeta } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
@@ -724,6 +724,17 @@ export function saveRecoverySnapshot(store: LocalSettingsStore): Promise<boolean
   return enqueueSnapshotWrite(store, 'save').then((result) => result.saved);
 }
 
+/** 由数据库事务留下的标记决定是否备份，不依赖消息类型清单。 */
+export async function savePendingRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
+  try {
+    if (!(await readStorageMeta(store.database)).pendingBackup) return true;
+    return await saveRecoverySnapshot(store);
+  } catch (error) {
+    console.error('[BingeUp] 待备份存档写入失败', error);
+    return false;
+  }
+}
+
 async function retryPendingRecoverySnapshotNow(
   store: LocalSettingsStore,
 ): Promise<SnapshotWriteResult> {
@@ -855,6 +866,7 @@ async function writeRecoverySnapshot(
         await writeSnapshotArchive({ ...archive, previous: null });
       }
     }
+    await acknowledgeStorageBackup(store.database, storageMeta);
     return { saved: true, snapshot };
   } catch (error) {
     console.error('[BingeUp] 自动存档备份失败', error);
@@ -1115,6 +1127,9 @@ export async function saveStartupRecoverySnapshot(
       snapshot?.storage?.generation === currentMeta.generation &&
       snapshot.storage.revision === currentMeta.revision
     ) {
+      if (currentMeta.pendingBackup) {
+        await acknowledgeStorageBackup(store.database, currentMeta);
+      }
       return { saved: false, snapshot: existing };
     }
     const result = await enqueueSnapshotWrite(store, 'save');

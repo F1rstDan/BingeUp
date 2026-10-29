@@ -17,6 +17,7 @@ import {
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   saveRecoverySnapshot,
+  savePendingRecoverySnapshot,
   saveStartupRecoverySnapshot,
 } from '@/storage/recovery-snapshot';
 import type {
@@ -484,6 +485,35 @@ describe('本地自动恢复快照', () => {
       generation: meta.generation,
       revision: meta.revision,
     });
+  });
+
+  it('备份中发生新写入时保留待备份状态，下次启动补写最新版本', async () => {
+    await seedLearningData();
+    const barrier = createSnapshotWriteHold();
+    storage.snapshotWriteHold = barrier.hold;
+    const saving = saveRecoverySnapshot(store);
+    await barrier.started;
+    await idbPut(db, STORES.cards, { ...CARD, updatedAt: 9_000 });
+    barrier.release();
+    expect(await saving).toBe(true);
+    expect((await readStorageMeta(db)).pendingBackup).toBe(true);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(true);
+    expect((await readStorageMeta(db)).pendingBackup).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toMatchObject({
+      payload: { data: { cards: [{ ...CARD, updatedAt: 9_000 }] } },
+    });
+  });
+
+  it('快照失败保留待备份状态，后续消息补写，成功后不再重复写入', async () => {
+    await seedLearningData();
+    storage.failNextSetCalls = 2;
+    expect(await savePendingRecoverySnapshot(store)).toBe(false);
+    expect((await readStorageMeta(db)).pendingBackup).toBe(true);
+    expect(await savePendingRecoverySnapshot(store)).toBe(true);
+    expect((await readStorageMeta(db)).pendingBackup).toBe(false);
+    const count = storage.snapshotWrites.length;
+    expect(await savePendingRecoverySnapshot(store)).toBe(true);
+    expect(storage.snapshotWrites).toHaveLength(count);
   });
 
   it('学习卡内容改变但数量不变时，启动按 revision 重写快照', async () => {

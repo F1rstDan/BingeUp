@@ -168,6 +168,24 @@ export async function readStorageMeta(db: IDBDatabase): Promise<StorageMetaRecor
   return normalizeStorageMeta(await idbGet(db, STORES.storageMeta, STORAGE_META_ID));
 }
 
+/** 只确认已写入快照的版本；备份期间的新写入仍保持待备份状态。 */
+export async function acknowledgeStorageBackup(
+  db: IDBDatabase,
+  saved: Pick<StorageMetaRecord, 'generation' | 'revision'>,
+): Promise<void> {
+  const tx = db.transaction(STORES.storageMeta, 'readwrite');
+  const done = awaitTransaction(tx);
+  const store = tx.objectStore(STORES.storageMeta);
+  const request = store.get(STORAGE_META_ID);
+  request.onsuccess = () => {
+    const current = request.result as StorageMetaRecord | undefined;
+    if (current?.generation === saved.generation && current.revision === saved.revision) {
+      store.put({ ...current, pendingBackup: false });
+    }
+  };
+  await done;
+}
+
 /** 在已经包含 storageMeta 的写事务中安排一次 revision 提交。 */
 export function markStorageMetaChanged(
   transaction: IDBTransaction,

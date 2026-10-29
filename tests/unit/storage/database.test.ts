@@ -4,6 +4,7 @@ import {
   DATABASE_VERSION,
   STORAGE_META_ID,
   STORES,
+  acknowledgeStorageBackup,
   idbGetAll,
   idbGetAllByIndex,
   idbPut,
@@ -135,6 +136,20 @@ describe('IndexedDB 结构', () => {
     expect(reopened.version).toBe(DATABASE_VERSION);
     expect(await idbGetAll(reopened, STORES.cards)).toEqual([CARD]);
     reopened.close();
+  });
+
+  it('旧版本的备份确认不能清除新写入或新代次的待备份标记', async () => {
+    const db = await openDatabase(TEST_DB);
+    const original = await readStorageMeta(db);
+    await idbPut(db, STORES.cards, CARD);
+    const changed = await readStorageMeta(db);
+    await acknowledgeStorageBackup(db, original);
+    expect(await readStorageMeta(db)).toEqual(changed);
+    await acknowledgeStorageBackup(db, { ...changed, generation: 'another-generation' });
+    expect(await readStorageMeta(db)).toEqual(changed);
+    await acknowledgeStorageBackup(db, changed);
+    expect(await readStorageMeta(db)).toEqual({ ...changed, pendingBackup: false });
+    db.close();
   });
 
   it('删除数据空间时主动关闭已有连接', async () => {

@@ -10,7 +10,7 @@ import {
   resetRecoverySnapshot,
   restoreRecoverySnapshotIfNeeded,
   retryRecoverySnapshot,
-  saveRecoverySnapshot,
+  savePendingRecoverySnapshot,
   saveStartupRecoverySnapshot,
   suspendRecoveryOperation,
 } from '@/storage/recovery-snapshot';
@@ -28,27 +28,6 @@ import {
 import { syncCustomContentScripts } from '@/sites/custom-content-script';
 import type { ResultWithBackupWarning } from '@/messaging/messages';
 import type { UserRecoveryOperation } from '@/storage/recovery-snapshot';
-
-/** 这些消息成功后会改变需要备份的权威数据。 */
-const SNAPSHOT_MESSAGE_TYPES = new Set<string>([
-  'LEARNING_ACCEPT_NEW_WORD',
-  'LEARNING_SELF_REPORT_KNOWN',
-  'LEARNING_SUBMIT_ANSWER',
-  'LEARNING_SUBMIT_SPELLING',
-  'LEARNING_CORRECT_RATING',
-  'LEARNING_SAVE_SESSION',
-  'SITE_MARK_FIRST_QUESTION_HANDLED',
-  'ONBOARDING_COMPLETE',
-  'SITE_ENABLE',
-  'SITE_DISABLE',
-  'PROMPT_DECLINE',
-  'SET_APP_SETTINGS',
-  'RESET_APP_SETTINGS',
-  'UPDATE_SITE_TRIGGERS',
-  'REMOVE_SITE',
-  'ADD_CUSTOM_SITE',
-  'UPDATE_SITE_MODE',
-]);
 
 const ISOLATION_ALLOWED_NON_GET_MESSAGES = new Set<string>([
   'COOLDOWN_GET_STATUS',
@@ -202,7 +181,10 @@ export default defineBackground(() => {
           if (isDevExtensionMessage(message)) {
             const db = await getDatabase();
             const store = new LocalSettingsStore(db);
-            sendResponse(await handleDevExtensionMessage(message, { db, store }));
+            const result = await handleDevExtensionMessage(message, { db, store });
+            sendResponse(
+              (await savePendingRecoverySnapshot(store)) ? result : withBackupWarning(result),
+            );
             return;
           }
         }
@@ -302,8 +284,8 @@ export default defineBackground(() => {
         if (message?.type === 'LEARNING_SELF_REPORT_KNOWN') {
           await recordSelfReportActivity(message.wordId);
         }
-        if (typeof message?.type === 'string' && SNAPSHOT_MESSAGE_TYPES.has(message.type)) {
-          if (!(await saveRecoverySnapshot(settingsStore))) {
+        if (!isolated) {
+          if (!(await savePendingRecoverySnapshot(settingsStore))) {
             void recordSnapshotSaveError('自动快照写入失败');
             response = withBackupWarning(result);
           }
