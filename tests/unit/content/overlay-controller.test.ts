@@ -2,7 +2,7 @@ import { createElement } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { OverlayController, OverlayErrorFallback } from '@/content/overlay-controller';
-import type { LearningItem } from '@/types';
+import type { LearningItem, OverlayAction } from '@/types';
 // M5 工单 #44：vitest 默认不处理 ?raw CSS 导入，这里用构建产物形态的夹具替代真实的
 // 构建期内联 CSS（含 :root 令牌、reset 与 @font-face）；真实内联组合由构建产物校验
 // 脚本与 e2e 覆盖。
@@ -38,6 +38,49 @@ const stubExtensionRuntime = (): void => {
     runtime: { getURL: (assetPath: string) => 'chrome-extension://test-id/' + assetPath },
   });
 };
+
+function flushMutationObservers(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
+
+function trackDocumentRootObserver() {
+  const OriginalMutationObserver = globalThis.MutationObserver;
+  const state = {
+    callbacks: 0,
+    options: undefined as MutationObserverInit | undefined,
+  };
+
+  class TrackingMutationObserver {
+    private readonly observer: MutationObserver;
+    private observesDocumentRoot = false;
+
+    constructor(callback: MutationCallback) {
+      this.observer = new OriginalMutationObserver((records, observer) => {
+        if (this.observesDocumentRoot) state.callbacks += 1;
+        callback(records, observer);
+      });
+    }
+
+    observe(target: Node, options?: MutationObserverInit): void {
+      if (target === document.documentElement) {
+        this.observesDocumentRoot = true;
+        state.options = options;
+      }
+      this.observer.observe(target, options);
+    }
+
+    disconnect(): void {
+      this.observer.disconnect();
+    }
+
+    takeRecords(): MutationRecord[] {
+      return this.observer.takeRecords();
+    }
+  }
+
+  vi.stubGlobal('MutationObserver', TrackingMutationObserver);
+  return state;
+}
 
 beforeEach(() => {
   stubExtensionRuntime();
@@ -146,6 +189,56 @@ describe('OverlayController — 视频区域布局', () => {
     expect(host?.style.height).toBe(`${document.documentElement.clientHeight}px`);
 
     controller.close();
+  });
+});
+
+describe('OverlayController — 宿主断连检测', () => {
+  it('宿主被外部删除后只请求一次业务恢复', async () => {
+    const actions: OverlayAction[] = [];
+    const controller = new OverlayController();
+    controller.onAction((action) => actions.push(action));
+    controller.open(ITEM, document.body, 'full-page');
+
+    document.getElementById('bingeup-overlay-host')?.remove();
+    await flushMutationObservers();
+    await flushMutationObservers();
+
+    expect(actions.filter((action) => action.type === 'recover')).toEqual([{ type: 'recover' }]);
+    controller.close();
+  });
+
+  it('无关深层的 DOM 子节点变化不唤醒宿主观察器', async () => {
+    const observer = trackDocumentRootObserver();
+    const controller = new OverlayController();
+    controller.open(ITEM, document.body, 'full-page');
+    await flushMutationObservers();
+    expect(observer.options).toEqual({ childList: true });
+    const callbacksBefore = observer.callbacks;
+    const unrelated = document.createElement('section');
+    unrelated.appendChild(document.createElement('span')).textContent = '页面更新';
+
+    document.body.appendChild(unrelated);
+    await flushMutationObservers();
+
+    expect(observer.callbacks).toBe(callbacksBefore);
+    unrelated.remove();
+    controller.close();
+  });
+
+  it('close 断开宿主观察器后不再接收回调', async () => {
+    const observer = trackDocumentRootObserver();
+    const controller = new OverlayController();
+    controller.open(ITEM, document.body, 'full-page');
+    await flushMutationObservers();
+
+    controller.close();
+    const callbacksAfterClose = observer.callbacks;
+    const added = document.createElement('div');
+    document.documentElement.appendChild(added);
+    await flushMutationObservers();
+
+    expect(observer.callbacks).toBe(callbacksAfterClose);
+    added.remove();
   });
 });
 

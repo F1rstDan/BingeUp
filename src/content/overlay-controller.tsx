@@ -294,7 +294,7 @@ export class OverlayController implements OverlayPort {
         this.actionHandler?.({ type: 'recover' });
       }
     });
-    this.hostObserver.observe(document.documentElement, { childList: true, subtree: true });
+    this.hostObserver.observe(document.documentElement, { childList: true });
     this.root = createRoot(mountPoint);
     this.root.render(options.render());
     this.updatePosition();
