@@ -1,0 +1,77 @@
+{
+  "channel": "chromium",
+  "rounds": 10,
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\chromium-u4SIyR",
+  "observations": [
+    {
+      "round": 1,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 2,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 3,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 4,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 5,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 6,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 7,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 8,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 9,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    },
+    {
+      "round": 10,
+      "cards": 1,
+      "selfReported": 1,
+      "restored": false
+    }
+  ],
+  "browserVersion": "149.0.7827.55",
+  "extensionId": "glmnhnhflfpihgjogjcloinkegjjomdi",
+  "wordId": "w-put",
+  "partialLoss": {
+    "cards": 0,
+    "events": 2,
+    "snapshotCards": 1,
+    "restored": false,
+    "repeated": true
+  }
+}
