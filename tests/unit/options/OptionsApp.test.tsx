@@ -127,6 +127,14 @@ const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
     },
     issues: [],
   },
+  capacity: {
+    unlimitedStorage: true,
+    persisted: false,
+    usage: 1_048_576,
+    quota: 10_485_760,
+    localBytes: 2_048,
+    errors: [],
+  },
   history: [
     {
       startedAt: 1_700_000_000_000,
@@ -851,6 +859,34 @@ describe('OptionsApp — Issue #10', () => {
     expect(getDiagnosticRow('快照计数')).toHaveTextContent(
       '卡 18 · 复习日志 13 · 会话 20 · 行为事件 2 · 单词 0 · 词库 0',
     );
+  });
+
+  it('展示实际存储权限、持久化状态、空间估算和本地备份字节', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('存储权限')).toBeInTheDocument();
+    expect(getDiagnosticRow('存储权限')).toHaveTextContent('unlimitedStorage 已授权');
+    expect(getDiagnosticRow('持久化状态')).toHaveTextContent('未持久化');
+    expect(getDiagnosticRow('空间估算')).toHaveTextContent('已用 1.00 MB · 估算配额 10.0 MB');
+    expect(getDiagnosticRow('本地备份')).toHaveTextContent('2.00 KB');
+  });
+
+  it('容量读取失败时独立显示错误且保留其他诊断', async () => {
+    mocks.getStorageDiagnostics.mockResolvedValue({
+      ...SAMPLE_DIAGNOSTICS,
+      capacity: {
+        unlimitedStorage: null,
+        persisted: null,
+        errors: ['空间估算失败：unavailable'],
+      },
+    });
+
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('容量诊断问题')).toBeInTheDocument();
+    expect(screen.getByText('空间估算失败：unavailable')).toBeInTheDocument();
+    expect(getDiagnosticRow('存储权限')).toHaveTextContent('—');
+    expect(getDiagnosticRow('最近数据库提交')).not.toHaveTextContent('—');
   });
 
   it('展示恢复前后获得的完整分类计数', async () => {

@@ -7,8 +7,10 @@ import {
 } from '@/storage/database';
 import { inspectRecoverySnapshot, inspectStorageHealth } from '@/storage/recovery-snapshot';
 import type { LocalSettingsStore } from '@/storage/local-settings';
+import { readStorageCapacity } from '@/storage/storage-capacity';
 import type {
   CardRecord,
+  StorageCapacityDiagnostic,
   StorageCardStages,
   StorageCounts,
   StorageDiagnostics,
@@ -211,6 +213,16 @@ export async function getStorageDiagnostics(
 ): Promise<StorageDiagnostics> {
   const extensionId = chrome.runtime?.id ?? '—';
   const extensionVersion = chrome.runtime?.getManifest?.().version ?? '—';
+  let capacity: StorageCapacityDiagnostic;
+  try {
+    capacity = await readStorageCapacity();
+  } catch (error) {
+    capacity = {
+      unlimitedStorage: null,
+      persisted: null,
+      errors: [`容量诊断读取失败：${error instanceof Error ? error.message : String(error)}`],
+    };
+  }
   try {
     await diagnosticsQueue;
     const state = await readState();
@@ -261,6 +273,7 @@ export async function getStorageDiagnostics(
       snapshot,
       ...(health === undefined ? {} : { health }),
       ...(healthError ? { healthError } : {}),
+      capacity,
       history: state.history,
     };
   } catch (error) {
@@ -274,6 +287,7 @@ export async function getStorageDiagnostics(
       current: null,
       currentError: error instanceof Error ? error.message : String(error),
       snapshot: { present: false },
+      capacity,
       history: [],
     };
   }

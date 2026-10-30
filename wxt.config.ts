@@ -28,7 +28,8 @@ export default defineConfig({
     name: '刷刷升级',
     description: '在视频间隙轻量学习英语单词',
     version: '0.0.1',
-    permissions: ['storage', 'scripting'],
+    // 同时保护 IndexedDB 和扩展本地快照，避免按普通站点配额回收。
+    permissions: ['storage', 'scripting', 'unlimitedStorage'],
     host_permissions: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
     // Issue #11：自定义网站通过可选权限按需授权，用户从 Popup 主动加入时请求。
     optional_host_permissions: ['https://*/*'],

@@ -787,6 +787,16 @@ export interface StorageDiagnosticsCurrent {
   storageMetaError?: string;
 }
 
+/** 浏览器存储保护与空间估算；读取失败不阻断权威数据。 */
+export interface StorageCapacityDiagnostic {
+  unlimitedStorage: boolean | null;
+  persisted: boolean | null;
+  usage?: number;
+  quota?: number;
+  localBytes?: number;
+  errors: string[];
+}
+
 /** 设置页数据管理读取的完整存档诊断。 */
 export interface StorageDiagnostics {
   extensionId: string;
@@ -801,5 +811,6 @@ export interface StorageDiagnostics {
   snapshot: StorageSnapshotDiagnostic;
   health?: StorageHealth;
   healthError?: string;
+  capacity?: StorageCapacityDiagnostic;
   history: StorageStartupRecord[];
 }

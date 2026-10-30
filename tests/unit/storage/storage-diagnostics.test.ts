@@ -132,6 +132,9 @@ async function putStorageMeta(database: IDBDatabase, meta: StorageMetaRecord): P
 function installChromeMock(): Record<string, unknown> {
   const values: Record<string, unknown> = {};
   vi.stubGlobal('chrome', {
+    permissions: {
+      contains: vi.fn(async () => true),
+    },
     storage: {
       local: {
         get: vi.fn(async (keys: string | string[]) => {
@@ -141,6 +144,7 @@ function installChromeMock(): Record<string, unknown> {
         set: vi.fn(async (entries: Record<string, unknown>) => {
           Object.assign(values, entries);
         }),
+        getBytesInUse: vi.fn(async () => 2_048),
       },
     },
   });
@@ -190,6 +194,12 @@ describe('存档诊断记录', () => {
     });
     await saveRecoverySnapshot(store);
     await putStorageMeta(db, STORAGE_META);
+    vi.stubGlobal('navigator', {
+      storage: {
+        persisted: vi.fn(async () => false),
+        estimate: vi.fn(async () => ({ usage: 4_096, quota: 16_384 })),
+      },
+    });
 
     const diagnostics = await getStorageDiagnostics(store);
     expect(diagnostics.databaseOpen).toBe(true);
@@ -211,6 +221,14 @@ describe('存档诊断记录', () => {
     });
     expect(diagnostics.health?.status).toBe('healthy');
     expect(diagnostics.health?.issues).toEqual([]);
+    expect(diagnostics.capacity).toEqual({
+      unlimitedStorage: true,
+      persisted: false,
+      usage: 4_096,
+      quota: 16_384,
+      localBytes: 2_048,
+      errors: [],
+    });
     expect(diagnostics.history).toHaveLength(1);
   });
 

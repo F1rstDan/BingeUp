@@ -17,6 +17,7 @@ import type {
   AppSettings,
   SelfRatedLevel,
   SiteSettings,
+  StorageCapacityDiagnostic,
   StorageCardStages,
   StorageCounts,
   StorageDiagnostics,
@@ -710,6 +711,31 @@ function formatStorageCommitTime(meta: StorageMetaRecord | undefined): string {
   return formatDiagnosticTime(meta.committedAt);
 }
 
+function formatByteSize(value: number | undefined): string {
+  if (value === undefined) return '—';
+  if (value < 1024) return `${value} B`;
+  const units = ['KB', 'MB', 'GB', 'TB'];
+  let amount = value / 1024;
+  let unitIndex = 0;
+  while (amount >= 1024 && unitIndex < units.length - 1) {
+    amount /= 1024;
+    unitIndex += 1;
+  }
+  return `${amount.toFixed(amount >= 10 ? 1 : 2)} ${units[unitIndex]}`;
+}
+
+function formatCapacityPermission(capacity: StorageCapacityDiagnostic | undefined): string {
+  if (capacity?.unlimitedStorage === true) return 'unlimitedStorage 已授权';
+  if (capacity?.unlimitedStorage === false) return 'unlimitedStorage 未授权';
+  return '—';
+}
+
+function formatCapacityPersistence(capacity: StorageCapacityDiagnostic | undefined): string {
+  if (capacity?.persisted === true) return '已持久化';
+  if (capacity?.persisted === false) return '未持久化';
+  return '—';
+}
+
 function formatStorageStamp(stamp: { generation: string; revision: number } | undefined): string {
   if (stamp === undefined) return '—';
   return `修订 ${stamp.revision} · 代次 ${stamp.generation}`;
@@ -905,6 +931,25 @@ function StorageDiagnosticsCard({
               </dd>
             </div>
             <div className="bingeup-diagnostics-row">
+              <dt>存储权限</dt>
+              <dd>{formatCapacityPermission(diagnostics.capacity)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>持久化状态</dt>
+              <dd>{formatCapacityPersistence(diagnostics.capacity)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>空间估算</dt>
+              <dd>
+                已用 {formatByteSize(diagnostics.capacity?.usage)} · 估算配额{' '}
+                {formatByteSize(diagnostics.capacity?.quota)}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>本地备份</dt>
+              <dd>{formatByteSize(diagnostics.capacity?.localBytes)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
               <dt>最近数据库提交</dt>
               <dd>{formatStorageCommitTime(storageMeta)}</dd>
             </div>
@@ -995,6 +1040,18 @@ function StorageDiagnosticsCard({
                 {diagnostics.health.issues.map((issue, index) => (
                   <li key={`${issue.code}-${index}`}>
                     <span>{formatHealthIssue(issue)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {diagnostics.capacity !== undefined && diagnostics.capacity.errors.length > 0 && (
+            <div className="bingeup-diagnostics-history-block">
+              <Title size="small">容量诊断问题</Title>
+              <ul className="bingeup-diagnostics-history">
+                {diagnostics.capacity.errors.map((capacityError, index) => (
+                  <li key={`capacity-${index}`}>
+                    <span>{capacityError}</span>
                   </li>
                 ))}
               </ul>
