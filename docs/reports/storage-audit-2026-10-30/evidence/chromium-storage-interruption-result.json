@@ -1,0 +1,26 @@
+{
+  "channel": "chromium",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\chromium-oE6jrq",
+  "status": "passed",
+  "startedAt": "2026-10-30T00:22:59.822Z",
+  "extensionId": "glmnhnhflfpihgjogjcloinkegjjomdi",
+  "before": {
+    "id": "current",
+    "revision": 3,
+    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "pendingBackup": true,
+    "committedAt": 1793319780421
+  },
+  "after": {
+    "id": "current",
+    "revision": 3,
+    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "pendingBackup": false,
+    "committedAt": 1793319780421
+  },
+  "snapshot": {
+    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "revision": 3
+  },
+  "completedAt": "2026-10-30T00:23:01.039Z"
+}

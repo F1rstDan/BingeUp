@@ -5,9 +5,11 @@ import {
   STORAGE_META_ID,
   STORES,
   acknowledgeStorageBackup,
+  idbGet,
   idbGetAll,
   idbGetAllByIndex,
   idbPut,
+  normalizeStorageMeta,
   openDatabase,
   readStorageMeta,
   rebuildDatabase,
@@ -23,6 +25,35 @@ async function deleteDatabase(): Promise<void> {
     request.onerror = () => resolve();
     request.onblocked = () => resolve();
   });
+}
+
+async function writeRawStorageMeta(db: IDBDatabase, value: unknown): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORES.storageMeta, 'readwrite');
+    tx.objectStore(STORES.storageMeta).put(value);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  });
+}
+
+async function deleteRawStorageMeta(db: IDBDatabase): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORES.storageMeta, 'readwrite');
+    tx.objectStore(STORES.storageMeta).delete(STORAGE_META_ID);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  });
+}
+
+function storageMetaInvalidError(value: unknown): unknown {
+  try {
+    normalizeStorageMeta(value);
+  } catch (error) {
+    return error;
+  }
+  return null;
 }
 
 const CARD: CardRecord = {
@@ -160,6 +191,104 @@ describe('IndexedDB 结构', () => {
       request.onerror = () => reject(request.error);
     });
     expect(() => connection.transaction(STORES.cards)).toThrow();
+  });
+});
+
+describe('storageMeta 严格校验', () => {
+  afterEach(async () => {
+    await deleteDatabase();
+  });
+
+  it('拒绝缺失、负数和溢出 revision，不生成替代 stamp', () => {
+    const generation = '00000000-0000-4000-8000-000000000000';
+    const valid = {
+      id: STORAGE_META_ID,
+      revision: 3,
+      generation,
+      pendingBackup: false,
+      committedAt: 100,
+    };
+    expect(normalizeStorageMeta(valid)).toEqual(valid);
+
+    for (const invalid of [
+      undefined,
+      null,
+      { ...valid, revision: -1 },
+      { ...valid, revision: Number.MAX_SAFE_INTEGER + 1 },
+      { ...valid, generation: 'not-a-generation' },
+      { ...valid, pendingBackup: 1 },
+      { ...valid, committedAt: -1 },
+      { ...valid, committedAt: 1.5 },
+    ]) {
+      expect(storageMetaInvalidError(invalid)).toMatchObject({ code: 'STORAGE_META_INVALID' });
+    }
+  });
+
+  it('v2 中 meta 缺失时读取失败且不会在运行期补建', async () => {
+    const db = await openDatabase(TEST_DB);
+    await deleteRawStorageMeta(db);
+
+    await expect(readStorageMeta(db)).rejects.toMatchObject({ code: 'STORAGE_META_INVALID' });
+    await expect(idbGet(db, STORES.storageMeta, STORAGE_META_ID)).resolves.toBeUndefined();
+    db.close();
+  });
+
+  it('非法 meta 使权威写入整体中止，学习卡和原始异常记录保持不变', async () => {
+    const db = await openDatabase(TEST_DB);
+    await idbPut(db, STORES.cards, CARD);
+    const invalid = {
+      id: STORAGE_META_ID,
+      revision: -1,
+      generation: '00000000-0000-4000-8000-000000000000',
+      pendingBackup: true,
+      committedAt: 0,
+    };
+    await writeRawStorageMeta(db, invalid);
+
+    await expect(idbPut(db, STORES.cards, { ...CARD, updatedAt: 2 })).rejects.toMatchObject({
+      code: 'STORAGE_META_INVALID',
+    });
+    await expect(idbGetAll(db, STORES.cards)).resolves.toEqual([CARD]);
+    await expect(idbGet(db, STORES.storageMeta, STORAGE_META_ID)).resolves.toEqual(invalid);
+    db.close();
+  });
+
+  it('revision 已到安全整数上限时拒绝递增并回滚写入', async () => {
+    const db = await openDatabase(TEST_DB);
+    const atLimit = {
+      id: STORAGE_META_ID,
+      revision: Number.MAX_SAFE_INTEGER,
+      generation: '00000000-0000-4000-8000-000000000000',
+      pendingBackup: false,
+      committedAt: 100,
+    };
+    await writeRawStorageMeta(db, atLimit);
+
+    await expect(idbPut(db, STORES.cards, CARD)).rejects.toThrow(/溢出/);
+    await expect(idbGetAll(db, STORES.cards)).resolves.toEqual([]);
+    await expect(idbGet(db, STORES.storageMeta, STORAGE_META_ID)).resolves.toEqual(atLimit);
+    db.close();
+  });
+
+  it('非法 meta 不允许 ack 清除待备份标记', async () => {
+    const db = await openDatabase(TEST_DB);
+    const invalid = {
+      id: STORAGE_META_ID,
+      revision: 4,
+      generation: '00000000-0000-4000-8000-000000000000',
+      pendingBackup: true,
+      committedAt: -1,
+    };
+    await writeRawStorageMeta(db, invalid);
+
+    await expect(
+      acknowledgeStorageBackup(db, {
+        generation: invalid.generation,
+        revision: invalid.revision,
+      }),
+    ).rejects.toMatchObject({ code: 'STORAGE_META_INVALID' });
+    await expect(idbGet(db, STORES.storageMeta, STORAGE_META_ID)).resolves.toEqual(invalid);
+    db.close();
   });
 });
 

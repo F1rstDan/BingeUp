@@ -133,7 +133,8 @@ export function OptionsApp(): JSX.Element {
     setNotice((current) => ({
       id: (current?.id ?? 0) + 1,
       text: message,
-      persistent: message.includes('失败') || message.includes('未确认'),
+      persistent:
+        message.includes('失败') || message.includes('未确认') || message.includes('待确认'),
     }));
   }, []);
 
@@ -666,6 +667,19 @@ export function OptionsApp(): JSX.Element {
         loading={diagnosticsLoading}
         onRefresh={() => void refreshDiagnostics()}
       />
+      {diagnostics?.health?.status === 'isolated' &&
+        diagnostics.health.issues.some((issue) => issue.code === 'metadata-invalid') && (
+          <Card className="bingeup-card">
+            <p className="bingeup-error">
+              数据库元数据缺失或无效。导入和清除会因无法校验版本而停止；请先导出需要保留的数据，再按两步确认重建本地数据。
+            </p>
+            <div className="bingeup-actions">
+              <Button danger onClick={requestRebuildDatabase}>
+                清除本地数据并重建
+              </Button>
+            </div>
+          </Card>
+        )}
     </div>
   );
 
@@ -771,6 +785,9 @@ function formatHealthIssue(issue: StorageHealthIssue): string {
   }
   if (issue.code === 'pending-operation') {
     return `${issue.message}（${issue.operation}，${formatDiagnosticTime(issue.startedAt)}）`;
+  }
+  if (issue.code === 'revision-regressed') {
+    return `${issue.message}（数据库 ${issue.databaseRevision} / 快照 ${issue.snapshotRevision}）`;
   }
   if (issue.code === 'restore-failed') {
     return `${issue.message}（${formatDiagnosticTime(issue.failedAt)}）`;
@@ -1308,10 +1325,15 @@ async function handleExport(
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `bingeup-${snapshot ? `snapshot-${snapshot}` : 'backup'}-${new Date().toISOString().slice(0, 10)}.json`;
+    const capturedAt = snapshot ? new Date(payload.exportedAt) : new Date();
+    a.download = `bingeup-${snapshot ? `snapshot-${snapshot}` : 'backup'}-${capturedAt.toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    onNotice('数据已导出');
+    onNotice(
+      snapshot
+        ? `自动快照已导出：生成于 ${capturedAt.toLocaleString('zh-CN', { hour12: false })}；卡 ${payload.data.cards.length}、复习日志 ${payload.data.reviewLogs.length}、会话 ${payload.data.sessionLogs.length}、行为事件 ${payload.data.behaviorEvents.length}。快照可能精简了明细；导入会替换当前数据，请先核对数量。`
+        : '数据已导出',
+    );
   } catch (e) {
     onNotice(`导出失败：${e instanceof Error ? e.message : String(e)}`);
   }
@@ -1367,12 +1389,20 @@ async function handleClearProgress(
   onNotice: (msg: string | null) => void,
 ): Promise<void> {
   try {
-    await messageClient.clearLearningProgress();
+    const result = await messageClient.clearLearningProgress();
+    if (!result.ok) {
+      onNotice(`清除失败：${result.errors.join('；')}`);
+      return;
+    }
     if (!(await onReload())) {
       onNotice('学习进度已清除，但重新读取失败；当前显示状态未确认');
       return;
     }
-    onNotice('学习进度已清除');
+    onNotice(
+      result.warnings.length > 0
+        ? `学习进度已清除；${result.warnings.join('；')}`
+        : '学习进度已清除',
+    );
   } catch (e) {
     onNotice(`清除失败：${e instanceof Error ? e.message : String(e)}`);
   }

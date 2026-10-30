@@ -715,6 +715,13 @@ export type StorageHealthIssue =
       operation: string;
       startedAt: number;
     }
+  | { code: 'metadata-invalid'; message: string }
+  | {
+      code: 'revision-regressed';
+      message: string;
+      databaseRevision: number;
+      snapshotRevision: number;
+    }
   | { code: 'snapshot-invalid'; message: string }
   | { code: 'snapshot-validation-failed'; message: string; errors: string[] };
 

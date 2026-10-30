@@ -47,6 +47,16 @@ function makeLog(overrides: Partial<ReviewLogRecord> = {}): ReviewLogRecord {
   };
 }
 
+async function deleteCardRaw(db: IDBDatabase, id: string): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORES.cards, 'readwrite');
+    tx.objectStore(STORES.cards).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  });
+}
+
 describe('CardRepository — 学习卡持久化（Issue #5 验收标准 3）', () => {
   afterEach(async () => {
     await deleteDatabase(TEST_DB);
@@ -223,6 +233,7 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
     const card = makeCard({ id: 'card-1', wordId: 'w-1' });
     const log = makeLog({ id: 'log-1', cardId: 'card-1', wordId: 'w-1' });
 
+    await cardRepo.save(card);
     await cardRepo.saveCardAndLog(card, log);
 
     // 两边同时持久化
@@ -231,21 +242,50 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
     db.close();
   });
 
-  it('AC3：saveCardAndLog 失败时学习卡与复习日志都不写入（事务回滚）', async () => {
+  it.each([
+    ['wordId', { wordId: 'w-replaced' }],
+    ['deckId', { deckId: 'deck-replaced' }],
+  ])('saveCardAndLog 发现 %s 身份变化时回滚且不推进 revision', async (_field, change) => {
     const db = await openDatabase(TEST_DB);
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
-    // 先存一张卡占据该 wordId
+    const current = makeCard({ id: 'card-update', wordId: 'w-update' });
+    const stale = { ...current, ...change };
+    const log = makeLog({
+      id: `log-${_field}`,
+      cardId: stale.id,
+      wordId: stale.wordId,
+    });
+    await cardRepo.save(current);
+    const before = await readStorageMeta(db);
+
+    await expect(cardRepo.saveCardAndLog(stale, log)).rejects.toMatchObject({
+      code: 'CARD_IDENTITY_CONFLICT',
+      reason: 'changed',
+    });
+
+    await expect(cardRepo.getById(current.id)).resolves.toEqual(current);
+    await expect(logRepo.getAll()).resolves.toEqual([]);
+    expect(await readStorageMeta(db)).toEqual(before);
+    db.close();
+  });
+
+  it('AC3：saveCardAndLog 更新不存在的学习卡时整体回滚', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
     await cardRepo.save(makeCard({ id: 'card-existing', wordId: 'w-existing' }));
 
-    // 原子方法写入同 wordId 不同 id 的新卡 + 日志 → 唯一索引拒绝 → 事务回滚
     const conflictCard = makeCard({ id: 'card-conflict', wordId: 'w-existing' });
     const conflictLog = makeLog({
       id: 'log-conflict',
       cardId: 'card-conflict',
       wordId: 'w-existing',
     });
-    await expect(cardRepo.saveCardAndLog(conflictCard, conflictLog)).rejects.toThrow();
+    await expect(cardRepo.saveCardAndLog(conflictCard, conflictLog)).rejects.toMatchObject({
+      code: 'CARD_IDENTITY_CONFLICT',
+      reason: 'missing',
+    });
 
     // 冲突卡未写入
     await expect(cardRepo.getById('card-conflict')).resolves.toBeUndefined();
@@ -261,7 +301,6 @@ describe('CardRepository — 唯一索引与原子提交（Issue #19 AC1/AC3）'
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
 
-    // 尝试原子写入一张违反唯一约束的卡 + 日志
     await cardRepo.save(makeCard({ id: 'c0', wordId: 'w-0' }));
     await expect(
       cardRepo.saveCardAndLog(
@@ -293,6 +332,7 @@ describe('CardRepository — 答题提交幂等', () => {
       wordId: card.wordId,
     });
 
+    await cardRepo.save(card);
     const first = await cardRepo.saveSubmission(card, log);
     expect(first).toMatchObject({ inserted: true, card, log });
 
@@ -327,6 +367,7 @@ describe('CardRepository — 答题提交幂等', () => {
       selectedAnswer: '另一个答案',
     });
 
+    await cardRepo.save(card);
     const results = await Promise.all([
       cardRepo.saveSubmission(card, firstLog),
       cardRepo.saveSubmission({ ...card, updatedAt: 2_000_000 }, secondLog),
@@ -348,6 +389,7 @@ describe('CardRepository — 答题提交幂等', () => {
     const logRepo = new ReviewLogRepository(db);
     const card = makeCard({ id: 'card-conflict', wordId: 'w-conflict' });
     const original = makeLog({ id: 'question:conflict', cardId: card.id, wordId: card.wordId });
+    await cardRepo.save(card);
     await cardRepo.saveSubmission(card, original);
 
     await expect(cardRepo.saveSubmission(card, { ...original, ...mismatch })).rejects.toThrow(
@@ -356,6 +398,59 @@ describe('CardRepository — 答题提交幂等', () => {
 
     await expect(logRepo.getById(original.id)).resolves.toEqual(original);
     await expect(cardRepo.getById(card.id)).resolves.toEqual(card);
+    db.close();
+  });
+
+  it('答题最终写事务发现卡已删除时拒绝复活且不推进 revision', async () => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const card = makeCard({ id: 'card-cleared', wordId: 'w-cleared' });
+    const log = makeLog({
+      id: 'question:cleared',
+      cardId: card.id,
+      wordId: card.wordId,
+    });
+    await cardRepo.save(card);
+    const before = await readStorageMeta(db);
+    await deleteCardRaw(db, card.id);
+
+    await expect(cardRepo.saveSubmission(card, log)).rejects.toMatchObject({
+      code: 'CARD_IDENTITY_CONFLICT',
+      reason: 'missing',
+    });
+
+    await expect(cardRepo.getById(card.id)).resolves.toBeUndefined();
+    await expect(logRepo.getAll()).resolves.toEqual([]);
+    expect(await readStorageMeta(db)).toEqual(before);
+    db.close();
+  });
+
+  it.each([
+    ['wordId', { wordId: 'w-replaced' }],
+    ['deckId', { deckId: 'deck-replaced' }],
+  ])('答题最终写事务发现 %s 变化时拒绝覆盖且不推进 revision', async (_field, change) => {
+    const db = await openDatabase(TEST_DB);
+    const cardRepo = new CardRepository(db);
+    const logRepo = new ReviewLogRepository(db);
+    const current = makeCard({ id: 'card-identity', wordId: 'w-identity' });
+    const stale = { ...current, ...change };
+    const log = makeLog({
+      id: `question:${_field}`,
+      cardId: stale.id,
+      wordId: stale.wordId,
+    });
+    await cardRepo.save(current);
+    const before = await readStorageMeta(db);
+
+    await expect(cardRepo.saveSubmission(stale, log)).rejects.toMatchObject({
+      code: 'CARD_IDENTITY_CONFLICT',
+      reason: 'changed',
+    });
+
+    await expect(cardRepo.getById(current.id)).resolves.toEqual(current);
+    await expect(logRepo.getAll()).resolves.toEqual([]);
+    expect(await readStorageMeta(db)).toEqual(before);
     db.close();
   });
 });
@@ -369,8 +464,16 @@ describe('权威仓库 — storageMeta revision', () => {
     const db = await openDatabase(TEST_DB);
     const cardRepo = new CardRepository(db);
     const logRepo = new ReviewLogRepository(db);
-    const initial = await readStorageMeta(db);
     const card = makeCard({ id: 'rev-card', wordId: 'w-rev' });
+    const submissionCard = makeCard({ id: 'rev-submission', wordId: 'w-submission' });
+    const submissionLog = makeLog({
+      id: 'question:rev',
+      cardId: submissionCard.id,
+      wordId: submissionCard.wordId,
+    });
+    await cardRepo.save(card);
+    await cardRepo.save(submissionCard);
+    const initial = await readStorageMeta(db);
 
     await cardRepo.save(card);
     expect((await readStorageMeta(db)).revision).toBe(initial.revision + 1);
@@ -382,12 +485,6 @@ describe('权威仓库 — storageMeta revision', () => {
     await logRepo.save(makeLog({ id: 'rev-log-2', cardId: card.id, wordId: card.wordId }));
     expect((await readStorageMeta(db)).revision).toBe(initial.revision + 3);
 
-    const submissionCard = makeCard({ id: 'rev-submission', wordId: 'w-submission' });
-    const submissionLog = makeLog({
-      id: 'question:rev',
-      cardId: submissionCard.id,
-      wordId: submissionCard.wordId,
-    });
     await cardRepo.saveSubmission(submissionCard, submissionLog);
     const afterInsert = await readStorageMeta(db);
     expect(afterInsert.revision).toBe(initial.revision + 4);

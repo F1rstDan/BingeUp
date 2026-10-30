@@ -4,7 +4,6 @@ import { validateAppSettings } from '@/settings/validator';
 import {
   STORES,
   STORAGE_META_ID,
-  idbGetAll,
   idbReplaceAll,
   markStorageMetaChanged,
   normalizeStorageMeta,
@@ -91,7 +90,7 @@ async function loadBuiltInContent(): Promise<BuiltInContent> {
 
 /** 导出本地用户数据快照。 */
 export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
-  return (await exportLocalDataForSnapshot(store)).payload;
+  return (await readConsistentExport(store)).payload;
 }
 
 function readRequest<T>(request: IDBRequest<T>): Promise<T> {
@@ -109,10 +108,13 @@ function awaitReadTransaction(transaction: IDBTransaction): Promise<void> {
   });
 }
 
-/** 在同一只读事务中读取导出 payload 与 storageMeta。 */
-export async function exportLocalDataForSnapshot(
-  store: LocalSettingsStore,
-): Promise<ExportSnapshotBundle> {
+interface ConsistentExportRead {
+  payload: ExportPayload;
+  rawStorageMeta: unknown;
+}
+
+/** 在同一只读事务中读取导出 payload 与原始 storageMeta。 */
+async function readConsistentExport(store: LocalSettingsStore): Promise<ConsistentExportRead> {
   const db = store.database;
   const transaction = db.transaction(
     [
@@ -172,8 +174,16 @@ export async function exportLocalDataForSnapshot(
         decks: decks as DeckRecord[],
       },
     },
-    storageMeta: normalizeStorageMeta(storedMeta),
+    rawStorageMeta: storedMeta,
   };
+}
+
+/** 自动快照必须同时取得 payload 与经过严格校验的 storageMeta。 */
+export async function exportLocalDataForSnapshot(
+  store: LocalSettingsStore,
+): Promise<ExportSnapshotBundle> {
+  const { payload, rawStorageMeta } = await readConsistentExport(store);
+  return { payload, storageMeta: normalizeStorageMeta(rawStorageMeta) };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -676,34 +686,45 @@ export async function importLocalData(
 export async function clearLearningProgress(
   db: IDBDatabase,
   siteBaselines: BehaviorEventRecord[] = [],
-): Promise<void> {
-  await new Promise<void>((resolve, reject) => {
-    const tx = openTrackedTransaction(db, [
-      STORES.cards,
-      STORES.reviewLogs,
-      STORES.sessionLogs,
-      STORES.behaviorEvents,
-    ]);
-    try {
-      markStorageMetaChanged(tx, { rotateGeneration: true });
-      for (const store of [
+): Promise<DataOperationResult> {
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const tx = openTrackedTransaction(db, [
         STORES.cards,
         STORES.reviewLogs,
         STORES.sessionLogs,
         STORES.behaviorEvents,
-      ]) {
-        tx.objectStore(store).clear();
+      ]);
+      try {
+        markStorageMetaChanged(tx, { rotateGeneration: true });
+        for (const store of [
+          STORES.cards,
+          STORES.reviewLogs,
+          STORES.sessionLogs,
+          STORES.behaviorEvents,
+        ]) {
+          tx.objectStore(store).clear();
+        }
+        for (const event of siteBaselines) tx.objectStore(STORES.behaviorEvents).put(event);
+      } catch (error) {
+        tx.abort();
+        reject(error instanceof Error ? error : new Error(String(error)));
+        return;
       }
-      for (const event of siteBaselines) tx.objectStore(STORES.behaviorEvents).put(event);
-    } catch (error) {
-      tx.abort();
-      reject(error instanceof Error ? error : new Error(String(error)));
-      return;
-    }
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error ?? new Error('清除学习进度失败'));
-    tx.onabort = () => reject(tx.error ?? new Error('清除学习进度事务已中止'));
-  });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error ?? new Error('清除学习进度失败'));
+      tx.onabort = () => reject(tx.error ?? new Error('清除学习进度事务已中止'));
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      errors: [
+        `清除事务失败，原有学习进度未改变：${error instanceof Error ? error.message : String(error)}`,
+      ],
+      warnings: [],
+    };
+  }
+  return { ok: true, errors: [], warnings: [] };
 }
 
 export async function clearAllLocalData(store: LocalSettingsStore): Promise<DataOperationResult> {

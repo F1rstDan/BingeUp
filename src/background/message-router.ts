@@ -396,8 +396,7 @@ export function createMessageRouter(store: LocalSettingsStore, db: IDBDatabase |
             }),
           ),
         );
-        await clearLearningProgress(db, baselines);
-        return undefined;
+        return clearLearningProgress(db, baselines);
       }
       case 'CLEAR_ALL_DATA': {
         if (!db) throw new Error('数据库不可用，现有数据未被更改。请关闭其他刷刷升级页面后重试');

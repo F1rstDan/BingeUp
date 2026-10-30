@@ -47,6 +47,16 @@ npm run test:storage:restart
 
 脚本只创建独立配置目录，不使用日常浏览器配置。结果与诊断截图写入 `docs/reports/storage-audit-2026-10-30/evidence/`，原始故障审计结果不被替换。缺少任一浏览器时，该检查失败，不应记为通过。
 
+## 保存中断门禁
+
+构建两种产物后，运行：
+
+```bash
+npm run test:storage:interruption
+```
+
+命令分别启动 Chromium 和 Edge，在独立配置中模拟自动快照写入配额失败。主数据库写入必须保留为待备份，关闭整个浏览器后重新启动，快照修订必须追上数据库修订，用户设置必须保持不变。结果写入 `evidence/{channel}-storage-interruption-result.json`。该检查只注入测试配置的 Service Worker，不修改日常浏览器配置或构建产物。
+
 ## 4. 原目录升级步骤
 
 1. 升级前在设置页导出用户备份。

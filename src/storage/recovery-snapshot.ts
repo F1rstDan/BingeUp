@@ -4,7 +4,14 @@ import {
   validateLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, acknowledgeStorageBackup, readStorageMeta } from '@/storage/database';
+import {
+  STORES,
+  STORAGE_META_ID,
+  StorageMetaInvalidError,
+  acknowledgeStorageBackup,
+  normalizeStorageMeta,
+  readStorageMeta,
+} from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
@@ -12,6 +19,7 @@ import type {
   StorageCounts,
   StorageHealth,
   StorageHealthIssue,
+  StorageMetaRecord,
   StorageSnapshotDiagnostic,
 } from '@/types';
 
@@ -106,6 +114,15 @@ export interface RecoveryRestoreResult {
   afterCounts?: StorageCounts;
 }
 
+export class RecoveryOperationOutcomeUnknownError extends Error {
+  readonly code = 'RECOVERY_OPERATION_OUTCOME_UNKNOWN';
+
+  constructor(message: string) {
+    super(message);
+    this.name = 'RecoveryOperationOutcomeUnknownError';
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -180,6 +197,22 @@ function parseHealthIssue(value: unknown): StorageHealthIssue | null {
   }
   if (value.code === 'snapshot-invalid' && typeof value.message === 'string') {
     return { code: value.code, message: value.message };
+  }
+  if (value.code === 'metadata-invalid' && typeof value.message === 'string') {
+    return { code: value.code, message: value.message };
+  }
+  if (
+    value.code === 'revision-regressed' &&
+    typeof value.message === 'string' &&
+    typeof value.databaseRevision === 'number' &&
+    typeof value.snapshotRevision === 'number'
+  ) {
+    return {
+      code: value.code,
+      message: value.message,
+      databaseRevision: value.databaseRevision,
+      snapshotRevision: value.snapshotRevision,
+    };
   }
   if (
     value.code === 'snapshot-validation-failed' &&
@@ -371,6 +404,7 @@ async function readStorageHealthData(database: IDBDatabase): Promise<{
   currentCounts: StorageCounts;
   cards: CardRecord[];
   reviewLogs: ReviewLogRecord[];
+  rawStorageMeta: unknown;
 }> {
   return new Promise((resolve, reject) => {
     const transaction = database.transaction(
@@ -381,6 +415,7 @@ async function readStorageHealthData(database: IDBDatabase): Promise<{
         STORES.behaviorEvents,
         STORES.words,
         STORES.decks,
+        STORES.storageMeta,
       ],
       'readonly',
     );
@@ -390,6 +425,7 @@ async function readStorageHealthData(database: IDBDatabase): Promise<{
     const behaviorEventsCount = transaction.objectStore(STORES.behaviorEvents).count();
     const wordsCount = transaction.objectStore(STORES.words).count();
     const decksCount = transaction.objectStore(STORES.decks).count();
+    const storageMetaRequest = transaction.objectStore(STORES.storageMeta).get(STORAGE_META_ID);
     transaction.oncomplete = () => {
       const cards = cardsRequest.result as CardRecord[];
       const reviewLogs = reviewLogsRequest.result as ReviewLogRecord[];
@@ -404,6 +440,7 @@ async function readStorageHealthData(database: IDBDatabase): Promise<{
           words: wordsCount.result,
           decks: decksCount.result,
         },
+        rawStorageMeta: storageMetaRequest.result,
       });
     };
     transaction.onerror = () => reject(transaction.error ?? new Error('读取存档健康数据事务失败'));
@@ -751,6 +788,14 @@ export async function savePendingRecoverySnapshot(store: LocalSettingsStore): Pr
     if (!(await readStorageMeta(store.database)).pendingBackup) return true;
     return await saveRecoverySnapshot(store);
   } catch (error) {
+    if (error instanceof StorageMetaInvalidError) {
+      await activateRecoveryIsolation([
+        {
+          code: 'metadata-invalid',
+          message: `数据库元数据缺失或无效：${error.message}`,
+        },
+      ]);
+    }
     console.error('[BingeUp] 待备份存档写入失败', error);
     return false;
   }
@@ -761,33 +806,20 @@ async function retryPendingRecoverySnapshotNow(
 ): Promise<SnapshotWriteResult> {
   const pending = await getPendingRecoveryOperation();
   if (pending === null) return writeProtectedRecoverySnapshot(store);
-  if (activeRecoveryOperation !== null) return { saved: false, snapshot: null };
-  if (pending.operation === 'unknown') {
-    memoryIsolationActive = true;
-    return { saved: false, snapshot: null };
-  }
-  const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
-  const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
-  const result = await writeRecoverySnapshot(store, {
-    previous:
-      pending.operation === 'import' && archive !== null
-        ? snapshotEntityFromArchive(archive)
-        : null,
-    operation: pending.operation,
-    tombstoneKind: pending.operation === 'import' ? null : pending.operation,
-  });
-  if (result.saved) {
-    try {
-      await completeRecoveryOperation(pending.id);
-    } catch (error) {
-      console.error('[BingeUp] 清除存档恢复标记失败', error);
-      return { saved: false, snapshot: null };
-    }
-  }
-  return result;
+  memoryIsolationActive = true;
+  const operation = {
+    import: '导入',
+    'clear-learning-progress': '清除学习进度',
+    'clear-all': '清除全部数据',
+    rebuild: '重建',
+    unknown: '存档替换',
+  }[pending.operation];
+  throw new RecoveryOperationOutcomeUnknownError(
+    `上次${operation}的结果无法确认；存档保持隔离，快照与操作标记均未更改。请先导出核对，再明确重新执行导入、清除或重建。`,
+  );
 }
 
-/** 用户明确重试时，若有 pending，则以当前 DB 建立新档案后再解除隔离。 */
+/** 用户明确重试时，只处理普通快照失败；破坏性操作必须重新执行。 */
 export function retryRecoverySnapshot(store: LocalSettingsStore): Promise<boolean> {
   return enqueueSnapshotWrite(store, 'retry-pending').then((result) => result.saved);
 }
@@ -936,7 +968,20 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
     );
   }
   const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
-  const { currentCounts, cards, reviewLogs } = await readStorageHealthData(store.database);
+  const { currentCounts, cards, reviewLogs, rawStorageMeta } = await readStorageHealthData(
+    store.database,
+  );
+  let metadataInvalidIssue: Extract<StorageHealthIssue, { code: 'metadata-invalid' }> | null = null;
+  let currentStorageMeta: StorageMetaRecord | null = null;
+  try {
+    currentStorageMeta = normalizeStorageMeta(rawStorageMeta);
+  } catch (error) {
+    if (!(error instanceof StorageMetaInvalidError)) throw error;
+    metadataInvalidIssue = {
+      code: 'metadata-invalid',
+      message: `数据库元数据缺失或无效：${error.message}`,
+    };
+  }
   const snapshotCounts = snapshot === null ? undefined : countsFromPayload(snapshot.payload);
   if (storedSnapshot !== undefined && snapshot === null) {
     issues.push({
@@ -959,6 +1004,21 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
       startedAt: pendingOperation.startedAt,
     });
   }
+  if (metadataInvalidIssue !== null) issues.push(metadataInvalidIssue);
+  if (
+    currentStorageMeta !== null &&
+    snapshot?.storage !== null &&
+    snapshot?.storage !== undefined &&
+    currentStorageMeta.generation === snapshot.storage.generation &&
+    currentStorageMeta.revision < snapshot.storage.revision
+  ) {
+    issues.push({
+      code: 'revision-regressed',
+      message: '当前数据库修订号低于同一代次的恢复快照。',
+      databaseRevision: currentStorageMeta.revision,
+      snapshotRevision: snapshot.storage.revision,
+    });
+  }
   if (snapshotCounts !== undefined) {
     for (const collection of [
       'cards',
@@ -977,15 +1037,15 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
         healthyCount: snapshotCounts[collection],
       });
     }
-    if (currentCounts.cards === snapshotCounts.cards && archive !== null) {
+    if (archive !== null) {
       const currentCardIds = new Set(cards.map((card) => card.id));
       const healthyCardIds = new Set(archive.payload.data.cards.map((card) => card.id));
       const missingCardIds = [...healthyCardIds].filter((id) => !currentCardIds.has(id));
       const addedCardIds = [...currentCardIds].filter((id) => !healthyCardIds.has(id));
-      if (missingCardIds.length > 0 || addedCardIds.length > 0) {
+      if (missingCardIds.length > 0) {
         issues.push({
           code: 'card-identities-changed',
-          message: '学习卡数量相同，但卡片身份与健康快照不同。',
+          message: '健康快照中的部分学习卡在当前数据库中缺失。',
           missingCardIds,
           addedCardIds,
         });
@@ -1015,9 +1075,13 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
     if (!issues.some((current) => current.code === issue.code)) issues.push(issue);
   }
 
+  if (metadataInvalidIssue !== null) await activateRecoveryIsolation(issues);
+
   return {
     status:
-      healthState.isolation === undefined && pendingOperation === null
+      healthState.isolation === undefined &&
+      pendingOperation === null &&
+      metadataInvalidIssue === null
         ? issues.length === 0
           ? 'healthy'
           : 'attention'
@@ -1170,13 +1234,13 @@ export async function saveStartupRecoverySnapshot(
   store: LocalSettingsStore,
 ): Promise<StartupRecoverySnapshotResult> {
   try {
-    const currentMeta = await readStorageMeta(store.database);
+    const health = await inspectStorageHealth(store);
     const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const snapshot = parseSnapshot(stored[RECOVERY_SNAPSHOT_KEY]);
     const existing = diagnosticFromSnapshot(snapshot);
-    const health = await inspectStorageHealth(store);
     if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
     if (health.status !== 'healthy') return { saved: false, snapshot: existing };
+    const currentMeta = await readStorageMeta(store.database);
     const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
     if (archive !== null) {
       const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));

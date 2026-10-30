@@ -1,0 +1,26 @@
+{
+  "channel": "msedge",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\msedge-swMWnK",
+  "status": "passed",
+  "startedAt": "2026-10-30T00:23:01.040Z",
+  "extensionId": "neijojjohcfangnalkihnaippdihekfd",
+  "before": {
+    "id": "current",
+    "revision": 3,
+    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "pendingBackup": true,
+    "committedAt": 1793319781663
+  },
+  "after": {
+    "id": "current",
+    "revision": 3,
+    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "pendingBackup": false,
+    "committedAt": 1793319781663
+  },
+  "snapshot": {
+    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "revision": 3
+  },
+  "completedAt": "2026-10-30T00:23:02.778Z"
+}

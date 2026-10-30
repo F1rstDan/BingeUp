@@ -151,6 +151,16 @@ async function deleteDatabase(): Promise<void> {
   });
 }
 
+async function writeRawStorageMeta(db: IDBDatabase, value: unknown): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORES.storageMeta, 'readwrite');
+    tx.objectStore(STORES.storageMeta).put(value);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  });
+}
+
 describe('本地用户数据备份', () => {
   let db: IDBDatabase;
   let store: LocalSettingsStore;
@@ -279,6 +289,19 @@ describe('本地用户数据备份', () => {
       'version',
     ]);
     expect(JSON.stringify(exported)).not.toContain('storageMeta');
+  });
+
+  it('meta 损坏时公共取证导出仍可用，自动快照导出拒绝伪造 stamp', async () => {
+    await seedCurrentData();
+    const meta = await readStorageMeta(db);
+    await writeRawStorageMeta(db, { ...meta, revision: -1 });
+
+    const exported = await exportLocalData(store);
+    expect(exported.data.cards).toEqual([CARD]);
+    expect(JSON.stringify(exported)).not.toContain('storageMeta');
+    await expect(exportLocalDataForSnapshot(store)).rejects.toMatchObject({
+      code: 'STORAGE_META_INVALID',
+    });
   });
 
   it('导出进行中的原子写入不会造成半旧半新数据', async () => {
@@ -461,7 +484,11 @@ describe('本地用户数据备份', () => {
   it('清除学习进度保留设置；清除全部数据回到默认状态', async () => {
     await seedCurrentData();
     const beforeClearProgress = await readStorageMeta(db);
-    await clearLearningProgress(db);
+    await expect(clearLearningProgress(db)).resolves.toEqual({
+      ok: true,
+      errors: [],
+      warnings: [],
+    });
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
     expect(await idbGetAll(db, STORES.reviewLogs)).toEqual([]);
     expect(await idbGetAll(db, STORES.sessionLogs)).toEqual([]);
@@ -480,5 +507,17 @@ describe('本地用户数据备份', () => {
     expect(afterClearAll.generation).not.toBe(afterClearProgress.generation);
     expect(afterClearAll.revision).toBe(afterClearProgress.revision + 1);
     expect(afterClearAll.pendingBackup).toBe(true);
+  });
+
+  it('meta 非法时清除学习进度返回失败且不删除现有数据', async () => {
+    await seedCurrentData();
+    const meta = await readStorageMeta(db);
+    await writeRawStorageMeta(db, { ...meta, revision: -1 });
+
+    const result = await clearLearningProgress(db);
+
+    expect(result.ok).toBe(false);
+    expect(result.errors[0]).toContain('原有学习进度未改变');
+    expect(await idbGetAll(db, STORES.cards)).toEqual([CARD]);
   });
 });

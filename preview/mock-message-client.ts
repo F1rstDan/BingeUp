@@ -326,7 +326,9 @@ export const messageClient = {
     console.debug('[preview] importData', payload);
     return { ok: true, errors: [], warnings: [] };
   },
-  async clearLearningProgress(): Promise<void> {},
+  async clearLearningProgress(): Promise<DataOperationResult> {
+    return { ok: true, errors: [], warnings: [] };
+  },
   async clearAllData(): Promise<DataOperationResult> {
     return { ok: true, errors: [], warnings: [] };
   },

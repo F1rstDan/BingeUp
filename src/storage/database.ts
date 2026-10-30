@@ -124,33 +124,80 @@ function awaitRequest<T>(request: IDBRequest<T>): Promise<T> {
   });
 }
 
+const transactionFailures = new WeakMap<IDBTransaction, Error>();
+
+function asError(value: unknown, fallback: string): Error {
+  return value instanceof Error ? value : new Error(fallback);
+}
+
+function abortTrackedTransaction(transaction: IDBTransaction, error: unknown): void {
+  transactionFailures.set(transaction, asError(error, '存储元数据事务失败'));
+  try {
+    transaction.abort();
+  } catch {
+    // 事务已结束时，保留首个跟踪到的失败原因。
+  }
+}
+
+/** 取得由事务内异步回调记录的原始错误，供调用方保留稳定错误码。 */
+export function getTrackedTransactionError(transaction: IDBTransaction, fallback: string): Error {
+  return transactionFailures.get(transaction) ?? transaction.error ?? new Error(fallback);
+}
+
 /** 等待事务完成（用于写操作提交）。 */
 function awaitTransaction(tx: IDBTransaction): Promise<void> {
   return new Promise((resolve, reject) => {
     tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error ?? new Error('事务失败'));
-    tx.onabort = () => reject(tx.error ?? new Error('事务已中止'));
+    tx.onerror = () => reject(getTrackedTransactionError(tx, '事务失败'));
+    tx.onabort = () => reject(getTrackedTransactionError(tx, '事务已中止'));
   });
 }
 
+export class StorageMetaInvalidError extends Error {
+  readonly code = 'STORAGE_META_INVALID';
+
+  constructor(message = '存储元数据无效') {
+    super(message);
+    this.name = 'StorageMetaInvalidError';
+  }
+}
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export function normalizeStorageMeta(value: unknown): StorageMetaRecord {
-  if (typeof value !== 'object' || value === null) return createInitialStorageMeta();
-  const candidate = value as Partial<StorageMetaRecord>;
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    throw new StorageMetaInvalidError('storageMeta 缺失或不是对象');
+  }
+  const candidate = value as Record<string, unknown>;
+  if (candidate.id !== STORAGE_META_ID) {
+    throw new StorageMetaInvalidError('storageMeta.id 无效');
+  }
+  if (
+    typeof candidate.revision !== 'number' ||
+    !Number.isSafeInteger(candidate.revision) ||
+    candidate.revision < 0
+  ) {
+    throw new StorageMetaInvalidError('storageMeta.revision 必须是非负安全整数');
+  }
+  if (typeof candidate.generation !== 'string' || !UUID_PATTERN.test(candidate.generation)) {
+    throw new StorageMetaInvalidError('storageMeta.generation 必须是 UUID');
+  }
+  if (typeof candidate.pendingBackup !== 'boolean') {
+    throw new StorageMetaInvalidError('storageMeta.pendingBackup 必须是布尔值');
+  }
+  if (
+    typeof candidate.committedAt !== 'number' ||
+    !Number.isSafeInteger(candidate.committedAt) ||
+    candidate.committedAt < 0
+  ) {
+    throw new StorageMetaInvalidError('storageMeta.committedAt 必须是非负安全整数');
+  }
   return {
-    id: STORAGE_META_ID,
-    revision:
-      typeof candidate.revision === 'number' && Number.isSafeInteger(candidate.revision)
-        ? Math.max(0, candidate.revision)
-        : 0,
-    generation:
-      typeof candidate.generation === 'string' && candidate.generation.length > 0
-        ? candidate.generation
-        : crypto.randomUUID(),
-    pendingBackup: candidate.pendingBackup !== false,
-    committedAt:
-      typeof candidate.committedAt === 'number' && Number.isFinite(candidate.committedAt)
-        ? candidate.committedAt
-        : 0,
+    id: candidate.id,
+    revision: candidate.revision,
+    generation: candidate.generation,
+    pendingBackup: candidate.pendingBackup,
+    committedAt: candidate.committedAt,
   };
 }
 
@@ -178,11 +225,16 @@ export async function acknowledgeStorageBackup(
   const store = tx.objectStore(STORES.storageMeta);
   const request = store.get(STORAGE_META_ID);
   request.onsuccess = () => {
-    const current = request.result as StorageMetaRecord | undefined;
-    if (current?.generation === saved.generation && current.revision === saved.revision) {
-      store.put({ ...current, pendingBackup: false });
+    try {
+      const current = normalizeStorageMeta(request.result);
+      if (current.generation === saved.generation && current.revision === saved.revision) {
+        store.put({ ...current, pendingBackup: false });
+      }
+    } catch (error) {
+      abortTrackedTransaction(tx, error);
     }
   };
+  request.onerror = () => abortTrackedTransaction(tx, request.error);
   await done;
 }
 
@@ -199,37 +251,28 @@ export function markStorageMetaChanged(
   try {
     request = store.get(STORAGE_META_ID);
   } catch (error) {
-    try {
-      transaction.abort();
-    } catch {
-      // 事务已结束时，保留读取 meta 失败的原始错误。
-    }
+    abortTrackedTransaction(transaction, error);
     throw error;
   }
   request.onerror = () => {
-    try {
-      transaction.abort();
-    } catch {
-      // 事务已中止时不再覆盖原始请求错误。
-    }
+    abortTrackedTransaction(transaction, request.error);
   };
   request.onsuccess = () => {
-    const current = normalizeStorageMeta(request.result);
     try {
+      const current = normalizeStorageMeta(request.result);
+      const nextRevision = current.revision + 1;
+      if (!Number.isSafeInteger(nextRevision)) {
+        throw new StorageMetaInvalidError('storageMeta.revision 递增后溢出');
+      }
       store.put({
         ...current,
-        revision: current.revision + 1,
+        revision: nextRevision,
         generation: options.rotateGeneration ? crypto.randomUUID() : current.generation,
         pendingBackup: true,
         committedAt: Date.now(),
       } satisfies StorageMetaRecord);
     } catch (error) {
-      try {
-        transaction.abort();
-      } catch {
-        // 事务已结束时，保留写入 meta 失败的原始错误。
-      }
-      throw error;
+      abortTrackedTransaction(transaction, error);
     }
   };
 }

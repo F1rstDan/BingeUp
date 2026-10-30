@@ -19,6 +19,7 @@
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
+    "test:storage:interruption": "node scripts/check-storage-interruption.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "dictionary:build": "tsx scripts/dictionary/build.ts",

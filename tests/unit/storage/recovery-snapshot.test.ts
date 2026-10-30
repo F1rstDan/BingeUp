@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuiltInWordBank } from '@/dictionary/built-in-word-bank';
 import { DEFAULT_SETTINGS } from '@/settings/defaults';
+import { clearAllLocalData } from '@/storage/data-transfer';
 import { STORES, idbGetAll, idbPut, openDatabase, readStorageMeta } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import {
@@ -272,6 +273,16 @@ describe('本地自动恢复快照', () => {
       }
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function writeRawStorageMeta(value: unknown): Promise<void> {
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORES.storageMeta, 'readwrite');
+      tx.objectStore(STORES.storageMeta).put(value);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
     });
   }
 
@@ -698,6 +709,87 @@ describe('本地自动恢复快照', () => {
     );
   });
 
+  it('meta 非法时健康检查持久隔离、停止启动备份并保留快照原件', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    const healthySnapshot = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    const meta = await readStorageMeta(db);
+    await writeRawStorageMeta({ ...meta, revision: -1 });
+
+    const health = await inspectStorageHealth(store);
+    expect(health.status).toBe('isolated');
+    expect(health.issues).toContainEqual(expect.objectContaining({ code: 'metadata-invalid' }));
+    expect(await isStorageIsolationActive()).toBe(true);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(healthySnapshot);
+
+    vi.resetModules();
+    const fresh = await import('@/storage/recovery-snapshot');
+    expect(await fresh.isStorageIsolationActive()).toBe(true);
+    expect((await fresh.inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'metadata-invalid' }),
+    );
+  });
+
+  it('卡片总数增长但旧卡缺失时仍隔离并保留快照原件', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const healthySnapshot = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORES.cards, 'readwrite');
+      tx.objectStore(STORES.cards).delete(CARD.id);
+      tx.objectStore(STORES.cards).put(SECOND_CARD);
+      tx.objectStore(STORES.cards).put({ ...SECOND_CARD, id: 'card-3', wordId: 'w-3' });
+      tx.objectStore(STORES.cards).put({ ...SECOND_CARD, id: 'card-4', wordId: 'w-4' });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+    const health = await inspectStorageHealth(store);
+    expect(health.status).toBe('isolated');
+    expect(health.issues).toContainEqual(
+      expect.objectContaining({
+        code: 'card-identities-changed',
+        missingCardIds: [CARD.id],
+        addedCardIds: expect.arrayContaining([SECOND_CARD.id, 'card-3', 'card-4']),
+      }),
+    );
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(healthySnapshot);
+  });
+
+  it('同代次数据库 revision 回退时隔离，不用旧卡覆盖较新快照', async () => {
+    await idbPut(db, STORES.cards, CARD);
+    await saveRecoverySnapshot(store);
+    const healthySnapshot = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      storage: { generation: string; revision: number };
+    };
+    expect(healthySnapshot.storage.revision).toBeGreaterThan(0);
+    const meta = await readStorageMeta(db);
+    await writeRawStorageMeta({
+      ...meta,
+      revision: healthySnapshot.storage.revision - 1,
+    });
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(STORES.cards, 'readwrite');
+      tx.objectStore(STORES.cards).put({ ...CARD, updatedAt: 9_000 });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+    const health = await inspectStorageHealth(store);
+    expect(health.status).toBe('isolated');
+    expect(health.issues).toContainEqual(
+      expect.objectContaining({
+        code: 'revision-regressed',
+        databaseRevision: healthySnapshot.storage.revision - 1,
+        snapshotRevision: healthySnapshot.storage.revision,
+      }),
+    );
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(healthySnapshot);
+  });
+
   it('健康检查覆盖六类存档计数，并识别同数卡片身份替换', async () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
@@ -825,6 +917,49 @@ describe('本地自动恢复快照', () => {
     expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
     expect(await isStorageIsolationActive()).toBe(true);
+  });
+
+  it('数据库写入前中断后，重载仍拒绝重试且保留 pending、数据库和快照', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    const snapshot = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    const started = await beginRecoveryOperation('clear-all');
+
+    vi.resetModules();
+    const fresh = await import('@/storage/recovery-snapshot');
+    await expect(fresh.retryRecoverySnapshot(store)).rejects.toMatchObject({
+      code: 'RECOVERY_OPERATION_OUTCOME_UNKNOWN',
+    });
+
+    expect(await idbGetAll(db, STORES.cards)).toEqual([CARD]);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(snapshot);
+    expect(storage.values[RECOVERY_PENDING_OPERATION_KEY]).toMatchObject({
+      id: started.token,
+      operation: 'clear-all',
+    });
+    expect(await fresh.isStorageIsolationActive()).toBe(true);
+  });
+
+  it('数据库写入后中断后，重载仍拒绝推断提交并保留 pending 与旧快照', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    const snapshot = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    const started = await beginRecoveryOperation('clear-all');
+    expect(await clearAllLocalData(store)).toMatchObject({ ok: true });
+
+    vi.resetModules();
+    const fresh = await import('@/storage/recovery-snapshot');
+    await expect(fresh.retryRecoverySnapshot(store)).rejects.toMatchObject({
+      code: 'RECOVERY_OPERATION_OUTCOME_UNKNOWN',
+    });
+
+    expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(snapshot);
+    expect(storage.values[RECOVERY_PENDING_OPERATION_KEY]).toMatchObject({
+      id: started.token,
+      operation: 'clear-all',
+    });
+    expect(await fresh.isStorageIsolationActive()).toBe(true);
   });
 
   it('并发开始两个破坏性操作时只建立一个 pending', async () => {

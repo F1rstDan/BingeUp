@@ -170,8 +170,8 @@ export const messageClient = {
   async importData(payload: unknown): Promise<ImportDataResponse> {
     return send({ type: 'IMPORT_DATA', payload });
   },
-  async clearLearningProgress(): Promise<void> {
-    await send({ type: 'CLEAR_LEARNING_PROGRESS' });
+  async clearLearningProgress(): Promise<DataOperationResult> {
+    return send({ type: 'CLEAR_LEARNING_PROGRESS' });
   },
   async clearAllData(): Promise<DataOperationResult> {
     return send({ type: 'CLEAR_ALL_DATA' });

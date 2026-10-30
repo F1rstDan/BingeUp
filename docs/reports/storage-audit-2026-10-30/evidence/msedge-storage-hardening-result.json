@@ -1,8 +1,8 @@
 {
   "channel": "msedge",
   "rounds": 5,
-  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\msedge-qJV21V",
-  "startedAt": "2026-10-30T00:12:59.959Z",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\msedge-gLZuot",
+  "startedAt": "2026-10-30T00:23:16.407Z",
   "status": "passed",
   "observations": [
     {
@@ -38,7 +38,7 @@
   ],
   "browserVersion": "156.0.4314.50",
   "extensionId": "neijojjohcfangnalkihnaippdihekfd",
-  "wordId": "w-call",
+  "wordId": "w-turn",
   "partialLoss": {
     "cards": 0,
     "events": 2,
@@ -49,5 +49,5 @@
     "blockedError": "存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。",
     "returnedLearningItem": false
   },
-  "completedAt": "2026-10-30T00:13:41.706Z"
+  "completedAt": "2026-10-30T00:23:22.436Z"
 }

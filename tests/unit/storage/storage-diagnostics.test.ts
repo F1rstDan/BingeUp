@@ -105,7 +105,7 @@ const EMPTY_COUNTS: StorageCounts = {
 const STORAGE_META: StorageMetaRecord = {
   id: 'current',
   revision: 7,
-  generation: 'db-generation',
+  generation: '00000000-0000-4000-8000-000000000000',
   pendingBackup: true,
   committedAt: 1_500,
 };
@@ -209,14 +209,14 @@ describe('存档诊断记录', () => {
     expect(diagnostics.current?.counts.cards).toBe(1);
     expect(diagnostics.current?.storageMeta).toMatchObject({
       revision: 7,
-      generation: 'db-generation',
+      generation: STORAGE_META.generation,
       pendingBackup: true,
       committedAt: 1_500,
     });
     expect(diagnostics.snapshot.present).toBe(true);
     expect(diagnostics.snapshot.counts?.cards).toBe(1);
     expect(diagnostics.snapshot.storage).toEqual({
-      generation: 'db-generation',
+      generation: STORAGE_META.generation,
       revision: expect.any(Number),
     });
     expect(diagnostics.health?.status).toBe('healthy');

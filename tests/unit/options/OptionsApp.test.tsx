@@ -215,7 +215,7 @@ describe('OptionsApp — Issue #10', () => {
     mocks.setAppSettings.mockImplementation(async (s: AppSettings) => s);
     mocks.resetAppSettings.mockResolvedValue({ ...DEFAULT_SETTINGS });
     mocks.removeSite.mockResolvedValue({ released: false });
-    mocks.clearLearningProgress.mockResolvedValue(undefined);
+    mocks.clearLearningProgress.mockResolvedValue({ ok: true, errors: [], warnings: [] });
     mocks.clearAllData.mockResolvedValue({ ok: true, errors: [], warnings: [] });
     mocks.rebuildDatabase.mockResolvedValue({ ok: true, errors: [], warnings: [] });
     mocks.getStorageDiagnostics.mockResolvedValue(SAMPLE_DIAGNOSTICS);
@@ -973,6 +973,27 @@ describe('OptionsApp — Issue #10', () => {
     expect(screen.getByText('无法写入快照')).toBeInTheDocument();
   });
 
+  it('元数据非法隔离时在数据面板复用两步确认重建入口', async () => {
+    mocks.getStorageDiagnostics.mockResolvedValue({
+      ...SAMPLE_DIAGNOSTICS,
+      health: {
+        ...SAMPLE_DIAGNOSTICS.health!,
+        status: 'isolated',
+        issues: [{ code: 'metadata-invalid', message: '数据库元数据缺失或无效' }],
+      },
+    });
+
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除本地数据并重建' }));
+
+    const firstDialog = await screen.findByRole('dialog');
+    fireEvent.click(within(firstDialog).getByRole('button', { name: '继续' }));
+    const secondDialog = await screen.findByRole('dialog');
+    fireEvent.click(within(secondDialog).getByRole('button', { name: '确定执行' }));
+
+    await waitFor(() => expect(mocks.rebuildDatabase).toHaveBeenCalledTimes(1));
+  });
+
   it('当前记录少于启动读取时给出丢档警告', async () => {
     mocks.getStorageDiagnostics.mockResolvedValue({
       ...SAMPLE_DIAGNOSTICS,
@@ -1013,6 +1034,28 @@ describe('OptionsApp — Issue #10', () => {
     expect(clickSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('快照导出显示原生成日期和实际分类数量，提示核对精简明细', async () => {
+    mocks.exportRecoverySnapshot.mockReset();
+    mocks.exportRecoverySnapshot.mockResolvedValue({
+      version: 1,
+      exportedAt: Date.UTC(2026, 9, 1),
+      authoritativeState: {},
+      data: { cards: [{ id: 'saved-card' }], reviewLogs: [], sessionLogs: [], behaviorEvents: [] },
+    });
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => undefined);
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '导出当前自动快照' }));
+    expect(await screen.findByText(/自动快照已导出：生成于/)).toHaveTextContent(
+      '卡 1、复习日志 0、会话 0、行为事件 0',
+    );
+    expect(screen.getByText(/自动快照已导出：生成于/)).toHaveTextContent('快照可能精简了明细');
+    expect((click.mock.contexts[0] as HTMLAnchorElement | undefined)?.download).toBe(
+      'bingeup-snapshot-current-2026-10-01.json',
+    );
+  });
+
   it('当前和上一代快照分别导出，失败显示错误且不执行导入', async () => {
     mocks.exportRecoverySnapshot.mockReset();
     mocks.exportRecoverySnapshot.mockRejectedValueOnce(new Error('所选自动快照不存在'));
@@ -1051,6 +1094,20 @@ describe('OptionsApp — Issue #10', () => {
       expect(mocks.clearLearningProgress).toHaveBeenCalledTimes(1);
     });
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('清除学习进度后快照失败时显示未确认警告', async () => {
+    mocks.clearLearningProgress.mockResolvedValue({
+      ok: true,
+      errors: [],
+      warnings: ['操作结果待确认，存档保持隔离，请明确重做清除。'],
+    });
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '清除学习进度' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: '清除学习进度' }));
+
+    expect(await screen.findByText(/操作结果待确认.*请明确重做清除/)).toBeInTheDocument();
   });
 
   it('清除全部数据需要二次确认（AC4）', async () => {

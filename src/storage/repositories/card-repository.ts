@@ -4,6 +4,7 @@ import {
   idbGet,
   idbGetAll,
   idbGetByIndex,
+  getTrackedTransactionError,
   markStorageMetaChanged,
   openTrackedTransaction,
 } from '@/storage/database';
@@ -35,6 +36,31 @@ export class SubmissionLogConflictError extends Error {
     super(`答题日志 ${logId} 的 ${field} 与既存记录不一致`);
     this.name = 'SubmissionLogConflictError';
   }
+}
+
+/** 最终写事务发现学习卡已删除或身份被替换时拒绝复活旧卡。 */
+export class CardIdentityConflictError extends Error {
+  readonly code = 'CARD_IDENTITY_CONFLICT';
+
+  constructor(
+    public readonly cardId: string,
+    public readonly reason: 'missing' | 'changed',
+  ) {
+    super(
+      reason === 'missing'
+        ? `学习卡已不存在，拒绝写入：${cardId}`
+        : `学习卡 wordId 或 deckId 已变化，拒绝写入：${cardId}`,
+    );
+    this.name = 'CardIdentityConflictError';
+  }
+}
+
+function requireUnchangedCard(current: CardRecord | undefined, proposed: CardRecord): CardRecord {
+  if (current === undefined) throw new CardIdentityConflictError(proposed.id, 'missing');
+  if (current.wordId !== proposed.wordId || current.deckId !== proposed.deckId) {
+    throw new CardIdentityConflictError(proposed.id, 'changed');
+  }
+  return current;
 }
 
 /**
@@ -135,25 +161,46 @@ export class CardRepository implements CardRepositoryPort {
   private runCardAndLogTransaction(card: CardRecord, log: ReviewLogRecord): Promise<void> {
     return new Promise((resolve, reject) => {
       const tx = openTrackedTransaction(this.db, [STORES.cards, STORES.reviewLogs]);
-      const handleConstraint = (error: DOMException | null, fallback: string) => {
-        if (error !== null && error.name === 'ConstraintError') {
-          reject(new CardUniquenessError(card.wordId));
-        } else {
-          reject(error ?? new Error(fallback));
+      const cardStore = tx.objectStore(STORES.cards);
+      const logStore = tx.objectStore(STORES.reviewLogs);
+      let failure: Error | null = null;
+
+      const fail = (error: unknown, fallback: string): void => {
+        failure ??= error instanceof Error ? error : new Error(fallback);
+        try {
+          tx.abort();
+        } catch {
+          // 事务已结束时，保留首个失败原因。
         }
       };
-      try {
-        markStorageMetaChanged(tx);
-        tx.objectStore(STORES.cards).put(card);
-        tx.objectStore(STORES.reviewLogs).put(log);
-      } catch (error) {
-        tx.abort();
-        handleConstraint(error instanceof DOMException ? error : null, '学习卡与复习日志事务失败');
-        return;
-      }
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => handleConstraint(tx.error, '学习卡与复习日志事务失败');
-      tx.onabort = () => handleConstraint(tx.error, '学习卡与复习日志事务已中止');
+      const transactionError = (fallback: string): Error => {
+        if (failure !== null) return failure;
+        if (tx.error?.name === 'ConstraintError') return new CardUniquenessError(card.wordId);
+        return getTrackedTransactionError(tx, fallback);
+      };
+
+      const currentCardRequest = cardStore.get(card.id);
+      currentCardRequest.onerror = () => fail(currentCardRequest.error, '读取当前学习卡失败');
+      currentCardRequest.onsuccess = () => {
+        try {
+          requireUnchangedCard(currentCardRequest.result as CardRecord | undefined, card);
+          markStorageMetaChanged(tx);
+          cardStore.put(card);
+          logStore.put(log);
+        } catch (error) {
+          fail(error, '学习卡与复习日志事务失败');
+        }
+      };
+
+      tx.oncomplete = () => {
+        if (failure !== null) {
+          reject(failure);
+          return;
+        }
+        resolve();
+      };
+      tx.onerror = () => reject(transactionError('学习卡与复习日志事务失败'));
+      tx.onabort = () => reject(transactionError('学习卡与复习日志事务已中止'));
     });
   }
 
@@ -183,7 +230,7 @@ export class CardRepository implements CardRepositoryPort {
       const transactionError = (fallback: string): Error => {
         if (failure !== null) return failure;
         if (tx.error?.name === 'ConstraintError') return new CardUniquenessError(card.wordId);
-        return tx.error ?? new Error(fallback);
+        return getTrackedTransactionError(tx, fallback);
       };
 
       const existingRequest = logStore.get(log.id);
@@ -207,24 +254,32 @@ export class CardRepository implements CardRepositoryPort {
           const currentCardRequest = cardStore.get(existing.cardId);
           currentCardRequest.onerror = () => fail(currentCardRequest.error, '读取当前学习卡失败');
           currentCardRequest.onsuccess = () => {
-            const currentCard = currentCardRequest.result as CardRecord | undefined;
-            if (!currentCard) {
-              fail(new Error(`答题日志对应的学习卡不存在：${existing.cardId}`), '学习卡不存在');
-              return;
+            try {
+              const currentCard = requireUnchangedCard(
+                currentCardRequest.result as CardRecord | undefined,
+                card,
+              );
+              result = { inserted: false, card: currentCard, log: existing };
+            } catch (error) {
+              fail(error, '当前学习卡不存在或身份已变化');
             }
-            result = { inserted: false, card: currentCard, log: existing };
           };
           return;
         }
 
-        try {
-          markStorageMetaChanged(tx);
-          cardStore.put(card);
-          logStore.put(log);
-          result = { inserted: true, card, log };
-        } catch (error) {
-          fail(error, '学习卡与复习日志事务失败');
-        }
+        const currentCardRequest = cardStore.get(card.id);
+        currentCardRequest.onerror = () => fail(currentCardRequest.error, '读取当前学习卡失败');
+        currentCardRequest.onsuccess = () => {
+          try {
+            requireUnchangedCard(currentCardRequest.result as CardRecord | undefined, card);
+            markStorageMetaChanged(tx);
+            cardStore.put(card);
+            logStore.put(log);
+            result = { inserted: true, card, log };
+          } catch (error) {
+            fail(error, '学习卡与复习日志事务失败');
+          }
+        };
       };
 
       tx.oncomplete = () => {

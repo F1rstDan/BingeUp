@@ -214,7 +214,9 @@ export default defineBackground(() => {
               retainIsolation: true,
             });
             if (!archiveSaved) {
-              warnings.push('本地用户数据已重建，但自动存档清理失败；下次启动可能恢复旧数据。');
+              warnings.push(
+                '本地用户数据已重建，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做重建。',
+              );
               await suspendRecoveryOperation(started.token);
             } else {
               await completeRecoveryOperation(started.token);
@@ -276,8 +278,8 @@ export default defineBackground(() => {
               if (operationResult?.warnings !== undefined) {
                 operationResult.warnings.push(
                   recoveryOperation === 'import'
-                    ? '导入已成功，但自动存档更新失败；存档仍保持隔离。'
-                    : '自动存档清理失败；下次启动可能恢复旧数据。',
+                    ? '导入已提交，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做导入。'
+                    : '数据库写入已提交，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做清除。',
                 );
               }
             }

@@ -320,7 +320,7 @@ describe('background 入口 — 共享持久化上下文', () => {
     });
   });
 
-  it('导入与清除的 warnings 保持结构化，不被 envelope 替换', async () => {
+  it('导入或清除后的快照失败返回未确认警告，pending 只能通过明确重做完成', async () => {
     await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
     const backup = await send<ExportPayload>({ type: 'EXPORT_DATA' });
     failSnapshotWrites = true;
@@ -331,16 +331,24 @@ describe('background 入口 — 共享持久化上下文', () => {
     });
     expect(imported.ok).toBe(true);
     expect(imported.__bingeupEnvelope).toBeUndefined();
-    expect(imported.warnings).toContain('导入已成功，但自动存档更新失败；存档仍保持隔离。');
+    expect(imported.warnings).toContain(
+      '导入已提交，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做导入。',
+    );
 
     await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toMatchObject({
       ok: false,
+      error: expect.stringContaining('请先导出核对'),
     });
     expect((await send<StorageHealth>({ type: 'GET_STORAGE_HEALTH' })).status).toBe('isolated');
     expect(values[RECOVERY_PENDING_OPERATION_KEY]).toMatchObject({ operation: 'import' });
 
     failSnapshotWrites = false;
-    await expect(send({ type: 'RETRY_RECOVERY_SNAPSHOT' })).resolves.toEqual({ ok: true });
+    const retried = await send<{ ok: boolean; warnings: string[] }>({
+      type: 'IMPORT_DATA',
+      payload: backup,
+    });
+    expect(retried.ok).toBe(true);
+    expect(retried.warnings).toContain('已替换未完成的旧存档操作标记。');
     expect(values[RECOVERY_PENDING_OPERATION_KEY]).toBeNull();
     failSnapshotWrites = true;
     const cleared = await send<{ ok: boolean; warnings: string[]; __bingeupEnvelope?: string }>({
@@ -348,7 +356,26 @@ describe('background 入口 — 共享持久化上下文', () => {
     });
     expect(cleared.ok).toBe(true);
     expect(cleared.__bingeupEnvelope).toBeUndefined();
-    expect(cleared.warnings).toContain('自动存档清理失败；下次启动可能恢复旧数据。');
+    expect(cleared.warnings).toContain(
+      '数据库写入已提交，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做清除。',
+    );
+  });
+
+  it('清除学习进度的快照失败返回明确警告', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    failSnapshotWrites = true;
+
+    const cleared = await send<{ ok: boolean; warnings: string[] }>({
+      type: 'CLEAR_LEARNING_PROGRESS',
+    });
+
+    expect(cleared.ok).toBe(true);
+    expect(cleared.warnings).toContain(
+      '数据库写入已提交，但自动存档更新失败；操作结果待确认，存档保持隔离，请明确重做清除。',
+    );
+    expect(values[RECOVERY_PENDING_OPERATION_KEY]).toMatchObject({
+      operation: 'clear-learning-progress',
+    });
   });
 
   it('明确重建后，下一条学习消息使用新数据库', async () => {
