@@ -298,6 +298,27 @@ describe('本地自动恢复快照', () => {
     expect(await idbGetAll(db, STORES.cards)).toEqual([newer]);
   });
 
+  it('只有设置的快照在整库丢失后仍可恢复，已有新设置时不回退', async () => {
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 8 });
+    expect(await saveRecoverySnapshot(store)).toBe(true);
+    await wipeDatabase();
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(true);
+    expect((await store.getAppSettings()).dailyNewWordLimit).toBe(8);
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 9 });
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+    expect((await store.getAppSettings()).dailyNewWordLimit).toBe(9);
+  });
+
+  it('仅丢失学习仓库但设置仍在时隔离，不自动覆盖剩余设置', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await clearLearningData();
+    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
+    expect(await isStorageIsolationActive()).toBe(true);
+    expect((await store.getAppSettings()).dailyNewWordLimit).toBe(8);
+    expect(await idbGetAll(db, STORES.cards)).toEqual([]);
+  });
+
   it('用户清除数据后旧快照不会在下次启动时复活', async () => {
     await seedLearningData();
     await saveRecoverySnapshot(store);

@@ -4,7 +4,7 @@ import {
   validateLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, acknowledgeStorageBackup, idbCount, readStorageMeta } from '@/storage/database';
+import { STORES, acknowledgeStorageBackup, readStorageMeta } from '@/storage/database';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
@@ -1034,7 +1034,7 @@ export async function resetRecoverySnapshot(
 }
 
 /**
- * 仅在 IndexedDB 中没有任何学习数据时自动恢复快照。
+ * 仅在 IndexedDB 的全部权威仓库为空时自动恢复快照。
  *
  * 只要还有任意学习记录，就不覆盖当前数据；部分丢失需通过手动导入处理。
  */
@@ -1047,13 +1047,25 @@ export async function restoreRecoverySnapshotIfNeeded(
       await activatePendingOperationIsolation(pending);
       return { restored: false };
     }
-    const [cards, logs, sessions, events] = await Promise.all([
-      idbCount(store.database, STORES.cards),
-      idbCount(store.database, STORES.reviewLogs),
-      idbCount(store.database, STORES.sessionLogs),
-      idbCount(store.database, STORES.behaviorEvents),
+    const names = Object.values(STORES).filter((name) => name !== STORES.storageMeta);
+    const tx = store.database.transaction(names, 'readonly');
+    const completed = new Promise<void>((resolve, reject) => {
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error ?? new Error('恢复检查失败'));
+      tx.onabort = () => reject(tx.error ?? new Error('恢复检查已中止'));
+    });
+    const counts = await Promise.all([
+      ...names.map(
+        (name) =>
+          new Promise<number>((resolve, reject) => {
+            const request = tx.objectStore(name).count();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          }),
+      ),
+      completed.then(() => 0),
     ]);
-    if (cards > 0 || logs > 0 || sessions > 0 || events > 0) {
+    if (counts.some((count) => count > 0)) {
       const health = await inspectStorageHealth(store);
       if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
       return { restored: false };
@@ -1067,7 +1079,7 @@ export async function restoreRecoverySnapshotIfNeeded(
       await recordRecoveryFailure(error);
       return { restored: false, error };
     }
-    if (archive === null || archive.payload.data.cards.length === 0) {
+    if (archive === null) {
       return { restored: false };
     }
     if (archive.tombstone?.generation === archive.generation) return { restored: false };
