@@ -10,7 +10,14 @@ import {
   importLocalData,
   type ExportPayload,
 } from '@/storage/data-transfer';
-import { STORES, idbGetAll, idbPut, openDatabase, readStorageMeta } from '@/storage/database';
+import {
+  STORES,
+  idbGetAll,
+  idbPut,
+  idbReplaceAll,
+  openDatabase,
+  readStorageMeta,
+} from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   BehaviorEventRecord,
@@ -242,6 +249,80 @@ describe('本地用户数据备份', () => {
       'exportedAt',
       'version',
     ]);
+  });
+
+  it('公共导出使用同一只读事务且只返回 v1 payload', async () => {
+    await seedCurrentData();
+    const transaction = vi.spyOn(db, 'transaction');
+
+    const exported = await exportLocalData(store);
+
+    expect(transaction).toHaveBeenCalledTimes(1);
+    expect(transaction).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        STORES.authoritativeState,
+        STORES.storageMeta,
+        STORES.cards,
+        STORES.reviewLogs,
+        STORES.sessionLogs,
+        STORES.behaviorEvents,
+        STORES.words,
+        STORES.decks,
+      ]),
+      'readonly',
+    );
+    expect(exported.version).toBe(1);
+    expect(Object.keys(exported).sort()).toEqual([
+      'authoritativeState',
+      'data',
+      'exportedAt',
+      'version',
+    ]);
+    expect(JSON.stringify(exported)).not.toContain('storageMeta');
+  });
+
+  it('导出进行中的原子写入不会造成半旧半新数据', async () => {
+    await seedCurrentData();
+    const nextCard = { ...CARD, updatedAt: 9_000 };
+    const nextLog = { ...LOG, id: 'log-2', reviewedAt: 8_000 };
+    const originalGetAll = IDBObjectStore.prototype.getAll;
+    let write: Promise<void> | undefined;
+    vi.spyOn(IDBObjectStore.prototype, 'getAll').mockImplementation(function (
+      this: IDBObjectStore,
+    ) {
+      const request = originalGetAll.call(this);
+      if (this.name === STORES.cards && write === undefined) {
+        write = idbReplaceAll(db, {
+          cards: [nextCard],
+          reviewLogs: [nextLog],
+        });
+      }
+      return request;
+    });
+
+    const exported = await exportLocalData(store);
+
+    expect(exported.data.cards).toEqual([CARD]);
+    expect(exported.data.reviewLogs).toEqual([LOG]);
+    await write;
+    const exportedAfterWrite = await exportLocalData(store);
+    expect(exportedAfterWrite.data.cards).toEqual([nextCard]);
+    expect(exportedAfterWrite.data.reviewLogs).toEqual([nextLog]);
+  });
+
+  it('只读事务中止时公共导出拒绝', async () => {
+    await seedCurrentData();
+    const originalGetAll = IDBObjectStore.prototype.getAll;
+    vi.spyOn(IDBObjectStore.prototype, 'getAll').mockImplementationOnce(function (
+      this: IDBObjectStore,
+    ) {
+      const request = originalGetAll.call(this);
+      const transaction = this.transaction;
+      queueMicrotask(() => transaction.abort());
+      return request;
+    });
+
+    await expect(exportLocalData(store)).rejects.toThrow();
   });
 
   it('拒绝无效格式且不修改现有数据', async () => {

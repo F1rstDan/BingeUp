@@ -91,31 +91,7 @@ async function loadBuiltInContent(): Promise<BuiltInContent> {
 
 /** 导出本地用户数据快照。 */
 export async function exportLocalData(store: LocalSettingsStore): Promise<ExportPayload> {
-  const db = store.database;
-  const [state, cards, reviewLogs, sessionLogs, behaviorEvents, words, decks] = await Promise.all([
-    store.getAuthoritativeState(),
-    idbGetAll<CardRecord>(db, STORES.cards),
-    idbGetAll<ReviewLogRecord>(db, STORES.reviewLogs),
-    idbGetAll<SessionLogRecord>(db, STORES.sessionLogs),
-    idbGetAll<BehaviorEventRecord>(db, STORES.behaviorEvents),
-    idbGetAll<WordRecord>(db, STORES.words),
-    idbGetAll<DeckRecord>(db, STORES.decks),
-  ]);
-  const { id: _id, ...authoritativeState } = state;
-
-  return {
-    version: EXPORT_VERSION,
-    exportedAt: Date.now(),
-    authoritativeState,
-    data: {
-      cards,
-      reviewLogs,
-      sessionLogs,
-      behaviorEvents,
-      words,
-      decks,
-    },
-  };
+  return (await exportLocalDataForSnapshot(store)).payload;
 }
 
 function readRequest<T>(request: IDBRequest<T>): Promise<T> {
@@ -133,10 +109,7 @@ function awaitReadTransaction(transaction: IDBTransaction): Promise<void> {
   });
 }
 
-/**
- * 为自动快照读取一致数据。payload 与 storageMeta 必须来自同一只读事务；
- * 公开导出在 2.4 再切换到该辅助路径。
- */
+/** 在同一只读事务中读取导出 payload 与 storageMeta。 */
 export async function exportLocalDataForSnapshot(
   store: LocalSettingsStore,
 ): Promise<ExportSnapshotBundle> {
