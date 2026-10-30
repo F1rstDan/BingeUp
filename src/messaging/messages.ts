@@ -90,6 +90,7 @@ export type ExtensionMessage =
   | { type: 'REMOVE_SITE'; hostname: string }
   /** 导出本地全部数据（AC4）。 */
   | { type: 'EXPORT_DATA' }
+  | { type: 'EXPORT_RECOVERY_SNAPSHOT'; which: 'current' | 'previous' }
   /** 导入本地数据：先校验再写入（AC4）。 */
   | { type: 'IMPORT_DATA'; payload: unknown }
   /** 清除学习进度：只清空 cards/reviewLogs（AC4）。 */

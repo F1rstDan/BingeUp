@@ -12,6 +12,7 @@ import {
   beginRecoveryOperation,
   clearStorageIsolation,
   completeRecoveryOperation,
+  exportRecoverySnapshot,
   inspectStorageHealth,
   isStorageIsolationActive,
   resetRecoverySnapshot,
@@ -286,6 +287,83 @@ describe('本地自动恢复快照', () => {
     expect(await idbGetAll(db, STORES.sessionLogs)).toEqual([SESSION]);
     expect(await idbGetAll(db, STORES.behaviorEvents)).toEqual([EVENT]);
     expect((await store.getAppSettings()).dailyNewWordLimit).toBe(8);
+  });
+
+  it('当前与上一代快照可以只读导出，隔离和数据库保持原样', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    await saveRecoverySnapshot(store);
+    const before = await readStorageMeta(db);
+    const archive = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    expect((await exportRecoverySnapshot('current')).data.cards).toHaveLength(2);
+    expect((await exportRecoverySnapshot('previous')).data.cards).toHaveLength(1);
+    expect(await readStorageMeta(db)).toEqual(before);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(archive);
+    await clearLearningData();
+    await restoreRecoverySnapshotIfNeeded(store);
+    expect(await isStorageIsolationActive()).toBe(true);
+    expect((await exportRecoverySnapshot('current')).data.cards).toHaveLength(2);
+    expect(await isStorageIsolationActive()).toBe(true);
+  });
+
+  it('同一代次和保存时间的数据被损坏时仍重新校验并保留原件', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    expect((await inspectStorageHealth(store)).status).toBe('healthy');
+    const corrupted = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      payload: { data: { cards: CardRecord[] } };
+    };
+    corrupted.payload.data.cards[0]!.wordId = 'missing-word';
+    storage.values[RECOVERY_SNAPSHOT_KEY] = corrupted;
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(corrupted);
+    await expect(exportRecoverySnapshot('current')).rejects.toThrow('校验失败');
+  });
+
+  it('缺失集合的快照按格式错误处理，不使健康检查抛出类型错误', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    const corrupted = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      payload: { data: { reviewLogs?: unknown[] } };
+    };
+    delete corrupted.payload.data.reviewLogs;
+    storage.values[RECOVERY_SNAPSHOT_KEY] = corrupted;
+    expect((await inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'snapshot-invalid' }),
+    );
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(corrupted);
+  });
+
+  it('上一代损坏时停止轮换，但仍可单独导出有效当前快照', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    await saveRecoverySnapshot(store);
+    const corrupted = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
+      previous: { payload: { data: { cards: CardRecord[] } } };
+    };
+    corrupted.previous.payload.data.cards[0]!.wordId = 'missing-word';
+    storage.values[RECOVERY_SNAPSHOT_KEY] = corrupted;
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(corrupted);
+    expect((await exportRecoverySnapshot('current')).data.cards).toHaveLength(2);
+    await expect(exportRecoverySnapshot('previous')).rejects.toThrow('校验失败');
+  });
+
+  it('配额失败时保留原档案，不删除上一代换取写入成功', async () => {
+    await seedLearningData();
+    await saveRecoverySnapshot(store);
+    await idbPut(db, STORES.cards, SECOND_CARD);
+    await saveRecoverySnapshot(store);
+    const original = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]);
+    await store.setAppSettings({ ...DEFAULT_SETTINGS, dailyNewWordLimit: 9 });
+    storage.failNextSetCalls = 2;
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(original);
+    expect((await readStorageMeta(db)).pendingBackup).toBe(true);
+    expect(await saveRecoverySnapshot(store)).toBe(true);
   });
 
   it('已有学习数据时不覆盖当前 IndexedDB', async () => {
@@ -1036,23 +1114,23 @@ describe('本地自动恢复快照', () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
     await idbPut(db, STORES.cards, SECOND_CARD);
-    storage.failNextSetCalls = 2;
+    storage.failNextSetCalls = 1;
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     expect(await saveRecoverySnapshot(store)).toBe(true);
     expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toMatchObject({
       mode: 'compact',
-      previous: null,
+      previous: { payload: { data: { cards: [CARD] } } },
       payload: { data: { reviewLogs: [], sessionLogs: [], behaviorEvents: [] } },
     });
   });
 
-  it('完整、精简和末次精简均失败时保留旧代次字节', async () => {
+  it('完整和精简快照均失败时保留旧代次字节', async () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
     const healthyBytes = storage.values[RECOVERY_SNAPSHOT_KEY];
     await idbPut(db, STORES.cards, SECOND_CARD);
-    storage.failNextSetCalls = 3;
+    storage.failNextSetCalls = 2;
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     expect(await saveRecoverySnapshot(store)).toBe(false);

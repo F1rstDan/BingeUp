@@ -164,6 +164,9 @@ export const messageClient = {
   async exportData(): Promise<ExportDataResponse> {
     return send({ type: 'EXPORT_DATA' });
   },
+  async exportRecoverySnapshot(which: 'current' | 'previous'): Promise<ExportDataResponse> {
+    return send({ type: 'EXPORT_RECOVERY_SNAPSHOT', which });
+  },
   async importData(payload: unknown): Promise<ImportDataResponse> {
     return send({ type: 'IMPORT_DATA', payload });
   },

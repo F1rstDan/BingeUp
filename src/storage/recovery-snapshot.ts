@@ -231,11 +231,25 @@ function parseRecoveryHealthState(value: unknown): RecoveryHealthState {
 }
 
 function parseSnapshotEntity(value: unknown): RecoverySnapshot | null {
-  if (!isRecord(value) || value.version !== 1 || typeof value.savedAt !== 'number') return null;
+  if (
+    !isRecord(value) ||
+    value.version !== 1 ||
+    typeof value.savedAt !== 'number' ||
+    !Number.isFinite(value.savedAt) ||
+    (value.mode !== 'full' && value.mode !== 'compact')
+  )
+    return null;
   const payload = value.payload;
   if (!isRecord(payload) || payload.version !== 1) return null;
   if (!isRecord(payload.authoritativeState) || !isRecord(payload.data)) return null;
-  if (!Array.isArray(payload.data.cards)) return null;
+  const data = payload.data;
+  if (
+    !['cards', 'reviewLogs', 'sessionLogs', 'behaviorEvents', 'words', 'decks'].every((name) =>
+      Array.isArray(data[name]),
+    )
+  )
+    return null;
+  if (value.storage != null && parseRecoveryStorageStamp(value.storage) === null) return null;
   return {
     version: 1,
     generation: typeof value.generation === 'string' ? value.generation : 'legacy',
@@ -421,11 +435,15 @@ async function validateSnapshot(snapshot: RecoverySnapshot): Promise<string[]> {
 const snapshotValidationCache = new Map<string, string[]>();
 
 async function validateSnapshotOnce(snapshot: RecoverySnapshot): Promise<string[]> {
-  const key = `${snapshot.generation}:${snapshot.savedAt}`;
+  // 数据变化必须重新校验。仅缓存当前和上一代，避免后台长时间运行时持续占用内存。
+  const key = JSON.stringify(snapshot);
   const cached = snapshotValidationCache.get(key);
   if (cached !== undefined) return cached;
   const errors = await validateSnapshot(snapshot);
   snapshotValidationCache.set(key, errors);
+  while (snapshotValidationCache.size > 2) {
+    snapshotValidationCache.delete(snapshotValidationCache.keys().next().value!);
+  }
   return errors;
 }
 
@@ -862,12 +880,7 @@ async function writeRecoverySnapshot(
           ? {}
           : { invalidSnapshot: context.invalidSnapshot }),
       };
-      try {
-        await writeSnapshotArchive(archive);
-      } catch {
-        if (context.previous === null) throw new Error('精简快照写入失败');
-        await writeSnapshotArchive({ ...archive, previous: null });
-      }
+      await writeSnapshotArchive(archive);
     }
     await acknowledgeStorageBackup(store.database, storageMeta);
     return { saved: true, snapshot };
@@ -889,6 +902,24 @@ export async function inspectRecoverySnapshot(): Promise<StorageSnapshotDiagnost
   }
 }
 
+/** 只读导出自动快照，使用公共 v1 格式；不改变数据库或解除隔离。 */
+export async function exportRecoverySnapshot(
+  which: 'current' | 'previous',
+): Promise<ExportPayload> {
+  const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
+  const raw = stored[RECOVERY_SNAPSHOT_KEY];
+  if (!isRecord(raw) || (raw.version !== 1 && raw.version !== 2)) {
+    throw new Error('没有可导出的自动快照');
+  }
+  const entity =
+    which === 'previous' ? (raw.version === 2 ? raw.previous : null) : { ...raw, version: 1 };
+  const snapshot = parseSnapshotEntity(entity);
+  if (snapshot === null) throw new Error('所选自动快照不存在或格式无效');
+  const errors = await validateSnapshot(snapshot);
+  if (errors.length > 0) throw new Error(`自动快照校验失败：${errors.join('；')}`);
+  return snapshot.payload;
+}
+
 /** 检测当前权威数据相对恢复快照的异常减少、孤立日志和恢复失败。 */
 export async function inspectStorageHealth(store: LocalSettingsStore): Promise<StorageHealth> {
   const issues: StorageHealthIssue[] = [];
@@ -897,7 +928,13 @@ export async function inspectStorageHealth(store: LocalSettingsStore): Promise<S
   const storedSnapshot = stored[RECOVERY_SNAPSHOT_KEY];
   const archive = parseRecoveryArchive(storedSnapshot);
   const snapshot = archive === null ? null : snapshotEntityFromArchive(archive);
-  const snapshotValidationErrors = snapshot === null ? [] : await validateSnapshotOnce(snapshot);
+  const snapshotValidationErrors =
+    snapshot === null ? [] : [...(await validateSnapshotOnce(snapshot))];
+  if (archive?.previous) {
+    snapshotValidationErrors.push(
+      ...(await validateSnapshotOnce(archive.previous)).map((error) => `上一代：${error}`),
+    );
+  }
   const healthState = parseRecoveryHealthState(stored[RECOVERY_HEALTH_KEY]);
   const { currentCounts, cards, reviewLogs } = await readStorageHealthData(store.database);
   const snapshotCounts = snapshot === null ? undefined : countsFromPayload(snapshot.payload);

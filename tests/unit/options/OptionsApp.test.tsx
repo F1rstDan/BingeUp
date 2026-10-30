@@ -20,6 +20,7 @@ const mocks = vi.hoisted(() => ({
   listSites: vi.fn(),
   removeSite: vi.fn(),
   exportData: vi.fn(),
+  exportRecoverySnapshot: vi.fn(),
   importData: vi.fn(),
   clearLearningProgress: vi.fn(),
   clearAllData: vi.fn(),
@@ -45,6 +46,7 @@ vi.mock('@/messaging/message-client', () => ({
     listSites: mocks.listSites,
     removeSite: mocks.removeSite,
     exportData: mocks.exportData,
+    exportRecoverySnapshot: mocks.exportRecoverySnapshot,
     importData: mocks.importData,
     clearLearningProgress: mocks.clearLearningProgress,
     clearAllData: mocks.clearAllData,
@@ -1009,6 +1011,20 @@ describe('OptionsApp — Issue #10', () => {
     });
     // 验证下载锚点被触发（已 stub 避免 jsdom 导航噪声）
     expect(clickSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('当前和上一代快照分别导出，失败显示错误且不执行导入', async () => {
+    mocks.exportRecoverySnapshot.mockReset();
+    mocks.exportRecoverySnapshot.mockRejectedValueOnce(new Error('所选自动快照不存在'));
+    await renderOptionsAndOpenTab('数据管理');
+    fireEvent.click(await screen.findByRole('button', { name: '导出上一代快照' }));
+    await waitFor(() => expect(mocks.exportRecoverySnapshot).toHaveBeenCalledWith('previous'));
+    expect(await screen.findByText('导出失败：所选自动快照不存在')).toBeInTheDocument();
+    mocks.exportRecoverySnapshot.mockRejectedValueOnce(new Error('自动快照校验失败'));
+    fireEvent.click(screen.getByRole('button', { name: '导出当前自动快照' }));
+    await waitFor(() => expect(mocks.exportRecoverySnapshot).toHaveBeenCalledWith('current'));
+    expect(await screen.findByText('导出失败：自动快照校验失败')).toBeInTheDocument();
+    expect(mocks.importData).not.toHaveBeenCalled();
   });
 
   it('清除学习进度需要原版 Modal 二次确认，取消不执行（AC4）', async () => {

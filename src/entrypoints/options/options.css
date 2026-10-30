@@ -106,7 +106,7 @@ body {
 
 .bingeup-diagnostics-row {
   display: grid;
-  grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-columns: 112px minmax(0, 1fr);
   gap: var(--island-space-sm);
   align-items: baseline;
 }

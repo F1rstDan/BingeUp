@@ -200,6 +200,22 @@ describe('background 入口 — 共享持久化上下文', () => {
     expect(health.currentCounts.cards).toBe(1);
   });
 
+  it('隔离期间仍可只读导出健康自动快照，不恢复或解除隔离', async () => {
+    await send({ type: 'LEARNING_ACCEPT_NEW_WORD', wordId: 'w-abandon' });
+    await deleteCardByWordId('w-abandon');
+    await saveSnapshotAndExpectIsolation();
+    const payload = await send<ExportPayload>({
+      type: 'EXPORT_RECOVERY_SNAPSHOT',
+      which: 'current',
+    });
+    expect(payload.version).toBe(1);
+    expect(payload.data.cards).toHaveLength(1);
+    expect(await send({ type: 'GET_STORAGE_HEALTH' })).toMatchObject({ status: 'isolated' });
+    expect(await send({ type: 'LEARNING_GET_NEXT' })).toMatchObject({
+      __bingeupErrorCode: 'STORAGE_ISOLATED',
+    });
+  });
+
   it('自报认识会写入学习卡并记录最近自报单词', async () => {
     await send({ type: 'LEARNING_SELF_REPORT_KNOWN', wordId: 'w-ability' });
 

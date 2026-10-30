@@ -319,6 +319,9 @@ export const messageClient = {
       },
     };
   },
+  async exportRecoverySnapshot(): Promise<ExportDataResponse> {
+    throw new Error('预览环境没有自动快照');
+  },
   async importData(payload: unknown): Promise<ImportDataResponse> {
     console.debug('[preview] importData', payload);
     return { ok: true, errors: [], warnings: [] };

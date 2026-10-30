@@ -5,6 +5,7 @@ import {
   abandonRecoveryOperation,
   beginRecoveryOperation,
   completeRecoveryOperation,
+  exportRecoverySnapshot,
   inspectStorageHealth,
   isStorageIsolationActive,
   resetRecoverySnapshot,
@@ -33,6 +34,7 @@ const ISOLATION_ALLOWED_NON_GET_MESSAGES = new Set<string>([
   'COOLDOWN_GET_STATUS',
   'LIST_SITES',
   'EXPORT_DATA',
+  'EXPORT_RECOVERY_SNAPSHOT',
   'IMPORT_DATA',
   'CLEAR_LEARNING_PROGRESS',
   'CLEAR_ALL_DATA',
@@ -156,6 +158,13 @@ export default defineBackground(() => {
             }
           }
           sendResponse(await getStorageDiagnostics(diagnosticsStore));
+          return;
+        }
+        if (message?.type === 'EXPORT_RECOVERY_SNAPSHOT') {
+          if (message.which !== 'current' && message.which !== 'previous') {
+            throw new Error('自动快照选择无效');
+          }
+          sendResponse(await exportRecoverySnapshot(message.which));
           return;
         }
         if (message?.type === 'GET_STORAGE_HEALTH') {

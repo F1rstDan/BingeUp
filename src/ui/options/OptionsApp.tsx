@@ -608,6 +608,8 @@ export function OptionsApp(): JSX.Element {
           <Button type="primary" onClick={() => void handleExport(showNotice)}>
             导出数据
           </Button>
+          <Button onClick={() => void handleExport(showNotice, 'current')}>导出当前自动快照</Button>
+          <Button onClick={() => void handleExport(showNotice, 'previous')}>导出上一代快照</Button>
           <Button
             onClick={() => fileInputRef.current?.click()}
             disabled={importing}
@@ -645,6 +647,10 @@ export function OptionsApp(): JSX.Element {
             onChange={(e) => void handleImport(e, load, setImportFeedback, setImporting)}
           />
         </div>
+        <p className="bingeup-hint">
+          请把 JSON 保存到浏览器配置目录之外。自动快照仅保存在本机，卸载扩展时也会删除。
+          存档隔离时，请先分别导出当前数据和可用快照，核对日期与记录数后再导入。
+        </p>
         <div className="bingeup-actions">
           <Button danger onClick={requestClearProgress}>
             清除学习进度
@@ -1289,14 +1295,20 @@ async function handleAddWebsite(
   }
 }
 
-async function handleExport(onNotice: (msg: string | null) => void): Promise<void> {
+async function handleExport(
+  onNotice: (msg: string | null) => void,
+  snapshot?: 'current' | 'previous',
+): Promise<void> {
   try {
-    const payload = await messageClient.exportData();
+    const payload =
+      snapshot === undefined
+        ? await messageClient.exportData()
+        : await messageClient.exportRecoverySnapshot(snapshot);
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `bingeup-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `bingeup-${snapshot ? `snapshot-${snapshot}` : 'backup'}-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     onNotice('数据已导出');
