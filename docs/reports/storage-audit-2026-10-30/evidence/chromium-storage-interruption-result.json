@@ -1,26 +1,26 @@
 {
   "channel": "chromium",
-  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\chromium-oE6jrq",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\chromium-X0CVOx",
   "status": "passed",
-  "startedAt": "2026-10-30T00:22:59.822Z",
+  "startedAt": "2026-10-30T00:46:02.108Z",
   "extensionId": "glmnhnhflfpihgjogjcloinkegjjomdi",
   "before": {
     "id": "current",
     "revision": 3,
-    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "generation": "0a286ab6-8835-4408-8af5-4478e71d4b5e",
     "pendingBackup": true,
-    "committedAt": 1793319780421
+    "committedAt": 1793321162666
   },
   "after": {
     "id": "current",
     "revision": 3,
-    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "generation": "0a286ab6-8835-4408-8af5-4478e71d4b5e",
     "pendingBackup": false,
-    "committedAt": 1793319780421
+    "committedAt": 1793321162666
   },
   "snapshot": {
-    "generation": "f2e1ced8-65b6-417c-bf80-98c9410d8d0b",
+    "generation": "0a286ab6-8835-4408-8af5-4478e71d4b5e",
     "revision": 3
   },
-  "completedAt": "2026-10-30T00:23:01.039Z"
+  "completedAt": "2026-10-30T00:46:03.395Z"
 }

@@ -6,7 +6,6 @@ import { clearAllLocalData } from '@/storage/data-transfer';
 import { STORES, idbGetAll, idbPut, openDatabase, readStorageMeta } from '@/storage/database';
 import { LocalSettingsStore } from '@/storage/local-settings';
 import {
-  RECOVERY_CLEARED_AT_KEY,
   RECOVERY_HEALTH_KEY,
   RECOVERY_PENDING_OPERATION_KEY,
   RECOVERY_SNAPSHOT_KEY,
@@ -408,28 +407,6 @@ describe('本地自动恢复快照', () => {
     expect(await idbGetAll(db, STORES.cards)).toEqual([]);
   });
 
-  it('用户清除数据后旧快照不会在下次启动时复活', async () => {
-    await seedLearningData();
-    await saveRecoverySnapshot(store);
-    const current = storage.values[RECOVERY_SNAPSHOT_KEY] as {
-      savedAt: number;
-      mode: 'full' | 'compact';
-      payload: unknown;
-    };
-    storage.values[RECOVERY_SNAPSHOT_KEY] = {
-      version: 1,
-      savedAt: current.savedAt,
-      mode: current.mode,
-      payload: current.payload,
-    };
-    storage.values[RECOVERY_CLEARED_AT_KEY] = Date.now() + 1_000;
-
-    await wipeDatabase();
-    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(false);
-    expect(await idbGetAll(db, STORES.cards)).toEqual([]);
-    expect(storage.values[RECOVERY_CLEARED_AT_KEY]).toEqual(expect.any(Number));
-  });
-
   it('快照超出配额时退化为只保留学习卡与设置', async () => {
     await seedLearningData();
     storage.failNextSetCalls = 1;
@@ -563,7 +540,7 @@ describe('本地自动恢复快照', () => {
       previous: unknown;
       payload: { data: { cards: unknown[] } };
     };
-    expect(finalSnapshot.version).toBe(2);
+    expect(finalSnapshot.version).toBe(1);
     expect(finalSnapshot.tombstone).toMatchObject({ kind: 'clear-all' });
     expect(finalSnapshot.previous).toBeNull();
     expect(finalSnapshot.payload.data.cards).toEqual([]);
@@ -668,7 +645,7 @@ describe('本地自动恢复快照', () => {
     expect(archive.previous.generation).not.toBe(archive.previous.storage.generation);
   });
 
-  it('旧 v1 权威设置缺少可默认字段时仍可生成可校验快照', async () => {
+  it('权威设置缺少可默认字段时仍可生成当前格式快照', async () => {
     await idbPut(db, STORES.authoritativeState, {
       id: 'current',
       appSettings: {},
@@ -1077,7 +1054,7 @@ describe('本地自动恢复快照', () => {
       payload: { data: { cards: CardRecord[] } };
       previous: { generation?: string; payload: { data: { cards: CardRecord[] } } } | null;
     };
-    expect(archive).toMatchObject({ version: 2, previous: expect.any(Object) });
+    expect(archive).toMatchObject({ version: 1, previous: expect.any(Object) });
     expect(archive.generation).not.toBe(first.generation);
     expect(archive.payload.data.cards.map((card) => card.id).sort()).toEqual(['card-1', 'card-2']);
     expect(archive.previous?.payload.data.cards).toEqual([CARD]);
@@ -1105,21 +1082,13 @@ describe('本地自动恢复快照', () => {
     );
   });
 
-  it('旧快照未通过语义校验时保留原始字节并阻止覆盖', async () => {
+  it('当前快照未通过语义校验时保留原始字节并阻止覆盖', async () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
-    const current = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
-      savedAt: number;
-      mode: 'full' | 'compact';
+    const invalid = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as {
       payload: { data: { cards: CardRecord[] } };
     };
-    current.payload.data.cards[0]!.wordId = 'w-missing';
-    const invalid = {
-      version: 1,
-      savedAt: current.savedAt,
-      mode: current.mode,
-      payload: current.payload,
-    };
+    invalid.payload.data.cards[0]!.wordId = 'w-missing';
     storage.values[RECOVERY_SNAPSHOT_KEY] = invalid;
 
     expect((await inspectStorageHealth(store)).status).toBe('attention');
@@ -1132,33 +1101,22 @@ describe('本地自动恢复快照', () => {
     );
   });
 
-  it('兼容旧版单快照并从新代次档案继续轮换', async () => {
+  it('当前完整 v1 档案缺少任一必需字段时拒绝并保留原件', async () => {
     await idbPut(db, STORES.cards, CARD);
     await saveRecoverySnapshot(store);
-    const currentArchive = storage.values[RECOVERY_SNAPSHOT_KEY] as {
-      generation: string;
-      savedAt: number;
-      mode: 'full' | 'compact';
-      payload: unknown;
-    };
-    const legacy = {
-      version: 1,
-      savedAt: currentArchive.savedAt,
-      mode: currentArchive.mode,
-      payload: currentArchive.payload,
-    };
-    storage.values[RECOVERY_SNAPSHOT_KEY] = structuredClone(legacy);
-    await wipeDatabase();
+    const invalid = structuredClone(storage.values[RECOVERY_SNAPSHOT_KEY]) as Record<
+      string,
+      unknown
+    >;
+    delete invalid.operation;
+    storage.values[RECOVERY_SNAPSHOT_KEY] = invalid;
 
-    expect((await restoreRecoverySnapshotIfNeeded(store)).restored).toBe(true);
-    await idbPut(db, STORES.cards, SECOND_CARD);
-    expect(await saveRecoverySnapshot(store)).toBe(true);
-    const upgraded = storage.values[RECOVERY_SNAPSHOT_KEY] as {
-      version: number;
-      previous: { payload: { data: { cards: CardRecord[] } } } | null;
-    };
-    expect(upgraded.version).toBe(2);
-    expect(upgraded.previous?.payload.data.cards).toEqual([CARD]);
+    expect(await saveRecoverySnapshot(store)).toBe(false);
+    expect((await saveStartupRecoverySnapshot(store)).saved).toBe(false);
+    expect((await inspectStorageHealth(store)).issues).toContainEqual(
+      expect.objectContaining({ code: 'snapshot-invalid' }),
+    );
+    expect(storage.values[RECOVERY_SNAPSHOT_KEY]).toEqual(invalid);
   });
 
   it('用户清除后使用新一代次和 tombstone，重启时不恢复旧数据', async () => {

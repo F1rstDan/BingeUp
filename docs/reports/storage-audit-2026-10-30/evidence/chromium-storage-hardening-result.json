@@ -1,8 +1,8 @@
 {
   "channel": "chromium",
   "rounds": 5,
-  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\chromium-UqaHEy",
-  "startedAt": "2026-10-30T00:23:09.784Z",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-audit\\chromium-bYcLBw",
+  "startedAt": "2026-10-30T00:45:48.077Z",
   "status": "passed",
   "observations": [
     {
@@ -38,7 +38,7 @@
   ],
   "browserVersion": "149.0.7827.55",
   "extensionId": "glmnhnhflfpihgjogjcloinkegjjomdi",
-  "wordId": "w-feel",
+  "wordId": "w-something",
   "partialLoss": {
     "cards": 0,
     "events": 2,
@@ -49,5 +49,5 @@
     "blockedError": "存档处于隔离状态。请先导出数据并检查，或明确导入备份、清除数据后重试。",
     "returnedLearningItem": false
   },
-  "completedAt": "2026-10-30T00:23:15.931Z"
+  "completedAt": "2026-10-30T00:45:54.831Z"
 }

@@ -7,7 +7,7 @@ import type { StorageMetaRecord } from '@/types';
  * 改名会让旧 IndexedDB 无法被读取，表现为关闭浏览器后存档全部丢失。
  */
 export const DATABASE_NAME = 'bingeup';
-export const DATABASE_VERSION = 2;
+export const DATABASE_VERSION = 1;
 export const STORAGE_META_ID = 'current';
 
 /** 对象仓库名称常量。 */
@@ -24,7 +24,7 @@ export const STORES = {
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
 
-function createBaseSchema(db: IDBDatabase): void {
+function createSchema(db: IDBDatabase): void {
   const cards = db.createObjectStore(STORES.cards, { keyPath: 'id' });
   cards.createIndex('byWordId', 'wordId', { unique: true });
 
@@ -41,6 +41,7 @@ function createBaseSchema(db: IDBDatabase): void {
   events.createIndex('byOccurredAt', 'occurredAt', { unique: false });
 
   db.createObjectStore(STORES.authoritativeState, { keyPath: 'id' });
+  db.createObjectStore(STORES.storageMeta, { keyPath: 'id' }).add(createInitialStorageMeta());
 }
 
 export function createInitialStorageMeta(): StorageMetaRecord {
@@ -51,14 +52,6 @@ export function createInitialStorageMeta(): StorageMetaRecord {
     pendingBackup: true,
     committedAt: 0,
   };
-}
-
-function upgradeSchema(db: IDBDatabase, oldVersion: number): void {
-  if (oldVersion < 1) createBaseSchema(db);
-  if (oldVersion < 2) {
-    const store = db.createObjectStore(STORES.storageMeta, { keyPath: 'id' });
-    store.add(createInitialStorageMeta());
-  }
 }
 
 /** 打开数据库；首次打开时创建仓库与索引。 */
@@ -73,9 +66,9 @@ export function openDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
       reject(error);
     };
 
-    request.onupgradeneeded = (event) => {
+    request.onupgradeneeded = () => {
       try {
-        upgradeSchema(request.result, event.oldVersion);
+        createSchema(request.result);
       } catch (err) {
         openError = err instanceof Error ? err : new Error(String(err));
         request.transaction!.abort();
@@ -86,6 +79,11 @@ export function openDatabase(name = DATABASE_NAME): Promise<IDBDatabase> {
       const db = request.result;
       if (settled) {
         db.close();
+        return;
+      }
+      if (Object.values(STORES).some((store) => !db.objectStoreNames.contains(store))) {
+        db.close();
+        fail(new Error('数据库结构与当前内测代码不一致；现有数据未修改，请先备份再明确重建'));
         return;
       }
       // 删除或重建数据空间时，释放其他页面持有的连接。

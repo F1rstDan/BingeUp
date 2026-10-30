@@ -30,7 +30,6 @@ import type {
  * 数据库被外部清空或旧版本换库名后无法读取等整体丢失场景。
  */
 export const RECOVERY_SNAPSHOT_KEY = 'bingeup:recovery-snapshot';
-export const RECOVERY_CLEARED_AT_KEY = 'bingeup:recovery-cleared-at';
 export const RECOVERY_HEALTH_KEY = 'bingeup:recovery-health';
 export const RECOVERY_PENDING_OPERATION_KEY = 'bingeup:recovery-pending-operation';
 
@@ -38,7 +37,7 @@ interface RecoverySnapshot {
   version: 1;
   generation: string;
   /** 生成 payload 时数据库的权威修订信息；与快照档案 generation 分开。 */
-  storage: RecoveryStorageStamp | null;
+  storage: RecoveryStorageStamp;
   savedAt: number;
   mode: 'full' | 'compact';
   payload: ExportPayload;
@@ -58,14 +57,13 @@ interface PendingRecoveryOperation {
   startedAt: number;
 }
 
-interface RecoverySnapshotArchive extends Omit<RecoverySnapshot, 'version'> {
-  version: 2;
+interface RecoverySnapshotArchive extends RecoverySnapshot {
   previous: RecoverySnapshot | null;
   tombstone: {
     generation: string;
     kind: Exclude<UserRecoveryOperation, 'import'>;
   } | null;
-  operation: UserRecoveryOperation | 'automatic' | 'legacy';
+  operation: UserRecoveryOperation | 'automatic';
   /** 用户明确替换无效快照时，同一条记录保留原值。 */
   invalidSnapshot?: unknown;
 }
@@ -263,32 +261,68 @@ function parseRecoveryHealthState(value: unknown): RecoveryHealthState {
   };
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const SNAPSHOT_ENTITY_KEYS = [
+  'version',
+  'generation',
+  'storage',
+  'savedAt',
+  'mode',
+  'payload',
+] as const;
+const SNAPSHOT_ARCHIVE_KEYS = [
+  ...SNAPSHOT_ENTITY_KEYS,
+  'previous',
+  'tombstone',
+  'operation',
+  'invalidSnapshot',
+] as const;
+
+function hasOnlyKeys(value: Record<string, unknown>, keys: readonly string[]): boolean {
+  const allowed = new Set(keys);
+  return Object.keys(value).every((key) => allowed.has(key));
+}
+
 function parseSnapshotEntity(value: unknown): RecoverySnapshot | null {
+  if (!isRecord(value) || !hasOnlyKeys(value, SNAPSHOT_ENTITY_KEYS)) return null;
+  if (value.version !== 1) return null;
+  if (typeof value.generation !== 'string' || !UUID_PATTERN.test(value.generation)) return null;
+  const storage = parseRecoveryStorageStamp(value.storage);
+  if (storage === null) return null;
   if (
-    !isRecord(value) ||
-    value.version !== 1 ||
     typeof value.savedAt !== 'number' ||
-    !Number.isFinite(value.savedAt) ||
-    (value.mode !== 'full' && value.mode !== 'compact')
-  )
+    !Number.isSafeInteger(value.savedAt) ||
+    value.savedAt < 0
+  ) {
     return null;
+  }
+  if (value.mode !== 'full' && value.mode !== 'compact') return null;
+
   const payload = value.payload;
   if (!isRecord(payload) || payload.version !== 1) return null;
+  if (
+    typeof payload.exportedAt !== 'number' ||
+    !Number.isSafeInteger(payload.exportedAt) ||
+    payload.exportedAt < 0
+  ) {
+    return null;
+  }
   if (!isRecord(payload.authoritativeState) || !isRecord(payload.data)) return null;
   const data = payload.data;
   if (
     !['cards', 'reviewLogs', 'sessionLogs', 'behaviorEvents', 'words', 'decks'].every((name) =>
       Array.isArray(data[name]),
     )
-  )
+  ) {
     return null;
-  if (value.storage != null && parseRecoveryStorageStamp(value.storage) === null) return null;
+  }
+
   return {
     version: 1,
-    generation: typeof value.generation === 'string' ? value.generation : 'legacy',
-    storage: parseRecoveryStorageStamp(value.storage),
+    generation: value.generation,
+    storage,
     savedAt: value.savedAt,
-    mode: value.mode === 'compact' ? 'compact' : 'full',
+    mode: value.mode,
     payload: payload as unknown as ExportPayload,
   };
 }
@@ -297,7 +331,7 @@ function parseRecoveryStorageStamp(value: unknown): RecoveryStorageStamp | null 
   if (
     !isRecord(value) ||
     typeof value.generation !== 'string' ||
-    value.generation.length === 0 ||
+    !UUID_PATTERN.test(value.generation) ||
     typeof value.revision !== 'number' ||
     !Number.isSafeInteger(value.revision) ||
     value.revision < 0
@@ -309,13 +343,11 @@ function parseRecoveryStorageStamp(value: unknown): RecoveryStorageStamp | null 
 
 const RECOVERY_OPERATIONS: ReadonlySet<string> = new Set([
   'automatic',
-  'legacy',
   'import',
   'clear-learning-progress',
   'clear-all',
   'rebuild',
 ]);
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function isTombstone(
   value: unknown,
@@ -331,52 +363,37 @@ function isTombstone(
 }
 
 function parseRecoveryArchive(value: unknown): RecoverySnapshotArchive | null {
-  if (!isRecord(value)) return null;
-  if (value.version === 1) {
-    const legacy = parseSnapshotEntity(value);
-    if (legacy === null) return null;
-    return {
-      ...legacy,
-      version: 2,
-      previous: null,
-      tombstone: null,
-      operation: 'legacy',
-    };
-  }
-  if (value.version !== 2) return null;
-  if (typeof value.generation !== 'string' || !UUID_PATTERN.test(value.generation)) return null;
-  const current = parseSnapshotEntity({ ...value, version: 1 });
+  if (!isRecord(value) || !hasOnlyKeys(value, SNAPSHOT_ARCHIVE_KEYS)) return null;
+  if (value.version !== 1) return null;
+  const current = parseSnapshotEntity({
+    version: value.version,
+    generation: value.generation,
+    storage: value.storage,
+    savedAt: value.savedAt,
+    mode: value.mode,
+    payload: value.payload,
+  });
   if (current === null) return null;
-  const previous =
-    value.previous === null
-      ? null
-      : value.previous === undefined
-        ? null
-        : parseSnapshotEntity(value.previous);
-  if (previous === null && value.previous !== null && value.previous !== undefined) return null;
-  if (typeof value.operation !== 'string' || !RECOVERY_OPERATIONS.has(value.operation)) {
-    return null;
-  }
-  if (!isTombstone(value.tombstone ?? null, value.generation)) return null;
+  const previous = value.previous === null ? null : parseSnapshotEntity(value.previous);
+  if (value.previous !== null && previous === null) return null;
+  if (typeof value.operation !== 'string' || !RECOVERY_OPERATIONS.has(value.operation)) return null;
+  if (!isTombstone(value.tombstone, current.generation)) return null;
   return {
     ...current,
-    version: 2,
-    generation: value.generation,
     previous,
-    tombstone: (value.tombstone ?? null) as RecoverySnapshotArchive['tombstone'],
+    tombstone: value.tombstone as RecoverySnapshotArchive['tombstone'],
     operation: value.operation as RecoverySnapshotArchive['operation'],
     ...('invalidSnapshot' in value ? { invalidSnapshot: value.invalidSnapshot } : {}),
   };
 }
 
-function parseSnapshot(value: unknown): RecoverySnapshot | null {
-  const archive = parseRecoveryArchive(value);
-  return archive === null ? null : snapshotEntityFromArchive(archive);
+function parseSnapshot(value: unknown): RecoverySnapshotArchive | null {
+  return parseRecoveryArchive(value);
 }
 
 function snapshotEntityFromArchive(archive: RecoverySnapshotArchive): RecoverySnapshot {
   return {
-    version: 1,
+    version: archive.version,
     generation: archive.generation,
     storage: archive.storage,
     savedAt: archive.savedAt,
@@ -456,7 +473,7 @@ function diagnosticFromSnapshot(snapshot: RecoverySnapshot | null): StorageSnaps
     savedAt: snapshot.savedAt,
     mode: snapshot.mode,
     counts: countsFromPayload(snapshot.payload),
-    ...(snapshot.storage === null ? {} : { storage: snapshot.storage }),
+    storage: snapshot.storage,
   };
 }
 
@@ -832,13 +849,6 @@ async function writeProtectedRecoverySnapshot(
   if (health.status !== 'healthy') return { saved: false, snapshot: null };
   const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
   const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
-  if (archive?.operation === 'legacy') {
-    const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));
-    if (errors.length > 0) {
-      await activateInvalidSnapshotIsolation(errors);
-      return { saved: false, snapshot: null };
-    }
-  }
   return writeRecoverySnapshot(store, {
     previous: archive === null ? null : snapshotEntityFromArchive(archive),
     operation: 'automatic',
@@ -871,7 +881,6 @@ async function writeRecoverySnapshot(
     }
     let archive: RecoverySnapshotArchive = {
       ...snapshot,
-      version: 2,
       previous: context.previous,
       operation: context.operation,
       tombstone:
@@ -903,7 +912,6 @@ async function writeRecoverySnapshot(
       }
       archive = {
         ...snapshot,
-        version: 2,
         previous: context.previous,
         operation: context.operation,
         tombstone:
@@ -940,11 +948,9 @@ export async function exportRecoverySnapshot(
 ): Promise<ExportPayload> {
   const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
   const raw = stored[RECOVERY_SNAPSHOT_KEY];
-  if (!isRecord(raw) || (raw.version !== 1 && raw.version !== 2)) {
-    throw new Error('没有可导出的自动快照');
-  }
-  const entity =
-    which === 'previous' ? (raw.version === 2 ? raw.previous : null) : { ...raw, version: 1 };
+  const archive = parseRecoveryArchive(raw);
+  if (archive === null) throw new Error('没有可导出的自动快照');
+  const entity = which === 'previous' ? archive.previous : snapshotEntityFromArchive(archive);
   const snapshot = parseSnapshotEntity(entity);
   if (snapshot === null) throw new Error('所选自动快照不存在或格式无效');
   const errors = await validateSnapshot(snapshot);
@@ -1113,12 +1119,7 @@ async function resetRecoverySnapshotNow(
   if (operation === 'import') {
     const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const archive = parseRecoveryArchive(stored[RECOVERY_SNAPSHOT_KEY]);
-    if (archive !== null && archive.operation !== 'legacy') {
-      previous = snapshotEntityFromArchive(archive);
-    } else if (archive !== null) {
-      const errors = await validateSnapshotOnce(snapshotEntityFromArchive(archive));
-      if (errors.length === 0) previous = snapshotEntityFromArchive(archive);
-    }
+    if (archive !== null) previous = snapshotEntityFromArchive(archive);
   }
   const result = await writeRecoverySnapshot(store, {
     previous,
@@ -1181,7 +1182,7 @@ export async function restoreRecoverySnapshotIfNeeded(
       return { restored: false };
     }
 
-    const stored = await chrome.storage.local.get([RECOVERY_SNAPSHOT_KEY, RECOVERY_CLEARED_AT_KEY]);
+    const stored = await chrome.storage.local.get(RECOVERY_SNAPSHOT_KEY);
     const raw = stored[RECOVERY_SNAPSHOT_KEY];
     const archive = parseRecoveryArchive(raw);
     if (raw !== undefined && archive === null) {
@@ -1193,15 +1194,6 @@ export async function restoreRecoverySnapshotIfNeeded(
       return { restored: false };
     }
     if (archive.tombstone?.generation === archive.generation) return { restored: false };
-
-    const clearedAt = stored[RECOVERY_CLEARED_AT_KEY];
-    if (
-      archive.operation === 'legacy' &&
-      typeof clearedAt === 'number' &&
-      clearedAt > archive.savedAt
-    ) {
-      return { restored: false };
-    }
 
     const result = await importLocalData(store, archive.payload);
     if (!result.ok) {

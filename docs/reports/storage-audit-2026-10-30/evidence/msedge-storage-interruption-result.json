@@ -1,26 +1,26 @@
 {
   "channel": "msedge",
-  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\msedge-swMWnK",
+  "profile": "D:\\AI-Projects\\_code\\BingeUp\\.output\\storage-interruption\\msedge-TWLZGQ",
   "status": "passed",
-  "startedAt": "2026-10-30T00:23:01.040Z",
+  "startedAt": "2026-10-30T00:46:03.397Z",
   "extensionId": "neijojjohcfangnalkihnaippdihekfd",
   "before": {
     "id": "current",
     "revision": 3,
-    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "generation": "aefe9435-c90e-47fd-a1f9-3aa7afaa5d14",
     "pendingBackup": true,
-    "committedAt": 1793319781663
+    "committedAt": 1793321164050
   },
   "after": {
     "id": "current",
     "revision": 3,
-    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "generation": "aefe9435-c90e-47fd-a1f9-3aa7afaa5d14",
     "pendingBackup": false,
-    "committedAt": 1793319781663
+    "committedAt": 1793321164050
   },
   "snapshot": {
-    "generation": "9494418f-2348-44ef-9e30-f653212e33b1",
+    "generation": "aefe9435-c90e-47fd-a1f9-3aa7afaa5d14",
     "revision": 3
   },
-  "completedAt": "2026-10-30T00:23:02.778Z"
+  "completedAt": "2026-10-30T00:46:04.898Z"
 }
