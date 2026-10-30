@@ -3070,7 +3070,7 @@ describe('LearningService — 多标签并发一致性（Issue #19 AC2/AC4）', 
 
     await expect(
       retryService.submitAnswer({
-        question: { ...question, wordId: 'w-benefit' },
+        question: { ...question, wordId: `${question.wordId}-mismatch` },
         selectedIndex: question.correctIndex,
         responseTimeMs: 2000,
         source: 'natural',
