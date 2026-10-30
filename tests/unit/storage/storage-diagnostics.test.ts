@@ -19,6 +19,8 @@ import type {
   DeckRecord,
   ReviewLogRecord,
   SessionLogRecord,
+  StorageCounts,
+  StorageMetaRecord,
   WordRecord,
 } from '@/types';
 
@@ -91,12 +93,39 @@ const EVENT: BehaviorEventRecord = {
   enabled: true,
 };
 
+const EMPTY_COUNTS: StorageCounts = {
+  cards: 0,
+  reviewLogs: 0,
+  sessionLogs: 0,
+  behaviorEvents: 0,
+  words: 0,
+  decks: 0,
+};
+
+const STORAGE_META: StorageMetaRecord = {
+  id: 'current',
+  revision: 7,
+  generation: 'db-generation',
+  pendingBackup: true,
+  committedAt: 1_500,
+};
+
 async function deleteDatabase(): Promise<void> {
   await new Promise<void>((resolve) => {
     const request = indexedDB.deleteDatabase(TEST_DB);
     request.onsuccess = () => resolve();
     request.onerror = () => resolve();
     request.onblocked = () => resolve();
+  });
+}
+
+async function putStorageMeta(database: IDBDatabase, meta: StorageMetaRecord): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const transaction = database.transaction(STORES.storageMeta, 'readwrite');
+    transaction.objectStore(STORES.storageMeta).put(meta);
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+    transaction.onabort = () => reject(transaction.error);
   });
 }
 
@@ -145,9 +174,10 @@ describe('存档诊断记录', () => {
     vi.unstubAllGlobals();
   });
 
-  it('记录启动读取、当前计数和快照信息', async () => {
+  it('记录当前计数、数据库元数据、快照戳和健康状态', async () => {
     await startStorageDiagnosticSession(1_000);
     await recordDatabaseOpened(1);
+    await putStorageMeta(db, STORAGE_META);
     const counts = await readStorageCounts(store);
     expect(counts).toMatchObject({ cards: 1, reviewLogs: 1, sessionLogs: 1, behaviorEvents: 1 });
     const cardStages = await readCardStages(store);
@@ -159,6 +189,7 @@ describe('存档诊断记录', () => {
       snapshotPresent: false,
     });
     await saveRecoverySnapshot(store);
+    await putStorageMeta(db, STORAGE_META);
 
     const diagnostics = await getStorageDiagnostics(store);
     expect(diagnostics.databaseOpen).toBe(true);
@@ -166,8 +197,20 @@ describe('存档诊断记录', () => {
     expect(diagnostics.startup?.counts?.cards).toBe(1);
     expect(diagnostics.startup?.cardStages?.shortTerm).toBe(1);
     expect(diagnostics.current?.counts.cards).toBe(1);
+    expect(diagnostics.current?.storageMeta).toMatchObject({
+      revision: 7,
+      generation: 'db-generation',
+      pendingBackup: true,
+      committedAt: 1_500,
+    });
     expect(diagnostics.snapshot.present).toBe(true);
     expect(diagnostics.snapshot.counts?.cards).toBe(1);
+    expect(diagnostics.snapshot.storage).toEqual({
+      generation: 'db-generation',
+      revision: expect.any(Number),
+    });
+    expect(diagnostics.health?.status).toBe('healthy');
+    expect(diagnostics.health?.issues).toEqual([]);
     expect(diagnostics.history).toHaveLength(1);
   });
 
@@ -204,6 +247,15 @@ describe('存档诊断记录', () => {
       cardStages: { shortTerm: 1, longTerm: 0, selfReported: 0, other: 0 },
       restoredFromSnapshot: true,
       restoreError: undefined,
+      restoreBeforeCounts: EMPTY_COUNTS,
+      restoreAfterCounts: {
+        cards: 1,
+        reviewLogs: 1,
+        sessionLogs: 1,
+        behaviorEvents: 1,
+        words: 0,
+        decks: 0,
+      },
       snapshotPresent: true,
       snapshotSavedAt: 900,
       snapshotMode: 'full',
@@ -215,6 +267,8 @@ describe('存档诊断记录', () => {
     expect(diagnostics.history[0]?.startedAt).toBe(2_000);
     expect(diagnostics.history[1]?.databaseOpenError).toBe('数据库被占用');
     expect(diagnostics.startup?.restoredFromSnapshot).toBe(true);
+    expect(diagnostics.startup?.restoreBeforeCounts).toEqual(EMPTY_COUNTS);
+    expect(diagnostics.startup?.restoreAfterCounts).toMatchObject({ cards: 1, reviewLogs: 1 });
   });
 
   it('数据库不可用时仍返回启动历史和快照摘要', async () => {
@@ -226,5 +280,17 @@ describe('存档诊断记录', () => {
     expect(diagnostics.current).toBeNull();
     expect(diagnostics.databaseOpenError).toBe('数据库打开失败');
     expect(diagnostics.history[0]?.startedAt).toBe(1_000);
+  });
+
+  it('分别记录当前读取与健康检查失败原因', async () => {
+    await startStorageDiagnosticSession(1_000);
+    db.close();
+
+    const diagnostics = await getStorageDiagnostics(store);
+
+    expect(diagnostics.current).toBeNull();
+    expect(diagnostics.currentError).toBeTruthy();
+    expect(diagnostics.health).toBeUndefined();
+    expect(diagnostics.healthError).toBeTruthy();
   });
 });

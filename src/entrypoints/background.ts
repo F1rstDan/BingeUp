@@ -117,6 +117,10 @@ export default defineBackground(() => {
           counts,
           cardStages,
           restoredFromSnapshot: restoreResult.restored,
+          ...(restoreResult.beforeCounts
+            ? { restoreBeforeCounts: restoreResult.beforeCounts }
+            : {}),
+          ...(restoreResult.afterCounts ? { restoreAfterCounts: restoreResult.afterCounts } : {}),
           ...(restoreResult.error ? { restoreError: restoreResult.error } : {}),
           snapshotPresent: snapshot.present,
           ...(snapshot.savedAt === undefined ? {} : { snapshotSavedAt: snapshot.savedAt }),

@@ -102,6 +102,8 @@ export interface StartupRecoverySnapshotResult {
 export interface RecoveryRestoreResult {
   restored: boolean;
   error?: string;
+  beforeCounts?: StorageCounts;
+  afterCounts?: StorageCounts;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -403,6 +405,7 @@ function diagnosticFromSnapshot(snapshot: RecoverySnapshot | null): StorageSnaps
     savedAt: snapshot.savedAt,
     mode: snapshot.mode,
     counts: countsFromPayload(snapshot.payload),
+    ...(snapshot.storage === null ? {} : { storage: snapshot.storage }),
   };
 }
 
@@ -1041,6 +1044,7 @@ export async function resetRecoverySnapshot(
 export async function restoreRecoverySnapshotIfNeeded(
   store: LocalSettingsStore,
 ): Promise<RecoveryRestoreResult> {
+  let beforeCounts: StorageCounts | undefined;
   try {
     const pending = await getPendingRecoveryOperation();
     if (pending !== null) {
@@ -1065,6 +1069,11 @@ export async function restoreRecoverySnapshotIfNeeded(
       ),
       completed.then(() => 0),
     ]);
+    beforeCounts = Object.fromEntries(
+      names
+        .filter((name) => name !== STORES.authoritativeState)
+        .map((name) => [name, counts[names.indexOf(name)]]),
+    ) as unknown as StorageCounts;
     if (counts.some((count) => count > 0)) {
       const health = await inspectStorageHealth(store);
       if (health.status === 'attention') await activateRecoveryIsolation(health.issues);
@@ -1077,7 +1086,7 @@ export async function restoreRecoverySnapshotIfNeeded(
     if (raw !== undefined && archive === null) {
       const error = '自动恢复快照格式无效；原快照已保留。';
       await recordRecoveryFailure(error);
-      return { restored: false, error };
+      return { restored: false, error, beforeCounts, afterCounts: beforeCounts };
     }
     if (archive === null) {
       return { restored: false };
@@ -1098,10 +1107,14 @@ export async function restoreRecoverySnapshotIfNeeded(
       const error = result.errors.join('；');
       console.error('[BingeUp] 自动存档恢复失败，快照仍保留', result.errors);
       await recordRecoveryFailure(error);
-      return { restored: false, error };
+      return { restored: false, error, beforeCounts, afterCounts: beforeCounts };
     }
     await clearRecoveryHealth();
-    return { restored: true };
+    return {
+      restored: true,
+      beforeCounts,
+      afterCounts: (await readStorageHealthData(store.database)).currentCounts,
+    };
   } catch (error) {
     console.error('[BingeUp] 自动存档恢复失败', error);
     const message = error instanceof Error ? error.message : String(error);

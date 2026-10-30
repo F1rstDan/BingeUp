@@ -1,11 +1,18 @@
-import { DATABASE_NAME, DATABASE_VERSION, STORES, type StoreName } from '@/storage/database';
-import { inspectRecoverySnapshot } from '@/storage/recovery-snapshot';
+import {
+  DATABASE_NAME,
+  DATABASE_VERSION,
+  STORES,
+  readStorageMeta,
+  type StoreName,
+} from '@/storage/database';
+import { inspectRecoverySnapshot, inspectStorageHealth } from '@/storage/recovery-snapshot';
 import type { LocalSettingsStore } from '@/storage/local-settings';
 import type {
   CardRecord,
   StorageCardStages,
   StorageCounts,
   StorageDiagnostics,
+  StorageHealth,
   StorageStartupRecord,
 } from '@/types';
 
@@ -109,6 +116,8 @@ interface StartupReadInput {
   cardStages: StorageCardStages;
   restoredFromSnapshot: boolean;
   restoreError?: string;
+  restoreBeforeCounts?: StorageCounts;
+  restoreAfterCounts?: StorageCounts;
   snapshotPresent: boolean;
   snapshotSavedAt?: number;
   snapshotMode?: 'full' | 'compact';
@@ -124,6 +133,12 @@ export function recordStartupRead(input: StartupReadInput): Promise<void> {
       databaseOpenError: undefined,
       restoredFromSnapshot: input.restoredFromSnapshot,
       ...(input.restoreError ? { restoreError: input.restoreError } : {}),
+      ...(input.restoreBeforeCounts === undefined
+        ? {}
+        : { restoreBeforeCounts: input.restoreBeforeCounts }),
+      ...(input.restoreAfterCounts === undefined
+        ? {}
+        : { restoreAfterCounts: input.restoreAfterCounts }),
       snapshotPresent: input.snapshotPresent,
       ...(input.snapshotSavedAt === undefined ? {} : { snapshotSavedAt: input.snapshotSavedAt }),
       ...(input.snapshotMode === undefined ? {} : { snapshotMode: input.snapshotMode }),
@@ -203,15 +218,34 @@ export async function getStorageDiagnostics(
     const startup = state.history[0] ?? null;
     let current: StorageDiagnostics['current'] = null;
     let currentError: string | undefined;
+    let health: StorageHealth | undefined;
+    let healthError: string | undefined;
     if (store !== null) {
       try {
+        const readAt = Date.now();
+        const [counts, cardStages] = await Promise.all([
+          readStorageCounts(store),
+          readCardStages(store),
+        ]);
         current = {
-          readAt: Date.now(),
-          counts: await readStorageCounts(store),
-          cardStages: await readCardStages(store),
+          readAt,
+          counts,
+          cardStages,
         };
       } catch (error) {
         currentError = error instanceof Error ? error.message : String(error);
+      }
+      if (current !== null) {
+        try {
+          current.storageMeta = await readStorageMeta(store.database);
+        } catch (error) {
+          current.storageMetaError = error instanceof Error ? error.message : String(error);
+        }
+      }
+      try {
+        health = await inspectStorageHealth(store);
+      } catch (error) {
+        healthError = error instanceof Error ? error.message : String(error);
       }
     }
     return {
@@ -225,6 +259,8 @@ export async function getStorageDiagnostics(
       current,
       ...(currentError ? { currentError } : {}),
       snapshot,
+      ...(health === undefined ? {} : { health }),
+      ...(healthError ? { healthError } : {}),
       history: state.history,
     };
   } catch (error) {

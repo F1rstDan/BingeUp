@@ -751,6 +751,10 @@ export interface StorageStartupRecord {
   cardStages?: StorageCardStages;
   restoredFromSnapshot: boolean;
   restoreError?: string;
+  /** 自动恢复尝试前的权威仓库计数；未执行恢复时缺省。 */
+  restoreBeforeCounts?: StorageCounts;
+  /** 自动恢复尝试后的权威仓库计数；未执行恢复时缺省。 */
+  restoreAfterCounts?: StorageCounts;
   snapshotPresent: boolean;
   snapshotSavedAt?: number;
   snapshotMode?: 'full' | 'compact';
@@ -767,6 +771,20 @@ export interface StorageSnapshotDiagnostic {
   savedAt?: number;
   mode?: 'full' | 'compact';
   counts?: StorageCounts;
+  /** 生成快照时对应的数据库 generation 与 revision。 */
+  storage?: {
+    generation: string;
+    revision: number;
+  };
+}
+
+/** 设置页读取到的当前 IndexedDB 状态。 */
+export interface StorageDiagnosticsCurrent {
+  readAt: number;
+  counts: StorageCounts;
+  cardStages?: StorageCardStages;
+  storageMeta?: StorageMetaRecord;
+  storageMetaError?: string;
 }
 
 /** 设置页数据管理读取的完整存档诊断。 */
@@ -778,8 +796,10 @@ export interface StorageDiagnostics {
   databaseOpen: boolean;
   databaseOpenError?: string;
   startup: StorageStartupRecord | null;
-  current: { readAt: number; counts: StorageCounts; cardStages?: StorageCardStages } | null;
+  current: StorageDiagnosticsCurrent | null;
   currentError?: string;
   snapshot: StorageSnapshotDiagnostic;
+  health?: StorageHealth;
+  healthError?: string;
   history: StorageStartupRecord[];
 }

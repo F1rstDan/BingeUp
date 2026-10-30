@@ -99,12 +99,33 @@ const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
     readAt: 1_700_000_010_000,
     counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
     cardStages: { shortTerm: 2, longTerm: 5, selfReported: 11, other: 0 },
+    storageMeta: {
+      id: 'current',
+      revision: 9,
+      generation: 'current-db-generation',
+      pendingBackup: false,
+      committedAt: 1_700_000_003_000,
+    },
   },
   snapshot: {
     present: true,
     savedAt: 1_700_000_002_000,
     mode: 'full',
     counts: { cards: 18, reviewLogs: 13, sessionLogs: 20, behaviorEvents: 2, words: 0, decks: 0 },
+    storage: { generation: 'snapshot-db-generation', revision: 8 },
+  },
+  health: {
+    status: 'healthy',
+    checkedAt: 1_700_000_010_500,
+    currentCounts: {
+      cards: 18,
+      reviewLogs: 13,
+      sessionLogs: 20,
+      behaviorEvents: 2,
+      words: 0,
+      decks: 0,
+    },
+    issues: [],
   },
   history: [
     {
@@ -123,6 +144,12 @@ const SAMPLE_DIAGNOSTICS: StorageDiagnostics = {
 
 function renderOptions() {
   return render(<OptionsApp />);
+}
+
+function getDiagnosticRow(label: string): HTMLElement {
+  const row = screen.getByText(label).closest('.bingeup-diagnostics-row');
+  if (!(row instanceof HTMLElement)) throw new Error(`找不到诊断行：${label}`);
+  return row;
 }
 
 function deferred<T>() {
@@ -801,12 +828,111 @@ describe('OptionsApp — Issue #10', () => {
     await waitFor(() => expect(mocks.getStorageDiagnostics).toHaveBeenCalledTimes(1));
     expect(await screen.findByText('存档读取状态')).toBeInTheDocument();
     expect(screen.getByText('启动已读取到存档')).toBeInTheDocument();
-    expect(screen.getAllByText(/卡 18 · 日志 13 · 会话 20 · 事件 2/).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/卡 18 · 复习日志 13 · 会话 20 · 行为事件 2 · 单词 0 · 词库 0/).length,
+    ).toBeGreaterThan(0);
     expect(screen.getByText('未使用快照')).toBeInTheDocument();
     expect(screen.getAllByText('自报认识 11 · 短期 2 · 长期 5').length).toBeGreaterThan(0);
     expect(screen.getByText(/w-ask/)).toBeInTheDocument();
-    expect(screen.getByText(/完整 · 卡 18 张/)).toBeInTheDocument();
+    expect(screen.getByText(/完整 ·/)).toBeInTheDocument();
     expect(screen.getByText('最近启动记录')).toBeInTheDocument();
+  });
+
+  it('分别展示最近数据库提交、快照成功、版本戳和逐类计数', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('健康状态')).toBeInTheDocument();
+    expect(getDiagnosticRow('最近数据库提交')).not.toHaveTextContent('—');
+    expect(getDiagnosticRow('最近快照成功')).not.toHaveTextContent('尚无成功快照');
+    expect(getDiagnosticRow('数据库修订')).toHaveTextContent(
+      '修订 9 · 代次 current-db-generation · 已备份',
+    );
+    expect(getDiagnosticRow('快照修订')).toHaveTextContent('修订 8 · 代次 snapshot-db-generation');
+    expect(getDiagnosticRow('快照计数')).toHaveTextContent(
+      '卡 18 · 复习日志 13 · 会话 20 · 行为事件 2 · 单词 0 · 词库 0',
+    );
+  });
+
+  it('展示恢复前后获得的完整分类计数', async () => {
+    const restoredStartup = {
+      ...SAMPLE_DIAGNOSTICS.startup!,
+      restoredFromSnapshot: true,
+      restoreBeforeCounts: {
+        cards: 0,
+        reviewLogs: 0,
+        sessionLogs: 0,
+        behaviorEvents: 0,
+        words: 0,
+        decks: 0,
+      },
+      restoreAfterCounts: {
+        cards: 18,
+        reviewLogs: 13,
+        sessionLogs: 20,
+        behaviorEvents: 2,
+        words: 4,
+        decks: 3,
+      },
+    };
+    mocks.getStorageDiagnostics.mockResolvedValue({
+      ...SAMPLE_DIAGNOSTICS,
+      startup: restoredStartup,
+      history: [restoredStartup],
+    });
+
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('恢复前计数')).toBeInTheDocument();
+    expect(getDiagnosticRow('恢复前计数')).toHaveTextContent(
+      '卡 0 · 复习日志 0 · 会话 0 · 行为事件 0 · 单词 0 · 词库 0',
+    );
+    expect(getDiagnosticRow('恢复后计数')).toHaveTextContent(
+      '卡 18 · 复习日志 13 · 会话 20 · 行为事件 2 · 单词 4 · 词库 3',
+    );
+    const historyBlock = screen
+      .getByText('最近启动记录')
+      .closest('.bingeup-diagnostics-history-block');
+    expect(historyBlock).toHaveTextContent(/恢复前 卡 0/);
+    expect(historyBlock).toHaveTextContent(/恢复后 卡 18/);
+  });
+
+  it('没有恢复前后读数时显示未知值而不是零', async () => {
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('恢复前计数')).toBeInTheDocument();
+    expect(getDiagnosticRow('恢复前计数')).toHaveTextContent(/^恢复前计数—$/);
+    expect(getDiagnosticRow('恢复后计数')).toHaveTextContent(/^恢复后计数—$/);
+  });
+
+  it('显示健康隔离状态、健康问题和独立错误原因', async () => {
+    mocks.getStorageDiagnostics.mockResolvedValue({
+      ...SAMPLE_DIAGNOSTICS,
+      startup: {
+        ...SAMPLE_DIAGNOSTICS.startup!,
+        snapshotSaveError: '无法写入快照',
+        snapshotSaveErrorAt: 1_700_000_011_000,
+      },
+      health: {
+        ...SAMPLE_DIAGNOSTICS.health!,
+        status: 'isolated',
+        issues: [
+          {
+            code: 'restore-failed',
+            message: '快照恢复校验失败',
+            failedAt: 1_700_000_010_500,
+          },
+        ],
+      },
+    });
+
+    await renderOptionsAndOpenTab('数据管理');
+
+    expect(await screen.findByText('存档健康检查已隔离')).toBeInTheDocument();
+    expect(screen.getByText('健康检查问题')).toBeInTheDocument();
+    expect(screen.getByText(/快照恢复校验失败/)).toBeInTheDocument();
+    expect(screen.getByText('错误原因')).toBeInTheDocument();
+    expect(screen.getByText('快照保存')).toBeInTheDocument();
+    expect(screen.getByText('无法写入快照')).toBeInTheDocument();
   });
 
   it('当前记录少于启动读取时给出丢档警告', async () => {

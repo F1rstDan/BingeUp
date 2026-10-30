@@ -20,6 +20,9 @@ import type {
   StorageCardStages,
   StorageCounts,
   StorageDiagnostics,
+  StorageHealthIssue,
+  StorageHealthStatus,
+  StorageMetaRecord,
   StorageStartupRecord,
 } from '@/types';
 import type { ImportResult } from '@/storage/data-transfer';
@@ -694,7 +697,56 @@ function formatDiagnosticTime(value: number | undefined): string {
 
 function formatDiagnosticCounts(counts: StorageCounts | undefined): string {
   if (counts === undefined) return '—';
-  return `卡 ${counts.cards} · 日志 ${counts.reviewLogs} · 会话 ${counts.sessionLogs} · 事件 ${counts.behaviorEvents}`;
+  return `卡 ${counts.cards} · 复习日志 ${counts.reviewLogs} · 会话 ${counts.sessionLogs} · 行为事件 ${counts.behaviorEvents} · 单词 ${counts.words} · 词库 ${counts.decks}`;
+}
+
+function formatStorageMeta(meta: StorageMetaRecord | undefined): string {
+  if (meta === undefined) return '—';
+  return `修订 ${meta.revision} · 代次 ${meta.generation} · ${meta.pendingBackup ? '待备份' : '已备份'}`;
+}
+
+function formatStorageCommitTime(meta: StorageMetaRecord | undefined): string {
+  if (meta === undefined || meta.committedAt <= 0) return '—';
+  return formatDiagnosticTime(meta.committedAt);
+}
+
+function formatStorageStamp(stamp: { generation: string; revision: number } | undefined): string {
+  if (stamp === undefined) return '—';
+  return `修订 ${stamp.revision} · 代次 ${stamp.generation}`;
+}
+
+function formatHealthStatus(status: StorageHealthStatus): {
+  text: string;
+  color: DiagnosticTagColor;
+} {
+  if (status === 'isolated') return { text: '已隔离', color: 'app-red' };
+  if (status === 'attention') return { text: '需要关注', color: 'app-yellow' };
+  return { text: '健康', color: 'app-green' };
+}
+
+function formatHealthIssue(issue: StorageHealthIssue): string {
+  if (issue.code === 'storage-count-decreased') {
+    return `${issue.message}（当前 ${issue.currentCount} / 健康值 ${issue.healthyCount}）`;
+  }
+  if (issue.code === 'card-count-decreased') {
+    return `${issue.message}（当前 ${issue.currentCards} / 健康值 ${issue.healthyCards}）`;
+  }
+  if (issue.code === 'card-identities-changed') {
+    return `${issue.message}（缺失 ${issue.missingCardIds.length} / 新增 ${issue.addedCardIds.length}）`;
+  }
+  if (issue.code === 'orphan-review-logs') {
+    return `${issue.message}（${issue.count} 条）`;
+  }
+  if (issue.code === 'pending-operation') {
+    return `${issue.message}（${issue.operation}，${formatDiagnosticTime(issue.startedAt)}）`;
+  }
+  if (issue.code === 'restore-failed') {
+    return `${issue.message}（${formatDiagnosticTime(issue.failedAt)}）`;
+  }
+  if (issue.code === 'snapshot-validation-failed' && issue.errors.length > 0) {
+    return `${issue.message}（${issue.errors.join('；')}）`;
+  }
+  return issue.message;
 }
 
 function formatCardStages(stages: StorageCardStages | undefined): string {
@@ -736,10 +788,40 @@ function StorageDiagnosticsCard({
   const lastSelfReport = diagnostics?.history.find(
     (record) => record.lastSelfReportAt !== undefined,
   );
+  const storageMeta = diagnostics?.current?.storageMeta;
+  const healthStatus =
+    diagnostics?.health === undefined ? undefined : formatHealthStatus(diagnostics.health.status);
+  const diagnosticErrors: Array<{ label: string; message: string }> = [];
+  if (databaseError !== undefined)
+    diagnosticErrors.push({ label: '数据库打开', message: databaseError });
+  if (diagnostics?.currentError !== undefined) {
+    diagnosticErrors.push({ label: '当前存档读取', message: diagnostics.currentError });
+  }
+  if (diagnostics?.current?.storageMetaError !== undefined) {
+    diagnosticErrors.push({
+      label: '数据库元数据',
+      message: diagnostics.current.storageMetaError,
+    });
+  }
+  if (startup?.restoreError !== undefined) {
+    diagnosticErrors.push({ label: '快照恢复', message: startup.restoreError });
+  }
+  if (snapshotSaveError !== undefined) {
+    diagnosticErrors.push({ label: '快照保存', message: snapshotSaveError });
+  }
+  if (diagnostics?.healthError !== undefined) {
+    diagnosticErrors.push({ label: '健康检查', message: diagnostics.healthError });
+  }
 
   let statusText = '尚无启动记录';
   let statusColor: DiagnosticTagColor = 'app-teal';
-  if (databaseError !== undefined) {
+  if (diagnostics?.health?.status === 'isolated') {
+    statusText = '存档健康检查已隔离';
+    statusColor = 'app-red';
+  } else if (diagnostics?.health?.status === 'attention') {
+    statusText = '存档健康检查需要关注';
+    statusColor = 'app-yellow';
+  } else if (databaseError !== undefined) {
     statusText = '数据库打开失败';
     statusColor = 'app-red';
   } else if (startup?.restoredFromSnapshot) {
@@ -786,6 +868,11 @@ function StorageDiagnosticsCard({
                 已使用快照
               </Tag>
             )}
+            {healthStatus !== undefined && (
+              <Tag size="small" variant="soft" color={healthStatus.color}>
+                {healthStatus.text}
+              </Tag>
+            )}
             {fewerThanStartup && (
               <Tag size="small" variant="soft" color="app-red">
                 当前数据少于启动读取
@@ -808,8 +895,46 @@ function StorageDiagnosticsCard({
               </dd>
             </div>
             <div className="bingeup-diagnostics-row">
+              <dt>健康状态</dt>
+              <dd>
+                {diagnostics.health === undefined
+                  ? diagnostics.healthError === undefined
+                    ? '—'
+                    : '健康检查失败'
+                  : `${formatHealthStatus(diagnostics.health.status).text} · ${formatDiagnosticTime(diagnostics.health.checkedAt)} · ${diagnostics.health.issues.length} 个问题`}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>最近数据库提交</dt>
+              <dd>{formatStorageCommitTime(storageMeta)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>数据库修订</dt>
+              <dd>{formatStorageMeta(storageMeta)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>最近快照成功</dt>
+              <dd>
+                {diagnostics.snapshot.present
+                  ? formatDiagnosticTime(diagnostics.snapshot.savedAt)
+                  : '尚无成功快照'}
+              </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>快照修订</dt>
+              <dd>{formatStorageStamp(diagnostics.snapshot.storage)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
               <dt>后台启动</dt>
               <dd>{formatDiagnosticTime(startup?.startedAt)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>恢复前计数</dt>
+              <dd>{formatDiagnosticCounts(startup?.restoreBeforeCounts)}</dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>恢复后计数</dt>
+              <dd>{formatDiagnosticCounts(startup?.restoreAfterCounts)}</dd>
             </div>
             <div className="bingeup-diagnostics-row">
               <dt>启动读取</dt>
@@ -823,7 +948,13 @@ function StorageDiagnosticsCard({
                 {formatDiagnosticTime(diagnostics.current?.readAt)} ·{' '}
                 {formatDiagnosticCounts(diagnostics.current?.counts)}
                 {diagnostics.currentError !== undefined && ` · ${diagnostics.currentError}`}
+                {diagnostics.current?.storageMetaError !== undefined &&
+                  ` · DB 元数据：${diagnostics.current.storageMetaError}`}
               </dd>
+            </div>
+            <div className="bingeup-diagnostics-row">
+              <dt>快照计数</dt>
+              <dd>{formatDiagnosticCounts(diagnostics.snapshot.counts)}</dd>
             </div>
             <div className="bingeup-diagnostics-row">
               <dt>启动卡状态</dt>
@@ -849,23 +980,39 @@ function StorageDiagnosticsCard({
               </dd>
             </div>
             <div className="bingeup-diagnostics-row">
-              <dt>最近保存</dt>
-              <dd>
-                {diagnostics.snapshot.present
-                  ? formatDiagnosticTime(diagnostics.snapshot.savedAt)
-                  : '尚无保存快照'}
-                {snapshotSaveError !== undefined && ` · 保存失败：${snapshotSaveError}`}
-              </dd>
-            </div>
-            <div className="bingeup-diagnostics-row">
               <dt>自动快照</dt>
               <dd>
                 {diagnostics.snapshot.present
-                  ? `${formatSnapshotMode(diagnostics.snapshot.mode)} · 卡 ${diagnostics.snapshot.counts?.cards ?? '?'} 张 · ${formatDiagnosticTime(diagnostics.snapshot.savedAt)}`
+                  ? `${formatSnapshotMode(diagnostics.snapshot.mode)} · ${formatDiagnosticTime(diagnostics.snapshot.savedAt)}`
                   : '无'}
               </dd>
             </div>
           </dl>
+          {diagnostics.health !== undefined && diagnostics.health.issues.length > 0 && (
+            <div className="bingeup-diagnostics-history-block">
+              <Title size="small">健康检查问题</Title>
+              <ul className="bingeup-diagnostics-history">
+                {diagnostics.health.issues.map((issue, index) => (
+                  <li key={`${issue.code}-${index}`}>
+                    <span>{formatHealthIssue(issue)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {diagnosticErrors.length > 0 && (
+            <div className="bingeup-diagnostics-history-block">
+              <Title size="small">错误原因</Title>
+              <ul className="bingeup-diagnostics-history">
+                {diagnosticErrors.map((entry, index) => (
+                  <li key={`${entry.label}-${index}`}>
+                    <span className="bingeup-diagnostics-history-time">{entry.label}</span>
+                    <span>{entry.message}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="bingeup-diagnostics-history-block">
             <Title size="small">最近启动记录</Title>
             {diagnostics.history.length === 0 ? (
@@ -878,6 +1025,13 @@ function StorageDiagnosticsCard({
                       {formatDiagnosticTime(record.startedAt)}
                     </span>
                     <span>{formatDiagnosticCounts(record.counts)}</span>
+                    {(record.restoreBeforeCounts !== undefined ||
+                      record.restoreAfterCounts !== undefined) && (
+                      <span>
+                        恢复前 {formatDiagnosticCounts(record.restoreBeforeCounts)} → 恢复后{' '}
+                        {formatDiagnosticCounts(record.restoreAfterCounts)}
+                      </span>
+                    )}
                     {record.restoredFromSnapshot && (
                       <Tag size="small" variant="soft" color="app-green">
                         快照恢复
@@ -887,6 +1041,12 @@ function StorageDiagnosticsCard({
                       <Tag size="small" variant="soft" color="app-red">
                         数据库失败
                       </Tag>
+                    )}
+                    {record.restoreError !== undefined && (
+                      <span className="bingeup-error">恢复失败：{record.restoreError}</span>
+                    )}
+                    {record.snapshotSaveError !== undefined && (
+                      <span className="bingeup-error">快照失败：{record.snapshotSaveError}</span>
                     )}
                   </li>
                 ))}
