@@ -70,14 +70,25 @@ try {
     assert.equal(diagnostics.current.counts.cards, 1);
     assert.equal(diagnostics.current.cardStages.selfReported, 1);
     assert.equal(diagnostics.startup.restoredFromSnapshot, false);
+    assert.equal(diagnostics.current.storageMeta.pendingBackup, false);
+    assert.deepEqual(diagnostics.snapshot.storage, {
+      generation: diagnostics.current.storageMeta.generation,
+      revision: diagnostics.current.storageMeta.revision,
+    });
     const next = await send(page, { type: 'LEARNING_GET_NEXT' });
     assert(next.kind !== 'new-word-presentation' || next.presentation.word.id !== wordId);
     results.observations.push({ round, cards: 1, selfReported: 1, restored: false });
   }
+  await page.getByRole('tab', { name: '数据管理' }).click();
+  await page.getByText('数据库修订', { exact: true }).waitFor();
+  await page.getByRole('button', { name: '导出当前自动快照' }).waitFor();
+  await page.locator('.bingeup-diagnostics').screenshot({
+    path: resolve(evidence, `${channel}-storage-diagnostics.png`),
+  });
   // 在测试配置中只删除 cards，保留真实后台自动生成的行为事件。
   await page.evaluate(async () => {
     const db = await new Promise((resolve, reject) => {
-      const request = indexedDB.open('bingeup', 1);
+      const request = indexedDB.open('bingeup');
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });

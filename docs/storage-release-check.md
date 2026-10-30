@@ -35,6 +35,18 @@ npx vitest run tests/unit/storage/database.test.ts tests/unit/storage/recovery-s
 
 完整发布门禁仍为 `npm run check`。涉及构建的改动还需运行 `npm run build` 与 `npm run build:edge`。
 
+## 同配置重启门禁
+
+构建两种产物后，运行：
+
+```bash
+npm run test:storage:restart
+```
+
+命令分别启动 Chromium 和 Edge，各执行 5 次同配置关闭与重启。每次检查自报认识学习卡、扩展 ID、待备份标记和快照修订。然后只在测试配置中删除学习卡，确认部分丢失后进入隔离，保护健康快照并拒绝继续出题。
+
+脚本只创建独立配置目录，不使用日常浏览器配置。结果与诊断截图写入 `docs/reports/storage-audit-2026-10-30/evidence/`，原始故障审计结果不被替换。缺少任一浏览器时，该检查失败，不应记为通过。
+
 ## 4. 原目录升级步骤
 
 1. 升级前在设置页导出用户备份。
