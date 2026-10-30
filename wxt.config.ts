@@ -27,7 +27,7 @@ export default defineConfig({
   manifest: {
     name: '刷刷升级',
     description: '在视频间隙轻量学习英语单词',
-    version: '0.0.1',
+    version: '0.0.2',
     // 同时保护 IndexedDB 和扩展本地快照，避免按普通站点配额回收。
     permissions: ['storage', 'scripting', 'unlimitedStorage'],
     host_permissions: [...SUPPORTED_CONTENT_SCRIPT_MATCHES],
